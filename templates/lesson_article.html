@@ -1,0 +1,45 @@
+{% extends "base_page.html" %}
+{% load static cms_tags sekizai_tags %}
+
+{% block styles %}
+    {% addtoblock "css" %}
+        <link rel="stylesheet" type="text/css" href="{% static "google-code-prettify/prettify-bootstrap.css" %}">
+    {% endaddtoblock %}
+    {% addtoblock "css" %}
+        <link rel="stylesheet" href="{% static "css/lesson.css" %}"/>
+    {% endaddtoblock %}
+{% endblock %}
+
+{% block basecontent %}
+    <div class="lesson">
+{#        {{ children[0].title }}#}
+        <div class="breadcrumbs">{{ current_page.parent.get_page_title }}</div>
+        <h1>{% page_attribute "title" %}</h1>
+        <hr>
+        {% placeholder "content" %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+    {#    {% addtoblock "js" %}#}
+    {#        <script type="text/javascript" src={% static "js/jquery-2.1.0.min.js" %}></script>#}
+    {#    {% endaddtoblock %}#}
+    {% addtoblock "js" %}
+        <script src="{% static "google-code-prettify/prettify.js" %}"></script>
+    {% endaddtoblock %}
+    {% addtoblock "js" %}
+        <script type="text/javascript">
+            !function ($) {
+                $(function () {
+                    var $window = $(window)
+                    window.prettyPrint && prettyPrint()
+                })
+            }(window.jQuery)
+        </script>
+    {% endaddtoblock %}
+
+    {% block exscripts %}
+    {% endblock %}
+
+{% endblock %}

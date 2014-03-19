@@ -1,0 +1,17 @@
+{% extends "base_page.html" %}
+{% load static cms_tags sekizai_tags %}
+
+{% block basecontent %}
+    <style>
+        img.center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    </style>
+    <h3 style="text-align: center">Ой что вы делаете! :O</h3>
+    <img class="center" src="{% static "img/crash.gif" %}" />
+    <h3 style="text-align: center">Сайт что ли хотите сломать -.-</h3>
+    <h1 style="text-align: center">-=-=- 404 -=-=-</h1>
+    
+{% endblock %}

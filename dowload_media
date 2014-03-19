@@ -1,0 +1,4 @@
+scp -C hosting_mmailm@phosphorus.locum.ru:~/projects/django-tealeaf/media.tar media.tar
+tar xf media.tar
+rm media.tar
+echo successfully download and extract media from server

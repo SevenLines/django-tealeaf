@@ -1,0 +1,22 @@
+{% extends "base_page.html" %}
+{% load static cms_tags sekizai_tags menu_tags %}
+
+
+{% block styles %}
+    {% addtoblock "css" %}
+        <link rel="stylesheet" href="{% static "css/lesson.css" %}"/>
+    {% endaddtoblock %}
+{% endblock %}
+
+{% block basecontent %}
+    <div class="lesson">
+{#        {{ children[0].title }}#}
+        <h1>{% page_attribute "title" %}</h1>
+        <hr>
+        <div class="list-group">
+        {% show_menu 1 100 100 100 'elements/menu_articles_list.html' %}
+        </div>
+
+{#        {% placeholder "content" %}#}
+    </div>
+{% endblock %}

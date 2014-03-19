@@ -1,0 +1,1 @@
+from cms.plugin_base import CMSPluginBase

@@ -1,0 +1,16 @@
+{% load static sekizai_tags %}
+
+
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/bootstrap.css" %}"/>
+{% endaddtoblock %}
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}"/>
+{% endaddtoblock %}
+
+
+<!--[if lt IE 8]>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-ie7.css' %}" media="all">
+<![endif]-->

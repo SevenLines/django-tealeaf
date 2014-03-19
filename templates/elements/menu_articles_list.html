@@ -1,0 +1,9 @@
+{% load menu_tags %}
+{% for child in children %}
+<li class="list-group-item {% if child.ancestor %}ancestor{% endif %}{% if child.sibling %}sibling{% endif %}{% if child.descendant %}descendant{% endif %}">
+    <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}">
+        {% if child.icon %}<img class="menuicon" src="{{ child.icon.image.url }}" /> {% endif %}
+        {{ child.title }}
+    </a>
+</li>
+{% endfor %}

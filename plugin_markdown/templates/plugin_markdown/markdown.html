@@ -1,0 +1,15 @@
+{% load sekizai_tags cms_tags thumbnail %}
+{% if body_class %}
+    <div class="{{ body_class }}">
+{% endif %}
+{{ text|safe }}
+{% if image %}
+    <a href="{{ image.url }}">
+        {#        {% thumbnail image 1000x500 as thumb %}#}
+        {#        <img src="{{ thumb.url }}"/>#}
+        <img src="{{ image.url }}"/>
+    </a>
+{% endif %}
+{% if body_class %}
+    </div>
+{% endif %}
