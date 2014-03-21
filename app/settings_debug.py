@@ -10,4 +10,4 @@ DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['localhost', '*', 'tealeaf.su', 'www.tealeaf.su']
+ALLOWED_HOSTS = ['*']

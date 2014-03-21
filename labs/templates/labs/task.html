@@ -1,0 +1,9 @@
+<li class="{% if task.user %}selected {% endif %}{{ task.complexity }}">
+    {{ task.description|safe }}
+    {% if task.image %}
+        <a href="{{ task.image.url }}">
+            <img src="{{ task.image.url }}"/>
+        </a>
+    {% endif %}
+    <div style="clear: both"></div>
+</li>

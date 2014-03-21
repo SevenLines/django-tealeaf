@@ -1,3 +1,4 @@
+{% load cms_tags %}
 <div class="lab">
     <h2 class="title">{{ lab.title }}</h2>
 
@@ -24,6 +25,9 @@
 
             {% endfor %}
         </ol>
+        {% for plugin in child_plugins %}
+            {% render_plugin plugin %}
+        {% endfor %}
     </div>
 </div>
 <div style="clear: both"></div>
