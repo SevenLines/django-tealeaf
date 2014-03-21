@@ -29,20 +29,19 @@
                 </div>
             </a>
         </div>
-        <div class="navbar-collapse collapse pull-left">
+        <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 {% show_menu 0 100 100 100 "elements/menu.html" %}
             </ul>
-        </div>
-        <div class="navbar-brand email navbar-collapse collapse pull-right">
-
+            <div class="navbar-brand email navbar-collapse collapse pull-right">
             {% with 'mmailm.math@mail.ru' as mail %}
                 <a class="glyphicon" href="mailto:{{ mail|obfuscate }}">
                     {{ mail|obfuscate }}
                 </a>
             {% endwith %}
-
         </div>
+        </div>
+
     </div>
 </div>
 
@@ -53,6 +52,7 @@
 
 {% render_block "js" %}
 {% include "elements/scripts.html" %}
+{% include "elements/back-to-top-button.html" %}
 {% block scripts %}{% endblock %}
 </body>
 </html>

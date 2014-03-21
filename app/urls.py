@@ -7,8 +7,6 @@ from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = i18n_patterns('',
-    # url(r'^admin/cms/plugin/markup/', include('cmsplugin_markup.urls')), # markup admin preview
-    # url('^markdown/', include('django_markdown.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('cms.urls')),
 )

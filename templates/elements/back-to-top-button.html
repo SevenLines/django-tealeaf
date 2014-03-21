@@ -1,0 +1,32 @@
+{% load sekizai_tags %}
+<a id="back-to-top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+</a>
+
+{% addtoblock "js" %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 100) {
+            $('#back-to-top').stop().animate({
+                left: '0'
+            }, 300)
+        } else {
+            $('#back-to-top').stop().animate({
+                left: '-100px'
+            }, 300)
+        }
+    });
+
+    $('#back-to-top').click(function() {
+        $('html, body').stop().animate({
+           scrollTop: 0
+        }, 500, function() {
+           $('#back-to-top').stop().animate({
+               left: '-100px'
+           }, 300);
+        });
+    });
+});
+</script>
+{% endaddtoblock %}

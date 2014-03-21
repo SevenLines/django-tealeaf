@@ -15,3 +15,7 @@
       <script src="{{ STATIC_URL }}js/respond.min.js"></script>
 <![endif]-->
 
+{% addtoblock "js" %}
+<script type="text/javascript" src={% static "js/main.js" %} ></script>
+{% endaddtoblock %}
+

@@ -8,7 +8,20 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
+import sys
+
+#acitvate virtualenv
+activate_this = os.path.join(os.path.dirname(__file__), '../../env/bin/activate_this.py')
+execfile(activate_this, dict(__file__=activate_this))
+
+# current dir
+sys.path.append(os.path.dirname(__file__))
+# application dir
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
 from django.core.wsgi import get_wsgi_application
+
 application = get_wsgi_application()

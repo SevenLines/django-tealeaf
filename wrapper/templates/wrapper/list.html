@@ -1,0 +1,10 @@
+{% load cms_tags %}
+{% if child_plugins %}
+<ul {% if  wrap_class %} class="{{ wrap_class }}" {% endif %}>
+    {% for plugin in child_plugins %}
+        <li {% if  item_class %} class="{{ item_class }}" {% endif %}>
+            {% render_plugin plugin %}
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}

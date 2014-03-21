@@ -71,7 +71,7 @@ except ImportError:
 
 LANGUAGE_CODE = 'ru'
 LANGUAGES = [
-    ('ru', 'Русский')
+    ('ru', 'Russian')
 ]
 
 TIME_ZONE = 'UTC'
@@ -128,3 +128,14 @@ PLUGIN_MARKDOWN_CLASSES = (
     ("bs-callout bs-callout-warning", "bs-callout bs-callout-warning"),
     ("bs-callout bs-callout-info", "bs-callout bs-callout-info"),
 )
+
+PLUGIN_WRAPPER_CLASSES = (
+    ('list-group', 'list-group'),
+    ('text-center', 'text-center'),
+)
+
+PLUGIN_WRAPPER_ITEM_CLASSES = (
+    ('list-group-item', 'list-group-item'),
+)
+
+FILER_PAGINATE_BY = 50
