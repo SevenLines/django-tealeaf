@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from labs.cms_plugins import textile_without_p
 
 from labs.models import TaskEx
+from django.contrib.auth.decorators import login_required
 
-
+@login_required(login_url="/admin/")
 def update_task(request, pk):
     task = get_object_or_404(TaskEx, pk=pk)
 

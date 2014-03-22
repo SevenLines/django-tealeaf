@@ -67,6 +67,7 @@ class TaskExPlugin(CMSPluginBase):
     model = TaskEx
     render_template = 'labs/task.html'
     text_enabled = True
+    cache = False
 
     def render(self, context, instance, placeholder):
         instance.description = textile_without_p(instance.description)
