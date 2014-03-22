@@ -32,6 +32,9 @@ INSTALLED_APPS = (
     'labs',
     'toc',
     'email_obfuscator',
+    'wrapper',
+    'djangocms_file',
+    'djangocms_flash',
 
     'django.contrib.messages',  # to enable messages framework (see :ref:`Enable messages <enable-messages>`)
 )

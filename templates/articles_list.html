@@ -13,9 +13,9 @@
 {#        {{ children[0].title }}#}
         <h1>{% page_attribute "title" %}</h1>
         <hr>
-        <div class="list-group">
-        {% show_menu 1 100 100 100 'elements/menu_articles_list.html' %}
-        </div>
+        <ul class="list-group">
+        {% show_sub_menu 1 1 1 "elements/menu_articles_list.html" %}
+        </ul>
 
 {#        {% placeholder "content" %}#}
     </div>

@@ -1,10 +1,6 @@
 {% load static sekizai_tags %}
 
 {% addtoblock "js" %}
-<script type="text/javascript" src={% static "js/jquery-1.11.0.min.js" %} ></script>
-{% endaddtoblock %}
-
-{% addtoblock "js" %}
 <script type="text/javascript" src={% static "bootstrap/bootstrap.js" %} ></script>
 {% endaddtoblock %}
 
@@ -14,4 +10,8 @@
 <!--[if lt IE 9]>
       <script src="{{ STATIC_URL }}js/respond.min.js"></script>
 <![endif]-->
+
+{% addtoblock "js" %}
+<script type="text/javascript" src={% static "js/main.js" %} ></script>
+{% endaddtoblock %}
 

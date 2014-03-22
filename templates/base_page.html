@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico"/>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.0.min.js"></script>
     {% render_block "css" %}
+
     <title>{% page_attribute "page_title" %}</title>
     {% include "elements/styles.html" %}
     {% block styles %}{% endblock %}
@@ -14,6 +16,7 @@
 </head>
 <body>
 {% cms_toolbar %}
+
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -29,20 +32,19 @@
                 </div>
             </a>
         </div>
-        <div class="navbar-collapse collapse pull-left">
+        <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 {% show_menu 0 100 100 100 "elements/menu.html" %}
             </ul>
-        </div>
-        <div class="navbar-brand email navbar-collapse collapse pull-right">
-
+            <div class="navbar-brand email navbar-collapse collapse pull-right">
             {% with 'mmailm.math@mail.ru' as mail %}
                 <a class="glyphicon" href="mailto:{{ mail|obfuscate }}">
                     {{ mail|obfuscate }}
                 </a>
             {% endwith %}
-
         </div>
+        </div>
+
     </div>
 </div>
 
@@ -51,8 +53,9 @@
     {% endblock %}
 </div>
 
-{% render_block "js" %}
 {% include "elements/scripts.html" %}
+{% include "elements/back-to-top-button.html" %}
+{% render_block "js" %}
 {% block scripts %}{% endblock %}
 </body>
 </html>

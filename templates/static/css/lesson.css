@@ -48,6 +48,10 @@
     max-height: 450px;
 }
 
+.lesson .info {
+    float: left;
+}
+
 .lesson a:last-child img {
     margin-bottom: 0;
 }
@@ -59,7 +63,7 @@
 /* labs */
 .tasks {
     padding-left: 2em;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 .tasks li {
@@ -68,6 +72,7 @@
     border-radius: 10px;
     background: #EEEEEE;
     border: silver 1px solid;
+    position: relative;
 }
 
 .lab .easy {

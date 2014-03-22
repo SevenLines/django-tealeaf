@@ -1,12 +1,15 @@
+# -*- coding: utf-8 -*-
+
 from cms.plugin_base import CMSPluginBase
+
 from cms.plugin_pool import plugin_pool
 from django.contrib.admin.options import StackedInline
 from django.forms import TextInput, Textarea
 from textile.functions import textile
-from .models import Lab, Task
-from django.contrib import admin
 from django.db import models
-from adminsortable.admin import SortableStackedInline, SortableAdmin
+from labs.models import TaskEx, LabEx
+
+from .models import Lab, Task
 
 
 class LabTaskInline(StackedInline):
@@ -30,15 +33,11 @@ def textile_without_p(text):
 
 class LabsPlugin(CMSPluginBase):
     name = u"Lab tasks list"
-    # formfield_overrides = {
-    #     models.TextField: {'widget': Textarea(attrs={'rows': '4', 'cols': '80'})},
-    # }
     admin_preview = True
     model = Lab
 
     render_template = "labs/lab.html"
 
-    # change_form_template = 'cms2/sortable-stacked-inline-change-form.html'
     text_enabled = True
     inlines = [LabTaskInline]
 
@@ -60,6 +59,45 @@ class LabsPlugin(CMSPluginBase):
             self.render_template = instance.render_style
 
         return context
-
-
 plugin_pool.register_plugin(LabsPlugin)
+
+
+class TaskExPlugin(CMSPluginBase):
+    name = u'Задача'
+    model = TaskEx
+    render_template = 'labs/task.html'
+    text_enabled = True
+    cache = False
+
+    def render(self, context, instance, placeholder):
+        instance.description = textile_without_p(instance.description)
+        context['task'] = instance
+        context['placeholder'] = placeholder
+        context['complex_choices'] = TaskEx.COMPLEX_CHOICES
+        return context
+
+plugin_pool.register_plugin(TaskExPlugin)
+
+
+class LabsExPlugin(CMSPluginBase):
+    name = u"Лабораторная"
+    model = LabEx
+    render_template = 'labs/labex.html'
+    allow_children = True
+    text_enabled = True
+
+    child_classes = ['TaskExPlugin']
+
+    def render(self, context, instance, placeholder):
+        instance.description = textile_without_p(instance.description)
+
+        context['lab'] = instance
+        context['placeholder'] = placeholder
+        context['tasks'] = instance.child_plugin_instances
+
+        # if instance.render_style:
+        #     self.render_template = instance.render_style
+
+        return context
+
+plugin_pool.register_plugin(LabsExPlugin)

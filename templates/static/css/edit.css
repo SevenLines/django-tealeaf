@@ -1,0 +1,33 @@
+.task-edit {
+    float: right;
+    clear: none;
+    display: none;
+    position: absolute;
+    background-color: rgba(78, 199, 124, 0.95);
+    border: solid 2px white;
+    top: 1em;
+    right: 2em;
+    width: 30%;
+    z-index: 100;
+    padding: 1em;
+    border-radius: 10px;
+    box-shadow: 0 0 8px gray;
+}
+
+.task-edit-option {
+    top: 0;
+    right: 0;
+    position: absolute;
+    padding-right: 0.5em;
+    padding-top: 0.5em;
+    margin: 0.1em;;
+    float: right;
+}
+
+.task-edit-option {
+    cursor: pointer;
+}
+
+.task-edit-option:hover {
+    color: white;
+}
