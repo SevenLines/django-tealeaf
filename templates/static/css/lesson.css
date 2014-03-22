@@ -1,0 +1,163 @@
+/* lesson */
+
+.lesson {
+    font-size: 1em;
+    font-family: Verdana, Arial;
+    margin-top: 8px;
+}
+
+.lesson h1 {
+    margin: 0px;
+    font-weight: normal;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #036;
+}
+
+.lesson h2 {
+    margin: 0px 0px 0.25em;
+    padding: 0px;
+    font-weight: normal;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #036;
+    font-size: 1.8em;
+}
+
+.lesson .breadcrumbs {
+    padding-left: 3px;
+    font-size: 1em;
+    color: #036;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.lesson hr {
+    border: 1px inset;
+    margin: 0.5em 0;
+    color: #036;
+}
+
+.lesson a {
+    text-decoration: underline;
+}
+
+.lesson img {
+    display: block;
+    border-radius: 4px;
+    border: 1px solid #808080;
+    box-shadow: 2px 2px 4px silver;
+    margin: 0.5em 0px 2em;
+    max-height: 450px;
+}
+
+.lesson .info {
+    float: left;
+}
+
+.lesson a:last-child img {
+    margin-bottom: 0;
+}
+
+.lesson p {
+    margin-bottom: 4px;
+}
+
+/* labs */
+.tasks {
+    padding-left: 2em;
+    /*overflow: hidden;*/
+}
+
+.tasks li {
+    margin: 0.5em 0;
+    padding: 0.5em;
+    border-radius: 10px;
+    background: #EEEEEE;
+    border: silver 1px solid;
+    position: relative;
+}
+
+.lab .easy {
+    background-color: #b8ff66;
+}
+
+.lab .medium {
+    background-color: #ffff80;
+}
+
+.lab .hard {
+    background-color: #ffbf80;
+}
+
+.lab .nightmare {
+    background-color: #ff9380;
+}
+
+.lab .selected {
+    background-color: #dddddd;
+}
+
+.lab code {
+    color: black;
+}
+
+.lab img {
+    margin: 0.5em 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+.lab li img {
+    /*float: right;*/
+    margin:0.5em 0 0 0;
+    border: none;
+}
+
+.lab .selected code {
+    color: gray;
+    /*background-color: #dddddd;*/
+}
+
+.lab h2 {
+    color: #003366;
+    cursor: pointer;
+    border-bottom: dashed 1px;
+    display: inline-block;
+    margin: 0 0 0.3em;
+    padding: 0;
+}
+
+.lab h2:hover {
+    color: black;
+}
+
+.lab .gallery {
+    overflow: hidden;
+    float: left;
+}
+
+.lab .gallery img {
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+}
+
+.lab .gallery .item {
+    padding: 6px;
+    margin: 8px 8px 8px 0;
+    border: gray 1px solid;
+    float: left;
+    border-radius: 4px;
+}
+
+.lab .gallery .item .task_number {
+    text-align: center;
+    font-weight: bold;
+}
+
+.lab .gallery .item img {
+    border: 1px solid gray;
+    width: 100px;
+    max-width: 100px;
+}
+
+/* end labs */
