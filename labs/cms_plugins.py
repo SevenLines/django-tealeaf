@@ -72,6 +72,7 @@ class TaskExPlugin(CMSPluginBase):
         instance.description = textile_without_p(instance.description)
         context['task'] = instance
         context['placeholder'] = placeholder
+        context['complex_choices'] = TaskEx.COMPLEX_CHOICES
         return context
 
 plugin_pool.register_plugin(TaskExPlugin)
