@@ -17,6 +17,8 @@
 <body>
 {% cms_toolbar %}
 
+{% include "elements/yandex-metric.html" %}
+
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -57,5 +59,6 @@
 {% include "elements/back-to-top-button.html" %}
 {% render_block "js" %}
 {% block scripts %}{% endblock %}
+
 </body>
 </html>

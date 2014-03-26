@@ -1,10 +1,11 @@
+{% load email_obfuscator %}
 <li id="task{{ task.id }}" class="{% if task.user %}selected {% endif %}{{ task.complexity }}">
     <div class="info">
-        {% if user.is_authenticated %}
+{#        {% if user.is_authenticated %}#}
             {% if task.user %}
-                <button type="button" class="btn btn-default">{{ task.user }}</button>
+                <button type="button" class="btn btn-default">{{ task.user|obfuscate }}</button>
             {% endif %}
-        {% endif %}
+{#        {% endif %}#}
         {{ task.description|safe }}
         {% if task.image %}
             <a href="{{ task.image.url }}">
