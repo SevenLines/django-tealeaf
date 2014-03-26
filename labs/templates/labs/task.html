@@ -3,7 +3,7 @@
     <div class="info">
 {#        {% if user.is_authenticated %}#}
             {% if task.user %}
-                <button type="button" class="btn btn-default">{{ task.user|obfuscate }}</button>
+                <span class="user-info">{{ task.user|obfuscate }}</span>
             {% endif %}
 {#        {% endif %}#}
         {{ task.description|safe }}

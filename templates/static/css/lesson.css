@@ -48,10 +48,6 @@
     max-height: 450px;
 }
 
-.lesson .info {
-    float: left;
-}
-
 .lesson a:last-child img {
     margin-bottom: 0;
 }
@@ -75,25 +71,52 @@
     position: relative;
 }
 
-.lab .easy {
-    background-color: #b8ff66;
+.tasks .user-info {
+    display: inline-block;
+    padding: 0.5em 1em;
+    float:right;
+    border-radius: 8px;
+    background-color: white;
+    border: silver 2px solid;
+    box-shadow: 0 0 4px white;
+    min-width: 9em;
+    text-align: center;
+    margin-right: 0.25em;
 }
+
+.lab .easy {
+    background-color: #d1ff99;
+    box-shadow: 0 0 1px #baff66;
+}
+.lab .easy.selected {  border-color: #baff66; }
+.tasks .easy .user-info { border-color: #baff66; }
 
 .lab .medium {
-    background-color: #ffff80;
+    background-color: #ffff99;
+    box-shadow: 0 0 1px #ffff66;
 }
+.lab .medium.selected {  border-color: #ffff66; }
+.tasks .medium .user-info { border-color: #ffff66; }
 
 .lab .hard {
-    background-color: #ffbf80;
+    background-color: #ffca99;
+    box-shadow: 0 0 1px #ffad66;
 }
+.lab .hard.selected {  border-color: #ffad66; }
+.tasks .hard .user-info { border-color: #ffad66; }
 
 .lab .nightmare {
-    background-color: #ff9380;
+    background-color: #ffbdb3;
+    box-shadow: 0 0 1px #ffa599;
 }
+.lab .nightmare.selected {  border-color: #ffa599; }
+.tasks .nightmare .user-info { border-color: #ffa599; }
 
 .lab .selected {
     background-color: #dddddd;
 }
+
+
 
 .lab code {
     color: black;
