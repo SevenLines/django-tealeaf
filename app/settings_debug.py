@@ -11,3 +11,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
+
+import sys
+if 'test' in sys.argv:
+    SOUTH_TESTS_MIGRATE = False

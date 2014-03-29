@@ -10,6 +10,10 @@ body {
     }
 }
 
+.yandex {
+    display: none;
+}
+
 .body.container {
     padding: 42px 2em 12px;
     margin-bottom: 70px;
@@ -112,7 +116,7 @@ body {
 .bs-callout{
 	margin:8px 0;
 	padding:8px;
-	border-left:3px solid #eee
+	border-left:6px solid #eee
 }
 
 .bs-callout h4{

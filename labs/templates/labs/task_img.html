@@ -1,16 +1,12 @@
-{% load email_obfuscator %}
-<li id="task{{ task.id }}" class="{% if task.user %}selected {% endif %}{{ task.complexity }}">
-    <div class="info">
-{#        {% if user.is_authenticated %}#}
-            {% if task.user %}
-                <span class="user-info">{{ task.user|obfuscate }}</span>
-            {% endif %}
-{#        {% endif %}#}
-        {{ task.description|safe }}
-        {% if task.image %}
-            <a href="{{ task.image.url }}">
-                <img src="{{ task.image.url }}"/>
-            </a>
+<div id="task{{ task.id }}" class="item {% if task.user %}selected {% endif %}{{ task.complexity }}">
+{#    <a href="{{ task.image.url }}">#}
+        <img src="{{ task.image.url }}"/>
+{#    </a>#}
+    <div class="caption">
+        {{ forloop.counter }}
+        {% if task.user %}
+            | {{ task.user }}
+            {#        {% else %}#}
         {% endif %}
     </div>
     {% if user.is_authenticated and perms.taskex %}
@@ -30,7 +26,7 @@
             function update{{ task.id }}() {
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'labs:update_task' task.id %}",
+                    url: "{% url 'labs:update_task_gallery' task.id %}",
                     data: $("#taskForm{{ task.id }}").serialize(),
                     success: function (data) {
                         $("#task{{ task.id }}").replaceWith($(data));
@@ -74,5 +70,4 @@
         </div>
         <!-- end of script for task edit -->
     {% endif %}
-    <div style="clear: both"></div>
-</li>
+</div>
