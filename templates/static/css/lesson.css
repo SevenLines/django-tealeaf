@@ -62,7 +62,7 @@
     /*overflow: hidden;*/
 }
 
-.tasks li {
+.tasks li, .tasks .item {
     margin: 0.5em 0;
     padding: 0.5em;
     border-radius: 10px;
@@ -74,7 +74,7 @@
 .tasks .user-info {
     display: inline-block;
     padding: 0.5em 1em;
-    float:right;
+    float: right;
     border-radius: 8px;
     background-color: white;
     border: silver 2px solid;
@@ -88,35 +88,57 @@
     background-color: #d1ff99;
     box-shadow: 0 0 1px #baff66;
 }
-.lab .easy.selected {  border-color: #baff66; }
-.tasks .easy .user-info { border-color: #baff66; }
+
+.lab .easy.selected {
+    border-color: #baff66;
+}
+
+.tasks .easy .user-info {
+    border-color: #baff66;
+}
 
 .lab .medium {
     background-color: #ffff99;
     box-shadow: 0 0 1px #ffff66;
 }
-.lab .medium.selected {  border-color: #ffff66; }
-.tasks .medium .user-info { border-color: #ffff66; }
+
+.lab .medium.selected {
+    border-color: #ffff66;
+}
+
+.tasks .medium .user-info {
+    border-color: #ffff66;
+}
 
 .lab .hard {
     background-color: #ffca99;
     box-shadow: 0 0 1px #ffad66;
 }
-.lab .hard.selected {  border-color: #ffad66; }
-.tasks .hard .user-info { border-color: #ffad66; }
+
+.lab .hard.selected {
+    border-color: #ffad66;
+}
+
+.tasks .hard .user-info {
+    border-color: #ffad66;
+}
 
 .lab .nightmare {
     background-color: #ffbdb3;
     box-shadow: 0 0 1px #ffa599;
 }
-.lab .nightmare.selected {  border-color: #ffa599; }
-.tasks .nightmare .user-info { border-color: #ffa599; }
+
+.lab .nightmare.selected {
+    border-color: #ffa599;
+}
+
+.tasks .nightmare .user-info {
+    border-color: #ffa599;
+}
 
 .lab .selected {
     background-color: #dddddd;
 }
-
-
 
 .lab code {
     color: black;
@@ -131,7 +153,7 @@
 
 .lab li img {
     /*float: right;*/
-    margin:0.5em 0 0 0;
+    margin: 0.5em 0 0 0;
     border: none;
 }
 
@@ -154,7 +176,7 @@
 }
 
 .lab .gallery {
-    overflow: hidden;
+    /*overflow: hidden;*/
     float: left;
 }
 
@@ -165,11 +187,11 @@
 }
 
 .lab .gallery .item {
+    position: relative;
     padding: 6px;
     margin: 8px 8px 8px 0;
-    border: gray 1px solid;
     float: left;
-    border-radius: 4px;
+    width: 116px;
 }
 
 .lab .gallery .item .task_number {
@@ -177,10 +199,34 @@
     font-weight: bold;
 }
 
+.lab .gallery a {
+
+}
+
 .lab .gallery .item img {
     border: 1px solid gray;
+    border-radius: 8px 8px 0 0;
+    margin: 0 auto;
     width: 100px;
-    max-width: 100px;
+    display: block;
+}
+
+.lab .gallery .caption {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: 0.8em;
+    width: 100px;
+    padding: 0.25em 0.25em;
+    border-radius: 0 0 8px 8px;
+    background-color: white;
+    border: silver 1px solid;
+    border-top: none;
+    box-shadow: 0 0 4px white;
+    /*margin-right: 0.25em;*/
+    display: block;
+    margin: 0 auto;
 }
 
 /* end labs */

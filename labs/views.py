@@ -18,3 +18,18 @@ def update_task(request, pk):
     task.description = textile_without_p(task.description)
 
     return render(request, 'labs/task.html', context)
+
+
+def update_task_gallery(request, pk):
+    task = get_object_or_404(TaskEx, pk=pk)
+
+    if 'user' in request.POST and 'complexity' in request.POST:
+        task.user = request.POST['user']
+        task.complexity = request.POST['complexity']
+        task.save()
+
+    context = {'task': task,
+               'complex_choices': TaskEx.COMPLEX_CHOICES}
+    task.description = textile_without_p(task.description)
+
+    return render(request, 'labs/task_img.html', context)

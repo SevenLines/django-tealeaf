@@ -1,0 +1,73 @@
+<div id="task{{ task.id }}" class="item {% if task.user %}selected {% endif %}{{ task.complexity }}">
+{#    <a href="{{ task.image.url }}">#}
+        <img src="{{ task.image.url }}"/>
+{#    </a>#}
+    <div class="caption">
+        {{ forloop.counter }}
+        {% if task.user %}
+            | {{ task.user }}
+            {#        {% else %}#}
+        {% endif %}
+    </div>
+    {% if user.is_authenticated and perms.taskex %}
+        <!-- script for task edit -->
+        <script type="text/javascript">
+            $(document).mouseup(function (e) {
+                var task = $("#task-edit-{{ task.id }}");
+                var edit = $("#task-edit-option-{{ task.id }}");
+
+                if (!task.is(e.target) // if the target of the click isn't the container...
+                        && task.has(e.target).length === 0 // ... nor a descendant of the container
+                        && !edit.is(e.target)
+                        && edit.has(e.target).length === 0) {
+                    task.slideUp("fast");
+                }
+            });
+            function update{{ task.id }}() {
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'labs:update_task_gallery' task.id %}",
+                    data: $("#taskForm{{ task.id }}").serialize(),
+                    success: function (data) {
+                        $("#task{{ task.id }}").replaceWith($(data));
+                    }
+                });
+                return false;
+            }
+            function showTaskEdit{{ task.id }}() {
+                $("#task-edit-{{ task.id }}").slideToggle("fast");
+            }
+        </script>
+        <div class="task-edit-option" id="task-edit-option-{{ task.id }}">
+            <div class="glyphicon glyphicon-edit" onclick="showTaskEdit{{ task.id }}()"></div>
+        </div>
+        <div class="task-edit" id="task-edit-{{ task.id }}">
+            <form name="taskForm{{ task.id }}" id="taskForm{{ task.id }}" class="" role="form" style="padding-top: 1em">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="">
+                        <div class="form-group">
+                            <input type="text" class="form-control"
+                                   id="user"
+                                   name="user"
+                                   value="{{ task.user }}">
+                        </div>
+                        <div class="form-group">
+                            <select name="complexity" class="form-control">
+                                {% for c in complex_choices %}
+                                    <option {% if c.0 == task.complexity %}selected{% endif %} value="{{ c.0 }}">
+                                        {{ c.0 }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-info"
+                                onclick="update{{ task.id }}()">Сохранить
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- end of script for task edit -->
+    {% endif %}
+</div>

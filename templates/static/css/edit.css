@@ -7,7 +7,7 @@
     border: solid 2px white;
     top: 1em;
     right: 2em;
-    width: 30%;
+    width: 200px;
     z-index: 100;
     padding: 1em;
     border-radius: 10px;
@@ -25,7 +25,7 @@
     border: 1px solid black;
     font-size: 13px;
     float: right;
-    background-color: rgba(0,0,0, 0.25);
+    background-color: white;
 }
 
 .task-edit-option {
