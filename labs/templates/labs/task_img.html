@@ -1,7 +1,8 @@
+{% load static %}
 <div id="task{{ task.id }}" class="item {% if task.user %}selected {% endif %}{{ task.complexity }}">
-{#    <a href="{{ task.image.url }}">#}
-        <img src="{{ task.image.url }}"/>
-{#    </a>#}
+    {#    <a href="{{ task.image.url }}">#}
+    <img src="{{ task.image.url }}"/>
+    {#    </a>#}
     <div class="caption">
         {{ forloop.counter }}
         {% if task.user %}
@@ -9,7 +10,7 @@
             {#        {% else %}#}
         {% endif %}
     </div>
-    {% if user.is_authenticated and perms.taskex %}
+    {% if page.publisher_is_draft %}
         <!-- script for task edit -->
         <script type="text/javascript">
             $(document).mouseup(function (e) {
@@ -24,12 +25,16 @@
                 }
             });
             function update{{ task.id }}() {
+                $("#loading{{ task.id }}").show();
+                $("#btn{{ task.id }}").hide();
                 $.ajax({
                     type: "POST",
                     url: "{% url 'labs:update_task_gallery' task.id %}",
                     data: $("#taskForm{{ task.id }}").serialize(),
                     success: function (data) {
                         $("#task{{ task.id }}").replaceWith($(data));
+                        $("#loading{{ task.id }}").hide()
+                        $("#btn{{ task.id }}").show();
                     }
                 });
                 return false;
@@ -41,6 +46,18 @@
         <div class="task-edit-option" id="task-edit-option-{{ task.id }}">
             <div class="glyphicon glyphicon-edit" onclick="showTaskEdit{{ task.id }}()"></div>
         </div>
+        <style>
+            #loading{{ task.id }} {
+                display: none;
+                text-align: center;
+            }
+
+            #loading{{ task.id }} img {
+                width: auto;
+                border: none;
+                border-radius: 0;
+            }
+        </style>
         <div class="task-edit" id="task-edit-{{ task.id }}">
             <form name="taskForm{{ task.id }}" id="taskForm{{ task.id }}" class="" role="form" style="padding-top: 1em">
                 {% csrf_token %}
@@ -61,9 +78,14 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <button type="button" class="btn btn-info"
-                                onclick="update{{ task.id }}()">Сохранить
-                        </button>
+                        <div id="loading{{ task.id }}">
+                            <img src="{% static "img/loader.gif" %}"/>
+                        </div>
+                        <div id="btn{{ task.id }}">
+                            <button type="button" class="btn btn-info"
+                                    onclick="update{{ task.id }}()">Сохранить
+                            </button>
+                        </div>
                     </div>
                 </div>
             </form>

@@ -1,0 +1,9 @@
+{% if css %}
+    <!-- custom css START-->
+    <style>
+        {% for c in css %}
+            {{ c.css }}
+        {% endfor %}
+    </style>
+    <!-- custom css END-->
+{% endif %}

@@ -32,6 +32,7 @@ class TaskExPlugin(CMSPluginBase):
                 self.render_template = 'labs/task_img.html'
 
         instance.description = textile_without_p(instance.description)
+        context['page'] = instance.page
         context['task'] = instance
         context['placeholder'] = placeholder
         context['complex_choices'] = TaskEx.COMPLEX_CHOICES

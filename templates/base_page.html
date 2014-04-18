@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load cms_tags sekizai_tags menu_tags email_obfuscator %}
+{% load custom_css_tags cms_tags sekizai_tags menu_tags email_obfuscator %}
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,6 +13,7 @@
     {% include "elements/styles.html" %}
     {% block styles %}{% endblock %}
     {% include "elements/google-analytics.html" %}
+    {% custom_css %}
 </head>
 <body>
 {% cms_toolbar %}

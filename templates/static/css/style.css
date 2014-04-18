@@ -1,6 +1,6 @@
 
 body {
-    background: gray url("images/tweed_@2X.png");
+    background: gray url("images/skulls_blue.png");
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -28,12 +28,29 @@ body {
 }
 
 
+.main-banner {
+    margin-top:  0.5em;
+    text-align: center;
+}
+
+.main-banner h1 {
+    margin: 0.25em;
+}
+
+.main-banner img {
+    border: 4px inset #000000;
+    border-radius: 300px;
+    max-height: 600px;
+    /*max-width: 600px;*/
+}
+
+
 .navbar, .navbar-default, .navbar-fixed-top {
     min-height: 0;
 }
 
 .navbar-default {
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(242, 242, 242, 0.95);
     /*background-image: url("images/menu_gradient_blue.png");*/
     border: none;
     border-bottom: 1px groove black;
@@ -94,8 +111,6 @@ body {
 .prettyprint {
     font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
 }
-
-
 
 #toc.list-group ul{
     margin-left: 0;
