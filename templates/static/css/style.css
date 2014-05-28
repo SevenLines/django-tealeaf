@@ -1,5 +1,5 @@
 body {
-  background: #808080 url("images/tweed_@2X.png");
+  background: #808080 url("images/use_your_illusion.png");
   background-color: #666;
   font-family: Georgia, 'Times New Roman', Times, serif;
   padding: 0;
@@ -14,13 +14,12 @@ body {
   float: left;
 }
 .body {
-  background-color: white;
-  padding-left: 84px;
+  background-color: #ffffff;
+  padding-left: 20px;
+  border-left: 64px solid #e1e1e1;
   padding-right: 20px;
   padding-top: 20px;
   padding-bottom: 20px;
-  border-right: 1px solid #f5f5f5;
-  border-bottom: 1px solid #f5f5f5;
   margin-bottom: 100px;
   min-height: 400px;
   border-radius: 0 0 32px 32px;
@@ -37,12 +36,8 @@ body {
   margin: 0.25em;
 }
 .main-banner img {
-  border: 4px inset #000000;
+  border: 2px solid #000000;
   max-height: 600px;
-}
-.menuicon {
-  padding: 0;
-  margin: 0;
 }
 /* end navbar */
 .prettyprint {
@@ -63,11 +58,7 @@ body {
 .bs-callout {
   margin: 8px 0;
   padding: 8px;
-  border-left: 6px solid #eeeeee;
-}
-.bs-callout h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
+  border-left: 6px solid #eee;
 }
 .bs-callout p:last-child {
   margin-bottom: 0;
@@ -75,6 +66,10 @@ body {
 .bs-callout code {
   background-color: #fff;
   border-radius: 3px;
+}
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
 }
 .bs-callout-danger {
   background-color: #fdf7f7;

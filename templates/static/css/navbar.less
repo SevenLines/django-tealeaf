@@ -1,10 +1,4 @@
-@item_width: 64px;
-@item_height: 64px;
-@item_padding: 6px;
-@border_color: #BBB;
-@item_background_color: #f5f5f5;
-@logo_height: 0.3 * @item_height;
-@sub_item_width: 200px;
+@import "const";
 
 #navbar {
   position: fixed;
@@ -15,16 +9,14 @@
   .navpanel {
     z-index: 2;
     background: none repeat scroll 0% 0% #DDD;
-    //    border-right: 1px solid darkgray;
-    //        background: gray url("images/skulls_blue.png");
 
     .logo a {
       padding: @item_padding;
-      width: @item_width+1;
+      width: @item_width;
       height: @logo_height;
-      background-color: #b3cadc;
+      background-color: @logo_bg_color;
       float: left;
-      border-right: 1px solid @border_color;
+      //      border-right: 1px solid @border_color;
     }
 
     .main {
@@ -39,17 +31,17 @@
         padding: 0;
 
         border-bottom: 1px solid @border_color;
-        border-right: 1px solid @border_color;
+        //        border-right: 1px solid @border_color;
 
         background-color: #f5f5f5;
 
         &.ancestor {
-          background-color: white;
-          width: @item_width + 1px;
+          background-color: @body_bg_color;
+          //          width: @item_width + 1px;
         }
 
         &:last-child {
-//          border-radius: 0 0 16px 0;
+          //          border-radius: 0 0 16px 0;
         }
 
         &.email {
@@ -57,13 +49,22 @@
           .dropdown {
             ul {
               margin-top: 0 !important;
+              float: left;
               li {
+                border-radius: 0 8px 8px 0;
+                border: none;
+                float: left;
+                &:first-child {
+                  a {
+                    border-top: none;
+                  }
+                }
                 a {
                   height: @item_height + 2px;
-                  font-size: 23px;
+                  width: auto;
+                  font-size: 18px;
                   margin-top: -1px;
-                  border-left: none;
-                  padding: 15px;
+                  padding: 18px;
                   border-radius: 0 8px 8px 0;
                 }
               }
@@ -83,9 +84,17 @@
             margin-top: @logo_height;
             li {
               border: none;
+              border-bottom: 1px solid @border_color;
+              border-right: 1px solid @border_color;
+              border-left: 1px solid @border_color;
               &:first-child {
                 a {
                   border-top: 1px solid @border_color;
+                }
+              }
+              &.active {
+                a {
+                  background-color: white;
                 }
               }
               a {
@@ -94,27 +103,15 @@
                 width: @sub_item_width;
                 font-size: 14px;
                 padding: 8px;
-//                border-top: none;
-                border-bottom: 1px solid @border_color;
-                border-right: 1px solid @border_color;
-                border-left: 1px solid @border_color;
                 margin: 0;
+
               }
-            }
-          }
-        }
-        &:hover {
-          background-color: lighten(@item_background_color, 2%);
-          .dropdown {
-            li a {
-              background-color: lighten(@item_background_color, 2%);
             }
           }
         }
       }
 
       .menuicon {
-
         padding: @item_padding;
         width: @item_width;
         height: @item_height;

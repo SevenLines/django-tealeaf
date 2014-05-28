@@ -38,21 +38,19 @@
 
                     <div class="dropdown">
                         <ul>
-                            <li><a href="mailto:mmailm@mail.ru">mmailm@mail.ru</a></li>
+                            <li>
+                            {{ 'mmailm.math@mail.ru'|obfuscate_mailto }}
+                            </li>
                         </ul>
                     </div>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="table">
-{#        <div class="row">#}
-            <div class="left_panel"></div>
-            <div class="body">
-                {% block basecontent %}
-                {% endblock %}
-            </div>
-{#        </div>#}
+
+    <div class="body">
+        {% block basecontent %}
+        {% endblock %}
     </div>
 </div>
 
