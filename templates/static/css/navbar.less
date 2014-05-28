@@ -1,0 +1,125 @@
+@item_width: 64px;
+@item_height: 64px;
+@item_padding: 6px;
+@border_color: #BBB;
+@item_background_color: #f5f5f5;
+@logo_height: 0.3 * @item_height;
+@sub_item_width: 200px;
+
+#navbar {
+  position: fixed;
+  width: @item_width;
+
+  z-index: 99991;
+
+  .navpanel {
+    z-index: 2;
+    background: none repeat scroll 0% 0% #DDD;
+    //    border-right: 1px solid darkgray;
+    //        background: gray url("images/skulls_blue.png");
+
+    .logo a {
+      padding: @item_padding;
+      width: @item_width+1;
+      height: @logo_height;
+      background-color: #b3cadc;
+      float: left;
+      border-right: 1px solid @border_color;
+    }
+
+    .main {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        box-sizing: border-box;
+        list-style: none;
+        float: left;
+        padding: 0;
+
+        border-bottom: 1px solid @border_color;
+        border-right: 1px solid @border_color;
+
+        background-color: #f5f5f5;
+
+        &.ancestor {
+          background-color: white;
+          width: @item_width + 1px;
+        }
+
+        &:last-child {
+//          border-radius: 0 0 16px 0;
+        }
+
+        &.email {
+          position: relative;
+          .dropdown {
+            ul {
+              margin-top: 0 !important;
+              li {
+                a {
+                  height: @item_height + 2px;
+                  font-size: 23px;
+                  margin-top: -1px;
+                  border-left: none;
+                  padding: 15px;
+                  border-radius: 0 8px 8px 0;
+                }
+              }
+            }
+          }
+        }
+
+        .dropdown {
+          display: none;
+          position: absolute;
+          left: @item_width;
+          top: 0;
+          bottom: 0;
+
+          ul {
+            padding: 0;
+            margin-top: @logo_height;
+            li {
+              border: none;
+              &:first-child {
+                a {
+                  border-top: 1px solid @border_color;
+                }
+              }
+              a {
+                float: left;
+                background-color: @item_background_color;
+                width: @sub_item_width;
+                font-size: 14px;
+                padding: 8px;
+//                border-top: none;
+                border-bottom: 1px solid @border_color;
+                border-right: 1px solid @border_color;
+                border-left: 1px solid @border_color;
+                margin: 0;
+              }
+            }
+          }
+        }
+        &:hover {
+          background-color: lighten(@item_background_color, 2%);
+          .dropdown {
+            li a {
+              background-color: lighten(@item_background_color, 2%);
+            }
+          }
+        }
+      }
+
+      .menuicon {
+
+        padding: @item_padding;
+        width: @item_width;
+        height: @item_height;
+      }
+    }
+
+  }
+}
