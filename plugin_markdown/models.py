@@ -4,6 +4,7 @@ from django.db import models
 from markupfield.fields import MarkupField
 from django.conf import settings
 from django.utils.text import Truncator
+from custom_css.models import CustomCSS
 
 
 class MarkdownSnippet(CMSPlugin):
@@ -30,7 +31,10 @@ class MarkdownSnippet(CMSPlugin):
     )
 
     if hasattr(settings, "PLUGIN_MARKDOWN_CLASSES"):
-        CLASSES += settings.PLUGIN_MARKDOWN_CLASSES
+        try:
+            CLASSES += settings.PLUGIN_MARKDOWN_CLASSES + CustomCSS.list()
+        except:
+            pass
 
 
     body = MarkupField(default_markup_type='textile', blank=True, default='')

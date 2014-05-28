@@ -35,6 +35,9 @@ INSTALLED_APPS = (
     'wrapper',
     'djangocms_file',
     'djangocms_flash',
+    'custom_css',
+    'django_ace',
+    'compressor',
 
     'django.contrib.messages',  # to enable messages framework (see :ref:`Enable messages <enable-messages>`)
 )

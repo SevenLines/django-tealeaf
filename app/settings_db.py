@@ -14,7 +14,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'tealeaf2',
+            'NAME': 'tealeaf',
             'PASSWORD': '12345',
             'USER': 'postgres',
             'HOST': 'localhost',

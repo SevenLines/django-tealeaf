@@ -1,6 +1,7 @@
 from cms.models.pluginmodel import CMSPlugin
 from django.conf import settings
 from django.db.models.fields import CharField
+from custom_css.models import CustomCSS
 
 
 class Wrapper(CMSPlugin):
@@ -24,6 +25,12 @@ class Wrapper(CMSPlugin):
         CLASSES += settings.PLUGIN_WRAPPER_CLASSES
     if hasattr(settings, "PLUGIN_WRAPPER_ITEM_CLASSES"):
         ITEM_CLASSES += settings.PLUGIN_WRAPPER_ITEM_CLASSES
+
+    if hasattr(settings, "PLUGIN_MARKDOWN_CLASSES"):
+        try:
+            CLASSES += settings.PLUGIN_MARKDOWN_CLASSES + CustomCSS.list()
+        except:
+            pass
 
     # template for render sequence of plugins
     template = CharField(max_length=100, default=LIST, choices=TEMPLATES)

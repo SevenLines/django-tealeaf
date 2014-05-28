@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load cms_tags sekizai_tags menu_tags email_obfuscator %}
+{% load static custom_css_tags cms_tags sekizai_tags menu_tags email_obfuscator %}
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,46 +13,45 @@
     {% include "elements/styles.html" %}
     {% block styles %}{% endblock %}
     {% include "elements/google-analytics.html" %}
+    {% custom_css %}
 </head>
 <body>
 {% cms_toolbar %}
 
 {% include "elements/yandex-metric.html" %}
 
-<div class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
-                <span class="sr-only"></span>
-                <span class="icon-bar"></span>
-                {#                <span class="icon-bar"></span>#}
-                {#                <span class="icon-bar"></span>#}
-            </button>
-            <a href="/">
-                <div class="navbar-brand">
-                    <span class="glyphicon glyphicon-leaf"></span>
-                </div>
-            </a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                {% show_menu 0 100 100 100 "elements/menu.html" %}
-            </ul>
-            <div class="navbar-brand email navbar-collapse collapse pull-right">
-            {% with 'mmailm.math@mail.ru' as mail %}
-                <a class="glyphicon" href="mailto:{{ mail|obfuscate }}">
-                    {{ mail|obfuscate }}
+
+<div class="container">
+    <div id="navbar">
+        <div class="navpanel">
+            <div class="logo">
+                <a href="/">
                 </a>
-            {% endwith %}
-        </div>
-        </div>
+            </div>
 
+            <ul class="main">
+                {% show_menu 0 100 100 100 "elements/menu_vertical.html" %}
+                <li class="email level0">
+                    <a href="#">
+                        <img class="menuicon" src="{% static "img/envelope_64x64.png" %}">
+                    </a>
+
+                    <div class="dropdown">
+                        <ul>
+                            <li>
+                            {{ 'mmailm.math@mail.ru'|obfuscate_mailto }}
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
 
-<div class="container body">
-    {% block basecontent %}
-    {% endblock %}
+    <div class="body">
+        {% block basecontent %}
+        {% endblock %}
+    </div>
 </div>
 
 {% include "elements/scripts.html" %}

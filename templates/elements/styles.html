@@ -1,4 +1,4 @@
-{% load static sekizai_tags %}
+{% load static sekizai_tags compress %}
 
 
 
@@ -8,6 +8,10 @@
 
 {% addtoblock "css" %}
     <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}"/>
+{% endaddtoblock %}
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/navbar.css" %}"/>
 {% endaddtoblock %}
 
 {% if user.is_authenticated %}
