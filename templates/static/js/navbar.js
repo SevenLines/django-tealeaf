@@ -23,7 +23,6 @@
       $(last_nav).parent().find(".dropdown").toggle("fast");
     }
     if (last_nav !== this) {
-      drop.toggle("fast");
       last_nav = this;
     } else {
       last_nav = 0;

@@ -38,6 +38,7 @@
   float: left;
 }
 #navbar .navpanel .main li.email .dropdown ul li {
+  text-align: center;
   border-radius: 0 8px 8px 0;
   border: none;
   float: left;
@@ -79,7 +80,7 @@
 #navbar .navpanel .main li .dropdown ul li a {
   float: left;
   background-color: #f5f5f5;
-  width: 180px;
+  width: 200px;
   font-size: 14px;
   padding: 8px;
   margin: 0;
