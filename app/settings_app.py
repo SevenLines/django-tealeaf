@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'compressor',
     'students',
     'tealeaf_admin',
+    'upgrade',
 
     'django.contrib.messages',  # to enable messages framework (see :ref:`Enable messages <enable-messages>`)
 )
