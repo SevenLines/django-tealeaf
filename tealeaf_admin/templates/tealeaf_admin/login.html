@@ -1,0 +1,23 @@
+{% extends "tealeaf_admin/base_page.html" %}
+{#{% load csrf_token %}#}
+
+{% block basecontent %}
+<div class="form-box" id="login-box">
+    <form action="{% url 'tealeaf_admin.views.login' %}" method="post">
+        {% csrf_token %}
+        <div class="body bg-gray">
+            <div class="form-group">
+                <input type="text" name="userid" class="form-control" placeholder="User ID"/>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Password"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" name="login" value="Login" id="" class="form-control"/>
+            </div>
+            <input type="hidden" name="next" value="{{ request.next }}"/>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{##}
