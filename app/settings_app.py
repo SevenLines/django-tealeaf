@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django_ace',
     'compressor',
     'tealeaf_admin',
+    'upgrade',
 
     'django.contrib.messages',  # to enable messages framework (see :ref:`Enable messages <enable-messages>`)
 )
