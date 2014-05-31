@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'custom_css',
     'django_ace',
     'compressor',
+    'students',
 
     'django.contrib.messages',  # to enable messages framework (see :ref:`Enable messages <enable-messages>`)
 )
