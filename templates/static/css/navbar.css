@@ -27,7 +27,8 @@
   border-bottom: 1px solid #bbbbbb;
   background-color: #f5f5f5;
 }
-#navbar .navpanel .main li.ancestor {
+#navbar .navpanel .main li.ancestor,
+#navbar .navpanel .main li.active {
   background-color: #ffffff;
 }
 #navbar .navpanel .main li.email {

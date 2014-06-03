@@ -1,0 +1,42 @@
+{% load static sekizai_tags %}
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" href="{% static 'css/students.css' %}"/>
+    {#    <script src="{% static 'css/students.css' %}" type="text/javascript"></script>#}
+{% endaddtoblock %}
+
+<div class="groups">
+    {% include "students/groups.html" %}
+    <div class="panel-body">
+        <div id="group-students">
+
+            <!-- сюда список загоняется -->
+            <div class="content"></div>
+            <!-- конец списка -->
+
+            <!-- форма добавления студента -->
+            {% if user.is_authenticated %}
+                <form id="add_student" action="{% url "students.views.ajax.student.add" %}" method="post"
+                      class="ajaxed form-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-sm">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    <input type="text" class="form-control" name="second_name" value="" placeholder="фамилия"/>
+                    <input type="text" class="form-control" name="name" value="" placeholder="имя"/>
+                    <input type="hidden" name="group_id" value="{{ group.pk }}"/>
+                    <input type="hidden" name="discipline_id" value="{{ discipline.pk }}"/>
+                </form>
+            {% endif %}
+            <!-- конец формы добавления студента -->
+
+        </div>
+    </div>
+</div>
+
+{% addtoblock "js" %}
+    <script src="{% static 'bs_grid-master/jquery.bs_grid.css' %}" type="text/javascript"></script>
+    <script src="{% static 'js/students.js' %}" type="text/javascript"></script>
+{% endaddtoblock %}
+
+

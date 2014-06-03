@@ -1,0 +1,22 @@
+.groups .process {
+  display: none;
+}
+.groups .students .list-group-item {
+  padding: 8px;
+}
+.groups table .counter {
+  width: 3em;
+}
+.groups .groups-nav {
+  overflow: hidden;
+  list-style: none;
+  padding-left: 1em;
+  padding-top: 1em;
+  margin-bottom: 0;
+}
+.groups .groups-nav li {
+  float: left;
+  margin: 0;
+  padding-right: 8px;
+  padding-bottom: 0;
+}
