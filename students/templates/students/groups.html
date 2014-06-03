@@ -1,0 +1,27 @@
+<ul class="groups-nav">
+    {% for g in groups|dictsort:"title" %}
+        <li class="item">
+            <form action="{% url 'students.views.ajax.student.index' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default" value="{{ g.title }}"/>
+                    <input type="hidden" name="group_id" value="{{ g.id }}"/>
+                    <input type="hidden" name="query" value="students"/>
+                    <input type="hidden" name="discipline_id" value="{{ 1 }}"/>
+                </div>
+            </form>
+        </li>
+    {% endfor %}
+    {% if user.is_authenticated %}
+        <li class="add">
+            <form action="{% url 'students.views.ajax.student.index' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default" value="+ Добавить"/>
+                    <input type="hidden" name="query" value="students.add"/>
+                    <input type="hidden" name="discipline_id" value="{{ 1 }}"/>
+                </div>
+            </form>
+        </li>
+    {% endif %}
+</ul>
