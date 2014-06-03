@@ -9,6 +9,7 @@ admin.autodiscover()
 urlpatterns = i18n_patterns('',
     url(r'^labs/', include('labs.urls', namespace='labs')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^students/', include('students.urls')),
     url(r'^', include('cms.urls')),
 )
 
