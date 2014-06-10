@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico"/>
 
     {% render_block "css" %}
-
+    {% include "elements/scripts.html" %}
     <title>{% page_attribute "page_title" %}</title>
     {% include "elements/styles.html" %}
     {% block styles %}{% endblock %}
@@ -39,7 +39,7 @@
                     <div class="dropdown">
                         <ul>
                             <li>
-                            {{ 'mmailm.math@mail.ru'|obfuscate_mailto }}
+                                {{ 'mmailm.math@mail.ru'|obfuscate_mailto }}
                             </li>
                         </ul>
                     </div>
@@ -53,8 +53,9 @@
         {% endblock %}
     </div>
 </div>
+<script type="text/javascript" src="{% static "js/navbar.js" %}"></script>
 
-{% include "elements/scripts.html" %}
+
 {% include "elements/back-to-top-button.html" %}
 {% render_block "js" %}
 {% block scripts %}

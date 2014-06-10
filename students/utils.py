@@ -1,8 +1,5 @@
 from datetime import datetime
 
-__author__ = 'mick'
-
-
 def current_year():
     """
     :return: current learning year

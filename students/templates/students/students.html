@@ -9,7 +9,7 @@
             <!-- конец ячейки под форму удаления студента -->
 
             <th class="counter">#</th>
-            <th>Студент</th>
+            <th><span class="glyphicon glyphicon-user"></span></th>
 
             <!-- кнопка добавления столбца занятий -->
             {% if user.is_authenticated %}
@@ -76,5 +76,21 @@
     {% endfor %}
     </tbody>
 </table>
+
+{% if user.is_authenticated %}
+    <!-- форма добавления студента -->
+    <form id="add_student" action="{% url "students.views.ajax.student.add" %}" method="post"
+          class="ajaxed form-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success btn-sm">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <input type="text" class="form-control" name="second_name" value="" placeholder="фамилия"/>
+        <input type="text" class="form-control" name="name" value="" placeholder="имя"/>
+        <input type="hidden" name="group_id" value="{{ group.pk }}"/>
+        <input type="hidden" name="discipline_id" value="{{ discipline.pk }}"/>
+    </form>
+    <!-- конец формы добавления студента -->
+{% endif %}
 
 

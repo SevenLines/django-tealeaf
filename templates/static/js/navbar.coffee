@@ -21,9 +21,6 @@ $(".navpanel .level0 a").click ->
     $(last_nav).parent().find(".dropdown").toggle("fast")
 
   if last_nav != this
-#    drop.animate(() ->
-#      left: if parseInt(drop.css('left'), 10) == 0 then -left.outerWidth() else 0
-#    )
     drop.toggle("fast")
     last_nav = this
   else

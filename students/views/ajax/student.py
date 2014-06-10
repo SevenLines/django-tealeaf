@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
 
@@ -10,7 +11,7 @@ from students.models import Student, Group, Mark, Discipline
 def add(request):
     name = request.POST['name']
     second_name = request.POST['second_name']
-    group_id = request.POST['group_id']
+    group_id = request.POST.get('group_id', None)
     group = Group.objects.filter(pk=group_id).first()
 
     if group is not None:
@@ -29,33 +30,33 @@ def add(request):
 
 def index(request):
     # print  request.POST
-    group_id = request.POST['group_id']
-    discipline_id = request.POST['discipline_id']
-    try:
-        discipline = Discipline.objects.get(pk=discipline_id)
-    except:
-        return Http404()
+    group_id = request.POST.get('group_id', None)
+    # discipline_id = request.POST.get('discipline_id', None)
+    # try:
+    #     discipline = Discipline.objects.get(pk=discipline_id)
+    # except:
+    #     return HttpResponse()
 
     group = Group.objects.filter(pk=group_id).first()
     assert isinstance(group, Group)
 
     stdnts = Student.objects.filter(group=group)
-    lsns = group.lessons(discipline)
-    mrk = Mark.objects.filter(lesson__in=lsns)
+    # lsns = group.lessons(discipline)
+    # mrk = Mark.objects.filter(lesson__in=lsns)
     # print mrk.query
 
     if group_id > 0:
         c = RequestContext(request, {
             'students': stdnts,
-            'lessons': lsns,
+            # 'lessons': lsns,
             'group': group,
-            'discipline': discipline
+            # 'discipline': discipline
         })
     else:
-        return Http404()
+        return HttpResponse()
     response = render(request, "students/students.html", context_instance=c)
     response.set_cookie("group_id", group_id)
-    response.set_cookie("discipline_id", discipline_id)
+    # response.set_cookie("discipline_id", discipline_id)
     return response
 
 
