@@ -7,7 +7,7 @@ if 'test' in sys.argv:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'tealeaf',
+            'NAME': 'tealeaf.dbs',
         }
     }
 else:
