@@ -1,22 +1,46 @@
-.groups .process {
+#years .process {
   display: none;
 }
-.groups .students .list-group-item {
+#years .students .list-group-item {
   padding: 8px;
 }
-.groups table .counter {
+#years table .counter {
   width: 3em;
 }
-.groups .groups-nav {
-  overflow: hidden;
+#years #year_selector {
+  padding: 1em 1em 0;
+}
+#years #groups-nav {
+  float: left;
   list-style: none;
-  padding-left: 1em;
-  padding-top: 1em;
+  padding: 1em;
   margin-bottom: 0;
 }
-.groups .groups-nav li {
+#years #groups-nav .btn-group ul {
+  padding: 1em 1em 0;
+}
+#years #groups-nav .btn-group ul li {
+  padding-bottom: 0.5em;
+}
+#years #groups-nav .btn-group ul li .form-control {
+  padding: 0.5em;
+}
+#years #groups-nav .btn-group ul li .form-group {
+  margin-bottom: 0.5em;
+}
+#years #groups-nav li {
   float: left;
   margin: 0;
   padding-right: 8px;
   padding-bottom: 0;
+}
+#years #groups-nav ul.group-item {
+  list-style: none;
+  padding: 0;
+  float: left;
+  overflow: hidden;
+  margin-right: 1em;
+}
+#years #groups-nav ul.group-item li:last-child {
+  padding-right: 0;
 }

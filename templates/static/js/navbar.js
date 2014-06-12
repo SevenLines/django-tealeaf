@@ -5,25 +5,33 @@
   last_nav = null;
 
   $(document).click(function(e) {
-    var target;
+    var element, target;
     target = e.target;
     if (!$(target).is(".navpanel .level0 a")) {
-      $(".navpanel .level0 .dropdown").hide("fast");
+      element = $(".navpanel .level0 .dropdown");
+      $(element).animate({
+        width: 'hide'
+      }, 'fast');
       return last_nav = 0;
     }
   });
 
   $(".navpanel .level0 a").click(function() {
-    var drop;
+    var drop, element;
     drop = $(this).parent().find(".dropdown");
-    if (drop.length === 0) {
+    if (drop.size() === 0) {
       return true;
     }
     if (last_nav) {
-      $(last_nav).parent().find(".dropdown").toggle("fast");
+      element = $(last_nav).parent().find(".dropdown");
+      $(element).animate({
+        width: 'hide'
+      }, 'fast');
     }
     if (last_nav !== this) {
-      drop.toggle("fast");
+      $(drop).animate({
+        width: 'show'
+      }, 'fast');
       last_nav = this;
     } else {
       last_nav = 0;
