@@ -64,7 +64,6 @@ class Student(models.Model):
         return Mark.objects.filter(lesson__discipline=discipline, student=self)
 
 
-
 class Discipline(models.Model):
     """
     дисциплина
@@ -116,3 +115,17 @@ class Mark(models.Model):
 
     def __unicode__(self):
         return u"%s %s" % (self.student, self.mark)
+
+
+def active_years(r=2):
+    years = Group.objects.all().values_list('year').distinct()
+    years = list(zip(*years)[0])
+
+    _min = min(years)
+    _max = max(years)
+    for i in xrange(1, r + 1):
+        years.insert(0, _min - i)
+    for i in xrange(1, r + 1):
+        years.append(_max + i)
+    years.sort()
+    return years
