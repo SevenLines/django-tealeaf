@@ -30,7 +30,7 @@
             <!--форма удаления студента -->
             {% if user.is_authenticated %}
                 <td>
-                    <form class="ajaxed" action="{% url "students.views.ajax.student.remove" %}"
+                    <form class="ajaxed remove" action="{% url "students.views.ajax.student.remove" %}"
                           method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-default btn-sm">
@@ -48,27 +48,30 @@
             <td class="counter">{{ forloop.counter }}</td>
             <td>
 
-                <!-- форма редактирования имени -->
                 {% if user.is_authenticated %}
-                    <form action="{% url "students.views.ajax.student.add" %}" method="post" class="ajaxed form-inline">
+                    <!-- форма редактирования имени -->
+                    <form action="{% url "students.views.ajax.student.add" %}" method="post"
+                          class="update ajaxed form-inline">
                         {% csrf_token %}
-                        <input type="text" class="form-control" name="second_name" value="{{ s.second_name }}"
-                               placeholder="фамилия"/>
-                        <input type="text" class="form-control" name="name" value="{{ s.name }}" placeholder="имя"/>
-                        <input type="hidden" name="group_id" value="{{ group.pk }}"/>
-                        <input type="hidden" name="discipline_id" value="{{ discipline.pk }}"/>
-                        <input type="hidden" name="student_id" value="{{ s.pk }}"/>
-                        <button type="submit" class="btn btn-info btn-sm">
-                            <span class="glyphicon glyphicon-ok"></span>
-                        </button>
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control" name="second_name" value="{{ s.second_name }}"
+                                   placeholder="фамилия"/>
+                            <input type="text" class="form-control" name="name" value="{{ s.name }}" placeholder="имя"/>
+                            <input type="hidden" name="group_id" value="{{ group.pk }}"/>
+                            <input type="hidden" name="discipline_id" value="{{ discipline.pk }}"/>
+                            <input type="hidden" name="student_id" value="{{ s.pk }}"/>
+
+                            <input type="hidden" name="second_name_old" value="{{ s.second_name }}"/>
+                            <input type="hidden" name="name_old" value="{{ s.name }}"/>
+                            <span class="glyphicon glyphicon-ok form-control-feedback hidden"></span>
+                        </div>
+                        <input type="submit" class="hidden"/>
                     </form>
+                        <!-- конец формы редактирования имени -->
                 {% else %}
                     <span class="text">{{ s.second_name }} {{ s.name }}</span>
                 {% endif %}
-                <!-- конец формы редактирования имени -->
             </td>
-
-
             {% if user.is_authenticated %}
                 <td></td>
             {% endif %}
@@ -79,13 +82,13 @@
 
 {% if user.is_authenticated %}
     <!-- форма добавления студента -->
-    <form id="add_student" action="{% url "students.views.ajax.student.add" %}" method="post"
-          class="ajaxed form-inline">
+    <form action="{% url "students.views.ajax.student.add" %}" method="post"
+          class="add ajaxed form-inline">
         {% csrf_token %}
         <button type="submit" class="btn btn-success btn-sm">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
-        <input type="text" class="form-control" name="second_name" value="" placeholder="фамилия"/>
+        <input type="text" id="add_student_family_input" class="form-control" name="second_name" value="" placeholder="фамилия"/>
         <input type="text" class="form-control" name="name" value="" placeholder="имя"/>
         <input type="hidden" name="group_id" value="{{ group.pk }}"/>
         <input type="hidden" name="discipline_id" value="{{ discipline.pk }}"/>

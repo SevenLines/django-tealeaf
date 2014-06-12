@@ -24,8 +24,8 @@ def add(request):
             s = Student(name=name, second_name=second_name, group=group)
         if s:
             s.save()
-
-    return index(request)
+    return HttpResponse()
+    # return index(request)
 
 
 def index(request):
@@ -56,5 +56,5 @@ def remove(request):
     s = Student.objects.filter(pk=student_id).first()
     if s is not None:
         s.delete()
-
-    return index(request)
+    return HttpResponse()
+    # return index(request)

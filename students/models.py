@@ -127,5 +127,5 @@ def active_years(r=2):
         years.insert(0, _min - i)
     for i in xrange(1, r + 1):
         years.append(_max + i)
-
+    years.sort()
     return years

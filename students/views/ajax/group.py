@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
 
@@ -14,8 +14,8 @@ def add(request):
         group.title = request.POST['title']
         group.year = request.POST['year']
         group.save()
-
-    return index(request)
+    return HttpResponse()
+    # return index(request)
 
 
 @login_required
@@ -33,8 +33,8 @@ def update(request):
     post = request.POST.copy()
     post['year'] = request.COOKIES.get('year', current_year())
     request.POST = post
-
-    return index(request)
+    return HttpResponse()
+    # return index(request)
 
 
 def index(request):
@@ -73,4 +73,5 @@ def remove(request):
         if g is not None:
             # assert isinstance(g, Group)
             g.delete()
-    return index(request)
+    return HttpResponse()
+    # return index(request)

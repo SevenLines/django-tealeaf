@@ -20,11 +20,10 @@
                         <li>
                             <form class="remove" action="{% url 'students.views.ajax.group.remove' %}" method="post">
                                 {% csrf_token %}
-                                <button class="btn btn-link" type="submit">
-                                    удалить
-                                </button>
+                                    <button class="btn btn-danger" type="submit">
+                                        удалить
+                                    </button>
                                 <input type="hidden" name="group_id_delete" value="{{ g.id }}"/>
-                                {#                                <input type="hidden" name="year" value="{{ year }}"/>#}
                             </form>
                         </li>
                         <li>
@@ -41,10 +40,10 @@
                                                     {% if y == g.year %}selected{% endif %}>{{ y }}</option>
                                         {% endfor %}
                                     </select>
-                                    <button type="submit" class="btn btn-default" >
-                                        <span class="glyphicon glyphicon-ok"></span>
-                                    </button>
                                 </div>
+                                <button type="submit" class="btn btn-default pull-right">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
                                 <input type="hidden" name="group_id" value="{{ g.id }}"/>
                             </form>
                         </li>
@@ -59,7 +58,7 @@
     {% if user.is_authenticated %}
         <!-- форма добавления группы -->
         <li>
-            <form class="form-inline" id="add_group" action="{% url 'students.views.ajax.group.add' %}" method="post">
+            <form class="form-inline add" action="{% url 'students.views.ajax.group.add' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     <div class="form-group">
