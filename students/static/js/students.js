@@ -100,15 +100,37 @@
           }
         }
       });
-      $(this.selector_form_remove).ajaxForm({
-        success: function(response, status, xhr, $form) {
-          console.log("removed");
-          StudentsTable.last_student_id = -1;
-          StudentsTable.last_action = StudentsTable.ACTIONS.Remove;
-          if (StudentsTable.need_to_be_reloaded !== null) {
-            StudentsTable.need_to_be_reloaded();
+      $(this.selector_form_remove).submit(function() {
+        var form, modal, name, second_name, student_name, tr;
+        modal = $("#modal_remove").modal("show");
+        try {
+          tr = $(this).parents("tr")[0];
+          if (tr) {
+            form = $(tr).find("form.update");
+            name = form.find("input[name=name]")[0].value;
+            second_name = form.find("input[name=second_name]")[0].value;
           }
+        } catch (_error) {
+          return false;
         }
+        student_name = $($(this).parents("li")[1]).find('a').text();
+        modal.find('.modal-body').html("Удалить?<h2>" + second_name + "<br>" + name + "</h2>");
+        form = this;
+        $(modal).find('.confirm').unbind('click');
+        $(modal).find('.confirm').click(function() {
+          console.info("clicked");
+          return $(form).ajaxSubmit({
+            success: function(response, status, xhr, $form) {
+              console.info("removed");
+              StudentsTable.last_student_id = -1;
+              StudentsTable.last_action = StudentsTable.ACTIONS.Remove;
+              if (StudentsTable.need_to_be_reloaded !== null) {
+                StudentsTable.need_to_be_reloaded();
+              }
+            }
+          });
+        });
+        return false;
       });
       $(this.selector_form_update).submit(function() {
         console.log('form updated');
@@ -169,13 +191,24 @@
 
     GroupNav.bind = function() {
       console.log("Group: beind begin");
-      $(this.selector_form_remove).ajaxForm({
-        success: function(response, status, xhr, $form) {
-          console.log('removed');
-          if (GroupNav.need_to_be_reloaded) {
-            GroupNav.need_to_be_reloaded();
-          }
-        }
+      $(this.selector_form_remove).submit(function() {
+        var form, group_name, modal;
+        modal = $("#modal_remove").modal("show");
+        group_name = $($(this).parents("li")[1]).find('a').text();
+        modal.find('.modal-body').html("Удалить группу?<h2>" + group_name + "</h2>");
+        form = this;
+        $(modal).find('.confirm').unbind('click');
+        $(modal).find('.confirm').click(function() {
+          return $(form).ajaxSubmit({
+            success: function(response, status, xhr, $form) {
+              console.log('removed');
+              if (GroupNav.need_to_be_reloaded) {
+                GroupNav.need_to_be_reloaded();
+              }
+            }
+          });
+        });
+        return false;
       });
       $(this.selector_form_update).ajaxForm({
         success: function(response, status, xhr, $form) {

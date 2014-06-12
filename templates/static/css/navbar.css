@@ -1,7 +1,7 @@
 #navbar {
   position: fixed;
   width: 64px;
-  z-index: 99991;
+  z-index: 1000;
 }
 #navbar .navpanel {
   z-index: 2;

@@ -17,15 +17,17 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
+                        <!-- форма удаления группы -->
                         <li>
                             <form class="remove" action="{% url 'students.views.ajax.group.remove' %}" method="post">
                                 {% csrf_token %}
-                                    <button class="btn btn-danger" type="submit">
-                                        удалить
-                                    </button>
+                                <button class="btn btn-danger" type="submit">
+                                    удалить
+                                </button>
                                 <input type="hidden" name="group_id_delete" value="{{ g.id }}"/>
                             </form>
                         </li>
+                        <!-- конец формы удаления группы -->
                         <li>
                             <form class="update" action="{% url 'students.views.ajax.group.update' %}"
                                   method="post">

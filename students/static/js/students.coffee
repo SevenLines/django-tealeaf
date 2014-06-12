@@ -71,14 +71,34 @@ class StudentsTable
                 return
 
         # формы для удаления студента
-        $(@selector_form_remove).ajaxForm
-            success: (response, status, xhr, $form) ->
-                console.log("removed")
-                StudentsTable.last_student_id = -1
-                StudentsTable.last_action = StudentsTable.ACTIONS.Remove
-                if StudentsTable.need_to_be_reloaded != null
-                    StudentsTable.need_to_be_reloaded()
-                return
+        $(@selector_form_remove).submit ->
+            modal = $("#modal_remove").modal("show")
+
+            try
+                tr = $(this).parents("tr")[0]
+                if tr
+                    form = $(tr).find("form.update")
+                    name = form.find("input[name=name]")[0].value
+                    second_name = form.find("input[name=second_name]")[0].value
+            catch
+                return false
+
+            student_name = $($(this).parents("li")[1]).find('a').text()
+            modal.find('.modal-body').html("Удалить?<h2>#{second_name}<br>#{name}</h2>")
+
+            form = this
+            $(modal).find('.confirm').unbind('click')
+            $(modal).find('.confirm').click ->
+                console.info("clicked")
+                $(form).ajaxSubmit
+                    success: (response, status, xhr, $form) ->
+                        console.info("removed")
+                        StudentsTable.last_student_id = -1
+                        StudentsTable.last_action = StudentsTable.ACTIONS.Remove
+                        if StudentsTable.need_to_be_reloaded != null
+                            StudentsTable.need_to_be_reloaded()
+                        return
+            return false
 
         $(@selector_form_update).submit ->
             console.log('form updated')
@@ -130,12 +150,24 @@ class GroupNav
     @bind: ->
         console.log("Group: beind begin")
         # формы для удаления групп
-        $(@selector_form_remove).ajaxForm
-            success: (response, status, xhr, $form) ->
-                console.log('removed')
-                if GroupNav.need_to_be_reloaded
-                    GroupNav.need_to_be_reloaded()
-                return
+        $(@selector_form_remove).submit ->
+            modal = $("#modal_remove").modal("show")
+
+            group_name = $($(this).parents("li")[1]).find('a').text()
+            modal.find('.modal-body').html("Удалить группу?<h2>#{group_name}</h2>")
+
+            form = this
+            $(modal).find('.confirm').unbind('click')
+            $(modal).find('.confirm').click ->
+                $(form).ajaxSubmit
+                    success: (response, status, xhr, $form) ->
+                        console.log('removed')
+                        if GroupNav.need_to_be_reloaded
+                            GroupNav.need_to_be_reloaded()
+                        return
+
+            return false
+
 
         # формы для обновления групп
         $(@selector_form_update).ajaxForm
