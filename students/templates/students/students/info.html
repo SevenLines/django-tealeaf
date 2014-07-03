@@ -1,0 +1,53 @@
+{% extends "plugin_testable_page.html" %}
+{% load static sekizai_tags %}
+
+{{% block content %}
+
+    {% addtoblock "css" %}
+        <link rel="stylesheet" href="{% static 'css/students.css' %}"/>
+    {% endaddtoblock %}
+
+    <div id="instance_{{ instance.pk }}">
+        <div class="students_plugin">
+            {% if user.is_authenticated %}
+                <div class="modal fade modal_remove" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4>Подтверждение</h4>
+                            </div>
+                            <div class="modal-body">
+                                Удалить?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default decline" data-dismiss="modal">Нет</button>
+                                <button type="button" class="btn btn-danger confirm" data-dismiss="modal">Да</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="students_plugin years">
+            </div>
+            <script>
+                var request = $.ajax({
+                    url: "{% url "students.views.ajax.index" %}",
+                })
+                request.done(function (msg) {
+                    $("#instance_{{ instance.pk }} .students_plugin.years").html(msg);
+                    new StudentsControl("instance_{{ instance.pk }}")
+                })
+            </script>
+
+            {% addtoblock "js" %}
+                <script src="{% static 'js/students.js' %}" type="text/javascript"></script>
+            {% endaddtoblock %}
+
+        </div>
+    </div>
+
+{% endblock %}

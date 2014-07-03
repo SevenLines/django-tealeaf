@@ -45,7 +45,7 @@ def index(request):
         })
     else:
         return HttpResponse()
-    response = render(request, "students/students.html", context_instance=c)
+    response = render(request, "students/students/students.html", context_instance=c)
     response.set_cookie("group_id", group_id)
     return response
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
-from labs.cms_plugins import textile_without_p
+# from labs.cms_plugins import textile_without_p
 from labs.models import TaskEx
 
 
@@ -23,7 +23,7 @@ def update_task(request, pk):
     context = {'task': task,
                'complex_choices': TaskEx.COMPLEX_CHOICES,
                'page': page, }
-    task.description = textile_without_p(task.description)
+    task.description = task.description
 
     return render(request, 'labs/task.html', context)
 
@@ -46,6 +46,6 @@ def update_task_gallery(request, pk):
     context = {'task': task,
                'complex_choices': TaskEx.COMPLEX_CHOICES,
                'page': page, }
-    task.description = textile_without_p(task.description)
+    task.description = task.description
 
     return render(request, 'labs/task_img.html', context)

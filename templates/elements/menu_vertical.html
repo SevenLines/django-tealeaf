@@ -20,8 +20,11 @@
         </div>
     {% else %}
         <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}">
-            {% if child.icon %}<img class="menuicon" src="{{ child.icon.image.url }}"/> {% endif %}
-            {{ child.get_menu_title }}
+            {% if child.icon %}
+                <img class="menuicon" src="{{ child.icon.image.url }}"/>
+            {% else %}
+                {{ child.get_menu_title }}
+            {% endif %}
         </a>
     {% endif %}
     </li>

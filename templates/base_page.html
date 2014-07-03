@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static custom_css_tags cms_tags sekizai_tags menu_tags email_obfuscator %}
-<html ng-app>
+<html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +12,7 @@
     <title>{% page_attribute "page_title" %}</title>
     {% include "elements/styles.html" %}
     {% block styles %}{% endblock %}
+    {% block scripts_top %}{% endblock %}
     {% include "elements/google-analytics.html" %}
     {% custom_css %}
 </head>
@@ -59,7 +60,6 @@
 {% include "elements/back-to-top-button.html" %}
 {% render_block "js" %}
 {% block scripts %}
-
 {% endblock %}
 
 </body>

@@ -1,0 +1,10 @@
+node_modules/
+media/
+^static/
+.git/
+.idea/
+.pyc
+logs/
+tealeaf.dbs
+tealeaf.json
+apps.tar.gz

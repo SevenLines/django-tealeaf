@@ -142,3 +142,14 @@ a[href$='.docx'] {
   background: #000000;
   padding: 2px;
 }
+/*Style for immitating paper leaf */
+.text {
+  font-family: Times New Roman;
+  font-size: 16px;
+  background-color: #FFFFF8;
+  color: #000;
+  border: 3px double #CCC;
+  padding: 1em;
+  margin: 1em 0px;
+  line-height: 1.3em;
+}

@@ -8,11 +8,6 @@ from textile.functions import textile
 from labs.models import TaskEx, LabEx
 
 
-def textile_without_p(text):
-    text = textile(text)
-    return text[4:-4]
-
-
 class TaskExPlugin(CMSPluginBase):
     name = u'Задача'
     model = TaskEx
@@ -24,14 +19,13 @@ class TaskExPlugin(CMSPluginBase):
     require_parent = True
     parent_classes = ['LabsExPlugin']
 
-
     def render(self, context, instance, placeholder):
         if hasattr(instance.parent, 'labex'):
             lab = instance.parent.labex
             if lab.render_style == LabEx.GALLERY:
                 self.render_template = 'labs/task_img.html'
 
-        instance.description = textile_without_p(instance.description)
+        instance.description = instance.description
         context['page'] = instance.page
         context['task'] = instance
         context['placeholder'] = placeholder
@@ -52,17 +46,18 @@ class LabsExPlugin(CMSPluginBase):
     child_classes = ['TaskExPlugin']
 
     def render(self, context, instance, placeholder):
-        instance.description = textile_without_p(instance.description)
+        instance.description = instance.description
 
         context['lab'] = instance
+        print placeholder
         context['placeholder'] = placeholder
 
         context['tasks'] = instance.child_plugin_instances
 
-        self.render_template = instance.render_style;
+        self.render_template = instance.render_style
 
-        # if instance.render_style:
-        #     self.render_template = instance.render_style
+        if instance.render_style:
+            self.render_template = instance.render_style
 
         return context
 

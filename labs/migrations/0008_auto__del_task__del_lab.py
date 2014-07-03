@@ -25,7 +25,7 @@ class Migration(SchemaMigration):
             ('selected', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('task_number', self.gf('django.db.models.fields.IntegerField')(default=1)),
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('lab', self.gf('adminsortable.fields.SortableForeignKey')(to=orm['labs.Lab'])),
+            # ('lab', self.gf('adminsortable.fields.SortableForeignKey')(to=orm['labs.Lab'])),
             ('order', self.gf('django.db.models.fields.PositiveIntegerField')(default=1, db_index=True)),
         ))
         db.send_create_signal(u'labs', ['Task'])

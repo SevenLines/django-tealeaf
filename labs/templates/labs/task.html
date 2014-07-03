@@ -13,87 +13,8 @@
             </a>
         {% endif %}
     </div>
-    {% if page.publisher_is_draft %}
-        <!-- script for task edit -->
-        <script type="text/javascript">
-            $(document).mouseup(function (e) {
-                var task = $("#task-edit-{{ task.id }}");
-                var edit = $("#task-edit-option-{{ task.id }}");
-
-                if (!task.is(e.target) // if the target of the click isn't the container...
-                        && task.has(e.target).length === 0 // ... nor a descendant of the container
-                        && !edit.is(e.target)
-                        && edit.has(e.target).length === 0) {
-                    task.slideUp("fast");
-                }
-            });
-            function update{{ task.id }}() {
-                $("#loading{{ task.id }}").show();
-                $("#btn{{ task.id }}").hide();
-                $.ajax({
-                    type: "POST",
-                    url: "{% url 'labs:update_task' task.id %}",
-                    data: $("#taskForm{{ task.id }}").serialize(),
-                    success: function (data) {
-                        $("#task{{ task.id }}").replaceWith($(data));
-                        $("#loading{{ task.id }}").hide()
-                        $("#btn{{ task.id }}").show();
-                    }
-                });
-                return false;
-            }
-            function showTaskEdit{{ task.id }}() {
-                $("#task-edit-{{ task.id }}").slideToggle("fast");
-            }
-        </script>
-        <div class="task-edit-option" id="task-edit-option-{{ task.id }}">
-            <div class="glyphicon glyphicon-edit" onclick="showTaskEdit{{ task.id }}()"></div>
-        </div>
-        <style>
-            #loading{{ task.id }} {
-                display: none;
-                text-align: center;
-            }
-
-            #loading{{ task.id }} img {
-                width: auto;
-                border: none;
-                border-radius: 0;
-            }
-        </style>
-        <div class="task-edit" id="task-edit-{{ task.id }}">
-            <form name="taskForm{{ task.id }}" id="taskForm{{ task.id }}" class="" role="form" style="padding-top: 1em">
-                {% csrf_token %}
-                <div class="form-group">
-                    <div class="">
-                        <div class="form-group">
-                            <input type="text" class="form-control"
-                                   id="user"
-                                   name="user"
-                                   value="{{ task.user }}">
-                        </div>
-                        <div class="form-group">
-                            <select name="complexity" class="form-control">
-                                {% for c in complex_choices %}
-                                    <option {% if c.0 == task.complexity %}selected{% endif %} value="{{ c.0 }}">
-                                        {{ c.0 }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div id="loading{{ task.id }}">
-                            <img src="{% static "img/loader.gif" %}"/>
-                        </div>
-                        <div id="btn{{ task.id }}">
-                            <button type="button" class="btn btn-info"
-                                    onclick="update{{ task.id }}()">Сохранить
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <!-- end of script for task edit -->
+    {% if user.is_authenticated and page.publisher_is_draft %}
+        {% include "labs/task_edit_form.html" with update_url="labs.views.update_task" %}
     {% endif %}
     <div style="clear: both"></div>
 </li>

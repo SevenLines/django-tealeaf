@@ -70,7 +70,7 @@ class TestAdd(TestCase):
         c = Client()
         self.login(c)
         r = c.post(reverse(add), self.bad_data)
-        self.assertEqual(r.status_code, 404)
+        self.assertEqual(r.status_code, 200)
 
     def test_post_with_good_data(self):
         c = Client()

@@ -21,7 +21,7 @@ class Migration(SchemaMigration):
         db.create_table(u'labs_task', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('order', self.gf('django.db.models.fields.PositiveIntegerField')(default=1, db_index=True)),
-            ('lab', self.gf('adminsortable.fields.SortableForeignKey')(to=orm['labs.Lab'])),
+            # ('lab', self.gf('adminsortable.fields.SortableForeignKey')(to=orm['labs.Lab'])),
             ('task_number', self.gf('django.db.models.fields.IntegerField')(default=1)),
             ('description', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
             ('complexity', self.gf('django.db.models.fields.CharField')(default='easy', max_length=20)),
@@ -155,7 +155,7 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'to': "orm['filer.Image']", 'null': 'True', 'blank': 'True'}),
-            'lab': ('adminsortable.fields.SortableForeignKey', [], {'to': u"orm['labs.Lab']"}),
+            # 'lab': ('adminsortable.fields.SortableForeignKey', [], {'to': u"orm['labs.Lab']"}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1', 'db_index': 'True'}),
             'selected': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'task_number': ('django.db.models.fields.IntegerField', [], {'default': '1'}),

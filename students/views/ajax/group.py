@@ -54,7 +54,7 @@ def index(request):
         raise Http404
 
     c = RequestContext(request, data)
-    response = render(request, "students/groups.html", context_instance=c)
+    response = render(request, "students/students/groups.html", context_instance=c)
 
     group_id = request.COOKIES.get('group_id', None)
     if group_id is None:

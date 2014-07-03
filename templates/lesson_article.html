@@ -1,7 +1,18 @@
 {% extends "base_page.html" %}
 {% load static cms_tags sekizai_tags %}
+{% block scripts_top %}
+    {% if user.is_authenticated %}
+        <script src="{% static "ckeditor/ckeditor.js" %}"></script>
+    {% endif %}
+{% endblock %}
 
 {% block styles %}
+    {% if user.is_authenticated and is_draft %}
+{#        {% addtoblock "css" %}#}
+{#            <link rel="stylesheet" href="{% static "ckeditor/ckeditor.css" %}"/>#}
+{#        {% endaddtoblock %}#}
+    {% endif %}
+
     {% addtoblock "css" %}
         <link rel="stylesheet" type="text/css" href="{% static "google-code-prettify/prettify-bootstrap.css" %}">
     {% endaddtoblock %}
@@ -12,7 +23,6 @@
 
 {% block basecontent %}
     <div class="lesson">
-{#        {{ children[0].title }}#}
         <div class="breadcrumbs">{{ current_page.parent.get_page_title }}</div>
         <h1>{% page_attribute "title" %}</h1>
         <hr>
