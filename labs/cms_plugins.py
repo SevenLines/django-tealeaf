@@ -42,14 +42,14 @@ class LabsExPlugin(CMSPluginBase):
     render_template = 'labs/labex.html'
     allow_children = True
     text_enabled = True
-
+    cache = False
     child_classes = ['TaskExPlugin']
 
     def render(self, context, instance, placeholder):
         instance.description = instance.description
 
         context['lab'] = instance
-        print placeholder
+        context['page'] = instance.page
         context['placeholder'] = placeholder
 
         context['tasks'] = instance.child_plugin_instances

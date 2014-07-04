@@ -3,7 +3,14 @@
     <h2 class="title">{{ lab.title }}</h2>
 
     <div class="description">
-        {{ lab.description|safe }}
+        <div id="lab_content_{{ lab.id }}" {% if user.is_authenticated and page.publisher_is_draft %}contenteditable="true"{% endif %}>
+            {{ lab.description|safe }}
+        </div>
+        {% if user.is_authenticated and page.publisher_is_draft %}
+            <script>
+                CKEDITOR.inline('lab_content_{{ lab.id }}');
+            </script>
+        {% endif %}
         {% if lab.image %}
             <a href="{{ lab.image.url }}">
                 <img src="{{ lab.image.url }}"/>
