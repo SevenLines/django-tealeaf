@@ -6,13 +6,6 @@
 {# скрипты ckeditor #}
 <div id="instance_{{ instance.pk }}">
     {% if user.is_authenticated and is_draft %}
-        <form method="post" class="upload-file" enctype="multipart/form-data"
-              action="{% url "articles.views.ajax.article.upload_file" %}" hidden="hidden">
-            {#  эта форма для кнопки вставки файла CKEDITOR  #}
-            {% csrf_token %}
-            {{ form }}
-        </form>
-
         <form class="save" action="{% url "articles.views.ajax.article.save" %}" method="post" hidden="hidden">
             {#  эта форма для кнопки сохранения CKEDITOR  #}
             {% csrf_token %}

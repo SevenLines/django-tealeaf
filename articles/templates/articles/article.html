@@ -1,4 +1,4 @@
-{% load static %}
+{% load static file_upload_form_tags %}
 
 <div id="content_{{ instance.pk }}" class="article_content" {% if user.is_authenticated and is_draft %}contenteditable="true"{% endif %}>
     {{ article|safe }}
@@ -8,6 +8,9 @@
     {# активация встроенного редактирования статьи #}
     <script type="text/javascript">
         CKEDITOR.config.customConfig = "{% static "ckeditor/articles_ckeditor_config.js" %}";
-        var editor = new Editor("content_{{ instance.pk }}", "#instance_{{ instance.pk }}");
+        var ckEditor = CKEDITOR.inline("content_{{ instance.pk }}");
+        var editor = new Editor(ckEditor, "#instance_{{ instance.pk }}");
+
+        {% file_upload_form_bind_ckeditor "ckEditor" %}
     </script>
 {% endif %}

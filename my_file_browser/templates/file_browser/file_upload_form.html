@@ -1,0 +1,7 @@
+{% load static %}
+<form id="file-upload-form" action="{% url "my_file_browser.views.ajax.file.upload" %}" method="post" hidden="hidden">
+    {% csrf_token %}
+    <input type="text" name="path" value="{{ path }}"/>
+    <input type="file" name="data"/>
+</form>
+<script src="{% static "my_file_browser/FileUploadForm.js" %}"></script>

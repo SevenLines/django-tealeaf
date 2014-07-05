@@ -1,4 +1,4 @@
-{% load cms_tags %}
+{% load cms_tags file_upload_form_tags %}
 <div class="lab">
     <h2 class="title">{{ lab.title }}</h2>
 
@@ -8,7 +8,8 @@
         </div>
         {% if user.is_authenticated and page.publisher_is_draft %}
             <script>
-                CKEDITOR.inline('lab_content_{{ lab.id }}');
+                var ckeditor = CKEDITOR.inline('lab_content_{{ lab.id }}');
+                {% file_upload_form_bind_ckeditor "ckEditor" %}
             </script>
         {% endif %}
         {% if lab.image %}

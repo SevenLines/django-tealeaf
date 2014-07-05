@@ -1,5 +1,5 @@
 {% extends "base_page.html" %}
-{% load static cms_tags sekizai_tags %}
+{% load static cms_tags sekizai_tags file_upload_form_tags %}
 {% block scripts_top %}
     {% if user.is_authenticated %}
         <script src="{% static "ckeditor/ckeditor.js" %}"></script>
@@ -22,6 +22,15 @@
 {% endblock %}
 
 {% block basecontent %}
+    {% if user.is_authenticated and current_page.publisher_is_draft %}
+        {% file_upload_form current_page.pk %}
+{#        <form method="post" class="upload-file" enctype="multipart/form-data"#}
+{#              action="{% url "articles.views.ajax.article.upload_file" %}" hidden="hidden">#}
+{#            {% csrf_token %}#}
+{#            <input name="data" type="file" />#}
+{#            <input class="form-control" id="page_id" name="pk" type="hidden" value="{{ current_page.pk }}" />#}
+{#        </form>#}
+    {% endif %}
     <div class="lesson">
         <div class="breadcrumbs">{{ current_page.parent.get_page_title }}</div>
         <h1>{% page_attribute "title" %}</h1>

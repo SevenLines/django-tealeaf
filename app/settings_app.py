@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'tealeaf_admin',
     'upgrade',
     'articles',
+    'my_file_browser',
 
 
     'django.contrib.messages',  # to enable messages framework (see :ref:`Enable messages <enable-messages>`)
