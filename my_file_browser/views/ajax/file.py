@@ -12,9 +12,11 @@ def upload(request):
         if request.method == 'POST':
             f = request.FILES['data']
             pth = request.POST['path']
-            path = default_storage.save("file_browser/%s/%s" % (pth, f.name), ContentFile(f.read()))
-            url = default_storage.url(path)
+            path = "file_browser/%s/%s" % (pth, f.name)
+            if not default_storage.exists(path):
+                path = default_storage.save(path, ContentFile(f.read()))
 
+            url = default_storage.url(path)
             # type of file
             link_type = "link"
             try:
