@@ -14,7 +14,7 @@ settings.py
 
 ;;directories to ignore
 .idea/
-$static/
+/static/
 media/
 logs/
 node_modules/
