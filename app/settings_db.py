@@ -1,6 +1,7 @@
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 import sys
+from app.settings import credentials
 
 if 'test' in sys.argv:
     print('using test database')
@@ -13,11 +14,11 @@ if 'test' in sys.argv:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'tealeaf',
-            'PASSWORD': '12345',
-            'USER': 'postgres',
-            'HOST': 'localhost',
-            'PORT': '',
+            'ENGINE': credentials["database"]['ENGINE'],
+            'NAME': credentials["database"]['NAME'],
+            'PASSWORD': credentials["database"]['PASSWORD'],
+            'USER': credentials["database"]['USER'],
+            'HOST': credentials["database"]['HOST'],
+            'PORT': credentials["database"]['PORT'],
         }
     }
