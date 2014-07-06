@@ -1,0 +1,35 @@
+<div class="task-edit-option">
+    <a href="#">
+        <span class="glyphicon glyphicon-edit"></span>
+    </a>
+</div>
+<div class="task-edit">
+    <form action="{% url update_url pk=task.id %}" method="post" style="padding-top: 1em">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="">
+                <div class="form-group">
+                    <input type="text" class="form-control"
+                           id="user"
+                           name="user"
+                           value="{{ task.user }}">
+                </div>
+                <div class="form-group">
+                    <select name="complexity" class="form-control">
+                        {% for c in complex_choices %}
+                            <option {% if c.0 == task.complexity %}selected{% endif %} value="{{ c.0 }}">
+                                {{ c.0 }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit">
+                    <span>Сохранить</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    var labTask = new LabTask({{ task.id }});
+</script>

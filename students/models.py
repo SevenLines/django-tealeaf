@@ -3,8 +3,10 @@
 from datetime import date
 
 from django.db import models, transaction
+from django.db.models.fields.related import ForeignKey
 
 import students.utils
+from students.utils import current_year
 
 
 class Group(models.Model):
@@ -117,9 +119,46 @@ class Mark(models.Model):
         return u"%s %s" % (self.student, self.mark)
 
 
+class Lab(models.Model):
+    title = models.CharField(max_length=200, blank=True, default="")
+    description = models.TextField(blank=True, default="")
+    discipline = ForeignKey(Discipline)
+
+    def __unicode__(self):
+        return self.title
+
+
+class Task(models.Model):
+    UNDEFINED = ""
+    EASY = "easy"
+    MEDIUM = "medium"
+    HARD = "hard"
+    NIGHTMARE = "nightmare"
+
+    COMPLEX_CHOICES = (
+        (UNDEFINED, ""),
+        (EASY, "Easy"),
+        (MEDIUM, "Medium"),
+        (HARD, "Hard"),
+        (NIGHTMARE, "Nightmare"),
+    )
+
+    lab = ForeignKey(Lab)
+    description = models.TextField(blank=True, default="")
+    complexity = models.CharField(max_length=20,
+                                  choices=COMPLEX_CHOICES,
+                                  default=EASY)
+
+    def __unicode__(self):
+        return self.description[:50]
+
+
 def active_years(r=2):
     years = Group.objects.all().values_list('year').distinct()
-    years = list(zip(*years)[0])
+    if len(years) == 0:
+        years = [current_year(), ]
+    else:
+        years = list(zip(*years)[0])
 
     _min = min(years)
     _max = max(years)
@@ -129,3 +168,4 @@ def active_years(r=2):
         years.append(_max + i)
     years.sort()
     return years
+

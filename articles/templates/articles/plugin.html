@@ -1,0 +1,23 @@
+{% load static %}
+
+{#<link rel="stylesheet" href="{% static "css/articles.css" %}"/>#}
+<script src="{% static "js/articles.js" %}"></script>
+
+{# скрипты ckeditor #}
+<div id="instance_{{ instance.pk }}">
+    {% if user.is_authenticated and is_draft %}
+        <form class="save" action="{% url "articles.views.ajax.article.save" %}" method="post" hidden="hidden">
+            {#  эта форма для кнопки сохранения CKEDITOR  #}
+            {% csrf_token %}
+            <input name="plugin" type="hidden" value="{{ instance.pk }}"/>
+        </form>
+
+    {% endif %}
+    {# конец меню для добавления статей #}
+
+    <div class="article">
+        {% include "articles/article.html" %}
+    </div>
+</div>
+{# конец скриптов ckeditor #}
+

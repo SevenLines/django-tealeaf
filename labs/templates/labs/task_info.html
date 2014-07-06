@@ -1,0 +1,13 @@
+{% if task.user %}
+    <span class="user-info">{{ task.user }}</span>
+{% endif %}
+<div id="task_content_{{ task.id }}">
+    {{ task.description|safe }}
+</div>
+
+
+{% if task.image %}
+    <a href="{{ task.image.url }}">
+        <img src="{{ task.image.url }}"/>
+    </a>
+{% endif %}

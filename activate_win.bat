@@ -1,0 +1,1 @@
+..\_ENV\teleaf\Scripts\activate.bat

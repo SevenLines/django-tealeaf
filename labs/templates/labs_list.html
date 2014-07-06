@@ -1,0 +1,29 @@
+{% extends "lesson_article.html" %}
+{% load sekizai_tags static %}
+
+{% block scripts_top %}
+    <script type="text/javascript" src="{% static "js/labs.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor.js" %}"></script>
+    <link rel="stylesheet" href="{% static "css/labs.css" %}"/>
+{% endblock %}
+
+{% block exscripts %}
+    {% addtoblock "js" %}
+        <script type="text/javascript" src="{% static "js/jquery-ui-1.10.4.min.js" %}"></script>
+    {% endaddtoblock %}
+    {% addtoblock "js" %}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                // lab slider toggles
+                $('.lab').find('.description').hide().end().find('.title').click(function () {
+                    $(this).siblings('.description').slideToggle();
+                });
+
+                // lab selected item highlight
+                $('.lab .selected').hover(function () {
+                    $(this).toggleClass('selected', 250);
+                });
+            });
+        </script>
+    {% endaddtoblock %}
+{% endblock %}

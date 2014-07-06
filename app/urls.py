@@ -7,10 +7,13 @@ from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = i18n_patterns('',
-    url(r'^labs/', include('labs.urls', namespace='labs')),
+    url(r'^labs/', include('labs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^students/', include('students.urls')),
+    url(r'^articles/', include('articles.urls')),
+    url(r'^file_browser', include('my_file_browser.urls')),
     url(r'^', include('cms.urls')),
+    # url(r'^filebrowser_filer/', include('ckeditor_filebrowser_filer.urls')),
 )
 
 if settings.DEBUG:

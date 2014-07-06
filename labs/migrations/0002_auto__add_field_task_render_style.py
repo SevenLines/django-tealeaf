@@ -134,7 +134,7 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'to': "orm['filer.Image']", 'null': 'True', 'blank': 'True'}),
-            'lab': ('adminsortable.fields.SortableForeignKey', [], {'to': u"orm['labs.Lab']"}),
+            # 'lab': ('adminsortable.fields.SortableForeignKey', [], {'to': u"orm['labs.Lab']"}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1', 'db_index': 'True'}),
             'render_style': ('django.db.models.fields.CharField', [], {'default': "'labs/lab.html'", 'max_length': '50'}),
             'selected': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),

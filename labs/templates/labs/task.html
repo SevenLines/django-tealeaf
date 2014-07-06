@@ -1,99 +1,45 @@
-{% load email_obfuscator static %}
-<li id="task{{ task.id }}" class="{% if task.user %}selected {% endif %}{{ task.complexity }}">
+{% load static %}
+<li id="task{{ task.id }}"
+    class="{% if task.user %}{% if not user.is_authenticated %}selected {% endif %} {% endif %}{{ task.complexity }}">
     <div class="info">
-        {#        {% if user.is_authenticated %}#}
-        {% if task.user %}
-            <span class="user-info">{{ task.user|obfuscate }}</span>
-        {% endif %}
-        {#        {% endif %}#}
-        {{ task.description|safe }}
-        {% if task.image %}
-            <a href="{{ task.image.url }}">
-                <img src="{{ task.image.url }}"/>
-            </a>
-        {% endif %}
+        {% include "labs/task_info.html" %}
     </div>
-    {% if page.publisher_is_draft %}
-        <!-- script for task edit -->
-        <script type="text/javascript">
-            $(document).mouseup(function (e) {
-                var task = $("#task-edit-{{ task.id }}");
-                var edit = $("#task-edit-option-{{ task.id }}");
+    {% if user.is_authenticated and page.publisher_is_draft %}
 
-                if (!task.is(e.target) // if the target of the click isn't the container...
-                        && task.has(e.target).length === 0 // ... nor a descendant of the container
-                        && !edit.is(e.target)
-                        && edit.has(e.target).length === 0) {
-                    task.slideUp("fast");
-                }
-            });
-            function update{{ task.id }}() {
-                $("#loading{{ task.id }}").show();
-                $("#btn{{ task.id }}").hide();
-                $.ajax({
-                    type: "POST",
-                    url: "{% url 'labs:update_task' task.id %}",
-                    data: $("#taskForm{{ task.id }}").serialize(),
-                    success: function (data) {
-                        $("#task{{ task.id }}").replaceWith($(data));
-                        $("#loading{{ task.id }}").hide()
-                        $("#btn{{ task.id }}").show();
-                    }
-                });
-                return false;
-            }
-            function showTaskEdit{{ task.id }}() {
-                $("#task-edit-{{ task.id }}").slideToggle("fast");
-            }
-        </script>
-        <div class="task-edit-option" id="task-edit-option-{{ task.id }}">
-            <div class="glyphicon glyphicon-edit" onclick="showTaskEdit{{ task.id }}()"></div>
-        </div>
-        <style>
-            #loading{{ task.id }} {
-                display: none;
-                text-align: center;
-            }
-
-            #loading{{ task.id }} img {
-                width: auto;
-                border: none;
-                border-radius: 0;
-            }
-        </style>
-        <div class="task-edit" id="task-edit-{{ task.id }}">
-            <form name="taskForm{{ task.id }}" id="taskForm{{ task.id }}" class="" role="form" style="padding-top: 1em">
+        <div class="edit">
+            <div class="form-inline pull-left">
+                <div class="form-group">
+                    <button class="turn-edit-on-btn form-control btn btn-default btn-sm">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+            </div>
+            <form name="save" class="form-inline save" action="{% url "labs.views.update_task" pk=task.id %}"
+                  method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <div class="">
-                        <div class="form-group">
-                            <input type="text" class="form-control"
-                                   id="user"
-                                   name="user"
-                                   value="{{ task.user }}">
-                        </div>
-                        <div class="form-group">
-                            <select name="complexity" class="form-control">
-                                {% for c in complex_choices %}
-                                    <option {% if c.0 == task.complexity %}selected{% endif %} value="{{ c.0 }}">
-                                        {{ c.0 }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div id="loading{{ task.id }}">
-                            <img src="{% static "img/loader.gif" %}"/>
-                        </div>
-                        <div id="btn{{ task.id }}">
-                            <button type="button" class="btn btn-info"
-                                    onclick="update{{ task.id }}()">Сохранить
-                            </button>
-                        </div>
-                    </div>
+                    <input class="form-control small" type="text" name="user" value="{{ task.user }}"
+                           placeholder="фамилия...">
+                </div>
+                <div class="form-group">
+                    <select name="complexity" class="form-control small" autocomplete="off">
+                        {% for c in complex_choices %}
+                            <option {% if c.0 == task.complexity %}selected{% endif %} value="{{ c.0 }}">
+                                {{ c.0 }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="form-control btn-default btn btn-sm">
+                        <i class="glyphicon glyphicon-save"></i>
+                    </button>
                 </div>
             </form>
+            <script>
+                var editor = new TaskEditor('task{{ task.id }}', 'task_content_{{ task.id }}');
+            </script>
         </div>
-        <!-- end of script for task edit -->
     {% endif %}
     <div style="clear: both"></div>
 </li>

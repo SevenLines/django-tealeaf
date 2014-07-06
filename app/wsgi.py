@@ -10,8 +10,13 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 import os
 import sys
 
+
 #acitvate virtualenv
-activate_this = os.path.join(os.path.dirname(__file__), '../../env/bin/activate_this.py')
+if sys.platform in ['linux2', 'linux']:
+    activate_this = os.path.join(os.path.dirname(__file__), "../../env/bin/activate_this.py")
+elif sys.platform == 'win32':
+    activate_this = os.path.join(os.path.dirname(__file__), "..\\..\\_ENV\\bin\\activate_this.py")
+
 execfile(activate_this, dict(__file__=activate_this))
 
 # current dir

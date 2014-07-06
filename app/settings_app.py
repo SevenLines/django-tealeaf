@@ -13,8 +13,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'cmsplugin_cascade',
+    # profiling tools
+    # 'debug_toolbar',
+    # 'profiler', # django-live-profiler
+    # end profiling tools
+    'cmsplugin_cascade', # bootstrap inline plugin
     'djangocms_text_ckeditor',
     'cms',  # django CMS itself
     'mptt',  # utilities for implementing a modified pre-order traversal tree
@@ -25,23 +28,24 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'cmsplugin_filer_file',
     'cmsplugin_filer_image',
+    # 'ckeditor_filebrowser_filer', # plugin for upload images in ckeditor
 
     'plugin_markdown',
     'menuicon',
-    'adminsortable',
     'labs',
     'toc',
     'email_obfuscator',
     'wrapper',
+    'django_ace',
     'djangocms_file',
     'djangocms_flash',
     'custom_css',
-    'django_ace',
-    'compressor',
     'students',
     'tealeaf_admin',
     'upgrade',
-    # 'debug_toolbar'
+    'articles',
+    'my_file_browser',
+
 
     'django.contrib.messages',  # to enable messages framework (see :ref:`Enable messages <enable-messages>`)
 )

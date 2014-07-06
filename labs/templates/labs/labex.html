@@ -1,14 +1,33 @@
-{% load cms_tags %}
-<div class="lab">
+{% load cms_tags file_upload_form_tags %}
+<div id="lab_{{ lab.id }}" class="lab">
     <h2 class="title">{{ lab.title }}</h2>
 
     <div class="description">
-        {{ lab.description|safe }}
+        <div id="lab_content_{{ lab.id }}"
+             {% if user.is_authenticated and page.publisher_is_draft %}contenteditable="true"{% endif %}>
+            {{ lab.description|safe }}
+        </div>
+
         {% if lab.image %}
             <a href="{{ lab.image.url }}">
                 <img src="{{ lab.image.url }}"/>
             </a>
             <hr>
+        {% endif %}
+
+        {% if user.is_authenticated and page.publisher_is_draft %}
+            <form name="save" class="lab-save form-inline pull-right" action="{% url "labs.views.update_lab" lab.pk %}"
+                  method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <button type="submit" class="form-control btn btn-default btn-sm">
+                        <i class="glyphicon glyphicon-save"></i>
+                    </button>
+                </div>
+            </form>
+            <script>
+                var editor = new LabEditor('lab_{{ lab.id }}', 'lab_content_{{ lab.id }}')
+            </script>
         {% endif %}
         <div style="clear: both"></div>
         <ol class="tasks">
@@ -16,6 +35,7 @@
                 {% render_plugin task %}
             {% endfor %}
         </ol>
+
     </div>
 </div>
 <div style="clear: both"></div>

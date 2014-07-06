@@ -6,18 +6,12 @@ cookie_discp_id = () ->
 cookie_year = () ->
     $.cookie('year')
 
-
+Logger.useDefaults()
 
 class StudentsTable
-    @need_to_be_reloaded = null
-    @selector_table = "#group-students .content"
-    @selector_form_add = "#{@selector_table} form.add"
-    @selector_form_remove = "#{@selector_table} form.remove"
-    @selector_form_update = "#{@selector_table} form.update"
+    pstfx_old = "_old"
 
-    @pstfx_old = "_old"
-
-    @ACTIONS =
+    ACTIONS =
         Update: 1
         Add:    2
         Remove: 3
@@ -25,54 +19,82 @@ class StudentsTable
     @last_action = 0
     @last_student_id = -1
 
-    @check_changed = (form) ->
+    constructor: ->
+        @id = ""
+        @need_to_be_reloaded = null
+        @selector_table = "#{@id} .group-students .content"
+        @selector_form_add = "#{@selector_table} form.add"
+        @selector_form_remove = "#{@selector_table} form.remove"
+        @selector_form_update = "#{@selector_table} form.update"
+        @modal_form = "#{@id} .modal_remove"
+        @add_student_family_input = "#{@id} .add_student_family_input"
+
+
+    set_id: (id) =>
+        @id = id
+        @selector_table = "#{@id} .group-students .content"
+        @selector_form_add = "#{@selector_table} form.add"
+        @selector_form_remove = "#{@selector_table} form.remove"
+        @selector_form_update = "#{@selector_table} form.update"
+        @modal_form = "#{@id} .modal_remove"
+        @add_student_family_input = "#{@id} .add_student_family_input"
+
+    check_changed = (form) =>
         for i in $(form).find("input[type=text]")
-            name = "#{i.name}#{StudentsTable.pstfx_old}"
+            name = "#{i.name}#{pstfx_old}"
             siblings = $(i).siblings("input[name=#{name}]")
             if siblings.size() > 0
                 if i.value != siblings[0].value
                     return true
         return false
 
-    @select_last_student_form_update = () ->
+    select_last_student_form_update = (selector_form_update) =>
         selector = "input[name=student_id][value=#{StudentsTable.last_student_id}]"
-        console.log(selector)
-        student_id = $(@selector_form_update).find(selector)
+        console.log("Gonna restore: #{selector}")
+        console.log(selector_form_update)
+        student_id = $(selector_form_update).find(selector)
         if student_id.size()
             input_second_name = student_id.siblings("input[name=second_name]")
             if input_second_name.size() > 0
                 input_second_name[0].focus()
 
-    @send_changed_students = () ->
+    send_changed_students = (selector_form_update, need_to_be_reloaded) =>
         requests = []
-        for f in $(StudentsTable.selector_form_update)
-            if StudentsTable.check_changed(f)
+        console.log(selector_form_update)
+
+        for f in $(selector_form_update)
+            if check_changed(f)
                 request = $.post(f.action, $(f).serialize())
                 console.log(request)
                 requests.push request
 
         $.when(requests).then ->
-            StudentsTable.last_action = StudentsTable.ACTIONS.Update
-            if StudentsTable.need_to_be_reloaded
-                StudentsTable.need_to_be_reloaded()
+            StudentsTable.last_action = ACTIONS.Update
+            if need_to_be_reloaded
+                need_to_be_reloaded()
             return
         return
 
-    @bind: ->
+    bind: =>
         console.log("Student: start binding")
+
+        need_to_be_reloaded = @need_to_be_reloaded
+        modal_form = @modal_form
+        selector_form_update = @selector_form_update
+
         # формы для добавления студента
         $(@selector_form_add).ajaxForm
             success: (response, status, xhr, $form) ->
                 console.log('added')
                 StudentsTable.last_student_id = -1
-                StudentsTable.last_action = StudentsTable.ACTIONS.Add
-                if StudentsTable.need_to_be_reloaded != null
-                    StudentsTable.need_to_be_reloaded()
+                StudentsTable.last_action = ACTIONS.Add
+                if need_to_be_reloaded != null
+                    need_to_be_reloaded()
                 return
 
         # формы для удаления студента
         $(@selector_form_remove).submit ->
-            modal = $("#modal_remove").modal("show")
+            modal = $("#{modal_form}").modal("show")
 
             try
                 tr = $(this).parents("tr")[0]
@@ -94,21 +116,21 @@ class StudentsTable
                     success: (response, status, xhr, $form) ->
                         console.info("removed")
                         StudentsTable.last_student_id = -1
-                        StudentsTable.last_action = StudentsTable.ACTIONS.Remove
-                        if StudentsTable.need_to_be_reloaded != null
-                            StudentsTable.need_to_be_reloaded()
+                        StudentsTable.last_action = ACTIONS.Remove
+                        if need_to_be_reloaded != null
+                            need_to_be_reloaded()
                         return
             return false
 
         $(@selector_form_update).submit ->
             console.log('form updated')
             StudentsTable.last_student_id = $(this).find('input[name=student_id]')[0].value or -1
-            StudentsTable.send_changed_students()
+            send_changed_students(selector_form_update, need_to_be_reloaded)
             return false
 
         # отслеживание изменения имени студента
         $("#{@selector_form_update} input[type=text]").on('input', () ->
-            name = "#{this.name}#{StudentsTable.pstfx_old}"
+            name = "#{this.name}#{pstfx_old}"
             old_value = $(this).siblings("input[name=#{name}]")[0].value
             $(this).parents('.form-group').toggleClass("has-success", old_value != this.value)
             $(this).siblings('span.glyphicon.form-control-feedback').toggleClass("hidden", old_value == this.value)
@@ -117,41 +139,62 @@ class StudentsTable
         this
 
 
-    @restore_last_state: ->
+    restore_last_state: =>
         console.log("Students: restoring")
-        if StudentsTable.last_action == StudentsTable.ACTIONS.Add
-            $("#add_student_family_input").focus()
-        if StudentsTable.last_action == StudentsTable.ACTIONS.Update
-            StudentsTable.select_last_student_form_update()
+        if StudentsTable.last_action == ACTIONS.Add
+            $("#{@add_student_family_input}").focus()
+        if StudentsTable.last_action == ACTIONS.Update
+            select_last_student_form_update(@selector_form_update)
         this
 
 
 class GroupNav
-    # функция событие вызывается когда навигационная панель долдна быть перезагружена
-    @need_to_be_reloaded = null
-    @active_btn_style = 'btn-primary'
+    log = Logger.get("GroupNav")
 
-    @selector_nav = "#groups-nav"
+    constructor: () ->
+        @id = ""
+        @need_to_be_reloaded = ""
+        @active_btn_style = "btn-primary"
+        @selector_nav = ""
+        @selector_submit_link = ""
+        @selector_submit_link_forms = ""
+        @selector_form_remove = ""
+        @selector_form_add = ""
+        @modal_form = ""
+        @selector_students_table_content = ""
+        @students_table = new StudentsTable()
+        @students_table.need_to_be_reloaded = @restore_last_state
+        @set_id("")
 
-    @selector_submit_link = "#{@selector_nav} .submit-link"
-    @selector_submit_link_forms = "#{@selector_submit_link} form.item"
+    set_id: (_id) =>
+        @id = _id
+        @students_table.set_id(@id)
+        @log = Logger.get("GroupNav-#{@id}")
 
-    @selector_form_remove = "#{@selector_nav} form.remove"
-    @selector_form_update = "#{@selector_nav} form.update"
-    @selector_form_add = "#{@selector_nav} form.add"
+        @selector_nav = "#{@id} .groups-nav"
 
-    @selector_students_table_content = StudentsTable.selector_table
+        @selector_submit_link = "#{@selector_nav} .submit-link"
+        @selector_submit_link_forms = "#{@selector_submit_link} form.item"
+
+        @selector_form_remove = "#{@selector_nav} form.remove"
+        @selector_form_update = "#{@selector_nav} form.update"
+        @selector_form_add = "#{@selector_nav} form.add"
+        @modal_form = "#{@id} .modal_remove"
+        @selector_students_table_content = @students_table.selector_table
+
+#        selector_students_table_content = students_table.selector_table
 
     # очищает стиль выделенных объектов
-    @clear_items: ->
-        $(GroupNav.selector_submit_link).toggleClass(GroupNav.active_btn_style, false)
+    clear_items: ->
+        $(@selector_submit_link).toggleClass(@active_btn_style, false)
         return
 
-    @bind: ->
-        console.log("Group: beind begin")
+    bind: ->
+        log.debug("Group: bind begin")
+        group_nav = this
         # формы для удаления групп
         $(@selector_form_remove).submit ->
-            modal = $("#modal_remove").modal("show")
+            modal = $("#{group_nav.modal_form}").modal("show")
 
             group_name = $($(this).parents("li")[1]).find('a').text()
             modal.find('.modal-body').html("Удалить группу?<h2>#{group_name}</h2>")
@@ -162,49 +205,57 @@ class GroupNav
                 $(form).ajaxSubmit
                     success: (response, status, xhr, $form) ->
                         console.log('removed')
-                        if GroupNav.need_to_be_reloaded
-                            GroupNav.need_to_be_reloaded()
+                        if need_to_be_reloaded
+                            need_to_be_reloaded()
                         return
 
             return false
-
 
         # формы для обновления групп
         $(@selector_form_update).ajaxForm
             success: (response, status, xhr, $form) ->
                 console.log('updated')
-                if GroupNav.need_to_be_reloaded
-                    GroupNav.need_to_be_reloaded()
+                if need_to_be_reloaded
+                    need_to_be_reloaded()
                 return
 
+        need_to_be_reloaded = @need_to_be_reloaded
         # формы для добавления групп
         $(@selector_form_add).ajaxForm
             success: (response, status, xhr, $form) ->
                 console.log('added')
-                if GroupNav.need_to_be_reloaded
-                    GroupNav.need_to_be_reloaded()
+                if need_to_be_reloaded
+                    need_to_be_reloaded()
                 return
+
+        active_btn_style = @active_btn_style
+        selector_students_table_content = @selector_students_table_content
+        students_table = @students_table
+        selector_submit_link = @selector_submit_link
 
         # формы выбора группы
         $(@selector_submit_link).click ->
-            console.log("clicked")
-            GroupNav.clear_items()
-            $(this).toggleClass(GroupNav.active_btn_style, true)
+            log.debug("clicked")
+            $(selector_submit_link).toggleClass(active_btn_style, false)
+            $(this).toggleClass(active_btn_style, true)
+            log.debug(selector_students_table_content)
             $(this).find('form').ajaxSubmit
-                target: GroupNav.selector_students_table_content
+                target: selector_students_table_content
                 success: (response, status, xhr, $form) ->
-                    console.log('Group - submit: @selector_submit_link_forms: success')
-                    StudentsTable.bind().restore_last_state()
+                    log.debug('selector_submit_link_forms: success')
+                    students_table.bind().restore_last_state()
                     return
             return false
 
-        console.log("Group: beind end")
+        log.debug("Group: bind end")
         this
 
-    @restore_last_state: ->
-        console.log("Group: restoring")
+    restore_last_state: =>
+        log.debug("restore last state")
         if cookie_group_id()
-            siblings =  $(GroupNav.selector_submit_link_forms)
+            log.debug("immitate clicking")
+            log.debug(@selector_submit_link_forms)
+            siblings =  $(@selector_submit_link_forms)
                 .find("input[name='group_id'][value='#{cookie_group_id()}']")
                 .siblings('[type=submit]')
             if siblings.size() > 0
@@ -214,39 +265,76 @@ class GroupNav
 
 
 class YearNav
-    @selector_form = "form#year_selector"
-    @selector_select = "#{@selector_form} select"
-    @selector_group_nav_content = "#groups-content"
+    log = Logger.get("YearNav")
 
-    @bind: ->
-        console.log("YearNav:bind begin")
+
+    constructor: ->
+        @group_nav = new GroupNav()
+
+        @id = ""
+        @selector_form = "#{@id} form.year_selector"
+        @selector_select = "#{@selector_form} select"
+        @selector_group_nav_content = "#{@id} .groups-content"
+        @group_nav.need_to_be_reloaded = @restore_last_state
+        @set_id("")
+
+
+    set_id: (_id) =>
+        @id = _id
+        @selector_form = "#{@id} form.year_selector"
+        @selector_select = "#{@selector_form} select"
+        @selector_group_nav_content = "#{@id} .groups-content"
+        @group_nav.set_id(@id)
+
+        log = Logger.get("YearNav-#{@id}")
+
+    bind: =>
+        log.debug("bind begin")
+        selector_group_nav_content = @selector_group_nav_content
+        selector_form = @selector_form
+        group_nav = @group_nav
+
         $(@selector_form).ajaxForm
-            target: @selector_group_nav_content
+            target: selector_group_nav_content
             success: (response, status, xhr, $form) ->
-                GroupNav.bind().restore_last_state()
+                log.debug("get succesfull responce to #{selector_group_nav_content}")
+                log.debug($(selector_group_nav_content).size())
+                group_nav.bind().restore_last_state()
                 return
 
         $(@selector_select).on('change', () ->
-            $(YearNav.selector_form).submit()
+            $(selector_form).submit()
             return
         )
-        console.log("YearNav:bind end")
+        log.debug("bind end")
         this
 
-    @year: ->
+    year: =>
         $(@selector_select).val()
 
-    @restore_last_state: ->
-        $(YearNav.selector_select).val(cookie_year())
-        $(YearNav.selector_form).submit()
+    restore_last_state: =>
+        log.debug("restore last state")
+        $(@selector_select).val(cookie_year())
+        log.debug("submit")
+        $(@selector_form).submit()
         this
 
 class StudentsControl
-    constructor: ->
-        StudentsTable.need_to_be_reloaded = GroupNav.restore_last_state
-        GroupNav.need_to_be_reloaded = YearNav.restore_last_state
+    log = Logger.get("StudentsControl")
+    id = ""
 
-        YearNav.bind().restore_last_state()
+    constructor: (id) ->
+        @year_nav = new YearNav()
+        @id = "##{id}"
+
+        log.debug("set id #{@id}")
+        @year_nav.set_id(@id)
+
+        log.debug("bind and restore")
+        @year_nav.bind().restore_last_state()
         this
 
 window.StudentsControl = StudentsControl
+window.YearNav = YearNav
+window.StudentsTable = StudentsTable
+window.GroupNav = GroupNav
