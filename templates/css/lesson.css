@@ -1,0 +1,152 @@
+/* lesson */
+.lesson {
+  font-size: 1em;
+  font-family: Verdana, Arial;
+  /*margin-top: 8px;*/ }
+  .lesson h1 {
+    margin: 0px;
+    font-weight: normal;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #036; }
+  .lesson h2 {
+    margin: 0px 0px 0.25em;
+    padding: 0px;
+    font-weight: normal;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #036;
+    font-size: 1.8em; }
+  .lesson .breadcrumbs {
+    padding-left: 3px;
+    font-size: 1em;
+    color: #036;
+    font-family: Georgia, 'Times New Roman', Times, serif; }
+  .lesson hr {
+    border: 1px inset;
+    margin: 0.5em 0;
+    color: #036; }
+  .lesson a {
+    text-decoration: underline; }
+  .lesson img {
+    display: block;
+    background-color: white;
+    border: 1px solid #808080;
+    padding: 0.5em;
+    max-height: 450px; }
+  .lesson a:last-child img {
+    margin-bottom: 0; }
+  .lesson p {
+    margin-bottom: 4px; }
+
+/* labs */
+.tasks {
+  padding-left: 2em; }
+  .tasks li, .tasks .item {
+    margin: 0.5em 0;
+    padding: 0.5em;
+    border-radius: 10px;
+    background: #EEEEEE;
+    border: silver 1px solid;
+    position: relative; }
+  .tasks .user-info {
+    display: inline-block;
+    padding: 0.5em 1em;
+    float: right;
+    border-radius: 8px;
+    background-color: white;
+    border: silver 2px solid;
+    box-shadow: 0 0 4px white;
+    min-width: 9em;
+    text-align: center;
+    margin-right: 0.25em;
+    margin-left: 0.25em; }
+
+.lab .easy {
+  background-color: #d1ff99;
+  box-shadow: 0 0 1px #baff66; }
+  .lab .easy.selected {
+    border-color: #baff66; }
+  .lab .easy .user-info {
+    border-color: #baff66; }
+.lab .medium {
+  background-color: #ffff99;
+  box-shadow: 0 0 1px #ffff66; }
+  .lab .medium.selected {
+    border-color: #ffff66; }
+  .lab .medium .user-info {
+    border-color: #ffff66; }
+.lab .hard {
+  background-color: #ffca99;
+  box-shadow: 0 0 1px #ffad66; }
+  .lab .hard.selected {
+    border-color: #ffad66; }
+  .lab .hard .user-info {
+    border-color: #ffad66; }
+.lab .nightmare {
+  background-color: #ffbdb3;
+  box-shadow: 0 0 1px #ffa599; }
+  .lab .nightmare.selected {
+    border-color: #ffa599; }
+  .lab .nightmare .user-info {
+    border-color: #ffa599; }
+.lab .selected {
+  background-color: #dddddd; }
+  .lab .selected code {
+    color: gray; }
+.lab code {
+  color: black; }
+.lab img {
+  margin: 0.5em 0;
+  border-radius: 0;
+  box-shadow: none;
+  border: none; }
+.lab li img {
+  margin: 0.5em 0 0 0;
+  border: none; }
+.lab h2 {
+  color: #003366;
+  cursor: pointer;
+  border-bottom: dashed 1px;
+  display: inline-block;
+  margin: 0 0 0.3em;
+  padding: 0; }
+.lab h2:hover {
+  color: black; }
+.lab .gallery {
+  float: left; }
+  .lab .gallery img {
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0; }
+  .lab .gallery .item {
+    position: relative;
+    padding: 6px;
+    margin: 8px 8px 8px 0;
+    float: left;
+    width: 116px; }
+    .lab .gallery .item .task_number {
+      text-align: center;
+      font-weight: bold; }
+    .lab .gallery .item img {
+      border: 1px solid gray;
+      border-radius: 8px 8px 0 0;
+      padding: 0;
+      margin: 0 auto;
+      width: 100px;
+      display: block; }
+  .lab .gallery .caption {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: 0.8em;
+    width: 100px;
+    padding: 0.25em 0.25em;
+    border-radius: 0 0 8px 8px;
+    background-color: white;
+    border: silver 1px solid;
+    border-top: none;
+    box-shadow: 0 0 4px white;
+    display: block;
+    margin: 0 auto; }
+
+/* end labs */

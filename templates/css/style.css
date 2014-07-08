@@ -1,0 +1,142 @@
+body {
+  background: gray url("images/use_your_illusion.png");
+  background-color: #666;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  padding: 0;
+  margin: 0; }
+
+.yandex {
+  display: none; }
+
+.left_panel {
+  width: 64px;
+  background-color: black;
+  float: left; }
+
+.body {
+  background-color: white;
+  padding-left: 20px;
+  border-left: 64px solid #e1e1e1;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 100px;
+  min-height: 400px;
+  border-radius: 0 0 32px 32px; }
+  .body img {
+    height: auto;
+    max-width: 100%; }
+
+.main-banner {
+  margin-top: 0.5em;
+  text-align: center; }
+  .main-banner h1 {
+    margin: 0.25em; }
+  .main-banner img {
+    border: 2px solid #000000;
+    max-height: 600px; }
+
+/* end navbar */
+.prettyprint {
+  font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; }
+
+#toc.list-group ul {
+  margin-left: 0;
+  padding-left: 0; }
+
+#toc.list-group ul a {
+  text-decoration: none; }
+
+#toc .list-group-item {
+  padding-top: 8px;
+  padding-bottom: 8px; }
+
+/* bs callout */
+.bs-callout {
+  margin: 8px 0;
+  padding: 8px;
+  border-left: 6px solid #eee; }
+  .bs-callout p:last-child {
+    margin-bottom: 0; }
+  .bs-callout code {
+    background-color: #fff;
+    border-radius: 3px; }
+  .bs-callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px; }
+
+.bs-callout-danger {
+  background-color: #fdf7f7;
+  border-color: #d9534f; }
+  .bs-callout-danger h4 {
+    color: #d9534f; }
+
+.bs-callout-warning {
+  background-color: #fcf8f2;
+  border-color: #f0ad4e; }
+  .bs-callout-warning h4 {
+    color: #f0ad4e; }
+
+.bs-callout-info {
+  background-color: #f4f8fa;
+  border-color: #5bc0de; }
+  .bs-callout-info h4 {
+    color: #5bc0de; }
+
+/* back-to-top */
+#back-to-top {
+  position: fixed;
+  left: -100px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0 8px 8px 0;
+  cursor: pointer; }
+
+/* icons */
+a[href$='.pdf'] {
+  background: transparent url(../css/images/icons/pdf.png) center left no-repeat;
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 20px; }
+a[href$='.djvu'] {
+  background: transparent url(../css/images/icons/djvu.gif) center left no-repeat;
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 20px; }
+a[href$='.doc'], a[href$='.docx'] {
+  background: transparent url(../css/images/icons/doc.png) center left no-repeat;
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 20px; }
+
+/* Style for immitating console in DIV block*/
+.console {
+  font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
+  color: #CCCCCC;
+  background: #000000;
+  border: 3px double #CCCCCC;
+  padding: 5px;
+  margin: 1em 0;
+  line-height: 1.3em; }
+
+/*Style for immitating console in SPAN block*/
+.consoleIn {
+  font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
+  color: #CCCCCC;
+  background: #000000;
+  padding: 2px; }
+
+/*Style for immitating paper leaf */
+.text {
+  font-family: Times New Roman;
+  font-size: 16px;
+  background-color: #FFFFF8;
+  color: #000;
+  border: 3px double #CCC;
+  padding: 1em;
+  margin: 1em 0px;
+  line-height: 1.3em; }
