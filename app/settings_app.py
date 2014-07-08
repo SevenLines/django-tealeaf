@@ -2,10 +2,6 @@
 # Application definition
 
 INSTALLED_APPS = (
-    # 'django_admin_bootstrapped.bootstrap3',
-    # 'django_admin_bootstrapped',
-
-    'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list before 'django.contrib.admin'.
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -13,10 +9,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # profiling tools
-    # 'debug_toolbar',
-    # 'profiler', # django-live-profiler
-    # end profiling tools
     'cmsplugin_cascade', # bootstrap inline plugin
     'djangocms_text_ckeditor',
     'cms',  # django CMS itself
@@ -28,7 +20,6 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'cmsplugin_filer_file',
     'cmsplugin_filer_image',
-    # 'ckeditor_filebrowser_filer', # plugin for upload images in ckeditor
 
     'plugin_markdown',
     'menuicon',
@@ -45,7 +36,4 @@ INSTALLED_APPS = (
     'upgrade',
     'articles',
     'my_file_browser',
-
-
-    'django.contrib.messages',  # to enable messages framework (see :ref:`Enable messages <enable-messages>`)
 )
