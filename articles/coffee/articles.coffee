@@ -11,7 +11,7 @@ class Editor
                     form = $(id_controller).find("form.save")[0]
 
                     if form == null
-                        return false
+                        rturn false
 
                     html = ev.editor.getData();
                     data = $(form).serializeArray();

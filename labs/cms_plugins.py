@@ -14,7 +14,7 @@ class TaskExPlugin(CMSPluginBase):
     module = "Лабораторные"
     render_template = 'labs/task.html'
     text_enabled = True
-    cache = False
+    # cache = False
     allow_children = False
     require_parent = True
     parent_classes = ['LabsExPlugin']
@@ -42,7 +42,7 @@ class LabsExPlugin(CMSPluginBase):
     render_template = 'labs/labex.html'
     allow_children = True
     text_enabled = True
-    cache = False
+    # cache = False
     child_classes = ['TaskExPlugin']
 
     def render(self, context, instance, placeholder):

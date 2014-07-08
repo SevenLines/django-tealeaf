@@ -2,21 +2,16 @@
 {% load static cms_tags sekizai_tags menu_tags %}
 
 
-{% block styles %}
+
+{% block basecontent %}
     {% addtoblock "css" %}
         <link rel="stylesheet" href="{% static "css/lesson.css" %}"/>
     {% endaddtoblock %}
-{% endblock %}
-
-{% block basecontent %}
     <div class="lesson">
-{#        {{ children[0].title }}#}
         <h1>{% page_attribute "title" %}</h1>
         <hr>
         <ul class="list-group">
-        {% show_sub_menu 1 1 1 "elements/menu_articles_list.html" %}
+            {% show_sub_menu 1 1 1 "elements/menu_articles_list.html" %}
         </ul>
-
-{#        {% placeholder "content" %}#}
     </div>
 {% endblock %}

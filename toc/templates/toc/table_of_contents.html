@@ -1,8 +1,7 @@
-{% load cms_tags sekizai_tags %}
+{% load static cms_tags sekizai_tags %}
 {% addtoblock "js" %}
-    <script src="{{ STATIC_URL }}js/jquery-1.11.0.min.js"></script> {% endaddtoblock %}
-{% addtoblock "js" %}
-    <script src="{{ STATIC_URL }}toc/js/jquery.toc.min.js"></script> {% endaddtoblock %}
+    <script type="text/javascript" src="{% static "toc/js/jquery.toc.min.js" %}"></script>
+{% endaddtoblock %}
 {% addtoblock "js" %}
     <script type="text/javascript">
         $('#toc').toc({

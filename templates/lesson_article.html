@@ -1,64 +1,54 @@
 {% extends "base_page.html" %}
 {% load static cms_tags sekizai_tags file_upload_form_tags %}
-{% block scripts_top %}
-    {% if user.is_authenticated %}
-        <script src="{% static "ckeditor/ckeditor.js" %}"></script>
-    {% endif %}
-{% endblock %}
-
-{% block styles %}
-    {% if user.is_authenticated and is_draft %}
-{#        {% addtoblock "css" %}#}
-{#            <link rel="stylesheet" href="{% static "ckeditor/ckeditor.css" %}"/>#}
-{#        {% endaddtoblock %}#}
-    {% endif %}
-
-    {% addtoblock "css" %}
-        <link rel="stylesheet" type="text/css" href="{% static "google-code-prettify/prettify-bootstrap.css" %}">
-    {% endaddtoblock %}
-    {% addtoblock "css" %}
-        <link rel="stylesheet" href="{% static "css/lesson.css" %}"/>
-    {% endaddtoblock %}
-{% endblock %}
 
 {% block basecontent %}
+
     {% if user.is_authenticated and current_page.publisher_is_draft %}
         {% file_upload_form current_page.pk %}
-{#        <form method="post" class="upload-file" enctype="multipart/form-data"#}
-{#              action="{% url "articles.views.ajax.article.upload_file" %}" hidden="hidden">#}
-{#            {% csrf_token %}#}
-{#            <input name="data" type="file" />#}
-{#            <input class="form-control" id="page_id" name="pk" type="hidden" value="{{ current_page.pk }}" />#}
-{#        </form>#}
     {% endif %}
+
     <div class="lesson">
         <div class="breadcrumbs">{{ current_page.parent.get_page_title }}</div>
         <h1>{% page_attribute "title" %}</h1>
         <hr>
         {% placeholder "content" %}
     </div>
-{% endblock %}
 
-{% block scripts %}
+    {% block lesson_content %}
+    {% endblock %}
 
-    {#    {% addtoblock "js" %}#}
-    {#        <script type="text/javascript" src={% static "js/jquery-2.1.0.min.js" %}></script>#}
-    {#    {% endaddtoblock %}#}
+    {#  TOP SCRIPTS #}
+    {% addtoblock "top_js" %}
+        {% if user.is_authenticated and current_page.publisher_is_draft %}
+            <script src="{% static "ckeditor/ckeditor.js" %}"></script>
+        {% endif %}
+    {% endaddtoblock %}
+    {#  TOP SCRIPTS  END #}
+
+    {# SCRIPTS #}
     {% addtoblock "js" %}
         <script src="{% static "google-code-prettify/prettify.js" %}"></script>
     {% endaddtoblock %}
+
     {% addtoblock "js" %}
         <script type="text/javascript">
             !function ($) {
                 $(function () {
-                    var $window = $(window)
                     window.prettyPrint && prettyPrint()
                 })
             }(window.jQuery)
         </script>
     {% endaddtoblock %}
+    {# SCRIPTS END #}
 
-    {% block exscripts %}
-    {% endblock %}
+    {#  STYLES  #}
+    {% addtoblock "css" %}
+        <link rel="stylesheet" type="text/css" href="{% static "google-code-prettify/prettify-bootstrap.css" %}">
+    {% endaddtoblock %}
+    {% addtoblock "css" %}
+        <link rel="stylesheet" href="{% static "css/lesson.css" %}"/>
+    {% endaddtoblock %}
+    {#  STYLES END #}
+
 
 {% endblock %}

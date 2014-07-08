@@ -1,19 +1,25 @@
 {% extends "lesson_article.html" %}
 {% load sekizai_tags static %}
 
-{% block scripts_top %}
-    <script type="text/javascript" src="{% static "js/labs.js" %}"></script>
-    <script type="text/javascript" src="{% static "ckeditor/ckeditor.js" %}"></script>
-    <link rel="stylesheet" href="{% static "css/labs.css" %}"/>
-{% endblock %}
 
-{% block exscripts %}
+{% block lesson_content %}
+
+    {# STYLES #}
+    {% addtoblock "css" %}
+        <link rel="stylesheet" href="{% static "css/labs.css" %}"/>
+    {% endaddtoblock %}
+    {# END STYLES #}
+
+    {# SCRIPTS #}
+    {% addtoblock "top_js" %}
+        <script type="text/javascript" src="{% static "js/labs.js" %}"></script>
+    {% endaddtoblock %}
     {% addtoblock "js" %}
         <script type="text/javascript" src="{% static "js/jquery-ui-1.10.4.min.js" %}"></script>
     {% endaddtoblock %}
     {% addtoblock "js" %}
         <script type="text/javascript">
-            $(document).ready(function() {
+            $(document).ready(function () {
                 // lab slider toggles
                 $('.lab').find('.description').hide().end().find('.title').click(function () {
                     $(this).siblings('.description').slideToggle();
@@ -26,4 +32,6 @@
             });
         </script>
     {% endaddtoblock %}
+    {# END SCRIPTS #}
+
 {% endblock %}
