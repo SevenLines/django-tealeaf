@@ -19,6 +19,7 @@ node_modules/
 .git/
 .hg/
 .pyc
+.sass-cache
 tealeaf.dbs
 tealeaf.json
 apps.tar.gz

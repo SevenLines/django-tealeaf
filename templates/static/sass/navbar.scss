@@ -2,7 +2,7 @@
 
 #navbar {
   position: fixed;
-  width: @item_width;
+  width: $item_width;
 
   z-index: 1000;
 
@@ -11,12 +11,12 @@
     background: none repeat scroll 0% 0% #DDD;
 
     .logo a {
-      padding: @item_padding;
-      width: @item_width;
-      height: @logo_height;
-      background-color: @logo_bg_color;
+      padding: $item_padding;
+      width: $item_width;
+      height: $logo_height;
+      background-color: $logo_bg_color;
       float: left;
-      //      border-right: 1px solid @border_color;
+      //      border-right: 1px solid $border_color;
     }
 
     .main {
@@ -33,14 +33,14 @@
         float: left;
         padding: 0;
 
-        border-bottom: 1px solid @border_color;
-        //        border-right: 1px solid @border_color;
+        border-bottom: 1px solid $border_color;
+        //        border-right: 1px solid $border_color;
 
         background-color: #f5f5f5;
 
         &.ancestor, &.active {
-          background-color: @body_bg_color;
-          //          width: @item_width + 1px;
+          background-color: $body_bg_color;
+          //          width: $item_width + 1px;
         }
 
         &:last-child {
@@ -64,7 +64,7 @@
                   }
                 }
                 a {
-                  height: @item_height + 2px;
+                  height: $item_height + 2px;
                   width: auto;
                   font-size: 18px;
                   margin-top: -1px;
@@ -79,21 +79,21 @@
         .dropdown {
           display: none;
           position: absolute;
-          left: @item_width;
+          left: $item_width;
           top: 0;
 //          bottom: 0;
 
           ul {
             padding: 0;
-            margin-top: @logo_height;
+            margin-top: $logo_height;
             li {
               border: none;
-              border-bottom: 1px solid @border_color;
-              border-right: 1px solid @border_color;
-              border-left: 1px solid @border_color;
+              border-bottom: 1px solid $border_color;
+              border-right: 1px solid $border_color;
+              border-left: 1px solid $border_color;
               &:first-child {
                 a {
-                  border-top: 1px solid @border_color;
+                  border-top: 1px solid $border_color;
                 }
               }
               &.active {
@@ -104,8 +104,8 @@
               a {
 //                text-align: center;
                 float: left;
-                background-color: @item_background_color;
-                width: @sub_item_width;
+                background-color: $item_background_color;
+                width: $sub_item_width;
                 font-size: 14px;
                 padding: 8px;
                 margin: 0;
@@ -117,9 +117,9 @@
       }
 
       .menuicon {
-        padding: @item_padding;
-        width: @item_width;
-        height: @item_height;
+        padding: $item_padding;
+        width: $item_width;
+        height: $item_height;
       }
     }
 
