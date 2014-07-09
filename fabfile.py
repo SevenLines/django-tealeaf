@@ -18,6 +18,7 @@ def compile_css(parameter='compile'):
 
 def deploy():
     app_dir = "~/projects/django-tealeaf"
+    local("ssh-add ~/.ssh/locum.ru")
     local("git push --all -u")
     with cd(app_dir):
         with prefix(env.activate):
