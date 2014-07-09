@@ -1,4 +1,37 @@
+$color_change_speed: 0.3s;
+
+@mixin transition {
+  -webkit-transition: all ease-in-out $color_change_speed;
+  -moz-transition: all ease-in-out $color_change_speed;
+  -ms-transition: all ease-in-out $color_change_speed;
+  -o-transition: all ease-in-out $color_change_speed;
+  transition: all ease-in-out $color_change_speed;
+}
+
+/* labs */
 .tasks {
+  padding-left: 2em;
+  li, .item {
+    margin: 0.5em 0;
+    padding: 0.5em;
+    border-radius: 10px;
+    background: #EEEEEE;
+    border: silver 1px solid;
+    position: relative;
+  }
+  .user-info {
+    display: inline-block;
+    padding: 0.5em 1em;
+    float: right;
+    border-radius: 8px;
+    background-color: white;
+    border: silver 2px solid;
+    box-shadow: 0 0 4px white;
+    min-width: 9em;
+    text-align: center;
+    margin-right: 0.25em;
+    margin-left: 0.25em;
+  }
   .edit {
     .form-inline {
       padding-top: 0.5em;
@@ -8,3 +41,109 @@
     }
   }
 }
+
+.lab {
+  @mixin complexity($bg, $fg) {
+    @include transition;
+    background-color: $bg;
+    box-shadow: 0 0 1px $fg;
+    &.selected {
+      border-color: $fg;
+    }
+    .user-info {
+      border-color: $fg;
+    }
+  }
+
+  .easy {
+    @include complexity(#d1ff99, #83b14c);
+  }
+  .medium {
+    @include complexity(#ffff99, #ffde60);
+  }
+  .hard {
+    @include complexity(#ffca99, #ffa75c);
+  }
+  .nightmare {
+    @include complexity(#ffbdb3, #ff7e79);
+  }
+
+  .selected {
+    @include transition;
+    background-color: #dddddd;
+    code {
+      color: gray;
+    }
+  }
+  code {
+    color: black;
+  }
+  img {
+    margin: 0.5em 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+  li {
+    img {
+      margin: 0.5em 0 0 0;
+      border: none;
+    }
+  }
+  h2 {
+    color: #003366;
+    cursor: pointer;
+    border-bottom: dashed 1px;
+    display: inline-block;
+    margin: 0 0 0.3em;
+    padding: 0;
+  }
+  h2:hover {
+    color: black;
+  }
+  .gallery {
+    float: left;
+    img {
+      box-shadow: none;
+      border-radius: 0;
+      margin: 0;
+    }
+    .item {
+      position: relative;
+      padding: 6px;
+      margin: 8px 8px 8px 0;
+      float: left;
+      width: 116px;
+      .task_number {
+        text-align: center;
+        font-weight: bold;
+      }
+      img {
+        border: 1px solid gray;
+        border-radius: 8px 8px 0 0;
+        padding: 0;
+        margin: 0 auto;
+        width: 100px;
+        display: block;
+      }
+    }
+    .caption {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: center;
+      font-size: 0.8em;
+      width: 100px;
+      padding: 0.25em 0.25em;
+      border-radius: 0 0 8px 8px;
+      background-color: white;
+      border: silver 1px solid;
+      border-top: none;
+      box-shadow: 0 0 4px white;
+      display: block;
+      margin: 0 auto;
+    }
+  }
+}
+
+/* end labs */
