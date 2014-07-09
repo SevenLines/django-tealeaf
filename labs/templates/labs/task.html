@@ -1,6 +1,6 @@
 {% load static %}
 <li id="task{{ task.id }}"
-    class="{% if task.user %}{% if not user.is_authenticated %}selected {% endif %} {% endif %}{{ task.complexity }}">
+    class="{% if task.user %}selected {% endif %}{{ task.complexity }}">
     <div class="info">
         {% include "labs/task_info.html" %}
     </div>
