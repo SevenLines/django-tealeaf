@@ -8,6 +8,25 @@ body {
   margin: 0;
 }
 
+.container {
+  display: table;
+  margin-bottom: 100px;
+  padding: 0;
+  border-radius: 0 0 $container_radius $container_radius;
+  border: 3px double;
+  border-top: 0;
+  box-shadow: 0px 0px 8px $menu_bg_color;
+  background-color: $container_bg_color;
+  > div {
+    display: table-row;
+  }
+
+  .content {
+    display: table-cell;
+    padding: 1em;
+  }
+}
+
 .yandex {
   display: none;
 }

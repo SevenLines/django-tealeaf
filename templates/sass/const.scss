@@ -12,3 +12,18 @@ $logo_bg_color: #b3cadc;
 $body_padding: 20px;
 $body_bg_color: white;
 $main_background_image: "images/use_your_illusion.png";
+
+$menu_width: 64px;
+$container_radius: $menu_width / 3;
+$menu_bg_color: #aacfd3;//#aacfd3;
+$menu_border_color: #AAA;
+$container_bg_color: white;
+
+
+@mixin transition($speed) {
+  -webkit-transition: all ease-in-out $speed;
+  -moz-transition: all ease-in-out $speed;
+  -ms-transition: all ease-in-out $speed;
+  -o-transition: all ease-in-out $speed;
+  transition: all ease-in-out $speed;
+}
