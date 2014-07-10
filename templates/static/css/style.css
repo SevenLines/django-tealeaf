@@ -1,6 +1,5 @@
 body {
-  background: gray url("images/use_your_illusion.png");
-  background-color: #666;
+  background: #666666 url("images/use_your_illusion.png");
   font-family: Georgia, 'Times New Roman', Times, serif;
   padding: 0;
   margin: 0; }
@@ -14,18 +13,19 @@ body {
   border-top: 0;
   box-shadow: 0px 0px 8px #96b0b3;
   background-color: white; }
-  .container > div {
-    display: table-row; }
-  .container .content {
-    display: table-cell;
-    padding: 1em;
-    height: 400px;
-    margin-bottom: 100px;
-    min-height: 400px;
-    border-radius: 0 0 32px 32px; }
-    .container .content img {
-      height: auto;
-      max-width: 100%; }
+  .container .left-board {
+    background: #96b0b3 url("images/ornaments_in_64px.png") repeat-y;
+    padding-left: 64px;
+    display: block;
+    border-radius: 0 0 21.33333px 21.33333px; }
+    .container .left-board .content {
+      background-color: white;
+      border-radius: 0 0 21.33333px 0;
+      min-height: 400px;
+      padding: 1em; }
+      .container .left-board .content img {
+        height: auto;
+        max-width: 100%; }
 
 .yandex {
   display: none; }

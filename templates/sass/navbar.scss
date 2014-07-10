@@ -1,13 +1,6 @@
 @import "const";
 
 .menu {
-  border-radius: 0 0 0 $container_radius;
-  width: $menu_width;
-  min-width: $menu_width;
-  display: table-cell;
-//  display: block;
-  vertical-align: top;
-  background: $menu_bg_color url("images/ornaments_in_#{$menu_width}.png");
   a {
     color: darken($menu_bg_color, 40%);
     text-decoration: none;
@@ -81,13 +74,7 @@
           @include transition(0.1s);
           box-shadow: inset 0px 0px 2px #c0c0c0;
           border-bottom: 1px solid $menu_border_color;
-//          &:nth-child(even) {
             background-color: rgba(lighten($menu_bg_color, 20%), 0.95);
-//          }
-//          &:nth-child(odd) {
-//            background-color: rgba(lighten($menu_bg_color, 15%), 0.95);
-//          }
-
           width: 3*$menu_width;
           display: block;
 
@@ -97,7 +84,6 @@
           &.active {
             a {
               border-left: white;
-//              border-left: 3px solid $menu_bg_color;
               color: black;
               text-decoration: none;
             }

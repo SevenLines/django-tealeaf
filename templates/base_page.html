@@ -18,26 +18,32 @@
 {% cms_toolbar %}
 
 <div class="container">
+    {#    <div>#}
+    <div class="menu">
+        <ul>
+            <li {% if request.path == "/" %}class="active"{% endif %}>
+                <a {% if not request.path == "/" %} href="/" {% endif %}><span
+                        class="glyphicon glyphicon-leaf"></span><br>чаинка
+                </a>
+            </li>
+            {% show_menu 0 100 100 100 "elements/menu_vertical.html" %}
+            <li class="email level0">
+                <a href="#">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
     <div>
-        <div class="menu">
-            <ul>
-                <li {% if request.path == "/" %}class="active"{% endif %}>
-                    <a {% if not request.path == "/" %} href="/" {% endif %}><span class="glyphicon glyphicon-leaf"></span><br>чаинка
-                    </a>
-                </li>
-                {% show_menu 0 100 100 100 "elements/menu_vertical.html" %}
-                <li class="email level0">
-                    <a href="#">
-                        <span class="glyphicon glyphicon-envelope"></span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="content">
-            {% block basecontent %}
-            {% endblock %}
+        <div class="left-board">
+            <div class="content">
+                {% block basecontent %}
+                {% endblock %}
+            </div>
         </div>
     </div>
+    {#    </div>#}
 </div>
 <script type="text/javascript" src="{% static "js/navbar.js" %}"></script>
 
