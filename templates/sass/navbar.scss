@@ -5,8 +5,16 @@
   width: $menu_width;
   min-width: $menu_width;
   display: table-cell;
+//  display: block;
   vertical-align: top;
   background: $menu_bg_color url("images/ornaments_in_#{$menu_width}.png");
+  a {
+    color: darken($menu_bg_color, 40%);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
   > ul {
     z-index: 100;
     position: fixed;
@@ -22,12 +30,15 @@
         background-color: $container_bg_color;
         border-right: none;
         box-shadow: none;
+        a {
+          text-decoration: none;
+        }
       }
 
       border-bottom: 1px solid $menu_border_color;
-      background-color: rgba(255, 255, 255, 0.65);
+      background-color: rgba($container_bg_color, 0.65);
       &:hover {
-        background-color: rgba(255, 255, 255, 0.94);
+        background-color: rgba($container_bg_color, 0.94);
         box-shadow: none;
       }
 
@@ -38,7 +49,7 @@
         text-align: center;
         vertical-align: middle;
         overflow: hidden;
-        padding: 6px;
+        padding: 10px 6px 6px;
         > img {
           width: 100%;
         }
@@ -56,36 +67,50 @@
         @include transition(0.2s);
         max-width: 0;
         overflow: hidden;
-        background-color: $container_bg_color;
+        background: $container_bg_color url("images/ornaments_v_in_42px.png");
         padding: 0;
         list-style: none;
         position: absolute;
         left: $menu_width;
-        top: 0;
+        top: -1px;
         box-shadow: 0 0 2px $menu_bg_color;
         border: 1px none;
         border-radius: 0 8px 8px 0;
 
         > li {
+          @include transition(0.1s);
+          box-shadow: inset 0px 0px 2px #c0c0c0;
+          border-bottom: 1px solid $menu_border_color;
+//          &:nth-child(even) {
+            background-color: rgba(lighten($menu_bg_color, 20%), 0.95);
+//          }
+//          &:nth-child(odd) {
+//            background-color: rgba(lighten($menu_bg_color, 15%), 0.95);
+//          }
+
           width: 3*$menu_width;
           display: block;
-          //          border-left: 6px solid $menu_border_color;
-          //          border-bottom: 1px solid $menu_border_color;
 
           &:last-child {
             border-bottom: none;
           }
           &.active {
             a {
-              border-left: 6px solid $menu_bg_color;
+              border-left: white;
+//              border-left: 3px solid $menu_bg_color;
+              color: black;
+              text-decoration: none;
             }
-            background-color: lighten($menu_bg_color, 20%);
+            box-shadow: none;
+            background-color: $container_bg_color;
           }
           &:hover {
-            background-color: lighten($menu_bg_color, 10%);
+            background-color: rgba($container_bg_color, 0.94);
+            box-shadow: none;
           }
           > a {
-
+            text-shadow: 0 0 3px white;
+            border-left: 6px solid $menu_border_color;
             width: 100%;
             padding: 8px;
             display: block;

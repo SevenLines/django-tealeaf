@@ -21,49 +21,18 @@
     <div>
         <div class="menu">
             <ul>
-
                 <li {% if request.path == "/" %}class="active"{% endif %}>
-                    <a href="/"><span class="glyphicon glyphicon-leaf"></span><br>чаинка
+                    <a {% if not request.path == "/" %} href="/" {% endif %}><span class="glyphicon glyphicon-leaf"></span><br>чаинка
                     </a>
                 </li>
                 {% show_menu 0 100 100 100 "elements/menu_vertical.html" %}
                 <li class="email level0">
                     <a href="#">
-                        {#                        <img class="menuicon" src="{% static "img/envelope_64x64.png" %}">#}
                         <span class="glyphicon glyphicon-envelope"></span>
                     </a>
                 </li>
             </ul>
-
         </div>
-        {#    <div id="navbar">#}
-        {#        <div class="navpanel">#}
-        {#            <div class="logo">#}
-        {#                <a href="/">#}
-        {#                </a>#}
-        {#            </div>#}
-        {##}
-        {#            <ul class="main">#}
-        {#                {% show_menu 0 100 100 100 "elements/menu_vertical.html" %}#}
-        {#                <li class="email level0">#}
-        {#                    <a href="#">#}
-        {#                        <img class="menuicon" src="{% static "img/envelope_64x64.png" %}">#}
-        {#                    </a>#}
-        {##}
-        {#                    <div class="dropdown">#}
-        {#                        <ul>#}
-
-        {#                        </ul>#}
-        {#                    </div>#}
-        {#                </li>#}
-        {#            </ul>#}
-        {#        </div>#}
-        {#    </div>#}
-        {##}
-        {#    <div class="body">#}
-        {#        {% block basecontent %}#}
-        {#        {% endblock %}#}
-        {#    </div>#}
         <div class="content">
             {% block basecontent %}
             {% endblock %}
