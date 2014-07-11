@@ -22,7 +22,6 @@ def minify():
 
 
 def build_production():
-    minify()
     local("git checkout master")
     local("git merge --no-ff dev")
     local("git checkout production")
@@ -32,6 +31,7 @@ def build_production():
 
 def deploy():
     app_dir = "~/projects/django-tealeaf"
+    build_production()
     local("ssh-add ~/.ssh/locum.ru")
     local("git push --all -u")
     with cd(app_dir):
