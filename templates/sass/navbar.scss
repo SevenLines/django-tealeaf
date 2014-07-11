@@ -2,7 +2,7 @@
 
 .menu {
   a {
-    color: darken($menu_bg_color, 40%);
+    color: darken($common_color, 40%);
     text-decoration: none;
     &:hover {
       text-decoration: underline;
@@ -23,7 +23,7 @@
         background-color: $container_bg_color;
         border-right: none;
         box-shadow: none;
-        a {
+        > a {
           text-decoration: none;
         }
       }
@@ -53,6 +53,10 @@
       &:hover {
         ul {
           max-width: 3*$menu_width;
+          &.email {
+            border: 1px solid $menu_border_color;
+            border-left: none;
+          }
         }
       }
 
@@ -66,15 +70,29 @@
         position: absolute;
         left: $menu_width;
         top: -1px;
-        box-shadow: 0 0 2px $menu_bg_color;
+        box-shadow: 0 0 2px $common_color;
         border: 1px none;
         border-radius: 0 8px 8px 0;
+
+        &.email {
+          box-shadow: none;
+          > li {
+            text-align: center;
+            a {
+              border-left: white;
+              color: black;
+              text-decoration: none;
+            }
+            box-shadow: none;
+            background-color: $container_bg_color;
+          }
+        }
 
         > li {
           @include transition(0.1s);
           box-shadow: inset 0px 0px 2px #c0c0c0;
           border-bottom: 1px solid $menu_border_color;
-            background-color: rgba(lighten($menu_bg_color, 20%), 0.95);
+          background-color: rgba(lighten($common_color, 20%), 0.95);
           width: 3*$menu_width;
           display: block;
 
