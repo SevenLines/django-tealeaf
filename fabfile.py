@@ -8,12 +8,26 @@ env.activate = 'source ~/env-tealeaf/bin/activate'
 compile_css_find = "find -name config.rb -execdir compass {} \;"
 
 
-def generate_js(minify='-m'):
+def compile_js(minify='-m'):
     local("find -name *.coffee -execdir coffeebar -m -o ../static/js/ %s {} \;" % minify)
 
 
 def compile_css(parameter='compile'):
     local(compile_css_find.format(parameter))
+
+
+def minify():
+    compile_css()
+    compile_js()
+
+
+def build_production():
+    minify()
+    local("git checkout master")
+    local("git merge --no-ff dev")
+    local("git checkout production")
+    local("git merge --no-ff master")
+    local("git checkout dev")
 
 
 def deploy():

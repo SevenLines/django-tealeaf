@@ -16,6 +16,7 @@ output_style = :compressed
 
 # To disable debugging comments that display the original location of your selectors. Uncomment:
 line_comments = false
+force = true
 
 
 # If you prefer the indented syntax, you might want to regenerate this
