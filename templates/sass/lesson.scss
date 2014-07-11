@@ -1,15 +1,17 @@
 /* lesson */
+@import "const";
+
+$header_colors: darken($common_color, 40%);
 
 .lesson {
   font-size: 1em;
   font-family: Verdana, Arial;
-  /*margin-top: 8px;*/
 
   h1 {
     margin: 0px;
     font-weight: normal;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    color: #036;
+    color: $header_colors;
   }
 
   h2 {
@@ -17,41 +19,55 @@
     padding: 0px;
     font-weight: normal;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    color: #036;
+    color: $header_colors;
     font-size: 1.8em;
+  }
+
+  b, strong {
+    color: $header_colors;
   }
 
   .breadcrumbs {
     padding-left: 3px;
     font-size: 1em;
-    color: #036;
+    color: $header_colors;
     font-family: Georgia, 'Times New Roman', Times, serif;
   }
 
   hr {
     border: 1px inset;
     margin: 0.5em 0;
-    color: #036;
+    color: $header_colors;
   }
 
   a {
     text-decoration: underline;
+    color: $header_colors;
+    &:hover {
+      color: darken($header_colors, 30%);
+    }
+    -webkit-transition: color 0.2s;
+    -moz-transition: color 0.2s;
+    -ms-transition: color 0.2s;
+    -o-transition: color 0.2s;
+    transition: color 0.2s;
   }
 
   img {
     display: block;
     background-color: white;
-    border: 1px solid #808080;
-    padding: 0.5em;
+    border: 1px solid $header_colors;
+    padding: 8px;
     max-height: 450px;
+    margin: 8px 0;
   }
 
-  a:last-child img {
-    margin-bottom: 0;
+  pre {
+    margin: 8px 0;
   }
 
   p {
-    margin-bottom: 4px;
+    margin-bottom: 8px;
   }
 }
 
