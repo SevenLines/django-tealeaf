@@ -1,4 +1,20 @@
-{% load static %}
+{% load static sekizai_tags %}
+
+<script>
+    // check for touch device
+    var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
+</script>
+
+{% addtoblock "js" %}
+    <script>
+        // enable click to expand menu for touch devices
+        if (isTouch) {
+            $(".menu >ul>li").not(".logo").find(">a").click(function () {
+                return false;
+            })
+        }
+    </script>
+{% endaddtoblock %}
 
 <script type="text/javascript" src={% static "js/logger.js" %}></script>
 <script type="text/javascript" src="{% static "js/jquery-1.11.0.min.js" %}"></script>
