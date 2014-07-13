@@ -1,8 +1,8 @@
-#coding:utf8
+# coding:utf8
 from fabric.api import run, env, cd, prefix
 from fabric.operations import local
 
-### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+# ## ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 '''
 Во избежание проблем с подключением к серверу, необходимо создать ssh ключ на локальной машине
 и перебросить public-key на сервер в папку .ssh.
@@ -18,7 +18,15 @@ FATAL:  Peer authentication failed for user "postgres"
 local   all             postgres                                peer
 на
 local   all             postgres                                md5
+
+Пример скрипта ./dump_db.sh на сервере:
+pg_dump -c --no-owner -U user_name -h host_name db_name > dump.sql
+
+Пример скрипта prettify_linenums.sh на серевер
+psql -U user_name -h host_name db_name < _utils/prettyprint_linenums.sql
 '''
+
+
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
 env.hosts = ['phosphorus.locum.ru']
@@ -26,6 +34,7 @@ env.user = 'hosting_mmailm'
 env.activate = 'source ~/env-tealeaf/bin/activate'
 
 app_dir = "~/projects/django-tealeaf"
+
 
 def compile_js(minify='-m'):
     local("find -name *.coffee -execdir coffeebar -m -o ../static/js/ %s {} \;" % minify)
@@ -38,6 +47,11 @@ def compile_css():
 def minify():
     compile_css()
     compile_js()
+
+
+def prettyprint():
+    with cd(app_dir):
+        run("./prettify_linenums.sh ")  # add linenums to  prettyprint on server
 
 
 def build_production():

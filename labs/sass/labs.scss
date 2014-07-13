@@ -33,6 +33,11 @@ $color_change_speed: 0.3s;
     margin-left: 0.25em;
   }
   .edit {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
     .form-inline {
       padding-top: 0.5em;
       .form-group {
@@ -43,6 +48,18 @@ $color_change_speed: 0.3s;
 }
 
 .lab {
+
+  .description {
+//    height: 0;
+//    display: block;
+//    float: left;
+  }
+
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
   @mixin complexity($bg, $fg) {
     @include transition;
     background-color: $bg;

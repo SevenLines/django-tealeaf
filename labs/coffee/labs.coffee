@@ -53,15 +53,20 @@ class LabEditor
             )
 
             r.success (data) ->
-                bg = $("##{lab_id}").css('background-color')
-                $("##{lab_id}").animate({ 'background-color': '#BBFFBB' }, 500).animate({'background-color': bg}, 500)
+                $("##{lab_id}").toggleClass("bg-success", true);
+                setTimeout(
+                    () ->
+                        $("##{lab_id}").toggleClass("bg-success", false)
+                    1000)
 
             r.fail (data) ->
-                bg = $("##{lab_id}").css('background-color')
-                $("##{lab_id}").animate({ 'background-color': '#FFBBBB' }, 500).animate({'background-color': bg}, 500)
+                $("##{lab_id}").toggleClass("bg-danger", true);
+                setTimeout(
+                    () ->
+                        $("##{lab_id}").toggleClass("bg-danger", false)
+                    1000)
 
             return false
-
 
 
 class TaskEditor
@@ -115,17 +120,20 @@ class TaskEditor
                 btn = $("\##{task_id}").find(".turn-edit-on-btn")
                 btn.show("fast")
 
-                border_color = $("##{task_id}").css("border-color");
-                $("##{task_id}").animate({"border-color": "green"}, 500)
-                                .animate({"border-color": border_color}, 500)
-
+                $("##{task_id} .edit").toggleClass("bg-success", true);
+                setTimeout(
+                    () ->
+                        $("##{task_id} .edit").toggleClass("bg-success", false)
+                    1000)
 
 
             r.fail (data) ->
                 TaskEditor.restore_style(submit)
-                border_color = $("##{task_id}").css("border-color");
-                $("##{task_id}").animate({"border-color": "red"}, 500)
-                                .animate({"border-color": border_color}, 500)
+                $("##{task_id} .edit").toggleClass("bg-danger", true);
+                setTimeout(
+                    () ->
+                        $("##{task_id} .edit").toggleClass("bg-danger", false)
+                    1000)
 
             return false
 
