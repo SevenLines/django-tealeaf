@@ -54,8 +54,9 @@ def add_task(request, pk):
 def update_lab(request, pk):
     lab = get_object_or_404(LabEx, pk=pk)
 
-    if 'description' in request.POST:
+    if 'description' in request.POST and 'visible' in request.POST:
         lab.description = request.POST['description']
+        lab.visible = request.POST['visible']
         lab.save()
 
     return HttpResponse()

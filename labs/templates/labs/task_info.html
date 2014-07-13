@@ -4,10 +4,3 @@
 <div id="task_content_{{ task.id }}">
     {{ task.description|safe|default:"..." }}
 </div>
-
-
-{% if task.image %}
-    <a href="{{ task.image.url }}">
-        <img src="{{ task.image.url }}"/>
-    </a>
-{% endif %}
