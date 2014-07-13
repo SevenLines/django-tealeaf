@@ -1,12 +1,26 @@
 # coding: utf8
 """
-Django settings for app project.
+Чтобы нормально работать организовать работу с сервером необходимо
+как на локальной машине так и на сервере создать в папке на 2 уровня
+выше данного файла файл с именем credentials.json, в котором будут
+прописаны все настройки для приложения, пример содержимого файла:
 
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
+{
+    "database": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "tealeaf",
+        "PASSWORD": "12345",
+        "USER": "postgres",
+        "HOST": "localhost",
+        "PORT": ""
+    },
+    "SECRET_KEY": "812738912739812739812",
+    "DEBUG": "0",
+    "ALLOWED_HOSTS": [
+        "*"
+    ]
+}
 
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -38,7 +52,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     # other finders..
 )
-
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -73,7 +86,7 @@ TEMPLATE_LOADERS = (
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
-    #'easy_thumbnails.processors.scale_and_crop',
+    # 'easy_thumbnails.processors.scale_and_crop',
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
 )
@@ -131,7 +144,7 @@ CMS_TEMPLATES = (
     ('lesson_article.html', "Lesson article"),
     ('labs_list.html', "Labs list"),
     ('articles_list.html', "Articles list"),
-    #('js_tests/test_page.html', "Js-Tests"),
+    # ('js_tests/test_page.html', "Js-Tests"),
 )
 
 
@@ -166,6 +179,6 @@ SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
 }
 
-#JASMINE_TEST_DIRECTORY = os.path.join(BASE_DIR, "jasmine-tests")
+# JASMINE_TEST_DIRECTORY = os.path.join(BASE_DIR, "jasmine-tests")
 
 FILER_PAGINATE_BY = 50

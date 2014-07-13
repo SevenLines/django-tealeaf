@@ -1,3 +1,4 @@
+#coding:utf8
 from cms.models.pluginmodel import CMSPlugin
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -49,7 +50,7 @@ class TaskEx(CMSPlugin):
                                   choices=COMPLEX_CHOICES,
                                   default=EASY)
 
-    description = models.TextField(blank=True, default="")
+    description = models.TextField(blank=True, default="текст задачи...")
     image = FilerImageField(null=True, blank=True, default=None, verbose_name="image")
 
     user = models.CharField(verbose_name="name of user",
