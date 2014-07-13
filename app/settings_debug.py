@@ -8,7 +8,7 @@ from app.settings import credentials
 SECRET_KEY = credentials['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = credentials['DEBUG']
+DEBUG = int(credentials['DEBUG'])
 
 TEMPLATE_DEBUG = DEBUG
 
