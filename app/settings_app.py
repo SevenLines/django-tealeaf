@@ -2,7 +2,7 @@
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -16,6 +16,8 @@ INSTALLED_APPS = (
     'menus',  # helper for model independent hierarchical website navigation
     'south',  # intelligent schema and data migrations
     'sekizai',  # for javascript and css management
+    'djangocms_admin_style',
+    'django.contrib.admin',
     'filer',
     'easy_thumbnails',
     'cmsplugin_filer_file',
