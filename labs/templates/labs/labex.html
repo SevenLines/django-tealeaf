@@ -5,7 +5,7 @@
     <div class="description">
         <div id="lab_content_{{ lab.id }}"
              {% if user.is_authenticated and page.publisher_is_draft %}contenteditable="true"{% endif %}>
-            {{ lab.description|safe }}
+            {{ lab.description|safe|default:"..."}}
         </div>
 
         {% if lab.image %}
@@ -25,9 +25,6 @@
                     </button>
                 </div>
             </form>
-            <script>
-                var editor = new LabEditor('lab_{{ lab.id }}', 'lab_content_{{ lab.id }}')
-            </script>
         {% endif %}
         <div style="clear: both"></div>
         <ol class="tasks">
@@ -35,7 +32,32 @@
                 {% render_plugin task %}
             {% endfor %}
         </ol>
+        {% if user.is_authenticated and page.publisher_is_draft %}
+            {# adding task plugin #}
+            <form class="task-add form-inline" action="{% url "labs.views.add_task" lab.pk %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="placeholder_id" value="{{ lab.placeholder.pk }}">
+                <input type="hidden" name="language" value="{{ lab.language }}">
+                <input type="hidden" name="lab_id" value="{{ lab.cmsplugin_ptr.pk }}">
+                <input type="hidden" name="plugin_type" value="">
 
+                <div class="form-group">
+                    <button type="submit" class="form-control btn btn-default btn-sm">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span> добавить задачу</span>
+                    </button>
+                </div>
+            </form>
+            {# end adding task plugin #}
+            <script>
+                var editor = new LabEditor('lab_{{ lab.id }}', 'lab_content_{{ lab.id }}');
+                $("#lab_{{ lab.id }} .task-add").ajaxForm({
+                    success: function(data) {
+                        $("#lab_{{ lab.id }} ol.tasks").append(data);
+                    }
+                });
+            </script>
+        {% endif %}
     </div>
 </div>
 <div style="clear: both"></div>

@@ -1,8 +1,11 @@
-from django.http.response import HttpResponse
+from cms.api import add_plugin
+from cms.models.placeholdermodel import Placeholder
+from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 # from labs.cms_plugins import textile_without_p
+from labs.cms_plugins import TaskExPlugin
 from labs.models import TaskEx, LabEx
 
 
@@ -22,6 +25,29 @@ def update_task(request, pk):
                'page': page, }
 
     return render(request, 'labs/task_info.html', context)
+
+
+@login_required
+def add_task(request, pk):
+    if not all(k in request.POST for k in ("placeholder_id", "language", "lab_id")):
+        return HttpResponseBadRequest()
+    placeholder_id = request.POST['placeholder_id']
+    language = request.POST['language']
+    lab_id = request.POST['lab_id']
+
+    lab = LabEx.objects.get(pk=lab_id)
+    placeholder = Placeholder.objects.get(pk=placeholder_id)
+
+    task = add_plugin(placeholder=placeholder,
+                        plugin_type=TaskExPlugin,
+                        language=language,
+                        target=lab)
+    page = task.placeholder.page
+    context = {'task': task,
+               'complex_choices': TaskEx.COMPLEX_CHOICES,
+               'page': page, }
+
+    return render(request, 'labs/task.html', context)
 
 
 @login_required
@@ -51,7 +77,7 @@ def update_task_gallery(request, pk):
         # page = task.placeholder.page
         # if not page.publisher_is_draft:
         # page = page.get_draft_object()
-        #     page.revert(page.languages)
+        # page.revert(page.languages)
         #
         # context = {'task': task,
         #            'complex_choices': TaskEx.COMPLEX_CHOICES,
