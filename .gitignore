@@ -27,3 +27,5 @@ apps.tar.gz
 dump_database
 dump.json
 students_dump.json
+media.tgz
+dump.sql
