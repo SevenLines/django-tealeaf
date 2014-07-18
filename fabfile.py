@@ -1,4 +1,5 @@
 # coding:utf8
+from fabric.context_managers import settings
 from fabric.api import run, env, cd, prefix
 from fabric.operations import local
 
@@ -58,6 +59,7 @@ def build_production():
     local("git checkout master")
     local("git merge --no-ff dev")
     minify()
+    # with settings(warn_only=True):
     local("git commit -a -m 'minify scripts and css'")
     local("git checkout production")
     local("git merge master")
