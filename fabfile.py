@@ -57,8 +57,10 @@ def prettyprint():
 def build_production():
     local("git checkout master")
     local("git merge --no-ff dev")
+    minify()
+    local("git commit -a -m 'minify scripts and css'")
     local("git checkout production")
-    local("git merge --no-ff master")
+    local("git merge master")
     local("git checkout dev")
 
 
