@@ -64,13 +64,8 @@ def build_production():
     local("git checkout master")
     local("git merge --no-ff dev")
     minify()
-<<<<<<< HEAD
-    # with settings(warn_only=True):
-    local("git commit -a -m 'minify scripts and css'")
-=======
     with settings(warn_only=True):
         local("git commit -a -m 'minify scripts and css'")
->>>>>>> dev
     local("git checkout production")
     local("git merge master")
     local("git checkout dev")
