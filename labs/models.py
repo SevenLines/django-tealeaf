@@ -10,8 +10,8 @@ class LabEx(CMSPlugin):
     class Meta:
         pass
 
-    TEXT = "labs/labex.html"
-    GALLERY = "labs/labex_gallery.html"
+    TEXT = "text"
+    GALLERY = "gallery"
 
     TYPE_CHOICES = (
         (TEXT, _("text")),
@@ -24,7 +24,6 @@ class LabEx(CMSPlugin):
     visible = models.BooleanField(default=True)
     title = models.CharField(max_length=200, blank=True, default="")
     description = models.TextField(blank=True, default="")
-    # image = FilerImageField(null=True, blank=True, default=None, verbose_name="image")
 
     def __unicode__(self):
         return unicode(self.title)
@@ -51,7 +50,7 @@ class TaskEx(CMSPlugin):
                                   default=EASY)
 
     description = models.TextField(blank=True, default="текст задачи...")
-    # image = FilerImageField(null=True, blank=True, default=None, verbose_name="image")
+    image = FilerImageField(null=True, blank=True, default=None, verbose_name="image")
 
     user = models.CharField(verbose_name="name of user",
                             max_length=100, blank=True, default="")

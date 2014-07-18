@@ -1,6 +1,14 @@
-{% if task.user %}
-    <span class="user-info">{{ task.user }}</span>
+{% if is_gallery %}
+    <img src="{{ task.image.url }}"/>
+    {#    </a>#}
+    <div class="caption">
+        {{ forloop.counter }} {% if task.user %} | {{ task.user }} {% endif %}
+    </div>
+{% else %}
+    {% if task.user %}
+        <span class="user-info">{{ task.user }}</span>
+    {% endif %}
+    <div id="task_content_{{ task.id }}">
+        {{ task.description|safe|default:"..." }}
+    </div>
 {% endif %}
-<div id="task_content_{{ task.id }}">
-    {{ task.description|safe|default:"..." }}
-</div>

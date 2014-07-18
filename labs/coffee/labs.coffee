@@ -101,13 +101,13 @@ class TaskEditor
         submit = $(form).find("button")
         select = $(form).find("select")
         $(form).submit ->
-            if ckEditor is null
-                ckEditor = CKEDITOR.inline(id_content)
-
             data = $(form).serializeArray()
-            data.push
-                'name': 'description'
-                'value': ckEditor.getData()
+            if $("##{id_content}").size() > 0 and ckEditor is null
+                ckEditor = CKEDITOR.inline(id_content)
+                data.push
+                    'name': 'description'
+                    'value': ckEditor.getData()
+#            console.log("about to send")
 
             r = $.post(
                 form.action,
