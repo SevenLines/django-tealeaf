@@ -1,30 +1,3 @@
-class LabTask
-
-    @hide_all: ->
-        $(".task-edit").hide()
-
-    constructor: (id) ->
-        @id = id
-        $id = $("#task#{id}")
-
-        task = $id.find(".task-edit")
-        edit = $id.find(".task-edit-option")
-
-        edit.find("a").click ->
-            LabTask.hide_all()
-            task.slideDown("fast")
-            return false
-
-        task.find("form").ajaxForm
-            success: (response, status, xhr, $form) ->
-                console.log("hi")
-                $id.replaceWith(response)
-                labTask = new LabTask(id)
-
-        $(document).mouseup (e) ->
-            if not task.is(e.target) and task.has(e.target).length == 0 and not edit.is(e.target) and edit.has(e.target).length == 0
-                LabTask.hide_all()
-
 class LabEditor
     @clear_complexity: (lab_id) ->
         $("\##{lab_id}").removeClass()
@@ -139,5 +112,4 @@ class TaskEditor
 
 
 window.TaskEditor = TaskEditor
-window.LabTask = LabTask
 window.LabEditor = LabEditor
