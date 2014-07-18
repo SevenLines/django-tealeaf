@@ -79,5 +79,30 @@ class TestViews(TestCase):
     def test_add_task(self):
         self.can_access(reverse(lv.add_task, args=(0,)), methods=('post',))
 
+
     def test_update_lab(self):
         self.can_access(reverse(lv.update_lab, args=(0,)), methods=('post',))
+        self.login()
+
+        self.lab.description = "bad"
+        self.lab.visible = False
+        # self.lab.render_style = LabEx.GALLERY
+        # self.lab.title = "cool"
+        self.lab.save()
+        self.update()
+
+        r = self.client.post(reverse(lv.update_lab, args=(self.lab.pk,)), {
+            'description': 'cool',
+            'visible': True,
+            # 'render_style': LabEx.TEXT,
+            # 'title': 'nice',
+        })
+        self.update()
+
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual('cool', self.lab.description)
+        self.assertEqual(True, self.lab.visible)
+        # self.assertEqual(LabEx.TEXT, self.lab.render_style)
+        # self.assertEqual('nice', self.lab.title)
+
+        self.client.logout()
