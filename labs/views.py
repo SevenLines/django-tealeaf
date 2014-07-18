@@ -3,14 +3,20 @@ from cms.models.placeholdermodel import Placeholder
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.http import require_http_methods, require_POST
 
 from labs.cms_plugins import TaskExPlugin
 from labs.models import TaskEx, LabEx
 
 
+@require_POST
 @login_required
 def update_task(request, pk):
-    task = get_object_or_404(TaskEx, pk=pk)
+    try:
+        task = TaskEx.objects.get(pk=pk)
+    except ObjectDoesNotExist:
+        return HttpResponseBadRequest()
 
     if all(k in request.POST for k in ('user', 'complexity', )):
         task.user = request.POST['user']
@@ -29,6 +35,7 @@ def update_task(request, pk):
     return render(request, 'labs/task_info.html', context)
 
 
+@require_POST
 @login_required
 def add_task(request, pk):
     if not all(k in request.POST for k in ("placeholder_id", "language", "lab_id")):
@@ -54,9 +61,13 @@ def add_task(request, pk):
     return render(request, 'labs/task.html', context)
 
 
+@require_POST
 @login_required
 def update_lab(request, pk):
-    lab = get_object_or_404(LabEx, pk=pk)
+    try:
+        task = TaskEx.objects.get(pk=pk)
+    except ObjectDoesNotExist:
+        return HttpResponseBadRequest()
 
     if 'description' in request.POST:
         lab.description = request.POST['description']
@@ -65,16 +76,3 @@ def update_lab(request, pk):
         return HttpResponse()
 
     return HttpResponseBadRequest()
-
-
-
-@login_required
-def update_task_gallery(request, pk):
-    task = get_object_or_404(TaskEx, pk=pk)
-
-    if all(k in request.POST for k in ('user', 'complexity', 'description')):
-        task.user = request.POST['user']
-        task.complexity = request.POST['complexity']
-        task.description = request.POST['description']
-        task.save()
-    return HttpResponse()
