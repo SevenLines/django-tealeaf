@@ -1,8 +1,9 @@
 # coding:utf8
-from fabric.api import run, env, cd, prefix
+from fabric.api import run, env, cd, prefix, settings
 from fabric.operations import local
 
 # ## ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+
 '''
 Во избежание проблем с подключением к серверу, необходимо создать ssh ключ на локальной машине
 и перебросить public-key на сервер в папку .ssh.
@@ -58,7 +59,8 @@ def build_production():
     local("git checkout master")
     local("git merge --no-ff dev")
     minify()
-    local("git commit -a -m 'minify scripts and css'")
+    with settings(warn_only=True):
+        local("git commit -a -m 'minify scripts and css'")
     local("git checkout production")
     local("git merge master")
     local("git checkout dev")
