@@ -65,13 +65,13 @@ def add_task(request, pk):
 @login_required
 def update_lab(request, pk):
     try:
-        task = TaskEx.objects.get(pk=pk)
+        lab = LabEx.objects.get(pk=pk)
     except ObjectDoesNotExist:
         return HttpResponseBadRequest()
 
     if 'description' in request.POST:
         lab.description = request.POST['description']
-        lab.visible = 'visible' in  request.POST
+        lab.visible = 'visible' in request.POST
         lab.save()
         return HttpResponse()
 
