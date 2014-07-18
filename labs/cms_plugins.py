@@ -14,7 +14,6 @@ class TaskExPlugin(CMSPluginBase):
     module = "Лабораторные"
     render_template = 'labs/task.html'
     text_enabled = True
-    # cache = False
     allow_children = False
     require_parent = True
     parent_classes = ['LabsExPlugin']
@@ -23,7 +22,7 @@ class TaskExPlugin(CMSPluginBase):
         if hasattr(instance.parent, 'labex'):
             lab = instance.parent.labex
             if lab.render_style == LabEx.GALLERY:
-                self.render_template = 'labs/task_img.html'
+                context['is_gallery'] = True
 
         instance.description = instance.description
         context['page'] = instance.page
@@ -42,7 +41,6 @@ class LabsExPlugin(CMSPluginBase):
     render_template = 'labs/labex.html'
     allow_children = True
     text_enabled = True
-    # cache = False
     child_classes = ['TaskExPlugin']
 
     def render(self, context, instance, placeholder):
@@ -51,13 +49,8 @@ class LabsExPlugin(CMSPluginBase):
         context['lab'] = instance
         context['page'] = instance.page
         context['placeholder'] = placeholder
-
         context['tasks'] = instance.child_plugin_instances
-
-        self.render_template = instance.render_style
-
-        if instance.render_style:
-            self.render_template = instance.render_style
+        context['is_gallery'] = instance.render_style == LabEx.GALLERY
 
         return context
 

@@ -8,70 +8,19 @@ $color_change_speed: 0.3s;
   transition: all ease-in-out $color_change_speed;
 }
 
-/* labs */
-.tasks {
-  padding-left: 2em;
-  li, .item {
-    margin: 0.5em 0;
-    padding: 0.5em;
-    border-radius: 10px;
-    background: #EEEEEE;
-    border: silver 1px solid;
-    position: relative;
+@mixin complexity($bg, $fg) {
+  @include transition;
+  background-color: $bg;
+  box-shadow: 0 0 1px $fg !important;
+  &.selected {
+    border-color: $fg !important;
   }
   .user-info {
-    display: inline-block;
-    padding: 0.5em 1em;
-    float: right;
-    border-radius: 8px;
-    background-color: white;
-    border: silver 2px solid;
-    box-shadow: 0 0 4px white;
-    min-width: 9em;
-    text-align: center;
-    margin-right: 0.25em;
-    margin-left: 0.25em;
-  }
-  .edit {
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -ms-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
-    .form-inline {
-      padding-top: 0.5em;
-      .form-group {
-        padding-right: 0.5em;
-      }
-    }
+    border-color: $fg !important;
   }
 }
 
-.lab {
-
-  .description {
-//    height: 0;
-//    display: block;
-//    float: left;
-  }
-
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
-  @mixin complexity($bg, $fg) {
-    @include transition;
-    background-color: $bg;
-    box-shadow: 0 0 1px $fg;
-    &.selected {
-      border-color: $fg;
-    }
-    .user-info {
-      border-color: $fg;
-    }
-  }
-
+@mixin complex_style {
   .easy {
     @include complexity(#d1ff99, #83b14c);
   }
@@ -92,40 +41,28 @@ $color_change_speed: 0.3s;
       color: gray;
     }
   }
-  code {
-    color: black;
-  }
-  img {
-    margin: 0.5em 0;
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-  }
-  li {
-    img {
-      margin: 0.5em 0 0 0;
-      border: none;
-    }
-  }
-  h2 {
-    color: #003366;
-    cursor: pointer;
-    border-bottom: dashed 1px;
-    display: inline-block;
-    margin: 0 0 0.3em;
-    padding: 0;
-  }
-  h2:hover {
-    color: black;
-  }
-  .gallery {
+}
+
+@mixin gallery {
+  &.gallery {
+    list-style: none;
     float: left;
+
+    .edit {
+      .form-group {
+        padding-right: 0;
+      }
+      .form-control {
+        width: 100%;
+      }
+    }
+
     img {
       box-shadow: none;
       border-radius: 0;
       margin: 0;
     }
-    .item {
+    li {
       position: relative;
       padding: 6px;
       margin: 8px 8px 8px 0;
@@ -161,6 +98,79 @@ $color_change_speed: 0.3s;
       margin: 0 auto;
     }
   }
+}
+
+/* labs */
+
+.lab {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+
+  code {
+    color: black;
+  }
+  img {
+    margin: 0.5em 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+  h2 {
+    color: #003366;
+    cursor: pointer;
+    border-bottom: dashed 1px;
+    display: inline-block;
+    margin: 0 0 0.3em;
+    padding: 0;
+  }
+  h2:hover {
+    color: black;
+  }
+
+  .tasks {
+    @include complex_style;
+
+    padding-left: 2em;
+    li {
+      margin: 0.5em 0;
+      padding: 0.5em;
+      border-radius: 10px;
+      background: #EEEEEE;
+      border: #c0c0c0 1px solid;
+      position: relative;
+    }
+    .user-info {
+      display: inline-block;
+      padding: 0.5em 1em;
+      float: right;
+      border-radius: 8px;
+      background-color: white;
+      border: silver 2px solid;
+      box-shadow: 0 0 4px white;
+      min-width: 9em;
+      text-align: center;
+      margin-right: 0.25em;
+      margin-left: 0.25em;
+    }
+    .edit {
+      -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      -ms-transition: all 0.3s;
+      -o-transition: all 0.3s;
+      transition: all 0.3s;
+      .form-inline {
+        padding-top: 0.5em;
+        .form-group {
+          padding-right: 0.5em;
+        }
+      }
+    }
+    @include gallery;
+  }
+
 }
 
 /* end labs */
