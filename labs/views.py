@@ -25,7 +25,7 @@ def update_task(request, pk):
             task.description = request.POST['description']
         task.save()
 
-    page = task.placeholder.page
+    page = task.placeholder.page if task.placeholder and task.placeholder.page else None
     context = {'task': task,
                'complex_choices': TaskEx.COMPLEX_CHOICES,
                'page': page,
