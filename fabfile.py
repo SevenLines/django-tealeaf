@@ -135,10 +135,10 @@ def deploy(without_build=False):
     local("git push --all -u")
     with cd(app_dir):
         with prefix(env.activate):
-            with settings(warn_only=True):
-                    run('pip freeze | grep -v -f requirements.txt - | xargs pip uninstall -y')
+            run("git stash")
+            run("git pull")
+            run("git stash apply")
             run('pip install -r requirements.txt')
-            run('pip freeze > requirements.txt')
             run("python manage.py migrate")
             run("python manage.py collectstatic --noinput")
             run("touch django.wsgi")
