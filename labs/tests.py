@@ -4,6 +4,7 @@ when you run "manage.py test".
 
 Replace this with more appropriate tests for your application.
 """
+from cms.models import Placeholder
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -79,6 +80,25 @@ class TestViews(TestCase):
     def test_add_task(self):
         self.can_access(reverse(lv.add_task, args=(0,)), methods=('post',))
 
+        self.login()
+
+        count = TaskEx.objects.filter().count()
+
+        placeholder = Placeholder()
+        placeholder.save()
+
+        r = self.client.post(reverse(lv.add_task, args=(0, )), {
+            'placeholder_id': placeholder.pk,
+            'language': 'ru',
+            'lab_id': self.lab.pk,
+        })
+
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(count + 1, TaskEx.objects.filter().count())
+
+        placeholder.delete()
+
+        self.client.logout()
 
     def test_update_lab(self):
         self.can_access(reverse(lv.update_lab, args=(0,)), methods=('post',))
