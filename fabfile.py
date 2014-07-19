@@ -50,6 +50,27 @@ def minify():
     compile_js()
 
 
+def pip_sync(on_server=False):
+    """
+    синхронизирует среду с requirements.txt
+    """
+    if on_server:
+        with cd(app_dir):
+            with prefix(env.activate):
+                # local("which python")
+                with settings(warn_only=True):
+                    run('pip freeze | grep -v -f requirements.txt - | xargs pip uninstall -y')
+                run('pip install -r requirements.txt')
+                run('pip freeze > requirements.txt')
+    else:
+        with prefix("../env/bin/activate"):
+            # local("which python")
+            with settings(warn_only=True):
+                local('pip freeze | grep -v -f requirements.txt - | xargs pip uninstall -y')
+            local('pip install -r requirements.txt')
+            local('pip freeze > requirements.txt')
+
+
 def prettyprint():
     with cd(app_dir):
         run("./prettify_linenums.sh ")  # add linenums to  prettyprint on server
