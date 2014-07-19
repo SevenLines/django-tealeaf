@@ -37,7 +37,7 @@ psql -U user_name -h host_name db_name < _utils/prettyprint_linenums.sql
 
 env.hosts = ['phosphorus.locum.ru']
 env.user = 'hosting_mmailm'
-env.activate = '~/projects/env/bin/activate'
+env.activate = 'source ~/projects/env/bin/activate'
 
 app_dir = "~/projects/django-tealeaf"
 
