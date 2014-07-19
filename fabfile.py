@@ -139,7 +139,7 @@ def deploy(without_build=False):
             run("git pull")
             with settings(warn_only=True):
                 run("git stash apply")
-            run('pip install -r requirements.txt')
+                run('pip install -r requirements.txt')
             run("python manage.py migrate")
             run("python manage.py collectstatic --noinput")
             run("touch django.wsgi")
