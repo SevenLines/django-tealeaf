@@ -132,7 +132,8 @@ def deploy(without_build=False):
         with prefix(env.activate):
             run("git stash")
             run("git pull")
-            run("git stash apply")
+            with settings(warn_only=True):
+                run("git stash apply")
             run('pip install -r requirements.txt')
             run("python manage.py migrate")
             run("python manage.py collectstatic --noinput")
