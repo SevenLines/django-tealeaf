@@ -32,7 +32,7 @@ psql -U user_name -h host_name db_name < _utils/prettyprint_linenums.sql
 
 env.hosts = ['phosphorus.locum.ru']
 env.user = 'hosting_mmailm'
-env.activate = 'source ~/env-tealeaf/bin/activate'
+env.activate = '~/env-tealeaf/bin/activate'
 
 app_dir = "~/projects/django-tealeaf"
 
@@ -123,13 +123,18 @@ def backup_server_media(only_base=False):
         local("tar -xf media.tgz")
 
 
-def deploy():
-    build_production()
+def deploy(without_build=False):
+    if not without_build:
+        build_production()
     local("ssh-add ~/.ssh/locum.ru")
     local("git push --all -u")
     with cd(app_dir):
         with prefix(env.activate):
             run("git pull")
+            with settings(warn_only=True):
+                    run('pip freeze | grep -v -f requirements.txt - | xargs pip uninstall -y')
+            run('pip install -r requirements.txt')
+            run('pip freeze > requirements.txt')
             run("python manage.py migrate")
             run("python manage.py collectstatic --noinput")
             run("touch django.wsgi")
