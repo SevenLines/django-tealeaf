@@ -1,11 +1,17 @@
 {% load static %}
 <li id="task{{ task.id }}"
     class="item{% if task.user %} selected{% endif %} {{ task.complexity }}">
+
+{# информация о задаче #}
     <div class="info">
         {% include "labs/task_info.html" %}
     </div>
+{# конец информации о задаче #}
+
     {% if user.is_authenticated and page.publisher_is_draft %}
+        {# формы редактирования задачи #}
         <div class="edit">
+            {# редактирования информации о задачи только для текстовой задачи #}
             {% if not is_gallery %}
                 <div class="form-inline pull-left">
                     <div class="form-group">
@@ -15,6 +21,7 @@
                     </div>
                 </div>
             {% endif %}
+
             <form name="save" class="form-inline save" action="{% url "labs.views.update_task" pk=task.id %}"
                   method="post">
                 {% csrf_token %}
@@ -44,6 +51,7 @@
                 var editor = new TaskEditor('task{{ task.id }}', 'task_content_{{ task.id }}');
             </script>
         </div>
+        {# конец формы редактирования задачи #}
     {% endif %}
     <div style="clear: both"></div>
 </li>

@@ -55,6 +55,9 @@ class TaskEx(CMSPlugin):
     user = models.CharField(verbose_name="name of user",
                             max_length=100, blank=True, default="")
 
+    users = models.ManyToManyField("students.Student", db_table="TaskStudent", db_constraint=True,
+                                   blank=True, default=None, null=True)
+
     def __unicode__(self):
         return unicode(self.user + " | " + Truncator(self.description).words(5, html=True))
 
