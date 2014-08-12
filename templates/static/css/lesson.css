@@ -1,1 +1,48 @@
-.lesson{font-size:1em;font-family:Verdana, Arial}.lesson h1{margin:0px;font-weight:normal;font-family:Georgia, 'Times New Roman', Times, serif;color:#344649}.lesson h2{margin:0px 0px 0.25em;padding:0px;font-weight:normal;font-family:Georgia, 'Times New Roman', Times, serif;color:#344649;font-size:1.8em}.lesson b,.lesson strong{color:#344649}.lesson .breadcrumbs{padding-left:3px;font-size:1em;color:#344649;font-family:Georgia, 'Times New Roman', Times, serif}.lesson hr{border:1px inset;margin:0.5em 0;color:#344649}.lesson a{text-decoration:underline;color:#344649;-webkit-transition:color 0.2s;-moz-transition:color 0.2s;-ms-transition:color 0.2s;-o-transition:color 0.2s;transition:color 0.2s}.lesson a:hover{color:#000}.lesson img{display:block;background-color:white;border:1px solid #344649;padding:8px;max-height:450px;margin:8px 0}.lesson pre{margin:8px 0}.lesson p{margin-bottom:8px}
+/* lesson */
+.lesson {
+  font-size: 1em;
+  font-family: Verdana, Arial; }
+  .lesson h1 {
+    margin: 0px;
+    font-weight: normal;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #344649; }
+  .lesson h2 {
+    margin: 0px 0px 0.25em;
+    padding: 0px;
+    font-weight: normal;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #344649;
+    font-size: 1.8em; }
+  .lesson b, .lesson strong {
+    color: #344649; }
+  .lesson .breadcrumbs {
+    padding-left: 3px;
+    font-size: 1em;
+    color: #344649;
+    font-family: Georgia, 'Times New Roman', Times, serif; }
+  .lesson hr {
+    border: 1px inset;
+    margin: 0.5em 0;
+    color: #344649; }
+  .lesson a {
+    text-decoration: underline;
+    color: #344649;
+    -webkit-transition: color 0.2s;
+    -moz-transition: color 0.2s;
+    -ms-transition: color 0.2s;
+    -o-transition: color 0.2s;
+    transition: color 0.2s; }
+    .lesson a:hover {
+      color: black; }
+  .lesson img {
+    display: block;
+    background-color: white;
+    border: 1px solid #344649;
+    padding: 8px;
+    max-height: 450px;
+    margin: 8px 0; }
+  .lesson pre {
+    margin: 8px 0; }
+  .lesson p {
+    margin-bottom: 8px; }
