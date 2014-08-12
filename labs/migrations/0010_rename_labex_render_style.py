@@ -11,3 +11,4 @@ class Migration(SchemaMigration):
     def backwards(self, orm):
         LabEx.objects.filter(render_style=u'text').update(render_style=u'labs/labex.html')
         LabEx.objects.filter(render_style=u'gallery').update(render_style=u'labs/labex_gallery.html')
+
