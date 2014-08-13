@@ -14,4 +14,5 @@ urlpatterns = patterns('students.views',
    url(r'ajax/labs/discipline/add/$', 'ajax.labs.discipline.add', ),
    url(r'ajax/labs/discipline/$', 'ajax.labs.discipline.index', ),
    url(r'ajax/year/$', 'ajax.index', ),
+   url(r'$', 'index'),
 )

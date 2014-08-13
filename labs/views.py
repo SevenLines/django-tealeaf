@@ -10,6 +10,7 @@ from labs.cms_plugins import TaskExPlugin
 from labs.models import TaskEx, LabEx
 
 
+
 @require_POST
 @login_required
 def update_task(request, pk):

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static custom_css_tags cms_tags sekizai_tags menu_tags email_obfuscator %}
+{% load static custom_css_tags cms_tags sekizai_tags menu_tags email_obfuscator ex_tags %}
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,6 +30,11 @@
                     </a>
                 </li>
                 {% show_menu 0 100 100 100 "elements/menu_vertical.html" %}
+                {# CUSTOM MENU ITEMS #}
+                {% if user.is_authenticated %}
+                    {% custom_menu_items request %}
+                {% endif %}
+                {# END CUSTOM MENU ITEMS #}
                 <li>
                     <a>
                         <span class="glyphicon glyphicon-envelope"></span>

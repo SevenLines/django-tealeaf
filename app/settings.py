@@ -26,6 +26,7 @@
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import json
 import os
+from django.core.urlresolvers import reverse
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -182,3 +183,24 @@ SOUTH_MIGRATION_MODULES = {
 # JASMINE_TEST_DIRECTORY = os.path.join(BASE_DIR, "jasmine-tests")
 
 FILER_PAGINATE_BY = 50
+
+
+CUSTOM_MENU_ITEMS = ({
+    # 'name': 'ppl',
+    'img': 'img/profle.png',
+    'href': reverse("students.views.index"),
+    },
+)
+#
+# CUSTOM_MENU_ITEMS = (
+#     {
+#         'name': 'name1',
+#         'img': 'img_src',
+#         'href': '/'
+#     },
+#     {
+#         'name': 'name2',
+#         'img': 'img_src',
+#         'href': '/'
+#     },
+# )
