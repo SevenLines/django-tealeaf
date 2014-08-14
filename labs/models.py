@@ -1,9 +1,12 @@
 #coding:utf8
 from cms.models.pluginmodel import CMSPlugin
 from django.db import models
+from django.db.models.base import Model
+from django.db.models.fields.related import ForeignKey
 from django.utils.translation import ugettext_lazy as _
 from filer.fields.image import FilerImageField
 from django.utils.text import Truncator
+from students.models import Student
 
 
 class LabEx(CMSPlugin):
@@ -57,5 +60,10 @@ class TaskEx(CMSPlugin):
 
     def __unicode__(self):
         return unicode(self.user + " | " + Truncator(self.description).words(5, html=True))
+
+
+class TaskStudent(Model):
+    taskex = ForeignKey(TaskEx)
+    student = ForeignKey(Student)
 
 

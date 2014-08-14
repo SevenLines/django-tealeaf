@@ -8,19 +8,18 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding M2M table for field users on 'TaskEx'
-        m2m_table_name = 'TaskStudent'
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('taskex', models.ForeignKey(orm[u'labs.taskex'], null=False)),
-            ('student', models.ForeignKey(orm[u'students.student'], null=False))
+        # Adding model 'TaskStudent'
+        db.create_table(u'labs_taskstudent', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('taskex', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['labs.TaskEx'])),
+            ('student', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['students.Student'])),
         ))
-        db.create_unique(m2m_table_name, ['taskex_id', 'student_id'])
+        db.send_create_signal(u'labs', ['TaskStudent'])
 
 
     def backwards(self, orm):
-        # Removing M2M table for field users on 'TaskEx'
-        db.delete_table('TaskStudent')
+        # Deleting model 'TaskStudent'
+        db.delete_table(u'labs_taskstudent')
 
 
     models = {
@@ -139,8 +138,13 @@ class Migration(SchemaMigration):
             'complexity': ('django.db.models.fields.CharField', [], {'default': "'easy'", 'max_length': '20'}),
             'description': ('django.db.models.fields.TextField', [], {'default': "'\\xd1\\x82\\xd0\\xb5\\xd0\\xba\\xd1\\x81\\xd1\\x82 \\xd0\\xb7\\xd0\\xb0\\xd0\\xb4\\xd0\\xb0\\xd1\\x87\\xd0\\xb8...'", 'blank': 'True'}),
             'image': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'to': "orm['filer.Image']", 'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100', 'blank': 'True'}),
-            'users': ('django.db.models.fields.related.ManyToManyField', [], {'default': 'None', 'to': u"orm['students.Student']", 'db_table': "'TaskStudent'", 'blank': 'True', 'symmetrical': 'False', 'null': 'True'})
+            'user': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100', 'blank': 'True'})
+        },
+        u'labs.taskstudent': {
+            'Meta': {'object_name': 'TaskStudent'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'student': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['students.Student']"}),
+            'taskex': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['labs.TaskEx']"})
         },
         u'students.group': {
             'Meta': {'object_name': 'Group'},
