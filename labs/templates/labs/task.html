@@ -1,9 +1,13 @@
 {% load static %}
 <li id="task{{ task.id }}"
     class="item{% if task.user %} selected{% endif %} {{ task.complexity }}">
+
+    {# MAIN TASK INFO VISIBLE FOR EVERYONE #}
     <div class="info">
         {% include "labs/task_info.html" %}
     </div>
+    {# END MAIN TASK INFO #}
+
     {% if user.is_authenticated and page.publisher_is_draft %}
         <div class="edit">
             {% if not is_gallery %}
@@ -39,11 +43,22 @@
                 {% if is_gallery %}
                     <input type="hidden" name="is_gallery" value="1">
                 {% endif %}
+                {% if not is_gallery %}
+                    <div class="form-group">
+                        <select style="min-width: 300px"
+                                multiple="multiple">
+                            <option></option>
+
+                        </select>
+                    </div>
+                {% endif %}
             </form>
+
             <script>
                 var editor = new TaskEditor('task{{ task.id }}', 'task_content_{{ task.id }}');
             </script>
         </div>
+
     {% endif %}
     <div style="clear: both"></div>
 </li>
