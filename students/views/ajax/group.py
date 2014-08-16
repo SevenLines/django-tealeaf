@@ -2,11 +2,13 @@ from django.contrib.auth.decorators import login_required
 from django.http.response import Http404, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
+from django.views.decorators.http import require_POST
 
 from students.models import Group, active_years
 from students.utils import current_year
 
 
+@require_POST
 @login_required
 def add(request):
     group = Group()
@@ -18,6 +20,7 @@ def add(request):
     # return index(request)
 
 
+@require_POST
 @login_required
 def update(request):
     if 'group_id' in request.POST:
@@ -37,8 +40,17 @@ def update(request):
     # return index(request)
 
 
-def index(request):
+@require_POST
+@login_required
+def copy_to_next_year(request):
+    group_id = request.POST['group_id']
+    g = Group.objects.filter(pk=group_id).first()
+    if g is not None:
+        g.copy_to_next_year()
+    return HttpResponse()
 
+
+def index(request):
     data = {
         'years': active_years()
     }
@@ -66,6 +78,8 @@ def index(request):
     return response
 
 
+@require_POST
+@login_required
 def remove(request):
     group_id = request.POST.get('group_id_delete', None)
     if group_id is not None:

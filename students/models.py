@@ -11,6 +11,7 @@ from students.utils import current_year
 
 class Group(models.Model):
     title = models.CharField(max_length=10, default='')
+    ancestor = models.ForeignKey('self', null=True, default=None, blank=True)
     year = models.IntegerField(default=students.utils.current_year())
 
     def __unicode__(self):
@@ -32,6 +33,22 @@ class Group(models.Model):
         :return:
         """
         return Group.objects.get(pk=self.pk).student_set
+
+    @transaction.atomic
+    def copy_to_next_year(self):
+        g = Group.objects.get(pk=self.pk)
+        g.pk = None
+        g.year += 1
+        g.ancestor = self
+        g.save()
+        for s in self.students.all():
+            s.pk = None
+            s.group = g
+            s.save()
+
+    @property
+    def has_ancestor(self):
+        return Group.objects.filter(ancestor=self.pk, year=self.year + 1).exists()
 
     def lessons(self, discipline):
         """
