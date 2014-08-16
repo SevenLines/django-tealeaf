@@ -8,7 +8,7 @@ from django.views.decorators.http import require_http_methods, require_POST
 
 from labs.cms_plugins import TaskExPlugin
 from labs.models import TaskEx, LabEx
-from labs.utils import users_for_task, set_users_for_task
+from labs.models import users_for_task, set_users_for_task
 
 
 @require_POST

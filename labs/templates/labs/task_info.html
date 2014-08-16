@@ -5,8 +5,17 @@
         {{ forloop.counter }} {% if task.user %} | {{ task.user }} {% endif %}
     </div>
 {% else %}
-    {% if task.user %}
-        <span class="user-info">{{ task.user }}</span>
+    {% if users or task.user %}
+        <ul class="user-info">
+            {% if user %}
+                <li><span>{{ task.user }}</span></li>
+            {% endif %}
+            {% if users %}
+                {% for u in users %}
+                    <li><span style="float: right">{{ u.second_name }} {{ u.name }} | {{ u.group.title }}</span></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
     {% endif %}
     <div id="task_content_{{ task.id }}">
         {{ task.description|safe|default:"..." }}

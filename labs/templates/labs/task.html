@@ -1,6 +1,6 @@
 {% load static %}
 <li id="task{{ task.id }}"
-    class="item{% if task.user %} selected{% endif %} {{ task.complexity }}">
+    class="item{% if task.user or users %} selected{% endif %} {{ task.complexity }}">
 
     {# MAIN TASK INFO, VISIBLE FOR EVERYONE #}
     <div class="info">
