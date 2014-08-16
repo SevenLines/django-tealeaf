@@ -7,12 +7,12 @@ from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.template import RequestContext
 from django.db.models import Q
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 
 from students.models import Student, Group
 
 
-@require_POST
+@require_GET
 @login_required
 def list_students(request):
     task_id = request.GET.get("task_id", None)
