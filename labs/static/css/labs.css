@@ -110,6 +110,8 @@
         padding-top: 0.5em; }
         .lab .tasks .edit .form-inline .form-group {
           padding-right: 0.5em; }
+      .lab .tasks .edit .select-control {
+        width: 300px; }
     .lab .tasks.gallery {
       list-style: none;
       float: left; }
@@ -117,6 +119,8 @@
         padding-right: 0; }
       .lab .tasks.gallery .edit .form-control {
         width: 100%; }
+      .lab .tasks.gallery .edit .select-control {
+        width: 102px; }
       .lab .tasks.gallery img {
         box-shadow: none;
         border-radius: 0;
