@@ -2,11 +2,23 @@
     <img src="{{ task.image.url }}"/>
     {#    </a>#}
     <div class="caption">
-        {{ forloop.counter }} {% if task.user %} | {{ task.user }} {% endif %}
+    {{ forloop.counter }}
+{#        {% if users %}#}
+{#            <ul style="list-style: none; padding: 0; margin: 0">#}
+{#                <li style="padding: 0;margin: 0;">{{ forloop.counter }}</li>#}
+{#                {% for u in users %}#}
+{#                    <li style="padding: 0;margin: 0;">{{ u.second_name }}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        {% endif %}#}
     </div>
 {% else %}
-    {% if task.user %}
-        <span class="user-info">{{ task.user }}</span>
+    {% if users %}
+        <ul class="user-info">
+            {% for u in users %}
+                <li><span style="float: right">{{ u.second_name }} {{ u.name }} | {{ u.group.title }}</span></li>
+            {% endfor %}
+        </ul>
     {% endif %}
     <div id="task_content_{{ task.id }}">
         {{ task.description|safe|default:"..." }}

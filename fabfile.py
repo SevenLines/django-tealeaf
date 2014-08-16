@@ -1,10 +1,5 @@
 # coding:utf8
-<<<<<<< HEAD
-from fabric.context_managers import settings
-from fabric.api import run, env, cd, prefix
-=======
 from fabric.api import run, env, cd, prefix, settings
->>>>>>> dev
 from fabric.operations import local
 
 # ## ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
