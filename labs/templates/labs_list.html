@@ -7,7 +7,7 @@
     {% if user.is_authenticated %}
         {% addtoblock "css" %}
             <link rel="stylesheet" href="{% static "select2/select2.css" %}"/>
-{#            <link rel="stylesheet" href="{% static "select2/select2-bootstrap.css" %}"/>#}
+            {#            <link rel="stylesheet" href="{% static "select2/select2-bootstrap.css" %}"/>#}
         {% endaddtoblock %}
         {% addtoblock "top_js" %}
             <script type="text/javascript" src="{% static "select2/select2.min.js" %}"></script>
@@ -39,7 +39,14 @@
                 });
 
             });
-            new SelectStudent(".select-control", "{% url "students.views.ajax.student.list_students" %}")
+            // captions for image tasks
+            $('.lab').find(".tasks.gallery .item[data-toggle='tooltip']").tooltip({
+                placement: 'top'
+            });
+            {% if user.is_authenticated %}
+                // student select item
+                new SelectStudent(".select-control", "{% url "students.views.ajax.student.list_students" %}")
+            {% endif %}
         </script>
     {% endaddtoblock %}
     {# END SCRIPTS #}

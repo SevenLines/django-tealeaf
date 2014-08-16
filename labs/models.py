@@ -9,10 +9,14 @@ from filer.fields.image import FilerImageField
 from django.utils.text import Truncator
 
 from students.models import Student
+from students.utils import current_year
 
 
-def users_for_task(task_id):
-    return Student.objects.filter(taskstudent__taskex_id=task_id).order_by("second_name")
+def users_for_task(task_id, year=-1):
+    if year == -1:
+        year = current_year()
+    return Student.objects.filter(group__year=year)\
+        .filter(taskstudent__taskex_id=task_id).order_by("second_name")
 
 
 @transaction.atomic
@@ -68,15 +72,15 @@ class TaskEx(CMSPlugin):
     description = models.TextField(blank=True, default="текст задачи...")
     image = FilerImageField(null=True, blank=True, default=None, verbose_name="image")
 
-    user = models.CharField(verbose_name="name of user",
-                            max_length=100, blank=True, default="")
+    # user = models.CharField(verbose_name="name of user",
+    #                         max_length=100, blank=True, default="")
 
     def copy_relations(self, oldinstance):
         students = users_for_task(oldinstance.pk)
         set_users_for_task(self.pk, list([s.id for s in students]))
 
     def __unicode__(self):
-        return unicode(self.user + " | " + Truncator(self.description).words(5, html=True))
+        return unicode(Truncator(self.description).words(5, html=True))
 
 
 class TaskStudent(Model):
