@@ -1,1 +1,411 @@
-(function(){var t,e,s,i,o,n,r,a=function(t,e){return function(){return t.apply(e,arguments)}};n=function(){return $.cookie("group_id")},o=function(){return $.cookie("discipline_id")},r=function(){return $.cookie("year")},Logger.useDefaults(),s=function(){function t(){this.restore_last_state=a(this.restore_last_state,this),this.bind=a(this.bind,this),this.set_id=a(this.set_id,this),this.id="",this.need_to_be_reloaded=null,this.selector_table=""+this.id+" .group-students .content",this.selector_form_add=""+this.selector_table+" form.add",this.selector_form_remove=""+this.selector_table+" form.remove",this.selector_form_update=""+this.selector_table+" form.update",this.modal_form=""+this.id+" .modal_remove",this.add_student_family_input=""+this.id+" .add_student_family_input"}var e,s,i,o,n;return i="_old",e={Update:1,Add:2,Remove:3},t.last_action=0,t.last_student_id=-1,t.prototype.set_id=function(t){return this.id=t,this.selector_table=""+this.id+" .group-students .content",this.selector_form_add=""+this.selector_table+" form.add",this.selector_form_remove=""+this.selector_table+" form.remove",this.selector_form_update=""+this.selector_table+" form.update",this.modal_form=""+this.id+" .modal_remove",this.add_student_family_input=""+this.id+" .add_student_family_input"},s=function(t){var e,s,o,n,r,a;for(a=$(t).find("input[type=text]"),n=0,r=a.length;r>n;n++)if(e=a[n],s=""+e.name+i,o=$(e).siblings("input[name="+s+"]"),o.size()>0&&e.value!==o[0].value)return!0;return!1},o=function(e){var s,i,o;return i="input[name=student_id][value="+t.last_student_id+"]",console.log("Gonna restore: "+i),console.log(e),o=$(e).find(i),o.size()&&(s=o.siblings("input[name=second_name]"),s.size()>0)?s[0].focus():void 0},n=function(i,o){var n,r,a,l,d,_;for(a=[],console.log(i),_=$(i),l=0,d=_.length;d>l;l++)n=_[l],s(n)&&(r=$.post(n.action,$(n).serialize()),console.log(r),a.push(r));$.when(a).then(function(){t.last_action=e.Update,o&&o()})},t.prototype.bind=function(){var s,o,r;return console.log("Student: start binding"),o=this.need_to_be_reloaded,s=this.modal_form,r=this.selector_form_update,$(this.selector_form_add).ajaxForm({success:function(){console.log("added"),t.last_student_id=-1,t.last_action=e.Add,null!==o&&o()}}),$(this.selector_form_remove).submit(function(){var i,n,r,a,l,d;n=$(""+s).modal("show");try{d=$(this).parents("tr")[0],d&&(i=$(d).find("form.update"),r=i.find("input[name=name]")[0].value,a=i.find("input[name=second_name]")[0].value)}catch(_){return!1}return l=$($(this).parents("li")[1]).find("a").text(),n.find(".modal-body").html("Удалить?<h2>"+a+"<br>"+r+"</h2>"),i=this,$(n).find(".confirm").unbind("click"),$(n).find(".confirm").click(function(){return console.info("clicked"),$(i).ajaxSubmit({success:function(){console.info("removed"),t.last_student_id=-1,t.last_action=e.Remove,null!==o&&o()}})}),!1}),$(this.selector_form_update).submit(function(){return console.log("form updated"),t.last_student_id=$(this).find("input[name=student_id]")[0].value||-1,n(r,o),!1}),$(""+this.selector_form_update+" input[type=text]").on("input",function(){var t,e;return t=""+this.name+i,e=$(this).siblings("input[name="+t+"]")[0].value,$(this).parents(".form-group").toggleClass("has-success",e!==this.value),$(this).siblings("span.glyphicon.form-control-feedback").toggleClass("hidden",e===this.value)}),console.log("Student: end binding"),this},t.prototype.restore_last_state=function(){return console.log("Students: restoring"),t.last_action===e.Add&&$(""+this.add_student_family_input).focus(),t.last_action===e.Update&&o(this.selector_form_update),this},t}(),t=function(){function t(){this.restore_last_state=a(this.restore_last_state,this),this.set_id=a(this.set_id,this),this.id="",this.need_to_be_reloaded="",this.active_btn_style="btn-primary",this.selector_nav="",this.selector_submit_link="",this.selector_submit_link_forms="",this.selector_form_remove="",this.selector_form_add="",this.modal_form="",this.selector_students_table_content="",this.students_table=new s,this.students_table.need_to_be_reloaded=this.restore_last_state,this.set_id("")}var e;return e=Logger.get("GroupNav"),t.prototype.set_id=function(t){return this.id=t,this.students_table.set_id(this.id),this.log=Logger.get("GroupNav-"+this.id),this.selector_nav=""+this.id+" .groups-nav",this.selector_submit_link=""+this.selector_nav+" .submit-link",this.selector_submit_link_forms=""+this.selector_submit_link+" form.item",this.selector_form_remove=""+this.selector_nav+" form.remove",this.selector_form_update=""+this.selector_nav+" form.update",this.selector_form_add=""+this.selector_nav+" form.add",this.modal_form=""+this.id+" .modal_remove",this.selector_students_table_content=this.students_table.selector_table},t.prototype.clear_items=function(){$(this.selector_submit_link).toggleClass(this.active_btn_style,!1)},t.prototype.bind=function(){var t,s,i,o,n,r;return e.debug("Group: bind begin"),s=this,$(this.selector_form_remove).submit(function(){var t,e,o;return o=$(""+s.modal_form).modal("show"),e=$($(this).parents("li")[1]).find("a").text(),o.find(".modal-body").html("Удалить группу?<h2>"+e+"</h2>"),t=this,$(o).find(".confirm").unbind("click"),$(o).find(".confirm").click(function(){return $(t).ajaxSubmit({success:function(){console.log("removed"),i&&i()}})}),!1}),$(this.selector_form_update).ajaxForm({success:function(){console.log("updated"),i&&i()}}),i=this.need_to_be_reloaded,$(this.selector_form_add).ajaxForm({success:function(){console.log("added"),i&&i()}}),t=this.active_btn_style,o=this.selector_students_table_content,r=this.students_table,n=this.selector_submit_link,$(this.selector_submit_link).click(function(){return e.debug("clicked"),$(n).toggleClass(t,!1),$(this).toggleClass(t,!0),e.debug(o),$(this).find("form").ajaxSubmit({target:o,success:function(){e.debug("selector_submit_link_forms: success"),r.bind().restore_last_state()}}),!1}),e.debug("Group: bind end"),this},t.prototype.restore_last_state=function(){var t;return e.debug("restore last state"),n()&&(e.debug("immitate clicking"),e.debug(this.selector_submit_link_forms),t=$(this.selector_submit_link_forms).find("input[name='group_id'][value='"+n()+"']").siblings("[type=submit]"),t.size()>0&&t[0].click()),this},t}(),i=function(){function e(){this.restore_last_state=a(this.restore_last_state,this),this.year=a(this.year,this),this.bind=a(this.bind,this),this.set_id=a(this.set_id,this),this.group_nav=new t,this.id="",this.selector_form=""+this.id+" form.year_selector",this.selector_select=""+this.selector_form+" select",this.selector_group_nav_content=""+this.id+" .groups-content",this.group_nav.need_to_be_reloaded=this.restore_last_state,this.set_id("")}var s;return s=Logger.get("YearNav"),e.prototype.set_id=function(t){return this.id=t,this.selector_form=""+this.id+" form.year_selector",this.selector_select=""+this.selector_form+" select",this.selector_group_nav_content=""+this.id+" .groups-content",this.group_nav.set_id(this.id),s=Logger.get("YearNav-"+this.id)},e.prototype.bind=function(){var t,e,i;return s.debug("bind begin"),i=this.selector_group_nav_content,e=this.selector_form,t=this.group_nav,$(this.selector_form).ajaxForm({target:i,success:function(){s.debug("get succesfull responce to "+i),s.debug($(i).size()),t.bind().restore_last_state()}}),$(this.selector_select).on("change",function(){$(e).submit()}),s.debug("bind end"),this},e.prototype.year=function(){return $(this.selector_select).val()},e.prototype.restore_last_state=function(){return s.debug("restore last state"),$(this.selector_select).val(r()),s.debug("submit"),$(this.selector_form).submit(),this},e}(),e=function(){function t(t){this.year_nav=new i,this.id="#"+t,s.debug("set id "+this.id),this.year_nav.set_id(this.id),s.debug("bind and restore"),this.year_nav.bind().restore_last_state()}var e,s;return s=Logger.get("StudentsControl"),e="",t}(),window.StudentsControl=e,window.YearNav=i,window.StudentsTable=s,window.GroupNav=t}).call(this);
+// Generated by CoffeeScript 1.7.1
+(function() {
+  var GroupNav, StudentsControl, StudentsTable, YearNav, cookie_discp_id, cookie_group_id, cookie_year,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+  cookie_group_id = function() {
+    return $.cookie('group_id');
+  };
+
+  cookie_discp_id = function() {
+    return $.cookie('discipline_id');
+  };
+
+  cookie_year = function() {
+    return $.cookie('year');
+  };
+
+  Logger.useDefaults();
+
+  StudentsTable = (function() {
+    var ACTIONS, check_changed, pstfx_old, select_last_student_form_update, send_changed_students;
+
+    pstfx_old = "_old";
+
+    ACTIONS = {
+      Update: 1,
+      Add: 2,
+      Remove: 3
+    };
+
+    StudentsTable.last_action = 0;
+
+    StudentsTable.last_student_id = -1;
+
+    function StudentsTable() {
+      this.restore_last_state = __bind(this.restore_last_state, this);
+      this.bind = __bind(this.bind, this);
+      this.set_id = __bind(this.set_id, this);
+      this.id = "";
+      this.need_to_be_reloaded = null;
+      this.selector_table = "" + this.id + " .group-students .content";
+      this.selector_form_add = "" + this.selector_table + " form.add";
+      this.selector_form_remove = "" + this.selector_table + " form.remove";
+      this.selector_form_update = "" + this.selector_table + " form.update";
+      this.modal_form = "" + this.id + " .modal_remove";
+      this.add_student_family_input = "" + this.id + " .add_student_family_input";
+    }
+
+    StudentsTable.prototype.set_id = function(id) {
+      this.id = id;
+      this.selector_table = "" + this.id + " .group-students .content";
+      this.selector_form_add = "" + this.selector_table + " form.add";
+      this.selector_form_remove = "" + this.selector_table + " form.remove";
+      this.selector_form_update = "" + this.selector_table + " form.update";
+      this.modal_form = "" + this.id + " .modal_remove";
+      return this.add_student_family_input = "" + this.id + " .add_student_family_input";
+    };
+
+    check_changed = function(form) {
+      var i, name, siblings, _i, _len, _ref;
+      _ref = $(form).find("input[type=text]");
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        i = _ref[_i];
+        name = "" + i.name + pstfx_old;
+        siblings = $(i).siblings("input[name=" + name + "]");
+        if (siblings.size() > 0) {
+          if (i.value !== siblings[0].value) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+
+    select_last_student_form_update = function(selector_form_update) {
+      var input_second_name, selector, student_id;
+      selector = "input[name=student_id][value=" + StudentsTable.last_student_id + "]";
+      console.log("Gonna restore: " + selector);
+      console.log(selector_form_update);
+      student_id = $(selector_form_update).find(selector);
+      if (student_id.size()) {
+        input_second_name = student_id.siblings("input[name=second_name]");
+        if (input_second_name.size() > 0) {
+          return input_second_name[0].focus();
+        }
+      }
+    };
+
+    send_changed_students = function(selector_form_update, need_to_be_reloaded) {
+      var f, request, requests, _i, _len, _ref;
+      requests = [];
+      console.log(selector_form_update);
+      _ref = $(selector_form_update);
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        f = _ref[_i];
+        if (check_changed(f)) {
+          request = $.post(f.action, $(f).serialize());
+          console.log(request);
+          requests.push(request);
+        }
+      }
+      $.when(requests).then(function() {
+        StudentsTable.last_action = ACTIONS.Update;
+        if (need_to_be_reloaded) {
+          need_to_be_reloaded();
+        }
+      });
+    };
+
+    StudentsTable.prototype.bind = function() {
+      var modal_form, need_to_be_reloaded, selector_form_update;
+      console.log("Student: start binding");
+      need_to_be_reloaded = this.need_to_be_reloaded;
+      modal_form = this.modal_form;
+      selector_form_update = this.selector_form_update;
+      $(this.selector_form_add).ajaxForm({
+        success: function(response, status, xhr, $form) {
+          console.log('added');
+          StudentsTable.last_student_id = -1;
+          StudentsTable.last_action = ACTIONS.Add;
+          if (need_to_be_reloaded !== null) {
+            need_to_be_reloaded();
+          }
+        }
+      });
+      $(this.selector_form_remove).submit(function() {
+        var form, modal, name, second_name, student_name, tr;
+        modal = $("" + modal_form).modal("show");
+        try {
+          tr = $(this).parents("tr")[0];
+          if (tr) {
+            form = $(tr).find("form.update");
+            name = form.find("input[name=name]")[0].value;
+            second_name = form.find("input[name=second_name]")[0].value;
+          }
+        } catch (_error) {
+          return false;
+        }
+        student_name = $($(this).parents("li")[1]).find('a').text();
+        modal.find('.modal-body').html("Удалить?<h2>" + second_name + "<br>" + name + "</h2>");
+        form = this;
+        $(modal).find('.confirm').unbind('click');
+        $(modal).find('.confirm').click(function() {
+          console.info("clicked");
+          return $(form).ajaxSubmit({
+            success: function(response, status, xhr, $form) {
+              console.info("removed");
+              StudentsTable.last_student_id = -1;
+              StudentsTable.last_action = ACTIONS.Remove;
+              if (need_to_be_reloaded !== null) {
+                need_to_be_reloaded();
+              }
+            }
+          });
+        });
+        return false;
+      });
+      $(this.selector_form_update).submit(function() {
+        console.log('form updated');
+        StudentsTable.last_student_id = $(this).find('input[name=student_id]')[0].value || -1;
+        send_changed_students(selector_form_update, need_to_be_reloaded);
+        return false;
+      });
+      $("" + this.selector_form_update + " input[type=text]").on('input', function() {
+        var name, old_value;
+        name = "" + this.name + pstfx_old;
+        old_value = $(this).siblings("input[name=" + name + "]")[0].value;
+        $(this).parents('.form-group').toggleClass("has-success", old_value !== this.value);
+        return $(this).siblings('span.glyphicon.form-control-feedback').toggleClass("hidden", old_value === this.value);
+      });
+      console.log("Student: end binding");
+      return this;
+    };
+
+    StudentsTable.prototype.restore_last_state = function() {
+      console.log("Students: restoring");
+      if (StudentsTable.last_action === ACTIONS.Add) {
+        $("" + this.add_student_family_input).focus();
+      }
+      if (StudentsTable.last_action === ACTIONS.Update) {
+        select_last_student_form_update(this.selector_form_update);
+      }
+      return this;
+    };
+
+    return StudentsTable;
+
+  })();
+
+  GroupNav = (function() {
+    var log;
+
+    log = Logger.get("GroupNav");
+
+    function GroupNav() {
+      this.restore_last_state = __bind(this.restore_last_state, this);
+      this.set_id = __bind(this.set_id, this);
+      this.id = "";
+      this.need_to_be_reloaded = "";
+      this.active_btn_style = "btn-primary";
+      this.selector_nav = "";
+      this.selector_submit_link = "";
+      this.selector_submit_link_forms = "";
+      this.selector_form_remove = "";
+      this.selector_form_add = "";
+      this.modal_form = "";
+      this.selector_students_table_content = "";
+      this.students_table = new StudentsTable();
+      this.students_table.need_to_be_reloaded = this.restore_last_state;
+      this.set_id("");
+    }
+
+    GroupNav.prototype.set_id = function(_id) {
+      this.id = _id;
+      this.students_table.set_id(this.id);
+      this.log = Logger.get("GroupNav-" + this.id);
+      this.selector_nav = "" + this.id + " .groups-nav";
+      this.selector_submit_link = "" + this.selector_nav + " .submit-link";
+      this.selector_submit_link_forms = "" + this.selector_submit_link + " form.item";
+      this.selector_form_remove = "" + this.selector_nav + " form.remove";
+      this.selector_form_update = "" + this.selector_nav + " form.update";
+      this.selector_form_add = "" + this.selector_nav + " form.add";
+      this.selector_form_copy_to_next_year = "" + this.selector_nav + " form.copy_to_next_year";
+      this.modal_form = "" + this.id + " .modal_remove";
+      return this.selector_students_table_content = this.students_table.selector_table;
+    };
+
+    GroupNav.prototype.clear_items = function() {
+      $(this.selector_submit_link).toggleClass(this.active_btn_style, false);
+    };
+
+    GroupNav.prototype.bind = function() {
+      var active_btn_style, group_nav, need_to_be_reloaded, selector_students_table_content, selector_submit_link, students_table;
+      log.debug("Group: bind begin");
+      group_nav = this;
+      $(this.selector_form_remove).submit(function() {
+        var form, group_name, modal;
+        modal = $("" + group_nav.modal_form).modal("show");
+        group_name = $($(this).parents("li")[1]).find('a').text();
+        modal.find('.modal-body').html("Удалить группу?<h2>" + group_name + "</h2>");
+        form = this;
+        $(modal).find('.confirm').unbind('click');
+        $(modal).find('.confirm').click(function() {
+          return $(form).ajaxSubmit({
+            success: function(response, status, xhr, $form) {
+              console.log('removed');
+              if (need_to_be_reloaded) {
+                need_to_be_reloaded();
+              }
+            }
+          });
+        });
+        return false;
+      });
+      $(this.selector_form_update).ajaxForm({
+        success: function(response, status, xhr, $form) {
+          console.log('updated');
+          if (need_to_be_reloaded) {
+            need_to_be_reloaded();
+          }
+        }
+      });
+      $(this.selector_form_copy_to_next_year).ajaxForm({
+        success: function(response, status, xhr, $form) {
+          $form.remove();
+        }
+      });
+      need_to_be_reloaded = this.need_to_be_reloaded;
+      $(this.selector_form_add).ajaxForm({
+        success: function(response, status, xhr, $form) {
+          console.log('added');
+          if (need_to_be_reloaded) {
+            need_to_be_reloaded();
+          }
+        }
+      });
+      active_btn_style = this.active_btn_style;
+      selector_students_table_content = this.selector_students_table_content;
+      students_table = this.students_table;
+      selector_submit_link = this.selector_submit_link;
+      $(this.selector_submit_link).click(function() {
+        log.debug("clicked");
+        $(selector_submit_link).toggleClass(active_btn_style, false);
+        $(this).toggleClass(active_btn_style, true);
+        log.debug(selector_students_table_content);
+        $(this).find('form').ajaxSubmit({
+          target: selector_students_table_content,
+          success: function(response, status, xhr, $form) {
+            log.debug('selector_submit_link_forms: success');
+            students_table.bind().restore_last_state();
+          }
+        });
+        return false;
+      });
+      log.debug("Group: bind end");
+      return this;
+    };
+
+    GroupNav.prototype.restore_last_state = function() {
+      var siblings;
+      log.debug("restore last state");
+      if (cookie_group_id()) {
+        log.debug("immitate clicking");
+        log.debug(this.selector_submit_link_forms);
+        siblings = $(this.selector_submit_link_forms).find("input[name='group_id'][value='" + (cookie_group_id()) + "']").siblings('[type=submit]');
+        if (siblings.size() > 0) {
+          siblings[0].click();
+        }
+      }
+      return this;
+    };
+
+    return GroupNav;
+
+  })();
+
+  YearNav = (function() {
+    var log;
+
+    log = Logger.get("YearNav");
+
+    function YearNav() {
+      this.restore_last_state = __bind(this.restore_last_state, this);
+      this.year = __bind(this.year, this);
+      this.bind = __bind(this.bind, this);
+      this.set_id = __bind(this.set_id, this);
+      this.group_nav = new GroupNav();
+      this.id = "";
+      this.selector_form = "" + this.id + " form.year_selector";
+      this.selector_select = "" + this.selector_form + " select";
+      this.selector_group_nav_content = "" + this.id + " .groups-content";
+      this.group_nav.need_to_be_reloaded = this.restore_last_state;
+      this.set_id("");
+    }
+
+    YearNav.prototype.set_id = function(_id) {
+      this.id = _id;
+      this.selector_form = "" + this.id + " form.year_selector";
+      this.selector_select = "" + this.selector_form + " select";
+      this.selector_group_nav_content = "" + this.id + " .groups-content";
+      this.group_nav.set_id(this.id);
+      return log = Logger.get("YearNav-" + this.id);
+    };
+
+    YearNav.prototype.bind = function() {
+      var group_nav, selector_form, selector_group_nav_content;
+      log.debug("bind begin");
+      selector_group_nav_content = this.selector_group_nav_content;
+      selector_form = this.selector_form;
+      group_nav = this.group_nav;
+      $(this.selector_form).ajaxForm({
+        target: selector_group_nav_content,
+        success: function(response, status, xhr, $form) {
+          log.debug("get succesfull responce to " + selector_group_nav_content);
+          log.debug($(selector_group_nav_content).size());
+          group_nav.bind().restore_last_state();
+        }
+      });
+      $(this.selector_select).on('change', function() {
+        $(selector_form).submit();
+      });
+      log.debug("bind end");
+      return this;
+    };
+
+    YearNav.prototype.year = function() {
+      return $(this.selector_select).val();
+    };
+
+    YearNav.prototype.restore_last_state = function() {
+      log.debug("restore last state");
+      $(this.selector_select).val(cookie_year());
+      log.debug("submit");
+      $(this.selector_form).submit();
+      return this;
+    };
+
+    return YearNav;
+
+  })();
+
+  StudentsControl = (function() {
+    var id, log;
+
+    log = Logger.get("StudentsControl");
+
+    id = "";
+
+    function StudentsControl(id) {
+      this.year_nav = new YearNav();
+      this.id = "#" + id;
+      log.debug("set id " + this.id);
+      this.year_nav.set_id(this.id);
+      log.debug("bind and restore");
+      this.year_nav.bind().restore_last_state();
+      this;
+    }
+
+    return StudentsControl;
+
+  })();
+
+  window.StudentsControl = StudentsControl;
+
+  window.YearNav = YearNav;
+
+  window.StudentsTable = StudentsTable;
+
+  window.GroupNav = GroupNav;
+
+}).call(this);

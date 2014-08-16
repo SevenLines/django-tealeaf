@@ -179,6 +179,7 @@ class GroupNav
         @selector_form_remove = "#{@selector_nav} form.remove"
         @selector_form_update = "#{@selector_nav} form.update"
         @selector_form_add = "#{@selector_nav} form.add"
+        @selector_form_copy_to_next_year = "#{@selector_nav} form.copy_to_next_year"
         @modal_form = "#{@id} .modal_remove"
         @selector_students_table_content = @students_table.selector_table
 
@@ -217,6 +218,13 @@ class GroupNav
                 console.log('updated')
                 if need_to_be_reloaded
                     need_to_be_reloaded()
+                return
+
+        # форма копирования группы в следующий год
+        $(@selector_form_copy_to_next_year).ajaxForm
+            success: (response, status, xhr, $form) ->
+#                console.dir(this)
+                $form.remove()
                 return
 
         need_to_be_reloaded = @need_to_be_reloaded

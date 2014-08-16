@@ -1,16 +1,18 @@
 # coding=utf-8
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.template import RequestContext
 from django.db.models import Q
-import json
-
+from django.views.decorators.http import require_POST
 
 from students.models import Student, Group
 
 
+@require_POST
 @login_required
 def list_students(request):
     task_id = request.GET.get("task_id", None)
@@ -29,6 +31,7 @@ def list_students(request):
     return HttpResponse(json.dumps(students), content_type="application/json")
 
 
+@require_POST
 @login_required
 def add(request):
     name = request.POST['name']
@@ -72,6 +75,7 @@ def index(request):
     return response
 
 
+@require_POST
 @login_required
 def remove(request):
     student_id = request.POST.get('student_id', -1)

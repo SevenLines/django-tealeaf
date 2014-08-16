@@ -49,6 +49,18 @@
                                 <input type="hidden" name="group_id" value="{{ g.id }}"/>
                             </form>
                         </li>
+                        {% if not g.has_ancestor %}
+                            <li>
+                                <form class="copy_to_next_year"
+                                      action="{% url "students.views.ajax.group.copy_to_next_year" %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="group_id" value="{{ g.id }}"/>
+                                    <button type="submit" class="btn btn-default pull-right">
+                                        <span class="glyphicon glyphicon-play"> to next year</span>
+                                    </button>
+                                </form>
+                            </li>
+                        {% endif %}
                     </ul>
                 {% endif %}
             </div>
