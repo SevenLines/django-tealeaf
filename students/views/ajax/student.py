@@ -1,10 +1,32 @@
+# coding=utf-8
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.template import RequestContext
+from django.db.models import Q
+import json
+
 
 from students.models import Student, Group
+
+
+@login_required
+def list_students(request):
+    task_id = request.GET.get("task_id", None)
+
+    # если передали task_id, то возвращаем список студентов
+    if task_id is not None:
+        students = Student.objects.filter(taskstudent__taskex_id=task_id)
+    # иначе отфильтрованный результат
+    else:
+        f = request.GET.get("filter", None)
+        if f is None:
+            return HttpResponseBadRequest()
+        students = Student.objects.filter(Q(second_name__icontains=f) | Q(name__icontains=f))[:10]
+
+    students = list([{"id": i.pk, "text": "%s %s" % (i.name, i.second_name)} for i in students])
+    return HttpResponse(json.dumps(students), content_type="application/json")
 
 
 @login_required

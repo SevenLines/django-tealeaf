@@ -6,6 +6,7 @@ from cms.plugin_pool import plugin_pool
 from textile.functions import textile
 
 from labs.models import TaskEx, LabEx
+from labs.utils import users_for_task
 
 
 class TaskExPlugin(CMSPluginBase):
@@ -27,6 +28,7 @@ class TaskExPlugin(CMSPluginBase):
         instance.description = instance.description
         context['page'] = instance.page
         context['task'] = instance
+        context['users'] = users_for_task(instance.pk)
         context['placeholder'] = placeholder
         context['complex_choices'] = TaskEx.COMPLEX_CHOICES
         return context

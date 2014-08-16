@@ -2,7 +2,7 @@
 <li id="task{{ task.id }}"
     class="item{% if task.user %} selected{% endif %} {{ task.complexity }}">
 
-    {# MAIN TASK INFO VISIBLE FOR EVERYONE #}
+    {# MAIN TASK INFO, VISIBLE FOR EVERYONE #}
     <div class="info">
         {% include "labs/task_info.html" %}
     </div>
@@ -22,10 +22,11 @@
             <form name="save" class="form-inline save" action="{% url "labs.views.update_task" pk=task.id %}"
                   method="post">
                 {% csrf_token %}
-                <div class="form-group">
-                    <input class="form-control small" type="text" name="user" value="{{ task.user }}"
-                           placeholder="фамилия...">
-                </div>
+{#                <div class="form-group">#}
+{#                    <input class="form-control small" type="text" name="user" value="{{ task.user }}"#}
+{#                           placeholder="фамилия...">#}
+{#                </div>#}
+                <input hidden="hidden" value="{{ task.id }}" name="task_id">
                 <div class="form-group">
                     <select name="complexity" class="form-control small" autocomplete="off">
                         {% for c in complex_choices %}
@@ -44,12 +45,14 @@
                     <input type="hidden" name="is_gallery" value="1">
                 {% endif %}
                 {% if not is_gallery %}
+                    <select name="users" hidden="hidden" multiple="multiple">
+                        {% for u in users %}
+                            <option value="{{ u.pk }}" selected>{{ u.second_name }} {{ u.name }}</option>
+                        {% endfor %}
+                    </select>
                     <div class="form-group">
-                        <select style="min-width: 300px"
-                                multiple="multiple">
-                            <option></option>
-
-                        </select>
+                        <span class="select-control" style="min-width: 300px">
+                        </span>
                     </div>
                 {% endif %}
             </form>

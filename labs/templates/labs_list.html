@@ -9,13 +9,8 @@
             <link rel="stylesheet" href="{% static "select2/select2.css" %}"/>
 {#            <link rel="stylesheet" href="{% static "select2/select2-bootstrap.css" %}"/>#}
         {% endaddtoblock %}
-        {% addtoblock "js" %}
+        {% addtoblock "top_js" %}
             <script type="text/javascript" src="{% static "select2/select2.min.js" %}"></script>
-            <script>
-                $(".tasks form.save select[multiple=multiple]").select2({
-                    placeholder: "студенты"
-                });
-            </script>
         {% endaddtoblock %}
     {% endif %}
 
@@ -41,7 +36,9 @@
                 $('.lab .selected').hover(function () {
                     $(this).toggleClass('selected');
                 });
+
             });
+            new SelectStudent(".select-control", "{% url "students.views.ajax.student.list_students" %}")
         </script>
     {% endaddtoblock %}
     {# END SCRIPTS #}
