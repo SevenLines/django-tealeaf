@@ -79,9 +79,6 @@ class TaskEx(CMSPlugin):
         students = users_for_task(oldinstance.pk)
         set_users_for_task(self.pk, list([s.id for s in students]))
 
-    users = models.ManyToManyField("students.Student", db_table="TaskStudent", db_constraint=True,
-                                   blank=True, default=None, null=True)
-
     def __unicode__(self):
         return unicode(Truncator(self.description).words(5, html=True))
 
