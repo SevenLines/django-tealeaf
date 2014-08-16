@@ -7,27 +7,34 @@ from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.template import RequestContext
 from django.db.models import Q
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
+# from labs.models import TaskEx
+# from labs.models import TaskEx
 
 from students.models import Student, Group
+from students.utils import current_year
 
 
-@require_POST
+@require_GET
 @login_required
 def list_students(request):
     task_id = request.GET.get("task_id", None)
 
     # если передали task_id, то возвращаем список студентов
     if task_id is not None:
-        students = Student.objects.filter(taskstudent__taskex_id=task_id)
+        # task = TaskEx.objects.get(pk=task_id).first()
+        # students = task.users()
+        # students = users_for_task(task_id) #Student.objects.filter(taskstudent__taskex_id=task_id)
+        pass
     # иначе отфильтрованный результат
     else:
         f = request.GET.get("filter", None)
         if f is None:
             return HttpResponseBadRequest()
-        students = Student.objects.filter(Q(second_name__icontains=f) | Q(name__icontains=f))[:10]
+        students = Student.objects.filter(Q(second_name__icontains=f) | Q(name__icontains=f)
+                                          , group__year=current_year())[:10]
 
-    students = list([{"id": i.pk, "text": "%s %s" % (i.name, i.second_name)} for i in students])
+    students = list([{"id": i.pk, "text": "%s %s | %s" % (i.name, i.second_name, i.group.title)} for i in students])
     return HttpResponse(json.dumps(students), content_type="application/json")
 
 

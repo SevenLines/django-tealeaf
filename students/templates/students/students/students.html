@@ -11,15 +11,15 @@
             <th class="counter">#</th>
             <th><span class="glyphicon glyphicon-user"></span></th>
 
-            <!-- кнопка добавления столбца занятий -->
-            {% if user.is_authenticated %}
-                <th>
-                    <input type="button" class="btn btn-primary btn-sm" value="+"/>
-                    <input type="hidden" name="group_id" value="{{ group.pk }}"/>
-                    <input type="hidden" name="discipline_id" value="{{ discipline.pk }}"/>
-                </th>
-            {% endif %}
-            <!-- конец кнопки добавления столбца занятий -->
+{#            <!-- кнопка добавления столбца занятий -->#}
+{#            {% if user.is_authenticated %}#}
+{#                <th>#}
+{#                    <input type="button" class="btn btn-primary btn-sm" value="+"/>#}
+{#                    <input type="hidden" name="group_id" value="{{ group.pk }}"/>#}
+{#                    <input type="hidden" name="discipline_id" value="{{ discipline.pk }}"/>#}
+{#                </th>#}
+{#            {% endif %}#}
+{#            <!-- конец кнопки добавления столбца занятий -->#}
 
         </tr>
         </thead>
@@ -72,9 +72,9 @@
                     <span class="text">{{ s.second_name }} {{ s.name }}</span>
                 {% endif %}
             </td>
-            {% if user.is_authenticated %}
-                <td></td>
-            {% endif %}
+{#            {% if user.is_authenticated %}#}
+{#                <td></td>#}
+{#            {% endif %}#}
         </tr>
     {% endfor %}
     </tbody>
