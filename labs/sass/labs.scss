@@ -55,6 +55,9 @@ $color_change_speed: 0.3s;
       .form-control {
         width: 100%;
       }
+      .select-control {
+        width: 102px;
+      }
     }
 
     img {
@@ -167,6 +170,9 @@ $color_change_speed: 0.3s;
         .form-group {
           padding-right: 0.5em;
         }
+      }
+      .select-control {
+        width: 300px;
       }
     }
     @include gallery;
