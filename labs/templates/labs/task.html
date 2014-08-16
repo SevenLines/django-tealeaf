@@ -1,17 +1,19 @@
 {% load static %}
 <li id="task{{ task.id }}"
-    class="item{% if task.user %} selected{% endif %} {{ task.complexity }}">
+    class="item{% if users %} selected{% endif %} {{ task.complexity }}"
+        {% if is_gallery and users %} data-html="true" data-toggle="tooltip" data-original-title="
+    {% for u in users %}{{ u.second_name }} {{ u.name }} | {{ u.group.title }}<br>{% endfor %}
+    "
+        {% endif %}>
 
-{# информация о задаче #}
+    {# MAIN TASK INFO, VISIBLE FOR EVERYONE #}
     <div class="info">
         {% include "labs/task_info.html" %}
     </div>
-{# конец информации о задаче #}
+    {# END MAIN TASK INFO #}
 
     {% if user.is_authenticated and page.publisher_is_draft %}
-        {# формы редактирования задачи #}
         <div class="edit">
-            {# редактирования информации о задачи только для текстовой задачи #}
             {% if not is_gallery %}
                 <div class="form-inline pull-left">
                     <div class="form-group">
@@ -21,14 +23,11 @@
                     </div>
                 </div>
             {% endif %}
-
             <form name="save" class="form-inline save" action="{% url "labs.views.update_task" pk=task.id %}"
                   method="post">
                 {% csrf_token %}
-                <div class="form-group">
-                    <input class="form-control small" type="text" name="user" value="{{ task.user }}"
-                           placeholder="фамилия...">
-                </div>
+                <input hidden="hidden" value="{{ task.id }}" name="task_id">
+
                 <div class="form-group">
                     <select name="complexity" class="form-control small" autocomplete="off">
                         {% for c in complex_choices %}
@@ -46,12 +45,23 @@
                 {% if is_gallery %}
                     <input type="hidden" name="is_gallery" value="1">
                 {% endif %}
+                <select name="users" hidden="hidden" multiple="multiple">
+                    {% for u in users %}
+                        <option value="{{ u.pk }}" selected>{{ u.second_name }} {{ u.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <div class="form-group">
+                        <span class="select-control" {% if is_gallery %}style="width: 102px"{% endif %}>
+                        </span>
+                </div>
             </form>
+
             <script>
                 var editor = new TaskEditor('task{{ task.id }}', 'task_content_{{ task.id }}');
             </script>
         </div>
-        {# конец формы редактирования задачи #}
+
     {% endif %}
     <div style="clear: both"></div>
 </li>

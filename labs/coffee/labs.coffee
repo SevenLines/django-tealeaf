@@ -48,7 +48,7 @@ class TaskEditor
         submit.toggleClass("btn-success", false)
 
     @clear_complexity: (task_id) ->
-        $("\##{task_id}").removeClass()
+        $("\##{task_id}").removeClass("easy medium hard nightmare")
 
     @create_ckEditor: (id_content) ->
         ckEditor = CKEDITOR.inline(id_content)
@@ -113,6 +113,46 @@ class TaskEditor
 
             return false
 
+class SelectStudent
+    update_select: (select_selector, val) ->
 
+
+    constructor: (selector_select2, students_url) ->
+
+        $(selector_select2).select2(
+            placeholder: "студенты"
+            multiple: true
+            minimumInputLength: 2
+            initSelection: (element, callback) ->
+                data = []
+                $(element).closest("form").find("select[name='users'] option").each (i, el)->
+                    console.log(el)
+                    data.push({
+                        id: el.value
+                        text: el.text
+                    })
+                callback(data)
+                return
+            ajax:
+                url: students_url
+                dataType: "json"
+                data: (term, page) =>
+                    return {
+                        filter: term
+                    }
+                results: (data, page) =>
+                    return {
+                        results: data
+                    }
+        ).select2('val', [])
+        .on("change", (e) ->
+            selector_hidden_select = $(this).closest("form").find("select[name='users']")
+            $(selector_hidden_select).find("option").remove()
+            for v in e.val
+               $(selector_hidden_select).append("<option val='#{v}' selected>#{v}</option>")
+        )
+
+
+window.SelectStudent = SelectStudent
 window.TaskEditor = TaskEditor
 window.LabEditor = LabEditor

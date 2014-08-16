@@ -2,7 +2,7 @@
 # Application definition
 
 INSTALLED_APPS = (
-
+    'ex_tags',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -38,4 +38,5 @@ INSTALLED_APPS = (
     'upgrade',
     'articles',
     'my_file_browser',
+
 )

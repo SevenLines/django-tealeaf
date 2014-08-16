@@ -21,20 +21,20 @@ $color_change_speed: 0.3s;
 }
 
 @mixin complex_style {
-  .easy {
+  &.easy {
     @include complexity(#d1ff99, #83b14c);
   }
-  .medium {
+  &.medium {
     @include complexity(#ffff99, #ffde60);
   }
-  .hard {
+  &.hard {
     @include complexity(#ffca99, #ffa75c);
   }
-  .nightmare {
+  &.nightmare {
     @include complexity(#ffbdb3, #ff7e79);
   }
 
-  .selected {
+  &.selected {
     @include transition;
     background-color: #dddddd;
     code {
@@ -131,10 +131,10 @@ $color_change_speed: 0.3s;
   }
 
   .tasks {
-    @include complex_style;
 
     padding-left: 2em;
-    li {
+    li.item {
+      @include complex_style;
       margin: 0.5em 0;
       padding: 0.5em;
       border-radius: 10px;
@@ -146,6 +146,7 @@ $color_change_speed: 0.3s;
       display: inline-block;
       padding: 0.5em 1em;
       float: right;
+      list-style: none;
       border-radius: 8px;
       background-color: white;
       border: silver 2px solid;
