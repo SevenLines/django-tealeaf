@@ -12,21 +12,6 @@ from students.models import Student
 from students.utils import current_year
 
 
-def users_for_task(task_id, year=-1):
-    if year == -1:
-        year = current_year()
-    return Student.objects.filter(group__year=year)\
-        .filter(taskstudent__taskex_id=task_id).order_by("second_name")
-
-
-@transaction.atomic
-def set_users_for_task(task_id, users_id):
-    TaskStudent.objects.filter(taskex_id=task_id).delete()
-    for user_id in users_id:
-        t = TaskStudent(taskex_id=task_id, student_id=int(user_id))
-        t.save()
-
-
 class LabEx(CMSPlugin):
     class Meta:
         pass
@@ -73,11 +58,29 @@ class TaskEx(CMSPlugin):
     image = FilerImageField(null=True, blank=True, default=None, verbose_name="image")
 
     # user = models.CharField(verbose_name="name of user",
-    #                         max_length=100, blank=True, default="")
+    # max_length=100, blank=True, default="")
 
     def copy_relations(self, oldinstance):
-        students = users_for_task(oldinstance.pk)
-        set_users_for_task(self.pk, list([s.id for s in students]))
+        students = oldinstance.users()
+        self.set_users(list([s.id for s in students]))
+
+    @transaction.atomic
+    def set_users(self, users_id):
+        TaskStudent.objects.filter(taskex_id=self.pk).delete()
+        for user_id in users_id:
+            t = TaskStudent(taskex_id=self.pk, student_id=int(user_id))
+            t.save()
+
+    def users(self, year=0):
+        students = Student.objects
+
+        if year == 0:
+            year = current_year()
+
+        if year != -1:
+            students = students.filter(group__year=year)
+
+        return students.filter(taskstudent__taskex_id=self.pk).order_by("second_name")
 
     def __unicode__(self):
         return unicode(Truncator(self.description).words(5, html=True))

@@ -4,8 +4,6 @@ from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
 from labs.models import TaskEx, LabEx
-from labs.models import users_for_task
-
 
 class TaskExPlugin(CMSPluginBase):
     name = u'Задача'
@@ -26,7 +24,7 @@ class TaskExPlugin(CMSPluginBase):
         instance.description = instance.description
         context['page'] = instance.page
         context['task'] = instance
-        context['users'] = users_for_task(instance.pk)
+        context['users'] = instance.users()
         context['placeholder'] = placeholder
         context['complex_choices'] = TaskEx.COMPLEX_CHOICES
         return context

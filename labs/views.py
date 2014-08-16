@@ -8,7 +8,6 @@ from django.views.decorators.http import require_http_methods, require_POST
 
 from labs.cms_plugins import TaskExPlugin
 from labs.models import TaskEx, LabEx
-from labs.models import users_for_task, set_users_for_task
 
 
 @require_POST
@@ -34,7 +33,7 @@ def update_task(request, pk):
         changed = True
 
     if 'users' in request.POST:
-        set_users_for_task(pk, request.POST.getlist('users'))
+        task.set_users(request.POST.getlist('users'))
 
     if changed:
         task.save()
@@ -44,7 +43,7 @@ def update_task(request, pk):
                'complex_choices': TaskEx.COMPLEX_CHOICES,
                'page': page,
                'is_gallery': 'is_gallery' in request.POST,
-               'users': users_for_task(pk)
+               'users': task.users()
                }
 
     return render(request, 'labs/task_info.html', context)
