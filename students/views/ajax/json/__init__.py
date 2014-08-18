@@ -36,13 +36,12 @@ def groups(request):
 
 @atomic
 def update_students_data(students_list):
-    # treat deleted items
     for s in students_list:
         if '_destroy' in s and s['id'] != -1:  # destroyed items
             Student.objects.filter(pk=s['id']).delete()
         if s['modified'] and s['id'] != -1:  # modifieded items
             student = Student.objects.filter(pk=s['id']).first()
-            if s is not None:
+            if student is not None:
                 student.name = s['name']
                 student.second_name = s['second_name']
                 student.save()
@@ -70,14 +69,37 @@ def save_students(request):
     return HttpResponse()
 
 
+@atomic
+def update_groups(groups_list):
+    for g in groups_list:
+        if '_destroy' in g and g['id'] != -1:  # destroyed items
+            Group.objects.filter(pk=g['id']).delete()
+        elif 'modified' in g and g['modified'] and g['id'] != -1:  # modifieded items
+            group = Group.objects.filter(pk=g['id']).first()
+            if group is not None:
+                group.year = g['year']
+                group.title = g['title']
+                group.save()
+        elif g['id'] == -1:  # new items
+            group = Group()
+            group.year = g['year']
+            group.title = g['title']
+            group.save()
+
 @require_POST
 @login_required
-@atomic
 def save_groups(request):
     try:
         grps = json.loads(request.POST['groups'])
     except Exception as e:
         return HttpResponseBadRequest(e.message)
+
+    try:
+        update_groups(grps)
+    except BaseException as e:
+        HttpResponseBadRequest(e.message)
+
+    return HttpResponse()
 
 
 @login_required
