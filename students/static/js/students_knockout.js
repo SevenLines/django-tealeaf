@@ -1,53 +1,3 @@
-function ModalConfirm(modal_selector, message) {
-    // modal form should be bind to the bootstrap modal form:
-    //
-    //    <div id="main-modal-form" class="modal fade modal_remove" role="dialog">
-    //        <div class="modal-footer">
-    //            <button type="button" class="btn btn-danger" data-confirm data-dismiss="modal">Yes</button>
-    //            <button type="button" class="btn btn-default" data-decline data-dismiss="modal">No</button>
-    //        </div>
-    //    </div>
-    //
-    // create new field in model:
-    //
-    //      self.modalConfirm = new ModalConfirm("#main-modal-form")
-    //
-    // Call to show dialog:
-    //
-    //      self.modalConfirm.show(function() { console.log("Yes pressed") }, function() { console.log("no") })
-    //
-    // You can omit second argument and implement only confirm event.
-    // click on button with "data-confirm" attribute bind to confirm event (first param in show function)
-    // click on button with "data-decline" attribute bind to decline event (second param in show function)
-    //
-
-    var self = this;
-    self.message = ko.observable(message);
-
-    self.callback_confirm = null;
-    self.callback_decline = null;
-
-    self.init_events = function () {
-        $(modal_selector).find("[data-confirm]").click(function () {
-            if (self.callback_confirm)
-                self.callback_confirm();
-        });
-        $(modal_selector).find("[data-decline]").click(function () {
-            if (self.callback_decline)
-                self.callback_decline();
-        })
-    };
-
-    self.show = function (callback_confirm, callback_decline) {
-        self.callback_confirm = callback_confirm === undefined ? null : callback_confirm;
-        self.callback_decline = callback_decline === undefined ? null : callback_decline;
-        $(modal_selector).modal("show");
-    };
-
-    self.init_events();
-}
-
-
 function Student(data) {
     var self = this;
     self.id = data.id;
@@ -77,6 +27,7 @@ function Group(data) {
     self.id = data.id;
     self.title = ko.observable(data.title);
     self.year = ko.observable(data.year);
+    self.has_ancestor = data.has_ancestor;
 
     self.old_title = ko.observable(data.title);
     self.old_year = ko.observable(data.year);
@@ -93,7 +44,7 @@ function Group(data) {
 }
 
 
-function StudentViewModel(default_values, modal_selector, url_years, url_groups, url_students, url_save_students, url_save_groups) {
+function StudentViewModel(default_values, modal_selector, url_years, url_groups, url_students, url_save_groups, url_save_students) {
     var self = this;
 
     self.yearsList = ko.observableArray();
@@ -141,6 +92,8 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
             });
             self.groupsList(mapped_data);
 
+            // restore last group from cookies
+            self.group(null);
             if ($.cookie("group_id")) {
                 var id = $.cookie("group_id");
                 for (var i = 0; i < self.groupsList().length; ++i) {
@@ -151,8 +104,9 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
                     }
                 }
             }
+            self.sortGroups();
 
-            // событие чтобы не закрывалась менюшка
+            // подключаем события, чтобы не закрывалась менюшка
             $('.groups-nav .dropdown-menu').bind('click', function (e) {
                 e.stopPropagation()
             });
@@ -162,6 +116,12 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
         });
     };
 
+    self.sortGroups = function () {
+        self.groupsList.sort(function (a, b) {
+            return a.title() < b.title() ? -1 : 1;
+        })
+    };
+
     self.addGroup = function () {
         console.log(ko.toJS(self.newGroup));
         self.groupsList.push(new Group(ko.toJS(self.newGroup)));
@@ -169,19 +129,19 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
     };
 
     self.removeGroup = function (group) {
+        console.log(group);
         self.modalConfirm.message("Удалить группу?<h2>" + group.title() + "</h2>");
         self.modalConfirm.show(function () {
             if (group.id === -1) {
                 self.groupsList.remove(group);
-                return
+            } else {
+                self.groupsList.destroy(group);
             }
-            self.groupsList.destroy(group);
             self.saveGroups();
         });
     };
 
     self.saveGroups = function () {
-        console.dir(ko.toJS(self.groupsList));
         var json = $.grep(ko.toJS(self.groupsList), function (item) {
             return item.modified || item._destroy || item.id === -1;
         });
@@ -194,6 +154,17 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
         $.post(url_save_groups, {
             csrfmiddlewaretoken: $.cookie('csrftoken'),
             groups: groups_json
+        }).success(function (data) {
+            self.listGroups($.cookie("year"));
+        });
+    };
+
+
+    self.copyGroupToNextYear = function(form, group) {
+        console.log(form.action);
+        $.post(form.action, {
+            csrfmiddlewaretoken: $.cookie('csrftoken'),
+            group_id: group['id']
         }).success(function () {
             self.listGroups($.cookie("year"));
         });
@@ -235,14 +206,23 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
             } else {
                 self.studentsList.destroy(student);
             }
+            self.saveStudents();
         });
     };
 
     self.addStudent = function () {
         self.studentsList.push(new Student(ko.toJS(self.newStudent)));
+        self.saveStudents();
+        // reset add form and focus it
+        var form = $(".group-students form.add")[0];
+        if (form) {
+            form.reset();
+            $(form).find("input[data-name='second_name']").focus();
+        }
     };
 
     self.saveStudents = function () {
+
         var json = $.grep(ko.toJS(self.studentsList), function (item) {
             return item.modified || item._destroy || item.id === -1;
         });

@@ -52,14 +52,20 @@
                         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
                             <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <!-- форма удаления группы -->
+                        <ul class="dropdown-menu" data-bind="css: { 'success' : $data.modified() }">
+                            <!-- УДАЛЕНИЕ ГРУППЫ -->
                             <li>
-                                <button class="btn btn-danger" data-bind="click: $root.removeGroup">удалить</button>
+                                <form>
+                                    <button type="submit" class="btn btn-danger" data-bind="click: $root.removeGroup">
+                                        удалить
+                                    </button>
+                                </form>
                             </li>
-                            <!-- конец формы удаления группы -->
+                            <!-- КОНЕЦ УДАЛЕНИЕ ГРУППЫ -->
+
+                            <!-- РЕДАКТИРОВАНИЕ ГРУППЫ -->
                             <li>
-                                <form class="update">
+                                <form class="update" data-bind="submit: $root.saveGroups">
                                     <div class="form-group">
                                         <input name="title" class="form-control" data-bind="value: title"/>
                                     </div>
@@ -68,36 +74,47 @@
                                                 data-bind="options: $root.yearsList, optionsValue: 'year',
                                              optionsText: 'year', value: year"></select>
                                     </div>
-                                    <button data-bind="click: $root.saveGroups"
-                                            class="btn btn-default pull-right">
+                                    <button type="submit" class="btn btn-default pull-right">
                                         <span class="glyphicon glyphicon-ok"></span>
-                                    </button>
                                     </button>
                                 </form>
                             </li>
+                            <!-- КОНЕЦ РЕДАКТИРОВАНИЕ ГРУППЫ -->
+
+                            <!-- КОПИРОВАНИЕ ГРУППЫ В СЛЕДУЮЩИЙ КОД -->
+                            <li data-bind="visible: !has_ancestor">
+                                <form class="copy_to_next_year"
+                                      data-bind="submit: function(form) { $root.copyGroupToNextYear(form, $data) }"
+                                      action="{% url "students.views.ajax.group.copy_to_next_year" %}" method="post">
+                                    <button type="submit" class="btn btn-default pull-right">
+                                        <span class="glyphicon glyphicon-play">copy to next year</span>
+                                    </button>
+                                </form>
+                            </li>
+                            <!-- КОНЕЦ КОПИРОВАНИЕ ГРУППЫ В СЛЕДУЮЩИЙ КОД -->
+
                         </ul>
                     </div>
                 </li>
             </ul>
+            <!-- ДОБАВЛЕНИЕ ГРУППЫ -->
             <ul class="groups-nav">
                 <li>
-                    <form class="add form-inline">
+                    <form class="add form-inline" data-bind="submit: $root.addGroup">
                         <input class="form-control" data-bind="value: $root.newGroup.title"/>
-                        <button class="btn btn-success btn-sm" data-bind="click: $root.addGroup">
+                        <button type="submit" class="btn btn-success btn-sm">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
                     </form>
                 </li>
             </ul>
+            <!-- КОНЕЦ ДОБАВЛЕНИЕ ГРУППЫ -->
         </div>
         <!-- END СПИСОК ГРУПП -->
 
         <div style="clear: both"></div>
 
         <!-- СПИСОК СТУДЕНТОВ -->
-        <button class="btn btn-sm btn-primary" data-bind="click: $root.saveStudents">
-            <span class="glyphicon glyphicon-save"></span>
-        </button>
         <div class="panel-body" data-bind="visible: $root.group()">
             <div class="group-students">
                 <div class="content">
@@ -105,32 +122,56 @@
                         <thead>
                         <tr>
                             <th class="counter">#</th>
+                            {#                            <th class="counter"><span class="glyphicon glyphicon-ok"></span></th>#}
                             <th><span class="glyphicon glyphicon-user"></span></th>
+                            <th class="counter"></th>
                         </tr>
                         </thead>
                         <tbody data-bind="foreach: studentsList">
-                        <tr>
-                            <td class="counter" data-bind="text: $index"></td>
+                        <tr data-bind="css: { 'success' : $data.modified() }">
+                            <td class="counter" data-bind="text: ($index() + 1)"></td>
+
+                            <!-- РЕДАКТИРОВАТЬ СТУДЕНТА -->
                             <td>
-                                <form class="update form-inline">
-                                    <input class="form-control" data-bind="value: second_name"/>
-                                    <input class="form-control" data-bind="value: name"/>
-                                    <button class="btn btn-danger btn-sm" data-bind="click: $root.removeStudent">
+                                <form class="update form-inline"
+                                      data-bind="css: {'has-success': $data.modified() }, submit: $root.saveStudents">
+                                    <input class="form-control" data-bind="value: second_name,
+                                        valueUpdate: 'input'"/>
+                                    <input class="form-control" data-bind="value: name,
+                                        valueUpdate: 'input'"/>
+                                    <button type="submit" class="btn btn-sm"
+                                            data-bind="enable: $data.modified(), css: { 'btn-success': $data.modified() }">
+                                        <span class="glyphicon glyphicon-save"></span>
+                                    </button>
+                                </form>
+                            </td>
+                            <!-- END РЕДАКТИРОВАТЬ СТУДЕНТА -->
+
+                            <!-- УДАЛИТЬ СТУДЕНТА -->
+                            <td>
+                                <form>
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                            data-bind="click: $root.removeStudent">
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </button>
                                 </form>
                             </td>
-
+                            <!-- END УДАЛИТЬ СТУДЕНТА -->
                         </tr>
                         </tbody>
                     </table>
-                    <form class="add form-inline">
-                        <button class="btn btn-success btn-sm" data-bind="click: $root.addStudent">
+
+                    <!-- ДОБАВИТЬ СТУДЕНТА -->
+                    <form class="add form-inline" data-bind="submit: $root.addStudent">
+                        <button type="submit" class="btn btn-success btn-sm">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
-                        <input class="form-control" data-bind="value: $root.newStudent.name"/>
-                        <input class="form-control" data-bind="value: $root.newStudent.second_name"/>
+                        <input class="form-control" data-name="second_name"
+                               data-bind="value: $root.newStudent.second_name"/>
+                        <input class="form-control" data-name="name" data-bind="value: $root.newStudent.name"/>
                     </form>
+                    <!-- END ДОБАВИТЬ СТУДЕНТА -->
+
                 </div>
             </div>
         </div>
@@ -143,6 +184,9 @@
 
     {% addtoblock "js" %}
         <script src="{% static 'js/knockout.js' %}"></script>
+    {% endaddtoblock %}
+    {% addtoblock "js" %}
+        <script src="{% static 'js/ko.modal_confirm.js' %}"></script>
     {% endaddtoblock %}
 
     {% addtoblock "js" %}
@@ -159,15 +203,9 @@
                     "{% url "students.views.ajax.json.years" %}",
                     "{% url "students.views.ajax.json.groups" %}",
                     "{% url "students.views.ajax.json.students" %}",
-                    "{% url "students.views.ajax.json.save_students" %}",
-                    "{% url "students.views.ajax.json.save_groups" %}"
+                    "{% url "students.views.ajax.json.save_groups" %}",
+                    "{% url "students.views.ajax.json.save_students" %}"
             ));
-        </script>
-    {% endaddtoblock %}
-    {% addtoblock "js" %}
-        {# FOR DROPDOWN-MENU DONT CLOSE ON CLICK#}
-        <script>
-
         </script>
     {% endaddtoblock %}
 

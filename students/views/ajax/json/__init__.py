@@ -2,6 +2,7 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.db.transaction import atomic
+from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
 from django.views.decorators.http import require_POST
@@ -31,7 +32,15 @@ def groups(request):
 
     if year:
         grps = grps.filter(year=year)
-    return HttpResponse(json.dumps(list(grps.values())), mimetype='application/json')
+    # grps = list(grps.values())
+
+    out = []
+    for g in grps:
+        g_dict = model_to_dict(g)
+        g_dict.update({'has_ancestor': g.has_ancestor})
+        out.append(g_dict)
+
+    return HttpResponse(json.dumps(out), mimetype='application/json')
 
 
 @atomic
