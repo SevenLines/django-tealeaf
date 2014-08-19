@@ -9,6 +9,7 @@ urlpatterns = patterns('students.views',
    url(r'ajax/json/groups/save$', 'ajax.json.save_groups'),
    url(r'ajax/json/groups$', 'ajax.json.groups'),
    url(r'ajax/json/students/save$', 'ajax.json.save_students'),
+   url(r'ajax/json/students/task/filter$', 'ajax.json.list_students'),
    url(r'ajax/json/students$', 'ajax.json.students'),
 
    url(r'$', 'index'),

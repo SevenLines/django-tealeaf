@@ -45,7 +45,7 @@
             });
             {% if user.is_authenticated %}
                 // student select item
-                new SelectStudent(".select-control", "{% url "students.views.ajax.student.list_students" %}")
+                new SelectStudent(".select-control", "{% url "students.views.ajax.json.list_students" %}");
             {% endif %}
         </script>
     {% endaddtoblock %}

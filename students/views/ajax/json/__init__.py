@@ -1,13 +1,16 @@
+# coding=utf-8
 import json
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.db.transaction import atomic
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 
 from students.models import active_years, Group, Student
+from students.utils import current_year
 
 
 def blank(request):
@@ -135,4 +138,26 @@ def students(request):
         return HttpResponseBadRequest(e.message)
 
     return HttpResponse(json.dumps(list(grp.students.values())), mimetype='application/json')
+
+
+@require_GET
+@login_required
+def list_students(request):
+    task_id = request.GET.get("task_id", None)
+
+    # если передали task_id, то возвращаем список студентов
+    if task_id is not None:
+        # task = TaskEx.objects.get(pk=task_id).first()
+        # students = task.users()
+        # students = users_for_task(task_id) #Student.objects.filter(taskstudent__taskex_id=task_id)
+        pass
+        # иначе отфильтрованный результат
+    else:
+        f = request.GET.get("filter", None)
+        if f is None:
+            return HttpResponseBadRequest()
+        students = Student.objects.filter(Q(second_name__icontains=f) | Q(name__icontains=f),
+                                          group__year=current_year())[:10]
+    students = list([{"id": i.pk, "text": "%s %s | %s" % (i.name, i.second_name, i.group.title)} for i in students])
+    return HttpResponse(json.dumps(students), content_type="application/json")
 

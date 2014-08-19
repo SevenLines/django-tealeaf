@@ -87,7 +87,7 @@ def build_production():
     local("git checkout dev")
 
 
-def backup_server_media(only_base=False):
+def backup(only_base=False):
     local("ssh-add ~/.ssh/locum.ru")  # add ssh-key
 
     # create backip_archive on server
