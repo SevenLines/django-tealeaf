@@ -38,3 +38,4 @@ textile==2.1.8
 trans==2.0.1
 urllib3==1.9
 wsgiref==0.1.2
+xlsxwriter

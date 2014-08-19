@@ -12,5 +12,7 @@ urlpatterns = patterns('students.views',
    url(r'ajax/json/students/task/filter$', 'ajax.json.list_students'),
    url(r'ajax/json/students$', 'ajax.json.students'),
 
+   url(r'ajax/students/xlsx$', 'ajax.xlsx'),
+
    url(r'$', 'index'),
 )
