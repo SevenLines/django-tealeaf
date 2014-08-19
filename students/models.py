@@ -18,12 +18,21 @@ class Group(models.Model):
         return "%s | %s" % (self.year, self.title)
 
     @staticmethod
+    def year_groups(year):
+        """
+        return groups of specific year
+        :param year: specific year
+        :return:
+        """
+        return Group.objects.filter(year=year)
+
+    @staticmethod
     def current_year_groups():
         """
         groups of current learning year
         :return:
         """
-        return Group.objects.filter(year=students.utils.current_year())
+        return Group.year_groups(year=students.utils.current_year())
 
     @property
     def students(self):
@@ -68,6 +77,10 @@ class Student(models.Model):
     def __unicode__(self):
         return "%s | %s" % (self.second_name, self.name)
 
+    @staticmethod
+    def year_students(year):
+        groups = Group.year_groups(year)
+        return Student.objects.filter(groups__in=groups)
 
     @staticmethod
     def current_year_students():
@@ -75,8 +88,7 @@ class Student(models.Model):
         students of current learning year
         :return:
         """
-        groups = Group.current_year_groups()
-        return Student.objects.filter(group__in=groups)
+        return Student.year_students(current_year())
 
     def marks_for_discipline(self, discipline):
         assert isinstance(discipline, Discipline)

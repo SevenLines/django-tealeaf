@@ -116,6 +116,12 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
         });
     };
 
+    // позволяет сформировать и закачать xlsx список студентов
+    self.downloadStudentsList = function (url) {
+        window.location = url+"?year="+self.year();
+    };
+
+
     self.sortGroups = function () {
         self.groupsList.sort(function (a, b) {
             return a.title() < b.title() ? -1 : 1;
