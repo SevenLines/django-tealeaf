@@ -1,6 +1,6 @@
 # coding: utf8
 """
-Чтобы нормально работать организовать работу с сервером необходимо
+Чтобы нормально организовать работу с сервером необходимо
 как на локальной машине так и на сервере создать в папке на 2 уровня
 выше данного файла файл с именем credentials.json, в котором будут
 прописаны все настройки для приложения, пример содержимого файла:
@@ -101,10 +101,6 @@ try:
 except ImportError:
     pass
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
-
 LANGUAGE_CODE = 'ru'
 LANGUAGES = [
     ('ru', 'Russian')
@@ -120,10 +116,6 @@ USE_TZ = True
 
 SITE_ID = 1
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
@@ -135,10 +127,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 TEMPLATE_DIRS = (
-    # The docs say it should be absolute path: PROJECT_PATH is precisely one.
-    # Life is wonderful!
     os.path.join(BASE_DIR, "templates"),
 )
+
+LOGIN_URL = "/"
 
 CMS_TEMPLATES = (
     ('page.html', 'Page'),
@@ -148,11 +140,7 @@ CMS_TEMPLATES = (
     # ('js_tests/test_page.html', "Js-Tests"),
 )
 
-
-# cmsplugin_cascade setups
-
 CMS_CASCADE_PLUGINS = ('bootstrap3',)
-# CMS_MARKUP_OPTIONS = ('textile',)
 
 CMS_PLACEHOLDER_CONF = {
     'Page Section': {
@@ -180,10 +168,7 @@ SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
 }
 
-# JASMINE_TEST_DIRECTORY = os.path.join(BASE_DIR, "jasmine-tests")
-
 FILER_PAGINATE_BY = 50
-
 
 CUSTOM_MENU_ITEMS = ({
     # 'name': 'ppl',
@@ -191,16 +176,3 @@ CUSTOM_MENU_ITEMS = ({
     'href': reverse("students.views.index"),
     },
 )
-#
-# CUSTOM_MENU_ITEMS = (
-#     {
-#         'name': 'name1',
-#         'img': 'img_src',
-#         'href': '/'
-#     },
-#     {
-#         'name': 'name2',
-#         'img': 'img_src',
-#         'href': '/'
-#     },
-# )

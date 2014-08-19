@@ -11,10 +11,4 @@ class StudentInfoPlugin(CMSPluginBase):
     allow_children = False
 
 
-# TESTS #
-class TestStudentInfoPlugin(StudentInfoPlugin):
-    module = u"Тесты"
-    render_template = "students/students/tests/info.html"
-
 plugin_pool.register_plugin(StudentInfoPlugin)
-plugin_pool.register_plugin(TestStudentInfoPlugin)
