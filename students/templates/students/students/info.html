@@ -7,49 +7,206 @@
         <link rel="stylesheet" href="{% static 'css/students.css' %}"/>
     {% endaddtoblock %}
 
-    <div id="instance_{{ instance.pk }}">
-        <div class="students_plugin">
-            {% if user.is_authenticated %}
-                <div class="modal fade modal_remove" role="dialog">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                    &times;
-                                </button>
-                                <h4>Подтверждение</h4>
-                            </div>
-                            <div class="modal-body">
-                                Удалить?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default decline" data-dismiss="modal">Нет</button>
-                                <button type="button" class="btn btn-danger confirm" data-dismiss="modal">Да</button>
-                            </div>
-                        </div>
-                    </div>
+    <!-- МОДАЛЬНОЕ ОКНО -->
+    <div id="main-modal-form" class="modal fade modal_remove" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4>Подтверждение</h4>
                 </div>
-            {% endif %}
-
-            <div class="students_plugin years">
+                <div class="modal-body" data-bind="html: $root.modalConfirm.message()">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-decline data-dismiss="modal">Нет</button>
+                    <button type="button" class="btn btn-danger" data-confirm data-dismiss="modal">Да</button>
+                </div>
             </div>
-            <script>
-                var request = $.ajax({
-                    url: "{% url "students.views.ajax.index" %}",
-                })
-                request.done(function (msg) {
-                    $("#instance_{{ instance.pk }} .students_plugin.years").html(msg);
-                    new StudentsControl("instance_{{ instance.pk }}")
-                })
-            </script>
-
-            {% addtoblock "js" %}
-                <script src="{% static 'js/jquery.form.js' %}"></script>
-            {% endaddtoblock %}
-            {% addtoblock "js" %}
-                <script src="{% static 'js/students.js' %}" type="text/javascript"></script>
-            {% endaddtoblock %}
         </div>
     </div>
+    <!-- END МОДАЛЬНОЕ ОКНО -->
+
+    <div class="students_plugin years">
+
+        <!-- СПИСОК ГОДОВ -->
+        <form class="year_selector form-inline">
+            <select class="form-control"
+                    data-bind="options: yearsList, optionsValue: 'year', optionsText: 'year', value: year"></select>
+        </form>
+        <!-- END СПИСОК ГОДОВ -->
+
+        <div style="clear: both"></div>
+
+        <!-- СПИСОК ГРУПП -->
+        <div class="groups-content">
+            <ul class="groups-nav" data-bind="foreach: groupsList">
+                <li>
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-default submit-link" data-bind="
+                            click: $root.listStudents,
+                            css: { 'btn-primary': $data == $root.group() }">
+                            <span class="glyphicon glyphicon-user" data-bind="text: $data.title"></span>
+                        </a>
+                        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" data-bind="css: { 'success' : $data.modified() }">
+                            <!-- УДАЛЕНИЕ ГРУППЫ -->
+                            <li>
+                                <form>
+                                    <button type="submit" class="btn btn-danger" data-bind="click: $root.removeGroup">
+                                        удалить
+                                    </button>
+                                </form>
+                            </li>
+                            <!-- КОНЕЦ УДАЛЕНИЕ ГРУППЫ -->
+
+                            <!-- РЕДАКТИРОВАНИЕ ГРУППЫ -->
+                            <li>
+                                <form class="update" data-bind="submit: $root.saveGroups">
+                                    <div class="form-group">
+                                        <input name="title" class="form-control" data-bind="value: title"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control"
+                                                data-bind="options: $root.yearsList, optionsValue: 'year',
+                                             optionsText: 'year', value: year"></select>
+                                    </div>
+                                    <button type="submit" class="btn btn-default pull-right">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                </form>
+                            </li>
+                            <!-- КОНЕЦ РЕДАКТИРОВАНИЕ ГРУППЫ -->
+
+                            <!-- КОПИРОВАНИЕ ГРУППЫ В СЛЕДУЮЩИЙ КОД -->
+                            <li data-bind="visible: !has_ancestor">
+                                <form class="copy_to_next_year"
+                                      data-bind="submit: function(form) { $root.copyGroupToNextYear(form, $data) }"
+                                      action="{% url "students.views.ajax.json.copy_to_next_year" %}" method="post">
+                                    <button type="submit" class="btn btn-default pull-right">
+                                        <span class="glyphicon glyphicon-play">copy to next year</span>
+                                    </button>
+                                </form>
+                            </li>
+                            <!-- КОНЕЦ КОПИРОВАНИЕ ГРУППЫ В СЛЕДУЮЩИЙ КОД -->
+
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <!-- ДОБАВЛЕНИЕ ГРУППЫ -->
+            <ul class="groups-nav">
+                <li>
+                    <form class="add form-inline" data-bind="submit: $root.addGroup">
+                        <input class="form-control" data-bind="value: $root.newGroup.title"/>
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+            <!-- КОНЕЦ ДОБАВЛЕНИЕ ГРУППЫ -->
+        </div>
+        <!-- END СПИСОК ГРУПП -->
+
+        <div style="clear: both"></div>
+
+        <!-- СПИСОК СТУДЕНТОВ -->
+        <div class="panel-body" data-bind="visible: $root.group()">
+            <div class="group-students">
+                <div class="content">
+                    <table class="students table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th class="counter">#</th>
+                            {#                            <th class="counter"><span class="glyphicon glyphicon-ok"></span></th>#}
+                            <th><span class="glyphicon glyphicon-user"></span></th>
+                            <th class="counter"></th>
+                        </tr>
+                        </thead>
+                        <tbody data-bind="foreach: studentsList">
+                        <tr data-bind="css: { 'success' : $data.modified() }">
+                            <td class="counter" data-bind="text: ($index() + 1)"></td>
+
+                            <!-- РЕДАКТИРОВАТЬ СТУДЕНТА -->
+                            <td>
+                                <form class="update form-inline"
+                                      data-bind="css: {'has-success': $data.modified() }, submit: $root.saveStudents">
+                                    <input class="form-control" data-bind="value: second_name,
+                                        valueUpdate: 'input'"/>
+                                    <input class="form-control" data-bind="value: name,
+                                        valueUpdate: 'input'"/>
+                                    <button type="submit" class="btn btn-sm"
+                                            data-bind="enable: $data.modified(), css: { 'btn-success': $data.modified() }">
+                                        <span class="glyphicon glyphicon-save"></span>
+                                    </button>
+                                </form>
+                            </td>
+                            <!-- END РЕДАКТИРОВАТЬ СТУДЕНТА -->
+
+                            <!-- УДАЛИТЬ СТУДЕНТА -->
+                            <td>
+                                <form>
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                            data-bind="click: $root.removeStudent">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </form>
+                            </td>
+                            <!-- END УДАЛИТЬ СТУДЕНТА -->
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ДОБАВИТЬ СТУДЕНТА -->
+                    <form class="add form-inline" data-bind="submit: $root.addStudent">
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        <input class="form-control" data-name="second_name"
+                               data-bind="value: $root.newStudent.second_name"/>
+                        <input class="form-control" data-name="name" data-bind="value: $root.newStudent.name"/>
+                    </form>
+                    <!-- END ДОБАВИТЬ СТУДЕНТА -->
+
+                </div>
+            </div>
+        </div>
+        <!-- END СПИСОК СТУДЕНТОВ -->
+    </div>
+
+    {% addtoblock "js" %}
+        <script src="{% static 'js/jquery.form.js' %}"></script>
+    {% endaddtoblock %}
+
+    {% addtoblock "js" %}
+        <script src="{% static 'js/knockout.js' %}"></script>
+    {% endaddtoblock %}
+    {% addtoblock "js" %}
+        <script src="{% static 'js/ko.modal_confirm.js' %}"></script>
+    {% endaddtoblock %}
+
+    {% addtoblock "js" %}
+        <script src="{% static 'js/students_knockout.js' %}"></script>
+    {% endaddtoblock %}
+
+    {% addtoblock "js" %}
+        <script>
+            ko.applyBindings(new StudentViewModel({
+                        year: 2013,
+                        group: 1
+                    },
+                    "#main-modal-form",
+                    "{% url "students.views.ajax.json.years" %}",
+                    "{% url "students.views.ajax.json.groups" %}",
+                    "{% url "students.views.ajax.json.students" %}",
+                    "{% url "students.views.ajax.json.save_groups" %}",
+                    "{% url "students.views.ajax.json.save_students" %}"
+            ));
+        </script>
+    {% endaddtoblock %}
 
 {% endblock %}

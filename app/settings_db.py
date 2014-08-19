@@ -1,7 +1,9 @@
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 import sys
+
 from app.settings import credentials
+
 
 if 'test' in sys.argv:
     print('using test database')
