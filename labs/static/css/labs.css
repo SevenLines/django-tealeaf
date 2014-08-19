@@ -111,7 +111,7 @@
         .lab .tasks .edit .form-inline .form-group {
           padding-right: 0.5em; }
       .lab .tasks .edit .select-control {
-        width: 300px; }
+        min-width: 300px; }
     .lab .tasks.gallery {
       list-style: none;
       float: left; }

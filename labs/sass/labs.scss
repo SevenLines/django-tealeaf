@@ -172,7 +172,7 @@ $color_change_speed: 0.3s;
         }
       }
       .select-control {
-        width: 300px;
+        min-width: 300px;
       }
     }
     @include gallery;
