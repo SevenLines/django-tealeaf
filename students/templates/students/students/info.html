@@ -34,6 +34,11 @@
         <form class="year_selector form-inline">
             <select class="form-control"
                     data-bind="options: yearsList, optionsValue: 'year', optionsText: 'year', value: year"></select>
+            {# кнопка закачки списка ситудентов #}
+            <button class="btn btn-success"
+                    data-bind="click: function() { $root.downloadStudentsList('{% url "students.views.ajax.xlsx" %}') }">
+                <i class="glyphicon glyphicon-download" data-bind="text: (' ' + year() + '.xlsx')"> </i>
+            </button>
         </form>
         <!-- END СПИСОК ГОДОВ -->
 
