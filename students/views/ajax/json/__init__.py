@@ -95,6 +95,7 @@ def update_groups(groups_list):
             group.title = g['title']
             group.save()
 
+
 @require_POST
 @login_required
 def save_groups(request):
@@ -111,6 +112,16 @@ def save_groups(request):
     return HttpResponse()
 
 
+@require_POST
+@login_required
+def copy_to_next_year(request):
+    group_id = request.POST['group_id']
+    g = Group.objects.filter(pk=group_id).first()
+    if g is not None:
+        g.copy_to_next_year()
+    return HttpResponse()
+
+
 @login_required
 def students(request):
     group_id = request.POST.get('group_id', None)
@@ -124,3 +135,4 @@ def students(request):
         return HttpResponseBadRequest(e.message)
 
     return HttpResponse(json.dumps(list(grp.students.values())), mimetype='application/json')
+
