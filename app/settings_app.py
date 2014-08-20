@@ -23,6 +23,8 @@ INSTALLED_APPS = (
     'cmsplugin_filer_file',
     'cmsplugin_filer_image',
 
+    'solo',  # singleton model django-solo
+
     'plugin_markdown',
     'menuicon',
     'labs',

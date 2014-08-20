@@ -1,0 +1,6 @@
+<img src="{{ item.item_url }}" style="max-width: 100%"/>
+{% if item.description %}
+    <div>
+        {{ item.description|safe }}
+    </div>
+{% endif %}

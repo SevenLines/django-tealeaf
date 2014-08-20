@@ -1,17 +1,59 @@
 {% load sekizai_tags static %}
 <div class="right">
     <ul>
-        <li>
+        <li class="add">
             <form>
                 <button class="btn btn-info">
-                    <i class="glyphicon glyphicon-plus"><span>Добавить</span></i>
+                    <i class="glyphicon glyphicon-plus"><span> Добавить</span></i>
                 </button>
             </form>
         </li>
-        <li></li>
+        <li class="add">
+            <form>
+                <button class="btn btn-success">
+                    <i class="glyphicon glyphicon-ok"><span> Активный</span></i>
+                </button>
+            </form>
+        </li>
+        <!-- ko foreach: items -->
+        <li class="item" data-bind="css: { 'active': $data == $root.current_item() }">
+            <a href="#" class="remove btn btn-sm btn-default">
+                <i class="glyphicon glyphicon-remove"></i>
+            </a>
+            <a href="#"
+               data-bind="click: function(data) { $root.selectItem(data, '{% url "main_page.views.set_active" %}') }">
+                <img data-bind="attr: { src: item_url, title: title }"/>
+            </a>
+
+            <form>
+                <input class="title form-control" data-bind="value: title">
+            </form>
+        </li>
+        <!-- /ko -->
     </ul>
 </div>
+<div style="clear: both"></div>
+<form data-bind="submit: saveCurrentItem">
+    <textarea class="form-control" name="description" data-bind="value: $root.current_item().description"></textarea>
+    <button type="submit" hidden=""></button>
+</form>
+
 
 {% addtoblock "js" %}
     <script src="{% static "js/knockout.js" %}"></script>
+{% endaddtoblock "js" %}
+
+{% addtoblock "js" %}
+    <script src="{% static "js/ko.main_page.js" %}"></script>
+{% endaddtoblock "js" %}
+
+{% addtoblock "js" %}
+    <script>
+        ko.applyBindings(new MainPageModel({
+                    load_items_url: "{% url "main_page.views.list_items" %}",
+                    csrf: "{{ csrf_token }}",
+                    image_container_selector: "#main-banner .left .view"
+                }
+        ));
+    </script>
 {% endaddtoblock "js" %}

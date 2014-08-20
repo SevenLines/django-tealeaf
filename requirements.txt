@@ -3,6 +3,7 @@ Fabric==1.9.0
 Markdown==2.4.1
 Pillow==2.4.0
 South==1.0
+XlsxWriter==0.5.7
 argparse==1.2.1
 cmsplugin-filer==0.9.9
 distlib==0.1.2
@@ -19,6 +20,7 @@ django-markupfield==1.2.1
 django-mptt==0.6.1
 django-polymorphic==0.5.5
 django-sekizai==0.7
+django-solo==1.0.5
 djangocms-admin-style==0.2.2
 djangocms-cascade==0.3.1
 djangocms-file==0.0.1
@@ -28,6 +30,7 @@ docutils==0.11
 easy-thumbnails==2.0.1
 ecdsa==0.11
 html5lib==0.999
+jdcal==1.0
 jsonfield==0.9.20
 paramiko==1.14.0
 psycopg2==2.5.3
@@ -38,4 +41,3 @@ textile==2.1.8
 trans==2.0.1
 urllib3==1.9
 wsgiref==0.1.2
-xlsxwriter
