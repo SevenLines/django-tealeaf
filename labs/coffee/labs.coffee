@@ -13,18 +13,21 @@ class LabEditor
         ckEditor = LabEditor.create_ckEditor(lab_content_id)
         form = $("\##{lab_id}").find("form.lab-save")[0]
 
-        $(form).submit ->
+        $(form).submit -> # сохранение лабы на сервер
             data = $(form).serializeArray()
-            console.log(form.action)
+
+            # особым образом обрабатываем описание лабораторной
             data.push
                 'name': 'description'
                 'value': ckEditor.getData()
 
+            # создаем запрос
             r = $.post(
                 form.action,
                 data
             )
 
+            # если успех, то подмигнем фоном
             r.success (data) ->
                 $("##{lab_id}").toggleClass("bg-success", true);
                 setTimeout(
@@ -32,6 +35,7 @@ class LabEditor
                         $("##{lab_id}").toggleClass("bg-success", false)
                     1000)
 
+            # если неудача, то подмигнем фоном
             r.fail (data) ->
                 $("##{lab_id}").toggleClass("bg-danger", true);
                 setTimeout(
@@ -76,19 +80,29 @@ class TaskEditor
         $(form).submit ->
             try ckEditor = CKEDITOR.inline(id_content);
 
-            console.log(ckEditor)
-
             data = $(form).serializeArray();
+
+            # если список студентов пустой, то необходимо оповестить об этом сервер
+            if $(form).find("select[name='users'] option").size() == 0
+                data.push
+                    'name': 'no_users'
+                    'value': ''
+
+            console.dir(data)
+
+            # особым образом обрабатываем описание статьи
             if ckEditor != null
-                console.log("good")
                 data.push
                     'name': 'description'
                     'value': ckEditor.getData()
 
+            # создаем запрос
             r = $.post(
                 form.action,
                 data
             )
+
+            # если успех, то подмигнем фоном
             r.success (data) ->
                 TaskEditor.clear_complexity(task_id)
                 $("##{task_id}").toggleClass(select[0].value, true)
@@ -102,7 +116,7 @@ class TaskEditor
                         $("##{task_id} .edit").toggleClass("bg-success", false)
                     1000)
 
-
+            # если неудача, то подмигнем фоном
             r.fail (data) ->
                 TaskEditor.restore_style(submit)
                 $("##{task_id} .edit").toggleClass("bg-danger", true);
