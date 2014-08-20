@@ -1,0 +1,8 @@
+.main-banner .left.authenticated {
+  max-width: 80%;
+  float: left; }
+.main-banner .right {
+  float: right;
+  max-width: 20%; }
+  .main-banner .right ul {
+    list-style: none; }
