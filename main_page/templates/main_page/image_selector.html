@@ -1,0 +1,17 @@
+{% load sekizai_tags static %}
+<div class="right">
+    <ul>
+        <li>
+            <form>
+                <button class="btn btn-info">
+                    <i class="glyphicon glyphicon-plus"><span>Добавить</span></i>
+                </button>
+            </form>
+        </li>
+        <li></li>
+    </ul>
+</div>
+
+{% addtoblock "js" %}
+    <script src="{% static "js/knockout.js" %}"></script>
+{% endaddtoblock "js" %}

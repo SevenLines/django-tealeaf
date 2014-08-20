@@ -1,0 +1,15 @@
+.main-banner {
+  .left {
+    &.authenticated { // для аутентифицированных пользователей
+      max-width: 80%;
+      float:left
+    }
+  }
+  .right {
+    float: right;
+    max-width: 20%;
+    ul {
+      list-style: none;
+    }
+  }
+}
