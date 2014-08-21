@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models.base import Model
-from solo.models import SingletonModel
 
 
 class MainPageItem(Model):
@@ -12,5 +11,12 @@ class MainPageItem(Model):
     description = models.TextField(blank=True, null=True)
 
 
-class MainPage(SingletonModel):
-    current_item = models.ForeignKey(MainPageItem, null=True)
+class MainPage(Model):
+    current_item = models.ForeignKey(MainPageItem, null=True, on_delete=models.SET_NULL)
+
+    @staticmethod
+    def solo():
+        if MainPage.objects.count() == 0:
+            mp = MainPage()
+            mp.save()
+        return MainPage.objects.get()

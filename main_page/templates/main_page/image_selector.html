@@ -1,41 +1,62 @@
 {% load sekizai_tags static %}
+
+{% include "main_page/modalSave.html" %}
+
 <div class="right">
     <ul>
+        <!-- ДОБАВЛЕНИЕ ВИДА -->
         <li class="add">
-            <form>
+            <form data-bind="submit: $root.addItem">
                 <button class="btn btn-info">
                     <i class="glyphicon glyphicon-plus"><span> Добавить</span></i>
                 </button>
+                {% csrf_token %}
+                <input style="display: none" type="file" name="file" accept="image/*">
+                <input name="title" placeholder="title" data-bind="value: $root.new_item.title" hidden="">
+                <textarea name="description" style="resize:none"
+                          data-bind="value: $root.new_item.description" hidden=""></textarea>
             </form>
         </li>
-        <li class="add">
-            <form>
-                <button class="btn btn-success">
-                    <i class="glyphicon glyphicon-ok"><span> Активный</span></i>
-                </button>
-            </form>
-        </li>
+        <!-- КОНЕЦ ДОБАВЛЕНИЕ ВИДА -->
+
+        <!-- СПИСОК ВИДОВ -->
         <!-- ko foreach: items -->
         <li class="item" data-bind="css: { 'active': $data == $root.current_item() }">
-            <a href="#" class="remove btn btn-sm btn-default">
-                <i class="glyphicon glyphicon-remove"></i>
-            </a>
-            <a href="#"
-               data-bind="click: function(data) { $root.selectItem(data, '{% url "main_page.views.set_active" %}') }">
+            <ul class="mini-menu">
+                <li>
+                    <a href="#" class="remove btn btn-sm btn-warning"
+                            data-bind="click: $root.removeItem">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="remove btn btn-sm btn-default"
+                       data-bind="click: $root.activateItem,
+                                  css: { 'btn-success': active }">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <a href="#" data-bind="click: $root.selectItem">
                 <img data-bind="attr: { src: item_url, title: title }"/>
             </a>
 
-            <form>
-                <input class="title form-control" data-bind="value: title">
-            </form>
+{#            <form>#}
+{#                <input class="title form-control" data-bind="value: title">#}
+{#            </form>#}
         </li>
         <!-- /ko -->
+        <!-- КОНЕЦСПИСОК ВИДОВ -->
     </ul>
 </div>
 <div style="clear: both"></div>
-<form data-bind="submit: saveCurrentItem">
-    <textarea class="form-control" name="description" data-bind="value: $root.current_item().description"></textarea>
-    <button type="submit" hidden=""></button>
+<form data-bind="submit: $root.saveItem">
+    <textarea class="form-control" name="description"
+              data-bind="value: $root.current_item().description"></textarea>
+    <button class="btn btn-default" type="submit">
+        <i class="glyphicon glyphicon-save"></i>
+    </button>
 </form>
 
 
@@ -48,12 +69,24 @@
 {% endaddtoblock "js" %}
 
 {% addtoblock "js" %}
+    <script src="{% static "js/ko.modal_confirm.js" %}"></script>
+{% endaddtoblock "js" %}
+
+{% addtoblock "js" %}
     <script>
         ko.applyBindings(new MainPageModel({
-                    load_items_url: "{% url "main_page.views.list_items" %}",
-                    csrf: "{{ csrf_token }}",
-                    image_container_selector: "#main-banner .left .view"
-                }
-        ));
+            url: {
+                items: "{% url "main_page.views.list_items" %}",
+                item: "{% url "main_page.views.item" %}",
+                activate_item: "{% url "main_page.views.set_active" %}",
+                save_item: "{% url "main_page.views.save_item" %}",
+                add_item: "{% url "main_page.views.add_item" %}",
+                remove_item: "{% url "main_page.views.remove_item" %}"
+            },
+            selector: {
+                view: "#main-banner .left .view"
+            },
+            csrf: "{{ csrf_token }}"
+        }));
     </script>
 {% endaddtoblock "js" %}

@@ -1,14 +1,23 @@
 $item-color: #DDD;
 
 #main-banner {
+  text-align: center;
+  img#preview {
+    max-height: 350px;
+  }
+
   .left {
     &.authenticated {
       // для аутентифицированных пользователей
       max-width: 80%;
+      width: 80%;
       float: left
     }
     .view {
       margin: 0 auto;
+      img {
+        border: 2px solid #000000;
+      }
     }
   }
   .right {
@@ -44,10 +53,15 @@ $item-color: #DDD;
           &:hover {
             box-shadow: 0px 0px 8px grey;
           }
-          a.remove {
-            top:0.5em;
-            right: 0.5em;
+          ul.mini-menu {
+            padding: 0;
             position: absolute;
+            top: 8px;
+            right: 8px;
+            list-style: none;
+            > li {
+              padding: 0.1em;
+            }
           }
         }
         width: 100%;
