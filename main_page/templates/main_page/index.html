@@ -8,13 +8,7 @@
             <div class="view">
                 {% include "main_page/image.html" %}
             </div>
-            {% if not user.is_authenticated %}
-                {% if item.description %}
-                    <div>
-                        {{ item.description|safe }}
-                    </div>
-                {% endif %}
-            {% else %}
+            {% if user.is_authenticated %}
                 <!--  РЕДАКТИРОВАНИЕ ВИДА  -->
                 <form style="padding-top: 1em" data-bind="submit: $root.saveItem">
                     <div class="form-group">

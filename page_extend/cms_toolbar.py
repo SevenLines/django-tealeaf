@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from cms.api import get_page_draft
 from cms.toolbar_pool import toolbar_pool
 from cms.toolbar_base import CMSToolbar
-from .models import MenuIcon
+from page_extend.models import PageExtend
 
 
 @toolbar_pool.register
@@ -14,26 +14,18 @@ class PageTagsToolbar(CMSToolbar):
         self.page = get_page_draft(self.request.current_page)
 
         if not self.page:
-            # Nothing to do
-            return
+            return  # Nothing to do
+
+        page_tag = PageExtend.objects.filter(extended_object_id=self.page.id).first()
 
         try:
-            page_tag = MenuIcon.objects.get(extended_object_id=self.page.id)
-        except MenuIcon.DoesNotExist:
-            page_tag = None
-        try:
             if page_tag:
-                url = reverse('admin:menuicon_menuicon_change',
-                              args=(page_tag.pk,))
+                url = reverse('admin:page_extend_pageextend_change', args=(page_tag.pk,))
             else:
-                url = reverse(
-                    'admin:menuicon_menuicon_add')\
-                      +'?extended_object=%s' % self.page.pk
+                url = reverse('admin:page_extend_pageextend_add') + '?extended_object=%s' % self.page.pk
         except NoReverseMatch:
-            # not in urls
             pass
         else:
             not_edit_mode = not self.toolbar.edit_mode
             current_page_menu = self.toolbar.get_or_create_menu('page')
-            current_page_menu.add_modal_item(_('MenuIcon'), url=url,
-                                             disabled=not_edit_mode)
+            current_page_menu.add_modal_item(_('Extend options...'), url=url, disabled=not_edit_mode)

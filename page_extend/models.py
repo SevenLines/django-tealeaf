@@ -1,14 +1,13 @@
 from filer.fields.image import FilerImageField
 from cms.extensions import PageExtension
 from cms.extensions import extension_pool
-from cms.models import Page
+from django.db import models
 
 
-class MenuIcon(PageExtension):
+class PageExtend(PageExtension):
     image = FilerImageField(null=True, blank=True, default=None, verbose_name="image")
+    authentication_required = models.BooleanField(default=False)
 
-extension_pool.register(MenuIcon)
-#
-# from menus.base import NavigationNode
-# NavigationNode.page_instance = lambda u: Page.objects.filter(pk = u.id)[0]
+extension_pool.register(PageExtend)
+
 
