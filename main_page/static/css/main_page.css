@@ -1,8 +1,56 @@
-.main-banner .left.authenticated {
-  max-width: 80%;
-  float: left; }
-.main-banner .right {
-  float: right;
-  max-width: 20%; }
-  .main-banner .right ul {
-    list-style: none; }
+body {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s; }
+
+#main-banner {
+  text-align: center; }
+  #main-banner img#preview {
+    max-height: 350px; }
+  #main-banner img#view {
+    max-height: 500px; }
+  #main-banner .left.authenticated {
+    max-width: 80%;
+    width: 80%;
+    float: left; }
+  #main-banner .left .view {
+    margin: 0 auto; }
+    #main-banner .left .view img {
+      border: 2px solid #000000; }
+  #main-banner .right {
+    float: right;
+    max-width: 20%; }
+    #main-banner .right > ul {
+      list-style: none;
+      width: 100%; }
+      #main-banner .right > ul > li {
+        margin-top: 0.5em;
+        width: 100%; }
+        #main-banner .right > ul > li.item {
+          -webkit-transition: all 0.2s;
+          -moz-transition: all 0.2s;
+          -ms-transition: all 0.2s;
+          -o-transition: all 0.2s;
+          transition: all 0.2s;
+          border: 2px solid transparent;
+          border-radius: 8px;
+          position: relative;
+          padding: 0.5em; }
+          #main-banner .right > ul > li.item.active {
+            border-color: #dddddd;
+            box-shadow: 0px 0px 2px #dddddd; }
+          #main-banner .right > ul > li.item img {
+            max-height: 100px;
+            margin: 0 auto; }
+          #main-banner .right > ul > li.item:hover {
+            box-shadow: 0px 0px 8px grey; }
+          #main-banner .right > ul > li.item ul.mini-menu {
+            padding: 0;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            list-style: none; }
+            #main-banner .right > ul > li.item ul.mini-menu > li {
+              padding: 0.1em; }
