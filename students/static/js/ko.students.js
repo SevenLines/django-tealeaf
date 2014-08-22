@@ -111,7 +111,7 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
                 e.stopPropagation()
             });
 
-            $.cookie("year", self.year());
+            $.cookie("year", self.year(), { expires: 7 });
             self.newGroup.year(self.year());
         });
     };
@@ -183,7 +183,7 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
             var mapped_data = $.map(data, function (item) {
                 return new Student(item);
             });
-            $.cookie("group_id", group['id']);
+            $.cookie("group_id", group['id'], { expires: 7 });
             self.group(group);
             self.studentsList(mapped_data);
             self.newStudent.group_id = group['id'];

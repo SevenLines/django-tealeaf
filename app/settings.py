@@ -26,7 +26,9 @@
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import json
 import os
+
 from django.core.urlresolvers import reverse
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -128,7 +130,6 @@ MEDIA_URL = '/media/'
 
 THUMBNAIL_BASEDIR = 'thumbs'
 
-
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, "templates"),
 )
@@ -173,9 +174,13 @@ SOUTH_MIGRATION_MODULES = {
 
 FILER_PAGINATE_BY = 50
 
-CUSTOM_MENU_ITEMS = ({
-    # 'name': 'ppl',
-    'img': 'img/profle.png',
-    'href': reverse("students.views.index"),
-    },
-)
+# CUSTOM_MENU_ITEMS = \
+#     ({
+#          'img': 'img/profle.png',
+#          'href': reverse("students.views.students.index"),
+#      },
+#      {
+#          'img': 'img/colorwheel.png',
+#          'href': reverse("students.views.marks.index"),
+#      },
+#     )
