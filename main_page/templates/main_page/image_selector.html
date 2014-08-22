@@ -1,4 +1,4 @@
-{% load sekizai_tags static %}
+{% load sekizai_tags static thumbnail %}
 
 {% include "main_page/modalSave.html" %}
 
@@ -39,7 +39,7 @@
             </ul>
 
             <a href="#" data-bind="click: $root.selectItem">
-                <img data-bind="attr: { src: item_url, title: title }"/>
+                <img data-bind="attr: { src: item_thumb_url, title: title }"/>
             </a>
 
 {#            <form>#}

@@ -20,7 +20,6 @@ django-markupfield==1.2.1
 django-mptt==0.6.1
 django-polymorphic==0.5.5
 django-sekizai==0.7
-django-solo==1.0.5
 djangocms-admin-style==0.2.2
 djangocms-cascade==0.3.1
 djangocms-file==0.0.1

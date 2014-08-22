@@ -9,6 +9,7 @@ function MainPageItem(data) {
     self.title = ko.observable(data.title);
     self.description = ko.observable(data.description);
     self.item_url = ko.observable(data.item_url);
+    self.item_thumb_url = ko.observable(data.item_thumb_url);
     self.active = ko.observable(data.active);
 }
 
@@ -42,7 +43,14 @@ function MainPageModel(data) {
     self.csrf = data.csrf;
 
     self.items = ko.observableArray();
-    self.current_item = ko.observable();
+    self.current_item = ko.observable(new MainPageItem({
+        id: -1,
+        title: '',
+        description: '',
+        item_url: '',
+        active: false
+    }));
+
     self.text = ko.observable("cool text");
 
     self.loadItems = function () {
@@ -84,6 +92,8 @@ function MainPageModel(data) {
             csrfmiddlewaretoken: self.csrf
         }).success(function (data) {
             $(self.selector.view).html(data.html);
+        }).fail(function (data) {
+            $(self.selector.view).html("");
         });
     };
 

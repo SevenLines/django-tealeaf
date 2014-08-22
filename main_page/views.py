@@ -1,4 +1,6 @@
 import json
+import os
+from PIL.Image import Image
 
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
@@ -9,6 +11,7 @@ from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
+from easy_thumbnails.files import get_thumbnailer
 
 from main_page.models import MainPageItem, MainPage
 
@@ -24,7 +27,7 @@ def require_item_id_in_POST(func):
 
 def index(request):
     context = {
-        'item': MainPage.solo().current_item
+        'item': MainPage.solo().current_item.dictionary if MainPage.solo().current_item else None
     }
     return render(request, 'main_page/index.html', context)
 
@@ -42,9 +45,9 @@ def item(request):
         return HttpResponseBadRequest("can't get item with the item_id")
 
     return HttpResponse(json.dumps({
-        'item': model_to_dict(i),
+        'item': i.dictionary if i else None,
         'html': render_to_string('main_page/image.html', {
-            'item': model_to_dict(i),
+            'item': i.dictionary if i else None,
         }),
     }), content_type='json')
 
@@ -60,7 +63,7 @@ def list_items(request):
 
     output = []
     for i in items:
-        i_dict = model_to_dict(i)
+        i_dict = i.dictionary
         i_dict.update({'active': main_item.id == i.id if main_item else False })
         output.append(i_dict)
 
@@ -83,7 +86,7 @@ def set_active(request):
     main_page_settings.save()
 
     return render(request, 'main_page/image.html', {
-        'item': MainPage.solo().current_item
+        'item': MainPage.solo().current_item.dictionary if MainPage.solo().current_item else None
     })
 
 
@@ -100,8 +103,8 @@ def save_item(request):
     if 'title' in request.POST:
         i.title = request.POST['title']
 
-    if 'item_url' in request.POST:
-        i.item_url = request.POST['item_url']
+    # if 'item_url' in request.POST:
+    #     i.item_url = request.POST['item_url']
 
     i.save()
 
@@ -116,13 +119,8 @@ def add_item(request):
     it.description = request.POST['description']
 
     f = request.FILES['file']
-    path = "main_page/%s" % f.name
 
-    if not default_storage.exists(path):
-        path = default_storage.save(path, ContentFile(f.read()))
-
-    it.local_path = path
-    it.item_url = default_storage.url(path)
+    it.img.save(f.name, ContentFile(f.read()))
     it.save()
 
     mutable = request.POST._mutable
@@ -138,11 +136,6 @@ def add_item(request):
 def remove_item(request):
     item_id = request.POST['item_id']
     it = MainPageItem.objects.get(pk=item_id)
-    try:
-        default_storage.delete(it.local_path)
-    except Exception as e:
-        pass
-
     it.delete()
 
     return HttpResponse()
