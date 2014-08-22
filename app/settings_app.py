@@ -24,7 +24,7 @@ INSTALLED_APPS = (
     'cmsplugin_filer_image',
 
     'plugin_markdown',
-    'menuicon',
+    'page_extend',
     'labs',
     'toc',
     'email_obfuscator',
