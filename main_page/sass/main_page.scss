@@ -1,8 +1,21 @@
 $item-color: #DDD;
 
+body {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+
 #main-banner {
   text-align: center;
   img#preview {
+    max-height: 350px;
+  }
+
+  img#view {
     max-height: 500px;
   }
 
@@ -69,9 +82,9 @@ $item-color: #DDD;
     }
   }
   textarea[name="description"] {
-    margin-top: 1em;
-    width: 100%;
-    max-width: 100%;
-    min-height: 200px;
+//    margin-top: 1em;
+//    width: 100%;
+//    max-width: 100%;
+//    min-height: 200px;
   }
 }

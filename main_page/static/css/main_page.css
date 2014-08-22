@@ -1,6 +1,15 @@
+body {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s; }
+
 #main-banner {
   text-align: center; }
   #main-banner img#preview {
+    max-height: 350px; }
+  #main-banner img#view {
     max-height: 500px; }
   #main-banner .left.authenticated {
     max-width: 80%;
@@ -45,8 +54,3 @@
             list-style: none; }
             #main-banner .right > ul > li.item ul.mini-menu > li {
               padding: 0.1em; }
-  #main-banner textarea[name="description"] {
-    margin-top: 1em;
-    width: 100%;
-    max-width: 100%;
-    min-height: 200px; }

@@ -43,7 +43,7 @@ class MainPage(Model):
         if MainPage.objects.count() == 0:
             mp = MainPage()
             mp.save()
-        return MainPage.objects.get()
+        return MainPage.objects.first()
 
 
 @receiver(models.signals.post_delete, sender=MainPageItem)

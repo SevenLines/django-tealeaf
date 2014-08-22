@@ -1,5 +1,6 @@
 import json
 import os
+from uuid import uuid4
 from PIL.Image import Image
 
 from django.contrib.auth.decorators import login_required
@@ -9,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import model_to_dict
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
+from django.template.context import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 from easy_thumbnails.files import get_thumbnailer
@@ -26,9 +28,9 @@ def require_item_id_in_POST(func):
 
 
 def index(request):
-    context = {
+    context = RequestContext(request, {
         'item': MainPage.solo().current_item.dictionary if MainPage.solo().current_item else None
-    }
+    })
     return render(request, 'main_page/index.html', context)
 
 
@@ -46,9 +48,9 @@ def item(request):
 
     return HttpResponse(json.dumps({
         'item': i.dictionary if i else None,
-        'html': render_to_string('main_page/image.html', {
+        'html': render_to_string('main_page/image.html', RequestContext(request, {
             'item': i.dictionary if i else None,
-        }),
+        })),
     }), content_type='json')
 
 
@@ -57,7 +59,7 @@ def list_items(request):
     main_item = main_page.current_item
 
     items = []
-    items.extend(list(MainPageItem.objects.all().order_by("-pk")[:4]))
+    items.extend(list(MainPageItem.objects.all().order_by("-pk")[:6]))
     if main_item is not None and main_item not in items:
         items.append(main_item)
 
@@ -119,9 +121,14 @@ def add_item(request):
     it.description = request.POST['description']
 
     f = request.FILES['file']
-
-    it.img.save(f.name, ContentFile(f.read()))
+    ext = f.name.split('.')[-1]
+    it.img.save('%s.%s' % (uuid4(), ext), ContentFile(f.read()))
     it.save()
+
+    if "activate" in request.POST:
+        main_page = MainPage.solo()
+        main_page.current_item = it
+        main_page.save()
 
     mutable = request.POST._mutable
     request.POST._mutable = True
