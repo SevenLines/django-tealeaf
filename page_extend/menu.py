@@ -3,7 +3,7 @@ from menus.base import Modifier
 from menus.menu_pool import menu_pool
 
 
-class MenuIconModifier(Modifier):
+class PageExtendModifier(Modifier):
     """
 
     """
@@ -12,12 +12,11 @@ class MenuIconModifier(Modifier):
             return nodes
         for node in nodes:
             page = Page.objects.get(pk=node.id)
-            extension = None
 
-            if hasattr(page, "menuicon"):
-                extension = page.menuicon
-
-            node.icon = extension
+            pageextend = page.pageextend if hasattr(page, "pageextend") else None
+            if pageextend:
+                node.icon = pageextend.image
+                node.authentication_required = pageextend.authentication_required
         return nodes
 
-menu_pool.register_modifier(MenuIconModifier)
+menu_pool.register_modifier(PageExtendModifier)

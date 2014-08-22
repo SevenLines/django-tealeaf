@@ -2,7 +2,7 @@ __author__ = 'mick'
 
 from django.conf.urls import patterns, url
 
-urlpatterns = patterns('students.views',
+urlpatterns = patterns('students.views.students',
 
    url(r'ajax/json/years$', 'ajax.json.years'),
    url(r'ajax/json/groups/copy_to_next_year$', 'ajax.json.copy_to_next_year', ),

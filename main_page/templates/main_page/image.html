@@ -1,3 +1,8 @@
 {% if item.item_url %}
     <img src="{{ item.item_url }}" id="view"/>
 {% endif %}
+{% if item.description %}
+    <div>
+        {{ item.description|safe }}
+    </div>
+{% endif %}
