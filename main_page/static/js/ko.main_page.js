@@ -42,6 +42,7 @@ function MainPageModel(data) {
     };
 
     self.modalSave = new ModalConfirm("#modalSave");
+    self.modalDelete = new ModalConfirm("#modalConfirmDelete");
     self.new_item = ko.observable(self.reset_item());
 
 
@@ -166,15 +167,17 @@ function MainPageModel(data) {
     };
 
     self.removeItem = function (data) {
-        $.post(self.url.remove_item, {
-            item_id: data.id,
-            csrfmiddlewaretoken: self.csrf
-        }).success(function () {
-            self.showSuccess();
-            self.items.remove(data);
-        }).fail(function () {
-            self.showFail();
-        })
+        self.modalDelete.show(function () {
+            $.post(self.url.remove_item, {
+                item_id: data.id,
+                csrfmiddlewaretoken: self.csrf
+            }).success(function () {
+                self.showSuccess();
+                self.items.remove(data);
+            }).fail(function () {
+                self.showFail();
+            })
+        });
     };
 
     self.addItem = function (form) {
