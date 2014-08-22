@@ -3,7 +3,7 @@ function ModalConfirm(modal_selector, message) {
     //
     // modal form should be bind to the bootstrap modal form:
     //
-    //    <div id="main-modal-form" class="modal fade modal_remove" role="dialog">
+    //    <div id="main-modal-form" class="modal fade" role="dialog">
     //        <div class="modal-footer">
     //            <button type="button" class="btn btn-danger" data-confirm data-dismiss="modal">Yes</button>
     //            <button type="button" class="btn btn-default" data-decline data-dismiss="modal">No</button>
