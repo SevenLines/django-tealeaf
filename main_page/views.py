@@ -84,7 +84,7 @@ def set_active(request):
         return HttpResponseBadRequest(e.message)
 
     main_page_settings = MainPage.solo()
-    main_page_settings.current_item = item
+    main_page_settings.current_item = item if item != main_page_settings.current_item else None
     main_page_settings.save()
 
     return render(request, 'main_page/image.html', {

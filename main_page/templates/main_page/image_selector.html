@@ -33,13 +33,13 @@
                 <li>
                     <a href="#" class="remove btn btn-sm btn-default"
                        data-bind="click: $root.activateItem,
-                                  css: { 'btn-success': active }">
+                                  css: { 'btn-success': active() }">
                         <i class="glyphicon glyphicon-ok"></i>
                     </a>
                 </li>
             </ul>
 
-            <a href="#" data-bind="click: $root.selectItem">
+            <a href="#" data-bind="click: $root.selectItem" style="width: 100%; display: block">
                 <img data-bind="attr: { src: item_thumb_url, title: title }"/>
             </a>
 

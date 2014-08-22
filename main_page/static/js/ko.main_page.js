@@ -90,7 +90,7 @@ function MainPageModel(data) {
         },
         update: function (element) {
             var value = self.current_item().description;
-            console.log(value());
+//            console.log(value());
             if ($(element).val() !== value()) {
                 $(element).val(value());
             }
@@ -112,7 +112,6 @@ function MainPageModel(data) {
                 }
                 if (self.items()[i].active()) {
                     self.current_item(self.items()[i]);
-//                    console.log(ko.toJS(self.current_item()));
                     break;
                 }
             }
@@ -127,18 +126,15 @@ function MainPageModel(data) {
             item_id: data.id,
             csrfmiddlewaretoken: self.csrf
         }).success(function () {
-            for (var i = 0; i < self.items().length; ++i) {
-                self.items()[i].active(false);
-            }
-            self.current_item().active(true);
             self.update_view();
+            self.loadItems();
         })
     };
 
     self.update_view = function () {
         if (self.current_item === 'undefined')
             return;
-        console.log("update_view");
+//        console.log("update_view");
         $.post(self.url.item, {
             item_id: self.current_item().id,
             csrfmiddlewaretoken: self.csrf
