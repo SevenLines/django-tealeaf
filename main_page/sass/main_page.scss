@@ -1,0 +1,91 @@
+$item-color: #DDD;
+
+body {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+
+#main-banner {
+  text-align: center;
+  img#preview {
+    max-height: 350px;
+  }
+
+  img#view {
+    max-height: 500px;
+  }
+
+  .left {
+    &.authenticated {
+      // для аутентифицированных пользователей
+      max-width: 80%;
+      width: 80%;
+      float: left
+    }
+    .view {
+      margin: 0 auto;
+      img {
+        border: 2px solid #000000;
+      }
+    }
+  }
+  .right {
+    float: right;
+    max-width: 20%;
+    > ul {
+      list-style: none;
+      width: 100%;
+
+      > li {
+//        cursor: pointer;
+        margin-top: 0.5em;
+        &.add {
+        }
+        &.item {
+          -webkit-transition: all 0.2s;
+          -moz-transition: all 0.2s;
+          -ms-transition: all 0.2s;
+          -o-transition: all 0.2s;
+          transition: all 0.2s;
+
+          border: 2px solid transparent;
+          border-radius: 8px;
+          &.active {
+            border-color: $item-color;
+            box-shadow: 0px 0px 2px $item-color;
+          }
+          position: relative;
+          img {
+            max-height: 100px;
+            margin: 0 auto;
+          }
+          padding: 0.5em;
+          &:hover {
+            box-shadow: 0px 0px 8px grey;
+          }
+          ul.mini-menu {
+            padding: 0;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            list-style: none;
+            > li {
+              padding: 0.1em;
+            }
+          }
+        }
+        width: 100%;
+      }
+    }
+  }
+  textarea[name="description"] {
+//    margin-top: 1em;
+//    width: 100%;
+//    max-width: 100%;
+//    min-height: 200px;
+  }
+}

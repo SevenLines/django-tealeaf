@@ -1,0 +1,43 @@
+{% extends "base_page.html" %}
+{% load static sekizai_tags %}
+
+{% block basecontent %}
+
+    <div id="main-banner">
+        <div class="left{% if user.is_authenticated %} authenticated{% endif %}">
+            <div class="view">
+                {% include "main_page/image.html" %}
+            </div>
+            {% if not user.is_authenticated %}
+                {% if item.description %}
+                    <div>
+                        {{ item.description|safe }}
+                    </div>
+                {% endif %}
+            {% else %}
+                <!--  РЕДАКТИРОВАНИЕ ВИДА  -->
+                <form style="padding-top: 1em" data-bind="submit: $root.saveItem">
+                    <div class="form-group">
+                        <textarea data-icon="{% static "img/main_page/saveme.png" %}" id="description-edit"
+                                  style="resize: vertical" class="form-control" name="description"
+                                  data-bind="ckeditor: $root.current_item.description">
+                        </textarea>
+                    </div>
+                </form>
+                <!--  КОНЕЦ РЕДАКТИРОВАНИЯ ВИДА  -->
+            {% endif %}
+
+        </div>
+
+        {% if user.is_authenticated %}
+            {% include "main_page/image_selector.html" %}
+        {% endif %}
+    </div>
+
+    <div style="clear: both"></div>
+
+    {% addtoblock "css" %}
+        <link rel="stylesheet" x href="{% static 'css/main_page.css' %}"/>
+    {% endaddtoblock "css" %}
+
+{% endblock %}

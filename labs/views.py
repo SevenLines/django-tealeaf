@@ -1,10 +1,10 @@
 from cms.api import add_plugin
 from cms.models.placeholdermodel import Placeholder
 from django.http.response import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.decorators.http import require_http_methods, require_POST
+from django.views.decorators.http import require_POST
 
 from labs.cms_plugins import TaskExPlugin
 from labs.models import TaskEx, LabEx
@@ -34,6 +34,8 @@ def update_task(request, pk):
 
     if 'users' in request.POST:
         task.set_users(request.POST.getlist('users'))
+    elif 'no_users' in request.POST:
+        task.set_users([])
 
     if changed:
         task.save()
@@ -44,7 +46,7 @@ def update_task(request, pk):
                'page': page,
                'is_gallery': 'is_gallery' in request.POST,
                'users': task.users()
-               }
+    }
 
     return render(request, 'labs/task_info.html', context)
 
@@ -70,7 +72,7 @@ def add_task(request, pk):
                'complex_choices': TaskEx.COMPLEX_CHOICES,
                'page': page,
                'is_gallery': 'is_gallery' in request.POST
-               }
+    }
 
     return render(request, 'labs/task.html', context)
 

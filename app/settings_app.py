@@ -38,5 +38,5 @@ INSTALLED_APPS = (
     'upgrade',
     'articles',
     'my_file_browser',
-
+    'main_page',
 )
