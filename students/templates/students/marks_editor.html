@@ -3,25 +3,24 @@
 
 {% block basecontent %}
 
-    <!-- СПИСОК ДИСЦИПЛИН -->
-    {% include "students/marks_discipline_list.html" %}
-    <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
-
-
-    <form class="form-inline"  style="padding-bottom: 1em" >
+    <form class="form-inline">
         <div class="form-group">
             <!-- СПИСОК ГОДОВ -->
             <select class="form-control" name="year"
                     data-bind="value: year, options: years, optionsValue: 'year', optionsText: 'year'"></select>
             <!-- КОНЕЦ СПИСОК ГОДОВ -->
         </div>
-        <div class="form-group">
+        <div class="form-group" >
             <!-- СПИСОК ГРУПП -->
             <select class="form-control" name="group"
                     data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
             <!-- КОНЕЦ СПИСОК ГРУПП -->
         </div>
     </form>
+
+    <!-- СПИСОК ДИСЦИПЛИН -->
+    {% include "students/marks_discipline_list.html" %}
+    <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
 
     <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
     <table class="table table-hover table-condensed" data-bind="visible: students">
@@ -47,16 +46,25 @@
     {% endaddtoblock %}
 
     {% addtoblock "js" %}
+        <script src="{% static "js/ko.modal_confirm.js" %}"></script>
+    {% endaddtoblock "js" %}
+
+    {% addtoblock "js" %}
         <script src="{% static "js/ko.marks.js" %}"></script>
     {% endaddtoblock "js" %}
 
     {% addtoblock "js" %}
         <script>
             ko.applyBindings(new MarksViewModel({
+                csrf: "{{ csrf_token }}",
                 url: {
                     years: "{% url "students.views.students.ajax.json.years" %}",
                     groups: "{% url "students.views.students.ajax.json.groups" %}",
-                    students: "{% url "students.views.students.ajax.json.students" %}"
+                    students: "{% url "students.views.students.ajax.json.students" %}",
+                    disciplines: "{% url "students.views.marks.disciplines.index" %}",
+                    discipline_add: "{% url "students.views.marks.disciplines.add" %}",
+                    discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
+                    discipline_edit: "{% url "students.views.marks.disciplines.edit" %}"
                 }
             }));
         </script>

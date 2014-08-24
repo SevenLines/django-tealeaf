@@ -1,2 +1,19 @@
-
+<form class="form-inline" data-bind="visible: groups().length" style="padding: 1em 0" >
+    <div class="form-group">
+        <select class="form-control" data-bind="value: discipline, options: disciplines, optionsText: 'title'"></select>
+        {% if user.is_authenticated %}
+            <button class="btn btn-default btn-sm" data-bind="click: editDiscipline">
+                <i class="glyphicon glyphicon-edit"></i>
+            </button>
+            <button class="btn btn-default btn-sm" data-bind="click: addDiscipline">
+                <i class="glyphicon glyphicon-plus"></i>
+            </button>
+            </div>
+            <div class="form-group" style="margin-left: 1em">
+            <button class="btn btn-danger btn-sm" data-bind="click: removeDiscipline">
+                <i class="glyphicon glyphicon-minus"></i>
+            </button>
+        {% endif %}
+        </div>
+</form>
 <div style="clear: both"></div>

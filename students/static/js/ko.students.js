@@ -82,7 +82,9 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
     };
     // end subscribes blocking control
 
-    self.modalConfirm = new ModalConfirm(modal_selector, '');
+    self.modalConfirm = new ModalConfirm({
+        variable_name: 'modalConfirm'
+    });
 
 /// YEARS CONTROL
     self.year.subscribe(function () {

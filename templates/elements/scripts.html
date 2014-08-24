@@ -39,6 +39,10 @@
     <script type="text/javascript" src="{% static "js/jquery-1.11.0.min.js" %}"></script>
 {% endaddtoblock %}
 
+{% addtoblock "top_js" %}
+    <script type="text/javascript" src="{% static "js/interface.js" %}"></script>
+{% endaddtoblock %}
+
 {% if user.is_authenticated and current_page.publisher_is_draft %}
     <script type="text/javascript" src="{% static "js/jquery.form.js" %}"></script>
 {% endif %}
