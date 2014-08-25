@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 
+from app.utils import require_in_POST
+
 from students.models import Discipline
 
 
@@ -13,10 +15,8 @@ def index(request):
 
 @require_POST
 @login_required
+@require_in_POST("id")
 def remove(request):
-    if "id" not in request.POST:
-        return HttpResponseBadRequest("'id' is not defined")
-
     try:
         Discipline.objects.get(pk=request.POST['id']).delete()
     except BaseException as e:
@@ -27,22 +27,19 @@ def remove(request):
 
 @require_POST
 @login_required
+@require_in_POST("title")
 def add(request):
-    if "title" not in request.POST:
-        return HttpResponseBadRequest("'title' is not defined")
-
     d = Discipline()
     d.title = request.POST['title']
     d.save()
 
     return HttpResponse()
 
+
 @require_POST
 @login_required
+@require_in_POST("id")
 def edit(request):
-    if "id" not in request.POST:
-        return HttpResponseBadRequest("'id' is not defined")
-
     d = Discipline.objects.get(pk=request.POST["id"])
     if "title" in request.POST:
         d.title = request.POST['title']

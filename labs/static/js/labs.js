@@ -29,18 +29,10 @@
           'name': 'description',
           'value': ckEditor.getData()
         });
-        r = $.post(form.action, data);
-        r.success(function(data) {
-          $("#" + lab_id).toggleClass("bg-success", true);
-          return setTimeout(function() {
-            return $("#" + lab_id).toggleClass("bg-success", false);
-          }, 1000);
-        });
-        r.fail(function(data) {
-          $("#" + lab_id).toggleClass("bg-danger", true);
-          return setTimeout(function() {
-            return $("#" + lab_id).toggleClass("bg-danger", false);
-          }, 1000);
+        r = $.post(form.action, data).success(function(data) {
+          return InterfaceAlerts.showSuccess();
+        }).fail(function(data) {
+          return InterfaceAlerts.showFail();
         });
         return false;
       });
@@ -114,17 +106,11 @@
           $("#" + task_id + " .info").html(data);
           btn = $("\#" + task_id).find(".turn-edit-on-btn");
           btn.show("fast");
-          $("#" + task_id + " .edit").toggleClass("bg-success", true);
-          return setTimeout(function() {
-            return $("#" + task_id + " .edit").toggleClass("bg-success", false);
-          }, 1000);
+          return InterfaceAlerts.showSuccess();
         });
         r.fail(function(data) {
           TaskEditor.restore_style(submit);
-          $("#" + task_id + " .edit").toggleClass("bg-danger", true);
-          return setTimeout(function() {
-            return $("#" + task_id + " .edit").toggleClass("bg-danger", false);
-          }, 1000);
+          return InterfaceAlerts.showFail();
         });
         return false;
       });

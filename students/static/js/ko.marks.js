@@ -32,7 +32,9 @@
             disciplines: data.url.disciplines,
             discipline_add: data.url.discipline_add,
             discipline_edit: data.url.discipline_edit,
-            discipline_remove: data.url.discipline_remove
+            discipline_remove: data.url.discipline_remove,
+            lesson_add: data.url.lesson_add,
+            lesson_remove: data.url.lesson_remove
         };
 
         self.cookie = { // cookie names
@@ -74,6 +76,7 @@
         self.disciplines = ko.observableArray();
         self.discipline = ko.observable();
 
+        self.lessons = ko.observableArray();
 
         self.modalDeleteDescipline = new ModalConfirm({
             variable_name: 'modalDeleteDescipline',
@@ -132,15 +135,21 @@
         };
 
         self.loadStudents = function () {
-            $.get(self.url.students, { 'group_id': self.group().id }, self.students).success(function (data) {
+            $.get(self.url.students, {
+                'group_id': self.group().id,
+                'discipline_id': self.discipline().id
+            }).success(function (data) {
+//                console.dir(data.lessons);
+                self.lessons(data.lessons);
+                self.students(data.students);
                 $.cookie(self.cookie.group_id, self.group().id, { expires: self.cookie.expires });
             });
         };
 
         self.loadDisciplines = function () {
-            $.get(self.url.disciplines, {}, self.disciplines).fail(function () {
-                InterfaceAlerts.showFail();
-            }).fail(function () {
+            $.get(self.url.disciplines, {
+
+            }, self.disciplines).fail(function () {
                 InterfaceAlerts.showFail();
             })
         };
@@ -163,7 +172,7 @@
         self.editDiscipline = function () {
             if (!self.discipline().id)
                 return;
-            self.modalAddDescipline.header('Редактирование дисциплины "'+self.discipline().title+'"');
+            self.modalAddDescipline.header('Редактирование дисциплины "' + self.discipline().title + '"');
             self.modalAddDescipline.title(self.discipline().title);
             self.modalAddDescipline.show(function () {
                 $.post(self.url.discipline_edit, self.csrfize({
@@ -189,6 +198,35 @@
                     InterfaceAlerts.showFail();
                 })
             })
+        };
+
+        self.addLesson = function () {
+            $.post(self.url.lesson_add, self.csrfize({
+                discipline_id: self.discipline().id,
+                group_id: self.group().id
+            })).success(function () {
+                self.loadStudents()
+            }).fail(function () {
+                InterfaceAlerts.showFail();
+            });
+        };
+
+        self.removeLesson = function (data) {
+            $.post(self.url.lesson_remove, self.csrfize({
+                lesson_id: data.id
+            })).success(function () {
+                self.loadStudents()
+            }).fail(function () {
+                InterfaceAlerts.showFail();
+            });
+        };
+
+        self.increase = function (data) {
+            console.dir(data);
+        };
+
+        self.decrease = function (data) {
+
         };
 
         self.init();

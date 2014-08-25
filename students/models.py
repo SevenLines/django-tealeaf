@@ -1,9 +1,8 @@
 # coding: utf-8
 # Create your models here.
-from datetime import date
 
 from django.db import models, transaction
-from django.db.models.fields.related import ForeignKey
+from django.db.transaction import atomic
 
 import students.utils
 from students.utils import current_year
@@ -107,18 +106,25 @@ class Discipline(models.Model):
         return u"%s %s %s" % (self.title, self.year, self.semestr)
 
 
+class LessonType(models.Model):
+    title = models.CharField(max_length=50)
+
+
 class Lesson(models.Model):
     """
     пара по некоторой дисциплине
     """
     discipline = models.ForeignKey(Discipline)
-    date = models.DateField(default=date.today())
+    group = models.ForeignKey(Group)
+    date = models.DateTimeField(auto_now_add=True)
+    lesson_type = models.ForeignKey(LessonType, verbose_name="type", blank=True, null=True)
 
     def __unicode__(self):
-        return u"%s %s.%s" % (self.discipline, self.date.day, self.date.month)
+        return u"%s %s (%s)" % (self.discipline, self.date, self.lesson_type.title)
 
 
     @staticmethod
+    @atomic
     def create_lesson_for_group(group, discipline):
         """
         creates lesson with empty marks fields for group
@@ -127,13 +133,12 @@ class Lesson(models.Model):
         assert isinstance(discipline, Discipline)
         assert isinstance(group, Group)
 
-        with transaction.atomic():
-            l = Lesson(discipline=discipline)
-            l.save()
-            for s in group.students.all():
-                m = Mark(lesson=l, student=s)
-                m.save()
-            return l
+        l = Lesson(discipline=discipline)
+        l.save()
+        for s in group.students.all():
+            m = Mark(lesson=l, student=s)
+            m.save()
+        return l
 
 
 class Mark(models.Model):
@@ -147,42 +152,21 @@ class Mark(models.Model):
     def __unicode__(self):
         return u"%s %s" % (self.student, self.mark)
 
+    @staticmethod
+    def get_for(group, discipline):
+        return Mark.objects.filter(lesson__discipline=discipline, student__group=group).all()
 
-class Lab(models.Model):
-    title = models.CharField(max_length=200, blank=True, default="")
-    description = models.TextField(blank=True, default="")
-    discipline = ForeignKey(Discipline)
-
-    def __unicode__(self):
-        return self.title
-
-
-class Task(models.Model):
-    UNDEFINED = ""
-    EASY = "easy"
-    MEDIUM = "medium"
-    HARD = "hard"
-    NIGHTMARE = "nightmare"
-
-    COMPLEX_CHOICES = (
-        (UNDEFINED, ""),
-        (EASY, "Easy"),
-        (MEDIUM, "Medium"),
-        (HARD, "Hard"),
-        (NIGHTMARE, "Nightmare"),
-    )
-
-    lab = ForeignKey(Lab)
-    description = models.TextField(blank=True, default="")
-    complexity = models.CharField(max_length=20,
-                                  choices=COMPLEX_CHOICES,
-                                  default=EASY)
-
-    def __unicode__(self):
-        return self.description[:50]
+    @staticmethod
+    def get_for_id(group_id, discipline_id):
+        return Mark.get_for(Group.objects.get(pk=group_id), Discipline.objects.get(pk=discipline_id))
 
 
 def active_years(r=2):
+    """
+    returns list of active years like current year +-r
+    :param r: range from current year [-r, r]
+    :return:
+    """
     years = Group.objects.all().values_list('year').distinct()
     if len(years) == 0:
         years = [current_year(), ]
