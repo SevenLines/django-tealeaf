@@ -1,7 +1,15 @@
-<table class="table table-hover table-condensed" data-bind="visible: students">
+<table class="table table-condensed table-hover" data-bind="visible: students">
     <thead>
     <tr>
-        <th>Студент</th>
+        <th>Студент
+{#            <form class="form form-inline">#}
+{#                <div class="form-group">#}
+                    <button class="btn btn-sm btn-success" data-bind="click: $root.saveMarks">
+                        <i class="glyphicon glyphicon glyphicon-save"></i>
+                    </button>
+{#                </div>#}
+{#            </form>#}
+        </th>
         <!-- ko foreach: lessons -->
         <td>
             <button class="btn btn-sm btn-danger" data-bind="click: $root.removeLesson">
@@ -21,14 +29,14 @@
     <tr>
         <td data-bind="text: (second_name + ' ' + name)" style="width:20%;"></td>
         <!-- ko foreach: marks -->
-        <td>
-            <button class="btn btn-sm btn-primary" data-bind="click: $root.decrease">
-                <i class="glyphicon glyphicon glyphicon-minus"></i>
-            </button>
-            <span>1</span>
-            <button class="btn btn-sm btn-primary" data-bind="click: $root.increase">
-                <i class="glyphicon glyphicon glyphicon-plus"></i>
-            </button>
+        <td class="mark" data-bind="css: mark_class, click: $root.clickMark">
+            {#            <button class="btn btn-sm btn-primary" data-bind="click: $root.decrease">#}
+            {#                <i class="glyphicon glyphicon glyphicon-minus"></i>#}
+            {#            </button>#}
+            <span class="mark-text" data-bind="text: mark_text()"></span>
+            {#            <button class="btn btn-sm btn-primary" data-bind="click: $root.increase">#}
+            {#                <i class="glyphicon glyphicon glyphicon-plus"></i>#}
+            {#            </button>#}
         </td>
         <!-- /ko -->
         <td></td>

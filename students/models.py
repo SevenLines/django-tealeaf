@@ -147,7 +147,7 @@ class Mark(models.Model):
     """
     student = models.ForeignKey(Student)
     lesson = models.ForeignKey(Lesson)
-    mark = models.CharField(max_length=10, default='')
+    mark = models.SmallIntegerField()
 
     def __unicode__(self):
         return u"%s %s" % (self.student, self.mark)

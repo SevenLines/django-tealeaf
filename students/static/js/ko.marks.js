@@ -16,6 +16,82 @@
         ModalConfirm.apply(this, arguments);
     }
 
+    function Mark(data) {
+        var self = this;
+        self.student_id = data.student_id;
+        self.mark_id = data.mark_id;
+        self.lesson_id = data.lesson_id;
+        self.mark = ko.observable(data.mark !== null ? data.mark : 1);
+        self.mark_old = ko.observable(data.mark !== null ? data.mark : 1);
+
+        self.mark_text = ko.computed(function () { // надпись оценки
+            switch (self.mark()) {
+                case 0:
+                    return "н";
+//                case 2:
+//                    return "∓";
+//                case 3:
+//                    return "±";
+//                case 4:
+//                    return "+";
+            }
+            return ""
+        }, self.mark);
+
+        self.mark_class = ko.computed(function () {
+            var cls = "";
+            switch (self.mark()) {
+                case 0:
+                    cls = "absent";
+                    break;
+                case 2:
+                    cls = "quater";
+                    break;
+                case 3:
+                    cls = "half";
+                    break;
+                case 4:
+                    cls = "full";
+                    break;
+            }
+            cls += self.mark() != self.mark_old() ? " modified" : "";
+            return cls
+        }, self.mark, self.mark_old);
+
+        self.reset = function () {
+            self.mark_old(self.mark());
+        };
+
+        self.modified = ko.computed(function () {
+            return self.mark() != self.mark_old()
+        }, self.mark, self.mark_old);
+    }
+
+    function Student(data) {
+        var self = this;
+        self.id = data.id;
+        self.name = data.name;
+        self.second_name = data.second_name;
+
+        self.marks = $.map(data.marks, function (item) {
+            return new Mark(item);
+        });
+
+        self.modified_marks = function () {
+            var marks = $.grep(self.marks, function (item) {
+                return item.modified();
+            });
+            return marks
+        };
+
+        self.reset = function () {
+            self.marks.every(function (item) {
+                item.reset();
+                return true
+            });
+        }
+    }
+
 // marks model
     function MarksViewModel(data) {
         var self = this;
@@ -34,7 +110,8 @@
             discipline_edit: data.url.discipline_edit,
             discipline_remove: data.url.discipline_remove,
             lesson_add: data.url.lesson_add,
-            lesson_remove: data.url.lesson_remove
+            lesson_remove: data.url.lesson_remove,
+            marks_save: data.url.marks_save
         };
 
         self.cookie = { // cookie names
@@ -77,6 +154,7 @@
         self.discipline = ko.observable();
 
         self.lessons = ko.observableArray();
+        self.marks_to_update = [];
 
         self.modalDeleteDescipline = new ModalConfirm({
             variable_name: 'modalDeleteDescipline',
@@ -107,6 +185,16 @@
             });
         });
 
+        self.discipline.subscribe(function () {
+            self.check_block(function () {
+                if (self.group()) {
+                    self.loadStudents();
+                } else {
+                    self.students(null);
+                }
+            });
+        });
+
         self.loadYears = function () {
             self.block();
             $.get(self.url.years, {}, self.years).success(function (data) {
@@ -117,7 +205,7 @@
 
         self.loadGroups = function () {
             self.block();
-            $.get(self.url.groups, { 'year': self.year() }, self.groups).success(function (data) {
+            $.get(self.url.groups, { 'year': self.year() }, self.groups).done(function (data) {
                 $.cookie(self.cookie.year, self.year(), { expires: self.cookie.expires });
                 var group_id = $.cookie(self.cookie.group_id);
 
@@ -138,10 +226,15 @@
             $.get(self.url.students, {
                 'group_id': self.group().id,
                 'discipline_id': self.discipline().id
-            }).success(function (data) {
+            }).done(function (data) {
 //                console.dir(data.lessons);
                 self.lessons(data.lessons);
-                self.students(data.students);
+
+                var map_students = $.map(data.students, function (item) {
+                    return new Student(item);
+                });
+
+                self.students(map_students);
                 $.cookie(self.cookie.group_id, self.group().id, { expires: self.cookie.expires });
             });
         };
@@ -161,7 +254,7 @@
             self.modalAddDescipline.show(function () {
                 $.post(self.url.discipline_add, self.csrfize({
                     'title': self.modalAddDescipline.title()
-                })).success(function () {
+                })).done(function () {
                     self.loadDisciplines();
                 }).fail(function () {
                     InterfaceAlerts.showFail();
@@ -178,7 +271,7 @@
                 $.post(self.url.discipline_edit, self.csrfize({
                     'id': self.discipline().id,
                     'title': self.modalAddDescipline.title()
-                })).success(function () {
+                })).done(function () {
                     self.loadDisciplines();
                     InterfaceAlerts.showSuccess();
                 }).fail(function () {
@@ -192,7 +285,7 @@
             self.modalDeleteDescipline.show(function () {
                 $.post(self.url.discipline_remove, self.csrfize({
                     id: self.discipline().id
-                })).success(function () {
+                })).done(function () {
                     self.disciplines.remove(self.discipline());
                 }).fail(function () {
                     InterfaceAlerts.showFail();
@@ -204,7 +297,7 @@
             $.post(self.url.lesson_add, self.csrfize({
                 discipline_id: self.discipline().id,
                 group_id: self.group().id
-            })).success(function () {
+            })).done(function () {
                 self.loadStudents()
             }).fail(function () {
                 InterfaceAlerts.showFail();
@@ -214,19 +307,54 @@
         self.removeLesson = function (data) {
             $.post(self.url.lesson_remove, self.csrfize({
                 lesson_id: data.id
-            })).success(function () {
+            })).done(function () {
                 self.loadStudents()
             }).fail(function () {
                 InterfaceAlerts.showFail();
             });
         };
 
+
+        self.saveMarks = function () {
+            var marks = [];
+            for (var i = 0; i < self.students().length; ++i) {
+                var mrks = self.students()[i].modified_marks();
+                mrks.every(function (item) {
+                    marks.push({
+                        lesson_id: item.lesson_id,
+                        student_id: item.student_id,
+                        mark: item.mark()
+                    });
+                    return true;
+                })
+            }
+            console.log(ko.toJS(marks));
+            $.post(self.url.marks_save, self.csrfize({
+                marks: JSON.stringify(marks)
+            })).done(function () {
+                for (var i = 0; i < self.students().length; ++i) {
+                    self.students()[i].reset();
+                }
+            }).fail(function () {
+                InterfaceAlerts.showFail()
+            })
+
+        };
+
+        self.clickMark = function (data, e) {
+            if (e.altKey) {
+                self.decrease(data);
+            } else {
+                self.increase(data);
+            }
+        };
+
         self.increase = function (data) {
-            console.dir(data);
+            data.mark(data.mark() ? data.mark() < 4 ? data.mark() + 1 : data.mark() : 1);
         };
 
         self.decrease = function (data) {
-
+            data.mark(data.mark() > 1 ? data.mark() - 1 : 0);
         };
 
         self.init();

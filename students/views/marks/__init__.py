@@ -29,7 +29,7 @@ FROM students_student s
   LEFT JOIN (SELECT id as lesson_id, date
         FROM students_lesson sl
         WHERE group_id = %(group_id)s and discipline_id = %(discipline_id)s) l ON true
-  LEFT JOIN students_mark sm ON l.lesson_id = sm.lesson_id
+  LEFT JOIN students_mark sm ON l.lesson_id = sm.lesson_id and s.id = sm.student_id
 WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
   ORDER BY s.id, l.date
       """, {
@@ -52,8 +52,8 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
             'marks': list(filter(lambda m: m['student_id'] == s['id'], marks))
         })
 
-    lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=discipline_id)\
-        .order_by("date"))
+    lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=discipline_id) \
+                   .order_by("date"))
 
     # формируем ответ
     return HttpResponse(json.dumps(
@@ -96,6 +96,18 @@ def lesson_list(request):
 
 
 @login_required
-@require_in_POST('lesson_id')
-def mark_edit(request):
-    pass
+@require_in_POST('marks')
+def marks_save(request):
+    marks = json.loads(request.POST['marks'])
+    for m in marks:
+        print m
+        mark = Mark.objects.filter(lesson__id=m['lesson_id'],
+                                   student__id=m['student_id']).first()
+        if mark is None:
+            mark = Mark()
+            mark.lesson_id = m['lesson_id']
+            mark.student_id = m['student_id']
+        mark.mark = m['mark']
+        mark.save()
+
+    return HttpResponse()

@@ -1,3 +1,24 @@
+.marks-editor .mark {
+  width: 1em;
+  text-align: center;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  background-color: white; }
+  .marks-editor .mark.modified {
+    box-shadow: #9ebdff 0px 0px 8px inset !important; }
+  .marks-editor .mark.quater {
+    background-color: #aef28c;
+    box-shadow: #ffbbd7 0px 0px 8px inset; }
+  .marks-editor .mark.half {
+    background-color: #7eeb47;
+    box-shadow: #ffbbd7 0px 0px 8px inset; }
+  .marks-editor .mark.full {
+    background-color: #4bb814;
+    box-shadow: #ffbbd7 0px 0px 8px inset; }
+
 .students_plugin .process {
   display: none; }
 .students_plugin .students .list-group-item {

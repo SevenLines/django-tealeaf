@@ -1,3 +1,46 @@
+.marks-editor {
+  .mark {
+    $mark-color: #e8ffe6;
+    width: 1em;
+    text-align: center;
+
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+
+    background-color: white;
+
+    @mixin shadow {
+      box-shadow: #ffbbd7 0px 0px 8px inset;
+    }
+
+    &.modified {
+      box-shadow: #9ebdff 0px 0px 8px inset !important;
+    }
+
+    &.absent {
+    }
+
+    &.quater {
+      background-color: hsl(100, 80%, 75%);
+      @include shadow
+    }
+    &.half {
+      background-color: hsl(100, 80%, 60%); //#c9ff49
+      @include shadow
+    }
+    &.full {
+      background-color: hsl(100, 80%, 40%);
+      @include shadow
+    }
+    .mark-text {
+
+    }
+  }
+}
+
 .students_plugin {
   //  .dropdown-menu {
   //    z-index: 100;

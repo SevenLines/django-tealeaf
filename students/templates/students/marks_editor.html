@@ -2,7 +2,7 @@
 {% load static sekizai_tags %}
 
 {% block basecontent %}
-
+<div class="marks-editor">
     <form class="form-inline">
         <div class="form-group">
             <!-- СПИСОК ГОДОВ -->
@@ -26,6 +26,10 @@
     {% include "students/marks_students_marks.html" %}
     <!-- КОНЕЦ СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
 
+
+    {% addtoblock "css" %}
+        <link rel="stylesheet" href="{%  static "css/students.css" %}" />
+    {% endaddtoblock %}
 
     {% addtoblock "js" %}
         <script src="{% static 'js/knockout.js' %}"></script>
@@ -55,10 +59,12 @@
                     lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
                     lesson_edit: "{% url "students.views.marks.lesson_edit" %}",
                     lesson_list: "{% url "students.views.marks.lesson_list" %}",
-                    mark_edit: "{% url "students.views.marks.mark_edit" %}"
+{#                    mark_edit: "{% url "students.views.marks.mark_edit" %}",#}
+                    marks_save: "{% url "students.views.marks.marks_save" %}"
                 }
             }));
         </script>
     {% endaddtoblock "js" %}
+</div>
 
 {% endblock %}
