@@ -11,7 +11,7 @@ urlpatterns = patterns('students.views.marks',
    url(r'lesson/list$', "lesson_list"),
    url(r'lesson/add$', "lesson_add"),
    url(r'lesson/remove$', "lesson_remove"),
-   url(r'lesson/edit$', "lesson_edit"),
+   url(r'lesson/save', "lesson_save"),
    url(r'marks/save$', "marks_save"),
 
    url(r'students$', "students"),

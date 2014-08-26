@@ -1,0 +1,34 @@
+{% load sekizai_tags static %}
+
+<div class="btn-group modal-lesson-editor">
+    <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" style="padding: 1em 1em 0 1em">
+        <li>
+            <form class="form">
+                <div class="form-group">
+                    <input class="form-control lesson-date" data-bind="value: date">
+                </div>
+                <div class="form-group">
+                    <select class="form-control"
+                            data-bind="value: lesson_type, options: $root.lesson_types, optionsValue: 'id', optionsText: 'title'">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" data-bind="click: $root.saveLesson">
+                        <i class="glyphicon glyphicon-save"></i>
+                    </button>
+                    <button class="btn btn-danger pull-right" data-bind="click: $root.removeLesson">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </div>
+            </form>
+        </li>
+    </ul>
+</div>
+
+
+
+
+

@@ -1,3 +1,4 @@
+
 <table class="table table-condensed table-hover" data-bind="visible: students">
     <thead>
     <tr>
@@ -12,9 +13,7 @@
         </th>
         <!-- ko foreach: lessons -->
         <td>
-            <button class="btn btn-sm btn-danger" data-bind="click: $root.removeLesson">
-                <i class="glyphicon glyphicon glyphicon-remove"></i>
-            </button>
+            {% include "students/marks_modal_lesson_editor.html" %}
         </td>
         <!-- /ko -->
         <td>
@@ -30,13 +29,7 @@
         <td data-bind="text: (second_name + ' ' + name)" style="width:20%;"></td>
         <!-- ko foreach: marks -->
         <td class="mark" data-bind="css: mark_class, click: $root.clickMark">
-            {#            <button class="btn btn-sm btn-primary" data-bind="click: $root.decrease">#}
-            {#                <i class="glyphicon glyphicon glyphicon-minus"></i>#}
-            {#            </button>#}
             <span class="mark-text" data-bind="text: mark_text()"></span>
-            {#            <button class="btn btn-sm btn-primary" data-bind="click: $root.increase">#}
-            {#                <i class="glyphicon glyphicon glyphicon-plus"></i>#}
-            {#            </button>#}
         </td>
         <!-- /ko -->
         <td></td>

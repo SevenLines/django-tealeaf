@@ -1,5 +1,6 @@
 // create modal discipline for adding purposes
 (function () {
+// >>> модальное окно управления дисциплиной
     ModalAddDiscipline.prototype = new ModalConfirm({ prototype: true });
     ModalAddDiscipline.prototype.constructor = ModalConfirm;
     function ModalAddDiscipline() {
@@ -16,6 +17,16 @@
         ModalConfirm.apply(this, arguments);
     }
 
+// >>> DATE FORMATING
+    Date.prototype.ddmmyyyy = function() {
+        var yyyy = this.getFullYear().toString();
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+        var dd  = this.getDate().toString();
+
+        return (dd[1]?dd:"0"+dd[0]) + '/' + (mm[1]?mm:"0"+mm[0]) + '/' + yyyy ;
+   };
+
+// >>> MARK CLASS
     function Mark(data) {
         var self = this;
         self.student_id = data.student_id;
@@ -67,6 +78,7 @@
         }, self.mark, self.mark_old);
     }
 
+// >>> STUDENT CLASS
     function Student(data) {
         var self = this;
         self.id = data.id;
@@ -92,7 +104,35 @@
         }
     }
 
-// marks model
+// >>> LESSON CLASS
+    function Lesson(data) {
+        var self = this;
+        self.convert_date = function (isodate) {
+            var date = new Date(isodate);
+            return date.ddmmyyyy();
+        };
+
+        self.date = ko.observable(self.convert_date(data.isodate));
+        self.lesson_type = ko.observable(data.lesson_type);
+        self.description = ko.observable(data.description);
+        self.isodate_old = data.isodate;
+        self.id = data.id;
+
+        self.setDate = function(e) {
+            console.log(e);
+        };
+
+        self.isodate = ko.computed(function () {
+            var date = new Date(self.isodate_old);
+            var items = self.date().split('/');
+            date.setFullYear(items[2], parseInt(items[1])-1, parseInt(items[0]));
+            console.log(date);
+            return date.toISOString();
+
+        }, self.date);
+    }
+
+// >>> MAIN MODEL
     function MarksViewModel(data) {
         var self = this;
 
@@ -101,6 +141,7 @@
             self.loadDisciplines();
         };
 
+// SERVICE VARIABLES
         self.url = { // urls
             years: data.url.years,
             groups: data.url.groups,
@@ -111,6 +152,7 @@
             discipline_remove: data.url.discipline_remove,
             lesson_add: data.url.lesson_add,
             lesson_remove: data.url.lesson_remove,
+            lesson_save: data.url.lesson_save,
             marks_save: data.url.marks_save
         };
 
@@ -120,13 +162,14 @@
             expires: 7 // days
         };
 
+// CSRF UTILS
         self.csrf = data.csrf;
         self.csrfize = function (data) {
             data.csrfmiddlewaretoken = self.csrf;
             return data;
         };
 
-        // subscribes blocking control
+// subscribes blocking control
         self._block = false;
         self.block = function () {
             self._block = true
@@ -139,8 +182,8 @@
                 return func();
             return null;
         };
-        // end subscribes blocking control
 
+// >>> VARIABLES
         self.years = ko.observableArray();
         self.year = ko.observable();
 
@@ -154,8 +197,9 @@
         self.discipline = ko.observable();
 
         self.lessons = ko.observableArray();
-        self.marks_to_update = [];
+        self.lesson_types = ko.observableArray();
 
+// >>> MODAL FORMS
         self.modalDeleteDescipline = new ModalConfirm({
             variable_name: 'modalDeleteDescipline',
             header: 'Потдвердите',
@@ -167,6 +211,18 @@
             header: 'Дисциплина'
         });
 
+        self.modelRemoveLesson = new ModalConfirm({
+            variable_name: "modelRemoveLesson",
+            header: "Потдвердите",
+            message: "Удалить урок?"
+        });
+
+        self.modelEditLesson = new ModalConfirm({
+            modal_selector: "#modal-lesson-editor",
+            header: "Урок"
+        });
+
+// >>> SUBSCRIPTIONS
         self.year.subscribe(function () {
             self.check_block(function () {
                 if (self.year()) {
@@ -195,6 +251,7 @@
             });
         });
 
+// >>> LOADING FUNCTIONS
         self.loadYears = function () {
             self.block();
             $.get(self.url.years, {}, self.years).success(function (data) {
@@ -227,15 +284,35 @@
                 'group_id': self.group().id,
                 'discipline_id': self.discipline().id
             }).done(function (data) {
-//                console.dir(data.lessons);
-                self.lessons(data.lessons);
+                // fill lesson_types list
+                self.lesson_types(data.lesson_types);
 
+                // fill lessons list
+                var map_lessons = $.map(data.lessons, function (item) {
+                    return new Lesson(item);
+                });
+                self.lessons(map_lessons);
+
+                // map students list
                 var map_students = $.map(data.students, function (item) {
                     return new Student(item);
                 });
-
                 self.students(map_students);
+
                 $.cookie(self.cookie.group_id, self.group().id, { expires: self.cookie.expires });
+
+                $(".modal-lesson-editor .lesson-date").pickmeup_twitter_bootstrap({
+                    hide_on_select: true,
+                    format: 'd/m/Y',
+                    hide: function (e) {
+                        $(this).trigger('change');
+                    }
+                });
+
+                // подключаем события, чтобы не закрывалась менюшка
+                $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
+                    e.stopPropagation()
+                });
             });
         };
 
@@ -248,6 +325,7 @@
         };
 
 
+// >>> DISCIPLINES CONTROL
         self.addDiscipline = function () {
             self.modalAddDescipline.header("Создание новой дисциплины");
             self.modalAddDescipline.title("");
@@ -293,6 +371,7 @@
             })
         };
 
+// LESSONS CONTROL
         self.addLesson = function () {
             $.post(self.url.lesson_add, self.csrfize({
                 discipline_id: self.discipline().id,
@@ -305,16 +384,32 @@
         };
 
         self.removeLesson = function (data) {
-            $.post(self.url.lesson_remove, self.csrfize({
-                lesson_id: data.id
-            })).done(function () {
-                self.loadStudents()
-            }).fail(function () {
-                InterfaceAlerts.showFail();
+            self.modelRemoveLesson.show(function () {
+                $.post(self.url.lesson_remove, self.csrfize({
+                    lesson_id: data.id
+                })).done(function () {
+                    self.loadStudents()
+                }).fail(function () {
+                    InterfaceAlerts.showFail();
+                });
             });
         };
 
+        self.saveLesson = function (data) {
+            $.post(self.url.lesson_save, self.csrfize({
+                lesson_id: data.id,
+                lesson_type: data.lesson_type,
+                date: data.isodate()
+            })).done(function ()  {
+                if (data.isodate() != data.isodate_old) {
+                    self.loadStudents()
+                }
+            }).fail(function () {
+                InterfaceAlerts.showFail();
+            })
+        };
 
+// MARKS CONTROL
         self.saveMarks = function () {
             var marks = [];
             for (var i = 0; i < self.students().length; ++i) {
@@ -328,13 +423,13 @@
                     return true;
                 })
             }
-            console.log(ko.toJS(marks));
             $.post(self.url.marks_save, self.csrfize({
                 marks: JSON.stringify(marks)
             })).done(function () {
                 for (var i = 0; i < self.students().length; ++i) {
                     self.students()[i].reset();
                 }
+                InterfaceAlerts.showSuccess()
             }).fail(function () {
                 InterfaceAlerts.showFail()
             })
@@ -360,6 +455,7 @@
         self.init();
     }
 
+// add model to global namespace
     window.MarksViewModel = MarksViewModel;
 }());
 

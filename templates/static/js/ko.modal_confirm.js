@@ -2,17 +2,20 @@ function ModalConfirm(data) {
 //
 // Modal form should be bind to the bootstrap modal html:
 //
-//    <div id="main-modal-form" class="modal fade" role="dialog" data-bind="with: modalConfirm">
-//      <div class="modal-dialog">
-//       <div class="modal-content">
-//        <div class="modal-header" data-bind="text: header"></div>
-//        <div class="modal-body" data-bind="text: value"></div>
-//        <div class="modal-footer">
-//            <button type="button" class="btn btn-danger" data-confirm data-dismiss="modal">Yes</button>
-//            <button type="button" class="btn btn-default" data-decline data-dismiss="modal">No</button>
+// <div id="main-modal-form" class="modal fade" role="dialog" data-bind="with: modalConfirm">
+//    <div class="modal-dialog">
+//        <div class="modal-content">
+//            <div class="modal-header" data-bind="text: header"></div>
+//            <div class="modal-body" data-bind="text: value"> </div>
+//            <div class="modal-footer">
+//                <button type="button" class="btn btn-danger" data-confirm data-dismiss="modal">Yes</button>
+//                <button type="button" class="btn btn-default" data-decline data-dismiss="modal">No</button>
+//            </div>
+//            <div>
+//            </div>
 //        </div>
-//      <div>
 //    </div>
+// </div>
 //
 // create new field in model:
 //

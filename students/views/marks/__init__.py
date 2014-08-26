@@ -10,7 +10,7 @@ from django.shortcuts import render
 
 # @login_required
 from app.utils import require_in_POST, require_in_GET, json_dthandler
-from students.models import Lesson, Discipline, Group, Mark
+from students.models import Lesson, Discipline, Group, Mark, LessonType
 
 
 def index(request):
@@ -52,14 +52,20 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
             'marks': list(filter(lambda m: m['student_id'] == s['id'], marks))
         })
 
-    lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=discipline_id) \
+    lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=discipline_id)
                    .order_by("date"))
+    lessons = list([{"id": l.id,
+                     "lesson_type": l.lesson_type.pk if l.lesson_type else None,
+                     "isodate": l.date} for l in lessons])
+
+    lesson_types = list([model_to_dict(t) for t in LessonType.objects.all()])
 
     # формируем ответ
     return HttpResponse(json.dumps(
-        {'lessons': list([model_to_dict(l) for l in lessons]),
-         'students': stdnts},
-        default=json_dthandler), content_type="json")
+        {'lessons': lessons,
+         'students': stdnts,
+         'lesson_types': lesson_types
+        }, default=json_dthandler), content_type="json")
 
 
 @login_required
@@ -86,8 +92,12 @@ def lesson_remove(request):
 
 @login_required
 @require_in_POST('lesson_id')
-def lesson_edit(request):
-    pass
+def lesson_save(request):
+    l = Lesson.objects.get(pk=request.POST['lesson_id'])
+    l.lesson_type_id = request.POST['lesson_type']
+    l.date = request.POST['date']
+    l.save()
+    return HttpResponse()
 
 
 @require_in_POST('discipline_id', 'group_id')

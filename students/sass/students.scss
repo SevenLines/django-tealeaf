@@ -1,4 +1,9 @@
+.pickmeup-twitter-bootstrap {
+  z-index: 1000 !important;
+}
+
 .marks-editor {
+
   .mark {
     $mark-color: #e8ffe6;
     width: 1em;
@@ -16,7 +21,7 @@
       box-shadow: #ffbbd7 0px 0px 8px inset;
     }
 
-    &.modified {
+    &.modified, &:hover {
       box-shadow: #9ebdff 0px 0px 8px inset !important;
     }
 

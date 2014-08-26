@@ -1,3 +1,6 @@
+.pickmeup-twitter-bootstrap {
+  z-index: 1000 !important; }
+
 .marks-editor .mark {
   width: 1em;
   text-align: center;
@@ -7,7 +10,7 @@
   -o-transition: all 0.3s;
   transition: all 0.3s;
   background-color: white; }
-  .marks-editor .mark.modified {
+  .marks-editor .mark.modified, .marks-editor .mark:hover {
     box-shadow: #9ebdff 0px 0px 8px inset !important; }
   .marks-editor .mark.quater {
     background-color: #aef28c;
