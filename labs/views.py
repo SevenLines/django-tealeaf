@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.http import require_POST
+from app.utils import require_in_POST
 
 from labs.cms_plugins import TaskExPlugin
 from labs.models import TaskEx, LabEx
@@ -53,9 +54,8 @@ def update_task(request, pk):
 
 @require_POST
 @login_required
+@require_in_POST("placeholder_id", "language", "lab_id")
 def add_task(request, pk):
-    if not all(k in request.POST for k in ("placeholder_id", "language", "lab_id")):
-        return HttpResponseBadRequest()
     placeholder_id = request.POST['placeholder_id']
     language = request.POST['language']
     lab_id = request.POST['lab_id']

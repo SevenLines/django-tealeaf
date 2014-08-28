@@ -67,16 +67,37 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
         year: -1
     });
 
-    self.modalConfirm = new ModalConfirm(modal_selector, '');
+    // subscribes blocking control
+    self._block = false;
+    self.block = function () {
+        self._block = true
+    };
+    self.unblock = function () {
+        self._block = false
+    };
+    self.check_block = function (func) {
+        if (!self._block)
+            return func();
+        return null;
+    };
+    // end subscribes blocking control
+
+    self.modalConfirm = new ModalConfirm({
+        variable_name: 'modalConfirm'
+    });
 
 /// YEARS CONTROL
     self.year.subscribe(function () {
-        self.group(null);
-        self.listGroups(self.year);
+        self.check_block(function() {
+            self.group(null);
+            self.listGroups(self.year);
+        })
     });
 
     self.listYears = function () {
+        self.block();
         $.get(url_years, {}, self.yearsList).done(function () {
+            self.unblock();
             if ($.cookie("year"))
                 self.year($.cookie("year"));
         });
@@ -85,6 +106,7 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
 
 /// GROUPS CONTROL
     self.listGroups = function (year) {
+        self.block();
         $.get(url_groups, {year: year}).done(function (data) {
 
             var mapped_data = $.map(data, function (item) {
@@ -94,6 +116,7 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
 
             // restore last group from cookies
             self.group(null);
+            self.unblock();
             if ($.cookie("group_id")) {
                 var id = $.cookie("group_id");
                 for (var i = 0; i < self.groupsList().length; ++i) {
@@ -118,7 +141,7 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
 
     // позволяет сформировать и закачать xlsx список студентов
     self.downloadStudentsList = function (url) {
-        window.location = url+"?year="+self.year();
+        window.location = url + "?year=" + self.year();
     };
 
 
@@ -166,7 +189,7 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
     };
 
 
-    self.copyGroupToNextYear = function(form, group) {
+    self.copyGroupToNextYear = function (form, group) {
         console.log(form.action);
         $.post(form.action, {
             csrfmiddlewaretoken: $.cookie('csrftoken'),

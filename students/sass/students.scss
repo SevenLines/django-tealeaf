@@ -1,3 +1,123 @@
+$quater: hsl(100, 80%, 75%);
+$half: hsl(100, 80%, 60%);
+$full: hsl(100, 80%, 40%);
+$exam-hue-offset: -270;
+$test-hue-offset: -120;
+$mix-weight: 70%;
+
+.pickmeup-twitter-bootstrap {
+  z-index: 1000 !important;
+}
+
+.marks-editor {
+
+  thead {
+    th {
+      border: none !important;
+    }
+  }
+
+  .mark {
+
+    min-width: 2em;
+    width: 3em;
+    max-width: 3em;
+    //    width: 1em;
+    //    padding: 0;
+    margin: 0;
+    text-align: center;
+
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+
+    background-color: white;
+
+    @mixin shadow {
+      box-shadow: #ffbbd7 0px 0px 4px inset;
+    }
+
+    @mixin tooltip($hue-offset) {
+      .tooltip > .tooltip-inner {
+        background-color: white;
+        color: adjust_hue($full, $hue-offset);
+        border: 1px solid adjust_hue($full, $hue-offset);
+      }
+    }
+
+    @mixin btn-default($hue-offset) {
+      @if $hue-offset != 0 {
+        background-color: adjust_hue(lighten($quater, 21), $hue-offset);
+      }
+      .btn-default {
+        color: adjust_hue($full, $hue-offset);
+        border: adjust_hue($full, $hue-offset);
+        text-decoration: none;
+//        font-family: "Bookman", Georgia, "Times New Roman", serif;
+        font
+        &:hover {
+          background-color: adjust_hue(lighten($quater, 22), $hue-offset);
+        }
+      }
+    }
+
+    @include tooltip(0);
+    @include btn-default(0);
+
+    &.test {
+      @include btn-default($test-hue-offset);
+      @include tooltip($test-hue-offset);
+    }
+    &.exam {
+      @include btn-default($exam-hue-offset);
+      @include tooltip($exam-hue-offset);
+    }
+
+    &.modified {
+      box-shadow: #9ebdff 0px 0px 8px inset !important;
+    }
+
+    &.absent {
+    }
+
+    &.quater {
+      background-color: $quater;
+      @include shadow;
+      &.test {
+        background-color: adjust_hue($quater, $test-hue-offset);
+      }
+      &.exam {
+        background-color: adjust_hue($quater, $exam-hue-offset);
+      }
+    }
+    &.half {
+      background-color: $half; //#c9ff49
+      @include shadow;
+      &.test {
+        background-color: adjust_hue($half, $test-hue-offset);
+      }
+      &.exam {
+        background-color: adjust_hue($half, $exam-hue-offset);
+      }
+    }
+    &.full {
+      background-color: $full;
+      @include shadow;
+      &.test {
+        background-color: adjust_hue($full, $test-hue-offset);
+      }
+      &.exam {
+        background-color: adjust_hue($full, $exam-hue-offset);
+      }
+    }
+    .mark-text {
+
+    }
+  }
+}
+
 .students_plugin {
   //  .dropdown-menu {
   //    z-index: 100;
