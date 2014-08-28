@@ -11,8 +11,10 @@
         <form class="form-inline" style="padding-bottom: 1em">
             <div class="form-group">
                 <!-- СПИСОК ГОДОВ -->
-                <select class="form-control" name="year"
-                        data-bind="value: year, options: years, optionsValue: 'year', optionsText: 'year'"></select>
+                {% if user.is_authenticated %}
+                    <select class="form-control" name="year"
+                            data-bind="value: year, options: years, optionsValue: 'year', optionsText: 'year'"></select>
+                {% endif %}
                 <!-- КОНЕЦ СПИСОК ГОДОВ -->
             </div>
             <div class="form-group">

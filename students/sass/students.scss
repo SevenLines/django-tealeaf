@@ -36,7 +36,7 @@ $mix-weight: 70%;
     background-color: white;
 
     @mixin shadow {
-      //            box-shadow: #ffbbd7 0px 0px 4px inset;
+      box-shadow: #ffbbd7 0px 0px 4px inset;
     }
 
     @mixin tooltip($hue-offset) {
@@ -54,6 +54,9 @@ $mix-weight: 70%;
       .btn-default {
         color: adjust_hue($full, $hue-offset);
         border: adjust_hue($full, $hue-offset);
+        text-decoration: none;
+//        font-family: "Bookman", Georgia, "Times New Roman", serif;
+        font
         &:hover {
           background-color: adjust_hue(lighten($quater, 22), $hue-offset);
         }

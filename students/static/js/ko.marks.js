@@ -129,7 +129,7 @@
 
         self.day = ko.computed(function () {
             return self.date().split('/')[0];
-        }, self.date );
+        }, self.date);
 
         self.info = ko.computed(function () {
             return "<p><p align=left>" + self.date() + "<p>" + self.description();
@@ -282,7 +282,17 @@
             self.block();
             $.get(self.url.years, {}, self.years).success(function (data) {
                 self.unblock();
-                self.year($.cookie(self.cookie.year));
+                var c_year = $.cookie(self.cookie.year);
+                var contains_year = self.years().some(function(item) {
+//                    console.log(item.year);
+//                    console.log(c_year);
+                    return item.year === c_year;
+                });
+                if (contains_year) {
+                    self.year(c_year);
+                } else if (self.years().length > 0) {
+                    self.year(self.years()[0].year);
+                }
             })
         };
 
