@@ -15,16 +15,19 @@
             </button>
         {% endif %}
         <!-- ko foreach: lessons -->
-        <th>
+        <th class="mark" data-bind="css: style">
             {% if user.is_authenticated %}
                 {% include "students/marks_modal_lesson_editor.html" %}
             {% else %}
-                <!-- ko if: description -->
-                <div class="btn btn-sm btn-warning" rel="tooltip" data-toggle="tooltip"
-                     data-bind="attr: { 'data-original-title': description }">
-                    <i class="glyphicon glyphicon-arrow-down"></i>
+                <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
+                     data-bind="attr: { 'data-original-title': info }">
+                    <!-- ko if: description -->
+                    <i class="glyphicon glyphicon-question-sign"></i>
+                    <!-- /ko -->
+                    <!-- ko ifnot: description -->
+                    <i class="" data-bind="text: day"></i>
+                    <!-- /ko -->
                 </div>
-                <!-- /ko -->
             {% endif %}
         </th>
         <!-- /ko -->

@@ -117,7 +117,7 @@ class Lesson(models.Model):
     description = models.CharField(max_length=100, default="", blank=True)
     discipline = models.ForeignKey(Discipline)
     group = models.ForeignKey(Group)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateField(auto_now_add=True)
     lesson_type = models.ForeignKey(LessonType, verbose_name="type", blank=True, null=True)
 
     def __unicode__(self):

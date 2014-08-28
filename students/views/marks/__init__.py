@@ -31,7 +31,7 @@ FROM students_student s
         WHERE group_id = %(group_id)s and discipline_id = %(discipline_id)s) l ON true
   LEFT JOIN students_mark sm ON l.lesson_id = sm.lesson_id and s.id = sm.student_id
 WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
-  ORDER BY s.id, l.date
+  ORDER BY s.id, l.date, l.lesson_id
       """, {
         'group_id': group_id,
         'discipline_id': discipline_id
@@ -53,7 +53,7 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
         })
 
     lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=discipline_id)
-                   .order_by("date"))
+                   .order_by("date", "id"))
     lessons = list([{"id": l.id,
                      "lt": l.lesson_type.pk if l.lesson_type else None,
                      "dt": l.date,
@@ -100,7 +100,8 @@ def lesson_save(request):
         l.lesson_type_id = request.POST['lesson_type']
     if 'description' in request.POST:
         l.description = request.POST['description']
-    l.date = request.POST['date']
+    if 'date' in request.POST:
+        l.date = request.POST['date']
     l.save()
     return HttpResponse()
 

@@ -4,7 +4,11 @@
 {% block basecontent %}
     <div class="marks-editor">
 
-        <form class="form-inline">
+        <!-- СПИСОК ДИСЦИПЛИН -->
+        {% include "students/marks_discipline_list.html" %}
+        <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
+
+        <form class="form-inline" style="padding-bottom: 1em">
             <div class="form-group">
                 <!-- СПИСОК ГОДОВ -->
                 <select class="form-control" name="year"
@@ -19,9 +23,6 @@
             </div>
         </form>
 
-        <!-- СПИСОК ДИСЦИПЛИН -->
-        {% include "students/marks_discipline_list.html" %}
-        <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
 
         <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
         {% include "students/marks_students_marks.html" %}

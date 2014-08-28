@@ -34,6 +34,7 @@
         self.lesson_id = data.lid;
         self.mark = ko.observable(data.m);
         self.mark_old = ko.observable(data.m);
+        self.lesson = data.lesson;
 
         self.mark_text = ko.computed(function () { // надпись оценки
             switch (self.mark()) {
@@ -66,6 +67,8 @@
                     break;
             }
             cls += self.mark() != self.mark_old() ? " modified" : "";
+//            console.log(self.lesson.style());
+            cls += self.lesson.style() ? (" " + self.lesson.style()) : "";
             return cls
         }, self.mark, self.mark_old);
 
@@ -86,6 +89,13 @@
         self.second_name = data.second_name;
 
         self.marks = $.map(data.marks, function (item) {
+            data.lessons().every(function (lesson) {
+                if (lesson.id == item.lid) {
+                    item.lesson = lesson;
+                    return false;
+                }
+                return true;
+            });
             return new Mark(item);
         });
 
@@ -117,6 +127,14 @@
         self.isodate_old = self.convert_date(data.dt);
         self.id = data.id;
 
+        self.day = ko.computed(function () {
+            return self.date().split('/')[0];
+        }, self.date );
+
+        self.info = ko.computed(function () {
+            return "<p><p align=left>" + self.date() + "<p>" + self.description();
+        }, self.description);
+
         self.setDate = function (e) {
             console.log(e);
         };
@@ -124,9 +142,9 @@
         self.style = ko.computed(function () {
             switch (self.lesson_type()) {
                 case 2:
-                    return {
-                        border: '4px #FAA solid'
-                    };
+                    return "test";
+                case 3:
+                    return "exam";
             }
             return "";
 
@@ -135,8 +153,7 @@
         self.isodate = ko.computed(function () {
             var date = new Date(self.isodate_old);
             var items = self.date().split('/');
-            date.setFullYear(items[2], parseInt(items[1]) - 1, parseInt(items[0]));
-            return date.toISOString();
+            return items[2] + "-" + items[1] + "-" + items[0];
 
         }, self.date);
     }
@@ -302,12 +319,15 @@
                 });
                 self.lessons(map_lessons);
                 setTimeout(function () {
-                    $('[data-toggle="tooltip"]').tooltip()
+                    $('[data-toggle="tooltip"]').tooltip({
+                        placement: "bottom"
+                    })
                 }, 500);
 
 
                 // map students list
                 var map_students = $.map(data.students, function (item) {
+                    item.lessons = self.lessons;
                     return new Student(item);
                 });
                 self.students(map_students);
