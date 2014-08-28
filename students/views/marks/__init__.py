@@ -38,10 +38,10 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
     }))
 
     # конвертируем оценки в список
-    marks = list([{"student_id": m.student_id,
-                   "mark_id": m.id,
-                   "lesson_id": m.lesson_id,
-                   "mark": m.mark} for m in marks])
+    marks = list([{"sid": m.student_id,
+                   "mid": m.id,
+                   "lid": m.lesson_id,
+                   "m": m.mark} for m in marks])
 
     # студенты группы
     stdnts = Group.objects.get(pk=request.GET['group_id']).students.all().order_by("second_name")
@@ -49,14 +49,16 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
     for s in stdnts:
         # формируем оценки для студентов
         s.update({
-            'marks': list(filter(lambda m: m['student_id'] == s['id'], marks))
+            'marks': list(filter(lambda m: m['sid'] == s['id'], marks))
         })
 
     lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=discipline_id)
                    .order_by("date"))
     lessons = list([{"id": l.id,
-                     "lesson_type": l.lesson_type.pk if l.lesson_type else None,
-                     "isodate": l.date} for l in lessons])
+                     "lt": l.lesson_type.pk if l.lesson_type else None,
+                     "dt": l.date,
+                     "dn": l.description
+                    } for l in lessons])
 
     lesson_types = list([model_to_dict(t) for t in LessonType.objects.all()])
 
@@ -94,7 +96,10 @@ def lesson_remove(request):
 @require_in_POST('lesson_id')
 def lesson_save(request):
     l = Lesson.objects.get(pk=request.POST['lesson_id'])
-    l.lesson_type_id = request.POST['lesson_type']
+    if 'lesson_type' in request.POST:
+        l.lesson_type_id = request.POST['lesson_type']
+    if 'description' in request.POST:
+        l.description = request.POST['description']
     l.date = request.POST['date']
     l.save()
     return HttpResponse()

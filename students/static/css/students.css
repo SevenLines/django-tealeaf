@@ -2,7 +2,11 @@
   z-index: 1000 !important; }
 
 .marks-editor .mark {
-  width: 1em;
+  min-width: 2em;
+  width: 2.4em;
+  max-width: 3em;
+  padding: 0;
+  margin: 0;
   text-align: center;
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
@@ -10,6 +14,8 @@
   -o-transition: all 0.3s;
   transition: all 0.3s;
   background-color: white; }
+  .marks-editor .mark thead th {
+    border: none !important; }
   .marks-editor .mark.modified, .marks-editor .mark:hover {
     box-shadow: #9ebdff 0px 0px 8px inset !important; }
   .marks-editor .mark.quater {

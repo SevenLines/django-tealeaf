@@ -22,5 +22,14 @@
         };
     }
 
-    window.InterfaceAlerts = new InterfaceAlerts()
+    function TableEffects() {
+        var self = this;
+        self.toggleColumnClass = function (td_target, class_name, toggle) {
+            var t = parseInt($(td_target).index()) + 1;
+            $('td:nth-child(' + t + ')').toggleClass(class_name, toggle);
+        }
+    }
+
+    window.TableEffects = new TableEffects();
+    window.InterfaceAlerts = new InterfaceAlerts();
 }());

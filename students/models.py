@@ -114,6 +114,7 @@ class Lesson(models.Model):
     """
     пара по некоторой дисциплине
     """
+    description = models.CharField(max_length=100, default="", blank=True)
     discipline = models.ForeignKey(Discipline)
     group = models.ForeignKey(Group)
     date = models.DateTimeField(auto_now_add=True)

@@ -4,11 +4,14 @@
     <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
         <span class="caret"></span>
     </a>
-    <ul class="dropdown-menu" style="padding: 1em 1em 0 1em">
+    <ul class="dropdown-menu" style="padding: 1em 1em 0 1em; font-weight: normal;">
         <li>
             <form class="form">
                 <div class="form-group">
                     <input class="form-control lesson-date" data-bind="value: date">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" data-bind="value: description"></textarea>
                 </div>
                 <div class="form-group">
                     <select class="form-control"

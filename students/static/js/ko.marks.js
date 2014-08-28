@@ -18,22 +18,22 @@
     }
 
 // >>> DATE FORMATING
-    Date.prototype.ddmmyyyy = function() {
+    Date.prototype.ddmmyyyy = function () {
         var yyyy = this.getFullYear().toString();
-        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-        var dd  = this.getDate().toString();
+        var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+        var dd = this.getDate().toString();
 
-        return (dd[1]?dd:"0"+dd[0]) + '/' + (mm[1]?mm:"0"+mm[0]) + '/' + yyyy ;
-   };
+        return (dd[1] ? dd : "0" + dd[0]) + '/' + (mm[1] ? mm : "0" + mm[0]) + '/' + yyyy;
+    };
 
 // >>> MARK CLASS
     function Mark(data) {
         var self = this;
-        self.student_id = data.student_id;
-        self.mark_id = data.mark_id;
-        self.lesson_id = data.lesson_id;
-        self.mark = ko.observable(data.mark !== null ? data.mark : 1);
-        self.mark_old = ko.observable(data.mark !== null ? data.mark : 1);
+        self.student_id = data.sid;
+        self.mark_id = data.mid;
+        self.lesson_id = data.lid;
+        self.mark = ko.observable(data.m);
+        self.mark_old = ko.observable(data.m);
 
         self.mark_text = ko.computed(function () { // надпись оценки
             switch (self.mark()) {
@@ -90,10 +90,9 @@
         });
 
         self.modified_marks = function () {
-            var marks = $.grep(self.marks, function (item) {
+            return $.grep(self.marks, function (item) {
                 return item.modified();
             });
-            return marks
         };
 
         self.reset = function () {
@@ -112,21 +111,31 @@
             return date.ddmmyyyy();
         };
 
-        self.date = ko.observable(self.convert_date(data.isodate));
-        self.lesson_type = ko.observable(data.lesson_type);
-        self.description = ko.observable(data.description);
-        self.isodate_old = data.isodate;
+        self.date = ko.observable(self.convert_date(data.dt));
+        self.lesson_type = ko.observable(data.lt);
+        self.description = ko.observable(data.dn);
+        self.isodate_old = self.convert_date(data.dt);
         self.id = data.id;
 
-        self.setDate = function(e) {
+        self.setDate = function (e) {
             console.log(e);
         };
+
+        self.style = ko.computed(function () {
+            switch (self.lesson_type()) {
+                case 2:
+                    return {
+                        border: '4px #FAA solid'
+                    };
+            }
+            return "";
+
+        }, self.lesson_type);
 
         self.isodate = ko.computed(function () {
             var date = new Date(self.isodate_old);
             var items = self.date().split('/');
-            date.setFullYear(items[2], parseInt(items[1])-1, parseInt(items[0]));
-            console.log(date);
+            date.setFullYear(items[2], parseInt(items[1]) - 1, parseInt(items[0]));
             return date.toISOString();
 
         }, self.date);
@@ -292,6 +301,10 @@
                     return new Lesson(item);
                 });
                 self.lessons(map_lessons);
+                setTimeout(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                }, 500);
+
 
                 // map students list
                 var map_students = $.map(data.students, function (item) {
@@ -399,8 +412,9 @@
             $.post(self.url.lesson_save, self.csrfize({
                 lesson_id: data.id,
                 lesson_type: data.lesson_type,
-                date: data.isodate()
-            })).done(function ()  {
+                date: data.isodate(),
+                description: data.description()
+            })).done(function () {
                 if (data.isodate() != data.isodate_old) {
                     self.loadStudents()
                 }
