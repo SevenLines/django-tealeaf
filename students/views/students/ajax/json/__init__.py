@@ -16,20 +16,23 @@ from students.utils import current_year
 def blank(request):
     return HttpResponse()
 
-
-@login_required
 def years(request):
-    yrs = list([{'year': y} for y in active_years()])
+
+    if request.user.is_superuser:
+        yrs = list([{'year': y} for y in active_years()])
+    else:  # не аутентефицированным только текущий год
+        yrs = [{'year': current_year()}]
+
     return HttpResponse(json.dumps(yrs), mimetype='application/json')
 
 
-@login_required
+# @login_required
 def groups(request):
     year = request.POST.get('year', None)
     year = request.GET.get('year', None) if year is None else year
-    # year = int(year)
-    # if year is None:
-    # return HttpResponseBadRequest("'year' parameter is not defined")
+
+    if not year.isdigit():
+        year = current_year()
 
     grps = Group.objects.all()
 
@@ -43,7 +46,9 @@ def groups(request):
         g_dict.update({'has_ancestor': g.has_ancestor})
         out.append(g_dict)
 
-    return HttpResponse(json.dumps(out), mimetype='application/json')
+    r = HttpResponse(json.dumps(out), mimetype='application/json')
+    r.cookies['year'] = year
+    return r
 
 
 @atomic
@@ -125,7 +130,7 @@ def copy_to_next_year(request):
     return HttpResponse()
 
 
-@login_required
+# @login_required
 def students(request):
     group_id = request.POST.get('group_id', None)
     group_id = request.GET.get('group_id', None) if group_id is None else group_id
@@ -141,7 +146,7 @@ def students(request):
 
 
 @require_GET
-@login_required
+# @login_required
 def list_students(request):
     task_id = request.GET.get("task_id", None)
 

@@ -25,23 +25,10 @@ class LabEditor
             r = $.post(
                 form.action,
                 data
-            )
-
-            # если успех, то подмигнем фоном
-            r.success (data) ->
-                $("##{lab_id}").toggleClass("bg-success", true);
-                setTimeout(
-                    () ->
-                        $("##{lab_id}").toggleClass("bg-success", false)
-                    1000)
-
-            # если неудача, то подмигнем фоном
-            r.fail (data) ->
-                $("##{lab_id}").toggleClass("bg-danger", true);
-                setTimeout(
-                    () ->
-                        $("##{lab_id}").toggleClass("bg-danger", false)
-                    1000)
+            ).success (data) ->
+                InterfaceAlerts.showSuccess()
+            .fail (data) ->
+                InterfaceAlerts.showFail()
 
             return false
 
@@ -102,7 +89,6 @@ class TaskEditor
                 data
             )
 
-            # если успех, то подмигнем фоном
             r.success (data) ->
                 TaskEditor.clear_complexity(task_id)
                 $("##{task_id}").toggleClass(select[0].value, true)
@@ -110,20 +96,11 @@ class TaskEditor
                 btn = $("\##{task_id}").find(".turn-edit-on-btn")
                 btn.show("fast")
 
-                $("##{task_id} .edit").toggleClass("bg-success", true);
-                setTimeout(
-                    () ->
-                        $("##{task_id} .edit").toggleClass("bg-success", false)
-                    1000)
+                InterfaceAlerts.showSuccess()
 
-            # если неудача, то подмигнем фоном
             r.fail (data) ->
                 TaskEditor.restore_style(submit)
-                $("##{task_id} .edit").toggleClass("bg-danger", true);
-                setTimeout(
-                    () ->
-                        $("##{task_id} .edit").toggleClass("bg-danger", false)
-                    1000)
+                InterfaceAlerts.showFail()
 
             return false
 

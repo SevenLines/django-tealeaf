@@ -7,36 +7,15 @@
         <link rel="stylesheet" href="{% static 'css/students.css' %}"/>
     {% endaddtoblock %}
 
-    <!-- МОДАЛЬНОЕ ОКНО -->
-    <div id="main-modal-form" class="modal fade modal_remove" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4>Подтверждение</h4>
-                </div>
-                <div class="modal-body" data-bind="html: $root.modalConfirm.message()">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-decline data-dismiss="modal">Нет</button>
-                    <button type="button" class="btn btn-danger" data-confirm data-dismiss="modal">Да</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END МОДАЛЬНОЕ ОКНО -->
-
     <div class="students_plugin years">
 
         <!-- СПИСОК ГОДОВ -->
         <form class="year_selector form-inline">
             <select class="form-control"
                     data-bind="options: yearsList, optionsValue: 'year', optionsText: 'year', value: year"></select>
-            {# кнопка закачки списка ситудентов #}
+            {# кнопка закачки списка студентов #}
             <button class="btn btn-success"
-                    data-bind="click: function() { $root.downloadStudentsList('{% url "students.views.students.ajax.xlsx" %}') }">
+                    data-bind="visible: groupsList().length, click: function() { $root.downloadStudentsList('{% url "students.views.students.ajax.xlsx" %}') }">
                 <i class="glyphicon glyphicon-download" data-bind="text: (' ' + year() + '.xlsx')"> </i>
             </button>
         </form>
@@ -184,12 +163,9 @@
     </div>
 
     {% addtoblock "js" %}
-        <script src="{% static 'js/jquery.form.js' %}"></script>
-    {% endaddtoblock %}
-
-    {% addtoblock "js" %}
         <script src="{% static 'js/knockout.js' %}"></script>
     {% endaddtoblock %}
+
     {% addtoblock "js" %}
         <script src="{% static 'js/ko.modal_confirm.js' %}"></script>
     {% endaddtoblock %}

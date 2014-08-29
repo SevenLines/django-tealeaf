@@ -1,30 +1,17 @@
 import json
-import os
 from uuid import uuid4
-from PIL.Image import Image
 
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
-from django.forms.models import model_to_dict
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.template.context import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
-from easy_thumbnails.files import get_thumbnailer
 
+from app.utils import require_in_POST
 from main_page.models import MainPageItem, MainPage
-
-
-def require_item_id_in_POST(func):
-    def wrapper(request):
-        if "item_id" not in request.POST:
-            return HttpResponseBadRequest("'item_id' param is not set")
-        return func(request)
-
-    return wrapper
 
 
 def index(request):
@@ -66,7 +53,7 @@ def list_items(request):
     output = []
     for i in items:
         i_dict = i.dictionary
-        i_dict.update({'active': main_item.id == i.id if main_item else False })
+        i_dict.update({'active': main_item.id == i.id if main_item else False})
         output.append(i_dict)
 
     return HttpResponse(json.dumps(output), content_type='json')
@@ -74,7 +61,7 @@ def list_items(request):
 
 @require_POST
 @login_required
-@require_item_id_in_POST
+@require_in_POST("item_id")
 def set_active(request):
     item_id = request.POST['item_id']
 
@@ -94,7 +81,7 @@ def set_active(request):
 
 @login_required
 @require_POST
-@require_item_id_in_POST
+@require_in_POST("item_id")
 def save_item(request):
     item_id = request.POST['item_id']
     i = MainPageItem.objects.get(pk=item_id)
@@ -106,7 +93,7 @@ def save_item(request):
         i.title = request.POST['title']
 
     # if 'item_url' in request.POST:
-    #     i.item_url = request.POST['item_url']
+    # i.item_url = request.POST['item_url']
 
     i.save()
 
@@ -115,6 +102,7 @@ def save_item(request):
 
 @login_required
 @require_POST
+@require_in_POST("title", "description")
 def add_item(request):
     it = MainPageItem()
     it.title = request.POST['title']
@@ -139,7 +127,7 @@ def add_item(request):
 
 
 @login_required
-@require_item_id_in_POST
+@require_in_POST("item_id")
 def remove_item(request):
     item_id = request.POST['item_id']
     it = MainPageItem.objects.get(pk=item_id)

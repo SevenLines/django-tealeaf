@@ -2,5 +2,81 @@
 {% load static sekizai_tags %}
 
 {% block basecontent %}
+    <div class="marks-editor">
+
+        <!-- СПИСОК ДИСЦИПЛИН -->
+        {% include "students/marks_discipline_list.html" %}
+        <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
+
+        <form class="form-inline" style="padding-bottom: 1em">
+            <div class="form-group">
+                <!-- СПИСОК ГОДОВ -->
+                {% if user.is_authenticated %}
+                    <select class="form-control" name="year"
+                            data-bind="value: year, options: years, optionsValue: 'year', optionsText: 'year'"></select>
+                {% endif %}
+                <!-- КОНЕЦ СПИСОК ГОДОВ -->
+            </div>
+            <div class="form-group">
+                <!-- СПИСОК ГРУПП -->
+                <select class="form-control" name="group"
+                        data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
+                <!-- КОНЕЦ СПИСОК ГРУПП -->
+            </div>
+        </form>
+
+
+        <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
+        {% include "students/marks_students_marks.html" %}
+        <!-- КОНЕЦ СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
+
+
+        {% addtoblock "css" %}
+            <link rel="stylesheet" href="{% static "css/students.css" %}"/>
+        {% endaddtoblock %}
+
+
+        {% addtoblock "top_js" %}
+            <script src="{% static 'js/jquery.pickmeup.min.js' %}"></script>
+        {% endaddtoblock %}
+        {% addtoblock "top_js" %}
+            <script src="{% static 'js/jquery.pickmeup.twitter-bootstrap.min.js' %}"></script>
+        {% endaddtoblock %}
+
+        {% addtoblock "js" %}
+            <script src="{% static 'js/knockout.js' %}"></script>
+        {% endaddtoblock %}
+
+        {% addtoblock "js" %}
+            <script src="{% static "js/ko.modal_confirm.js" %}"></script>
+        {% endaddtoblock "js" %}
+
+        {% addtoblock "js" %}
+            <script src="{% static "js/ko.marks.js" %}"></script>
+        {% endaddtoblock "js" %}
+
+        {% addtoblock "js" %}
+            <script>
+                ko.applyBindings(new MarksViewModel({
+                    csrf: "{{ csrf_token }}",
+                    url: {
+                        years: "{% url "students.views.students.ajax.json.years" %}",
+                        groups: "{% url "students.views.students.ajax.json.groups" %}",
+                        students: "{% url "students.views.marks.students" %}",
+                        disciplines: "{% url "students.views.marks.disciplines.index" %}",
+                        discipline_add: "{% url "students.views.marks.disciplines.add" %}",
+                        discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
+                        discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
+                        lesson_add: "{% url "students.views.marks.lesson_add" %}",
+                        lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
+                        lesson_save: "{% url "students.views.marks.lesson_save" %}",
+                        lesson_list: "{% url "students.views.marks.lesson_list" %}",
+                        {#                    mark_edit: "{% url "students.views.marks.mark_edit" %}",#}
+                        marks_save: "{% url "students.views.marks.marks_save" %}"
+                    }
+                }));
+            </script>
+        {% endaddtoblock "js" %}
+    </div>
 
 {% endblock %}
