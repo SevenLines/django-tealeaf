@@ -1,7 +1,3 @@
-/**
- * Created by m on 20.08.14.
- */
-
 function MainPageItem(data) {
     var self = this;
 
@@ -41,8 +37,11 @@ function MainPageModel(data) {
         view: data.selector.view
     };
 
-    self.modalSave = new ModalConfirm("#modalSave");
-    self.modalDelete = new ModalConfirm("#modalConfirmDelete");
+    self.modalSave = new ModalConfirm({ modal_selector: "#modalSave" });
+    self.modalDelete = new ModalConfirm({
+        variable_name: "modalDelete",
+        message: "Удалить?"
+    });
     self.new_item = ko.observable(self.reset_item());
 
 
@@ -50,22 +49,6 @@ function MainPageModel(data) {
 
     self.items = ko.observableArray();
     self.current_item = ko.observable(self.reset_item());
-
-    self.blink = function (color, delay) {
-        var bg = $('body');
-        var bg_css = bg.css("background");
-        bg.css("background-color", color);
-        setTimeout(function () {
-            $("body").css("background", bg_css);
-        }, delay);
-    };
-
-    self.showSuccess = function () {
-        self.blink("#AAFF88", 1000);
-    };
-    self.showFail = function () {
-        self.blink("red", 1000);
-    };
 
     // binding ckeditor with description content
     ko.bindingHandlers.ckeditor = {
@@ -159,10 +142,10 @@ function MainPageModel(data) {
             item_url: self.current_item().item_url,
             csrfmiddlewaretoken: self.csrf
         }).success(function () {
-            self.showSuccess();
+            InterfaceAlerts.showSuccess();
             self.update_view();
         }).fail(function () {
-            self.showFail();
+            InterfaceAlerts.showFail();
         });
     };
 
@@ -172,10 +155,10 @@ function MainPageModel(data) {
                 item_id: data.id,
                 csrfmiddlewaretoken: self.csrf
             }).success(function () {
-                self.showSuccess();
+                InterfaceAlerts.showSuccess();
                 self.items.remove(data);
             }).fail(function () {
-                self.showFail();
+                InterfaceAlerts.showFail();
             })
         });
     };
