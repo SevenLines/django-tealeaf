@@ -106,22 +106,25 @@ class Discipline(models.Model):
         return u"%s %s %s" % (self.title, self.year, self.semestr)
 
 
-class LessonType(models.Model):
-    title = models.CharField(max_length=50)
-
-
 class Lesson(models.Model):
     """
     пара по некоторой дисциплине
     """
+
+    LESSON_TYPES = [
+        (1, "Пара"),
+        (2, "Контрольная"),
+        (3, "Экзамен"),
+    ]
+
     description = models.CharField(max_length=100, default="", blank=True)
     discipline = models.ForeignKey(Discipline)
     group = models.ForeignKey(Group)
     date = models.DateField(auto_now_add=True)
-    lesson_type = models.ForeignKey(LessonType, verbose_name="type", blank=True, null=True)
+    lesson_type = models.IntegerField(verbose_name="type", default=1, choices=LESSON_TYPES)
 
     def __unicode__(self):
-        return u"%s %s (%s)" % (self.discipline, self.date, self.lesson_type.title)
+        return u"%s %s (%s)" % (self.discipline, self.date, self.lesson_type)
 
 
     @staticmethod
@@ -146,9 +149,21 @@ class Mark(models.Model):
     """
     оценка студента за пару
     """
+    MARK_NORMAL = 0
+
+    MARKS = [
+        # (MARK_NORMAL-3, 'terrible'),
+        # (MARK_NORMAL-2, 'bad'),
+        (MARK_NORMAL-1, 'absent'),
+        (MARK_NORMAL, ''),  # без оценки
+        (MARK_NORMAL+1, 'normal'),
+        (MARK_NORMAL+2, 'good'),
+        (MARK_NORMAL+3, 'excelent'),
+    ]
+
     student = models.ForeignKey(Student)
     lesson = models.ForeignKey(Lesson)
-    mark = models.SmallIntegerField()
+    mark = models.SmallIntegerField(choices=MARKS, default=MARK_NORMAL)
 
     def __unicode__(self):
         return u"%s %s" % (self.student, self.mark)

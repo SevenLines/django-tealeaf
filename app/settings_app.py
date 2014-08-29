@@ -1,15 +1,14 @@
-
 # Application definition
 
 INSTALLED_APPS = (
-    'ex_tags',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cmsplugin_cascade', # bootstrap inline plugin
+    'cmsplugin_cascade',  # bootstrap inline plugin
     'djangocms_text_ckeditor',
     'cms',  # django CMS itself
     'mptt',  # utilities for implementing a modified pre-order traversal tree
@@ -22,6 +21,7 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'cmsplugin_filer_file',
     'cmsplugin_filer_image',
+    'ex_tags',
 
     'plugin_markdown',
     'page_extend',

@@ -1,9 +1,9 @@
-<table class="table table-condensed table-hover" data-bind="visible: students">
+    <table class="table table-condensed table-hover" data-bind="visible: students">
     <thead>
     <tr>
         <th>Студент</th>
         {% if user.is_authenticated %}
-            <button class="btn btn-sm btn-success" data-bind="click: $root.saveMarks">
+            <button class="btn btn-sm btn-success" data-bind="click: $root.saveMarks, visible: students">
                 <i class="glyphicon glyphicon glyphicon-save"></i>
             </button>
         {% endif %}

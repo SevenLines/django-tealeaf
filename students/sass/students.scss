@@ -82,7 +82,8 @@ $mix-weight: 70%;
     &.absent {
     }
 
-    &.quater {
+
+    &.normal {
       background-color: $quater;
       @include shadow;
       &.test {
@@ -92,7 +93,7 @@ $mix-weight: 70%;
         background-color: adjust_hue($quater, $exam-hue-offset);
       }
     }
-    &.half {
+    &.good {
       background-color: $half; //#c9ff49
       @include shadow;
       &.test {
@@ -102,7 +103,7 @@ $mix-weight: 70%;
         background-color: adjust_hue($half, $exam-hue-offset);
       }
     }
-    &.full {
+    &.excelent {
       background-color: $full;
       @include shadow;
       &.test {

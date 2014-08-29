@@ -2,6 +2,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
+from django.db.transaction import atomic
 from django.forms import model_to_dict
 from django.http.response import HttpResponse
 from django.shortcuts import render
@@ -10,7 +11,7 @@ from django.shortcuts import render
 
 # @login_required
 from app.utils import require_in_POST, require_in_GET, json_dthandler
-from students.models import Lesson, Discipline, Group, Mark, LessonType
+from students.models import Lesson, Discipline, Group, Mark
 
 
 def index(request):
@@ -55,18 +56,22 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
     lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=discipline_id)
                    .order_by("date", "id"))
     lessons = list([{"id": l.id,
-                     "lt": l.lesson_type.pk if l.lesson_type else None,
+                     "lt": l.lesson_type if l.lesson_type else None,
                      "dt": l.date,
                      "dn": l.description
                     } for l in lessons])
 
-    lesson_types = list([model_to_dict(t) for t in LessonType.objects.all()])
+    #  виды занятий
+    lesson_types = list([{'id': t[0], 'title': t[1]} for t in Lesson.LESSON_TYPES])
+    #  виды оценок
+    mark_types = list([{'k': t[0], 'v': t[1]} for t in Mark.MARKS])
 
     # формируем ответ
     return HttpResponse(json.dumps(
         {'lessons': lessons,
          'students': stdnts,
-         'lesson_types': lesson_types
+         'lesson_types': lesson_types,
+         'mark_types': mark_types,
         }, default=json_dthandler), content_type="json")
 
 
@@ -97,7 +102,7 @@ def lesson_remove(request):
 def lesson_save(request):
     l = Lesson.objects.get(pk=request.POST['lesson_id'])
     if 'lesson_type' in request.POST:
-        l.lesson_type_id = request.POST['lesson_type']
+        l.lesson_type = request.POST['lesson_type']
     if 'description' in request.POST:
         l.description = request.POST['description']
     if 'date' in request.POST:
@@ -113,17 +118,20 @@ def lesson_list(request):
 
 @login_required
 @require_in_POST('marks')
+@atomic
 def marks_save(request):
     marks = json.loads(request.POST['marks'])
     for m in marks:
-        print m
         mark = Mark.objects.filter(lesson__id=m['lesson_id'],
                                    student__id=m['student_id']).first()
-        if mark is None:
-            mark = Mark()
-            mark.lesson_id = m['lesson_id']
-            mark.student_id = m['student_id']
-        mark.mark = m['mark']
-        mark.save()
+        if m['mark'] == Mark.MARK_NORMAL:
+            mark.delete()
+        else:
+            if mark is None:
+                mark = Mark()
+                mark.lesson_id = m['lesson_id']
+                mark.student_id = m['student_id']
+            mark.mark = m['mark']
+            mark.save()
 
     return HttpResponse()

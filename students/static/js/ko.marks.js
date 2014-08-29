@@ -1,5 +1,8 @@
 // create modal discipline for adding purposes
 (function () {
+
+    var MarksTypes = [];
+
 // >>> модальное окно управления дисциплиной
     ModalAddDiscipline.prototype = new ModalConfirm({ prototype: true });
     ModalAddDiscipline.prototype.constructor = ModalConfirm;
@@ -8,9 +11,8 @@
 
         self.title = ko.observable('');
         arguments[0].custom_modal_body = [
-            '<form class="form" data-bind="submit: $root.addDiscipline">',
+            '<form class="form" data-bind="submit: function() {}">',
             '<input class="form-control" data-bind="value: title" />',
-            '<button hidden="" type="submit" />',
             '</form>'
         ].join("\n");
 
@@ -38,36 +40,15 @@
 
         self.mark_text = ko.computed(function () { // надпись оценки
             switch (self.mark()) {
-                case 0:
+                case -1:
                     return "н";
-//                case 2:
-//                    return "∓";
-//                case 3:
-//                    return "±";
-//                case 4:
-//                    return "+";
             }
             return ""
         }, self.mark);
 
         self.mark_class = ko.computed(function () {
-            var cls = "";
-            switch (self.mark()) {
-                case 0:
-                    cls = "absent";
-                    break;
-                case 2:
-                    cls = "quater";
-                    break;
-                case 3:
-                    cls = "half";
-                    break;
-                case 4:
-                    cls = "full";
-                    break;
-            }
+            var cls = MarksTypes[self.mark()];
             cls += self.mark() != self.mark_old() ? " modified" : "";
-//            console.log(self.lesson.style());
             cls += self.lesson.style() ? (" " + self.lesson.style()) : "";
             return cls
         }, self.mark, self.mark_old);
@@ -79,6 +60,18 @@
         self.modified = ko.computed(function () {
             return self.mark() != self.mark_old()
         }, self.mark, self.mark_old);
+
+        self.increase = function () {
+            var m = self.mark();
+            m = Math.min(m + 1, MarksTypes.max);
+            self.mark(m);
+        };
+
+        self.decrease = function () {
+            var m = self.mark();
+            m = Math.max(m - 1, MarksTypes.min);
+            self.mark(m);
+        };
     }
 
 // >>> STUDENT CLASS
@@ -96,6 +89,7 @@
                 }
                 return true;
             });
+            item.m = item.m ? item.m : 0; // значение
             return new Mark(item);
         });
 
@@ -124,7 +118,7 @@
         self.date = ko.observable(self.convert_date(data.dt));
         self.lesson_type = ko.observable(data.lt);
         self.description = ko.observable(data.dn);
-        self.isodate_old = self.convert_date(data.dt);
+        self.isodate_old = data.dt;
         self.id = data.id;
 
         self.day = ko.computed(function () {
@@ -134,10 +128,6 @@
         self.info = ko.computed(function () {
             return "<p><p align=left>" + self.date() + "<p>" + self.description();
         }, self.description);
-
-        self.setDate = function (e) {
-            console.log(e);
-        };
 
         self.style = ko.computed(function () {
             switch (self.lesson_type()) {
@@ -283,10 +273,8 @@
             $.get(self.url.years, {}, self.years).success(function (data) {
                 self.unblock();
                 var c_year = $.cookie(self.cookie.year);
-                var contains_year = self.years().some(function(item) {
-//                    console.log(item.year);
-//                    console.log(c_year);
-                    return item.year === c_year;
+                var contains_year = self.years().some(function (item) {
+                    return item.year == c_year;
                 });
                 if (contains_year) {
                     self.year(c_year);
@@ -318,10 +306,23 @@
         self.loadStudents = function () {
             $.get(self.url.students, {
                 'group_id': self.group().id,
-                'discipline_id': self.discipline().id
+                'discipline_id': self.discipline() ? self.discipline().id : -1
             }).done(function (data) {
                 // fill lesson_types list
                 self.lesson_types(data.lesson_types);
+
+                // fill mark types
+                MarksTypes = {};
+                data.mark_types.every(function (item) {
+                    MarksTypes[item['k']] = item['v'];
+                    if (!MarksTypes.max < parseInt(item['k'])) {
+                        MarksTypes.max = parseInt(item['k']);
+                    }
+                    if (!MarksTypes.min > parseInt(item['k'])) {
+                        MarksTypes.min = parseInt(item['k']);
+                    }
+                    return true
+                });
 
                 // fill lessons list
                 var map_lessons = $.map(data.lessons, function (item) {
@@ -333,7 +334,6 @@
                         placement: "bottom"
                     })
                 }, 500);
-
 
                 // map students list
                 var map_students = $.map(data.students, function (item) {
@@ -441,12 +441,12 @@
         self.saveLesson = function (data) {
             $.post(self.url.lesson_save, self.csrfize({
                 lesson_id: data.id,
-                lesson_type: data.lesson_type,
+                lesson_type: data.lesson_type(),
                 date: data.isodate(),
                 description: data.description()
             })).done(function () {
                 if (data.isodate() != data.isodate_old) {
-                    self.loadStudents()
+                    self.loadStudents();
                 }
             }).fail(function () {
                 InterfaceAlerts.showFail();
@@ -488,12 +488,12 @@
             }
         };
 
-        self.increase = function (data) {
-            data.mark(data.mark() ? data.mark() < 4 ? data.mark() + 1 : data.mark() : 1);
+        self.increase = function (mark) {
+            mark.increase();
         };
 
-        self.decrease = function (data) {
-            data.mark(data.mark() > 1 ? data.mark() - 1 : 0);
+        self.decrease = function (mark) {
+            mark.decrease();
         };
 
         self.init();
