@@ -3,7 +3,7 @@
     <tr>
         <th>Студент</th>
         {% if user.is_authenticated %}
-            <button class="btn btn-sm btn-success" data-bind="click: $root.saveMarks, visible: students">
+            <button class="btn btn-sm btn-success" data-bind="click: $root.saveMarks, visible: students && discipline">
                 <i class="glyphicon glyphicon glyphicon-save"></i>
             </button>
         {% endif %}
@@ -26,7 +26,7 @@
         <!-- /ko -->
         <th>
             {% if user.is_authenticated %}
-                <button class="btn btn-sm btn-primary" data-bind="click: addLesson">
+                <button class="btn btn-sm btn-primary" data-bind="visible: discipline, click: addLesson">
                     <i class="glyphicon glyphicon glyphicon-plus"></i>
                 </button>
             {% endif %}

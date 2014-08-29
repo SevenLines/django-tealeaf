@@ -448,6 +448,7 @@
                 if (data.isodate() != data.isodate_old) {
                     self.loadStudents();
                 }
+                InterfaceAlerts.showSuccess();
             }).fail(function () {
                 InterfaceAlerts.showFail();
             })

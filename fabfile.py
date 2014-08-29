@@ -115,7 +115,7 @@ def backup(only_base=False):
     # local("dropdb -U postgres tealeaf")
     # local("createdb -U postgres tealeaf")
     local("psql -U postgres -d tealeaf -f dump.sql")
-    # local("pg_restore -d tealeaf -U postgres dump.sql")
+
     if not only_base:
         # restore media
         local("rm -rf media")
