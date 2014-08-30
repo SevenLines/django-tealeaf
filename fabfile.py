@@ -78,6 +78,7 @@ def prettyprint():
 
 def build_production():
     local("git checkout master")
+    local("git merge -X theirs dev")
     local("git merge --no-ff dev")
     minify()
     with settings(warn_only=True):
