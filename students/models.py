@@ -4,6 +4,9 @@ import json
 
 from django.db import models, transaction
 from django.db.transaction import atomic
+from django.forms import model_to_dict
+
+from app.utils import json_dthandler
 
 import students.utils
 from students.utils import current_year
@@ -107,7 +110,7 @@ class Discipline(models.Model):
         return u"%s %s %s" % (self.title, self.year, self.semestr)
 
     def marks(self, group_id):
-        return list(Mark.objects.raw("""
+        marks = list(Mark.objects.raw("""
 SELECT s.id as student_id, l.lesson_id, date, sm.id as id, mark
 FROM students_student s
   LEFT JOIN (SELECT id as lesson_id, date
@@ -120,6 +123,42 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
             'group_id': group_id,
             'discipline_id': self.id
         }))
+
+        marks = list([{"sid": m.student_id,
+                       "mid": m.id,
+                       "lid": m.lesson_id,
+                       "m": m.mark} for m in marks])
+
+        # студенты группы
+        stdnts = Group.objects.get(pk=group_id).students.all().order_by("second_name")
+        stdnts = list([model_to_dict(s) for s in stdnts])
+        for s in stdnts:
+            # формируем оценки для студентов
+            s_marks = list(filter(lambda m: m['sid'] == s['id'], marks))
+            s_sum = sum([m['m'] for m in s_marks if m['m']], 0)
+            s.update({
+                'marks': s_marks,
+                'sum': s_sum
+            })
+
+        lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=self.pk)
+                       .order_by("date", "id"))
+        lessons = list([{"id": l.id,
+                         "lt": l.lesson_type if l.lesson_type else None,
+                         "dt": l.date,
+                         "dn": l.description
+                        } for l in lessons])
+
+        # виды занятий
+        lesson_types = list([{'id': t[0], 'title': t[1]} for t in Lesson.LESSON_TYPES])
+        # виды оценок
+        mark_types = list([{'k': t[0], 'v': t[1]} for t in Mark.MARKS])
+
+        # формируем ответ
+        return json.dumps({'lessons': lessons,
+                           'students': stdnts,
+                           'lesson_types': lesson_types,
+                           'mark_types': mark_types, }, default=json_dthandler)
 
 
 class DisciplineMarksCache(models.Model):
@@ -149,10 +188,10 @@ class DisciplineMarksCache(models.Model):
             val.group_id = group_id
         d = Discipline.objects.get(pk=discipline_id)
         marks = d.marks(group_id)
-        marks = list([{"sid": m.student_id,
-                       "mid": m.id,
-                       "lid": m.lesson_id,
-                       "m": m.mark} for m in marks])
+        # marks = list([{"sid": m.student_id,
+        # "mid": m.id,
+        #                "lid": m.lesson_id,
+        #                "m": m.mark} for m in marks])
         val.marks_json = json.dumps(marks)
 
         val.save()
