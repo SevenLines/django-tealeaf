@@ -19,7 +19,7 @@
         self.show = function (mark, target) {
             self.mark = mark;
             var offset = $(target).offset();
-            var width = target.clientWidth*1.1;
+            var width = target.clientWidth * 1.1;
             var height = target.clientHeight;
             self.mark_selector.show().offset({
                 left: offset.left,
@@ -421,7 +421,6 @@
             $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
                 e.stopPropagation()
             });
-
 
         };
 

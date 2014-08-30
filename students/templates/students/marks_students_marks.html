@@ -6,7 +6,7 @@
 
             <p>
                 <!-- ko if: isStudentsLoading -->Загружаю список...<!-- /ko-->
-                <!-- ko ifnot: isStudentsLoading -->Список пока не готов<!-- /ko-->
+                <!-- ko ifnot: isStudentsLoading -->Список пока не готов &gt;_&gt;<!-- /ko-->
             </p>
         </div>
         <!-- ko if: isStudentsLoading -->
@@ -17,12 +17,12 @@
     </div>
 </div>
 <!-- /ko -->
-<div class=" table-responsive">
+<div class="table-responsive">
     <!-- ko ifnot: isStudentsLoading -->
     <table class="table table-condensed table-bordered table-hover" data-bind="visible: students && students().length">
         <thead>
         <tr>
-            <th style="text-align: center">
+            <th class="headcol" style="text-align: center">
                 <form class="form form-inline">
                     <form class="form-group">
                         <button class="btn btn-sm btn-default pull-left" data-bind="click: toggleStudentsSorting">
@@ -74,7 +74,7 @@
         </thead>
         <tbody data-bind="foreach: $root.students">
         <tr style="text-align: center">
-            <td data-bind="text: (second_name + ' ' + name), style: color, css: style"></td>
+            <td class="headcol" data-bind="text: (second_name + ' ' + name), style: color, css: style"></td>
             <!-- ko foreach: marks -->
             <td class="mark"
                 data-bind="css: mark_class{% if user.is_authenticated %},click: $root.clickMark{% endif %}">
@@ -86,7 +86,7 @@
         </tbody>
         <!-- ko if: lessons().length > 0 -->
         <tfoot>
-        <td></td>
+        <td class="headcol"></td>
         <!-- ko foreach: lessons -->
         <td class="mark" data-bind="css: style">
             <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"

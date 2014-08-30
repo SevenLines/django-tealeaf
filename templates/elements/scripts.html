@@ -9,7 +9,7 @@
     <script>
         // enable click to expand menu for touch devices
         if (isTouch) {
-            $(".menu >ul>li").not(".logo").find(">a").click(function () {
+            $(".menu >ul>li").not(".logo").not(".touchable").find(">a").click(function () {
                 return false;
             })
         }
