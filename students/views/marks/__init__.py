@@ -11,7 +11,7 @@ from django.shortcuts import render
 
 # @login_required
 from app.utils import require_in_POST, require_in_GET, json_dthandler
-from students.models import Lesson, Discipline, Group, Mark
+from students.models import Lesson, Discipline, Group, Mark, DisciplineMarksCache
 
 
 def index(request):
@@ -24,13 +24,13 @@ def students(request):
     discipline_id = request.GET['discipline_id']
 
     # таблица оценок для всех студентов группы
-    marks = Discipline.objects.get(pk=discipline_id).marks(group_id)
+    marks = json.loads(DisciplineMarksCache.get(discipline_id, group_id))
 
     # конвертируем оценки в список
-    marks = list([{"sid": m.student_id,
-                   "mid": m.id,
-                   "lid": m.lesson_id,
-                   "m": m.mark} for m in marks])
+    # marks = list([{"sid": m.student_id,
+    # "mid": m.id,
+    #                "lid": m.lesson_id,
+    #                "m": m.mark} for m in marks])
 
     # студенты группы
     stdnts = Group.objects.get(pk=request.GET['group_id']).students.all().order_by("second_name")
@@ -77,6 +77,8 @@ def lesson_add(request):
     l.group = g
     l.save()
 
+    DisciplineMarksCache.update(d.pk, g.pk)
+
     return HttpResponse()
 
 
@@ -84,7 +86,11 @@ def lesson_add(request):
 @require_in_POST('lesson_id')
 def lesson_remove(request):
     lesson_id = request.POST['lesson_id']
-    Lesson.objects.get(pk=lesson_id).delete()
+    l = Lesson.objects.get(pk=lesson_id)
+    discipline_id = l.discipline_id
+    group_id = l.group_id
+    l.delete()
+    DisciplineMarksCache.update(discipline_id, group_id)
     return HttpResponse()
 
 
@@ -107,6 +113,7 @@ def lesson_save(request):
 @atomic
 def marks_save(request):
     marks = json.loads(request.POST['marks'])
+    mark = None
     for m in marks:
         mark = Mark.objects.filter(lesson__id=m['lesson_id'],
                                    student__id=m['student_id']).first()
@@ -119,5 +126,8 @@ def marks_save(request):
                 mark.student_id = m['student_id']
             mark.mark = m['mark']
             mark.save()
+
+    if mark:
+        DisciplineMarksCache.update(mark.lesson.discipline_id, mark.lesson.group_id)
 
     return HttpResponse()

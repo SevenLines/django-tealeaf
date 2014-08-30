@@ -16,6 +16,7 @@ class PageExtendModifier(Modifier):
             pageextend = page.pageextend if hasattr(page, "pageextend") else None
             if pageextend:
                 node.icon = pageextend.image
+                node.touchable = pageextend.touchable
                 node.authentication_required = pageextend.authentication_required
         return nodes
 
