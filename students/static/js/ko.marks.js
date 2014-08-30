@@ -1,7 +1,9 @@
 // create modal discipline for adding purposes
 (function () {
 
-    var MarksTypes = [];
+    var marksTypes = [];
+    var studentColorMin = Color("#FDD").lighten(0.03);
+    var studentColorMax = Color("#0F0").lighten(0.5);
 
 // >>> модальное окно управления дисциплиной
     ModalAddDiscipline.prototype = new ModalConfirm({ prototype: true });
@@ -47,7 +49,7 @@
         }, self.mark);
 
         self.mark_class = ko.computed(function () {
-            var cls = MarksTypes[self.mark()];
+            var cls = marksTypes[self.mark()];
             cls += self.mark() != self.mark_old() ? " modified" : "";
             cls += self.lesson.style() ? (" " + self.lesson.style()) : "";
             return cls
@@ -63,13 +65,13 @@
 
         self.increase = function () {
             var m = self.mark();
-            m = Math.min(m + 1, MarksTypes.max);
+            m = Math.min(m + 1, marksTypes.max);
             self.mark(m);
         };
 
         self.decrease = function () {
             var m = self.mark();
-            m = Math.max(m - 1, MarksTypes.min);
+            m = Math.max(m - 1, marksTypes.min);
             self.mark(m);
         };
     }
@@ -79,6 +81,7 @@
         var self = this;
         self.id = data.id;
         self.name = data.name;
+        self.sum = data.sum;
         self.second_name = data.second_name;
 
         self.marks = $.map(data.marks, function (item) {
@@ -91,6 +94,22 @@
             });
             item.m = item.m ? item.m : 0; // значение
             return new Mark(item);
+        });
+
+        self.style = ko.computed(function () {
+            if (self.sum != 0) {
+                var max = self.marks.length * marksTypes.max;
+                var min = self.marks.length * marksTypes.min;
+                var diff = (max - min);
+                var k = 1 - self.sum / diff;
+                var clr = studentColorMax.clone();
+                clr.mix(studentColorMin, k * k * k);
+
+                return {
+                    backgroundColor: clr.hexString()
+                };
+            }
+            return {};
         });
 
         self.modified_marks = function () {
@@ -312,14 +331,14 @@
                 self.lesson_types(data.lesson_types);
 
                 // fill mark types
-                MarksTypes = {};
+                marksTypes = {};
                 data.mark_types.every(function (item) {
-                    MarksTypes[item['k']] = item['v'];
-                    if (!MarksTypes.max < parseInt(item['k'])) {
-                        MarksTypes.max = parseInt(item['k']);
+                    marksTypes[item['k']] = item['v'];
+                    if (!marksTypes.max < parseInt(item['k'])) {
+                        marksTypes.max = parseInt(item['k']);
                     }
-                    if (!MarksTypes.min > parseInt(item['k'])) {
-                        MarksTypes.min = parseInt(item['k']);
+                    if (!marksTypes.min > parseInt(item['k'])) {
+                        marksTypes.min = parseInt(item['k']);
                     }
                     return true
                 });
@@ -329,11 +348,9 @@
                     return new Lesson(item);
                 });
                 self.lessons(map_lessons);
-                setTimeout(function () {
-                    $('[data-toggle="tooltip"]').tooltip({
-                        placement: "bottom"
-                    })
-                }, 500);
+
+                $('thead [data-toggle="tooltip"]').tooltip({ placement: "bottom" });
+                $('tfoot [data-toggle="tooltip"]').tooltip({ placement: "top" });
 
                 // map students list
                 var map_students = $.map(data.students, function (item) {
@@ -341,6 +358,7 @@
                     return new Student(item);
                 });
                 self.students(map_students);
+                self.sortMethod(self.sortByStudentsName);
 
                 $.cookie(self.cookie.group_id, self.group().id, { expires: self.cookie.expires });
 
@@ -365,6 +383,28 @@
             }, self.disciplines).fail(function () {
                 InterfaceAlerts.showFail();
             })
+        };
+
+// >>> STUDENTS CONTROL
+        self.sortByStudentsMark = function (left, right) {
+            return left.sum == right.sum ? 0 : left.sum < right.sum ? 1 : -1;
+        };
+        self.sortByStudentsMark.title = "Цвет";
+
+        self.sortByStudentsName = function (left, right) {
+            return left.sum == right.second_name ? 0 : left.second_name < right.second_name ? -1 : 1;
+        };
+        self.sortByStudentsName.title = "Имя";
+
+        self.sortMethod = ko.observable();
+        self.sortMethod.subscribe(function () {
+            if (self.sortMethod()) {
+                self.students.sort(self.sortMethod());
+            }
+        });
+        self.toggleStudentsSorting = function () {
+            self.sortMethod(self.sortMethod() == self.sortByStudentsMark ?
+                self.sortByStudentsName : self.sortByStudentsMark);
         };
 
 

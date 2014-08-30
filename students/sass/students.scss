@@ -5,20 +5,50 @@ $exam-hue-offset: -270;
 $test-hue-offset: -120;
 $mix-weight: 70%;
 
+//@-moz-document url-prefix() {
+//    fieldset {
+//        display: table-cell;
+//    }
+//}
+
 .pickmeup-twitter-bootstrap {
   z-index: 1000 !important;
 }
 
 .marks-editor {
-
-  thead {
-    th {
-      border: none !important;
+  table {
+    thead {
+      tr {
+        box-shadow: #CCC 0 2px 4px;
+        border-top: none;
+        font-weight: normal;
+      }
+    }
+    tfoot {
+      tr {
+        box-shadow: #EEE 0 -2px 4px;
+        border-top: none;
+      }
+    }
+    td:first-child {
+      white-space: nowrap;
+      width: 1%;
+    }
+    tbody {
+      tr {
+        -webkit-transition: all 0.1s;
+        -moz-transition: all 0.1s;
+        -ms-transition: all 0.1s;
+        -o-transition: all 0.1s;
+        transition: all 0.1s;
+        &:hover {
+          box-shadow: silver 0 0 2px;
+        }
+      }
     }
   }
 
   .mark {
-
     min-width: 2em;
     width: 3em;
     max-width: 3em;
@@ -55,11 +85,18 @@ $mix-weight: 70%;
         color: adjust_hue($full, $hue-offset);
         border: adjust_hue($full, $hue-offset);
         text-decoration: none;
-//        font-family: "Bookman", Georgia, "Times New Roman", serif;
-        font
         &:hover {
-          background-color: adjust_hue(lighten($quater, 22), $hue-offset);
+          background-color: adjust_hue(lighten($quater, 23), $hue-offset);
         }
+      }
+    }
+
+    @mixin test_exam($color) {
+      &.test {
+        background-color: adjust_hue($color, $test-hue-offset);
+      }
+      &.exam {
+        background-color: adjust_hue($color, $exam-hue-offset);
       }
     }
 
@@ -82,36 +119,20 @@ $mix-weight: 70%;
     &.absent {
     }
 
-
     &.normal {
       background-color: $quater;
       @include shadow;
-      &.test {
-        background-color: adjust_hue($quater, $test-hue-offset);
-      }
-      &.exam {
-        background-color: adjust_hue($quater, $exam-hue-offset);
-      }
+      @include test_exam($quater);
     }
     &.good {
       background-color: $half; //#c9ff49
       @include shadow;
-      &.test {
-        background-color: adjust_hue($half, $test-hue-offset);
-      }
-      &.exam {
-        background-color: adjust_hue($half, $exam-hue-offset);
-      }
+      @include test_exam($half);
     }
     &.excelent {
       background-color: $full;
       @include shadow;
-      &.test {
-        background-color: adjust_hue($full, $test-hue-offset);
-      }
-      &.exam {
-        background-color: adjust_hue($full, $exam-hue-offset);
-      }
+      @include test_exam($full);
     }
     .mark-text {
 

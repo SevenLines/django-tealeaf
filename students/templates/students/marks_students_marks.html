@@ -1,47 +1,72 @@
-    <table class="table table-condensed table-hover" data-bind="visible: students">
-    <thead>
-    <tr>
-        <th>Студент</th>
-        {% if user.is_authenticated %}
-            <button class="btn btn-sm btn-success" data-bind="click: $root.saveMarks, visible: students && discipline">
-                <i class="glyphicon glyphicon glyphicon-save"></i>
-            </button>
-        {% endif %}
-        <!-- ko foreach: lessons -->
-        <th class="mark" data-bind="css: style">
-            {% if user.is_authenticated %}
-                {% include "students/marks_modal_lesson_editor.html" %}
-            {% else %}
-                <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
-                     data-bind="attr: { 'data-original-title': info }">
-                    <!-- ko if: description -->
-                    <span class="glyphicon glyphicon-question-sign"></span>
-                    <!-- /ko -->
-                    <!-- ko ifnot: description -->
-                    <span class="" data-bind="text: day"></span>
-                    <!-- /ko -->
-                </div>
-            {% endif %}
-        </th>
-        <!-- /ko -->
-        <th>
-            {% if user.is_authenticated %}
-                <button class="btn btn-sm btn-primary" data-bind="visible: discipline, click: addLesson">
-                    <i class="glyphicon glyphicon glyphicon-plus"></i>
+<div class=" table-responsive">
+    <table class="table table-condensed table-bordered table-hover" data-bind="visible: students">
+        <thead>
+        <tr>
+            <th style="text-align: center">
+                <button class="btn btn-sm btn-default" data-bind="click: toggleStudentsSorting">
+                    <span class="glyphicon glyphicon-sort"></span>
+                    <!-- ko text: $root.sortMethod() ? $root.sortMethod().title : "" --><!-- /ko -->
                 </button>
-            {% endif %}
-        </th>
-    </tr>
-    </thead>
-    <tbody data-bind="foreach: $root.students">
-    <tr>
-        <td data-bind="text: (second_name + ' ' + name)" style="width:20%;"></td>
-        <!-- ko foreach: marks -->
-        <td class="mark" data-bind="css: mark_class, {% if user.is_authenticated %}click: $root.clickMark{% endif %}">
-            <span class="mark-text" data-bind="text: mark_text()"></span>
+                {% if user.is_authenticated %}
+                    <button class="btn btn-sm btn-success"
+                            data-bind="click: $root.saveMarks, visible: students && discipline">
+                        <i class="glyphicon glyphicon glyphicon-save"></i>
+                    </button>
+                {% endif %}
+            </th>
+            <!-- ko foreach: lessons -->
+            <th class="mark" data-bind="css: style">
+                {% if user.is_authenticated %}
+                    {% include "students/marks_modal_lesson_editor.html" %}
+                {% else %}
+                    <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
+                         data-bind="attr: { 'data-original-title': info }">
+                        <!-- ko if: description -->
+                        <span class="glyphicon glyphicon-pushpin"></span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: description -->
+                        <span class="" data-bind="text: day"></span>
+                        <!-- /ko -->
+                    </div>
+                {% endif %}
+            </th>
+            <!-- /ko -->
+            <th>
+                {% if user.is_authenticated %}
+                    <button class="btn btn-sm btn-primary" data-bind="visible: discipline, click: addLesson">
+                        <i class="glyphicon glyphicon glyphicon-plus"></i>
+                    </button>
+                {% endif %}
+            </th>
+        </tr>
+        </thead>
+        <tbody data-bind="foreach: $root.students">
+        <tr style="text-align: center">
+            <td data-bind="text: (second_name + ' ' + name), style: style"></td>
+            <!-- ko foreach: marks -->
+            <td class="mark"
+                data-bind="css: mark_class, {% if user.is_authenticated %}click: $root.clickMark{% endif %}">
+                <span class="mark-text" data-bind="text: mark_text()"></span>
+            </td>
+            <!-- /ko -->
+            <td></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <td></td>
+        <!-- ko foreach: lessons -->
+        <td class="mark" data-bind="css: style">
+            <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
+                 data-bind="attr: { 'data-original-title': info }">
+                <!-- ko if: description -->
+                <span class="glyphicon glyphicon-pushpin"></span>
+                <!-- /ko -->
+                <!-- ko ifnot: description -->
+                <span class="" data-bind="text: day"></span>
+                <!-- /ko -->
+            </div>
         </td>
         <!-- /ko -->
-        <td></td>
-    </tr>
-    </tbody>
-</table>
+        </tfoot>
+    </table>
+</div>
