@@ -1,6 +1,37 @@
+@charset "UTF-8";
+@-moz-document url-prefix() {
+  fieldset {
+    display: table-cell; } }
+
 .pickmeup-twitter-bootstrap {
   z-index: 1000 !important; }
 
+.marks-editor #mark-selector {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  padding: 0;
+  background-color: white;
+  float: left;
+  border: 1px solid #000000;
+  box-shadow: grey 0 4px 6px; }
+  .marks-editor #mark-selector > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: auto; }
+    .marks-editor #mark-selector > ul > li {
+      display: block;
+      width: auto; }
+      .marks-editor #mark-selector > ul > li:hover {
+        box-shadow: gray 0 0 6px inset; }
+      .marks-editor #mark-selector > ul > li.current {
+        -webkit-transition: all 0.1s;
+        -moz-transition: all 0.1s;
+        -ms-transition: all 0.1s;
+        -o-transition: all 0.1s;
+        transition: all 0.1s;
+        border: 6px solid black; }
 .marks-editor table thead tr {
   box-shadow: #CCC 0 2px 4px;
   border-top: none;
@@ -10,7 +41,9 @@
   border-top: none; }
 .marks-editor table td:first-child {
   white-space: nowrap;
-  width: 1%; }
+  width: 10%; }
+  .marks-editor table td:first-child.active {
+    box-shadow: green 0 0 4px inset; }
 .marks-editor table tbody tr {
   -webkit-transition: all 0.1s;
   -moz-transition: all 0.1s;
@@ -18,7 +51,7 @@
   -o-transition: all 0.1s;
   transition: all 0.1s; }
   .marks-editor table tbody tr:hover {
-    box-shadow: silver 0 0 2px; }
+    box-shadow: grey 0 0 8px; }
 .marks-editor .mark {
   min-width: 2em;
   width: 3em;
@@ -67,6 +100,8 @@
       border: 1px solid #149cb8; }
   .marks-editor .mark.modified {
     box-shadow: #9ebdff 0px 0px 8px inset !important; }
+  .marks-editor .mark.absent:after {
+    content: "н"; }
   .marks-editor .mark.normal {
     background-color: #aef28c;
     box-shadow: #ffbbd7 0px 0px 4px inset; }

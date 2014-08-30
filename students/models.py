@@ -1,5 +1,6 @@
 # coding: utf-8
 # Create your models here.
+import json
 
 from django.db import models, transaction
 from django.db.transaction import atomic
@@ -121,6 +122,44 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
         }))
 
 
+class DisciplineMarksCache(models.Model):
+    discipline = models.ForeignKey(Discipline, null=True, default=None)
+    group = models.ForeignKey(Group, null=True, default=None)
+    marks_json = models.TextField(default="")
+
+    @staticmethod
+    def get(discipline_id, group_id):
+        val = DisciplineMarksCache.objects.filter(discipline_id=discipline_id, group_id=group_id).first()
+        if not val:
+            val = DisciplineMarksCache.update(discipline_id, group_id)
+        return val.marks_json
+
+
+    @staticmethod
+    def update(discipline_id, group_id):
+        """
+        Обновляет кеш таблицы оценок для пары дисциплина группа
+        :param discipline_id:
+        :param group_id:
+        """
+        val = DisciplineMarksCache.objects.filter(discipline_id=discipline_id, group_id=group_id).first()
+        if val is None:
+            val = DisciplineMarksCache()
+            val.discipline_id = discipline_id
+            val.group_id = group_id
+        d = Discipline.objects.get(pk=discipline_id)
+        marks = d.marks(group_id)
+        marks = list([{"sid": m.student_id,
+                       "mid": m.id,
+                       "lid": m.lesson_id,
+                       "m": m.mark} for m in marks])
+        val.marks_json = json.dumps(marks)
+
+        val.save()
+
+        return val
+
+
 class Lesson(models.Model):
     """
     пара по некоторой дисциплине
@@ -170,7 +209,7 @@ class Mark(models.Model):
         # (MARK_NORMAL-3, 'terrible'),
         # (MARK_NORMAL-2, 'bad'),
         (MARK_NORMAL - 1, 'absent'),
-        (MARK_NORMAL, ''),  # без оценки
+        (MARK_NORMAL, 'empty'),  # без оценки
         (MARK_NORMAL + 1, 'normal'),
         (MARK_NORMAL + 2, 'good'),
         (MARK_NORMAL + 3, 'excelent'),
