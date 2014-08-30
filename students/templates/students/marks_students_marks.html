@@ -1,18 +1,41 @@
+<!-- ko if: group() && (isStudentsLoading() || (students && students().length == 0)) -->
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-9">
+            <h1 class="">Группа &laquo;<!-- ko text: group()? group().title : '' --><!-- /ko -->&raquo;</h1>
+            <p>
+                <!-- ko if: isStudentsLoading -->Загружаю список...<!-- /ko-->
+                <!-- ko ifnot: isStudentsLoading -->Список пока не готов<!-- /ko-->
+            </p>
+        </div>
+        <!-- ko if: isStudentsLoading -->
+        <div class="col-md-3">
+            <div class="pull-right loader"></div>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
 <div class=" table-responsive">
-    <table class="table table-condensed table-bordered table-hover" data-bind="visible: students">
+    <!-- ko ifnot: isStudentsLoading -->
+    <table class="table table-condensed table-bordered table-hover" data-bind="visible: students && students().length">
         <thead>
         <tr>
             <th style="text-align: center">
-                <button class="btn btn-sm btn-default" data-bind="click: toggleStudentsSorting">
-                    <span class="glyphicon glyphicon-sort"></span>
-                    <!-- ko text: $root.sortMethod() ? $root.sortMethod().title : "" --><!-- /ko -->
-                </button>
-                {% if user.is_authenticated %}
-                    <button class="btn btn-sm btn-success"
-                            data-bind="click: $root.saveMarks, visible: students && discipline">
-                        <i class="glyphicon glyphicon glyphicon-save"></i>
-                    </button>
-                {% endif %}
+                <form class="form form-inline">
+                    <form class="form-group">
+                        <button class="btn btn-sm btn-default pull-left" data-bind="click: toggleStudentsSorting">
+                            <span class="glyphicon glyphicon-sort"></span>
+                            <!-- ko text: $root.sortMethod() ? $root.sortMethod().title : "" --><!-- /ko -->
+                        </button>
+                        {% if user.is_authenticated %}
+                            <button class="btn btn-sm btn-success pull-right"
+                                    data-bind="click: $root.saveMarks, visible: students && discipline">
+                                <i class="glyphicon glyphicon glyphicon-save"></i>
+                            </button>
+                        {% endif %}
+                    </form>
+                </form>
             </th>
             <!-- ko foreach: lessons -->
             <th class="mark" data-bind="css: style">
@@ -52,6 +75,7 @@
             <td></td>
         </tr>
         </tbody>
+        <!-- ko if: lessons().length > 0 -->
         <tfoot>
         <td></td>
         <!-- ko foreach: lessons -->
@@ -68,5 +92,7 @@
         </td>
         <!-- /ko -->
         </tfoot>
+        <!-- /ko -->
     </table>
+    <!-- /ko -->
 </div>
