@@ -9,20 +9,10 @@ from students.models import DisciplineMarksCache
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'DisciplineMarksCache'
-        db.create_table(u'students_disciplinemarkscache', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('discipline', self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['students.Discipline'], null=True)),
-            ('group', self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['students.Group'], null=True)),
-            ('marks_json', self.gf('django.db.models.fields.TextField')(default='')),
-        ))
-        db.send_create_signal(u'students', ['DisciplineMarksCache'])
-
+        DisciplineMarksCache.objects.all().delete()
 
     def backwards(self, orm):
-        # Deleting model 'DisciplineMarksCache'
-        db.delete_table(u'students_disciplinemarkscache')
-
+        pass
 
     models = {
         u'students.discipline': {

@@ -49,8 +49,18 @@ $mix-weight: 70%;
       }
     }
   }
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+  }
 
   table {
+
     thead {
       tr {
         box-shadow: #CCC 0 2px 4px;

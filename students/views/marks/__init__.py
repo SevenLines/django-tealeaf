@@ -18,52 +18,16 @@ def index(request):
     return render(request, "students/marks_editor.html")
 
 
+def students_cached(discipline_id, group_id):
+    # таблица оценок для всех студентов группы
+    cache = json.loads(DisciplineMarksCache.get(discipline_id, group_id))
+    return cache
+
+
 @require_in_GET('discipline_id', 'group_id')
 def students(request):
-    group_id = request.GET['group_id']
-    discipline_id = request.GET['discipline_id']
-
-    # таблица оценок для всех студентов группы
-    marks = json.loads(DisciplineMarksCache.get(discipline_id, group_id))
-
-    # конвертируем оценки в список
-    # marks = list([{"sid": m.student_id,
-    # "mid": m.id,
-    #                "lid": m.lesson_id,
-    #                "m": m.mark} for m in marks])
-
-    # студенты группы
-    stdnts = Group.objects.get(pk=request.GET['group_id']).students.all().order_by("second_name")
-    stdnts = list([model_to_dict(s) for s in stdnts])
-    for s in stdnts:
-        # формируем оценки для студентов
-        s_marks = list(filter(lambda m: m['sid'] == s['id'], marks))
-        s_sum = sum([m['m'] for m in s_marks if m['m']], 0)
-        s.update({
-            'marks': s_marks,
-            'sum': s_sum
-        })
-
-    lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=discipline_id)
-                   .order_by("date", "id"))
-    lessons = list([{"id": l.id,
-                     "lt": l.lesson_type if l.lesson_type else None,
-                     "dt": l.date,
-                     "dn": l.description
-                    } for l in lessons])
-
-    #  виды занятий
-    lesson_types = list([{'id': t[0], 'title': t[1]} for t in Lesson.LESSON_TYPES])
-    #  виды оценок
-    mark_types = list([{'k': t[0], 'v': t[1]} for t in Mark.MARKS])
-
-    # формируем ответ
-    return HttpResponse(json.dumps(
-        {'lessons': lessons,
-         'students': stdnts,
-         'lesson_types': lesson_types,
-         'mark_types': mark_types,
-        }, default=json_dthandler), content_type="json")
+    return HttpResponse(students_cached(request.GET['discipline_id'], request.GET['group_id']),
+                        content_type="json")
 
 
 @login_required
