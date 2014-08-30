@@ -24,19 +24,7 @@ def students(request):
     discipline_id = request.GET['discipline_id']
 
     # таблица оценок для всех студентов группы
-    marks = list(Mark.objects.raw("""
-SELECT s.id as student_id, l.lesson_id, date, sm.id as id, mark
-FROM students_student s
-  LEFT JOIN (SELECT id as lesson_id, date
-        FROM students_lesson sl
-        WHERE group_id = %(group_id)s and discipline_id = %(discipline_id)s) l ON true
-  LEFT JOIN students_mark sm ON l.lesson_id = sm.lesson_id and s.id = sm.student_id
-WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
-  ORDER BY s.id, l.date, l.lesson_id
-      """, {
-        'group_id': group_id,
-        'discipline_id': discipline_id
-    }))
+    marks = Discipline.objects.get(pk=discipline_id).marks(group_id)
 
     # конвертируем оценки в список
     marks = list([{"sid": m.student_id,
@@ -49,8 +37,11 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
     stdnts = list([model_to_dict(s) for s in stdnts])
     for s in stdnts:
         # формируем оценки для студентов
+        s_marks = list(filter(lambda m: m['sid'] == s['id'], marks))
+        s_sum = sum([m['m'] for m in s_marks if m['m']], 0)
         s.update({
-            'marks': list(filter(lambda m: m['sid'] == s['id'], marks))
+            'marks': s_marks,
+            'sum': s_sum
         })
 
     lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=discipline_id)
@@ -109,11 +100,6 @@ def lesson_save(request):
         l.date = request.POST['date']
     l.save()
     return HttpResponse()
-
-
-@require_in_POST('discipline_id', 'group_id')
-def lesson_list(request):
-    pass
 
 
 @login_required

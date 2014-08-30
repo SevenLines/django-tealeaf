@@ -8,7 +8,6 @@ urlpatterns = patterns('students.views.marks',
    url(r'discipline/edit', "disciplines.edit"),
    url(r'discipline/list', "disciplines.index"),
 
-   url(r'lesson/list$', "lesson_list"),
    url(r'lesson/add$', "lesson_add"),
    url(r'lesson/remove$', "lesson_remove"),
    url(r'lesson/save', "lesson_save"),

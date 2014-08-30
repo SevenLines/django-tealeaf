@@ -105,6 +105,21 @@ class Discipline(models.Model):
     def __unicode__(self):
         return u"%s %s %s" % (self.title, self.year, self.semestr)
 
+    def marks(self, group_id):
+        return list(Mark.objects.raw("""
+SELECT s.id as student_id, l.lesson_id, date, sm.id as id, mark
+FROM students_student s
+  LEFT JOIN (SELECT id as lesson_id, date
+        FROM students_lesson sl
+        WHERE group_id = %(group_id)s and discipline_id = %(discipline_id)s) l ON true
+  LEFT JOIN students_mark sm ON l.lesson_id = sm.lesson_id and s.id = sm.student_id
+WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
+  ORDER BY s.id, l.date, l.lesson_id
+      """, {
+            'group_id': group_id,
+            'discipline_id': self.id
+        }))
+
 
 class Lesson(models.Model):
     """
@@ -154,11 +169,11 @@ class Mark(models.Model):
     MARKS = [
         # (MARK_NORMAL-3, 'terrible'),
         # (MARK_NORMAL-2, 'bad'),
-        (MARK_NORMAL-1, 'absent'),
+        (MARK_NORMAL - 1, 'absent'),
         (MARK_NORMAL, ''),  # без оценки
-        (MARK_NORMAL+1, 'normal'),
-        (MARK_NORMAL+2, 'good'),
-        (MARK_NORMAL+3, 'excelent'),
+        (MARK_NORMAL + 1, 'normal'),
+        (MARK_NORMAL + 2, 'good'),
+        (MARK_NORMAL + 3, 'excelent'),
     ]
 
     student = models.ForeignKey(Student)
