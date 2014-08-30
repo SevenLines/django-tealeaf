@@ -102,11 +102,6 @@ def lesson_save(request):
     return HttpResponse()
 
 
-@require_in_POST('discipline_id', 'group_id')
-def lesson_list(request):
-    pass
-
-
 @login_required
 @require_in_POST('marks')
 @atomic

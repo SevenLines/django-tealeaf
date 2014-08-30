@@ -1,8 +1,24 @@
 .pickmeup-twitter-bootstrap {
   z-index: 1000 !important; }
 
-.marks-editor thead th {
-  border: none !important; }
+.marks-editor table thead tr {
+  box-shadow: #CCC 0 2px 4px;
+  border-top: none;
+  font-weight: normal; }
+.marks-editor table tfoot tr {
+  box-shadow: #EEE 0 -2px 4px;
+  border-top: none; }
+.marks-editor table td:first-child {
+  white-space: nowrap;
+  width: 1%; }
+.marks-editor table tbody tr {
+  -webkit-transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -ms-transition: all 0.1s;
+  -o-transition: all 0.1s;
+  transition: all 0.1s; }
+  .marks-editor table tbody tr:hover {
+    box-shadow: silver 0 0 2px; }
 .marks-editor .mark {
   min-width: 2em;
   width: 3em;
@@ -23,18 +39,16 @@
     color: #4bb814;
     border: #4bb814;
     text-decoration: none; }
-    font
     .marks-editor .mark .btn-default:hover {
-      background-color: #f5fdf1; }
+      background-color: #f9fef6; }
   .marks-editor .mark.test {
     background-color: #fdedf2; }
     .marks-editor .mark.test .btn-default {
       color: #b8144b;
       border: #b8144b;
       text-decoration: none; }
-      font
       .marks-editor .mark.test .btn-default:hover {
-        background-color: #fdf1f5; }
+        background-color: #fef6f9; }
     .marks-editor .mark.test .tooltip > .tooltip-inner {
       background-color: white;
       color: #b8144b;
@@ -45,9 +59,8 @@
       color: #149cb8;
       border: #149cb8;
       text-decoration: none; }
-      font
       .marks-editor .mark.exam .btn-default:hover {
-        background-color: #f1fbfd; }
+        background-color: #f6fdfe; }
     .marks-editor .mark.exam .tooltip > .tooltip-inner {
       background-color: white;
       color: #149cb8;
