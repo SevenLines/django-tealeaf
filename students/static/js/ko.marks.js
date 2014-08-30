@@ -271,7 +271,7 @@
                 if (self.group()) {
                     self.loadStudents();
                 } else {
-                    self.students(null);
+                    self.students([]);
                 }
             });
         });
@@ -308,7 +308,6 @@
             $.get(self.url.groups, { 'year': self.year() }, self.groups).done(function (data) {
                 $.cookie(self.cookie.year, self.year(), { expires: self.cookie.expires });
                 var group_id = $.cookie(self.cookie.group_id);
-
                 self.unblock();
                 if (self.groups().every(function (entry) {
                     if (group_id == entry.id) {
@@ -317,12 +316,19 @@
                     }
                     return true;
                 })) {
-                    self.group(null);
+                    if (self.groups().length) {
+                        self.group(self.groups()[0]);
+                    } else {
+                        self.group(null);
+                    }
                 }
             })
         };
 
+        // флаг определющий идет ли загрузка студентов
+        self.isStudentsLoading = ko.observable(true);
         self.loadStudents = function () {
+            self.isStudentsLoading(true);
             $.get(self.url.students, {
                 'group_id': self.group().id,
                 'discipline_id': self.discipline() ? self.discipline().id : -1
@@ -374,6 +380,8 @@
                 $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
                     e.stopPropagation()
                 });
+            }).always(function () {
+                self.isStudentsLoading(false);
             });
         };
 
