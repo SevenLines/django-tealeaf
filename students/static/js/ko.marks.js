@@ -5,6 +5,74 @@
     var studentColorMin = Color("#FDD").lighten(0.03);
     var studentColorMax = Color("#0F0").lighten(0.5);
 
+
+// >>> селектор оценки
+
+    function MarkSelector(selector, markTypes) {
+        var self = this;
+        self.mark_selector = $(selector);
+        self.type = ko.observable();
+        self.mark = null;
+
+        var visible = false;
+
+        self.show = function (mark, target) {
+            self.mark = mark;
+            var offset = $(target).offset();
+            var width = target.clientWidth * 1.1;
+            var height = target.clientHeight;
+            self.mark_selector.show().offset({
+                left: offset.left,
+                top: offset.top - height * (mark.mark() + 1)
+            }).find("li").css({
+                width: width,
+                height: height
+            });
+
+
+            if (self.mark && self.mark.student) {
+                console.log(self.mark.student);
+                self.mark.student.toggleActive(true);
+            }
+
+            visible = true;
+
+            self.mark_selector.find(".mark").removeClass("exam test current");
+            self.mark_selector.find(".mark").toggleClass(mark.lesson.style(), true);
+            self.mark_selector.find(".mark." + marksTypes[mark.mark()]).toggleClass("current", true);
+        };
+
+        self.close = function () {
+            visible = false;
+            self.mark_selector.hide();
+            if (self.mark && self.mark.student) {
+                self.mark.student.toggleActive(false);
+            }
+        };
+
+        self.init = function () {
+            $("body").click(function () {
+                if (visible) {
+                    self.close();
+                }
+            });
+            $(document).keypress(function (e) {
+                if (e.keyCode == 27) {
+                    self.close();
+                }
+            })
+        };
+
+        self.mark_types = markTypes;
+
+        self.setMark = function (data) {
+            self.mark.mark(data['k']);
+            self.close();
+        };
+
+        self.init();
+    }
+
 // >>> модальное окно управления дисциплиной
     ModalAddDiscipline.prototype = new ModalConfirm({ prototype: true });
     ModalAddDiscipline.prototype.constructor = ModalConfirm;
@@ -34,6 +102,7 @@
     function Mark(data) {
         var self = this;
         self.student_id = data.sid;
+        self.student = data.student;
         self.mark_id = data.mid;
         self.lesson_id = data.lid;
         self.mark = ko.observable(data.m);
@@ -41,10 +110,6 @@
         self.lesson = data.lesson;
 
         self.mark_text = ko.computed(function () { // надпись оценки
-            switch (self.mark()) {
-                case -1:
-                    return "н";
-            }
             return ""
         }, self.mark);
 
@@ -92,11 +157,12 @@
                 }
                 return true;
             });
+            item.student = self;
             item.m = item.m ? item.m : 0; // значение
             return new Mark(item);
         });
 
-        self.style = ko.computed(function () {
+        self.color = ko.computed(function () {
             if (self.sum != 0) {
                 var max = self.marks.length * marksTypes.max;
                 var min = self.marks.length * marksTypes.min;
@@ -111,6 +177,15 @@
             }
             return {};
         });
+
+        var __active = ko.observable(false);
+        self.toggleActive = function (active) {
+            __active(active);
+        };
+
+        self.style = ko.computed(function () {
+            return __active() ? "active" : "";
+        }, __active);
 
         self.modified_marks = function () {
             return $.grep(self.marks, function (item) {
@@ -197,6 +272,8 @@
             expires: 7 // days
         };
 
+        self.marksTypes = ko.observableArray();
+
 // CSRF UTILS
         self.csrf = data.csrf;
         self.csrfize = function (data) {
@@ -256,6 +333,8 @@
             modal_selector: "#modal-lesson-editor",
             header: "Урок"
         });
+
+        self.markSelector = new MarkSelector("#mark-selector", self.marksTypes);
 
 // >>> SUBSCRIPTIONS
         self.year.subscribe(function () {
@@ -326,6 +405,25 @@
         };
 
         // флаг определющий идет ли загрузка студентов
+        self.resetMarksInterface = function () {
+            $('thead [data-toggle="tooltip"]').tooltip({ placement: "bottom" });
+            $('tfoot [data-toggle="tooltip"]').tooltip({ placement: "top" });
+
+            $(".modal-lesson-editor .lesson-date").pickmeup_twitter_bootstrap({
+                hide_on_select: true,
+                format: 'd/m/Y',
+                hide: function (e) {
+                    $(this).trigger('change');
+                }
+            });
+
+            // подключаем события, чтобы не закрывалась менюшка
+            $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
+                e.stopPropagation()
+            });
+
+        };
+
         self.isStudentsLoading = ko.observable(true);
         self.loadStudents = function () {
             self.isStudentsLoading(true);
@@ -336,8 +434,9 @@
                 // fill lesson_types list
                 self.lesson_types(data.lesson_types);
 
-                // fill mark types
+                // fill mark types, and find max and min value at the same time
                 marksTypes = {};
+                self.marksTypes(data.mark_types);
                 data.mark_types.every(function (item) {
                     marksTypes[item['k']] = item['v'];
                     if (!marksTypes.max < parseInt(item['k'])) {
@@ -349,14 +448,13 @@
                     return true
                 });
 
+
                 // fill lessons list
                 var map_lessons = $.map(data.lessons, function (item) {
                     return new Lesson(item);
                 });
                 self.lessons(map_lessons);
 
-                $('thead [data-toggle="tooltip"]').tooltip({ placement: "bottom" });
-                $('tfoot [data-toggle="tooltip"]').tooltip({ placement: "top" });
 
                 // map students list
                 var map_students = $.map(data.students, function (item) {
@@ -367,21 +465,9 @@
                 self.sortMethod(self.sortByStudentsName);
 
                 $.cookie(self.cookie.group_id, self.group().id, { expires: self.cookie.expires });
-
-                $(".modal-lesson-editor .lesson-date").pickmeup_twitter_bootstrap({
-                    hide_on_select: true,
-                    format: 'd/m/Y',
-                    hide: function (e) {
-                        $(this).trigger('change');
-                    }
-                });
-
-                // подключаем события, чтобы не закрывалась менюшка
-                $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
-                    e.stopPropagation()
-                });
             }).always(function () {
                 self.isStudentsLoading(false);
+                self.resetMarksInterface();
             });
         };
 
@@ -530,11 +616,15 @@
         };
 
         self.clickMark = function (data, e) {
-            if (e.altKey) {
-                self.decrease(data);
-            } else {
-                self.increase(data);
-            }
+            setTimeout(function () {
+                self.markSelector.show(data, e.target);
+            }, 10);
+            return false;
+//            if (e.altKey) {
+//                self.decrease(data);
+//            } else {
+//                self.increase(data);
+//            }
         };
 
         self.increase = function (mark) {

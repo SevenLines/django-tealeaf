@@ -5,17 +5,51 @@ $exam-hue-offset: -270;
 $test-hue-offset: -120;
 $mix-weight: 70%;
 
-//@-moz-document url-prefix() {
-//    fieldset {
-//        display: table-cell;
-//    }
-//}
+@-moz-document url-prefix() {
+  fieldset {
+    display: table-cell;
+  }
+}
 
 .pickmeup-twitter-bootstrap {
   z-index: 1000 !important;
 }
 
 .marks-editor {
+
+  #mark-selector {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    padding: 0;
+    background-color: white;
+    float: left;
+    border: 1px solid #000000;
+    box-shadow: grey 0 4px 6px;
+
+    > ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      height: auto;
+      > li {
+        display: block;
+        width: auto;
+        &:hover {
+          box-shadow: gray 0 0 6px inset;
+        }
+        &.current {
+          -webkit-transition: all 0.1s;
+          -moz-transition: all 0.1s;
+          -ms-transition: all 0.1s;
+          -o-transition: all 0.1s;
+          transition: all 0.1s;
+          border: 6px solid black;
+        }
+      }
+    }
+  }
+
   table {
     thead {
       tr {
@@ -32,7 +66,10 @@ $mix-weight: 70%;
     }
     td:first-child {
       white-space: nowrap;
-      width: 1%;
+      width: 10%;
+      &.active {
+        box-shadow: green 0 0 4px inset;
+      }
     }
     tbody {
       tr {
@@ -42,7 +79,7 @@ $mix-weight: 70%;
         -o-transition: all 0.1s;
         transition: all 0.1s;
         &:hover {
-          box-shadow: silver 0 0 2px;
+          box-shadow: grey 0 0 8px;
         }
       }
     }
@@ -117,6 +154,9 @@ $mix-weight: 70%;
     }
 
     &.absent {
+      &:after {
+        content: "н";
+      }
     }
 
     &.normal {
