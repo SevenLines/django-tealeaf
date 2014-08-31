@@ -40,25 +40,25 @@
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   border: 1px solid #ddd; }
-.marks-editor table thead tr {
+.marks-editor table.table-marks > thead tr {
   box-shadow: #CCC 0 2px 4px;
   border-top: none;
   font-weight: normal; }
-.marks-editor table tfoot tr {
+.marks-editor table.table-marks > tfoot tr {
   box-shadow: #EEE 0 -2px 4px;
   border-top: none; }
-.marks-editor table td:first-child {
+.marks-editor table.table-marks td:first-child {
   white-space: nowrap;
   width: 10%; }
-  .marks-editor table td:first-child.active {
+  .marks-editor table.table-marks td:first-child.active {
     box-shadow: green 0 0 4px inset; }
-.marks-editor table tbody tr {
+.marks-editor table.table-marks > tbody > tr {
   -webkit-transition: all 0.1s;
   -moz-transition: all 0.1s;
   -ms-transition: all 0.1s;
   -o-transition: all 0.1s;
   transition: all 0.1s; }
-  .marks-editor table tbody tr:hover {
+  .marks-editor table.table-marks > tbody > tr:hover {
     box-shadow: grey 0 0 8px; }
 .marks-editor .mark {
   min-width: 2em;
@@ -124,12 +124,12 @@
       background-color: #eb477e; }
     .marks-editor .mark.good.exam {
       background-color: #47cfeb; }
-  .marks-editor .mark.excelent {
+  .marks-editor .mark.excellent {
     background-color: #4bb814;
     box-shadow: #ffbbd7 0px 0px 4px inset; }
-    .marks-editor .mark.excelent.test {
+    .marks-editor .mark.excellent.test {
       background-color: #b8144b; }
-    .marks-editor .mark.excelent.exam {
+    .marks-editor .mark.excellent.exam {
       background-color: #149cb8; }
 
 .students_plugin .process {

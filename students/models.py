@@ -249,11 +249,11 @@ class Mark(models.Model):
     MARKS = [
         # (MARK_NORMAL-3, 'terrible'),
         # (MARK_NORMAL-2, 'bad'),
-        (MARK_NORMAL - 1, 'absent'),
+        (MARK_NORMAL - 2, 'absent'),
         (MARK_NORMAL, 'empty'),  # без оценки
         (MARK_NORMAL + 1, 'normal'),
         (MARK_NORMAL + 2, 'good'),
-        (MARK_NORMAL + 3, 'excelent'),
+        (MARK_NORMAL + 3, 'excellent'),
     ]
 
     student = models.ForeignKey(Student)

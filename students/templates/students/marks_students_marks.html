@@ -6,7 +6,7 @@
 
             <p>
                 <!-- ko if: isStudentsLoading -->Загружаю список...<!-- /ko-->
-                <!-- ko ifnot: isStudentsLoading -->Список пока не готов &gt;_&gt;<!-- /ko-->
+                <!-- ko ifnot: isStudentsLoading -->Список пока не готов<!-- /ko-->
             </p>
         </div>
         <!-- ko if: isStudentsLoading -->
@@ -19,7 +19,8 @@
 <!-- /ko -->
 <div class="table-responsive">
     <!-- ko ifnot: isStudentsLoading -->
-    <table class="table table-condensed table-bordered table-hover" data-bind="visible: students && students().length">
+    <table class="table-marks table table-condensed table-bordered table-hover"
+           data-bind="visible: students && students().length">
         <thead>
         <tr>
             <th class="headcol" style="text-align: center">
@@ -58,7 +59,17 @@
         <!-- ТАБЛИЦА ОЦЕНОК -->
         <tbody data-bind="foreach: $root.students">
         <tr style="text-align: center">
-            <td class="headcol" data-bind="text: (second_name + ' ' + name), style: color, css: style"></td>
+            <td class="headcol" data-bind="style: color, css: style">
+                <table>
+                    <tr>
+                        <td><span class="pull-left" data-bind="text: (second_name + ' ' + name)"></span></td>
+                        <td style="padding-left: 8px">
+                            <span class="pull-right badge" style="background: white; color: green"
+                                  data-bind="text: sum, style: { color: sum < 0 ? 'red' : 'green' }, visible: sum != 0"></span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
             <!-- ko foreach: marks -->
             <td class="mark"
                 data-bind="css: mark_class{% if user.is_authenticated %},click: $root.clickMark{% endif %}">
