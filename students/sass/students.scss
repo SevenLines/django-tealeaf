@@ -17,6 +17,34 @@ $mix-weight: 70%;
 
 .marks-editor {
 
+  .marks-legend {
+    padding-left: 1em;
+    tr {
+      padding: 0;
+      float: left;
+      clear: both;
+      list-style: none;
+      td {
+        border: 1px solid #000000;
+      }
+      &.marks {
+        margin-bottom: 0;
+        td {
+          width: 4em;
+          height: 1.5em;
+          border-bottom: none;
+        }
+      }
+      &.values {
+        td {
+          background-color: #EEE;
+          text-shadow: 0 0 1px white;
+        }
+      }
+
+    }
+  }
+
   #mark-selector {
     display: none;
     position: absolute;
@@ -59,15 +87,15 @@ $mix-weight: 70%;
     border: 1px solid #ddd;
   }
 
-  table.table-marks  {
-    >thead {
+  table.table-marks {
+    > thead {
       tr {
         box-shadow: #CCC 0 2px 4px;
         border-top: none;
         font-weight: normal;
       }
     }
-    >tfoot {
+    > tfoot {
       tr {
         box-shadow: #EEE 0 -2px 4px;
         border-top: none;
@@ -80,8 +108,8 @@ $mix-weight: 70%;
         box-shadow: green 0 0 4px inset;
       }
     }
-    >tbody {
-      >tr {
+    > tbody {
+      > tr {
         -webkit-transition: all 0.1s;
         -moz-transition: all 0.1s;
         -ms-transition: all 0.1s;
