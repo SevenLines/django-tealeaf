@@ -21,9 +21,12 @@
             var offset = $(target).offset();
             var width = target.clientWidth * 1.1;
             var height = target.clientHeight;
+            var index = $.map(self.mark_types(), function(item) {
+                return item.k;
+            }).indexOf(mark.mark());
             self.mark_selector.show().offset({
                 left: offset.left,
-                top: offset.top - height * (mark.mark() + 1)
+                top: offset.top - height * (index)
             }).find("li").css({
                 width: width,
                 height: height
@@ -31,7 +34,6 @@
 
 
             if (self.mark && self.mark.student) {
-                console.log(self.mark.student);
                 self.mark.student.toggleActive(true);
             }
 
@@ -109,6 +111,17 @@
         self.mark_old = ko.observable(data.m);
         self.lesson = data.lesson;
 
+        var last_mark = data.m;
+        self.mark.subscribe(function () {
+            if (self.student) {
+                var sum = self.student.sum();
+                console.log(sum);
+                sum += self.mark() - last_mark;
+                last_mark = self.mark();
+                self.student.sum(sum);
+            }
+        });
+
         self.mark_text = ko.computed(function () { // надпись оценки
             return ""
         }, self.mark);
@@ -146,7 +159,7 @@
         var self = this;
         self.id = data.id;
         self.name = data.name;
-        self.sum = data.sum;
+        self.sum = ko.observable(data.sum);
         self.second_name = data.second_name;
 
         self.marks = $.map(data.marks, function (item) {
@@ -163,11 +176,11 @@
         });
 
         self.color = ko.computed(function () {
-            if (self.sum != 0) {
+            if (self.sum() != 0) {
                 var max = self.marks.length * marksTypes.max;
                 var min = self.marks.length * marksTypes.min;
                 var diff = (max - min);
-                var k = 1 - self.sum / diff;
+                var k = 1 - self.sum() / diff;
                 var clr = studentColorMax.clone();
                 clr.mix(studentColorMin, k * k * k);
 
@@ -482,7 +495,7 @@
 
 // >>> STUDENTS CONTROL
         self.sortByStudentsMark = function (left, right) {
-            return left.sum == right.sum ? 0 : left.sum < right.sum ? 1 : -1;
+            return left.sum() == right.sum() ? 0 : left.sum() < right.sum() ? 1 : -1;
         };
         self.sortByStudentsMark.title = "Цвет";
 
