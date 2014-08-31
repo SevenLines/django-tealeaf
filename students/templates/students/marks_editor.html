@@ -65,6 +65,7 @@
                         groups: "{% url "students.views.students.ajax.json.groups" %}",
                         students: "{% url "students.views.marks.students" %}",
                         disciplines: "{% url "students.views.marks.disciplines.index" %}",
+                {% if user.is_authenticated %}
                         discipline_add: "{% url "students.views.marks.disciplines.add" %}",
                         discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
                         discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
@@ -72,6 +73,7 @@
                         lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
                         lesson_save: "{% url "students.views.marks.lesson_save" %}",
                         marks_save: "{% url "students.views.marks.marks_save" %}"
+                {% endif %}
                     }
                 }));
             </script>

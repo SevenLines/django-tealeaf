@@ -387,6 +387,9 @@
             $.get(self.url.groups, { 'year': self.year() }, self.groups).done(function (data) {
                 $.cookie(self.cookie.year, self.year(), { expires: self.cookie.expires });
                 var group_id = $.cookie(self.cookie.group_id);
+                self.groups.sort(function(left, right) {
+                    return left.title == right.title ? 0 : left.title < right.title ? -1 : 1;
+                });
                 self.unblock();
                 if (self.groups().every(function (entry) {
                     if (group_id == entry.id) {
@@ -448,13 +451,11 @@
                     return true
                 });
 
-
                 // fill lessons list
                 var map_lessons = $.map(data.lessons, function (item) {
                     return new Lesson(item);
                 });
                 self.lessons(map_lessons);
-
 
                 // map students list
                 var map_students = $.map(data.students, function (item) {

@@ -3,7 +3,9 @@
 import json
 
 from django.db import models, transaction
+from django.db.models.signals import post_delete, post_save
 from django.db.transaction import atomic
+from django.dispatch.dispatcher import receiver
 from django.forms import model_to_dict
 
 from app.utils import json_dthandler
@@ -169,7 +171,7 @@ class DisciplineMarksCache(models.Model):
     @staticmethod
     def get(discipline_id, group_id):
         val = DisciplineMarksCache.objects.filter(discipline_id=discipline_id, group_id=group_id).first()
-        if not val:
+        if not val or val.marks_json == u'[]':
             val = DisciplineMarksCache.update(discipline_id, group_id)
         return val.marks_json
 
@@ -291,3 +293,15 @@ def active_years(r=2):
     years.sort()
     return years
 
+
+@receiver(post_delete, sender=Lesson)
+@receiver(post_save, sender=Lesson)
+def update_cache_lesson(instance, **kwargs):
+    print ("update")
+    DisciplineMarksCache.update(instance.discipline_id, instance.group_id)
+
+@receiver(post_delete, sender=Student)
+@receiver(post_save, sender=Student)
+def update_cache_student(instance, **kwargs):
+    for d in Lesson.objects.filter(group=50).values("discipline").distinct():
+        DisciplineMarksCache.update(d['discipline'], instance.group_id)

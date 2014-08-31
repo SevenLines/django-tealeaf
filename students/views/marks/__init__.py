@@ -3,14 +3,10 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.db.transaction import atomic
-from django.forms import model_to_dict
 from django.http.response import HttpResponse
 from django.shortcuts import render
 
-
-
-# @login_required
-from app.utils import require_in_POST, require_in_GET, json_dthandler
+from app.utils import require_in_POST, require_in_GET
 from students.models import Lesson, Discipline, Group, Mark, DisciplineMarksCache
 
 
@@ -19,7 +15,7 @@ def index(request):
 
 
 def students_cached(discipline_id, group_id):
-    # таблица оценок для всех студентов группы
+    # таблица оценок для всех студентов группы загружается из кэша
     cache = json.loads(DisciplineMarksCache.get(discipline_id, group_id))
     return cache
 
@@ -41,8 +37,6 @@ def lesson_add(request):
     l.group = g
     l.save()
 
-    DisciplineMarksCache.update(d.pk, g.pk)
-
     return HttpResponse()
 
 
@@ -51,10 +45,7 @@ def lesson_add(request):
 def lesson_remove(request):
     lesson_id = request.POST['lesson_id']
     l = Lesson.objects.get(pk=lesson_id)
-    discipline_id = l.discipline_id
-    group_id = l.group_id
     l.delete()
-    DisciplineMarksCache.update(discipline_id, group_id)
     return HttpResponse()
 
 
@@ -69,6 +60,7 @@ def lesson_save(request):
     if 'date' in request.POST:
         l.date = request.POST['date']
     l.save()
+
     return HttpResponse()
 
 
