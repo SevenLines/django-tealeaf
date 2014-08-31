@@ -22,8 +22,10 @@
                 <select class="form-control" name="group"
                         data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
                 <!-- КОНЕЦ СПИСОК ГРУПП -->
-
             </div>
+        <div class="form-group pull-right">
+        {% include "students/marks_legend.html" %}
+    </div>
         </form>
 
         <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
