@@ -84,7 +84,7 @@ def build_production():
     with settings(warn_only=True):
         local("git commit -a -m 'minify scripts and css'")
     local("git checkout production")
-    local("git merge master")
+    local("git merge --no-edit master")
     local("git checkout dev")
 
 
