@@ -5,20 +5,14 @@
         <!-- ko text: $root.sortMethod() ? $root.sortMethod().title : "" --><!-- /ko -->
     </button>
     {% if user.is_authenticated %}
-        <!-- КНОПКИ СОХРАНЕНИЯ И ОБНОВЛЕНИЯ -->
+        <!-- КНОПКА СОХРАНЕНИЯ -->
         <div class="form-group  pull-right">
             <button class="btn btn-sm btn-success"
                     data-bind="click: $root.saveMarks, visible: students && discipline">
                 <i class="glyphicon glyphicon glyphicon-save"></i>
             </button>
         </div>
-        <div class="form-group  pull-righ">
-            <button class="btn btn-sm btn-warning"
-                    data-bind="click: $root.loadStudents, visible: students && discipline">
-                <i class="glyphicon glyphicon glyphicon-refresh"></i>
-            </button>
-        </div>
-        <!-- КОНЕЦ КНОПКИ СОХРАНЕНИЯ И ОБНОВЛЕНИЯ -->
+        <!-- КОНЕЦ КНОПКИ СОХРАНЕНИЯ -->
     {% endif %}
 </form>
 <!-- КОНЕЦ ФОРМА УПРАВЛЕНИЯ СПИСКОМ СТУДЕНТОВ -->

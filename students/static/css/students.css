@@ -6,6 +6,24 @@
 .pickmeup-twitter-bootstrap {
   z-index: 1000 !important; }
 
+.marks-editor .marks-legend {
+  padding-left: 1em; }
+  .marks-editor .marks-legend tr {
+    padding: 0;
+    float: left;
+    clear: both;
+    list-style: none; }
+    .marks-editor .marks-legend tr td {
+      border: 1px solid #000000; }
+    .marks-editor .marks-legend tr.marks {
+      margin-bottom: 0; }
+      .marks-editor .marks-legend tr.marks td {
+        width: 4em;
+        height: 1.5em;
+        border-bottom: none; }
+    .marks-editor .marks-legend tr.values td {
+      background-color: #EEE;
+      text-shadow: 0 0 1px white; }
 .marks-editor #mark-selector {
   display: none;
   position: absolute;
