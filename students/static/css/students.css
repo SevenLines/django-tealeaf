@@ -56,8 +56,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  border: 1px solid #ddd; }
+  -ms-overflow-style: -ms-autohiding-scrollbar; }
 .marks-editor table.table-marks > thead tr {
   box-shadow: #CCC 0 2px 4px;
   border-top: none;
