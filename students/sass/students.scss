@@ -59,16 +59,15 @@ $mix-weight: 70%;
     border: 1px solid #ddd;
   }
 
-  table {
-
-    thead {
+  table.table-marks  {
+    >thead {
       tr {
         box-shadow: #CCC 0 2px 4px;
         border-top: none;
         font-weight: normal;
       }
     }
-    tfoot {
+    >tfoot {
       tr {
         box-shadow: #EEE 0 -2px 4px;
         border-top: none;
@@ -81,8 +80,8 @@ $mix-weight: 70%;
         box-shadow: green 0 0 4px inset;
       }
     }
-    tbody {
-      tr {
+    >tbody {
+      >tr {
         -webkit-transition: all 0.1s;
         -moz-transition: all 0.1s;
         -ms-transition: all 0.1s;
@@ -179,7 +178,7 @@ $mix-weight: 70%;
       @include shadow;
       @include test_exam($half);
     }
-    &.excelent {
+    &.excellent {
       background-color: $full;
       @include shadow;
       @include test_exam($full);
