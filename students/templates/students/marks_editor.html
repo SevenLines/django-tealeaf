@@ -23,9 +23,9 @@
                         data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
                 <!-- КОНЕЦ СПИСОК ГРУПП -->
             </div>
-        <div class="form-group pull-right">
-        {% include "students/marks_legend.html" %}
-    </div>
+{#            <div class="form-group pull-right">#}
+{#                {% include "students/marks_legend.html" %}#}
+{#            </div>#}
         </form>
 
         <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
@@ -46,6 +46,10 @@
         {% addtoblock "js" %}
             <script src="{% static 'js/knockout.js' %}"></script>
         {% endaddtoblock %}
+
+        {% addtoblock "top_js" %}
+            <script src="{% static "js/jquery.fixedheadertable.min.js" %}"></script>
+        {% endaddtoblock "js" %}
 
         {% addtoblock "js" %}
             <script src="{% static "js/ko.modal_confirm.js" %}"></script>

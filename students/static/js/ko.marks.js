@@ -21,7 +21,7 @@
             var offset = $(target).offset();
             var width = target.clientWidth * 1.1;
             var height = target.clientHeight;
-            var index = $.map(self.mark_types(), function(item) {
+            var index = $.map(self.mark_types(), function (item) {
                 return item.k;
             }).indexOf(mark.mark());
             self.mark_selector.show().offset({
@@ -400,7 +400,7 @@
             $.get(self.url.groups, { 'year': self.year() }, self.groups).done(function (data) {
                 $.cookie(self.cookie.year, self.year(), { expires: self.cookie.expires });
                 var group_id = $.cookie(self.cookie.group_id);
-                self.groups.sort(function(left, right) {
+                self.groups.sort(function (left, right) {
                     return left.title == right.title ? 0 : left.title < right.title ? -1 : 1;
                 });
                 self.unblock();
@@ -438,6 +438,47 @@
                 e.stopPropagation()
             });
 
+// ### синхронизация подсветки строк таблицы оценок
+            $("table.table-marks>tbody>tr>td").hover(function () {
+                var index = $(this).closest('tr').index();
+                $("table.table-marks>tbody").each(function (i, item) {
+                    $($(item).find(">tr")[index]).addClass("hover");
+                });
+            }, function () {
+                var index = $(this).closest('tr').index();
+                $("table.table-marks>tbody").each(function (i, item) {
+                    $($(item).find(">tr")[index]).removeClass("hover");
+                });
+            });
+// --- конец синхронизация подсветки строк таблицы оценок
+
+// ### скроллинг мышью таблицы оценок
+            var lastX = -1;
+            var leftButtonDown = false;
+            var scroll_container = $(".scroll-container");
+            var funcScroll = function (e) {
+                var left = e.clientX;
+                if (leftButtonDown) {
+                    if (lastX != -1 && Math.abs(lastX - left) > 2) {
+                        this.scrollLeft += lastX - left;
+                        $.cookie("lastScroll", this.scrollLeft);
+                    }
+                }
+                lastX = left;
+            };
+            scroll_container.mousedown(function (e) {
+                if (e.which === 1) leftButtonDown = true;
+            });
+            $(document).mouseup(function (e) {
+                leftButtonDown = false;
+            });
+            scroll_container.on("touchmove, mousemove", funcScroll);
+
+            // восстановления последнего скролла значения из куков
+            if ($.cookie("lastScroll")) {
+                $(".scroll-container")[0].scrollLeft = $.cookie("lastScroll");
+            }
+// --- конец скроллинг мышью таблицы оценок
         };
 
         self.isStudentsLoading = ko.observable(true);
@@ -630,15 +671,13 @@
         };
 
         self.clickMark = function (data, e) {
+            if ($.clickMouseMoved()) {
+                return false;
+            }
             setTimeout(function () {
                 self.markSelector.show(data, e.target);
             }, 10);
             return false;
-//            if (e.altKey) {
-//                self.decrease(data);
-//            } else {
-//                self.increase(data);
-//            }
         };
 
         self.increase = function (mark) {

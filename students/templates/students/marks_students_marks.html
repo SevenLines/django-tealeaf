@@ -18,18 +18,54 @@
 </div>
 
 <!-- /ko -->
-<div class="table-responsive">
-    <!-- ko ifnot: isStudentsLoading -->
-    <table class="table-marks table table-condensed table-bordered table-hover"
-           data-bind="visible: students && students().length">
+{#<div class="table-responsive">#}
+<!-- ko ifnot: isStudentsLoading -->
+<!-- ko if: students && students().length > 0 -->
+<div class="left-cols">
+    <table class="table-marks table table-bordered table-condensed">
         <thead>
         <tr>
             <th class="headcol" style="text-align: center">
                 {% include "students/marks_students_control.html" %}
             </th>
+        </tr>
+        </thead>
+        <!-- ТАБЛИЦА ОЦЕНОК -->
+        <tbody data-bind="foreach: $root.students">
+        <tr style="text-align: center">
+            <td class="headcol" data-bind="style: color, css: style">
+                <table width="100%">
+                    <tr>
+                        <td class="name"><span class="pull-left"
+                                               data-bind="text: (second_name + ' ' + name)"></span>
+                        </td>
+                        <td class="score" style="padding-left: 8px">
+                            <span class="pull-right badge" style="background: white; color: green"
+                                  data-bind="text: sum, style: { color: sum() < 0 ? 'red' : 'green' }, visible: sum() != 0"></span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th class="headcol" style="text-align: center">
+                {% include "students/marks_students_control.html" %}
+            </th>
+        </tr>
+        </tfoot>
+        <!-- КОНЕЦ ТАБЛИЦА ОЦЕНОК -->
+    </table>
+</div>
+
+<div class="scroll-container">
+    <table class="table-marks table table-bordered table-condensed">
+        <thead>
+        <tr>
             <!-- СТРОКА ЗАНЯТИЙ -->
             <!-- ko foreach: lessons -->
-            <th class="mark" data-bind="css: style">
+            <th class="mark" data-bind="css: style" style="max-height: 20px !important;">
                 {% if user.is_authenticated %}
                     {% include "students/marks_modal_lesson_editor.html" %}
                 {% else %}
@@ -45,32 +81,22 @@
                 {% endif %}
             </th>
             <!-- /ko -->
-            <!-- КОНЕЦ СТРОКА ЗАНЯТИЙ -->
             <th>
                 {% if user.is_authenticated %}
                     <!-- КНОПКА ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
-                    <button class="btn btn-sm btn-primary" data-bind="visible: discipline, click: addLesson">
+                    <button class="btn btn-sm btn-primary"
+                            data-bind="visible: discipline, click: addLesson">
                         <i class="glyphicon glyphicon glyphicon-plus"></i>
                     </button>
                     <!-- КОНЕЦ КНОПКИ ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
                 {% endif %}
             </th>
+            <!-- КОНЕЦ СТРОКА ЗАНЯТИЙ -->
         </tr>
         </thead>
         <!-- ТАБЛИЦА ОЦЕНОК -->
         <tbody data-bind="foreach: $root.students">
         <tr style="text-align: center">
-            <td class="headcol" data-bind="style: color, css: style">
-                <table>
-                    <tr>
-                        <td><span class="pull-left" data-bind="text: (second_name + ' ' + name)"></span></td>
-                        <td style="padding-left: 8px">
-                            <span class="pull-right badge" style="background: white; color: green"
-                                  data-bind="text: sum, style: { color: sum() < 0 ? 'red' : 'green' }, visible: sum() != 0"></span>
-                        </td>
-                    </tr>
-                </table>
-            </td>
             <!-- ko foreach: marks -->
             <td class="mark"
                 data-bind="css: mark_class{% if user.is_authenticated %},click: $root.clickMark{% endif %}">
@@ -80,15 +106,10 @@
             <td></td>
         </tr>
         </tbody>
-        <!-- КОНЕЦ ТАБЛИЦА ОЦЕНОК -->
-        <!-- ko if: lessons().length > 0 -->
         <tfoot>
         <tr>
-            <td class="headcol" style="text-align: center">
-                {% include "students/marks_students_control.html" %}
-            </td>
             <!-- ko foreach: lessons -->
-            <td class="mark" data-bind="css: style">
+            <th class="mark" data-bind="css: style">
                 <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
                      data-bind="attr: { 'data-original-title': info }">
                     <!-- ko if: description -->
@@ -98,14 +119,18 @@
                     <span class="" data-bind="text: day"></span>
                     <!-- /ko -->
                 </div>
-            </td>
+            </th>
             <!-- /ko -->
+            <td></td>
         </tr>
         </tfoot>
-        <!-- /ko -->
+        <!-- КОНЕЦ ТАБЛИЦА ОЦЕНОК -->
     </table>
-    <!-- /ko -->
 </div>
+
+<!-- /ko -->
+<!-- /ko -->
+{#</div>#}
 
 {% if user.is_authenticated %}
     {% include "students/mark_selector.html" %}
