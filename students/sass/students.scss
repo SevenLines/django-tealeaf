@@ -100,8 +100,12 @@ $mix-weight: 70%;
     overflow: scroll;
     overflow-x:auto;
     overflow-y:hidden;
-//    cursor: move;
     padding-right: 1em;
+    cursor: move;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
 

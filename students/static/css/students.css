@@ -65,7 +65,12 @@
   overflow: scroll;
   overflow-x: auto;
   overflow-y: hidden;
-  padding-right: 1em; }
+  padding-right: 1em;
+  cursor: move;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
 .marks-editor table.table-marks > thead > tr, .marks-editor table.table-marks > tfoot > tr {
   height: 40px; }
 .marks-editor table.table-marks > tbody > tr {

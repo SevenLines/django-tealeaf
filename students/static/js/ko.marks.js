@@ -438,34 +438,47 @@
                 e.stopPropagation()
             });
 
-            // синхронизация подсветки строк
+// ### синхронизация подсветки строк таблицы оценок
             $("table.table-marks>tbody>tr>td").hover(function () {
                 var index = $(this).closest('tr').index();
-                $("table.table-marks>tbody").each(function(i, item){
+                $("table.table-marks>tbody").each(function (i, item) {
                     $($(item).find(">tr")[index]).addClass("hover");
                 });
             }, function () {
                 var index = $(this).closest('tr').index();
-                $("table.table-marks>tbody").each(function(i, item){
+                $("table.table-marks>tbody").each(function (i, item) {
                     $($(item).find(">tr")[index]).removeClass("hover");
                 });
             });
+// --- конец синхронизация подсветки строк таблицы оценок
 
-            // скроллинг мышью
+// ### скроллинг мышью таблицы оценок
             var lastX = -1;
-            $(".scroll-container").mousemove(function(e) {
+            var leftButtonDown = false;
+            var scroll_container = $(".scroll-container");
+            var funcScroll = function (e) {
                 var left = e.clientX;
-                if (e.buttons && lastX != -1 && Math.abs(lastX - left) > 2) {
-                    this.scrollLeft += lastX - left;
-                    $.cookie("lastScroll", this.scrollLeft);
+                if (leftButtonDown) {
+                    if (lastX != -1 && Math.abs(lastX - left) > 2) {
+                        this.scrollLeft += lastX - left;
+                        $.cookie("lastScroll", this.scrollLeft);
+                    }
                 }
                 lastX = left;
-            })
-            // вотсановления последнего значения из куков
+            };
+            scroll_container.mousedown(function (e) {
+                if (e.which === 1) leftButtonDown = true;
+            });
+            $(document).mouseup(function (e) {
+                leftButtonDown = false;
+            });
+            scroll_container.on("touchmove, mousemove", funcScroll);
+
+            // восстановления последнего скролла значения из куков
             if ($.cookie("lastScroll")) {
                 $(".scroll-container")[0].scrollLeft = $.cookie("lastScroll");
             }
-
+// --- конец скроллинг мышью таблицы оценок
         };
 
         self.isStudentsLoading = ko.observable(true);
@@ -658,15 +671,13 @@
         };
 
         self.clickMark = function (data, e) {
+            if ($.clickMouseMoved()) {
+                return false;
+            }
             setTimeout(function () {
                 self.markSelector.show(data, e.target);
             }, 10);
             return false;
-//            if (e.altKey) {
-//                self.decrease(data);
-//            } else {
-//                self.increase(data);
-//            }
         };
 
         self.increase = function (mark) {
