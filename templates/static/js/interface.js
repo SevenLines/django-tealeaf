@@ -33,3 +33,30 @@
     window.TableEffects = new TableEffects();
     window.InterfaceAlerts = new InterfaceAlerts();
 }());
+
+// mouse move click prevent
+(function ($) {
+    var $doc = $(document),
+        moved = false,
+        pos = {x: null, y: null},
+        abs = Math.abs,
+        mclick = {
+            'mousedown.mclick': function (e) {
+                pos.x = e.pageX;
+                pos.y = e.pageY;
+                moved = false;
+            },
+            'mouseup.mclick': function (e) {
+                moved = abs(pos.x - e.pageX) > $.clickMouseMoved.threshold
+                    || abs(pos.y - e.pageY) > $.clickMouseMoved.threshold;
+            }
+        };
+
+    $doc.on(mclick);
+
+    $.clickMouseMoved = function () {
+        return moved;
+    };
+
+    $.clickMouseMoved.threshold = 3;
+})(jQuery);
