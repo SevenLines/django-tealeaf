@@ -21,7 +21,7 @@
             var offset = $(target).offset();
             var width = target.clientWidth * 1.1;
             var height = target.clientHeight;
-            var index = $.map(self.mark_types(), function(item) {
+            var index = $.map(self.mark_types(), function (item) {
                 return item.k;
             }).indexOf(mark.mark());
             self.mark_selector.show().offset({
@@ -400,7 +400,7 @@
             $.get(self.url.groups, { 'year': self.year() }, self.groups).done(function (data) {
                 $.cookie(self.cookie.year, self.year(), { expires: self.cookie.expires });
                 var group_id = $.cookie(self.cookie.group_id);
-                self.groups.sort(function(left, right) {
+                self.groups.sort(function (left, right) {
                     return left.title == right.title ? 0 : left.title < right.title ? -1 : 1;
                 });
                 self.unblock();
@@ -437,6 +437,34 @@
             $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
                 e.stopPropagation()
             });
+
+            // синхронизация подсветки строк
+            $("table.table-marks>tbody>tr>td").hover(function () {
+                var index = $(this).closest('tr').index();
+                $("table.table-marks>tbody").each(function(i, item){
+                    $($(item).find(">tr")[index]).addClass("hover");
+                });
+            }, function () {
+                var index = $(this).closest('tr').index();
+                $("table.table-marks>tbody").each(function(i, item){
+                    $($(item).find(">tr")[index]).removeClass("hover");
+                });
+            });
+
+            // скроллинг мышью
+            var lastX = -1;
+            $(".scroll-container").mousemove(function(e) {
+                var left = e.clientX;
+                if (e.buttons && lastX != -1 && Math.abs(lastX - left) > 2) {
+                    this.scrollLeft += lastX - left;
+                    $.cookie("lastScroll", this.scrollLeft);
+                }
+                lastX = left;
+            })
+            // вотсановления последнего значения из куков
+            if ($.cookie("lastScroll")) {
+                $(".scroll-container")[0].scrollLeft = $.cookie("lastScroll");
+            }
 
         };
 

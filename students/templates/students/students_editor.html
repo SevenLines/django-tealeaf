@@ -69,7 +69,8 @@
                             <li data-bind="visible: !has_ancestor">
                                 <form class="copy_to_next_year"
                                       data-bind="submit: function(form) { $root.copyGroupToNextYear(form, $data) }"
-                                      action="{% url "students.views.students.ajax.json.copy_to_next_year" %}" method="post">
+                                      action="{% url "students.views.students.ajax.json.copy_to_next_year" %}"
+                                      method="post">
                                     <button type="submit" class="btn btn-default pull-right">
                                         <span class="glyphicon glyphicon-play">copy to next year</span>
                                     </button>

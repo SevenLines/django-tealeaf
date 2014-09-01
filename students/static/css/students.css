@@ -52,11 +52,24 @@
         border: 6px solid black; }
 .marks-editor .table-responsive {
   width: 100%;
-  margin-bottom: 15px;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar; }
+.marks-editor .left-cols {
+  width: 230px;
+  float: left;
+  clear: none; }
+.marks-editor .scroll-container {
+  margin-left: 230px;
+  overflow: scroll;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-right: 1em; }
+.marks-editor table.table-marks > thead > tr, .marks-editor table.table-marks > tfoot > tr {
+  height: 40px; }
+.marks-editor table.table-marks > tbody > tr {
+  height: 32px; }
 .marks-editor table.table-marks > thead tr {
   box-shadow: #CCC 0 2px 4px;
   border-top: none;
@@ -65,8 +78,7 @@
   box-shadow: #EEE 0 -2px 4px;
   border-top: none; }
 .marks-editor table.table-marks td:first-child {
-  white-space: nowrap;
-  width: 10%; }
+  white-space: nowrap; }
   .marks-editor table.table-marks td:first-child.active {
     box-shadow: green 0 0 4px inset; }
 .marks-editor table.table-marks > tbody > tr {
@@ -75,8 +87,10 @@
   -ms-transition: all 0.1s;
   -o-transition: all 0.1s;
   transition: all 0.1s; }
-  .marks-editor table.table-marks > tbody > tr:hover {
+  .marks-editor table.table-marks > tbody > tr.hover {
     box-shadow: grey 0 0 8px; }
+.marks-editor .headcol {
+  text-align: center; }
 .marks-editor .mark {
   min-width: 2em;
   width: 3em;
