@@ -22,12 +22,13 @@ class MainPageItem(Model):
         return dictionary copy of object suitable for json response
         :return:
         """
+        exists = os.path.exists(self.img.path)
         return {
             'id': self.pk,
             'title': self.title,
             'description': self.description,
-            'item_url': self.img.url if self.img.name else "",
-            'item_thumb_url': self.img['main_page_thumb'].url if self.img.name else ""
+            'item_url': self.img.url if self.img.name and exists else "",
+            'item_thumb_url': self.img['main_page_thumb'].url if self.img.name and exists else ""
         }
 
 
