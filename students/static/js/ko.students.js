@@ -28,6 +28,7 @@ function Group(data) {
     self.title = ko.observable(data.title);
     self.year = ko.observable(data.year);
     self.has_ancestor = data.has_ancestor;
+    self.captain = ko.observable(data.captain);
 
     self.old_title = ko.observable(data.title);
     self.old_year = ko.observable(data.year);
@@ -44,7 +45,7 @@ function Group(data) {
 }
 
 
-function StudentViewModel(default_values, modal_selector, url_years, url_groups, url_students, url_save_groups, url_save_students) {
+function StudentViewModel(data, modal_selector) {
     var self = this;
 
     self.yearsList = ko.observableArray();
@@ -53,6 +54,15 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
 
     self.year = ko.observable();
     self.group = ko.observable();
+
+    self.url = {
+        years: data.url.years,
+        groups: data.url.groups,
+        students: data.url.students,
+        save_groups: data.url.save_groups,
+        save_students: data.url.save_students,
+        set_captain: data.url.set_captain
+    };
 
     self.newStudent = new Student({
         id: -1,
@@ -86,6 +96,12 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
         variable_name: 'modalConfirm'
     });
 
+    function csrfize(data) {
+        data.csrfmiddlewaretoken = $.cookie('csrftoken');
+        return data;
+    }
+
+
 /// YEARS CONTROL
     self.year.subscribe(function () {
         self.check_block(function() {
@@ -96,7 +112,7 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
 
     self.listYears = function () {
         self.block();
-        $.get(url_years, {}, self.yearsList).done(function () {
+        $.get(self.url.years, {}, self.yearsList).done(function () {
             self.unblock();
             if ($.cookie("year"))
                 self.year($.cookie("year"));
@@ -107,7 +123,7 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
 /// GROUPS CONTROL
     self.listGroups = function (year) {
         self.block();
-        $.get(url_groups, {year: year}).done(function (data) {
+        $.get(self.url.groups, {year: year}).done(function (data) {
 
             var mapped_data = $.map(data, function (item) {
                 return new Group(item);
@@ -178,31 +194,41 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
         if (json.length === 0)
             return;
 
-        groups_json = JSON.stringify(json);
+        var groups_json = JSON.stringify(json);
 
-        $.post(url_save_groups, {
-            csrfmiddlewaretoken: $.cookie('csrftoken'),
+        $.post(self.url.save_groups, csrfize({
             groups: groups_json
-        }).success(function (data) {
+        })).success(function (data) {
             self.listGroups($.cookie("year"));
         });
     };
 
 
     self.copyGroupToNextYear = function (form, group) {
-        console.log(form.action);
-        $.post(form.action, {
-            csrfmiddlewaretoken: $.cookie('csrftoken'),
+        $.post(form.action, csrfize({
             group_id: group['id']
-        }).success(function () {
+        })).success(function () {
             self.listGroups($.cookie("year"));
         });
     };
+
+    self.setAsCaptain = function (data) {
+        $.post(self.url.set_captain, csrfize({
+            student_id: data.id,
+            group_id: self.group().id
+        })).done(function () {
+            self.group().captain(data.id);
+            InterfaceAlerts.showSuccess();
+        }).fail(function () {
+            InterfaceAlerts.showFail();
+        });
+    };
+
 /// END GROUPS CONTROL
 
 /// STUDENTS CONTROL
     self.listStudents = function (group) {
-        $.get(url_students, {group_id: group['id']}).done(function (data) {
+        $.get(self.url.students, {group_id: group['id']}).done(function (data) {
             var mapped_data = $.map(data, function (item) {
                 return new Student(item);
             });
@@ -259,12 +285,11 @@ function StudentViewModel(default_values, modal_selector, url_years, url_groups,
         if (json.length === 0)
             return;
 
-        students_json = JSON.stringify(json);
+        var students_json = JSON.stringify(json);
 
-        $.post(url_save_students, {
-            csrfmiddlewaretoken: $.cookie('csrftoken'),
+        $.post(self.url.save_students, csrfize({
             students: students_json
-        }).success(function () {
+        })).success(function () {
             self.listStudents(self.group());
         });
     };

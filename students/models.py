@@ -16,8 +16,10 @@ from students.utils import current_year
 
 class Group(models.Model):
     title = models.CharField(max_length=10, default='')
-    ancestor = models.ForeignKey('self', null=True, default=None, blank=True)
+    ancestor = models.ForeignKey('self', null=True, default=None, blank=True, on_delete=models.SET_NULL)
     year = models.IntegerField(default=students.utils.current_year())
+    captain = models.ForeignKey("Student", default=None, null=True,
+                                on_delete=models.SET_NULL, related_name="%(class)s_captain")
 
     def __unicode__(self):
         return "%s | %s" % (self.year, self.title)
@@ -190,10 +192,6 @@ class DisciplineMarksCache(models.Model):
             val.group_id = group_id
         d = Discipline.objects.get(pk=discipline_id)
         marks = d.marks(group_id)
-        # marks = list([{"sid": m.student_id,
-        # "mid": m.id,
-        #                "lid": m.lesson_id,
-        #                "m": m.mark} for m in marks])
         val.marks_json = json.dumps(marks)
 
         val.save()

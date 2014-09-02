@@ -14,10 +14,18 @@ from app.utils import require_in_POST
 from main_page.models import MainPageItem, MainPage
 
 
+def main_page_context(data=None):
+    if not data:
+        data = {}
+    if 'item' not in data:
+        data['item'] = MainPage.solo().current_item.dictionary if MainPage.solo().current_item else None
+    if 'show_border' not in data:
+        data['show_border'] = MainPage.solo().show_border
+    return data
+
+
 def index(request):
-    context = RequestContext(request, {
-        'item': MainPage.solo().current_item.dictionary if MainPage.solo().current_item else None
-    })
+    context = RequestContext(request, main_page_context())
     return render(request, 'main_page/index.html', context)
 
 
@@ -33,12 +41,14 @@ def item(request):
     except ObjectDoesNotExist as e:
         return HttpResponseBadRequest("can't get item with the item_id")
 
-    return HttpResponse(json.dumps({
+    html = render_to_string('main_page/image.html', RequestContext(request, main_page_context({
         'item': i.dictionary if i else None,
-        'html': render_to_string('main_page/image.html', RequestContext(request, {
-            'item': i.dictionary if i else None,
-        })),
-    }), content_type='json')
+    })))
+
+    return HttpResponse(json.dumps(main_page_context({
+        'item': i.dictionary if i else None,
+        'html': html,
+    })), content_type='json')
 
 
 def list_items(request):
@@ -46,7 +56,7 @@ def list_items(request):
     main_item = main_page.current_item
 
     items = []
-    items.extend(list(MainPageItem.objects.all().order_by("-pk")[:6]))
+    items.extend(list(MainPageItem.objects.all().order_by("-pk")))
     if main_item is not None and main_item not in items:
         items.append(main_item)
 
@@ -74,9 +84,7 @@ def set_active(request):
     main_page_settings.current_item = item if item != main_page_settings.current_item else None
     main_page_settings.save()
 
-    return render(request, 'main_page/image.html', {
-        'item': MainPage.solo().current_item.dictionary if MainPage.solo().current_item else None
-    })
+    return render(request, 'main_page/image.html', main_page_context())
 
 
 @login_required
@@ -132,5 +140,17 @@ def remove_item(request):
     item_id = request.POST['item_id']
     it = MainPageItem.objects.get(pk=item_id)
     it.delete()
+
+    return HttpResponse()
+
+
+@login_required
+@require_in_POST("show_border")
+def toggle_border(request):
+    f = request.POST['show_border']
+
+    obj = MainPage.solo()
+    obj.show_border = f != u"true"
+    obj.save()
 
     return HttpResponse()

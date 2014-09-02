@@ -8,6 +8,7 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
 from django.views.decorators.http import require_POST, require_GET
+from app.utils import require_in_POST
 
 from students.models import active_years, Group, Student
 from students.utils import current_year
@@ -152,12 +153,8 @@ def list_students(request):
 
     # если передали task_id, то возвращаем список студентов
     if task_id is not None:
-        # task = TaskEx.objects.get(pk=task_id).first()
-        # students = task.users()
-        # students = users_for_task(task_id) #Student.objects.filter(taskstudent__taskex_id=task_id)
         pass
-        # иначе отфильтрованный результат
-    else:
+    else:  # иначе отфильтрованный результат
         f = request.GET.get("filter", None)
         if f is None:
             return HttpResponseBadRequest()
@@ -165,4 +162,17 @@ def list_students(request):
                                           group__year=current_year())[:10]
     students = list([{"id": i.pk, "text": "%s %s | %s" % (i.name, i.second_name, i.group.title)} for i in students])
     return HttpResponse(json.dumps(students), content_type="application/json")
+
+
+@login_required
+@require_in_POST("group_id", "student_id")
+def set_captain(request):
+    group_id = request.POST['group_id']
+    student_id = request.POST['student_id']
+
+    g = Group.objects.get(pk=group_id)
+    g.captain_id = student_id
+    g.save()
+
+    return HttpResponse()
 
