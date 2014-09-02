@@ -1,6 +1,9 @@
 $quater: hsl(100, 80%, 75%);
 $half: hsl(100, 80%, 60%);
 $full: hsl(100, 80%, 40%);
+$awesome: hsl(100, 80%, 30%);
+$fantastic: hsl(100, 80%, 20%);
+$godlike: hsl(100, 80%, 10%);
 $exam-hue-offset: -270;
 $test-hue-offset: -120;
 $mix-weight: 70%;
@@ -249,6 +252,24 @@ $mix-weight: 70%;
       @include shadow;
       @include test_exam($full);
     }
+    &.awesome {
+      background-color: $awesome;
+      @include shadow;
+      @include test_exam($awesome);
+    }
+    &.fantastic {
+      background-color: $fantastic;
+      @include shadow;
+      @include test_exam($fantastic);
+    }
+    &.godlike {
+      background-color: $godlike;
+      @include shadow;
+      @include test_exam($godlike);
+//      box-shadow: 0 0 8px yellow inset;
+    }
+
+
     .mark-text {
 
     }

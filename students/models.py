@@ -254,6 +254,9 @@ class Mark(models.Model):
         (MARK_NORMAL + 1, 'normal'),
         (MARK_NORMAL + 2, 'good'),
         (MARK_NORMAL + 3, 'excellent'),
+        (MARK_NORMAL + 4, 'awesome'),
+        (MARK_NORMAL + 5, 'fantastic'),
+        # (MARK_NORMAL + 6, 'godlike'),
     ]
 
     student = models.ForeignKey(Student)
