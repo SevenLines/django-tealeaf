@@ -124,10 +124,23 @@
                                         valueUpdate: 'input'"/>
                                     <input class="form-control" data-bind="value: name,
                                         valueUpdate: 'input'"/>
-                                    <button type="submit" class="btn btn-sm"
-                                            data-bind="enable: $data.modified(), css: { 'btn-success': $data.modified() }">
-                                        <span class="glyphicon glyphicon-save"></span>
-                                    </button>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-sm"
+                                                data-bind="enable: $data.modified(), css: { 'btn-success': $data.modified() }">
+                                            <span class="glyphicon glyphicon-save"></span>
+                                        </button>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-default"
+                                                data-bind="visible: id !== $root.group().captain(), click: $root.setAsCaptain">
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                        <button class="btn btn-sm btn-success"
+                                                data-bind="visible: id === $root.group().captain()">
+                                            Староста
+                                        </button>
+                                    </div>
                                 </form>
                             </td>
                             <!-- END РЕДАКТИРОВАТЬ СТУДЕНТА -->
@@ -178,16 +191,16 @@
     {% addtoblock "js" %}
         <script>
             ko.applyBindings(new StudentViewModel({
-                        year: 2013,
-                        group: 1
+                        url: {
+                            years: "{% url "students.views.students.ajax.json.years" %}",
+                            groups: "{% url "students.views.students.ajax.json.groups" %}",
+                            students: "{% url "students.views.students.ajax.json.students" %}",
+                            save_groups: "{% url "students.views.students.ajax.json.save_groups" %}",
+                            save_students: "{% url "students.views.students.ajax.json.save_students" %}",
+                            set_captain: "{% url "students.views.students.ajax.json.set_captain" %}"
+                        }
                     },
-                    "#main-modal-form",
-                    "{% url "students.views.students.ajax.json.years" %}",
-                    "{% url "students.views.students.ajax.json.groups" %}",
-                    "{% url "students.views.students.ajax.json.students" %}",
-                    "{% url "students.views.students.ajax.json.save_groups" %}",
-                    "{% url "students.views.students.ajax.json.save_students" %}"
-            ));
+                    "#main-modal-form"));
         </script>
     {% endaddtoblock %}
 

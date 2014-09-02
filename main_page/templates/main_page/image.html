@@ -1,5 +1,5 @@
 {% if item.item_url %}
-    <img src="{{ item.item_url }}" id="view"/>
+    <img src="{{ item.item_url }}" id="view" {% if not show_border %}class="borderless"{% endif %}/>
 {% endif %}
 {% if item.description %}
     <div>

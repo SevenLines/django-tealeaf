@@ -4,6 +4,13 @@
 
 <div class="right">
     <ul>
+        <li>
+            <form class="form-inline">
+                <button class="btn btn-default" data-bind="click: toggleBorder">
+                    <span class="glyphicon" data-bind="css: style()"> Граница</span>
+                </button>
+            </form>
+        </li>
         <!-- ДОБАВЛЕНИЕ ВИДА -->
         <li class="add">
             <form data-bind="submit: $root.addItem">
@@ -82,11 +89,13 @@
                 activate_item: "{% url "main_page.views.set_active" %}",
                 save_item: "{% url "main_page.views.save_item" %}",
                 add_item: "{% url "main_page.views.add_item" %}",
-                remove_item: "{% url "main_page.views.remove_item" %}"
+                remove_item: "{% url "main_page.views.remove_item" %}",
+                toggle_border: "{% url "main_page.views.toggle_border" %}"
             },
             selector: {
                 view: "#main-banner .left .view"
             },
+            show_border: {% if show_border %}true{% else %}false{% endif %},
             csrf: "{{ csrf_token }}"
         }));
     </script>
