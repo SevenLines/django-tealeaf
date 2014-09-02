@@ -297,11 +297,9 @@ def active_years(r=2):
 @receiver(post_delete, sender=Lesson)
 @receiver(post_save, sender=Lesson)
 def update_cache_lesson(instance, **kwargs):
-    print ("update")
     DisciplineMarksCache.update(instance.discipline_id, instance.group_id)
 
 @receiver(post_delete, sender=Student)
 @receiver(post_save, sender=Student)
 def update_cache_student(instance, **kwargs):
-    for d in Lesson.objects.filter(group=50).values("discipline").distinct():
-        DisciplineMarksCache.update(d['discipline'], instance.group_id)
+    DisciplineMarksCache.objects.filter(group=instance.group_id).delete()
