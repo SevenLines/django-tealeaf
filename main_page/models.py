@@ -34,12 +34,13 @@ class MainPageItem(Model):
 
 class MainPage(Model):
     current_item = models.ForeignKey(MainPageItem, null=True, on_delete=models.SET_NULL)
+    show_border = models.BooleanField(default=True)
 
     @staticmethod
     def solo():
         """
         returns singleton MainPage object, create it in db if necessary
-        :return:
+        :return: MainPage
         """
         if MainPage.objects.count() == 0:
             mp = MainPage()

@@ -30,8 +30,11 @@ function MainPageModel(data) {
         activate_item: data.url.activate_item,  // activate currently selected item
         save_item: data.url.save_item,          // save item with specific item_id
         add_item: data.url.add_item,            // add new item
-        remove_item: data.url.remove_item       // remove item with id
+        remove_item: data.url.remove_item,      // remove item with id
+        toggle_border: data.url.toggle_border   // toggle main image border
     };
+
+    self.show_border = ko.observable(data.show_border);
 
     self.selector = {
         view: data.selector.view
@@ -44,11 +47,19 @@ function MainPageModel(data) {
     });
     self.new_item = ko.observable(self.reset_item());
 
-
     self.csrf = data.csrf;
+    function csrfize(data) {
+        data.csrfmiddlewaretoken = self.csrf;
+        return data;
+    }
 
     self.items = ko.observableArray();
     self.current_item = ko.observable(self.reset_item());
+
+    self.style = ko.computed(function () {
+        var s = self.show_border() ? 'glyphicon-eye-open' : 'glyphicon-eye-close';
+        return s;
+    }, self.show_border);
 
     // binding ckeditor with description content
     ko.bindingHandlers.ckeditor = {
@@ -118,11 +129,9 @@ function MainPageModel(data) {
     self.update_view = function () {
         if (self.current_item === 'undefined')
             return;
-//        console.log("update_view");
-        $.post(self.url.item, {
-            item_id: self.current_item().id,
-            csrfmiddlewaretoken: self.csrf
-        }).success(function (data) {
+        $.post(self.url.item, csrfize({
+            item_id: self.current_item().id
+        })).success(function (data) {
             $(self.selector.view).html(data.html);
         }).fail(function (data) {
             $(self.selector.view).html("");
@@ -135,13 +144,12 @@ function MainPageModel(data) {
     };
 
     self.saveItem = function () {
-        $.post(self.url.save_item, {
+        $.post(self.url.save_item, csrfize({
             item_id: self.current_item().id,
             description: self.current_item().description(),
             title: self.current_item().title(),
-            item_url: self.current_item().item_url,
-            csrfmiddlewaretoken: self.csrf
-        }).success(function () {
+            item_url: self.current_item().item_url
+        })).success(function () {
             InterfaceAlerts.showSuccess();
             self.update_view();
         }).fail(function () {
@@ -151,15 +159,26 @@ function MainPageModel(data) {
 
     self.removeItem = function (data) {
         self.modalDelete.show(function () {
-            $.post(self.url.remove_item, {
+            $.post(self.url.remove_item, csrfize({
                 item_id: data.id,
-                csrfmiddlewaretoken: self.csrf
-            }).success(function () {
+            })).success(function () {
                 InterfaceAlerts.showSuccess();
                 self.items.remove(data);
             }).fail(function () {
                 InterfaceAlerts.showFail();
             })
+        });
+    };
+
+    self.toggleBorder = function () {
+        $.post(self.url.toggle_border, csrfize({
+            show_border: self.show_border()
+        })).done(function () {
+            self.show_border(!self.show_border());
+            self.update_view();
+            InterfaceAlerts.showSuccess();
+        }).fail(function () {
+            InterfaceAlerts.showFail();
         });
     };
 

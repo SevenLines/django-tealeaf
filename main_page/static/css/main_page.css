@@ -11,6 +11,8 @@ body {
     max-height: 350px; }
   #main-banner img#view {
     max-height: 500px; }
+    #main-banner img#view.borderless {
+      border: none; }
   #main-banner .left.authenticated {
     max-width: 80%;
     width: 80%;

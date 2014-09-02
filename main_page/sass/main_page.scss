@@ -13,10 +13,14 @@ body {
   text-align: center;
   img#preview {
     max-height: 350px;
+
   }
 
   img#view {
     max-height: 500px;
+    &.borderless {
+      border: none;
+    }
   }
 
   .left {
