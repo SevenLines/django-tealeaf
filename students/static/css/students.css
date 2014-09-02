@@ -167,6 +167,27 @@
       background-color: #b8144b; }
     .marks-editor .mark.excellent.exam {
       background-color: #149cb8; }
+  .marks-editor .mark.awesome {
+    background-color: #388a0f;
+    box-shadow: #ffbbd7 0px 0px 4px inset; }
+    .marks-editor .mark.awesome.test {
+      background-color: #8a0f38; }
+    .marks-editor .mark.awesome.exam {
+      background-color: #0f758a; }
+  .marks-editor .mark.fantastic {
+    background-color: #255c0a;
+    box-shadow: #ffbbd7 0px 0px 4px inset; }
+    .marks-editor .mark.fantastic.test {
+      background-color: #5c0a25; }
+    .marks-editor .mark.fantastic.exam {
+      background-color: #0a4e5c; }
+  .marks-editor .mark.godlike {
+    background-color: #132e05;
+    box-shadow: #ffbbd7 0px 0px 4px inset; }
+    .marks-editor .mark.godlike.test {
+      background-color: #2e0513; }
+    .marks-editor .mark.godlike.exam {
+      background-color: #05272e; }
 
 .students_plugin .process {
   display: none; }
