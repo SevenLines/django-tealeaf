@@ -81,17 +81,6 @@ $mix-weight: 70%;
     }
   }
 
-
-  .table-responsive {
-    width: 100%;
-    //    margin-bottom: 15px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-    //    border: 1px solid #ddd;
-  }
-
   .left-cols {
     width: 230px;
     float:left;
@@ -113,6 +102,18 @@ $mix-weight: 70%;
 
 
   table.table-marks {
+    td {
+      padding: 0;
+    }
+
+    .info {
+      font-size: 14px;
+      padding: 3px;
+    }
+    .header {
+      height: 2em;
+    }
+
     > thead, > tfoot {
       > tr {
         height: 40px;
@@ -120,7 +121,7 @@ $mix-weight: 70%;
     }
     > tbody {
       > tr {
-        height: 32px;
+        max-height: 22px;
       }
     }
     > thead {
@@ -157,20 +158,14 @@ $mix-weight: 70%;
     }
   }
 
-  .headcol {
-    //    height: 32px;
-    text-align: center;
-  }
-
   .mark {
     min-width: 2em;
     width: 3em;
-
     max-width: 3em;
-    //    width: 1em;
-    //    padding: 0;
     margin: 0;
     text-align: center;
+
+    height: 27px;
 
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -266,7 +261,6 @@ $mix-weight: 70%;
       background-color: $godlike;
       @include shadow;
       @include test_exam($godlike);
-//      box-shadow: 0 0 8px yellow inset;
     }
 
 
@@ -277,9 +271,6 @@ $mix-weight: 70%;
 }
 
 .students_plugin {
-  //  .dropdown-menu {
-  //    z-index: 100;
-  //  }
   .process {
     display: none;
   }

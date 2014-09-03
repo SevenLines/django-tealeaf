@@ -50,12 +50,6 @@
         -o-transition: all 0.1s;
         transition: all 0.1s;
         border: 6px solid black; }
-.marks-editor .table-responsive {
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: -ms-autohiding-scrollbar; }
 .marks-editor .left-cols {
   width: 230px;
   float: left;
@@ -71,10 +65,17 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
+.marks-editor table.table-marks td {
+  padding: 0; }
+.marks-editor table.table-marks .info {
+  font-size: 14px;
+  padding: 3px; }
+.marks-editor table.table-marks .header {
+  height: 2em; }
 .marks-editor table.table-marks > thead > tr, .marks-editor table.table-marks > tfoot > tr {
   height: 40px; }
 .marks-editor table.table-marks > tbody > tr {
-  height: 32px; }
+  max-height: 22px; }
 .marks-editor table.table-marks > thead tr {
   box-shadow: #CCC 0 2px 4px;
   border-top: none;
@@ -94,14 +95,13 @@
   transition: all 0.1s; }
   .marks-editor table.table-marks > tbody > tr.hover {
     box-shadow: grey 0 0 8px; }
-.marks-editor .headcol {
-  text-align: center; }
 .marks-editor .mark {
   min-width: 2em;
   width: 3em;
   max-width: 3em;
   margin: 0;
   text-align: center;
+  height: 27px;
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -ms-transition: all 0.3s;
