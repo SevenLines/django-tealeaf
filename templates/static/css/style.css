@@ -39,6 +39,7 @@ body {
     .container .left-board .content {
       background-color: white;
       border-radius: 0 0 21.33333px 0;
+      min-height: 500px;
       padding: 1em; }
       .container .left-board .content img {
         height: auto;
