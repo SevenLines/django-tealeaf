@@ -1,8 +1,8 @@
-import re
 from django.conf.urls import include, patterns, url
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.conf import settings
+from django.views.generic.base import TemplateView
 
 admin.autodiscover()
 
@@ -14,8 +14,8 @@ urlpatterns = i18n_patterns('',
     url(r'^articles/', include('articles.urls')),
     url(r'^main-page/', include('main_page.urls')),
     url(r'^file_browser', include('my_file_browser.urls')),
+    url(r'^robots\.txt$', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     url(r'^', include('cms.urls')),
-    # url(r'^filebrowser_filer/', include('ckeditor_filebrowser_filer.urls')),
 )
 
 if settings.DEBUG:
