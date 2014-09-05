@@ -14,17 +14,14 @@
                 <div class="form-group">
                     <select class="form-control" name="year"
                             data-bind="value: year, options: years, optionsValue: 'year', optionsText: 'year'"></select>
-                    <!-- КОНЕЦ СПИСОК ГОДОВ -->
                 </div>
+                <!-- КОНЕЦ СПИСОК ГОДОВ -->
             {% endif %}
-            <div class="form-group">
+{#            <div class="form-group">#}
                 <!-- СПИСОК ГРУПП -->
                 <select class="form-control" name="group"
                         data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
                 <!-- КОНЕЦ СПИСОК ГРУПП -->
-            </div>
-{#            <div class="form-group pull-right">#}
-{#                {% include "students/marks_legend.html" %}#}
 {#            </div>#}
         </form>
 
@@ -60,7 +57,7 @@
         {% endaddtoblock "js" %}
 
         {% addtoblock "js" %}
-            <script src="{% static "js/ko.marks.js" %}"></script>
+            <script src="{% static "js/students/ko.marks.js" %}"></script>
         {% endaddtoblock "js" %}
 
         {% addtoblock "js" %}

@@ -420,7 +420,7 @@
             })
         };
 
-        // флаг определющий идет ли загрузка студентов
+        // сброс событий интерфейса
         self.resetMarksInterface = function () {
             $('thead [data-toggle="tooltip"]').tooltip({ placement: "bottom" });
             $('tfoot [data-toggle="tooltip"]').tooltip({ placement: "top" });
@@ -455,7 +455,7 @@
 // ### скроллинг мышью таблицы оценок
             var lastX = -1;
             var leftButtonDown = false;
-            var scroll_container = $(".scroll-container");
+            var scroll_container = $(".marks-list");
             var funcScroll = function (e) {
                 var left = e.clientX;
                 if (leftButtonDown) {
@@ -476,7 +476,7 @@
 
             // восстановления последнего скролла значения из куков
             if ($.cookie("lastScroll")) {
-                $(".scroll-container")[0].scrollLeft = $.cookie("lastScroll");
+                scroll_container[0].scrollLeft = $.cookie("lastScroll");
             }
 // --- конец скроллинг мышью таблицы оценок
         };
@@ -620,7 +620,7 @@
                 $.post(self.url.lesson_remove, self.csrfize({
                     lesson_id: data.id
                 })).done(function () {
-                    self.loadStudents()
+                    self.loadStudents();
                 }).fail(function () {
                     InterfaceAlerts.showFail();
                 });
