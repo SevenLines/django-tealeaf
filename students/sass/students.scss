@@ -4,9 +4,37 @@ $full: hsl(100, 80%, 40%);
 $awesome: hsl(100, 80%, 30%);
 $fantastic: hsl(100, 80%, 20%);
 $godlike: hsl(100, 80%, 10%);
+$hover-color: grey;
 $exam-hue-offset: -270;
 $test-hue-offset: -120;
 $mix-weight: 70%;
+
+$table-border-color: #CCC;
+
+$students-list-width: 220px;
+$marks-size: 30px;
+
+@mixin tooltip($hue-offset) {
+  .tooltip > .tooltip-inner {
+    background-color: white;
+    color: adjust_hue($full, $hue-offset);
+    border: 1px solid adjust_hue($full, $hue-offset);
+  }
+}
+
+@mixin btn-default($hue-offset) {
+  @if $hue-offset != 0 {
+    background-color: adjust_hue(lighten($quater, 21), $hue-offset);
+  }
+  .btn-default {
+    color: adjust_hue($full, $hue-offset);
+    border: adjust_hue($full, $hue-offset);
+    text-decoration: none;
+    &:hover {
+      background-color: adjust_hue(lighten($quater, 23), $hue-offset);
+    }
+  }
+}
 
 @-moz-document url-prefix() {
   fieldset {
@@ -81,29 +109,46 @@ $mix-weight: 70%;
     }
   }
 
+  .students-list {
+    width: $students-list-width;
+    float: left;
+    clear: none;
+    > table {
+      width: 100%;
+      border: 1px solid $table-border-color;
+      .info {
+        height: $marks-size;
+        > table {
+          height: 100%;
+          td {
+            &.name {
+              padding-left: 3px;
+            }
+            &.score {
+              padding-right: 3px;
+            }
+          }
+        }
+      }
 
-  .table-responsive {
-    width: 100%;
-    //    margin-bottom: 15px;
+    }
+  }
+
+  .marks-list {
+    border-right: 1px solid $table-border-color;
+    > table {
+      width: 100%;
+      border: 1px solid $table-border-color;
+      border-left: none;
+      border-right: none;
+      > thead {
+        box-shadow: 0 2px 8px $table-border-color;
+      }
+    }
+    margin-left: $students-list-width;
+    overflow: scroll;
     overflow-x: auto;
     overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-    //    border: 1px solid #ddd;
-  }
-
-  .left-cols {
-    width: 230px;
-    float:left;
-    clear: none;
-  }
-
-  .scroll-container {
-    margin-left: 230px;
-    overflow: scroll;
-    overflow-x:auto;
-    overflow-y:hidden;
-    padding-right: 1em;
     cursor: move;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -111,65 +156,61 @@ $mix-weight: 70%;
     user-select: none;
   }
 
-
   table.table-marks {
-    > thead, > tfoot {
+    border-collapse: collapse;
+    > tbody, > thead, > tfoot {
       > tr {
-        height: 40px;
-      }
-    }
-    > tbody {
-      > tr {
-        height: 32px;
-      }
-    }
-    > thead {
-      tr {
-        box-shadow: #CCC 0 2px 4px;
-        border-top: none;
-        font-weight: normal;
-      }
-    }
-    > tfoot {
-      tr {
-        box-shadow: #EEE 0 -2px 4px;
-        border-top: none;
-      }
-    }
-    td:first-child {
-      white-space: nowrap;
-//      width: 10%;
-      &.active {
-        box-shadow: green 0 0 4px inset;
-      }
-    }
-    > tbody {
-      > tr {
+        border-bottom: 1px solid #c0c0c0;
         -webkit-transition: all 0.1s;
         -moz-transition: all 0.1s;
         -ms-transition: all 0.1s;
         -o-transition: all 0.1s;
         transition: all 0.1s;
         &.hover {
-          box-shadow: grey 0 0 8px;
+          box-shadow: 0 0 4px $hover-color;
+        }
+        > td, > th {
+          border-right: 1px solid #c0c0c0;
+          &:first-child {
+            white-space: nowrap;
+            &.active {
+              box-shadow: $hover-color 0 0 4px inset;
+            }
+          }
+          &:last-child {
+            border-right: none;
+          }
         }
       }
     }
+
+    > thead, > tfoot {
+      > tr {
+        > th, > td {
+          padding: 2px;
+          height: 38px;
+        }
+      }
+    }
+    > tfoot {
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .header {
+      text-align: center;
+    }
   }
 
-  .headcol {
-    //    height: 32px;
-    text-align: center;
-  }
+  // >>> ОЦЕНКА
 
   .mark {
-    min-width: 2em;
-    width: 3em;
-
-    max-width: 3em;
-    //    width: 1em;
-    //    padding: 0;
-    margin: 0;
+    $margin: 0px;
+    width: 1.3*$marks-size;
+    height: $marks-size - $margin * 2 + 1;
+    margin: $margin;
+    vertical-align: middle;
     text-align: center;
 
     -webkit-transition: all 0.3s;
@@ -178,32 +219,11 @@ $mix-weight: 70%;
     -o-transition: all 0.3s;
     transition: all 0.3s;
 
-    background-color: white;
+    //    background-color: white;
 
     @mixin shadow {
-      box-shadow: #ffbbd7 0px 0px 4px inset;
-    }
-
-    @mixin tooltip($hue-offset) {
-      .tooltip > .tooltip-inner {
-        background-color: white;
-        color: adjust_hue($full, $hue-offset);
-        border: 1px solid adjust_hue($full, $hue-offset);
-      }
-    }
-
-    @mixin btn-default($hue-offset) {
-      @if $hue-offset != 0 {
-        background-color: adjust_hue(lighten($quater, 21), $hue-offset);
-      }
-      .btn-default {
-        color: adjust_hue($full, $hue-offset);
-        border: adjust_hue($full, $hue-offset);
-        text-decoration: none;
-        &:hover {
-          background-color: adjust_hue(lighten($quater, 23), $hue-offset);
-        }
-      }
+//      box-shadow: #ffbbd7 0px 0px 4px inset;
+//      border: 1px solid white;
     }
 
     @mixin test_exam($color) {
@@ -218,6 +238,7 @@ $mix-weight: 70%;
     @include tooltip(0);
     @include btn-default(0);
 
+    // ТИП ПАРЫ
     &.test {
       @include btn-default($test-hue-offset);
       @include tooltip($test-hue-offset);
@@ -230,11 +251,16 @@ $mix-weight: 70%;
     &.modified {
       box-shadow: #9ebdff 0px 0px 8px inset !important;
     }
+    // КОНЕЦ ТИП ПАРЫ
 
+    // ОЦЕНКИ ЗА ПАРУ
     &.absent {
       &:after {
         content: "н";
       }
+    }
+
+    &.empty {
     }
 
     &.normal {
@@ -266,20 +292,14 @@ $mix-weight: 70%;
       background-color: $godlike;
       @include shadow;
       @include test_exam($godlike);
-//      box-shadow: 0 0 8px yellow inset;
     }
-
-
-    .mark-text {
-
-    }
+    // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
   }
 }
 
+// --- ОЦЕНКА
+
 .students_plugin {
-  //  .dropdown-menu {
-  //    z-index: 100;
-  //  }
   .process {
     display: none;
   }

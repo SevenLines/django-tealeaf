@@ -103,7 +103,7 @@
         <div class="panel-body" data-bind="visible: $root.group()">
             <div class="group-students">
                 <div class="content">
-                    <table class="students table table-bordered table-hover">
+                    <table class="students table table-bordered table-hover" data-bind="visible: $root.studentsList().length > 0">
                         <thead>
                         <tr>
                             <th class="counter">#</th>
@@ -133,11 +133,11 @@
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-sm btn-default"
-                                                data-bind="visible: id !== $root.group().captain(), click: $root.setAsCaptain">
+                                                data-bind="visible: $root.group() && id !== $root.group().captain(), click: $root.setAsCaptain">
                                             <span class="glyphicon glyphicon-ok"></span>
                                         </button>
                                         <button class="btn btn-sm btn-success"
-                                                data-bind="visible: id === $root.group().captain()">
+                                                data-bind="visible: $root.group() && id === $root.group().captain()">
                                             Староста
                                         </button>
                                     </div>
@@ -185,7 +185,7 @@
     {% endaddtoblock %}
 
     {% addtoblock "js" %}
-        <script src="{% static 'js/ko.students.js' %}"></script>
+        <script src="{% static 'js/students/ko.students.js' %}"></script>
     {% endaddtoblock %}
 
     {% addtoblock "js" %}

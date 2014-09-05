@@ -1,12 +1,12 @@
 <form class="form-inline" style="padding-bottom: 1em"
       {% if not user.is_authenticated %}data-bind="visible: disciplines().length"{% endif %}>
-    <div class="form-group">
-        <select class="form-control"
-                data-bind="visible: disciplines().length, value: discipline, options: disciplines, optionsText: 'title'">
-        </select>
-    </div>
+    {% if user.is_authenticated %}<div class="form-group">{% endif %}
+    <select class="form-control"
+            data-bind="visible: disciplines().length, value: discipline, options: disciplines, optionsText: 'title'">
+    </select>
+    {% if user.is_authenticated %}</div>{% endif %}
     {% if user.is_authenticated %}
-        <div class="form-group">
+{#        <div class="form-group">#}
             <button class="btn btn-default btn-sm" data-bind="visible: discipline, click: editDiscipline">
                 <span class="glyphicon glyphicon-edit"></span>
             </button>
@@ -16,7 +16,7 @@
             <button class="btn btn-danger btn-sm pull-right" data-bind="visible: discipline, click: removeDiscipline">
                 <span class="glyphicon glyphicon-minus"></span>
             </button>
-        </div>
+{#        </div>#}
     {% endif %}
 </form>
 <div style="clear: both"></div>
