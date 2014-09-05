@@ -4,9 +4,35 @@ $full: hsl(100, 80%, 40%);
 $awesome: hsl(100, 80%, 30%);
 $fantastic: hsl(100, 80%, 20%);
 $godlike: hsl(100, 80%, 10%);
+$hover-color: #EEE;
 $exam-hue-offset: -270;
 $test-hue-offset: -120;
 $mix-weight: 70%;
+
+$students-list-width: 220px;
+$marks-size: 30px;
+
+@mixin tooltip($hue-offset) {
+  .tooltip > .tooltip-inner {
+    background-color: white;
+    color: adjust_hue($full, $hue-offset);
+    border: 1px solid adjust_hue($full, $hue-offset);
+  }
+}
+
+@mixin btn-default($hue-offset) {
+  @if $hue-offset != 0 {
+    background-color: adjust_hue(lighten($quater, 21), $hue-offset);
+  }
+  .btn-default {
+    color: adjust_hue($full, $hue-offset);
+    border: adjust_hue($full, $hue-offset);
+    text-decoration: none;
+    &:hover {
+      background-color: adjust_hue(lighten($quater, 23), $hue-offset);
+    }
+  }
+}
 
 @-moz-document url-prefix() {
   fieldset {
@@ -81,18 +107,44 @@ $mix-weight: 70%;
     }
   }
 
-  .left-cols {
-    width: 230px;
-    float:left;
+  .students-list {
+    width: $students-list-width;
+    float: left;
     clear: none;
+    > table {
+      width: 100%;
+      .info {
+        height: $marks-size;
+        > table {
+          height: 100%;
+          td {
+            &.name {
+              padding-left: 3px;
+            }
+            &.score {
+              padding-right: 3px;
+            }
+          }
+        }
+      }
+
+    }
+    //    box-shadow: 4px 0 2px grey;
   }
 
-  .scroll-container {
-    margin-left: 230px;
+  .marks-list {
+    > table {
+      width: 100%;
+      > thead {
+        box-shadow: 0 2px 8px silver;
+      }
+    }
+    border-right: 1px solid #c0c0c0;
+    margin-left: $students-list-width;
     overflow: scroll;
-    overflow-x:auto;
-    overflow-y:hidden;
-    padding-right: 1em;
+    overflow-x: auto;
+    overflow-y: hidden;
+//    padding-right: 1em;
     cursor: move;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -100,72 +152,62 @@ $mix-weight: 70%;
     user-select: none;
   }
 
-
   table.table-marks {
-    td {
-      padding: 0;
-    }
-
-    .info {
-      font-size: 14px;
-      padding: 3px;
-    }
-    .header {
-      height: 2em;
-    }
-
-    > thead, > tfoot {
+    border-collapse: collapse;
+    border: 1px solid #c0c0c0;
+    > tbody, > thead, > tfoot {
       > tr {
-        height: 40px;
-      }
-    }
-    > tbody {
-      > tr {
-        max-height: 22px;
-      }
-    }
-    > thead {
-      tr {
-        box-shadow: #CCC 0 2px 4px;
-        border-top: none;
-        font-weight: normal;
-      }
-    }
-    > tfoot {
-      tr {
-        box-shadow: #EEE 0 -2px 4px;
-        border-top: none;
-      }
-    }
-    td:first-child {
-      white-space: nowrap;
-//      width: 10%;
-      &.active {
-        box-shadow: green 0 0 4px inset;
-      }
-    }
-    > tbody {
-      > tr {
+        border-bottom: 1px solid #c0c0c0;
         -webkit-transition: all 0.1s;
         -moz-transition: all 0.1s;
         -ms-transition: all 0.1s;
         -o-transition: all 0.1s;
         transition: all 0.1s;
         &.hover {
-          box-shadow: grey 0 0 8px;
+          box-shadow: 0 0 4px grey;
+        }
+        > td, > th {
+          border-right: 1px solid #c0c0c0;
+          &:first-child {
+            white-space: nowrap;
+            &.active {
+              box-shadow: green 0 0 4px inset;
+            }
+          }
+          &:last-child {
+            border-right: none;
+          }
         }
       }
     }
+
+    > thead, > tfoot {
+      > tr {
+        > th, > td {
+          padding: 2px;
+          height: 38px;
+        }
+      }
+    }
+    > tfoot {
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .header {
+      text-align: center;
+    }
   }
 
-  .mark {
-    min-width: 2em;
-    width: 3em;
-    max-width: 3em;
-    margin: 0;
-    text-align: center;
+  // >>> ОЦЕНКА
 
-    height: 27px;
+  .mark {
+    $margin: 0px;
+    width: 1.3*$marks-size;
+    height: $marks-size - $margin * 2;
+    margin: $margin;
+    vertical-align: middle;
 
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -173,32 +215,10 @@ $mix-weight: 70%;
     -o-transition: all 0.3s;
     transition: all 0.3s;
 
-    background-color: white;
+    //    background-color: white;
 
     @mixin shadow {
       box-shadow: #ffbbd7 0px 0px 4px inset;
-    }
-
-    @mixin tooltip($hue-offset) {
-      .tooltip > .tooltip-inner {
-        background-color: white;
-        color: adjust_hue($full, $hue-offset);
-        border: 1px solid adjust_hue($full, $hue-offset);
-      }
-    }
-
-    @mixin btn-default($hue-offset) {
-      @if $hue-offset != 0 {
-        background-color: adjust_hue(lighten($quater, 21), $hue-offset);
-      }
-      .btn-default {
-        color: adjust_hue($full, $hue-offset);
-        border: adjust_hue($full, $hue-offset);
-        text-decoration: none;
-        &:hover {
-          background-color: adjust_hue(lighten($quater, 23), $hue-offset);
-        }
-      }
     }
 
     @mixin test_exam($color) {
@@ -213,6 +233,7 @@ $mix-weight: 70%;
     @include tooltip(0);
     @include btn-default(0);
 
+    // ТИП ПАРЫ
     &.test {
       @include btn-default($test-hue-offset);
       @include tooltip($test-hue-offset);
@@ -225,11 +246,14 @@ $mix-weight: 70%;
     &.modified {
       box-shadow: #9ebdff 0px 0px 8px inset !important;
     }
+    // КОНЕЦ ТИП ПАРЫ
 
+    // ОЦЕНКИ ЗА ПАРУ
     &.absent {
       &:after {
         content: "н";
       }
+      //      @include test_exam(white);
     }
 
     &.normal {
@@ -262,13 +286,11 @@ $mix-weight: 70%;
       @include shadow;
       @include test_exam($godlike);
     }
-
-
-    .mark-text {
-
-    }
+    // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
   }
 }
+
+// --- ОЦЕНКА
 
 .students_plugin {
   .process {

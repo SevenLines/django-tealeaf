@@ -50,64 +50,72 @@
         -o-transition: all 0.1s;
         transition: all 0.1s;
         border: 6px solid black; }
-.marks-editor .left-cols {
-  width: 230px;
+.marks-editor .students-list {
+  width: 220px;
   float: left;
   clear: none; }
-.marks-editor .scroll-container {
-  margin-left: 230px;
+  .marks-editor .students-list > table {
+    width: 100%; }
+    .marks-editor .students-list > table .info {
+      height: 30px; }
+      .marks-editor .students-list > table .info > table {
+        height: 100%; }
+        .marks-editor .students-list > table .info > table td.name {
+          padding-left: 3px; }
+        .marks-editor .students-list > table .info > table td.score {
+          padding-right: 3px; }
+.marks-editor .marks-list {
+  border-right: 1px solid #c0c0c0;
+  margin-left: 220px;
   overflow: scroll;
   overflow-x: auto;
   overflow-y: hidden;
-  padding-right: 1em;
   cursor: move;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-.marks-editor table.table-marks td {
-  padding: 0; }
-.marks-editor table.table-marks .info {
-  font-size: 14px;
-  padding: 3px; }
-.marks-editor table.table-marks .header {
-  height: 2em; }
-.marks-editor table.table-marks > thead > tr, .marks-editor table.table-marks > tfoot > tr {
-  height: 40px; }
-.marks-editor table.table-marks > tbody > tr {
-  max-height: 22px; }
-.marks-editor table.table-marks > thead tr {
-  box-shadow: #CCC 0 2px 4px;
-  border-top: none;
-  font-weight: normal; }
-.marks-editor table.table-marks > tfoot tr {
-  box-shadow: #EEE 0 -2px 4px;
-  border-top: none; }
-.marks-editor table.table-marks td:first-child {
-  white-space: nowrap; }
-  .marks-editor table.table-marks td:first-child.active {
-    box-shadow: green 0 0 4px inset; }
-.marks-editor table.table-marks > tbody > tr {
-  -webkit-transition: all 0.1s;
-  -moz-transition: all 0.1s;
-  -ms-transition: all 0.1s;
-  -o-transition: all 0.1s;
-  transition: all 0.1s; }
-  .marks-editor table.table-marks > tbody > tr.hover {
-    box-shadow: grey 0 0 8px; }
+  .marks-editor .marks-list > table {
+    width: 100%; }
+    .marks-editor .marks-list > table > thead {
+      box-shadow: 0 2px 8px silver; }
+.marks-editor table.table-marks {
+  border-collapse: collapse;
+  border: 1px solid #c0c0c0; }
+  .marks-editor table.table-marks > tbody > tr, .marks-editor table.table-marks > thead > tr, .marks-editor table.table-marks > tfoot > tr {
+    border-bottom: 1px solid #c0c0c0;
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -ms-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s; }
+    .marks-editor table.table-marks > tbody > tr.hover, .marks-editor table.table-marks > thead > tr.hover, .marks-editor table.table-marks > tfoot > tr.hover {
+      box-shadow: 0 0 4px grey; }
+    .marks-editor table.table-marks > tbody > tr > td, .marks-editor table.table-marks > tbody > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > tfoot > tr > td, .marks-editor table.table-marks > tfoot > tr > th {
+      border-right: 1px solid #c0c0c0; }
+      .marks-editor table.table-marks > tbody > tr > td:first-child, .marks-editor table.table-marks > tbody > tr > th:first-child, .marks-editor table.table-marks > thead > tr > td:first-child, .marks-editor table.table-marks > thead > tr > th:first-child, .marks-editor table.table-marks > tfoot > tr > td:first-child, .marks-editor table.table-marks > tfoot > tr > th:first-child {
+        white-space: nowrap; }
+        .marks-editor table.table-marks > tbody > tr > td:first-child.active, .marks-editor table.table-marks > tbody > tr > th:first-child.active, .marks-editor table.table-marks > thead > tr > td:first-child.active, .marks-editor table.table-marks > thead > tr > th:first-child.active, .marks-editor table.table-marks > tfoot > tr > td:first-child.active, .marks-editor table.table-marks > tfoot > tr > th:first-child.active {
+          box-shadow: green 0 0 4px inset; }
+      .marks-editor table.table-marks > tbody > tr > td:last-child, .marks-editor table.table-marks > tbody > tr > th:last-child, .marks-editor table.table-marks > thead > tr > td:last-child, .marks-editor table.table-marks > thead > tr > th:last-child, .marks-editor table.table-marks > tfoot > tr > td:last-child, .marks-editor table.table-marks > tfoot > tr > th:last-child {
+        border-right: none; }
+  .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > tfoot > tr > th, .marks-editor table.table-marks > tfoot > tr > td {
+    padding: 2px;
+    height: 38px; }
+  .marks-editor table.table-marks > tfoot:last-child {
+    border-bottom: none; }
+  .marks-editor table.table-marks .header {
+    text-align: center; }
 .marks-editor .mark {
-  min-width: 2em;
-  width: 3em;
-  max-width: 3em;
-  margin: 0;
-  text-align: center;
-  height: 27px;
+  width: 39px;
+  height: 30px;
+  margin: 0px;
+  vertical-align: middle;
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -ms-transition: all 0.3s;
   -o-transition: all 0.3s;
-  transition: all 0.3s;
-  background-color: white; }
+  transition: all 0.3s; }
   .marks-editor .mark .tooltip > .tooltip-inner {
     background-color: white;
     color: #4bb814;

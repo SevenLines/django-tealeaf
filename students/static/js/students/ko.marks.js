@@ -455,7 +455,7 @@
 // ### скроллинг мышью таблицы оценок
             var lastX = -1;
             var leftButtonDown = false;
-            var scroll_container = $(".scroll-container");
+            var scroll_container = $(".marks-list");
             var funcScroll = function (e) {
                 var left = e.clientX;
                 if (leftButtonDown) {

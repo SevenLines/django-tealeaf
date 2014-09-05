@@ -20,123 +20,130 @@
 <!-- /ko -->
 <!-- ko ifnot: isStudentsLoading -->
 <!-- ko if: students && students().length > 0 -->
-<div class="left-cols">
-    <table class="table-marks table table-bordered table-condensed">
-        <thead>
-        <tr>
-            <th style="text-align: center">
-                <div class="header">
+<div class="marks-table">
+    <div class="students-list">
+        <table class="table-marks">
+            <thead>
+            <tr>
+                <th style="text-align: center">
+                    <div class="header">
+                        {% include "students/marks_students_control.html" %}
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <!-- ТАБЛИЦА КОЛОНА СТУДЕНТОВ -->
+            <tbody data-bind="foreach: $root.students">
+            <tr style="text-align: center">
+                <td data-bind="style: color, css: style">
+                    <div class="info">
+                        <table width="100%">
+                            <tr>
+                                <td class="name"><span class="pull-left"
+                                                       data-bind="text: (second_name + ' ' + name)"></span>
+                                </td>
+                                <td class="score" style="padding-left: 8px">
+                                <span class="pull-right badge" style="background: white; color: green"
+                                      data-bind="text: sum, style: { color: sum() < 0 ? 'red' : 'green' }, visible: sum() != 0"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th class="headcol" style="text-align: center">
                     {% include "students/marks_students_control.html" %}
-                </div>
-            </th>
-        </tr>
-        </thead>
-        <!-- ТАБЛИЦА КОЛОНА СТУДЕНТОВ -->
-        <tbody data-bind="foreach: $root.students">
-        <tr style="text-align: center">
-            <td data-bind="style: color, css: style">
-                <div class="info" data-bind="text: (second_name + ' ' + name)"></div>
-                {#                <table width="100%">#}
-                {#                    <tr>#}
-                {#                        <td class="name"><span class="pull-left"#}
-                {#                                               data-bind="text: (second_name + ' ' + name)"></span>#}
-                {#                        </td>#}
-                {#                        <td class="score" style="padding-left: 8px">#}
-                {#                            <span class="pull-right badge" style="background: white; color: green"#}
-                {#                                  data-bind="text: sum, style: { color: sum() < 0 ? 'red' : 'green' }, visible: sum() != 0"></span>#}
-                {#                        </td>#}
-                {#                    </tr>#}
-                {#                </table>#}
-            </td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <th class="headcol" style="text-align: center">
-                {% include "students/marks_students_control.html" %}
-            </th>
-        </tr>
-        </tfoot>
-        <!-- КОНЕЦ КОЛОНА СТУДЕНТОВ -->
-    </table>
-</div>
+                </th>
+            </tr>
+            </tfoot>
+            <!-- КОНЕЦ КОЛОНА СТУДЕНТОВ -->
+        </table>
+    </div>
 
-<div class="scroll-container">
-    <table class="table-marks table table-bordered table-condensed">
-        <thead>
-        <tr>
-            <!-- СТРОКА ЗАНЯТИЙ -->
-            <!-- ko foreach: lessons -->
-            <th class="mark" data-bind="css: style" style="max-height: 20px !important;">
-                <div class="header">
-                    {% if user.is_authenticated %}
-                        {% include "students/marks_modal_lesson_editor.html" %}
-                    {% else %}
-                        <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
-                             data-bind="attr: { 'data-original-title': info }">
-                            <!-- ko if: description -->
-                            <span class="glyphicon glyphicon-pushpin"></span>
-                            <!-- /ko -->
-                            <!-- ko ifnot: description -->
-                            <span class="" data-bind="text: day"></span>
-                            <!-- /ko -->
-                        </div>
-                    {% endif %}
-                </div>
-            </th>
-            <!-- /ko -->
-            <th>
-                <div class="header">
-                    {% if user.is_authenticated %}
-                        <!-- КНОПКА ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
-                        <button class="btn btn-sm btn-primary"
-                                data-bind="visible: discipline, click: addLesson">
-                            <i class="glyphicon glyphicon glyphicon-plus"></i>
-                        </button>
-                        <!-- КОНЕЦ КНОПКИ ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
-                    {% endif %}
-                </div>
-            </th>
-            <!-- КОНЕЦ СТРОКА ЗАНЯТИЙ -->
-        </tr>
-        </thead>
-        <!-- ТАБЛИЦА ОЦЕНОК -->
-        <tbody data-bind="foreach: $root.students">
-        <tr style="text-align: center">
-            <!-- ko foreach: marks -->
-            <td class="mark"
-                data-bind="css: mark_class{% if user.is_authenticated %},click: $root.clickMark{% endif %}">
-                <span class="mark-text" data-bind="text: mark_text()"></span>
-            </td>
-            <!-- /ko -->
-            <td></td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <!-- ko foreach: lessons -->
-            <th class="mark" data-bind="css: style">
-                <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
-                     data-bind="attr: { 'data-original-title': info }">
-                    <!-- ko if: description -->
-                    <span class="glyphicon glyphicon-pushpin"></span>
-                    <!-- /ko -->
-                    <!-- ko ifnot: description -->
-                    <span class="" data-bind="text: day"></span>
-                    <!-- /ko -->
-                </div>
-            </th>
-            <!-- /ko -->
-            <td></td>
-        </tr>
-        </tfoot>
-        <!-- КОНЕЦ ТАБЛИЦА ОЦЕНОК -->
-    </table>
+    <div class="marks-list">
+        <table class="table-marks">
+            <thead>
+            <tr>
+                <!-- СТРОКА ЗАНЯТИЙ -->
+                <!-- ko foreach: lessons -->
+                <th class="mark" data-bind="css: style" style="max-height: 20px !important;">
+                    <div class="header">
+                        {% if user.is_authenticated %}
+                            {% include "students/marks_modal_lesson_editor.html" %}
+                        {% else %}
+                            <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
+                                 data-bind="attr: { 'data-original-title': info }">
+                                <!-- ko if: description -->
+                                <span class="glyphicon glyphicon-pushpin"></span>
+                                <!-- /ko -->
+                                <!-- ko ifnot: description -->
+                                <span class="" data-bind="text: day"></span>
+                                <!-- /ko -->
+                            </div>
+                        {% endif %}
+                    </div>
+                </th>
+                <!-- /ko -->
+                <th>
+                    <div class="header">
+                        {% if user.is_authenticated %}
+                            <!-- КНОПКА ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
+                            <button class="btn btn-sm btn-primary"
+                                    data-bind="visible: discipline, click: addLesson">
+                                <i class="glyphicon glyphicon glyphicon-plus"></i>
+                            </button>
+                            <!-- КОНЕЦ КНОПКИ ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
+                        {% endif %}
+                    </div>
+                </th>
+                <!-- КОНЕЦ СТРОКА ЗАНЯТИЙ -->
+            </tr>
+            </thead>
+            <!-- ТАБЛИЦА ОЦЕНОК -->
+            <tbody data-bind="foreach: $root.students">
+            <tr style="text-align: center">
+                <!-- ko foreach: marks -->
+                <td>
+                    <div class="mark"
+                         data-bind="css: mark_class{% if user.is_authenticated %},click: $root.clickMark{% endif %}">
+                    </div>
+                </td>
+                <!-- /ko -->
+                <td></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <!-- ko foreach: lessons -->
+                <th class="mark" data-bind="css: style">
+                    <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
+                         data-bind="attr: { 'data-original-title': info }">
+                        <!-- ko if: description -->
+                        <span class="glyphicon glyphicon-pushpin"></span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: description -->
+                        <span class="" data-bind="text: day"></span>
+                        <!-- /ko -->
+                    </div>
+                </th>
+                <!-- /ko -->
+                {#                {% if user.is_authenticated %}#}
+                <th></th>
+                {#                {% endif %}#}
+            </tr>
+            </tfoot>
+            <!-- КОНЕЦ ТАБЛИЦА ОЦЕНОК -->
+        </table>
+    </div>
 </div>
 
 <!-- /ko -->
 <!-- /ko -->
 {#</div>#}
+<div style="clear: both"></div>
 
 {% if user.is_authenticated %}
     {% include "students/mark_selector.html" %}
