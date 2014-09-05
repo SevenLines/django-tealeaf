@@ -106,10 +106,8 @@
             <tbody data-bind="foreach: $root.students">
             <tr style="text-align: center">
                 <!-- ko foreach: marks -->
-                <td>
-                    <div class="mark"
-                         data-bind="css: mark_class{% if user.is_authenticated %},click: $root.clickMark{% endif %}">
-                    </div>
+                <td class="mark"
+                    data-bind="css: mark_class{% if user.is_authenticated %},click: $root.clickMark{% endif %}">
                 </td>
                 <!-- /ko -->
                 <td></td>
@@ -130,9 +128,7 @@
                     </div>
                 </th>
                 <!-- /ko -->
-                {#                {% if user.is_authenticated %}#}
                 <th></th>
-                {#                {% endif %}#}
             </tr>
             </tfoot>
             <!-- КОНЕЦ ТАБЛИЦА ОЦЕНОК -->
@@ -142,7 +138,6 @@
 
 <!-- /ko -->
 <!-- /ko -->
-{#</div>#}
 <div style="clear: both"></div>
 
 {% if user.is_authenticated %}

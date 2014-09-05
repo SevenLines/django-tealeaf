@@ -4,10 +4,12 @@ $full: hsl(100, 80%, 40%);
 $awesome: hsl(100, 80%, 30%);
 $fantastic: hsl(100, 80%, 20%);
 $godlike: hsl(100, 80%, 10%);
-$hover-color: #EEE;
+$hover-color: grey;
 $exam-hue-offset: -270;
 $test-hue-offset: -120;
 $mix-weight: 70%;
+
+$table-border-color: #CCC;
 
 $students-list-width: 220px;
 $marks-size: 30px;
@@ -113,6 +115,7 @@ $marks-size: 30px;
     clear: none;
     > table {
       width: 100%;
+      border: 1px solid $table-border-color;
       .info {
         height: $marks-size;
         > table {
@@ -129,22 +132,23 @@ $marks-size: 30px;
       }
 
     }
-    //    box-shadow: 4px 0 2px grey;
   }
 
   .marks-list {
+    border-right: 1px solid $table-border-color;
     > table {
       width: 100%;
+      border: 1px solid $table-border-color;
+      border-left: none;
+      border-right: none;
       > thead {
-        box-shadow: 0 2px 8px silver;
+        box-shadow: 0 2px 8px $table-border-color;
       }
     }
-    border-right: 1px solid #c0c0c0;
     margin-left: $students-list-width;
     overflow: scroll;
     overflow-x: auto;
     overflow-y: hidden;
-//    padding-right: 1em;
     cursor: move;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -154,7 +158,6 @@ $marks-size: 30px;
 
   table.table-marks {
     border-collapse: collapse;
-    border: 1px solid #c0c0c0;
     > tbody, > thead, > tfoot {
       > tr {
         border-bottom: 1px solid #c0c0c0;
@@ -164,14 +167,14 @@ $marks-size: 30px;
         -o-transition: all 0.1s;
         transition: all 0.1s;
         &.hover {
-          box-shadow: 0 0 4px grey;
+          box-shadow: 0 0 4px $hover-color;
         }
         > td, > th {
           border-right: 1px solid #c0c0c0;
           &:first-child {
             white-space: nowrap;
             &.active {
-              box-shadow: green 0 0 4px inset;
+              box-shadow: $hover-color 0 0 4px inset;
             }
           }
           &:last-child {
@@ -205,9 +208,10 @@ $marks-size: 30px;
   .mark {
     $margin: 0px;
     width: 1.3*$marks-size;
-    height: $marks-size - $margin * 2;
+    height: $marks-size - $margin * 2 + 1;
     margin: $margin;
     vertical-align: middle;
+    text-align: center;
 
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -218,7 +222,8 @@ $marks-size: 30px;
     //    background-color: white;
 
     @mixin shadow {
-      box-shadow: #ffbbd7 0px 0px 4px inset;
+//      box-shadow: #ffbbd7 0px 0px 4px inset;
+//      border: 1px solid white;
     }
 
     @mixin test_exam($color) {
@@ -253,7 +258,9 @@ $marks-size: 30px;
       &:after {
         content: "н";
       }
-      //      @include test_exam(white);
+    }
+
+    &.empty {
     }
 
     &.normal {
