@@ -95,6 +95,8 @@
     .marks-editor table.table-marks > tbody > tr.hover, .marks-editor table.table-marks > thead > tr.hover, .marks-editor table.table-marks > tfoot > tr.hover {
       box-shadow: 0 0 4px grey; }
     .marks-editor table.table-marks > tbody > tr > td, .marks-editor table.table-marks > tbody > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > tfoot > tr > td, .marks-editor table.table-marks > tfoot > tr > th {
+      height: 31px;
+      margin: 0px;
       border-right: 1px solid #c0c0c0; }
       .marks-editor table.table-marks > tbody > tr > td:first-child, .marks-editor table.table-marks > tbody > tr > th:first-child, .marks-editor table.table-marks > thead > tr > td:first-child, .marks-editor table.table-marks > thead > tr > th:first-child, .marks-editor table.table-marks > tfoot > tr > td:first-child, .marks-editor table.table-marks > tfoot > tr > th:first-child {
         white-space: nowrap; }
@@ -111,8 +113,6 @@
     text-align: center; }
 .marks-editor .mark {
   width: 39px;
-  height: 31px;
-  margin: 0px;
   vertical-align: middle;
   text-align: center;
   -webkit-transition: all 0.3s;
