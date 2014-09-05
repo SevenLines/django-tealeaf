@@ -67,3 +67,12 @@ $(function() {
     var min_height = $(".menu>ul").height() + 30;
     $(".content").css("min-height", min_height);
 });
+
+// hack to keep left menu position on container position
+$(window).on("scroll resize", function() {
+    var m = $(".menu>ul");
+    var left = $(".left-board").offset().left;
+    m.css({
+        left: left - $(this).scrollLeft()
+    });
+});

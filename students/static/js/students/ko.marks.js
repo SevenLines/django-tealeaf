@@ -475,7 +475,7 @@
             scroll_container.on("touchmove, mousemove", funcScroll);
 
             // восстановления последнего скролла значения из куков
-            if ($.cookie("lastScroll")) {
+            if (scroll_container.size() && $.cookie("lastScroll")) {
                 scroll_container[0].scrollLeft = $.cookie("lastScroll");
             }
 // --- конец скроллинг мышью таблицы оценок
