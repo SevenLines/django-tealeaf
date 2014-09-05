@@ -69,7 +69,7 @@ $(function() {
 });
 
 // hack to keep left menu position on container position
-$(window).on("scroll resize", function() {
+$(window).on("scroll resize touchmove", function() {
     var m = $(".menu>ul");
     var left = $(".left-board").offset().left;
     m.css({
