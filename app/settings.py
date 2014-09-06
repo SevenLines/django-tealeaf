@@ -79,6 +79,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'cms.context_processors.cms_settings',
     'sekizai.context_processors.sekizai',
+    'app.context_processors.debug',
 )
 
 TEMPLATE_LOADERS = (
