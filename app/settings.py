@@ -178,7 +178,7 @@ FILER_PAGINATE_BY = 50
 
 CUSTOM_MENU_ITEMS = ({
      'img': 'img/profle.png',
-     'href': "/tracking/dashboard/",
+     'href': reverse("tracking_ex.views.stat"),
      'title': 'track'
 },)
 # {
