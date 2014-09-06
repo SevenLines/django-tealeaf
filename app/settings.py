@@ -57,6 +57,7 @@ STATICFILES_FINDERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'tracking.middleware.VisitorTrackingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -175,12 +176,12 @@ SOUTH_MIGRATION_MODULES = {
 
 FILER_PAGINATE_BY = 50
 
-# CUSTOM_MENU_ITEMS = \
-#     ({
-#          'img': 'img/profle.png',
-#          'href': reverse("students.views.students.index"),
-#      },
-#      {
+CUSTOM_MENU_ITEMS = ({
+     'img': 'img/profle.png',
+     'href': "/tracking/dashboard/",
+     'title': 'track'
+},)
+# {
 #          'img': 'img/colorwheel.png',
 #          'href': reverse("students.views.marks.index"),
 #      },

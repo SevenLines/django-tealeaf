@@ -39,4 +39,5 @@ INSTALLED_APPS = (
     'articles',
     'my_file_browser',
     'main_page',
+    'tracking',
 )
