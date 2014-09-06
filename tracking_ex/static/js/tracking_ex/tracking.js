@@ -1,59 +1,39 @@
 (function () {
-    var template = function (id) {
-        return _.template($("#" + id).html());
-    };
-
-    var Session = Backbone.Model.extend({
-        defaults: {
-            ip_address: '172.24.1.36',
-            user_agent: 'Firefox',
-            start_time: '0',
-            end_time: '10'
-        }
-    });
-
-    var SessionList = Backbone.Collection.extend({
-        model: Session
-    });
-
-    var SessionListView = Backbone.View.extend({
-        tagName: "tbody",
-        render: function () {
-            this.collection.each(function (session) {
-                var sessionView = new SessionView({model: session});
-                this.$el.append(sessionView.render().el);
-            }, this);
-            return this;
-        }
-    });
-
-    var SessionView = Backbone.View.extend({
-        tagName: 'tr',
-        template: template("templateSession"),
-        render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
-            return this;
-        }
-    });
-
-    window.App = function (urls) {
+    window.AppTracking = function (data) {
         var self = this;
+        var url = {
+            visitors: data.url.visitors
+        };
 
-        var sessionCollection = new SessionList([
-            {
-                ip_address: '172.24.1.35'
-            },
-            {
-                ip_address: '172.24.1.36'
-            },
-            {
-                ip_address: '172.24.1.37'
-            }
-        ]);
+        var page = 1;
+        self.no_more_visitors = ko.observable(false);
+        self.visitors = ko.observableArray();
+        self.visitors_loading = ko.observable(false);
 
-        var sessionListView = new SessionListView({collection: sessionCollection});
-        $("table#visitors>thead").after(sessionListView.render().el);
-    }
+        function fetchVisitors() {
+            self.visitors_loading(true);
+            $.get(url.visitors, {
+                page: page
+            }).done(function (responce) {
+                responce.visitors.every(function (item) {
+                    self.visitors.push(item);
+                    return true;
+                });
+                self.no_more_visitors(responce.no_more);
+                page++;
+            }).always(function () {
+                self.visitors_loading(false);
+            });
+        }
+
+        function init() {
+            fetchVisitors();
+        }
+
+        self.fetchMore = function () {
+            fetchVisitors();
+        };
+
+        init();
+    };
 })();
-
-

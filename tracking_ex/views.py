@@ -21,7 +21,7 @@ def stat(request):
 @login_required
 @require_in_GET("page")
 def visitors_list(request):
-    items_per_page = 3
+    items_per_page = 10
     i = max(1, int(request.GET['page']))
 
     ifrom = (i - 1) * items_per_page
