@@ -72,7 +72,12 @@ $(function() {
 $(window).on("scroll resize touchmove", function() {
     var m = $(".menu>ul");
     var left = $(".left-board").offset().left;
-    m.css({
-        left: left - $(this).scrollLeft()
-    });
+    var scrollLeft = $(this).scrollLeft();
+    if (scrollLeft == 0) {
+        m.css({left: ''});
+    } else {
+        m.css({
+            left: left - scrollLeft
+        });
+    }
 });
