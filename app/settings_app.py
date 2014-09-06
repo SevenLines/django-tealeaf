@@ -35,9 +35,9 @@ INSTALLED_APPS = (
     'custom_css',
     'students',
     'tealeaf_admin',
-    'upgrade',
     'articles',
     'my_file_browser',
     'main_page',
     'tracking',
+    'tracking_ex',
 )
