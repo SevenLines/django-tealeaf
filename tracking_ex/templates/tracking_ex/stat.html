@@ -1,0 +1,50 @@
+{% extends "base_page.html" %}
+{% load sekizai_tags static %}
+{% block basecontent %}
+    <!-- URLS -->
+    <script type="">
+
+    </script>
+    <!-- END URLS -->
+
+    {# TEMPLATES #}
+    <script id="templateSession" type="text/template">
+        <td><%= ip_address %></td>
+        <td><%= user_agent %></td>
+        <td><%= start_time %></td>
+        <td><%= end_time %></td>
+    </script>
+    {# END TEMPLATES #}
+
+
+    <table id="visitors" class="table table-bordered table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>IP</th>
+            <th>agent</th>
+            <th>start time</th>
+            <th>end time</th>
+        </tr>
+        </thead>
+        <tfoot></tfoot>
+    </table>
+
+    {% addtoblock "js" %}
+        <script src="{% static "js/tracking_ex/underscore-min.js" %}"></script>
+    {% endaddtoblock %}
+    {% addtoblock "js" %}
+        <script src="{% static "js/tracking_ex/backbone-min.js" %}"></script>
+    {% endaddtoblock %}
+    {% addtoblock "js" %}
+        <script src="{% static "js/tracking_ex/tracking.js" %}"></script>
+    {% endaddtoblock %}
+    {% addtoblock "js" %}
+        <script>
+        new App({
+            visitors: '{% url "tracking_ex.views.visitors_list" %}'
+        });
+        </script>
+    {% endaddtoblock %}
+
+
+{% endblock %}
