@@ -6,13 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>{% page_attribute "page_title" %}</title>
-    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico"/>
-
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}"/>
     {% render_block "css" %}
     {% render_block "top_js" %}
     {% include "elements/scripts.html" %}
     {% include "elements/styles.html" %}
-
 </head>
 <body>
 {% cms_toolbar %}
@@ -21,7 +19,6 @@
 </div>
 <div class="container">
     {% spaceless %}
-        {#    <div>#}
         <div class="menu">
             <ul>
                 <li class="logo{% if request.path == "/" %} active{% endif %}">
@@ -53,12 +50,16 @@
         </div>
     </div>
     {% include "elements/back-to-top-button.html" %}
-    {#    </div>#}
 </div>
 
 
 {% render_block "js" %}
 
-{% include "elements/google-analytics.html" %}
+{% if not DEBUG %}
+    {% include "elements/google-analytics.html" %}
+    {% include "elements/yandex-metric.html" %}
+{% else %}
+    <!-- IN DEBUG VERSION google-analytics and yandex-metrics is not accessible -->
+{% endif %}
 </body>
 </html>
