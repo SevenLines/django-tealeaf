@@ -1,0 +1,19 @@
+table#visitors {
+  width: 100%;
+  table-layout: fixed;
+  th, td {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  tr.last_of_day {
+    border-top: 2px dashed #000000;
+  }
+
+  .visitor {
+    .agent {
+      white-space: nowrap;
+    }
+  }
+}

@@ -1,10 +1,14 @@
 {% extends "base_page.html" %}
 {% load sekizai_tags static %}
 {% block basecontent %}
-    <table id="visitors" class="table table-bordered table-condensed table-hover">
+    <table id="visitors" class="table table-hover">
         <thead>
         <tr>
-            <th>IP</th>
+            <th>
+                <button class="btn btn-success" data-bind="click: resetList">
+                    <span class="glyphicon glyphicon-refresh"></span> IP
+                </button>
+            </th>
             <th>agent</th>
             <th>start time</th>
             <th>end time</th>
@@ -12,17 +16,17 @@
         </thead>
         <tbody>
         <!-- ko foreach: visitors -->
-        <tr class="visitor">
+        <tr class="visitor" data-bind="css: style">
             <td class="ip" data-bind="text: ip_address"></td>
-            <td class="agent" data-bind="text: user_agent"></td>
+            <td class="agent" data-container="body" data-placement="bottom" data-toggle="tooltip"
+                data-bind="text: user_agent, attr: { 'title': user_agent }"></td>
             <td class="start-time" data-bind="text: start_time"></td>
             <td class="end-time" data-bind="text: end_time"></td>
-
         </tr>
         <!-- /ko -->
         <tr data-bind="visible: !no_more_visitors()" class="add">
-            <td colspan="4" class="add" data-bind="click: fetchMore, visible: !visitors_loading()" align="center">
-                <button class="btn btn-info" style="width: 100%">+</button>
+            <td colspan="4" class="add" data-bind="visible: !visitors_loading()" align="center">
+                <button class="btn btn-info" data-bind="click: fetchMore" style="width: 100%">+</button>
             </td>
             <td data-bind="visible: visitors_loading" colspan="4">
                 <h3>Loading...</h3>
@@ -35,6 +39,9 @@
         <tfoot></tfoot>
     </table>
 
+    {% addtoblock "css" %}
+        <link rel="stylesheet" href="{% static "css/tracking_ex.css" %}"/>
+    {% endaddtoblock %}
     {% addtoblock "js" %}
         <script src="{% static "js/knockout.js" %}"></script>
     {% endaddtoblock %}

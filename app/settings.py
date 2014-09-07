@@ -179,7 +179,8 @@ FILER_PAGINATE_BY = 50
 CUSTOM_MENU_ITEMS = ({
      'img': 'img/profle.png',
      'href': reverse("tracking_ex.views.stat"),
-     'title': 'track'
+     'title': 'track',
+     'touchable': True
 },)
 # {
 #          'img': 'img/colorwheel.png',
