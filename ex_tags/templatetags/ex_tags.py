@@ -15,7 +15,8 @@ def custom_menu_items(request):
                 'active': request.path == item['href'],
                 'href': item.get('href', ''),
                 'img': item.get('img', ''),
-                'title': item.get('title', '', )
+                'title': item.get('title', '', ),
+                'touchable': item.get('touchable', ''),
             })
 
     return out
