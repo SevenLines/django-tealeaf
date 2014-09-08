@@ -1,28 +1,30 @@
-<!-- lesson template -->
-<div style="display: none" data-bind="with: lesson">
-    <form id="template-lesson-edit" class="form">
-        <div class="form-group">
-            <input class="form-control lesson-date" data-bind="value: date">
-        </div>
-        <div class="form-group">
-            <textarea class="form-control" data-bind="value: description"></textarea>
-        </div>
-        <div class="form-group">
-            <select class="form-control"
-                    data-bind="value: lesson_type, options: $root.lesson_types, optionsValue: 'id', optionsText: 'title'">
-            </select>
-        </div>
-        <div class="form-group">
-            <button class="btn btn-primary confirm" data-bind="click: $root.saveLesson">
-                <i class="glyphicon glyphicon-save"></i>
-            </button>
-            <button class="btn btn-danger pull-right delete" data-bind="click: $root.removeLesson">
-                <i class="glyphicon glyphicon-remove"></i>
-            </button>
-        </div>
-    </form>
-</div>
-<!-- END lesson tempalte -->
+{% if user.is_authenticated %}
+    <!-- lesson template -->
+    <div style="display: none" data-bind="with: lesson">
+        <form id="template-lesson-edit" class="form">
+            <div class="form-group">
+                <input class="form-control lesson-date" data-bind="value: date">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" data-bind="value: description"></textarea>
+            </div>
+            <div class="form-group">
+                <select class="form-control"
+                        data-bind="value: lesson_type, options: $root.lesson_types, optionsValue: 'id', optionsText: 'title'">
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary confirm" data-bind="click: $root.saveLesson">
+                    <i class="glyphicon glyphicon-save"></i>
+                </button>
+                <button class="btn btn-danger pull-right delete" data-bind="click: $root.removeLesson">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <!-- END lesson tempalte -->
+{% endif %}
 
 <!-- ko if: group() && (isStudentsLoading() || (students && students().length == 0)) -->
 <div class="jumbotron">
@@ -97,19 +99,27 @@
                 <!-- ko foreach: lessons -->
                 <th class="mark" data-bind="css: style" style="max-height: 20px !important;">
                     <div class="header">
-                        {#                        {% if user.is_authenticated %}#}
-                        {#                            {% include "students/marks_modal_lesson_editor.html" %}#}
-                        {#                        {% else %}#}
-                        <div class="lesson-edit btn btn-sm btn-default"
-                             data-bind="attr: { 'data-original-title': info, 'data-date': date }, event: { 'mouseenter': $root.lessonHover } ">
-                            <!-- ko if: description -->
-                            <span class="glyphicon glyphicon-pushpin"></span>
-                            <!-- /ko -->
-                            <!-- ko ifnot: description -->
-                            <span class="" data-bind="text: day"></span>
-                            <!-- /ko -->
-                        </div>
-                        {#                        {% endif %}#}
+                        {% if user.is_authenticated %}
+                            <div class="lesson-edit btn btn-sm btn-default"
+                                 data-bind="attr: { 'data-original-title': info, 'data-date': date }, event: { 'mouseenter': $root.lessonHover } ">
+                                <!-- ko if: description -->
+                                <span class="glyphicon glyphicon-pushpin"></span>
+                                <!-- /ko -->
+                                <!-- ko ifnot: description -->
+                                <span class="" data-bind="text: day"></span>
+                                <!-- /ko -->
+                            </div>
+                        {% else %}
+                            <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
+                                 data-bind="attr: { 'data-original-title': info }">
+                                <!-- ko if: description -->
+                                <span class="glyphicon glyphicon-pushpin"></span>
+                                <!-- /ko -->
+                                <!-- ko ifnot: description -->
+                                <span class="" data-bind="text: day"></span>
+                                <!-- /ko -->
+                            </div>
+                        {% endif %}
                     </div>
                 </th>
                 <!-- /ko -->

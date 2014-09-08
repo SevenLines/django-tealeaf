@@ -438,7 +438,7 @@
                 content: {
                     text: "",
                     title: function () {
-                        return 'Занятие от ' + $(this).attr("data-date");
+                        return 'Занятие';
                     }
                 },
                 position: {
