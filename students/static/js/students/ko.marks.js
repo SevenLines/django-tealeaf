@@ -323,6 +323,7 @@
 
         self.lessons = ko.observableArray();
         self.lesson_types = ko.observableArray();
+        self.lesson = ko.observable(new Lesson({}));
 
 // >>> MODAL FORMS
         self.modalDeleteDescipline = new ModalConfirm({
@@ -420,23 +421,71 @@
             })
         };
 
-        // сброс событий интерфейса
+// ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
         self.resetMarksInterface = function () {
             $('thead [data-toggle="tooltip"]').tooltip({ placement: "bottom" });
             $('tfoot [data-toggle="tooltip"]').tooltip({ placement: "top" });
 
-            $(".modal-lesson-editor .lesson-date").pickmeup_twitter_bootstrap({
-                hide_on_select: true,
-                format: 'd/m/Y',
-                hide: function (e) {
-                    $(this).trigger('change');
-                }
-            });
-
-            // подключаем события, чтобы не закрывалась менюшка
+// подключаем события, чтобы не закрывалась менюшка
             $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
                 e.stopPropagation()
             });
+
+// ### всплывающее меню редактирование занятия
+            $(".lesson-edit").qtip({
+                content: {
+                    text: "",
+                    title: function () {
+                        return 'Занятие';
+                    }
+                },
+                position: {
+                    my: 'top center'
+                },
+                show: {
+                    solo: true,
+                    event: "click"
+                },
+                hide: {
+                    fixed: true,
+                    event: null
+                },
+                style: {
+                    classes: 'qtip-bootstrap'
+                },
+                events: {
+                    show: function (event, api) {
+                        // подключаем форму к тултипу
+                        var tag = $("#template-lesson-edit");
+                        api.set('content.text', tag);
+
+                        // событие внутри формы не закрывает окно
+                        var that = this;
+                        $(that).on("click", function (event) {
+                            event.stopPropagation();
+                        });
+
+                        // инициализируем календарь
+                        $(that).find(".lesson-date").pickmeup_twitter_bootstrap({
+                            hide_on_select: true,
+                            format: 'd/m/Y',
+                            hide: function (e) {
+                                $(this).trigger('change');
+                            }
+                        });
+
+                        var clickEvent = function () {
+                            $(that).unbind("click");
+                            $(that).qtip("hide");
+                        };
+                        // события клика по кнопки сохранить
+                        $(that).find(".delete, .save").on("click", clickEvent);
+                        // событие клика вне формы
+                        $(document).one("click", clickEvent);
+                    }
+                }
+            });
+// --- конец всплывающее меню редактирование занятия
 
 // ### синхронизация подсветки строк таблицы оценок
             $("table.table-marks>tbody>tr>td").hover(function () {
@@ -480,6 +529,7 @@
             }
 // --- конец скроллинг мышью таблицы оценок
         };
+// КОНЕЦ РЕИНИЦИАЛИЗАЦИИ ИНТЕРФЕЙСА
 
         self.isStudentsLoading = ko.observable(true);
         self.loadStudents = function () {
@@ -604,6 +654,10 @@
         };
 
 // LESSONS CONTROL
+        self.lessonHover = function (data) {
+            self.lesson(data);
+        };
+
         self.addLesson = function () {
             $.post(self.url.lesson_add, self.csrfize({
                 discipline_id: self.discipline().id,
