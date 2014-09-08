@@ -323,6 +323,7 @@
 
         self.lessons = ko.observableArray();
         self.lesson_types = ko.observableArray();
+        self.lesson = ko.observable(new Lesson({}));
 
 // >>> MODAL FORMS
         self.modalDeleteDescipline = new ModalConfirm({
@@ -420,22 +421,61 @@
             })
         };
 
-        // сброс событий интерфейса
+// ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
         self.resetMarksInterface = function () {
             $('thead [data-toggle="tooltip"]').tooltip({ placement: "bottom" });
             $('tfoot [data-toggle="tooltip"]').tooltip({ placement: "top" });
 
-            $(".modal-lesson-editor .lesson-date").pickmeup_twitter_bootstrap({
-                hide_on_select: true,
-                format: 'd/m/Y',
-                hide: function (e) {
-                    $(this).trigger('change');
-                }
-            });
+//            console.log($("#template-lesson-edit .lesson-date").size());
 
-            // подключаем события, чтобы не закрывалась менюшка
+// подключаем события, чтобы не закрывалась менюшка
             $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
                 e.stopPropagation()
+            });
+
+// ### всплывающее меню редактирование занятия
+            $(".lesson-edit").qtip({
+                content: {
+                    text: "",
+                    title: function () {
+                        return 'Занятие от ' + $(this).attr("data-date");
+                    }
+                },
+                position: {
+                    my: 'top center'
+                },
+                show: {
+                    solo: true,
+                    event: "click"
+                },
+                hide: {
+                    fixed: true,
+                    event: null
+                },
+                style: {
+                    classes: 'qtip-bootstrap'
+                },
+                events: {
+                    show: function (event, api) {
+                        var tag = $("#template-lesson-edit");
+                        api.set('content.text', tag);
+                        var that = this;
+
+                        $(that).on("click", function (event) {
+                            event.stopPropagation();
+                        });
+
+                        $(that).find(".confirm").on("click", function () {
+                            $(that).unbind("click");
+                            $(that).qtip("hide");
+                        });
+
+                        $(document).one("click", function () {
+                            $(that).unbind("click");
+                            $(that).qtip("hide")
+                        });
+                    }
+                }
             });
 
 // ### синхронизация подсветки строк таблицы оценок
@@ -604,6 +644,10 @@
         };
 
 // LESSONS CONTROL
+        self.lessonHover = function (data) {
+            self.lesson(data);
+        };
+
         self.addLesson = function () {
             $.post(self.url.lesson_add, self.csrfize({
                 discipline_id: self.discipline().id,

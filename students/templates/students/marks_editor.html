@@ -17,12 +17,12 @@
                 </div>
                 <!-- КОНЕЦ СПИСОК ГОДОВ -->
             {% endif %}
-{#            <div class="form-group">#}
-                <!-- СПИСОК ГРУПП -->
-                <select class="form-control" name="group"
-                        data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
-                <!-- КОНЕЦ СПИСОК ГРУПП -->
-{#            </div>#}
+            {#            <div class="form-group">#}
+            <!-- СПИСОК ГРУПП -->
+            <select class="form-control" name="group"
+                    data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
+            <!-- КОНЕЦ СПИСОК ГРУПП -->
+            {#            </div>#}
         </form>
 
         <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
@@ -31,6 +31,9 @@
 
         {% addtoblock "css" %}
             <link rel="stylesheet" href="{% static "css/students.css" %}"/>
+        {% endaddtoblock %}
+        {% addtoblock "css" %}
+            <link rel="stylesheet" href="{% static "css/jquery.qtip.min.css" %}"/>
         {% endaddtoblock %}
 
         {% addtoblock "top_js" %}
@@ -61,6 +64,10 @@
         {% endaddtoblock "js" %}
 
         {% addtoblock "js" %}
+            <script src="{% static "js/jquery.qtip.min.js" %}"></script>
+        {% endaddtoblock %}
+
+        {% addtoblock "js" %}
             <script>
                 ko.applyBindings(new MarksViewModel({
                     csrf: "{{ csrf_token }}",
@@ -80,6 +87,13 @@
                         {% endif %}
                     }
                 }));
+                $(".lesson-date").pickmeup_twitter_bootstrap({
+                    hide_on_select: true,
+                    format: 'd/m/Y',
+                    hide: function (e) {
+                        $(this).trigger('change');
+                    }
+                });
             </script>
         {% endaddtoblock "js" %}
     </div>
