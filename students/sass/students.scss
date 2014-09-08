@@ -44,7 +44,13 @@ $marks-size: 30px;
 }
 
 .pickmeup-twitter-bootstrap {
-  z-index: 1000 !important;
+  z-index: 20000 !important;
+}
+
+#template-lesson-edit {
+  textarea {
+    max-width: 100%;
+  }
 }
 
 .marks-editor {
