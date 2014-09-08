@@ -426,8 +426,6 @@
             $('thead [data-toggle="tooltip"]').tooltip({ placement: "bottom" });
             $('tfoot [data-toggle="tooltip"]').tooltip({ placement: "top" });
 
-//            console.log($("#template-lesson-edit .lesson-date").size());
-
 // подключаем события, чтобы не закрывалась менюшка
             $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
                 e.stopPropagation()
@@ -457,26 +455,37 @@
                 },
                 events: {
                     show: function (event, api) {
+                        // подключаем форму к тултипу
                         var tag = $("#template-lesson-edit");
                         api.set('content.text', tag);
-                        var that = this;
 
+                        // событие внутри формы не закрывает окно
+                        var that = this;
                         $(that).on("click", function (event) {
                             event.stopPropagation();
                         });
 
-                        $(that).find(".confirm").on("click", function () {
-                            $(that).unbind("click");
-                            $(that).qtip("hide");
+                        // инициализируем календарь
+                        $(that).find(".lesson-date").pickmeup_twitter_bootstrap({
+                            hide_on_select: true,
+                            format: 'd/m/Y',
+                            hide: function (e) {
+                                $(this).trigger('change');
+                            }
                         });
 
-                        $(document).one("click", function () {
+                        var clickEvent = function () {
                             $(that).unbind("click");
-                            $(that).qtip("hide")
-                        });
+                            $(that).qtip("hide");
+                        };
+                        // события клика по кнопки сохранить
+                        $(that).find(".delete, .save").on("click", clickEvent);
+                        // событие клика вне формы
+                        $(document).one("click", clickEvent);
                     }
                 }
             });
+// --- конец всплывающее меню редактирование занятия
 
 // ### синхронизация подсветки строк таблицы оценок
             $("table.table-marks>tbody>tr>td").hover(function () {
@@ -520,6 +529,7 @@
             }
 // --- конец скроллинг мышью таблицы оценок
         };
+// КОНЕЦ РЕИНИЦИАЛИЗАЦИИ ИНТЕРФЕЙСА
 
         self.isStudentsLoading = ko.observable(true);
         self.loadStudents = function () {
