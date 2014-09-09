@@ -210,7 +210,7 @@ class Lesson(models.Model):
         (3, "Экзамен"),
     ]
 
-    description = models.CharField(max_length=100, default="", blank=True)
+    description = models.TextField(default="", blank=True)
     discipline = models.ForeignKey(Discipline)
     group = models.ForeignKey(Group, null=True)
     date = models.DateField(auto_now_add=True)
