@@ -444,11 +444,17 @@
                 },
                 show: {
                     solo: true,
-                    event: "click"
+                    event: "click",
+                    effect: function () {
+                        $(this).fadeIn(120); // "this" refers to the tooltip
+                    }
                 },
                 hide: {
                     fixed: true,
-                    event: null
+                    event: null,
+                    effect: function () {
+                        $(this).fadeOut(120); // "this" refers to the tooltip
+                    }
                 },
                 style: {
                     classes: 'qtip-bootstrap'
