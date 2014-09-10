@@ -1,6 +1,6 @@
-requirejs.config({
-    baseUrl: '..',
-    paths: {
-        students: '.'
-    }
-});
+//requirejs.config({
+//    baseUrl: '..',
+//    paths: {
+//        students: '.'
+//    }
+//});

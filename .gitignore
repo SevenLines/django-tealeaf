@@ -19,6 +19,7 @@ node_modules/
 .git/
 .hg/
 .pyc
+bower_components*
 sass/*.css
 .sass-cache
 tealeaf.dbs
