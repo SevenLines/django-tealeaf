@@ -10,7 +10,8 @@
                     <input class="form-control lesson-date" data-bind="value: date">
                 </div>
                 <div class="form-group">
-                    <textarea id="lesson-description" class="form-control" data-bind="value: description_raw"></textarea>
+                    <textarea id="lesson-description" class="form-control"
+                              data-bind="value: description_raw"></textarea>
                 </div>
                 <div class="form-group">
                     <select class="form-control"
@@ -30,7 +31,13 @@
         <!-- END lesson template -->
     {% endif %}
 
-    <div class="marks-editor">
+    <noscript>
+        <div class="jumbotron">
+            <h1>Javascript</h1>
+            <h3>Необходимо включить его, чтобы таблица отображалось!</h3>
+        </div>
+    </noscript>
+    <div class="marks-editor nojs">
         <!-- СПИСОК ДИСЦИПЛИН -->
         {% include "students/marks_discipline_list.html" %}
         <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
