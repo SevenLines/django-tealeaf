@@ -218,6 +218,13 @@ class Lesson(models.Model):
     date = models.DateField(auto_now_add=True)
     lesson_type = models.IntegerField(verbose_name="type", default=1, choices=LESSON_TYPES)
 
+    def to_dict(self):
+        d = model_to_dict(self)
+        d.update({
+            'description': self.description.rendered,
+            'description_raw': self.description.raw,
+        })
+        return d
 
     def __unicode__(self):
         return u"%s %s (%s)" % (self.discipline, self.date, self.lesson_type)

@@ -24,6 +24,7 @@ class Migration(SchemaMigration):
         db.alter_column(u'students_lesson', 'description', self.gf('markupfield.fields.MarkupField')(rendered_field=True))
 
         for l in Lesson.objects.all():
+            l.description.raw = l.description.raw.replace('<br>', '')
             l.save(force_update=True)
 
     def backwards(self, orm):

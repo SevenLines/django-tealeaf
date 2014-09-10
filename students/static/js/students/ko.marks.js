@@ -694,9 +694,12 @@
                 lesson_type: data.lesson_type(),
                 date: data.isodate(),
                 description_raw: data.description_raw()
-            })).done(function () {
+            })).done(function (response) {
                 if (data.isodate() != data.isodate_old) {
                     self.loadStudents();
+                } else {
+                    data.description(response.description);
+                    data.description_raw(response.description_raw);
                 }
                 InterfaceAlerts.showSuccess();
             }).fail(function () {
