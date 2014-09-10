@@ -3,10 +3,11 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.db.transaction import atomic
+from django.forms.models import model_to_dict
 from django.http.response import HttpResponse
 from django.shortcuts import render
 
-from app.utils import require_in_POST, require_in_GET
+from app.utils import require_in_POST, require_in_GET, json_dthandler
 from students.models import Lesson, Discipline, Group, Mark, DisciplineMarksCache
 
 
@@ -55,13 +56,13 @@ def lesson_save(request):
     l = Lesson.objects.get(pk=request.POST['lesson_id'])
     if 'lesson_type' in request.POST:
         l.lesson_type = request.POST['lesson_type']
-    if 'description' in request.POST:
-        l.description = request.POST['description']
+    if 'description_raw' in request.POST:
+        l.description = request.POST['description_raw']
     if 'date' in request.POST:
         l.date = request.POST['date']
     l.save()
 
-    return HttpResponse()
+    return HttpResponse(json.dumps(l.to_dict(), default=json_dthandler), content_type="json")
 
 
 @login_required

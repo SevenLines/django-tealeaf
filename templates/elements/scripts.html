@@ -30,6 +30,8 @@
                 {% endif %}
             }
         });
+        // убираю nojs класс если активирован javascript
+        $(".nojs").removeClass("nojs");
     </script>
 {% endaddtoblock %}
 
@@ -55,5 +57,3 @@
 <!--[if lt IE 9]>
       <script type="text/javascript" src="{% static "js/ie/respond.min.js" %}" ></script>
 <![endif]-->
-
-{#<script type="text/javascript" src={% static "js/main.js" %}></script>#}

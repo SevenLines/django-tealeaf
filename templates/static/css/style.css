@@ -21,6 +21,9 @@ body {
   body.clr3 {
     background: black; }
 
+.nojs {
+  display: none; }
+
 .container {
   display: block;
   position: relative;
