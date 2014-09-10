@@ -34,6 +34,7 @@
     <noscript>
         <div class="jumbotron">
             <h1>Javascript</h1>
+
             <h3>Необходимо включить его, чтобы таблица отображалось!</h3>
         </div>
     </noscript>
@@ -71,35 +72,16 @@
         {% endaddtoblock %}
 
         {% addtoblock "top_js" %}
-            <script src="{% static 'lib/jquery.pickmeup.min.js' %}"></script>
+            <script src="{% static 'js/students/marks.min.js' %}"></script>
         {% endaddtoblock %}
-        {% addtoblock "top_js" %}
-            <script src="{% static 'lib/jquery.pickmeup.twitter-bootstrap.min.js' %}"></script>
-        {% endaddtoblock %}
-
-        {% addtoblock "js" %}
-            <script src="{% static 'lib/knockout.js' %}"></script>
-        {% endaddtoblock %}
-
-        {% addtoblock "top_js" %}
-            <script src="{% static "lib/jquery.fixedheadertable.min.js" %}"></script>
-        {% endaddtoblock "js" %}
 
         {% addtoblock "js" %}
             <script src="{% static "js/ko.modal_confirm.js" %}"></script>
         {% endaddtoblock "js" %}
 
         {% addtoblock "js" %}
-            <script src="{% static "lib/color.js" %}"></script>
-        {% endaddtoblock "js" %}
-
-        {% addtoblock "js" %}
             <script src="{% static "js/students/ko.marks.js" %}"></script>
         {% endaddtoblock "js" %}
-
-        {% addtoblock "js" %}
-            <script src="{% static "lib/jquery.qtip.min.js" %}"></script>
-        {% endaddtoblock %}
 
         {% addtoblock "js" %}
             <script>
