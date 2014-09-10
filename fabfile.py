@@ -48,6 +48,7 @@ def compile_css():
 def minify():
     compile_css()
     compile_js()
+    local("grunt main_script")  # generate main script
 
 
 def pip_sync(on_server=False):

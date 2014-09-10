@@ -17,7 +17,6 @@
   ],
   "dependencies": {
     "jquery": "~1",
-    "bootstrap": "~3",
     "knockout": "~3.2.0",
     "qtip2": "~2.2.1",
     "pickmeup": "~2.5.1",
@@ -25,7 +24,6 @@
     "jquery.cookie": "~1.4.1",
     "jquery-form": "https://github.com/malsup/form.git#~3.46.0",
     "color": "https://github.com/harthur/color.git",
-    "respond": "~1.4.2",
-    "ckeditor": "~4.4.4"
+    "respond": "~1.4.2"
   }
 }
