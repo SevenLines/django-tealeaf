@@ -55,8 +55,8 @@ def lesson_save(request):
     l = Lesson.objects.get(pk=request.POST['lesson_id'])
     if 'lesson_type' in request.POST:
         l.lesson_type = request.POST['lesson_type']
-    if 'description' in request.POST:
-        l.description = request.POST['description']
+    if 'description_raw' in request.POST:
+        l.description = request.POST['description_raw']
     if 'date' in request.POST:
         l.date = request.POST['date']
     l.save()

@@ -7,9 +7,9 @@ from django.db.models.signals import post_delete, post_save
 from django.db.transaction import atomic
 from django.dispatch.dispatcher import receiver
 from django.forms import model_to_dict
+from markupfield.fields import MarkupField
 
 from app.utils import json_dthandler
-
 import students.utils
 from students.utils import current_year
 
@@ -150,7 +150,8 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
         lessons = list([{"id": l.id,
                          "lt": l.lesson_type if l.lesson_type else None,
                          "dt": l.date,
-                         "dn": l.description
+                         "dn": l.description.rendered,
+                         "dn_raw": l.description.raw
                         } for l in lessons])
 
         # виды занятий
@@ -210,11 +211,13 @@ class Lesson(models.Model):
         (3, "Экзамен"),
     ]
 
-    description = models.TextField(default="", blank=True)
+    description = MarkupField(default="", markup_type="textile", blank=True)
+
     discipline = models.ForeignKey(Discipline)
     group = models.ForeignKey(Group, null=True)
     date = models.DateField(auto_now_add=True)
     lesson_type = models.IntegerField(verbose_name="type", default=1, choices=LESSON_TYPES)
+
 
     def __unicode__(self):
         return u"%s %s (%s)" % (self.discipline, self.date, self.lesson_type)
@@ -299,6 +302,7 @@ def active_years(r=2):
 @receiver(post_save, sender=Lesson)
 def update_cache_lesson(instance, **kwargs):
     DisciplineMarksCache.update(instance.discipline_id, instance.group_id)
+
 
 @receiver(post_delete, sender=Student)
 @receiver(post_save, sender=Student)
