@@ -1,0 +1,28 @@
+{
+  "name": "tealeaf",
+  "version": "1.0.0",
+  "homepage": "https://github.com/SevenLines/django-tealeaf",
+  "authors": [
+    "m <mmailm@mail.ru>"
+  ],
+  "description": "my site",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "templates/static/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~1",
+    "knockout": "~3.2.0",
+    "qtip2": "~2.2.1",
+    "pickmeup": "~2.5.1",
+    "google-code-prettify": "~1.0.3",
+    "jquery.cookie": "~1.4.1",
+    "jquery-form": "https://github.com/malsup/form.git#~3.46.0",
+    "respond": "~1.4.2"
+  }
+}
