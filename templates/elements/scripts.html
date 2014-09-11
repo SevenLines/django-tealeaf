@@ -1,9 +1,15 @@
 {% load static sekizai_tags %}
 
+{% addtoblock "top_js" %}
+    <script src="{% static "js/main.min.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
 <script>
     // check for touch device
     var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
 </script>
+{% endaddtoblock %}
 
 {% addtoblock "js" %}
     <script>
@@ -30,30 +36,32 @@
                 {% endif %}
             }
         });
+        // убираю nojs класс если активирован javascript
+        $(".nojs").removeClass("nojs");
     </script>
 {% endaddtoblock %}
 
-<script type="text/javascript" src={% static "js/logger.js" %}></script>
 
-{% addtoblock "top_js" %}
-    <script type="text/javascript" src="{% static "js/jquery-1.11.0.min.js" %}"></script>
-{% endaddtoblock %}
-
-{% addtoblock "top_js" %}
-    <script type="text/javascript" src="{% static "js/interface.js" %}"></script>
-{% endaddtoblock %}
-
-{% if user.is_authenticated and current_page.publisher_is_draft %}
-    <script type="text/javascript" src="{% static "js/jquery.form.js" %}"></script>
-{% endif %}
-<script type="text/javascript" src="{% static "js/jquery.cookie.js" %}"></script>
-<script type="text/javascript" src={% static "bootstrap/bootstrap.min.js" %}></script>
-
+{#<script type="text/javascript" src={% static "lib/logger.js" %}></script>#}
+{##}
+{#{% addtoblock "top_js" %}#}
+{#    <script type="text/javascript" src="{% static "lib/jquery-1.11.0.min.js" %}"></script>#}
+{#{% endaddtoblock %}#}
+{##}
+{#{% addtoblock "top_js" %}#}
+{#    <script type="text/javascript" src="{% static "js/interface.js" %}"></script>#}
+{#{% endaddtoblock %}#}
+{##}
+{#{% if user.is_authenticated and current_page.publisher_is_draft %}#}
+{#    <script type="text/javascript" src="{% static "lib/jquery.form.js" %}"></script>#}
+{#{% endif %}#}
+{#<script type="text/javascript" src="{% static "lib/jquery.cookie.js" %}"></script>#}
+{#<script type="text/javascript" src={% static "lib/bootstrap/bootstrap.min.js" %}></script>#}
+{##}
+{##}
 <!--[if lt IE 9]>
-      <script type="text/javascript" src="{% static "js/ie/html5shiv.js" %}"></script>
+      <script type="text/javascript" src="{% static "lib/html5shiv.js" %}"></script>
 <![endif]-->
 <!--[if lt IE 9]>
-      <script type="text/javascript" src="{% static "js/ie/respond.min.js" %}" ></script>
+      <script type="text/javascript" src="{% static "lib/respond.min.js" %}" ></script>
 <![endif]-->
-
-{#<script type="text/javascript" src={% static "js/main.js" %}></script>#}
