@@ -48,7 +48,6 @@ def compile_css():
 def minify():
     compile_css()
     compile_js()
-    local("grunt main_script")  # generate main script
 
 
 def pip_sync(on_server=False):
@@ -126,6 +125,7 @@ def backup(only_base=False):
 
 
 def deploy(without_build=False):
+    local("grunt deploy")  # generate scripts
     if not without_build:
         build_production()
     local("ssh-add ~/.ssh/locum.ru")

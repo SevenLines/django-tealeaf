@@ -67,12 +67,9 @@
         {% addtoblock "css" %}
             <link rel="stylesheet" href="{% static "css/students.css" %}"/>
         {% endaddtoblock %}
-        {% addtoblock "css" %}
-            <link rel="stylesheet" href="{% static "css/jquery.qtip.min.css" %}"/>
-        {% endaddtoblock %}
 
-        {% addtoblock "top_js" %}
-            <script src="{% static 'js/students/marks.min.js' %}"></script>
+        {% addtoblock "js" %}
+            <script src="{% static 'bower_components/knockout/dist/knockout.js' %}"></script>
         {% endaddtoblock %}
 
         {% addtoblock "js" %}

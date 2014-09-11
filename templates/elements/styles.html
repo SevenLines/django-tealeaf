@@ -1,22 +1,9 @@
 {% load static sekizai_tags %}
 
 {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{% static "lib/bootstrap/bootstrap.min.css" %}"/>
-{% endaddtoblock %}
-
-{% addtoblock "css" %}
     <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}"/>
 {% endaddtoblock %}
 
-{% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/navbar.css" %}"/>
-{% endaddtoblock %}
-
-{% if user.is_authenticated %}
-    {% addtoblock "css" %}
-        <link rel="stylesheet" type="text/css" href="{% static "css/edit.css" %}"/>
-    {% endaddtoblock %}
-{% endif %}
 <!--[if lt IE 8]>
     <link rel="stylesheet" href="{% static 'css/bootstrap-ie7.css' %}" media="all">
 <![endif]-->
