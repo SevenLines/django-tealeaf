@@ -24,7 +24,7 @@ module.exports = function (grunt) {
                     'templates/static/js/interface.js',
                     'templates/static/lib/color.js',
                 ],
-                dest: 'templates/static/main.js'
+                dest: 'templates/static/js/main.js'
             }
         },
         cssmin: {
@@ -40,8 +40,8 @@ module.exports = function (grunt) {
         },
         uglify: {
             main_script: {
-                src: 'templates/static/main.js',
-                dest: 'templates/static/main.min.js'
+                src: 'templates/static/js/main.js',
+                dest: 'templates/static/js/main.min.js'
             }
         }
     });
