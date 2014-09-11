@@ -1,38 +1,38 @@
 function ModalConfirm(data) {
-//
-// Modal form should be bind to the bootstrap modal html:
-//
-// <div id="main-modal-form" class="modal fade" role="dialog" data-bind="with: modalConfirm">
-//    <div class="modal-dialog">
-//        <div class="modal-content">
-//            <div class="modal-header" data-bind="text: header"></div>
-//            <div class="modal-body" data-bind="text: value"> </div>
-//            <div class="modal-footer">
-//                <button type="button" class="btn btn-danger" data-confirm data-dismiss="modal">Yes</button>
-//                <button type="button" class="btn btn-default" data-decline data-dismiss="modal">No</button>
-//            </div>
-//            <div>
-//            </div>
-//        </div>
-//    </div>
-// </div>
-//
-// create new field in model:
-//
-//      self.modalConfirm = new ModalConfirm({ modal_selector: "#main-modal-form" })
-//
-// auto generated modal (require variable_name to be passed and modal_selector should be omitted):
-//
-//      self.modalConfirm = new ModalConfirm({ variable_name: "modalConfirm" })
-//
-// call to show dialog:
-//
-//      self.modalConfirm.show(function() { console.log("Yes") }, function() { console.log("No") })
-//
-// You can omit second argument and implement only confirm event.
-// click on button with "data-confirm" attribute bind to confirm event (first param in show function)
-// click on button with "data-decline" attribute bind to decline event (second param in show function)
-//
+/**
+ Modal form should be bind to the bootstrap modal html:
+
+ <div id="main-modal-form" class="modal fade" role="dialog" data-bind="with: modalConfirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" data-bind="text: header"></div>
+            <div class="modal-body" data-bind="text: value"> </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-confirm data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-default" data-decline data-dismiss="modal">No</button>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+ </div>
+
+ create new field in model:
+
+      self.modalConfirm = new ModalConfirm({ modal_selector: "#main-modal-form" })
+
+ auto generated modal (require variable_name to be passed and modal_selector should be omitted):
+
+      self.modalConfirm = new ModalConfirm({ variable_name: "modalConfirm" })
+
+ call to show dialog:
+
+      self.modalConfirm.show(function() { console.log("Yes") }, function() { console.log("No") })
+
+ You can omit second argument and implement only confirm event.
+ click on button with "data-confirm" attribute bind to confirm event (first param in show function)
+ click on button with "data-decline" attribute bind to decline event (second param in show function)
+*/
 
     data = data ? data : {};
 

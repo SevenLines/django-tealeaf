@@ -34,7 +34,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 try:
     credentials_path = ""
-    credentials_path = os.path.join(os.path.dirname(BASE_DIR), "credentials.json")
+    credentials_path = os.path.join(BASE_DIR, "credentials.json")
     credentials = json.load(open(credentials_path))
 except IOError as e:
     print("check existance of %s" % credentials_path)

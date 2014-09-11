@@ -62,14 +62,14 @@
 
 
 {% addtoblock "top_js" %}
-    <script src="{% static "ckeditor/ckeditor.js" %}"></script>
+    <script src="{% static "lib/ckeditor/ckeditor.js" %}"></script>
 {% endaddtoblock "js" %}
 {% addtoblock "top_js" %}
-    <script src="{% static "ckeditor/adapters/jquery.js" %}"></script>
+    <script src="{% static "lib/ckeditor/adapters/jquery.js" %}"></script>
 {% endaddtoblock "js" %}
 
 {% addtoblock "js" %}
-    <script src="{% static "js/knockout.js" %}"></script>
+    <script src="{% static "bower_components/knockout/dist/knockout.js" %}"></script>
 {% endaddtoblock "js" %}
 
 {% addtoblock "js" %}

@@ -10,7 +10,8 @@
                     <input class="form-control lesson-date" data-bind="value: date">
                 </div>
                 <div class="form-group">
-                    <textarea id="lesson-description" class="form-control" data-bind="value: description_raw"></textarea>
+                    <textarea id="lesson-description" class="form-control"
+                              data-bind="value: description_raw"></textarea>
                 </div>
                 <div class="form-group">
                     <select class="form-control"
@@ -30,7 +31,14 @@
         <!-- END lesson template -->
     {% endif %}
 
-    <div class="marks-editor">
+    <noscript>
+        <div class="jumbotron">
+            <h1>Javascript</h1>
+
+            <h3>Необходимо включить его, чтобы таблица отображалось!</h3>
+        </div>
+    </noscript>
+    <div class="marks-editor nojs">
         <!-- СПИСОК ДИСЦИПЛИН -->
         {% include "students/marks_discipline_list.html" %}
         <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
@@ -59,40 +67,18 @@
         {% addtoblock "css" %}
             <link rel="stylesheet" href="{% static "css/students.css" %}"/>
         {% endaddtoblock %}
-        {% addtoblock "css" %}
-            <link rel="stylesheet" href="{% static "css/jquery.qtip.min.css" %}"/>
-        {% endaddtoblock %}
 
-        {% addtoblock "top_js" %}
-            <script src="{% static 'js/jquery.pickmeup.min.js' %}"></script>
-        {% endaddtoblock %}
-        {% addtoblock "top_js" %}
-            <script src="{% static 'js/jquery.pickmeup.twitter-bootstrap.min.js' %}"></script>
+        {% addtoblock "js" %}
+            <script src="{% static 'bower_components/knockout/dist/knockout.js' %}"></script>
         {% endaddtoblock %}
 
         {% addtoblock "js" %}
-            <script src="{% static 'js/knockout.js' %}"></script>
-        {% endaddtoblock %}
-
-        {% addtoblock "top_js" %}
-            <script src="{% static "js/jquery.fixedheadertable.min.js" %}"></script>
+            <script src="{% static "js/ko.modal_confirm.min.js" %}"></script>
         {% endaddtoblock "js" %}
 
         {% addtoblock "js" %}
-            <script src="{% static "js/ko.modal_confirm.js" %}"></script>
+            <script src="{% static "js/students/ko.marks.min.js" %}"></script>
         {% endaddtoblock "js" %}
-
-        {% addtoblock "js" %}
-            <script src="{% static "js/color.js" %}"></script>
-        {% endaddtoblock "js" %}
-
-        {% addtoblock "js" %}
-            <script src="{% static "js/students/ko.marks.js" %}"></script>
-        {% endaddtoblock "js" %}
-
-        {% addtoblock "js" %}
-            <script src="{% static "js/jquery.qtip.min.js" %}"></script>
-        {% endaddtoblock %}
 
         {% addtoblock "js" %}
             <script>

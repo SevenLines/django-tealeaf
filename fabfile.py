@@ -125,6 +125,7 @@ def backup(only_base=False):
 
 
 def deploy(without_build=False):
+    local("grunt deploy")  # generate scripts
     if not without_build:
         build_production()
     local("ssh-add ~/.ssh/locum.ru")
