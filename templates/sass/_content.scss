@@ -261,7 +261,7 @@ div.items-list {
       &:hover {
         background-color: $common_color;
         color: white;
-        strong, bold {
+        strong, bold, a {
           color: white;
         }
       }

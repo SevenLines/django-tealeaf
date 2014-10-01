@@ -213,7 +213,7 @@ div.items-list ul, div.items-list ol {
     div.items-list ul li:hover, div.items-list ol li:hover {
       background-color: #96b0b3;
       color: white; }
-      div.items-list ul li:hover strong, div.items-list ul li:hover bold, div.items-list ol li:hover strong, div.items-list ol li:hover bold {
+      div.items-list ul li:hover strong, div.items-list ul li:hover bold, div.items-list ul li:hover a, div.items-list ol li:hover strong, div.items-list ol li:hover bold, div.items-list ol li:hover a {
         color: white; }
 
 .menu a {
