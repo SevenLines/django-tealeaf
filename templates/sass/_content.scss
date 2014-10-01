@@ -1,7 +1,7 @@
 @import "const";
 
 body {
-  background: #f5f5f5;//darken($common_color, 42%); // url($main_background_image);
+  background: #f5f5f5; //darken($common_color, 42%); // url($main_background_image);
   font-family: Georgia, 'Times New Roman', Times, serif;
   padding: 0;
   margin: 0;
@@ -21,9 +21,15 @@ body {
     //    box-shadow: inset 0 0 20px darken($common_color, 48%);
   }
 
-  &.clr1 { background: red; }
-  &.clr2 { background: white; }
-  &.clr3 { background: black; }
+  &.clr1 {
+    background: red;
+  }
+  &.clr2 {
+    background: white;
+  }
+  &.clr3 {
+    background: black;
+  }
 }
 
 .nojs {
@@ -225,4 +231,40 @@ a {
   padding: 1em;
   margin: 1em 0px;
   line-height: 1.3em;
+}
+
+// Красивый список
+div.items-list {
+  ul, ol {
+    padding-left: 0;
+    li {
+      -webkit-transition: all 0.1s;
+      -moz-transition: all 0.1s;
+      -ms-transition: all 0.1s;
+      -o-transition: all 0.1s;
+      transition: all 0.1s;
+      &:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+      position: relative;
+      display: block;
+      padding: 10px 15px;
+      margin-bottom: -1px;
+      background-color: #FFF;
+      border: 1px solid #DDD;
+      &:last-child {
+        margin-bottom: 0px;
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+      &:hover {
+        background-color: $common_color;
+        color: white;
+        strong, bold {
+          color: white;
+        }
+      }
+    }
+  }
 }

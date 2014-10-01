@@ -164,6 +164,7 @@ PLUGIN_WRAPPER_CLASSES = (
     ('list-group', 'list-group'),
     ('text-center', 'text-center'),
     ('main-banner', 'main-banner'),
+    ('items-list', 'items-list'),
 )
 
 PLUGIN_WRAPPER_ITEM_CLASSES = (

@@ -189,6 +189,33 @@ a[href$='.doc'], a[href$='.docx'] {
   margin: 1em 0px;
   line-height: 1.3em; }
 
+div.items-list ul, div.items-list ol {
+  padding-left: 0; }
+  div.items-list ul li, div.items-list ol li {
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -ms-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #FFF;
+    border: 1px solid #DDD; }
+    div.items-list ul li:first-child, div.items-list ol li:first-child {
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px; }
+    div.items-list ul li:last-child, div.items-list ol li:last-child {
+      margin-bottom: 0px;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 4px; }
+    div.items-list ul li:hover, div.items-list ol li:hover {
+      background-color: #96b0b3;
+      color: white; }
+      div.items-list ul li:hover strong, div.items-list ul li:hover bold, div.items-list ol li:hover strong, div.items-list ol li:hover bold {
+        color: white; }
+
 .menu a {
   color: #344649;
   text-decoration: none; }
