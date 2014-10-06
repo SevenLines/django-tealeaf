@@ -10,6 +10,7 @@ distlib==0.1.2
 django-ace==1.0.1
 django-admin-bootstrapped==1.6.5
 django-appconf==0.6
+django-assets==0.10
 django-classy-tags==0.5.1
 django-cms==3.0.5
 django-email-obfuscator==0.1.2
@@ -18,7 +19,9 @@ django-filer==0.9.6
 django-grappelli==2.5.3
 django-markupfield==1.2.1
 django-mptt==0.6.1
+django-ordered-model==0.4.0
 django-polymorphic==0.5.5
+django-positions==0.5.1
 django-sekizai==0.7
 django-tracking2==0.1.13
 djangocms-admin-style==0.2.2
@@ -40,4 +43,5 @@ sqlparse==0.1.11
 textile==2.1.8
 trans==2.0.1
 urllib3==1.9
+webassets==0.10
 wsgiref==0.1.2

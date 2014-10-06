@@ -20,7 +20,7 @@
     {#  TOP SCRIPTS #}
     {% addtoblock "top_js" %}
         {% if user.is_authenticated and current_page.publisher_is_draft %}
-            <script src="{% static "lib/ckeditor/ckeditor.js" %}"></script>
+            <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
         {% endif %}
     {% endaddtoblock %}
     {#  TOP SCRIPTS  END #}
