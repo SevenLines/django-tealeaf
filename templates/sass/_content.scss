@@ -176,7 +176,8 @@ body {
     left: 0;
   }
   &:hover {
-    background-color: rgba($container_bg_color, 0.55);
+    background-color: $common_color;
+    color: white;
   }
 }
 
@@ -268,3 +269,53 @@ div.items-list {
     }
   }
 }
+
+// collapsable
+
+@mixin collapsable_body_open {
+  display: block;
+}
+
+.cke_editable {
+  .collapsable {
+    .collapsable-body {
+      @include collapsable_body_open
+    }
+  }
+}
+
+.collapsable {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  &:hover {
+    box-shadow: 0 2px 4px lighten($common_color, 20);
+  }
+  .collapsable-body {
+    display: none;
+    overflow: hidden;
+    &.open {
+      @include collapsable_body_open
+    }
+  }
+  .collapsable-header {
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -ms-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+    cursor: pointer;
+    &:hover {
+      background-color: $common_color;
+      color: white;
+      b, strong, h1, h2, h3, h4, h5, h6 {
+        background-color: $common_color;
+        color: white;
+      }
+    }
+  }
+}
+
+// END collapsable

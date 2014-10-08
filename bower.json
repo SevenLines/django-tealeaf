@@ -23,6 +23,7 @@
     "google-code-prettify": "~1.0.3",
     "jquery.cookie": "~1.4.1",
     "jquery-form": "https://github.com/malsup/form.git#~3.46.0",
-    "respond": "~1.4.2"
+    "respond": "~1.4.2",
+    "ckeditor": "~4.4.5"
   }
 }

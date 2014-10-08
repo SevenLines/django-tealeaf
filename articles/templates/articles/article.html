@@ -7,8 +7,9 @@
 {% if user.is_authenticated and is_draft %}
     {# активация встроенного редактирования статьи #}
     <script type="text/javascript">
-        CKEDITOR.config.customConfig = "{% static "lib/ckeditor/articles_ckeditor_config.js" %}";
-        var ckEditor = CKEDITOR.inline("content_{{ instance.pk }}");
+        var ckEditor = CKEDITOR.inline("content_{{ instance.pk }}", {
+            customConfig: "{% static "bower_components/ckeditor/articles_ckeditor_config.js" %}"
+        });
         var editor = new Editor(ckEditor, "#instance_{{ instance.pk }}");
 
         {% file_upload_form_bind_ckeditor "ckEditor" %}
