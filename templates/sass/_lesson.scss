@@ -61,7 +61,7 @@ $header_colors: darken($common_color, 40%);
     max-height: 450px;
     margin: 8px 0;
     &.eqn {
-      background-color: none;
+      background-color: inherit;
       border: none;
       display: inline-block;
       margin: 0;
