@@ -38,6 +38,19 @@ CKEDITOR.dialog.add("collapseDialog", function (editor) {
                             contentElement.html(this.getValue());
                         }
 //                        validate: CKEDITOR.dialog.validate.notEmpty("Explanation field cannot be empty.")
+                    },
+                    {
+                        type: 'checkbox',
+                        id: 'expanded',
+                        label: 'Expanded',
+                        setup: function (element) {
+                            var expanded = $(element).hasClass("expanded");
+//                            console.log(titleElement);
+                            this.setValue(expanded);
+                        },
+                        commit: function (element) {
+                            $(element).toggleClass("expanded", this.getValue());
+                        }
                     }
                 ]
             }
@@ -47,7 +60,8 @@ CKEDITOR.dialog.add("collapseDialog", function (editor) {
             var dialog = this;
             dialog.commitContent(dialog.element);
             if (dialog.insertMode) {
-                editor.insertHtml('<div class="panel panel-default collapsable">' +
+                var cls = dialog.getValueOf('tab-basic', 'expanded') ? " expanded" : "";
+                editor.insertHtml('<div class="panel panel-default collapsable' + cls + '">' +
                     '<div class="panel-heading collapsable-header">' +
                     '<h2 class="panel-title">' +
                     dialog.getValueOf('tab-basic', 'title') +
