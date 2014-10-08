@@ -4,6 +4,6 @@
  */
 CKEDITOR.editorConfig = function (config) {
     config.extraPlugins = 'insertpre,saveme,div,image,sourcedialog,bootstrap-collapse,showblocks,justify,' +
-        'divarea,colordialog,colorbutton,liststyle';
+        'divarea,colordialog,colorbutton,liststyle,eqneditor';
     config.removeButtons = '';
 };
