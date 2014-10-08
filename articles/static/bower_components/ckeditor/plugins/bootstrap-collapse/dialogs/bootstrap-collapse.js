@@ -49,10 +49,10 @@ CKEDITOR.dialog.add("collapseDialog", function (editor) {
             if (dialog.insertMode) {
                 editor.insertHtml('<div class="panel panel-default collapsable">' +
                     '<div class="panel-heading collapsable-header">' +
-                    '<h4 class="panel-title">' +
+                    '<h2 class="panel-title">' +
                     dialog.getValueOf('tab-basic', 'title') +
-                    '</h4></div>' +
-                    '<div class="panel-body collapsable-body">' +
+                    '</h2></div>' +
+                    '<div class="panel-body collapsable-body"><p>' +
                     dialog.getValueOf('tab-basic', 'description') +
                     '</div>' +
                     '</div>');

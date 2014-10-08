@@ -269,15 +269,12 @@ div.items-list {
   }
 }
 
+// collapsable
+
 @mixin collapsable_body_open {
-//  max-height: 2000px;
-//  height: auto;
-//  padding-bottom: 15px;
-//  padding-top: 15px;
   display: block;
 }
 
-// collapsable
 .cke_editable {
   .collapsable {
     .collapsable-body {
@@ -286,21 +283,18 @@ div.items-list {
   }
 }
 
-
-
 .collapsable {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  &:hover {
+    box-shadow: 0 2px 4px lighten($common_color, 20);
+  }
   .collapsable-body {
-//    -webkit-transition: all 0.5s;
-//    -moz-transition: all 0.5s;
-//    -ms-transition: all 0.5s;
-//    -o-transition: all 0.5s;
-//    transition: all 0.5s;
     display: none;
     overflow: hidden;
-//    max-height: 0;
-//    height: 0;
-//    padding-bottom: 0;
-//    padding-top: 0;
     &.open {
       @include collapsable_body_open
     }

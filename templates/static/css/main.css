@@ -219,24 +219,32 @@ div.items-list ul, div.items-list ol {
 .cke_editable .collapsable .collapsable-body {
   display: block; }
 
-.collapsable .collapsable-body {
-  display: none;
-  overflow: hidden; }
-  .collapsable .collapsable-body.open {
-    display: block; }
-.collapsable .collapsable-header {
-  -webkit-transition: all 0.1s;
-  -moz-transition: all 0.1s;
-  -ms-transition: all 0.1s;
-  -o-transition: all 0.1s;
-  transition: all 0.1s;
-  cursor: pointer; }
-  .collapsable .collapsable-header:hover {
-    background-color: #96b0b3;
-    color: white; }
-    .collapsable .collapsable-header:hover b, .collapsable .collapsable-header:hover strong, .collapsable .collapsable-header:hover h1, .collapsable .collapsable-header:hover h2, .collapsable .collapsable-header:hover h3, .collapsable .collapsable-header:hover h4, .collapsable .collapsable-header:hover h5, .collapsable .collapsable-header:hover h6 {
+.collapsable {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s; }
+  .collapsable:hover {
+    box-shadow: 0 2px 4px #d1ddde; }
+  .collapsable .collapsable-body {
+    display: none;
+    overflow: hidden; }
+    .collapsable .collapsable-body.open {
+      display: block; }
+  .collapsable .collapsable-header {
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -ms-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+    cursor: pointer; }
+    .collapsable .collapsable-header:hover {
       background-color: #96b0b3;
       color: white; }
+      .collapsable .collapsable-header:hover b, .collapsable .collapsable-header:hover strong, .collapsable .collapsable-header:hover h1, .collapsable .collapsable-header:hover h2, .collapsable .collapsable-header:hover h3, .collapsable .collapsable-header:hover h4, .collapsable .collapsable-header:hover h5, .collapsable .collapsable-header:hover h6 {
+        background-color: #96b0b3;
+        color: white; }
 
 .menu a {
   color: #344649;
