@@ -34,7 +34,7 @@
     window.InterfaceAlerts = new InterfaceAlerts();
 }());
 
-// mouse move click prevent
+// mouse move click prevent, not mine code
 (function ($) {
     var $doc = $(document),
         moved = false,
@@ -60,6 +60,14 @@
 
     $.clickMouseMoved.threshold = 3;
 })(jQuery);
+
+// collapsable events
+$(function() {
+   $(".collapsable .collapsable-header").click( function () {
+       $(this).siblings(".collapsable-body").slideToggle('fast');
+//       console.log("hi");
+   });
+});
 
 
 // hack to resize main container according menu list

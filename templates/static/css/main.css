@@ -142,7 +142,8 @@ body {
   #back-to-top.show {
     left: 0; }
   #back-to-top:hover {
-    background-color: rgba(255, 255, 255, 0.55); }
+    background-color: #96b0b3;
+    color: white; }
 
 /* icons */
 a[href$='.pdf'] {
@@ -214,6 +215,36 @@ div.items-list ul, div.items-list ol {
       background-color: #96b0b3;
       color: white; }
       div.items-list ul li:hover strong, div.items-list ul li:hover bold, div.items-list ul li:hover a, div.items-list ol li:hover strong, div.items-list ol li:hover bold, div.items-list ol li:hover a {
+        color: white; }
+
+.cke_editable .collapsable .collapsable-body {
+  display: block; }
+
+.collapsable {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s; }
+  .collapsable:hover {
+    box-shadow: 0 2px 4px #d1ddde; }
+  .collapsable .collapsable-body {
+    display: none;
+    overflow: hidden; }
+    .collapsable .collapsable-body.open {
+      display: block; }
+  .collapsable .collapsable-header {
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -ms-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+    cursor: pointer; }
+    .collapsable .collapsable-header:hover {
+      background-color: #96b0b3;
+      color: white; }
+      .collapsable .collapsable-header:hover b, .collapsable .collapsable-header:hover strong, .collapsable .collapsable-header:hover h1, .collapsable .collapsable-header:hover h2, .collapsable .collapsable-header:hover h3, .collapsable .collapsable-header:hover h4, .collapsable .collapsable-header:hover h5, .collapsable .collapsable-header:hover h6 {
+        background-color: #96b0b3;
         color: white; }
 
 .menu a {
@@ -363,3 +394,7 @@ div.items-list ul, div.items-list ol {
     margin: 8px 0; }
   .lesson p {
     margin-bottom: 8px; }
+  .lesson .panel-heading h1, .lesson .panel-heading h2, .lesson .panel-heading h3, .lesson .panel-heading h4, .lesson .panel-heading h5, .lesson .panel-heading h6 {
+    margin: 0; }
+  .lesson .panel.collapsable {
+    margin-bottom: 10px; }

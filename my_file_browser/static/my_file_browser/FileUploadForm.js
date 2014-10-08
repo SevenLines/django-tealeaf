@@ -30,7 +30,8 @@ FileUploadForm = (function () {
             this.editor.ui.addButton('Upload', {
                 label: "upload",
                 command: 'my_file_browser_upload_file',
-                icon: this_script_folder + "icon/file_upload.png"
+                icon: this_script_folder + "icon/file_upload.png",
+                toolbar: "insert,99"
             })
         }
 

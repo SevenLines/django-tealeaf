@@ -69,5 +69,17 @@ $header_colors: darken($common_color, 40%);
   p {
     margin-bottom: 8px;
   }
+
+  .panel-heading {
+    h1, h2, h3, h4, h5, h6 {
+      margin: 0;
+    }
+
+  }
+
+  .panel.collapsable {
+    margin-bottom: 10px;
+  }
+
 }
 
