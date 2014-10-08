@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 CKEDITOR.editorConfig = function (config) {
-    config.extraPlugins = 'insertpre,saveme,div,image,sourcedialog';
+    config.extraPlugins = 'insertpre,saveme,div,image,sourcedialog,bootstrap-collapse,showblocks';
     config.removeButtons = '';
 };

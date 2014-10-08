@@ -268,3 +268,59 @@ div.items-list {
     }
   }
 }
+
+@mixin collapsable_body_open {
+//  max-height: 2000px;
+//  height: auto;
+//  padding-bottom: 15px;
+//  padding-top: 15px;
+  display: block;
+}
+
+// collapsable
+.cke_editable {
+  .collapsable {
+    .collapsable-body {
+      @include collapsable_body_open
+    }
+  }
+}
+
+
+
+.collapsable {
+  .collapsable-body {
+//    -webkit-transition: all 0.5s;
+//    -moz-transition: all 0.5s;
+//    -ms-transition: all 0.5s;
+//    -o-transition: all 0.5s;
+//    transition: all 0.5s;
+    display: none;
+    overflow: hidden;
+//    max-height: 0;
+//    height: 0;
+//    padding-bottom: 0;
+//    padding-top: 0;
+    &.open {
+      @include collapsable_body_open
+    }
+  }
+  .collapsable-header {
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -ms-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+    cursor: pointer;
+    &:hover {
+      background-color: $common_color;
+      color: white;
+      b, strong, h1, h2, h3, h4, h5, h6 {
+        background-color: $common_color;
+        color: white;
+      }
+    }
+  }
+}
+
+// END collapsable
