@@ -397,6 +397,13 @@ a[href$='.doc'], a[href$='.docx'] {
     padding: 8px;
     max-height: 450px;
     margin: 8px 0; }
+    .lesson img.eqn {
+      background-color: none;
+      border: none;
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      max-height: auto; }
   .lesson pre {
     margin: 8px 0; }
   .lesson p {
