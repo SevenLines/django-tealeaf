@@ -6,7 +6,8 @@
 {% addtoblock "js" %}
 <script type="text/javascript">
     $(window).scroll(function() {
-        $("#back-to-top").toggleClass("show", $(this).scrollTop() > 200);
+        var w = $(window).width();
+        $("#back-to-top").toggleClass("show", w > 750 && $(this).scrollTop() > 200);
     });
 
     $('#back-to-top').click(function() {
