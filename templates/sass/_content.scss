@@ -39,11 +39,16 @@ body {
 .container {
   display: block;
   position: relative;
-  margin-bottom: 100px;
+
+  @media (min-width: $min_screen_width) {
+    margin-bottom: 100px;
+    border-radius: 0 0 $container_radius $container_radius;
+    border: 1px solid;
+    border-top: 0;
+  }
+
   padding: 0;
-  border-radius: 0 0 $container_radius $container_radius;
-  border: 1px solid;
-  border-top: 0;
+
   box-shadow: 0px 0px 8px $common_color;
   background-color: $container_bg_color;
 
@@ -51,10 +56,14 @@ body {
     background: $common_color url("images/ornaments_in_#{$menu_width}.png") repeat-y;
     padding-left: $menu_width;
     display: block;
-    border-radius: 0 0 $container_radius $container_radius;
+    @media (min-width: $min_screen_width) {
+      border-radius: 0 0 $container_radius $container_radius;
+    }
     .content {
       background-color: white;
-      border-radius: 0 0 $container_radius 0;
+      @media (min-width: $min_screen_width) {
+        border-radius: 0 0 $container_radius 0;
+      }
       min-height: 500px;
       padding: 1em;
       img {
@@ -65,6 +74,14 @@ body {
     }
   }
 }
+
+/*
+@media (max-width: 300px) {
+  .container {
+    margin-bottom: 0;
+    background-color: black;
+  }
+}*/
 
 .yandex {
   display: none;
@@ -256,9 +273,9 @@ a {
   &:hover {
     .collapsable-header {
       background-color: lighten($common_color, 26);
-//      b, strong, h1, h2, h3, h4, h5, h6 {
-//        background-color: lighten($common_color, 26);
-//      }
+      //      b, strong, h1, h2, h3, h4, h5, h6 {
+      //        background-color: lighten($common_color, 26);
+      //      }
     }
   }
   &.expanded {
@@ -329,9 +346,9 @@ a {
     }
     &:hover {
       background-color: lighten($common_color, 20);
-//      b, strong, h1, h2, h3, h4, h5, h6 {
-//        background-color: lighten($common_color, 20);
-//      }
+      //      b, strong, h1, h2, h3, h4, h5, h6 {
+      //        background-color: lighten($common_color, 20);
+      //      }
     }
   }
 }

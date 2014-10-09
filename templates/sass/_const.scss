@@ -19,6 +19,8 @@ $common_color: #96b0b3;//#96b3a4;//#96b0b3;//#aacfd3;
 $menu_border_color: lighten(darken($common_color, 40%), 30%);
 $container_bg_color: white;
 
+$min_screen_width: 750px;
+
 
 @mixin transition($speed) {
   -webkit-transition: all ease-in-out $speed;
