@@ -29,6 +29,7 @@ import os
 
 from django.core.urlresolvers import reverse
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 try:
