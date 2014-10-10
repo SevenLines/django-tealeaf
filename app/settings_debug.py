@@ -5,6 +5,7 @@
 # SECURITY WARNING: keep the secret key used in production secret!
 from app.settings import credentials
 
+
 SECRET_KEY = credentials['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
