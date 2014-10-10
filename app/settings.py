@@ -183,6 +183,13 @@ CUSTOM_MENU_ITEMS = ({
      'title': 'track',
      'touchable': True
 },)
+
+ASSETS_MODULES = [
+    'app.assets'
+]
+ASSETS_ROOT = 'templates/static'
+ASSETS_AUTO_BUILD = DEBUG
+# ASSETS_URL = ""
 # {
 #          'img': 'img/colorwheel.png',
 #          'href': reverse("students.views.marks.index"),
