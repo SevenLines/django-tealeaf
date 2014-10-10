@@ -28,7 +28,7 @@ import json
 import os
 
 from django.core.urlresolvers import reverse
-
+import django_assets
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -53,6 +53,7 @@ except ImportError:
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django_assets.finders.AssetsFinder',
     # other finders..
 )
 
@@ -187,8 +188,50 @@ CUSTOM_MENU_ITEMS = ({
 ASSETS_MODULES = [
     'app.assets'
 ]
-ASSETS_ROOT = 'templates/static'
-ASSETS_AUTO_BUILD = DEBUG
+ASSETS_CACHE = False
+ASSETS_MANIFEST = False
+ASSETS_ROOT = os.path.join(BASE_DIR, 'templates/static')
+ASSETS_AUTO_BUILD = False
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        # Include the default Django email handler for errors
+        # This is what you'd get without configuring logging at all.
+        'mail_admins': {
+            'class': 'django.utils.log.AdminEmailHandler',
+            'level': 'ERROR',
+             # But the emails are plain text by default - HTML is nicer
+            'include_html': True,
+        },
+        # Log to a text file that can be rotated by logrotate
+        'logfile': {
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': os.path.join("log", "journal.log")
+        },
+    },
+    'loggers': {
+        # Again, default Django configuration to email unhandled exceptions
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        # Might as well log any errors anywhere else in Django
+        'django': {
+            'handlers': ['logfile'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        # Your own app - this assumes all your logger names start with "myapp."
+        'myapp': {
+            'handlers': ['logfile'],
+            'level': 'WARNING', # Or maybe INFO or DEBUG
+            'propagate': False
+        },
+    },
+}
 # ASSETS_URL = ""
 # {
 #          'img': 'img/colorwheel.png',

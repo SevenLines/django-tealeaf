@@ -25,7 +25,7 @@ sys.path.append(os.path.dirname(__file__))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
+os.environ["DJANGO_SETTINGS_MODULE"] = "app.settings"
 
 from django.core.wsgi import get_wsgi_application
 
