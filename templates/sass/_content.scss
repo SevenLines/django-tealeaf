@@ -5,15 +5,16 @@ body, html {
 }
 
 body {
-  background: #f5f5f5; //darken($common_color, 42%); // url($main_background_image);
+  background: $body_bg_color;//#f5f5f5; //darken($common_color, 42%); // url($main_background_image);
   font-family: Georgia, 'Times New Roman', Times, serif;
   padding: 0;
   margin: 0;
 //
-//  background-image: url("images/flower-ribon_300.png");//, url("images/flower-ribon_left_300.png");;
-//  background-position: bottom;//, left;
-//  background-repeat: repeat-x;//, repeat-y;
-
+  background-image: url("images/flower-ribon_300_top.png");//, url("images/flower-ribon_left_300.png");;
+  background-position: top;//, left;
+  background-repeat: repeat-x;//, repeat-y;
+  background-attachment:fixed;
+//
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -ms-transition: all 0.3s;
@@ -53,14 +54,14 @@ body {
   @media (min-width: $min_screen_width) {
     margin-bottom: 100px;
     border-radius: 0 0 $container_radius $container_radius;
-    border: 1px solid;
+    border: 3px solid darken($common_color, 24);
     border-top: 0;
   }
-  border-bottom: 1px solid;
+  border-bottom: 3px solid darken($common_color, 24);
 
   padding: 0;
 
-  box-shadow: 0px 0px 8px $common_color;
+  box-shadow: 0px 0px 16px $common_color;
   background-color: $container_bg_color;
 
   .left-board {

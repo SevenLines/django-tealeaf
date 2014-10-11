@@ -2,10 +2,14 @@ body, html {
   height: 100%; }
 
 body {
-  background: #f5f5f5;
+  background: #689294;
   font-family: Georgia, 'Times New Roman', Times, serif;
   padding: 0;
   margin: 0;
+  background-image: url("images/flower-ribon_300_top.png");
+  background-position: top;
+  background-repeat: repeat-x;
+  background-attachment: fixed;
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -ms-transition: all 0.3s;
@@ -31,30 +35,30 @@ body {
 .container {
   display: block;
   position: relative;
-  border-bottom: 1px solid;
+  border-bottom: 3px solid #4f6e70;
   padding: 0;
-  box-shadow: 0px 0px 8px #96b0b3;
+  box-shadow: 0px 0px 16px #8cacae;
   background-color: white; }
   @media (min-width: 750px) {
     .container {
       margin-bottom: 100px;
-      border-radius: 0 0 21.33333px 21.33333px;
-      border: 1px solid;
+      border-radius: 0 0 12px 12px;
+      border: 3px solid #4f6e70;
       border-top: 0; } }
   .container .left-board {
-    background: #96b0b3 url("images/ornaments_in_64px.png") repeat-y;
+    background: #8cacae url("images/ornaments_in_64px.png") repeat-y;
     padding-left: 64px;
     display: block; }
     @media (min-width: 750px) {
       .container .left-board {
-        border-radius: 0 0 21.33333px 21.33333px; } }
+        border-radius: 0 0 12px 12px; } }
     .container .left-board .content {
       background-color: white;
       min-height: 500px;
       padding: 1em; }
       @media (min-width: 750px) {
         .container .left-board .content {
-          border-radius: 0 0 21.33333px 0; } }
+          border-radius: 0 0 12px 0; } }
       .container .left-board .content img {
         height: auto;
         max-width: 100%; }
@@ -134,7 +138,7 @@ body {
 #back-to-top {
   z-index: 1;
   position: fixed;
-  color: #344649;
+  color: #2d3f41;
   left: -40px;
   bottom: 10px;
   width: 40px;
@@ -152,7 +156,7 @@ body {
   #back-to-top.show {
     left: 0; }
   #back-to-top:hover {
-    background-color: #96b0b3;
+    background-color: #8cacae;
     color: white; }
 
 /* icons */
@@ -210,7 +214,7 @@ a[href$='.doc'], a[href$='.docx'] {
   -o-transition: all 0.3s;
   transition: all 0.3s; }
   .collapsable:hover .collapsable-header {
-    background-color: #e3eaeb; }
+    background-color: #dae4e5; }
   .collapsable.expanded .collapsable-body {
     display: block; }
   .collapsable .collapsable-body {
@@ -249,7 +253,7 @@ a[href$='.doc'], a[href$='.docx'] {
         border-left: none;
         border-right: none; }
         .collapsable .collapsable-body > ul > li:hover, .collapsable .collapsable-body > ol > li:hover {
-          background-color: #f5f7f8; }
+          background-color: #ecf1f1; }
     .collapsable .collapsable-body.open {
       display: block; }
   .collapsable .collapsable-header {
@@ -262,10 +266,10 @@ a[href$='.doc'], a[href$='.docx'] {
     .collapsable .collapsable-header b, .collapsable .collapsable-header strong, .collapsable .collapsable-header h1, .collapsable .collapsable-header h2, .collapsable .collapsable-header h3, .collapsable .collapsable-header h4, .collapsable .collapsable-header h5, .collapsable .collapsable-header h6 {
       background-color: inherit; }
     .collapsable .collapsable-header:hover {
-      background-color: #d1ddde; }
+      background-color: #c8d7d8; }
 
 .menu a {
-  color: #344649;
+  color: #2d3f41;
   text-decoration: none; }
   .menu a:hover {
     text-decoration: underline; }
@@ -281,7 +285,7 @@ a[href$='.doc'], a[href$='.docx'] {
     -o-transition: all ease-in-out 0.3s;
     transition: all ease-in-out 0.3s;
     box-shadow: inset -1px 0 2px #c0c0c0;
-    border-bottom: 1px solid #789a9e;
+    border-bottom: 1px solid #6e9699;
     background-color: rgba(255, 255, 255, 0.65);
     display: block;
     position: relative; }
@@ -321,7 +325,7 @@ a[href$='.doc'], a[href$='.docx'] {
       position: absolute;
       left: 64px;
       top: 0px;
-      box-shadow: 0 0 2px #96b0b3;
+      box-shadow: 0 0 2px #8cacae;
       border: 1px none;
       border-radius: 0 8px 8px 0;
       opacity: 0; }
@@ -340,8 +344,8 @@ a[href$='.doc'], a[href$='.docx'] {
         -o-transition: all ease-in-out 0.1s;
         transition: all ease-in-out 0.1s;
         box-shadow: inset 0px 0px 2px #c0c0c0;
-        border-bottom: 1px solid #789a9e;
-        background-color: rgba(209, 221, 222, 0.95);
+        border-bottom: 1px solid #6e9699;
+        background-color: rgba(200, 215, 216, 0.95);
         width: 192px;
         display: block; }
         .menu > ul > li ul > li:last-child {
@@ -358,7 +362,7 @@ a[href$='.doc'], a[href$='.docx'] {
           box-shadow: none; }
         .menu > ul > li ul > li > a {
           text-shadow: 0 0 3px white;
-          border-left: 6px solid #789a9e;
+          border-left: 6px solid #6e9699;
           width: 100%;
           padding: 8px;
           display: block; }
@@ -371,28 +375,28 @@ a[href$='.doc'], a[href$='.docx'] {
     margin: 0px;
     font-weight: normal;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    color: #344649; }
+    color: #2d3f41; }
   .lesson h2 {
     margin: 0px 0px 0.25em;
     padding: 0px;
     font-weight: normal;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    color: #344649;
+    color: #2d3f41;
     font-size: 1.8em; }
   .lesson b, .lesson strong {
-    color: #344649; }
+    color: #2d3f41; }
   .lesson .breadcrumbs {
     padding-left: 3px;
     font-size: 1em;
-    color: #344649;
+    color: #2d3f41;
     font-family: Georgia, 'Times New Roman', Times, serif; }
   .lesson hr {
     border: 1px inset;
     margin: 0.5em 0;
-    color: #344649; }
+    color: #2d3f41; }
   .lesson a {
     text-decoration: underline;
-    color: #344649;
+    color: #2d3f41;
     -webkit-transition: color 0.2s;
     -moz-transition: color 0.2s;
     -ms-transition: color 0.2s;
@@ -403,7 +407,7 @@ a[href$='.doc'], a[href$='.docx'] {
   .lesson img {
     display: block;
     background-color: white;
-    border: 1px solid #344649;
+    border: 1px solid #2d3f41;
     padding: 8px;
     max-height: 450px;
     margin: 8px 0; }
