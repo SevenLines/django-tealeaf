@@ -28,7 +28,7 @@ import json
 import os
 
 from django.core.urlresolvers import reverse
-
+import django_assets
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -50,9 +50,15 @@ try:
 except ImportError:
     pass
 
+try:
+    from settings_log import *
+except ImportError:
+    pass
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django_assets.finders.AssetsFinder',
     # other finders..
 )
 
@@ -183,6 +189,19 @@ CUSTOM_MENU_ITEMS = ({
      'title': 'track',
      'touchable': True
 },)
+
+ASSETS_MODULES = [
+    'app.assets'
+]
+
+if not DEBUG:
+    ASSETS_CACHE = False
+    ASSETS_MANIFEST = False
+    ASSETS_AUTO_BUILD = False
+
+ASSETS_ROOT = os.path.join(BASE_DIR, 'templates/static')
+
+# ASSETS_URL = ""
 # {
 #          'img': 'img/colorwheel.png',
 #          'href': reverse("students.views.marks.index"),

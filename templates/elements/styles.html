@@ -1,16 +1,11 @@
-{% load static sekizai_tags %}
+{% load static sekizai_tags assets %}
 
 {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/main.min.css" %}"/>
+    {% assets "main_css" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+    {% endassets %}
 {% endaddtoblock %}
 
-{#{% if DEBUG %}#}
-{# В дебажной версии используем главный стиль отдельно от склееного файла #}
-{#    {% addtoblock "css" %}#}
-{#        <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}"/>#}
-{#    {% endaddtoblock %}#}
-{#{% endif %}#}
-
-<!--[if lt IE 8]>
-    <link rel="stylesheet" href="{% static 'css/bootstrap-ie7.css' %}" media="all">
+<!--[if lt IE 9]>
+    <link rel="stylesheet" href="{% static 'css/ie8.css' %}" media="all">
 <![endif]-->
