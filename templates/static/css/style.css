@@ -49,6 +49,9 @@ body {
     background: #8cacae url("images/ornaments_in_64px.png") repeat-y;
     padding-left: 64px;
     display: block; }
+    @media (max-width: 750px) {
+      .container .left-board {
+        padding-left: 43.2px; } }
     @media (min-width: 750px) {
       .container .left-board {
         border-radius: 0 0 12px 12px; } }
@@ -289,6 +292,9 @@ a[href$='.doc'], a[href$='.docx'] {
     background-color: rgba(255, 255, 255, 0.65);
     display: block;
     position: relative; }
+    @media (max-width: 750px) {
+      .menu > ul > li {
+        font-size: 0.675em; } }
     .menu > ul > li.active, .menu > ul > li.ancestor {
       background-color: white;
       border-right: none;
@@ -306,6 +312,9 @@ a[href$='.doc'], a[href$='.docx'] {
       vertical-align: middle;
       overflow: hidden;
       padding: 10px 6px 6px; }
+      @media (max-width: 750px) {
+        .menu > ul > li > a {
+          width: 43.2px; } }
       .menu > ul > li > a > img {
         width: 100%; }
     .menu > ul > li:hover ul {
@@ -329,6 +338,9 @@ a[href$='.doc'], a[href$='.docx'] {
       border: 1px none;
       border-radius: 0 8px 8px 0;
       opacity: 0; }
+      @media (max-width: 750px) {
+        .menu > ul > li ul {
+          left: 43.2px; } }
       .menu > ul > li ul.email {
         box-shadow: none; }
         .menu > ul > li ul.email > li {
@@ -348,6 +360,9 @@ a[href$='.doc'], a[href$='.docx'] {
         background-color: rgba(200, 215, 216, 0.95);
         width: 192px;
         display: block; }
+        @media (max-width: 750px) {
+          .menu > ul > li ul > li {
+            font-size: 1.48148em; } }
         .menu > ul > li ul > li:last-child {
           border-bottom: none; }
         .menu > ul > li ul > li.active {
