@@ -5,7 +5,9 @@
 # SECURITY WARNING: keep the secret key used in production secret!
 from app.settings import credentials
 
+
 SECRET_KEY = credentials['SECRET_KEY']
+DONT_USE_METRICS = int(credentials.get('DONT_USE_METRICS', 0))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(credentials['DEBUG'])

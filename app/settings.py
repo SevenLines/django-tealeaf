@@ -50,6 +50,11 @@ try:
 except ImportError:
     pass
 
+try:
+    from settings_log import *
+except ImportError:
+    pass
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
