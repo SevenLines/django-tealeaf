@@ -35,7 +35,12 @@ body {
 .container {
   display: block;
   position: relative;
-  border-bottom: 3px solid #4f6e70;
+  -webkit-transition: all ease-in-out 0.3s;
+  -moz-transition: all ease-in-out 0.3s;
+  -ms-transition: all ease-in-out 0.3s;
+  -o-transition: all ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s;
+  border-bottom: 8px solid #384e50;
   padding: 0;
   box-shadow: 0px 0px 16px #8cacae;
   background-color: white; }
@@ -43,7 +48,8 @@ body {
     .container {
       margin-bottom: 100px;
       border-radius: 0 0 12px 12px;
-      border: 3px solid #4f6e70;
+      border: 2px solid #4f6e70;
+      border-bottom: 8px solid #384e50;
       border-top: 0; } }
   .container .left-board {
     background: #8cacae url("images/ornaments_in_64px.png") repeat-y;
@@ -91,6 +97,7 @@ body {
     margin: 0.25em; }
   .main-banner img {
     border: 2px solid #000000;
+    box-shadow: 0 0 0 3px #8cacae;
     max-height: 600px; }
 
 /* end navbar */
@@ -214,11 +221,11 @@ a[href$='.doc'], a[href$='.docx'] {
   display: block; }
 
 .collapsable {
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s; }
+  -webkit-transition: all ease-in-out 0.3s;
+  -moz-transition: all ease-in-out 0.3s;
+  -ms-transition: all ease-in-out 0.3s;
+  -o-transition: all ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s; }
   .collapsable:hover .collapsable-header {
     background-color: #dae4e5; }
   .collapsable.expanded .collapsable-body {
@@ -263,11 +270,11 @@ a[href$='.doc'], a[href$='.docx'] {
     .collapsable .collapsable-body.open {
       display: block; }
   .collapsable .collapsable-header {
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -ms-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
+    -webkit-transition: all ease-in-out 0.3s;
+    -moz-transition: all ease-in-out 0.3s;
+    -ms-transition: all ease-in-out 0.3s;
+    -o-transition: all ease-in-out 0.3s;
+    transition: all ease-in-out 0.3s;
     cursor: pointer; }
     .collapsable .collapsable-header b, .collapsable .collapsable-header strong, .collapsable .collapsable-header h1, .collapsable .collapsable-header h2, .collapsable .collapsable-header h3, .collapsable .collapsable-header h4, .collapsable .collapsable-header h5, .collapsable .collapsable-header h6 {
       background-color: inherit; }

@@ -1,3 +1,5 @@
+@import "const.scss";
+
 $item-color: #DDD;
 
 body {
@@ -8,7 +10,6 @@ body {
   transition: all 0.3s;
 }
 
-
 #main-banner {
   text-align: center;
   img#preview {
@@ -18,7 +19,13 @@ body {
 
   img#view {
     max-height: 500px;
+    border-radius: 16px;
+    border: 6px solid darken($common_color, 40);
+//    border-top-width: 12px;
+//    border-top-color: darken($common_color, 40);
     &.borderless {
+      box-shadow: none;
+      border-radius: 0;
       border: none;
     }
   }
@@ -45,7 +52,7 @@ body {
       width: 100%;
 
       > li {
-//        cursor: pointer;
+        //        cursor: pointer;
         margin-top: 0.5em;
         &.add {
         }
@@ -87,9 +94,9 @@ body {
     }
   }
   textarea[name="description"] {
-//    margin-top: 1em;
-//    width: 100%;
-//    max-width: 100%;
-//    min-height: 200px;
+    //    margin-top: 1em;
+    //    width: 100%;
+    //    max-width: 100%;
+    //    min-height: 200px;
   }
 }
