@@ -10,8 +10,12 @@ body {
   #main-banner img#preview {
     max-height: 350px; }
   #main-banner img#view {
-    max-height: 500px; }
+    max-height: 500px;
+    border-radius: 16px;
+    border: 6px solid #2d3f41; }
     #main-banner img#view.borderless {
+      box-shadow: none;
+      border-radius: 0;
       border: none; }
   #main-banner .left.authenticated {
     max-width: 80%;
