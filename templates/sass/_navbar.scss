@@ -17,6 +17,9 @@
     > li {
       @include transition(0.3s);
       box-shadow: inset -1px 0 2px #c0c0c0;
+      @media (max-width: $min_screen_width) {
+        font-size: 1em * $shrink_k;
+      }
 
       &.active, &.ancestor {
         background-color: $container_bg_color;
@@ -36,6 +39,9 @@
 
       > a {
         text-shadow: 0 0 1px silver;
+        @media (max-width: $min_screen_width) {
+          width: $menu_width_shrinked;
+        }
         width: $menu_width;
         display: block;
         text-align: center;
@@ -70,6 +76,9 @@
         padding: 0;
         list-style: none;
         position: absolute;
+        @media (max-width: $min_screen_width) {
+          left: $menu_width_shrinked;
+        }
         left: $menu_width;
         top: 0px;
         box-shadow: 0 0 2px $common_color;
@@ -97,6 +106,9 @@
           background-color: rgba(lighten($common_color, 20%), 0.95);
           width: 3*$menu_width;
           display: block;
+          @media (max-width: $min_screen_width) {
+            font-size: 1em / $shrink_k;
+          }
 
           &:last-child {
             border-bottom: none;
