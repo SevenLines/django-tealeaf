@@ -75,6 +75,9 @@ body {
       border-radius: 0 0 $container_radius $container_radius;
     }
     .content {
+      @media (max-width: $min_screen_width) {
+        font-size: 0.9em;
+      }
       background-color: white;
       @media (min-width: $min_screen_width) {
         border-radius: 0 0 $container_radius 0;
