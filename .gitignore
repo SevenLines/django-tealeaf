@@ -30,3 +30,4 @@ students_dump.json
 media.tgz
 dump.sql
 credentials.json
+.webassets-cache

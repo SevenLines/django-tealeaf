@@ -1,7 +1,9 @@
-{% load static sekizai_tags %}
+{% load static sekizai_tags assets %}
 
 {% addtoblock "top_js" %}
-    <script src="{% static "js/main.min.js" %}"></script>
+    {% assets "main_js" %}
+        <script type="text/javascript" src="{% static ASSET_URL %}"></script>
+    {% endassets %}
 {% endaddtoblock %}
 
 {% addtoblock "js" %}
@@ -41,24 +43,6 @@
     </script>
 {% endaddtoblock %}
 
-
-{#<script type="text/javascript" src={% static "lib/logger.js" %}></script>#}
-{##}
-{#{% addtoblock "top_js" %}#}
-{#    <script type="text/javascript" src="{% static "lib/jquery-1.11.0.min.js" %}"></script>#}
-{#{% endaddtoblock %}#}
-{##}
-{#{% addtoblock "top_js" %}#}
-{#    <script type="text/javascript" src="{% static "js/interface.js" %}"></script>#}
-{#{% endaddtoblock %}#}
-{##}
-{#{% if user.is_authenticated and current_page.publisher_is_draft %}#}
-{#    <script type="text/javascript" src="{% static "lib/jquery.form.js" %}"></script>#}
-{#{% endif %}#}
-{#<script type="text/javascript" src="{% static "lib/jquery.cookie.js" %}"></script>#}
-{#<script type="text/javascript" src={% static "lib/bootstrap/bootstrap.min.js" %}></script>#}
-{##}
-{##}
 <!--[if lt IE 9]>
       <script type="text/javascript" src="{% static "lib/html5shiv.js" %}"></script>
 <![endif]-->
