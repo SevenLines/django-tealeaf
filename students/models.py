@@ -81,8 +81,16 @@ class Student(models.Model):
     second_name = models.CharField(max_length=50, default='')
     group = models.ForeignKey(Group, null=True)
 
+    phone = models.CharField(max_length=50, default='')
+    email = models.EmailField(default='')
+    vk = models.URLField(default='')
+
     def __unicode__(self):
         return "%s | %s" % (self.second_name, self.name)
+
+    def to_dict(self, authenticated=False):
+        excluded = ['phone', 'email', 'vk'] if not authenticated else []
+        return model_to_dict(self, exclude=excluded)
 
     @staticmethod
     def year_students(year):
@@ -135,7 +143,7 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
 
         # студенты группы
         stdnts = Group.objects.get(pk=group_id).students.all().order_by("second_name")
-        stdnts = list([model_to_dict(s) for s in stdnts])
+        stdnts = list([s.to_dict() for s in stdnts])
         for s in stdnts:
             # формируем оценки для студентов
             s_marks = list(filter(lambda m: m['sid'] == s['id'], marks))

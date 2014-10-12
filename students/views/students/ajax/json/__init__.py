@@ -143,7 +143,9 @@ def students(request):
     except Exception as e:
         return HttpResponseBadRequest(e.message)
 
-    return HttpResponse(json.dumps(list(grp.students.values())), mimetype='application/json')
+    _students = list([s.to_dict(request.user.is_authenticated) for s in grp.students.all()])
+
+    return HttpResponse(json.dumps(_students), mimetype='application/json')
 
 
 @require_GET
