@@ -89,7 +89,7 @@ body {
       }
       background-color: $container_bg_color;
       @media (min-width: $min_screen_width) {
-        border-radius: 0 0 $container_radius 0;
+        border-radius: 0 0 $container_radius*10 /12 0;
       }
       min-height: 500px;
       padding: 1em;
