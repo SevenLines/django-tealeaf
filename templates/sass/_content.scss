@@ -1,4 +1,8 @@
 @import "const";
+@function strip($width, $color1, $color2: $body_bg_color, $deg: -45deg) {
+  $gr: repeating-linear-gradient($deg, $color1, $color1 $width, $color2 $width, $color2 2*$width);
+  @return $gr
+}
 
 body, html {
   height: 100%;
@@ -9,12 +13,11 @@ body {
   font-family: Georgia, 'Times New Roman', Times, serif;
   padding: 0;
   margin: 0;
-  //
-  background-image: url("images/flower-ribon_300_top.png"); //, url("images/flower-ribon_left_300.png");;
+
+  background-image: url("images/flower-ribon_300_top.png"), url("images/stripe_62898B.png");//, strip(40px, darken($body_bg_color,3));
   background-position: top; //, left;
-  background-repeat: repeat-x; //, repeat-y;
+  background-repeat: repeat-x, repeat; //, repeat-y;
   background-attachment: fixed;
-  //
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -ms-transition: all 0.3s;
@@ -61,23 +64,20 @@ body {
     border-top: 0;
   }
   border-bottom: 8px solid darken($common_color, 35);
-  //  &:hover {
-  //    box-shadow: 0px 0px 32px lighten($common_color, 15);
-  //    border-bottom-width: 3px;
-  //    border-bottom-color: darken($common_color, 30);
-  //  }
-
   padding: 0;
 
-  box-shadow: 0px 0px 16px $common_color;
+  box-shadow: 0px 4px 16px lighten($common_color, 10);
   background-color: $container_bg_color;
 
   .left-board {
-    background: $common_color url("images/ornaments_in_#{$menu_width}.png") repeat-y;
+    background: $common_color url("images/ornaments_in_64px.png") repeat-y;
+    border-bottom: 1px solid $container_bg_color;
+    border-left: 1px solid $container_bg_color;
     @media (max-width: $min_screen_width) {
+      border-left:none;
       padding-left: $menu_width_shrinked;
     }
-    padding-left: $menu_width;
+    padding-left: 63px;
     display: block;
     @media (min-width: $min_screen_width) {
       border-radius: 0 0 $container_radius $container_radius;
