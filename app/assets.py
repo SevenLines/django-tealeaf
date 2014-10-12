@@ -1,5 +1,7 @@
 from django_assets import Bundle, register
 
+
+
 main_js = Bundle('templates/static/bower_components/jquery/dist/jquery.min.js',
                  'templates/static/bower_components/jquery.cookie/jquery.cookie.js',
                  'templates/static/bower_components/jquery-form/jquery.form.js',
