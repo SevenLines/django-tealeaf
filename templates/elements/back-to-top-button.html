@@ -2,18 +2,3 @@
 <a id="back-to-top">
     <span class="glyphicon glyphicon-chevron-up"></span>
 </a>
-
-{% addtoblock "js" %}
-<script type="text/javascript">
-    $(window).scroll(function() {
-        var w = $(window).width();
-        $("#back-to-top").toggleClass("show", w > 750 && $(this).scrollTop() > 200);
-    });
-
-    $('#back-to-top').click(function() {
-        $('html, body').stop().animate({
-           scrollTop: 0
-        }, 500)
-    });
-</script>
-{% endaddtoblock %}
