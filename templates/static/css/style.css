@@ -6,7 +6,7 @@ body {
   font-family: Georgia, 'Times New Roman', Times, serif;
   padding: 0;
   margin: 0;
-  background-image: url("images/flower-ribon_300_top.png"), url("images/stripe_62898B.png");
+  background-image: url("images/flower-ribon_300_top.png"), url("images/stripe_40px_45deg.png");
   background-position: top;
   background-repeat: repeat-x, repeat;
   background-attachment: fixed;
