@@ -3,21 +3,34 @@ function Student(data) {
     self.id = data.id;
     self.name = ko.observable(data.name);
     self.second_name = ko.observable(data.second_name);
+    self.phone = ko.observable(data.phone);
+    self.vk = ko.observable(data.vk);
+    self.email = ko.observable(data.email);
     self.group_id = data.group_id;
 
     self.old_name = ko.observable(data.name);
     self.old_second_name = ko.observable(data.second_name);
+    self.old_phone = ko.observable(data.phone);
+    self.old_vk = ko.observable(data.vk);
+    self.old_email = ko.observable(data.email);
     self.old_group_id = data.group_id;
+
 
     self.modified = ko.computed(function () {
         return self.old_name() != self.name()
             || self.old_second_name() != self.second_name()
+            || self.old_vk() != self.vk()
+            || self.old_email() != self.email()
+            || self.old_phone() != self.phone()
             || self.old_group_id != self.group_id
     });
 
     self.reset = function () {
         self.old_name(self.name());
         self.old_second_name(self.second_name());
+        self.old_phone(self.phone());
+        self.old_vk(self.vk());
+        self.old_email(self.email());
         self.old_group_id = self.group_id;
     }
 }

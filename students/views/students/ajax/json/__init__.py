@@ -55,19 +55,22 @@ def groups(request):
 @atomic
 def update_students_data(students_list):
     for s in students_list:
+
         if '_destroy' in s and s['id'] != -1:  # destroyed items
             Student.objects.filter(pk=s['id']).delete()
+
         if s['modified'] and s['id'] != -1:  # modifieded items
             student = Student.objects.filter(pk=s['id']).first()
-            if student is not None:
-                student.name = s['name']
-                student.second_name = s['second_name']
-                student.save()
+            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk']:
+                if prop in s:
+                    setattr(student, prop, s[prop])
+            student.save()
+
         if s['id'] == -1:  # new items
             student = Student()
-            student.group_id = s['group_id']
-            student.name = s['name']
-            student.second_name = s['second_name']
+            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk']:
+                if prop in s:
+                    setattr(student, prop, s[prop])
             student.save()
 
 
@@ -143,7 +146,9 @@ def students(request):
     except Exception as e:
         return HttpResponseBadRequest(e.message)
 
-    return HttpResponse(json.dumps(list(grp.students.values())), mimetype='application/json')
+    _students = list([s.to_dict(request.user.is_authenticated) for s in grp.students.all()])
+
+    return HttpResponse(json.dumps(_students), mimetype='application/json')
 
 
 @require_GET
