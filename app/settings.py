@@ -199,7 +199,7 @@ if not DEBUG:
     ASSETS_MANIFEST = False
     ASSETS_AUTO_BUILD = False
 
-ASSETS_ROOT = os.path.join(BASE_DIR, 'templates/static')
+ASSETS_ROOT = BASE_DIR  # os.path.join(BASE_DIR, 'templates/static')
 
 # ASSETS_URL = ""
 # {

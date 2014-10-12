@@ -1,5 +1,5 @@
 {% extends "base_page.html" %}
-{% load static sekizai_tags %}
+{% load static sekizai_tags assets %}
 
 {% block basecontent %}
     {% if user.is_authenticated %}
@@ -68,17 +68,9 @@
             <link rel="stylesheet" href="{% static "css/students.css" %}"/>
         {% endaddtoblock %}
 
-        {% addtoblock "js" %}
-            <script src="{% static 'bower_components/knockout/dist/knockout.js' %}"></script>
-        {% endaddtoblock %}
-
-        {% addtoblock "js" %}
-            <script src="{% static "js/ko.modal_confirm.min.js" %}"></script>
-        {% endaddtoblock "js" %}
-
-        {% addtoblock "js" %}
-            <script src="{% static "js/students/ko.marks.min.js" %}"></script>
-        {% endaddtoblock "js" %}
+        {% assets "marks_js" %}
+            <script type="text/javascript"  src="{% static ASSET_URL %}"></script>
+        {% endassets %}
 
         {% addtoblock "js" %}
             <script>
