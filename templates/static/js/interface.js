@@ -1,6 +1,9 @@
 /**
  * Created by m on 24.08.14.
  */
+
+var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
+
 (function () {
     function InterfaceAlerts() {
         var self = this;
@@ -62,22 +65,46 @@
 })(jQuery);
 
 // collapsable events
-$(function() {
-   $(".collapsable .collapsable-header").click( function () {
-       $(this).siblings(".collapsable-body").slideToggle('fast');
+$(function () {
+    $(".collapsable .collapsable-header").click(function () {
+        $(this).siblings(".collapsable-body").slideToggle('fast');
 //       console.log("hi");
-   });
+    });
 });
 
 
 // hack to resize main container according menu list
-$(function() {
+$(function () {
     var min_height = $(".menu>ul").height() + 30;
     $(".content").css("min-height", min_height);
 });
 
+$(function () {
+    // enable click to expand menu for touch devices
+    if (isTouch) {
+        $(".menu >ul>li").not(".logo").not(".touchable").find(">a").click(function () {
+            return false;
+        })
+    }
+
+    // убираю nojs класс если активирован javascript
+    $(".nojs").removeClass("nojs");
+
+    $(window).scroll(function() {
+        var w = $(window).width();
+        $("#back-to-top").toggleClass("show", w > 750 && $(this).scrollTop() > 200);
+    });
+
+    // back-to-top button
+    $('#back-to-top').click(function() {
+        $('html, body').stop().animate({
+           scrollTop: 0
+        }, 500)
+    });
+});
+
 // hack to keep left menu position on container position
-$(window).on("scroll resize touchmove", function() {
+$(window).on("scroll resize touchmove", function () {
     var m = $(".menu>ul");
     var left = $(".left-board").offset().left;
     var scrollLeft = $(this).scrollLeft();

@@ -233,11 +233,18 @@ a[href$='.doc'], a[href$='.docx'] {
   .collapsable .collapsable-body {
     display: none;
     overflow: hidden;
-    padding: 15px; }
+    padding: 15px;
+    /* list inside collabsable */
+    /* end list inside collabsable */ }
     .collapsable .collapsable-body > div:last-child, .collapsable .collapsable-body > p:last-child, .collapsable .collapsable-body > ul:last-child, .collapsable .collapsable-body > ol:last-child {
       margin-bottom: 0;
       padding-bottom: 0; }
     .collapsable .collapsable-body > ul, .collapsable .collapsable-body > ol {
+      -webkit-transition: all ease-in-out 0.2s;
+      -moz-transition: all ease-in-out 0.2s;
+      -ms-transition: all ease-in-out 0.2s;
+      -o-transition: all ease-in-out 0.2s;
+      transition: all ease-in-out 0.2s;
       padding-left: 0;
       margin-bottom: 0;
       margin-left: -15px;
@@ -251,22 +258,26 @@ a[href$='.doc'], a[href$='.docx'] {
         margin-top: -15px; }
         .collapsable .collapsable-body > ul:first-child > li:first-child, .collapsable .collapsable-body > ol:first-child > li:first-child {
           border-top: none; }
+      .collapsable .collapsable-body > ul:last-child:first-child > li, .collapsable .collapsable-body > ol:last-child:first-child > li {
+        background-color: #FFF; }
+        .collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
+          background-color: #f8fafa; }
       .collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
-        -webkit-transition: all 0.1s;
-        -moz-transition: all 0.1s;
-        -ms-transition: all 0.1s;
-        -o-transition: all 0.1s;
-        transition: all 0.1s;
+        -webkit-transition: all ease-in-out 0.2s;
+        -moz-transition: all ease-in-out 0.2s;
+        -ms-transition: all ease-in-out 0.2s;
+        -o-transition: all ease-in-out 0.2s;
+        transition: all ease-in-out 0.2s;
         position: relative;
         display: block;
         padding: 10px 15px;
         margin-bottom: -1px;
-        background-color: #FFF;
         border: 1px solid #DDD;
         border-left: none;
-        border-right: none; }
+        border-right: none;
+        background-color: #f8fafa; }
         .collapsable .collapsable-body > ul > li:hover, .collapsable .collapsable-body > ol > li:hover {
-          background-color: #ecf1f1; }
+          background-color: #FFF; }
     .collapsable .collapsable-body.open {
       display: block; }
   .collapsable .collapsable-header {

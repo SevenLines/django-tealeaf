@@ -7,20 +7,7 @@
 {% endaddtoblock %}
 
 {% addtoblock "js" %}
-<script>
-    // check for touch device
-    var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
-</script>
-{% endaddtoblock %}
-
-{% addtoblock "js" %}
     <script>
-        // enable click to expand menu for touch devices
-        if (isTouch) {
-            $(".menu >ul>li").not(".logo").not(".touchable").find(">a").click(function () {
-                return false;
-            })
-        }
         $("body").click(function (evt) {
             if (evt.altKey && evt.ctrlKey && evt.shiftKey) {
                 {% if not user.is_authenticated %}
@@ -38,8 +25,6 @@
                 {% endif %}
             }
         });
-        // убираю nojs класс если активирован javascript
-        $(".nojs").removeClass("nojs");
     </script>
 {% endaddtoblock %}
 

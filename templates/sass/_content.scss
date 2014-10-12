@@ -61,11 +61,11 @@ body {
     border-top: 0;
   }
   border-bottom: 8px solid darken($common_color, 35);
-//  &:hover {
-//    box-shadow: 0px 0px 32px lighten($common_color, 15);
-//    border-bottom-width: 3px;
-//    border-bottom-color: darken($common_color, 30);
-//  }
+  //  &:hover {
+  //    box-shadow: 0px 0px 32px lighten($common_color, 15);
+  //    border-bottom-width: 3px;
+  //    border-bottom-color: darken($common_color, 30);
+  //  }
 
   padding: 0;
 
@@ -317,7 +317,9 @@ a {
         padding-bottom: 0;
       }
     }
+    /* list inside collabsable */
     > ul, > ol {
+      @include transition(0.2s);
       &:last-child {
         margin-bottom: -15px;
         > li:last-child {
@@ -331,29 +333,34 @@ a {
           border-top: none;
         }
       }
+      &:last-child:first-child {
+        > li {
+          background-color: #FFF;
+          &:hover {
+            background-color: lighten($common_color, 36);
+          }
+        }
+      }
       padding-left: 0;
       margin-bottom: 0;
       margin-left: -15px;
       margin-right: -15px;
       > li {
-        -webkit-transition: all 0.1s;
-        -moz-transition: all 0.1s;
-        -ms-transition: all 0.1s;
-        -o-transition: all 0.1s;
-        transition: all 0.1s;
+        @include transition(0.2s);
         position: relative;
         display: block;
         padding: 10px 15px;
         margin-bottom: -1px;
-        background-color: #FFF;
         border: 1px solid #DDD;
         border-left: none;
         border-right: none;
+        background-color: lighten($common_color, 36);
         &:hover {
-          background-color: lighten($common_color, 32);
+          background-color: #FFF;
         }
       }
     }
+    /* end list inside collabsable */
     &.open {
       @include collapsable_body_open
     }
@@ -366,9 +373,6 @@ a {
     }
     &:hover {
       background-color: lighten($common_color, 20);
-      //      b, strong, h1, h2, h3, h4, h5, h6 {
-      //        background-color: lighten($common_color, 20);
-      //      }
     }
   }
 }
