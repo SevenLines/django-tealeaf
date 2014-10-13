@@ -13,6 +13,7 @@
         self.end_time = toLocString(data.end_time);
         self.user_agent = data.user_agent;
         self.last_of_day = data.last_of_day;
+        self.visits = data.visits;
 
         self.style = self.last_of_day ? "last_of_day" : "";
     }

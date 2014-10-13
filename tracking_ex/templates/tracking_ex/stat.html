@@ -12,6 +12,7 @@
             <th>agent</th>
             <th>start time</th>
             <th>end time</th>
+            <th>visits</th>
         </tr>
         </thead>
         <tbody>
@@ -22,10 +23,11 @@
                 data-bind="text: user_agent, attr: { 'title': user_agent }"></td>
             <td class="start-time" data-bind="text: start_time"></td>
             <td class="end-time" data-bind="text: end_time"></td>
+            <td class="visits" data-bind="text: visits"></td>
         </tr>
         <!-- /ko -->
         <tr data-bind="visible: !no_more_visitors()" class="add">
-            <td colspan="4" class="add" data-bind="visible: !visitors_loading()" align="center">
+            <td colspan="5" class="add" data-bind="visible: !visitors_loading()" align="center">
                 <button class="btn btn-info" data-bind="click: fetchMore" style="width: 100%">+</button>
             </td>
             <td data-bind="visible: visitors_loading" colspan="4">
