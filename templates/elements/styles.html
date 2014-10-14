@@ -1,10 +1,13 @@
-{% load static sekizai_tags assets %}
+{% load static sekizai_tags assets ex_tags %}
 
 {% addtoblock "css" %}
     {% assets "main_css" %}
         <link rel="stylesheet" href="{{ ASSET_URL }}"/>
     {% endassets %}
 {% endaddtoblock %}
+
+{% theme %}
+{#<link rel="stylesheet" href="{% static "css/theme_grey.css" %}"/>#}
 
 <!--[if lt IE 9]>
     <link rel="stylesheet" href="{% static 'css/ie8.css' %}" media="all">

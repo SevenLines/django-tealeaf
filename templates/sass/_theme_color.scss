@@ -1,0 +1,66 @@
+@import "const";
+
+@mixin theme_color($color) {
+  $body_bg_color: $color;
+  $common_color: $color;
+  body {
+    background-color: $body_bg_color;
+  }
+
+  .container {
+    @media (min-width: $min_screen_width) {
+      border-color: darken($common_color, 24);
+      border-bottom-color: darken($common_color, 35);
+    }
+    border-bottom-color: darken($common_color, 35);
+
+    box-shadow-color: lighten($common_color, 10);
+
+    .left-board {
+      background-color: $common_color;
+    }
+  }
+
+  .main-banner {
+    img {
+      box-shadow-color: $common_color;
+    }
+  }
+
+  /* back-to-top */
+  #back-to-top {
+    color: darken($common_color, 40%);
+    &:hover {
+      background-color: $common_color;
+    }
+  }
+
+  .collapsable {
+    &:hover {
+      .collapsable-header {
+        background-color: lighten($common_color, 26);
+      }
+    }
+    .collapsable-body {
+      > ul, > ol {
+        &:last-child:first-child {
+          > li {
+            &:hover {
+              background-color: lighten($common_color, 36);
+            }
+          }
+        }
+        > li {
+          background-color: lighten($common_color, 36);
+        }
+      }
+      /* end list inside collabsable */
+    }
+    .collapsable-header {
+      &:hover {
+        background-color: lighten($common_color, 20);
+      }
+    }
+  }
+
+}
