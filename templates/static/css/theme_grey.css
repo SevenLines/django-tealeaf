@@ -31,5 +31,9 @@ body {
 .collapsable .collapsable-header:hover {
   background-color: #b3b3b3; }
 
+.collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
+  background-color: #f3f3f3; }
+.collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
+  background-color: #f3f3f3; }
 .collapsable .collapsable-header {
   text-shadow: 0 0 1px white; }

@@ -3,6 +3,20 @@
 @include theme_color(#808080);
 
 .collapsable {
+  .collapsable-body {
+    > ul, > ol {
+      &:last-child:first-child {
+        > li {
+          &:hover {
+            background-color: lighten($common_color, 45);
+          }
+        }
+      }
+      > li {
+        background-color: lighten($common_color, 45);
+      }
+    }
+  }
   .collapsable-header {
     text-shadow: 0 0 1px white;
   }
