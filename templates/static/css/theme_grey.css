@@ -31,6 +31,18 @@ body {
 .collapsable .collapsable-header:hover {
   background-color: #b3b3b3; }
 
+.menu a {
+  color: #1a1a1a; }
+.menu > ul > li {
+  border-bottom-color: #676767; }
+  .menu > ul > li ul {
+    box-shadow-color: gray; }
+    .menu > ul > li ul > li {
+      border-bottom-color: #676767;
+      background-color: rgba(179, 179, 179, 0.95); }
+      .menu > ul > li ul > li > a {
+        border-left-color: #676767; }
+
 .collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
   background-color: #f3f3f3; }
 .collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
