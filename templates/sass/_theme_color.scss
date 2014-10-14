@@ -3,6 +3,7 @@
 @mixin theme_color($color) {
   $body_bg_color: $color;
   $common_color: $color;
+  $menu_border_color: lighten(darken($color, 40%), 30%);
   body {
     background-color: $body_bg_color;
   }
@@ -59,6 +60,28 @@
     .collapsable-header {
       &:hover {
         background-color: lighten($common_color, 20);
+      }
+    }
+  }
+  .menu {
+    a {
+      color: darken($common_color, 40%);
+    }
+    > ul {
+      > li {
+        border-bottom-color: $menu_border_color;
+
+        ul {
+          box-shadow-color: $common_color;
+
+          > li {
+            border-bottom-color:$menu_border_color;
+            background-color: rgba(lighten($common_color, 20%), 0.95);
+            > a {
+              border-left-color: $menu_border_color;
+            }
+          }
+        }
       }
     }
   }
