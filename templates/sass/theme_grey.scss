@@ -1,0 +1,9 @@
+@import "theme_color";
+
+@include theme_color(#808080);
+
+.collapsable {
+  .collapsable-header {
+    text-shadow: 0 0 1px white;
+  }
+}

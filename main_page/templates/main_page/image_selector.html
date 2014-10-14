@@ -5,6 +5,12 @@
 <div class="right">
     <ul>
         <li>
+            <select class="form-control" id="themes"
+                    data-bind="value: current_theme, options: themes, optionsText: 'name'"></select>
+        </li>
+    </ul>
+    <ul>
+        <li>
             <form class="form-inline">
                 <button class="btn btn-default" data-bind="click: toggleBorder">
                     <span class="glyphicon" data-bind="css: style()"> Граница</span>
@@ -90,7 +96,10 @@
                 save_item: "{% url "main_page.views.save_item" %}",
                 add_item: "{% url "main_page.views.add_item" %}",
                 remove_item: "{% url "main_page.views.remove_item" %}",
-                toggle_border: "{% url "main_page.views.toggle_border" %}"
+                toggle_border: "{% url "main_page.views.toggle_border" %}",
+
+                themes: "{% url "main_page.views.list_themes" %}",
+                set_theme: "{% url "main_page.views.set_current_theme" %}"
             },
             selector: {
                 view: "#main-banner .left .view"

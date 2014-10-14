@@ -1,7 +1,8 @@
+# coding=utf-8
 from django.template.loader import render_to_string
 from django import template
-# from .. import CUSTOM_MENU_ITEMS
 from django.conf import settings
+from main_page.models import MainPage
 
 register = template.Library()
 
@@ -20,3 +21,20 @@ def custom_menu_items(request):
             })
 
     return out
+
+
+@register.simple_tag
+def theme(css_path=''):
+    """
+    Рендерит дополнительный css с темой
+    :param css_path:
+    :return:
+    """
+    if css_path == '':
+        css_path = MainPage.solo().current_theme_css
+    if css_path == '':
+        return ""
+
+    return render_to_string("ex_tags/link_css.html", {
+        'css_path': css_path
+    })

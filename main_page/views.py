@@ -1,11 +1,17 @@
+# coding=utf-8
+from glob import glob
 import json
+import os
+import re
 from uuid import uuid4
+from django.conf import settings
 
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
+from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
@@ -67,6 +73,44 @@ def list_items(request):
         output.append(i_dict)
 
     return HttpResponse(json.dumps(output), content_type='json')
+
+
+@login_required
+def list_themes(request):
+    current_theme = MainPage.solo().current_theme_css
+
+    out = []
+
+    out.append({
+        'name': 'без темы',
+        'path': '',
+        'current': current_theme == ''
+    })
+
+
+    pth = os.path.join(settings.STATIC_ROOT, "css")
+    for f in os.listdir(pth):
+        fl = f.split(os.sep)[-1]
+        m = re.match(r"theme_(.*?)\.css", fl)
+        if m:
+            theme_path = os.path.join(settings.STATIC_URL, 'css', f)
+            out.append({
+                'name': m.group(1),
+                'path': theme_path,
+                'current': theme_path == current_theme
+            })
+
+    return HttpResponse(json.dumps(out), content_type='json')
+
+
+@login_required
+@require_in_POST("css_path")
+def set_current_theme(request):
+    main_page = MainPage.solo()
+    main_page.current_theme_css = request.POST['css_path']
+    main_page.save()
+
+    return HttpResponse()
 
 
 @require_POST

@@ -31,7 +31,10 @@ function MainPageModel(data) {
         save_item: data.url.save_item,          // save item with specific item_id
         add_item: data.url.add_item,            // add new item
         remove_item: data.url.remove_item,      // remove item with id
-        toggle_border: data.url.toggle_border   // toggle main image border
+        toggle_border: data.url.toggle_border,  // toggle main image border
+
+        themes: data.url.themes,
+        set_theme: data.url.set_theme
     };
 
     self.show_border = ko.observable(data.show_border);
@@ -39,6 +42,7 @@ function MainPageModel(data) {
     self.selector = {
         view: data.selector.view
     };
+
 
     self.modalSave = new ModalConfirm({ modal_selector: "#modalSave" });
     self.modalDelete = new ModalConfirm({
@@ -55,6 +59,24 @@ function MainPageModel(data) {
 
     self.items = ko.observableArray();
     self.current_item = ko.observable(self.reset_item());
+
+    self.themes = ko.observableArray();
+    self.current_theme = ko.observable();
+    self.init_current_theme = ko.observable();
+
+    self.current_theme.subscribe(function (value) {
+        if (self.current_theme() && self.init_current_theme() && self.current_theme().path != self.init_current_theme().path) {
+            $.post(self.url.set_theme, csrfize({
+                'css_path': value.path
+            })).success(function () {
+                InterfaceAlerts.showSuccess();
+                self.init_current_theme(self.current_theme());
+                location.reload();
+            }).fail(function () {
+                InterfaceAlerts.showFail();
+            })
+        }
+    });
 
     self.style = ko.computed(function () {
         var s = self.show_border() ? 'glyphicon-eye-open' : 'glyphicon-eye-close';
@@ -92,6 +114,21 @@ function MainPageModel(data) {
         }
     };
     // <<<
+    self.loadThemes = function () {
+        $.get(self.url.themes).success(function (response) {
+            self.themes(response);
+            self.themes().every(function (item) {
+                if (item.current) {
+                    self.init_current_theme(item);
+                    return false;
+                }
+                return true;
+            });
+            if (self.init_current_theme()) {
+                self.current_theme(self.init_current_theme());
+            }
+        });
+    };
 
     self.loadItems = function (select_newest_item) {
         $.get(self.url.items, {}, function (data) {
@@ -222,6 +259,7 @@ function MainPageModel(data) {
 
 
     self.loadItems();
+    self.loadThemes();
 }
 
 $(function () {
