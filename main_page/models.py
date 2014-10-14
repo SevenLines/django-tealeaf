@@ -34,6 +34,7 @@ class MainPageItem(Model):
 
 class MainPage(Model):
     current_item = models.ForeignKey(MainPageItem, null=True, on_delete=models.SET_NULL)
+    current_theme_css = models.TextField(default="")
     show_border = models.BooleanField(default=True)
 
     @staticmethod

@@ -1,0 +1,39 @@
+body {
+  background-color: gray; }
+
+.container {
+  border-bottom-color: #272727;
+  box-shadow-color: #9a9a9a; }
+  @media (min-width: 750px) {
+    .container {
+      border-color: #434343;
+      border-bottom-color: #272727; } }
+  .container .left-board {
+    background-color: gray; }
+
+.main-banner img {
+  box-shadow-color: gray; }
+
+/* back-to-top */
+#back-to-top {
+  color: #1a1a1a; }
+  #back-to-top:hover {
+    background-color: gray; }
+
+.collapsable:hover .collapsable-header {
+  background-color: #c2c2c2; }
+.collapsable .collapsable-body {
+  /* end list inside collabsable */ }
+  .collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
+    background-color: gainsboro; }
+  .collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
+    background-color: gainsboro; }
+.collapsable .collapsable-header:hover {
+  background-color: #b3b3b3; }
+
+.collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
+  background-color: #f3f3f3; }
+.collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
+  background-color: #f3f3f3; }
+.collapsable .collapsable-header {
+  text-shadow: 0 0 1px white; }
