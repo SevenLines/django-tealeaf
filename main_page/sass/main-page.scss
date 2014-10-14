@@ -45,8 +45,12 @@ body {
     }
   }
   .right {
+    @include transition(0.2s);
     float: right;
     max-width: 20%;
+//    max-height: 500px;
+    overflow: scroll;
+    overflow-x: hidden;
     > ul {
       list-style: none;
       width: 100%;
