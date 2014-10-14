@@ -133,6 +133,10 @@ function MainPageModel(data) {
             item_id: self.current_item().id
         })).success(function (data) {
             $(self.selector.view).html(data.html);
+            setTimeout(function () {
+                var max_height = $("#main-banner .left").height() - 30;
+                $("#main-banner .right").css("height", max_height);
+            }, 500);
         }).fail(function (data) {
             $(self.selector.view).html("");
         });
@@ -220,3 +224,6 @@ function MainPageModel(data) {
     self.loadItems();
 }
 
+$(function () {
+
+});
