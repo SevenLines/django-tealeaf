@@ -22,4 +22,9 @@
       }
     }
   }
+  .collapsable-header {
+    &:hover {
+      background-color: lighten($common_color, 35);
+    }
+  }
 }

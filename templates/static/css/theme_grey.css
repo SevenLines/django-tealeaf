@@ -53,3 +53,5 @@ body {
   background-color: #f3f3f3; }
 .collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
   background-color: #f3f3f3; }
+.collapsable .collapsable-header:hover {
+  background-color: #d9d9d9; }
