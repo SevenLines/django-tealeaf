@@ -3,33 +3,28 @@
 {% include "main_page/modalSave.html" %}
 
 <div class="right">
+    <form class="form">
+        <select class="form-control" id="themes"  style="margin-bottom: 0.5em"
+                data-bind="value: current_theme, options: themes, optionsText: 'name'"></select>
+
+            <button class="btn btn-default" data-bind="click: toggleBorder" style="width: 100%">
+                <span class="glyphicon" data-bind="css: style()"> Граница</span>
+            </button>
+    </form>
+    <form class="form" data-bind="submit: $root.addItem" style="padding: 0.5em 0">
+        <button class="btn btn-info" style="width: 100%">
+            <i class="glyphicon glyphicon-plus"><span> Добавить</span></i>
+        </button>
+        {% csrf_token %}
+        <input style="display: none" type="file" name="file" accept="image/*" hidden="">
+        <input name="title" placeholder="title" data-bind="value: $root.new_item.title" hidden="">
+        <textarea name="description" style="resize:none"
+                  data-bind="value: $root.new_item.description" hidden=""></textarea>
+    </form>
     <ul>
-        <li>
-            <select class="form-control" id="themes"
-                    data-bind="value: current_theme, options: themes, optionsText: 'name'"></select>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <form class="form-inline">
-                <button class="btn btn-default" data-bind="click: toggleBorder">
-                    <span class="glyphicon" data-bind="css: style()"> Граница</span>
-                </button>
-            </form>
-        </li>
         <!-- ДОБАВЛЕНИЕ ВИДА -->
         <li class="add">
-            <form data-bind="submit: $root.addItem">
-                <button class="btn btn-info">
-                    <i class="glyphicon glyphicon-plus"><span> Добавить</span></i>
-                </button>
-                {% csrf_token %}
-                <input style="display: none" type="file" name="file" accept="image/*">
-                <input name="title" placeholder="title" data-bind="value: $root.new_item.title" hidden="">
-                <textarea name="description" style="resize:none"
-                          data-bind="value: $root.new_item.description" hidden=""></textarea>
-{#                <input type="text" name="activate" hidden="" value="true">#}
-            </form>
+
         </li>
         <!-- КОНЕЦ ДОБАВЛЕНИЕ ВИДА -->
 

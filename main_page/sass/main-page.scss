@@ -21,8 +21,8 @@ body {
     max-height: 500px;
     border-radius: 16px;
     border: 6px solid darken($common_color, 40);
-//    border-top-width: 12px;
-//    border-top-color: darken($common_color, 40);
+    //    border-top-width: 12px;
+    //    border-top-color: darken($common_color, 40);
     &.borderless {
       box-shadow: none;
       border-radius: 0;
@@ -48,10 +48,10 @@ body {
     @include transition(0.2s);
     float: right;
     max-width: 20%;
-//    max-height: 500px;
-    overflow: scroll;
-    overflow-x: hidden;
+    //    max-height: 500px;
     > ul {
+      overflow: scroll;
+      overflow-x: hidden;
       list-style: none;
       width: 100%;
 
