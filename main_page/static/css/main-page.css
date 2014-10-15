@@ -12,7 +12,7 @@ body {
   #main-banner img#view {
     max-height: 500px;
     border-radius: 16px;
-    border: 6px solid #474747; }
+    border: 6px solid #2d3f41; }
     #main-banner img#view.borderless {
       box-shadow: none;
       border-radius: 0;
@@ -20,6 +20,7 @@ body {
   #main-banner .left.authenticated {
     max-width: 80%;
     width: 80%;
+    padding-right: 0.5em;
     float: left; }
   #main-banner .left .view {
     margin: 0 auto; }
@@ -32,10 +33,12 @@ body {
     -o-transition: all ease-in-out 0.2s;
     transition: all ease-in-out 0.2s;
     float: right;
-    max-width: 20%;
-    overflow: scroll;
-    overflow-x: hidden; }
+    width: 20%;
+    border-left: 2px solid black;
+    padding-left: 0.5em; }
     #main-banner .right > ul {
+      overflow: scroll;
+      overflow-x: hidden;
       list-style: none;
       width: 100%; }
       #main-banner .right > ul > li {
