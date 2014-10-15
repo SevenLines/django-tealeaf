@@ -30,13 +30,30 @@ body {
     }
   }
 
+  #editor-panel {
+    > .panel-heading {
+      @include transition(0.3s);
+      background-color: white;
+      cursor: pointer;
+      &:hover {
+        background-color: $common_color;
+        color: white;
+      }
+    }
+    > .panel-collapse > .panel-body {
+      padding: 0;
+      > form {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
   .left {
     &.authenticated {
       // для аутентифицированных пользователей
-      max-width: 80%;
-      width: 80%;
-      padding-right: 0.5em;
-      float: left
+      clear: none;
+      margin-right: 220px;
     }
     .view {
       margin: 0 auto;
@@ -46,18 +63,23 @@ body {
     }
   }
   .right {
-    @include transition(0.2s);
     float: right;
-    width: 20%;
-    border-left: 2px solid black;
+    width: 200px;
     padding-left: 0.5em;
 
-
     > ul {
+      @include transition(0.2s);
+      height: 500px;
+      border-radius: 8px;
+      padding: 0 1em;
       overflow: scroll;
       overflow-x: hidden;
       list-style: none;
       width: 100%;
+
+      &:hover {
+        box-shadow: 0 0 4px $common_color;
+      }
 
       > li {
         //        cursor: pointer;

@@ -4,28 +4,37 @@
 {% block basecontent %}
 
     <div id="main-banner">
+        {% if user.is_authenticated %}
+            {% include "main_page/image_selector.html" %}
+        {% endif %}
         <div class="left{% if user.is_authenticated %} authenticated{% endif %}">
             <div class="view">
                 {% include "main_page/image.html" %}
             </div>
             {% if user.is_authenticated %}
                 <!--  РЕДАКТИРОВАНИЕ ВИДА  -->
-                <form style="padding-top: 1em" data-bind="submit: $root.saveItem">
-                    <div class="form-group">
-                        <textarea data-icon="{% static "img/main_page/saveme.png" %}" id="description-edit"
-                                  style="resize: vertical" class="form-control" name="description"
-                                  data-bind="ckeditor: $root.current_item.description">
-                        </textarea>
+                <div id="editor-panel" class="panel panel-default hidden-xs" style="margin-top: 1em">
+                    <div class="panel-heading" data-toggle="collapse" href="#editor">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
                     </div>
-                </form>
+                    <div class="panel-collapse collapse" id="editor">
+                        <div class="panel-body">
+                            <form data-bind="submit: $root.saveItem">
+                                    <textarea data-icon="{% static "img/main_page/saveme.png" %}" id="description-edit"
+                                              style="resize: vertical" class="form-control" name="description"
+                                              data-bind="ckeditor: $root.current_item.description">
+                                    </textarea>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <!--  КОНЕЦ РЕДАКТИРОВАНИЯ ВИДА  -->
             {% endif %}
 
         </div>
 
-        {% if user.is_authenticated %}
-            {% include "main_page/image_selector.html" %}
-        {% endif %}
+
     </div>
 
     <div style="clear: both"></div>
