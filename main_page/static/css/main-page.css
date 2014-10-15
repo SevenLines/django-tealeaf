@@ -20,6 +20,7 @@ body {
   #main-banner .left.authenticated {
     max-width: 80%;
     width: 80%;
+    padding-right: 0.5em;
     float: left; }
   #main-banner .left .view {
     margin: 0 auto; }
@@ -32,7 +33,9 @@ body {
     -o-transition: all ease-in-out 0.2s;
     transition: all ease-in-out 0.2s;
     float: right;
-    max-width: 20%; }
+    width: 20%;
+    border-left: 2px solid black;
+    padding-left: 0.5em; }
     #main-banner .right > ul {
       overflow: scroll;
       overflow-x: hidden;

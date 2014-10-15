@@ -2,6 +2,11 @@
 
 @include theme_color(#808080);
 
+.container {
+  box-shadow: 0px 4px 20px lighten(#eec052, 10);
+
+}
+
 .collapsable {
   .collapsable-body {
     > ul, > ol {
@@ -16,8 +21,5 @@
         background-color: lighten($common_color, 45);
       }
     }
-  }
-  .collapsable-header {
-    text-shadow: 0 0 1px white;
   }
 }

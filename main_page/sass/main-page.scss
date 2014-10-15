@@ -35,6 +35,7 @@ body {
       // для аутентифицированных пользователей
       max-width: 80%;
       width: 80%;
+      padding-right: 0.5em;
       float: left
     }
     .view {
@@ -47,8 +48,11 @@ body {
   .right {
     @include transition(0.2s);
     float: right;
-    max-width: 20%;
-    //    max-height: 500px;
+    width: 20%;
+    border-left: 2px solid black;
+    padding-left: 0.5em;
+
+
     > ul {
       overflow: scroll;
       overflow-x: hidden;

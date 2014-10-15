@@ -15,7 +15,7 @@
     }
     border-bottom-color: darken($common_color, 35);
 
-    box-shadow-color: lighten($common_color, 10);
+    box-shadow: 0px 4px 16px lighten($color, 10);
 
     .left-board {
       background-color: $common_color;
@@ -75,7 +75,7 @@
           box-shadow-color: $common_color;
 
           > li {
-            border-bottom-color:$menu_border_color;
+            border-bottom-color: $menu_border_color;
             background-color: rgba(lighten($common_color, 20%), 0.95);
             > a {
               border-left-color: $menu_border_color;
@@ -85,5 +85,11 @@
       }
     }
   }
+  #main-banner {
+    img#view {
+      border-color: darken($common_color, 35);
+    }
+  }
 
 }
+
