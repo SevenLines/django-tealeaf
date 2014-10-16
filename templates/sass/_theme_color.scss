@@ -72,7 +72,8 @@
         border-bottom-color: $menu_border_color;
 
         ul {
-          box-shadow-color: $common_color;
+          //          box-shadow-color: $common_color;
+          box-shadow: 0 0 2px $common_color;
 
           > li {
             border-bottom-color: $menu_border_color;
@@ -89,7 +90,14 @@
     img#view {
       border-color: darken($common_color, 35);
     }
+    #editor-panel {
+      > .panel-heading {
+        background-color: white;
+        &:hover {
+          background-color: $common_color;
+        }
+      }
+    }
   }
-
 }
 

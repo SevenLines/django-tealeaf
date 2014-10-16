@@ -1,61 +1,64 @@
 body {
-  background-color: gray; }
+  background-color: #3a6d80; }
 
 .container {
-  border-bottom-color: #272727;
-  box-shadow: 0px 4px 16px #9a9a9a; }
+  border-bottom-color: #020405;
+  box-shadow: 0px 4px 16px #4a8ba3; }
   @media (min-width: 750px) {
     .container {
-      border-color: #434343;
-      border-bottom-color: #272727; } }
+      border-color: #14252c;
+      border-bottom-color: #020405; } }
   .container .left-board {
-    background-color: gray; }
+    background-color: #3a6d80; }
 
 .main-banner img {
-  box-shadow-color: gray; }
+  box-shadow-color: #3a6d80; }
 
 /* back-to-top */
 #back-to-top {
-  color: #1a1a1a; }
+  color: black; }
   #back-to-top:hover {
-    background-color: gray; }
+    background-color: #3a6d80; }
 
 .collapsable:hover .collapsable-header {
-  background-color: #c2c2c2; }
+  background-color: #7bb0c3; }
 .collapsable .collapsable-body {
   /* end list inside collabsable */ }
   .collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
-    background-color: gainsboro; }
+    background-color: #9ec5d3; }
   .collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
-    background-color: gainsboro; }
+    background-color: #9ec5d3; }
 .collapsable .collapsable-header:hover {
-  background-color: #b3b3b3; }
+  background-color: #66a3ba; }
 
 .menu a {
-  color: #1a1a1a; }
+  color: black; }
 .menu > ul > li {
-  border-bottom-color: #676767; }
+  border-bottom-color: #305a69; }
   .menu > ul > li ul {
-    box-shadow: 0 0 2px gray; }
+    box-shadow: 0 0 2px #3a6d80; }
     .menu > ul > li ul > li {
-      border-bottom-color: #676767;
-      background-color: rgba(179, 179, 179, 0.95); }
+      border-bottom-color: #305a69;
+      background-color: rgba(102, 163, 186, 0.95); }
       .menu > ul > li ul > li > a {
-        border-left-color: #676767; }
+        border-left-color: #305a69; }
 
 #main-banner img#view {
-  border-color: #272727; }
+  border-color: #020405; }
 #main-banner #editor-panel > .panel-heading {
   background-color: white; }
   #main-banner #editor-panel > .panel-heading:hover {
-    background-color: gray; }
+    background-color: #3a6d80; }
 
-.container {
-  box-shadow: 0px 4px 20px #f3d180; }
+.menu > ul > li ul > li {
+  background-color: rgba(155, 195, 210, 0.95); }
+  .menu > ul > li ul > li > a {
+    text-shadow: none;
+    color: black; }
 
 .collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
-  background-color: #f3f3f3; }
+  background-color: #f3f8f9; }
 .collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
-  background-color: #f3f3f3; }
+  background-color: #f3f8f9; }
 .collapsable .collapsable-header:hover {
-  background-color: #d9d9d9; }
+  background-color: #e1edf1; }

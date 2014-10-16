@@ -51,7 +51,7 @@ var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
             },
             'mouseup.mclick': function (e) {
                 moved = abs(pos.x - e.pageX) > $.clickMouseMoved.threshold
-                    || abs(pos.y - e.pageY) > $.clickMouseMoved.threshold;
+                || abs(pos.y - e.pageY) > $.clickMouseMoved.threshold;
             }
         };
 
@@ -90,15 +90,15 @@ $(function () {
     // убираю nojs класс если активирован javascript
     $(".nojs").removeClass("nojs");
 
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         var w = $(window).width();
         $("#back-to-top").toggleClass("show", w > 750 && $(this).scrollTop() > 200);
     });
 
     // back-to-top button
-    $('#back-to-top').click(function() {
+    $('#back-to-top').click(function () {
         $('html, body').stop().animate({
-           scrollTop: 0
+            scrollTop: 0
         }, 500)
     });
 });
@@ -116,3 +116,18 @@ $(window).on("scroll resize touchmove", function () {
         });
     }
 });
+
+//
+//$(function () {
+//    var body = document.body;
+//    var timer;
+//    window.addEventListener('scroll', function () {
+//        clearTimeout(timer);
+//        if (!body.classList.contains('disable-hover')) {
+//            body.classList.add('disable-hover')
+//        }
+//        timer = setTimeout(function () {
+//            body.classList.remove('disable-hover');
+//        }, 500);
+//    }, false);
+//});

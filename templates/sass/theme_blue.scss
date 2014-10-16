@@ -1,0 +1,36 @@
+@import "theme_color";
+
+@include theme_color(#3a6d80);
+
+.menu {
+  > ul > li ul > li {
+    background-color: rgba(lighten($common_color, 35), 0.95);
+    > a {
+      text-shadow: none;
+      color: black;
+    }
+  }
+
+}
+
+.collapsable {
+  .collapsable-body {
+    > ul, > ol {
+      &:last-child:first-child {
+        > li {
+          &:hover {
+            background-color: lighten($common_color, 60);
+          }
+        }
+      }
+      > li {
+        background-color: lighten($common_color, 60);
+      }
+    }
+  }
+  .collapsable-header {
+    &:hover {
+      background-color: lighten($common_color, 55);
+    }
+  }
+}
