@@ -7,6 +7,8 @@ from uuid import uuid4
 from django.conf import settings
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.staticfiles import storage
+from django.contrib.staticfiles.finders import AppDirectoriesFinder, FileSystemFinder
 from django.core.files.base import ContentFile
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import HttpResponse, HttpResponseBadRequest
@@ -87,9 +89,8 @@ def list_themes(request):
         'current': current_theme == ''
     })
 
-
-    pth = os.path.join(settings.STATIC_ROOT, "css")
-    for f in os.listdir(pth):
+    _, files = storage.StaticFilesStorage().listdir("css")
+    for f in files:
         fl = f.split(os.sep)[-1]
         m = re.match(r"theme_(.*?)\.css", fl)
         if m:

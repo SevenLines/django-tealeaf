@@ -8,6 +8,10 @@ body, html {
   height: 100%;
 }
 
+.disable-hover {
+  pointer-events: none;
+}
+
 body {
   background: $body_bg_color; //#f5f5f5; //darken($common_color, 42%); // url($main_background_image);
   font-family: Georgia, 'Times New Roman', Times, serif;
