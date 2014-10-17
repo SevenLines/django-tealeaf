@@ -9,20 +9,18 @@ body {
   font-family: Georgia, 'Times New Roman', Times, serif;
   padding: 0;
   margin: 0;
-  background-image: url("images/flower-ribon_300_top.png"), url("images/flower_ornament_everywhere_300_.png"), url("images/stripe_40px_45deg.png");
-  background-attachment: fixed, fixed, fixed;
-  background-position: 0 0, 0px 350px, 0 0;
-  background-repeat: repeat-x, repeat, repeat;
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -ms-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s; }
-  body .bg_fill {
+  body #bg-fill {
     z-index: -1;
     position: fixed;
-    opacity: 0.25;
-    top: 0;
+    background-image: url("images/flower-ribon_300_top.png"), url("images/flower_ornament_everywhere_300_.png"), url("images/stripe_40px_45deg.png");
+    background-attachment: fixed, fixed, fixed;
+    background-position: 0 0, 0px 70px, 0 0;
+    background-repeat: repeat, repeat, repeat;
     width: 100%;
     height: 100%; }
   body.clr1 {

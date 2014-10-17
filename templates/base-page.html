@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% load static custom_css_tags cms_tags sekizai_tags menu_tags email_obfuscator ex_tags %}
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>{% page_attribute "page_title" %}</title>
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}"/>
+    {% render_block "css" %}
+    {% render_block "top_js" %}
+    {% include "elements/scripts.html" %}
+    {% include "elements/styles.html" %}
+</head>
+<body>
+{#{% block toolbar %}#}
+{#{% endblock %}#}
+
+<div class="bg_fill">
+</div>
+<div class="container">
+    {% spaceless %}
+        <div class="menu">
+            <ul>
+                <li class="logo{% if request.path == "/" %} active{% endif %}">
+                    <a {% if not request.path == "/" %} href="/" {% endif %}><span
+                            class="glyphicon glyphicon-leaf"></span><br>чаинка
+                    </a>
+                </li>
+                {% show_menu 0 100 100 100 "elements/menu_vertical.html" %}
+                {# CUSTOM MENU ITEMS #}
+                {% if user.is_authenticated %}
+                    {% custom_menu_items request %}
+                {% endif %}
+                {# END CUSTOM MENU ITEMS #}
+                <li>
+                    <a>
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </a>
+                    <ul class="email">
+                        <li><a>{{ "mmailm.math@mail.ru"|obfuscate }}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    {% endspaceless %}
+    <div class="left-board">
+        <div class="content">
+            {% block basecontent %}
+            {% endblock %}
+        </div>
+    </div>
+    {% include "elements/back-to-top-button.html" %}
+</div>
+
+
+{% render_block "js" %}
+
+{% if not DEBUG and not DONT_USE_METRICS %}
+    {% include "elements/google-analytics.html" %}
+    {% include "elements/yandex-metric.html" %}
+{% else %}
+    <!-- IN DEBUG VERSION google-analytics and yandex-metrics is not accessible -->
+{% endif %}
+</body>
+</html>

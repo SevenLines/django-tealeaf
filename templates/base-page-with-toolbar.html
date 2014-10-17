@@ -13,9 +13,10 @@
     {% include "elements/styles.html" %}
 </head>
 <body>
-{% cms_toolbar %}
+{#{% block toolbar %}#}
+{#{% endblock %}#}
 
-<div class="bg_fill">
+<div id="bg-fill">
 </div>
 <div class="container">
     {% spaceless %}
@@ -61,5 +62,6 @@
 {% else %}
     <!-- IN DEBUG VERSION google-analytics and yandex-metrics is not accessible -->
 {% endif %}
+{% cms_toolbar %}
 </body>
 </html>
