@@ -62,7 +62,7 @@
                 if (e.keyCode == 27) {
                     self.close();
                 }
-            })
+            });
         };
 
         self.mark_types = markTypes;
@@ -76,7 +76,7 @@
     }
 
 // >>> модальное окно управления дисциплиной
-    ModalAddDiscipline.prototype = new ModalConfirm({ prototype: true });
+    ModalAddDiscipline.prototype = new ModalConfirm({prototype: true});
     ModalAddDiscipline.prototype.constructor = ModalConfirm;
     function ModalAddDiscipline() {
         var self = this;
@@ -399,20 +399,20 @@
 
         self.loadGroups = function () {
             self.block();
-            $.get(self.url.groups, { 'year': self.year() }, self.groups).done(function (data) {
-                $.cookie(self.cookie.year, self.year(), { expires: self.cookie.expires });
+            $.get(self.url.groups, {'year': self.year()}, self.groups).done(function (data) {
+                $.cookie(self.cookie.year, self.year(), {expires: self.cookie.expires});
                 var group_id = $.cookie(self.cookie.group_id);
                 self.groups.sort(function (left, right) {
                     return left.title == right.title ? 0 : left.title < right.title ? -1 : 1;
                 });
                 self.unblock();
                 if (self.groups().every(function (entry) {
-                    if (group_id == entry.id) {
-                        self.group(entry);
-                        return false;
-                    }
-                    return true;
-                })) {
+                        if (group_id == entry.id) {
+                            self.group(entry);
+                            return false;
+                        }
+                        return true;
+                    })) {
                     if (self.groups().length) {
                         self.group(self.groups()[0]);
                     } else {
@@ -424,8 +424,8 @@
 
 // ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
         self.resetMarksInterface = function () {
-            $('thead [data-toggle="tooltip"]').tooltip({ placement: "bottom" });
-            $('tfoot [data-toggle="tooltip"]').tooltip({ placement: "top" });
+            $('thead [data-toggle="tooltip"]').tooltip({placement: "bottom"});
+            $('tfoot [data-toggle="tooltip"]').tooltip({placement: "top"});
 
 // подключаем события, чтобы не закрывалась менюшка
             $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
@@ -576,7 +576,7 @@
                 self.students(map_students);
                 self.sortMethod(self.sortByStudentsName);
 
-                $.cookie(self.cookie.group_id, self.group().id, { expires: self.cookie.expires });
+                $.cookie(self.cookie.group_id, self.group().id, {expires: self.cookie.expires});
             }).always(function () {
                 self.isStudentsLoading(false);
                 self.resetMarksInterface();
@@ -584,9 +584,7 @@
         };
 
         self.loadDisciplines = function () {
-            $.get(self.url.disciplines, {
-
-            }, self.disciplines).fail(function () {
+            $.get(self.url.disciplines, {}, self.disciplines).fail(function () {
                 InterfaceAlerts.showFail();
             })
         };
