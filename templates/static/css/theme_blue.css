@@ -50,15 +50,28 @@ body {
   #main-banner #editor-panel > .panel-heading:hover {
     background-color: #3a6d80; }
 
-.menu > ul > li ul > li {
+body {
+  background: url("images/flower-ribon_300_top.png"), url("images/flower_ornament_everywhere_300_.png"), url("images/stripe_40px_45deg.png"), linear-gradient(to bottom, #3a6d80, #122228);
+  background-attachment: fixed, fixed, fixed, fixed;
+  background-position: 0 0, 0 350px, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat, repeat; }
+
+.container {
+  box-shadow: 0 0 16px #4a8ba3; }
+  .container .left-board {
+    background-color: #527582; }
+
+.menu > ul > li > ul > li {
   background-color: rgba(155, 195, 210, 0.95); }
-  .menu > ul > li ul > li > a {
+  .menu > ul > li > ul > li > a {
     text-shadow: none;
     color: black; }
 
+.collapsable:hover .collapsable-header {
+  background-color: #d0e2e9; }
 .collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
-  background-color: #f3f8f9; }
+  background-color: white; }
 .collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
-  background-color: #f3f8f9; }
+  background-color: #fafcfd; }
 .collapsable .collapsable-header:hover {
   background-color: #e1edf1; }
