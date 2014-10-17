@@ -10,7 +10,7 @@ body {
               linear-gradient(to bottom, $common_color, darken($common_color, 25));
   background-attachment: fixed, fixed, fixed, fixed;
   background-position: 0 0, 0 350px, 0 0, 0 0;
-  background-repeat: no-repeat, repeat, repeat, repeat;
+  background-repeat: repeat-x, repeat, repeat, repeat;
 }
 
 .container {
