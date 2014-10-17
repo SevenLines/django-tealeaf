@@ -3,14 +3,10 @@
 @include theme_color(#3a6d80);
 
 body {
-  background:
-              url("images/flower-ribon_300_top.png"),
-              url("images/flower_ornament_everywhere_300_.png"),
-              url("images/stripe_40px_45deg.png"),
-              linear-gradient(to bottom, $common_color, darken($common_color, 25));
-  background-attachment: fixed, fixed, fixed, fixed;
-  background-position: 0 0, 0 350px, 0 0, 0 0;
-  background-repeat: repeat-x, repeat, repeat, repeat;
+  background: linear-gradient(to bottom, $common_color, darken($common_color, 25));
+  background-attachment: fixed;
+  background-position: 0 0;
+  background-repeat: repeat, repeat;
 }
 
 .container {
