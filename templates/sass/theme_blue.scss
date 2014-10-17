@@ -9,12 +9,15 @@ body {
               url("images/stripe_40px_45deg.png"),
               linear-gradient(to bottom, $common_color, darken($common_color, 25));
   background-attachment: fixed, fixed, fixed, fixed;
-  background-position: 0 0, 0 250px, 0 0, 0 0;
+  background-position: 0 0, 0 350px, 0 0, 0 0;
   background-repeat: no-repeat, repeat, repeat, repeat;
 }
 
 .container {
   box-shadow: 0 0 16px lighten($common_color, 10);
+  .left-board {
+    background-color: desaturate(lighten($common_color, 5), 15);
+  }
 }
 
 .menu {
@@ -30,6 +33,11 @@ body {
 }
 
 .collapsable {
+  &:hover {
+    .collapsable-header {
+      background-color: lighten($common_color, 50);
+    }
+  }
   .collapsable-body {
     > ul, > ol {
       &:last-child:first-child {
