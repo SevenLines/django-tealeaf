@@ -329,8 +329,8 @@ a[href$='.doc'], a[href$='.docx'] {
       .menu > ul > li.active > a, .menu > ul > li.ancestor > a {
         text-decoration: none; }
     .menu > ul > li:hover {
-      background-color: rgba(255, 255, 255, 0.94);
-      box-shadow: none; }
+      background-color: rgba(255, 255, 255, 0.94) !important;
+      box-shadow: none !important; }
     .menu > ul > li > a {
       text-shadow: 0 0 1px silver;
       width: 64px;
