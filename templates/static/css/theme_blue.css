@@ -20,6 +20,9 @@ body {
   #back-to-top:hover {
     background-color: #3a6d80; }
 
+#enter-button-area:hover #enter-button {
+  color: #3a6d80; }
+
 .collapsable:hover .collapsable-header {
   background-color: #7bb0c3; }
 .collapsable .collapsable-body {

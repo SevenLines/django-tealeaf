@@ -7,25 +7,20 @@
 {% endaddtoblock %}
 
 {% addtoblock "js" %}
-    <script>
-        $("body").click(function (evt) {
-            if (evt.altKey && evt.ctrlKey && evt.shiftKey) {
-                {% if not user.is_authenticated %}
-                    // login-имся
-                    var url = window.location.href;
-                    if (url.indexOf('?') > -1) {
-                        url += '&edit'
-                    } else {
-                        url += '?edit'
-                    }
-                    window.location.href = url;
-                {% else %}
+    {% if user.is_authenticated %}
+        <script>
+            $("body").click(function (evt) {
+                if (evt.altKey && evt.ctrlKey && evt.shiftKey) {
                     // делаем logout
-                    $(".cms_toolbar-left a[href='/admin/logout/']")[0].click();
-                {% endif %}
-            }
-        });
-    </script>
+                    $.post("/admin/logout/", {
+                        csrfmiddlewaretoken: "{{ csrf_token }}"
+                    }).success(function () {
+                        location.reload();
+                    });
+                }
+            });
+        </script>
+    {% endif %}
 {% endaddtoblock %}
 
 <!--[if lt IE 9]>
