@@ -26,6 +26,7 @@
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import json
 import os
+from django.contrib import messages
 
 from django.core.urlresolvers import reverse
 import django_assets
@@ -186,9 +187,13 @@ FILER_PAGINATE_BY = 50
 CUSTOM_MENU_ITEMS = ({
      'img': 'img/profle.png',
      'href': reverse("tracking_ex.views.stat"),
-     'title': 'track',
+     'title': 'кто тут',
      'touchable': True
 },)
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
 
 ASSETS_MODULES = [
     'app.assets'
@@ -200,10 +205,3 @@ if not DEBUG:
     ASSETS_AUTO_BUILD = False
 
 ASSETS_ROOT = os.path.join(BASE_DIR, 'templates/static')
-
-# ASSETS_URL = ""
-# {
-#          'img': 'img/colorwheel.png',
-#          'href': reverse("students.views.marks.index"),
-#      },
-#     )

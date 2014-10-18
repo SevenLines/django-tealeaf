@@ -1,3 +1,4 @@
+# coding=utf-8
 import json
 
 from django.contrib.auth.decorators import login_required
@@ -15,6 +16,7 @@ def stat(request):
     visitors = Visitor.objects.all().order_by("-start_time") \
         .values("ip_address", "user_agent", "start_time", "end_time", "time_on_site")
     context = {
+        'title': 'Посетители',
         'visitors': visitors
     }
     return render(request, "tracking_ex/stat.html", context)
@@ -27,10 +29,6 @@ def visitors_list(request):
     i = max(1, int(request.GET['page']))
 
     offset = (i - 1) * items_per_page
-    # ito = i * items_per_page
-
-    # vstrs = list(Visitor.objects.all().order_by("-start_time")
-    # .values("ip_address", "user_agent", "start_time", "end_time", "time_on_site")[ifrom: ito])
 
     cursor = connection.cursor()
     cursor.execute('''
@@ -48,7 +46,7 @@ OFFSET %(offset)s
         'items_per_page': items_per_page,
         'offset': offset
     })
-    # cursor.execute("SELECT * FROM tracking_visitor")
+
     vstrs = dictfetchall(cursor)
 
     return HttpResponse(json.dumps(

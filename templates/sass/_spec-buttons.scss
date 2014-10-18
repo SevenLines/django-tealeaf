@@ -1,0 +1,56 @@
+@import "const";
+
+#enter-button-area {
+  @include transition(0.3s);
+
+  position: fixed;
+  right: -2em;
+  top: 0;
+  padding: 40px;
+  padding-right: 0;
+
+  &:hover {
+    right: 0;
+    #enter-button {
+      background-color: rgba(white, 0.55);
+      color: $common_color;
+    }
+  }
+}
+
+#enter-button {
+  @include transition(0.3s);
+  padding: 1em;
+  cursor: pointer;
+  border-radius: 8px 0 0 8px;
+  color: white;
+}
+
+/* back-to-top */
+#back-to-top {
+  z-index: 1;
+  position: fixed;
+  color: darken($common_color, 40%);
+  left: -40px;
+  bottom: 10px;
+  width: 40px;
+  //  bottom: -30px;
+  height: 40px;
+  text-align: center;
+  padding: 10px 5px;
+  background-color: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  border-radius: 0 8px 8px 0;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+  &.show {
+    left: 0;
+  }
+  &:hover {
+    background-color: $common_color;
+    color: white;
+  }
+}

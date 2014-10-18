@@ -151,31 +151,6 @@ body {
   .bs-callout-info h4 {
     color: #5bc0de; }
 
-/* back-to-top */
-#back-to-top {
-  z-index: 1;
-  position: fixed;
-  color: #2d3f41;
-  left: -40px;
-  bottom: 10px;
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  padding: 10px 5px;
-  background-color: rgba(255, 255, 255, 0.25);
-  cursor: pointer;
-  border-radius: 0 8px 8px 0;
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -ms-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s; }
-  #back-to-top.show {
-    left: 0; }
-  #back-to-top:hover {
-    background-color: #8cacae;
-    color: white; }
-
 /* icons */
 a[href$='.pdf'] {
   background: transparent url(../css/images/icons/pdf.png) center left no-repeat;
@@ -466,3 +441,66 @@ a[href$='.doc'], a[href$='.docx'] {
     margin: 0; }
   .lesson .panel.collapsable {
     margin-bottom: 10px; }
+
+#messages {
+  z-index: 1000;
+  position: fixed;
+  display: none;
+  right: 0;
+  top: 0;
+  opacity: 0.85;
+  margin-right: 10px;
+  margin-top: 10px; }
+
+#enter-button-area {
+  -webkit-transition: all ease-in-out 0.3s;
+  -moz-transition: all ease-in-out 0.3s;
+  -ms-transition: all ease-in-out 0.3s;
+  -o-transition: all ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s;
+  position: fixed;
+  right: -2em;
+  top: 0;
+  padding: 40px;
+  padding-right: 0; }
+  #enter-button-area:hover {
+    right: 0; }
+    #enter-button-area:hover #enter-button {
+      background-color: rgba(255, 255, 255, 0.55);
+      color: #8cacae; }
+
+#enter-button {
+  -webkit-transition: all ease-in-out 0.3s;
+  -moz-transition: all ease-in-out 0.3s;
+  -ms-transition: all ease-in-out 0.3s;
+  -o-transition: all ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s;
+  padding: 1em;
+  cursor: pointer;
+  border-radius: 8px 0 0 8px;
+  color: white; }
+
+/* back-to-top */
+#back-to-top {
+  z-index: 1;
+  position: fixed;
+  color: #2d3f41;
+  left: -40px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  padding: 10px 5px;
+  background-color: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  border-radius: 0 8px 8px 0;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s; }
+  #back-to-top.show {
+    left: 0; }
+  #back-to-top:hover {
+    background-color: #8cacae;
+    color: white; }
