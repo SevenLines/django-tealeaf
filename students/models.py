@@ -125,7 +125,7 @@ class Discipline(models.Model):
         marks = list(Mark.objects.raw("""
 SELECT s.id as student_id, l.lesson_id, date, sm.id as id, mark
 FROM students_student s
-  LEFT JOIN (SELECT id as lesson_id, date
+  LEFT JOIN (SELECT id as lesson_id, date, multiplier
         FROM students_lesson sl
         WHERE group_id = %(group_id)s and discipline_id = %(discipline_id)s) l ON true
   LEFT JOIN students_mark sm ON l.lesson_id = sm.lesson_id and s.id = sm.student_id
@@ -158,6 +158,7 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
         lessons = list([{"id": l.id,
                          "lt": l.lesson_type if l.lesson_type else None,
                          "dt": l.date,
+                         "k": l.multiplier,
                          "dn": l.description.rendered,
                          "dn_raw": l.description.raw
                         } for l in lessons])
@@ -225,6 +226,7 @@ class Lesson(models.Model):
     group = models.ForeignKey(Group, null=True)
     date = models.DateField(auto_now_add=True)
     lesson_type = models.IntegerField(verbose_name="type", default=1, choices=LESSON_TYPES)
+    multiplier = models.FloatField(default=1)
 
     def to_dict(self):
         d = model_to_dict(self)
