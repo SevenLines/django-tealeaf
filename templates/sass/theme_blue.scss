@@ -3,7 +3,8 @@
 @include theme_color(#3a6d80);
 
 body {
-  background: linear-gradient(to bottom, $common_color, darken($common_color, 25));
+  background: linear-gradient(to bottom, rgba(black, 0), darken($common_color, 25));
+  background-color: $common_color;
   background-attachment: fixed;
   background-position: 0 0;
   background-repeat: repeat, repeat;
