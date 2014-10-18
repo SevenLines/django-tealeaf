@@ -1,16 +1,33 @@
 import json
 
 from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 
 from app.utils import require_in_POST
 
 from students.models import Discipline
+from students.utils import current_year
 
 
 def index(request):
-    return HttpResponse(json.dumps(list(Discipline.objects.all().values())), content_type="json")
+    if not request.user.is_authenticated():
+        disciplines = Discipline.objects.raw("""
+SELECT DISTINCT sd.*
+FROM students_discipline sd
+  LEFT JOIN students_lesson sl ON sl.discipline_id = sd.id
+  LEFT JOIN students_group sg ON sg.id = sl.group_id
+  WHERE sg.year = %(year)s
+    """, {
+            'year': current_year()
+        })
+    else:
+        disciplines = Discipline.objects.all()
+
+    disciplines = list([model_to_dict(d) for d in disciplines])
+
+    return HttpResponse(json.dumps(disciplines), content_type="json")
 
 
 @require_POST
