@@ -54,7 +54,8 @@ body {
     background-color: #3a6d80; }
 
 body {
-  background: linear-gradient(to bottom, #3a6d80, #122228);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #122228);
+  background-color: #3a6d80;
   background-attachment: fixed;
   background-position: 0 0;
   background-repeat: repeat, repeat; }

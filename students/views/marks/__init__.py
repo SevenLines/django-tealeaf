@@ -60,6 +60,8 @@ def lesson_save(request):
         l.description = request.POST['description_raw']
     if 'date' in request.POST:
         l.date = request.POST['date']
+    if 'multiplier' in request.POST:
+        l.multiplier = float(request.POST['multiplier'])
     l.save()
 
     return HttpResponse(json.dumps(l.to_dict(), default=json_dthandler), content_type="json")
