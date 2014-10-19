@@ -7,7 +7,7 @@ from django.forms.models import model_to_dict
 from django.http.response import HttpResponse
 from django.shortcuts import render
 
-from app.utils import require_in_POST, require_in_GET, json_dthandler
+from app.utils import require_in_POST, require_in_GET, json_encoder
 from students.models import Lesson, Discipline, Group, Mark, DisciplineMarksCache
 
 
@@ -64,7 +64,7 @@ def lesson_save(request):
         l.multiplier = float(request.POST['multiplier'])
     l.save()
 
-    return HttpResponse(json.dumps(l.to_dict(), default=json_dthandler), content_type="json")
+    return HttpResponse(json.dumps(l.to_dict(), default=json_encoder), content_type="json")
 
 
 @login_required

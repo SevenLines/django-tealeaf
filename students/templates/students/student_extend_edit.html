@@ -12,4 +12,22 @@
         valueUpdate: 'input'">
         </form>
     </div>
+    <div class="col-md-4">
+        <div class="student-photo">
+            <a data-bind="visible: photo, attr: { 'href': photo }">
+                <img class="student-photo-img" data-bind="attr: { 'src': photo }">
+            </a>
+
+            <form class="student-photo-form" method="post"
+                  action="{% url "students.views.students.ajax.json.change_photo" %}"
+                  data-bind="submit: changePhoto">
+                <input hidden="hidden" class="form-control" type="file" name="photo">
+                <input hidden="hidden" name="student_id" data-bind="value: id">
+                {% csrf_token %}
+                <button class="btn btn-info" type="submit">
+                    <span class="glyphicon glyphicon-file">Photo</span>
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
