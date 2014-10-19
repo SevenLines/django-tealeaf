@@ -1,4 +1,5 @@
 import datetime
+from django.db.models.fields.files import ImageFieldFile
 from django.http import HttpResponseBadRequest
 
 
@@ -34,7 +35,7 @@ def require_in_GET(*items):
     return decorator
 
 
-def json_dthandler(obj):
+def json_encoder(obj):
     """
     handler for json.dumps to convert datatime to isoformat
     use like this
@@ -46,6 +47,11 @@ def json_dthandler(obj):
     """
     if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date):
         return obj.isoformat()
+    if isinstance(obj, ImageFieldFile):
+        try:
+            return obj.url
+        except ValueError as e:
+            return ''
     return None
 
 

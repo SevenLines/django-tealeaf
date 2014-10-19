@@ -1,3 +1,5 @@
+@import "const";
+
 .students_plugin {
   .process {
     display: none;
@@ -14,7 +16,23 @@
   }
 
   .year_selector {
-//    padding: 1em 0;
+    //    padding: 1em 0;
+  }
+
+  .student-photo {
+    img.student-photo-img {
+      @include transition(0.2s);
+      &:hover {
+        box-shadow: 0 0 8px $common_color;
+      }
+      max-height: 150px;
+      margin-bottom: 0.5em;
+      border: 4px solid $common_color;
+      border-radius: 8px;
+    }
+    input[type=file] {
+      display: none;
+    }
   }
 
   .groups-nav, .disciplines-nav {
@@ -56,3 +74,4 @@
     }
   }
 }
+

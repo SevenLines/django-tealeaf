@@ -9,7 +9,7 @@ from django.dispatch.dispatcher import receiver
 from django.forms import model_to_dict
 from markupfield.fields import MarkupField
 
-from app.utils import json_dthandler
+from app.utils import json_encoder
 import students.utils
 from students.utils import current_year
 
@@ -85,11 +85,13 @@ class Student(models.Model):
     email = models.EmailField(default='')
     vk = models.URLField(default='')
 
+    photo = models.ImageField(upload_to="students", max_length=255, default='')
+
     def __unicode__(self):
         return "%s | %s" % (self.second_name, self.name)
 
     def to_dict(self, authenticated=False):
-        excluded = ['phone', 'email', 'vk'] if not authenticated else []
+        excluded = ['phone', 'email', 'vk', 'photo'] if not authenticated else []
         return model_to_dict(self, exclude=excluded)
 
     @staticmethod
@@ -172,7 +174,7 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
         return json.dumps({'lessons': lessons,
                            'students': stdnts,
                            'lesson_types': lesson_types,
-                           'mark_types': mark_types, }, default=json_dthandler)
+                           'mark_types': mark_types, }, default=json_encoder)
 
 
 class DisciplineMarksCache(models.Model):

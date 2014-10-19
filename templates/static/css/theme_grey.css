@@ -53,6 +53,11 @@ body {
   #main-banner #editor-panel > .panel-heading:hover {
     background-color: gray; }
 
+.students_plugin .student-photo img.student-photo-img {
+  border-color: gray; }
+  .students_plugin .student-photo img.student-photo-img:hover {
+    box-shadow: 0 0 8px gray; }
+
 body {
   background: linear-gradient(to bottom, rgba(238, 192, 82, 0), #272727);
   background-color: gray;

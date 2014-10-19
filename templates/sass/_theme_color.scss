@@ -107,5 +107,16 @@
       }
     }
   }
+
+  .students_plugin {
+    .student-photo {
+      img.student-photo-img {
+        &:hover {
+          box-shadow: 0 0 8px $common_color;
+        }
+        border-color: $common_color;
+      }
+    }
+  }
 }
 
