@@ -1,5 +1,6 @@
 # coding=utf-8
 import json
+import os
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -8,7 +9,7 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
 from django.views.decorators.http import require_POST, require_GET
-from app.utils import require_in_POST
+from app.utils import require_in_POST, json_encoder
 
 from students.models import active_years, Group, Student
 from students.utils import current_year
@@ -134,7 +135,7 @@ def copy_to_next_year(request):
     return HttpResponse()
 
 
-# @login_required
+@login_required
 def students(request):
     group_id = request.POST.get('group_id', None)
     group_id = request.GET.get('group_id', None) if group_id is None else group_id
@@ -148,7 +149,7 @@ def students(request):
 
     _students = list([s.to_dict(request.user.is_authenticated) for s in grp.students.all()])
 
-    return HttpResponse(json.dumps(_students), mimetype='application/json')
+    return HttpResponse(json.dumps(_students, default=json_encoder), mimetype='application/json')
 
 
 @require_GET
@@ -180,4 +181,15 @@ def set_captain(request):
     g.save()
 
     return HttpResponse()
+
+@login_required
+@require_in_POST("student_id")
+def change_photo(request):
+    photo = request.FILES['photo']
+    s = Student.objects.get(pk=request.POST['student_id'])
+    ext = photo.name.split(os.path.extsep)[-1]
+    filename = "%s.%s" % (str(s.id), ext)
+    s.photo.save(filename, photo)
+    s.save()
+    return HttpResponse(s.photo.url)
 

@@ -7,6 +7,7 @@ function Student(data) {
     self.vk = ko.observable(data.vk);
     self.email = ko.observable(data.email);
     self.group_id = data.group_id;
+    self.photo = ko.observable(data.photo);
 
     self.old_name = ko.observable(data.name);
     self.old_second_name = ko.observable(data.second_name);
@@ -32,6 +33,30 @@ function Student(data) {
         self.old_vk(self.vk());
         self.old_email(self.email());
         self.old_group_id = self.group_id;
+    };
+
+    self.changePhoto = function (form) {
+
+        var input_file = $(form).find("input[type=file]");
+        input_file.unbind();
+
+        input_file.change(function () {
+            var formData = new FormData(form);
+            console.log(formData);
+            $.ajax({
+                url: form.action,
+                type: "POST",
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false
+            }).success(function (new_url) {
+                self.photo(new_url);
+                InterfaceAlerts.showSuccess();
+            });
+        });
+        input_file.click();
     }
 }
 
@@ -117,7 +142,7 @@ function StudentViewModel(data, modal_selector) {
 
 /// YEARS CONTROL
     self.year.subscribe(function () {
-        self.check_block(function() {
+        self.check_block(function () {
             self.group(null);
             self.listGroups(self.year);
         })
