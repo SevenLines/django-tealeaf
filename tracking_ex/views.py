@@ -8,7 +8,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from tracking.models import Visitor
 
-from app.utils import json_dthandler, require_in_GET, dictfetchall
+from app.utils import json_encoder, require_in_GET, dictfetchall
 
 
 @login_required
@@ -53,4 +53,4 @@ OFFSET %(offset)s
         {
             'visitors': vstrs,
             'no_more': len(vstrs) < items_per_page
-        }, default=json_dthandler), content_type="json")
+        }, default=json_encoder), content_type="json")
