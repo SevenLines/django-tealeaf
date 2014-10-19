@@ -226,6 +226,7 @@
         self.lesson_type = ko.observable(data.lt);
         self.description = ko.observable(data.dn);
         self.description_raw = ko.observable(data.dn_raw);
+        self.multiplier  = ko.observable(data.k);
         self.isodate_old = data.dt;
         self.id = data.id;
 
@@ -691,6 +692,7 @@
                 lesson_id: data.id,
                 lesson_type: data.lesson_type(),
                 date: data.isodate(),
+                multiplier: data.multiplier(),
                 description_raw: data.description_raw()
             })).done(function (response) {
                 if (data.isodate() != data.isodate_old) {
