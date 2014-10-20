@@ -87,7 +87,7 @@ function MainPageModel(data) {
     ko.bindingHandlers.ckeditor = {
         init: function (element) {
             var editor = $(element).ckeditor({
-                extraPlugins: 'bootstrap-collapse,insertpre,saveme,div,image,bootstrap-collapse,showblocks,justify,divarea,colordialog,colorbutton,liststyle,eqneditor'
+                extraPlugins: 'divarea,bootstrap-collapse,insertpre,saveme,div,image,bootstrap-collapse,showblocks,justify,divarea,colordialog,colorbutton,liststyle,eqneditor'
             }).editor;
             editor.on('change', function (data) {
                 self.current_item().description(editor.getData());
