@@ -35,7 +35,13 @@ class MainPageItem(Model):
 class MainPage(Model):
     current_item = models.ForeignKey(MainPageItem, null=True, on_delete=models.SET_NULL)
     current_theme_css = models.TextField(default="")
+    _img_bootstrap_cols = models.IntegerField(default=0)
     show_border = models.BooleanField(default=True)
+
+    @property
+    def img_bootstrap_cols(self):
+        return min(max(self._img_bootstrap_cols, -1), 12)
+
 
     @staticmethod
     def solo():
