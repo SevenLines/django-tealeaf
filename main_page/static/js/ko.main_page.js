@@ -32,6 +32,7 @@ function MainPageModel(data) {
         add_item: data.url.add_item,            // add new item
         remove_item: data.url.remove_item,      // remove item with id
         toggle_border: data.url.toggle_border,  // toggle main image border
+        toggle_img_bootstrap_cols: data.url.toggle_img_bootstrap_cols,
 
         themes: data.url.themes,
         set_theme: data.url.set_theme
@@ -43,6 +44,10 @@ function MainPageModel(data) {
         view: data.selector.view
     };
 
+    self.cols = $.map($(Array(14)), function (val, i) {
+        return i - 1;
+    });
+    self.img_bootstrap_cols = ko.observable(data.img_bootstrap_cols);
 
     self.modalSave = new ModalConfirm({ modal_selector: "#modalSave" });
     self.modalDelete = new ModalConfirm({
@@ -63,6 +68,11 @@ function MainPageModel(data) {
     self.themes = ko.observableArray();
     self.current_theme = ko.observable();
     self.init_current_theme = ko.observable();
+
+    self.img_bootstrap_cols.subscribe(function (value) {
+        console.log(value);
+        self.toggleImgBootstrapCols();
+    });
 
     self.current_theme.subscribe(function (value) {
         if (self.current_theme() && self.init_current_theme() && self.current_theme().path != self.init_current_theme().path) {
@@ -87,7 +97,7 @@ function MainPageModel(data) {
     ko.bindingHandlers.ckeditor = {
         init: function (element) {
             var editor = $(element).ckeditor({
-                extraPlugins: 'divarea,bootstrap-collapse,insertpre,saveme,div,image,bootstrap-collapse,showblocks,justify,divarea,colordialog,colorbutton,liststyle,eqneditor'
+                extraPlugins: 'divarea,bootstrap-collapse,insertpre,div,image,bootstrap-collapse,showblocks,justify,divarea,colordialog,colorbutton,liststyle,eqneditor'
             }).editor;
             editor.on('change', function (data) {
                 self.current_item().description(editor.getData());
@@ -172,10 +182,6 @@ function MainPageModel(data) {
             item_id: self.current_item().id
         })).success(function (data) {
             $(self.selector.view).html(data.html);
-            //setTimeout(function () {
-            //    var max_height = $("#main-banner .left").height() - 60;
-            //    $("#main-banner .right > ul").css("height", max_height);
-            //}, 500);
         }).fail(function (data) {
             $(self.selector.view).html("");
         });
@@ -224,6 +230,17 @@ function MainPageModel(data) {
             InterfaceAlerts.showFail();
         });
     };
+
+    self.toggleImgBootstrapCols = function () {
+        $.post(self.url.toggle_img_bootstrap_cols, csrfize({
+            img_bootstrap_cols: self.img_bootstrap_cols()
+        })).done(function () {
+            self.update_view();
+            InterfaceAlerts.showSuccess();
+        }).fail(function() {
+            InterfaceAlerts.showFail();
+        });
+    }
 
     self.addItem = function (form) {
         var file_dialog = $(form).find("[name='file']").first();
