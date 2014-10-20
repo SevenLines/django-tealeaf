@@ -4,8 +4,10 @@
 
 <div class="right">
 
-    <!-- ДОБАВЛЕНИЕ ВИДА -->
+    <!-- ДОБАВЛЕНИЕ ВИДА, ПЕРЕКЛЮЧЕНИЕ ГРАНИЦ, ТЕМЫ -->
     <form class="form">
+        <select class="form-control" id="cols" style="margin-bottom: 0.5em"
+                data-bind="value: img_bootstrap_cols, options: cols"></select>
         <select class="form-control" id="themes" style="margin-bottom: 0.5em"
                 data-bind="value: current_theme, options: themes, optionsText: 'name'"></select>
 
@@ -91,6 +93,7 @@
                 add_item: "{% url "main_page.views.add_item" %}",
                 remove_item: "{% url "main_page.views.remove_item" %}",
                 toggle_border: "{% url "main_page.views.toggle_border" %}",
+                toggle_img_bootstrap_cols: "{% url "main_page.views.toggle_img_bootstrap_cols" %}",
 
                 themes: "{% url "main_page.views.list_themes" %}",
                 set_theme: "{% url "main_page.views.set_current_theme" %}"
@@ -99,6 +102,7 @@
                 view: "#main-banner .left .view"
             },
             show_border: {% if show_border %}true{% else %}false{% endif %},
+            img_bootstrap_cols: {{ img_bootstrap_cols }},
             csrf: "{{ csrf_token }}"
         }));
     </script>

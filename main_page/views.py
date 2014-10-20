@@ -29,6 +29,10 @@ def main_page_context(data=None):
         data['item'] = MainPage.solo().current_item.dictionary if MainPage.solo().current_item else None
     if 'show_border' not in data:
         data['show_border'] = MainPage.solo().show_border
+    if 'img_bootstrap_cols' not in data:
+        data['img_bootstrap_cols'] = MainPage.solo().img_bootstrap_cols
+    if 'desc_bootstrap_cols' not in data:
+        data['desc_bootstrap_cols'] = 12 - MainPage.solo().img_bootstrap_cols
     return data
 
 
@@ -199,3 +203,13 @@ def toggle_border(request):
     obj.save()
 
     return HttpResponse()
+
+@login_required
+@require_in_POST("img_bootstrap_cols")
+def toggle_img_bootstrap_cols(request):
+    img_bootstrap_cols = request.POST['img_bootstrap_cols']
+    obj = MainPage.solo()
+    obj._img_bootstrap_cols = img_bootstrap_cols
+    obj.save()
+
+    return HttpResponse(img_bootstrap_cols)
