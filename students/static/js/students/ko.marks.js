@@ -603,6 +603,10 @@
 
             if (left.second_name < right.second_name) {
                 return s1 == s2 ? -1 : s1 < s2 ? 1 : -1; // студенты с отрицательными оценками идут в конце
+            } else if (left.second_name > right.second_name) {
+                return s1 == s2 ? 1 : s1 < s2 ? 1 : -1;
+            } else {
+                return 0;
             }
         };
         self.sortByStudentsName.title = "Имя";
