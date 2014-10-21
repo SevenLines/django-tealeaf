@@ -185,7 +185,8 @@
                 clr.mix(studentColorMin, k * k * k);
 
                 return {
-                    backgroundColor: clr.hexString()
+                    backgroundColor: clr.hexString(),
+                    opacity: self.sum() < 0 ? Math.max(0.1, 0.4 + self.sum() / diff) : 1
                 };
             }
             return {};
@@ -226,7 +227,7 @@
         self.lesson_type = ko.observable(data.lt);
         self.description = ko.observable(data.dn);
         self.description_raw = ko.observable(data.dn_raw);
-        self.multiplier  = ko.observable(data.k);
+        self.multiplier = ko.observable(data.k);
         self.isodate_old = data.dt;
         self.id = data.id;
 
@@ -408,12 +409,12 @@
                 });
                 self.unblock();
                 if (self.groups().every(function (entry) {
-                        if (group_id == entry.id) {
-                            self.group(entry);
-                            return false;
-                        }
-                        return true;
-                    })) {
+                    if (group_id == entry.id) {
+                        self.group(entry);
+                        return false;
+                    }
+                    return true;
+                })) {
                     if (self.groups().length) {
                         self.group(self.groups()[0]);
                     } else {
@@ -597,7 +598,12 @@
         self.sortByStudentsMark.title = "Цвет";
 
         self.sortByStudentsName = function (left, right) {
-            return left.sum == right.second_name ? 0 : left.second_name < right.second_name ? -1 : 1;
+            var s1 = left.sum() >= 0 ? 1 : -1;
+            var s2 = right.sum() >= 0 ? 1 : -1;
+
+            if (left.second_name < right.second_name) {
+                return s1 == s2 ? -1 : s1 < s2 ? 1 : -1; // студенты с отрицательными оценками идут в конце
+            }
         };
         self.sortByStudentsName.title = "Имя";
 
