@@ -1,3 +1,5 @@
+@import "const";
+
 $quater: hsl(100, 80%, 75%);
 $half: hsl(100, 80%, 60%);
 $full: hsl(100, 80%, 40%);
@@ -120,6 +122,12 @@ $marks-size: 30px;
     width: $students-list-width;
     float: left;
     clear: none;
+    .hover {
+      .student {
+        @include transition(0.3s);
+        opacity: 1 !important;
+      }
+    }
     > table {
       width: 100%;
       border: 1px solid $table-border-color;
@@ -216,7 +224,7 @@ $marks-size: 30px;
 
   .mark {
     width: 1.3*$marks-size;
-//    height: $marks-size - $td-margin * 2 + 1;
+    //    height: $marks-size - $td-margin * 2 + 1;
     vertical-align: middle;
     text-align: center;
 
@@ -229,8 +237,8 @@ $marks-size: 30px;
     //    background-color: white;
 
     @mixin shadow {
-//      box-shadow: #ffbbd7 0px 0px 4px inset;
-//      border: 1px solid white;
+      //      box-shadow: #ffbbd7 0px 0px 4px inset;
+      //      border: 1px solid white;
     }
 
     @mixin test_exam($color) {
@@ -305,7 +313,6 @@ $marks-size: 30px;
 }
 
 // --- ОЦЕНКА
-
 
 .loader {
   margin: 0 auto;

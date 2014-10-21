@@ -57,6 +57,13 @@
   width: 220px;
   float: left;
   clear: none; }
+  .marks-editor .students-list .hover .student {
+    -webkit-transition: all ease-in-out 0.3s;
+    -moz-transition: all ease-in-out 0.3s;
+    -ms-transition: all ease-in-out 0.3s;
+    -o-transition: all ease-in-out 0.3s;
+    transition: all ease-in-out 0.3s;
+    opacity: 1 !important; }
   .marks-editor .students-list > table {
     width: 100%;
     border: 1px solid #cccccc; }
