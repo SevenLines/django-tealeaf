@@ -38,14 +38,16 @@
                 <td data-bind="style: color, css: style" class="student">
                     <div class="info">
                         <table width="100%" data-bind="css: { 'god': success_factor() >= 1 } ">
-                            <tr >
+                            <tr>
                                 <td class="name">
                                     <span class="pull-left" data-bind="text: (second_name + ' ' + name)"></span>
                                 </td>
                                 <td class="score" style="padding-left: 8px">
-                                <span class="pull-right badge student-info-badge" style="background: white; color: green"
+                                <span class="pull-right badge student-info-badge"
+                                      style="background: white; color: green"
                                       data-bind="attr: { 'data-original-title': sum }, style: { color: sum() < 0 ? 'red' : 'green' }">
-                                        <span class="student-info-badge-percent" data-bind="text: ~~(success_factor() * 100) + '%'"></span>
+                                        <span class="student-info-badge-percent"
+                                              data-bind="text: ~~(success_factor() * 100) + '%'"></span>
 {#                                        <span class="student-info-badge-score" data-bind="text: sum"></span>#}
                                       </span>
                                 </td>
@@ -133,6 +135,16 @@
 </div>
 
 <!-- /ko -->
+<div class="row" style="padding-top: 1em">
+    <div class="col-md-8">
+        <div class="mark-table-description">
+            * В таблице представлена эффективность студентов по 100+ бальной шкале.<br>
+            Cогласно <a href="http://math.isu.ru/ru/teacher/docs/polojenie-BRS-2014.pdf" style="display: inline">
+            положению о балльно-рейтинговой системе оценки успеваемости студентов</a><br>
+            студенты, чья эффективность ниже <b>40%</b>, к экзамену (зачету и т.п.) допущены не будут.
+        </div>
+    </div>
+</div>
 <!-- /ko -->
 <div style="clear: both"></div>
 
