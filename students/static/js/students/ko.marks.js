@@ -175,18 +175,33 @@
             return new Mark(item);
         });
 
+        self.success_factor = ko.computed(function () {
+            var max = self.marks.length * 3;
+            var min = self.marks.length * marksTypes.min;
+            var diff = (max - min);
+            if (self.sum() == 0) {
+                return 0.4;
+            } else if (self.sum() > 0 ) {
+                return 0.4 + (self.sum() / max) * 0.6;
+            } else {
+                return 0.4 - (self.sum() / min) * 0.4;
+            }
+//            return Math.abs(min - self.sum()) / diff;
+        });
+
         self.color = ko.computed(function () {
             if (self.sum() != 0) {
-                var max = self.marks.length * marksTypes.max;
-                var min = self.marks.length * marksTypes.min;
-                var diff = (max - min);
-                var k = 1 - self.sum() / diff;
+//                var max = self.marks.length * marksTypes.max;
+//                var min = self.marks.length * marksTypes.min;
+//                var diff = (max - min);
+//                var k = 1 - self.sum() / diff;
+                var k = 1 - self.success_factor();
                 var clr = studentColorMax.clone();
                 clr.mix(studentColorMin, k * k * k);
 
                 return {
                     backgroundColor: clr.hexString(),
-                    opacity: self.sum() < 0 ? Math.max(0.1, 0.4 + self.sum() / diff) : 1
+                    opacity: self.sum() < 0 ? Math.max(0.1, 0.4 + -(k - 1)) : 1
                 };
             }
             return {};
@@ -200,6 +215,7 @@
         self.style = ko.computed(function () {
             return __active() ? "active" : "";
         }, __active);
+
 
         self.modified_marks = function () {
             return $.grep(self.marks, function (item) {
@@ -428,6 +444,8 @@
         self.resetMarksInterface = function () {
             $('thead [data-toggle="tooltip"]').tooltip({placement: "bottom"});
             $('tfoot [data-toggle="tooltip"]').tooltip({placement: "top"});
+            $('.student [data-toggle="tooltip"]').tooltip({placement: "top"});
+            console.log($('.student [data-toggle="tooltip"]').length);
 
 // подключаем события, чтобы не закрывалась менюшка
             $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
@@ -601,8 +619,9 @@
             var s1 = left.sum() >= 0 ? 1 : -1;
             var s2 = right.sum() >= 0 ? 1 : -1;
 
+            // студенты с отрицательными оценками идут в конце
             if (left.second_name < right.second_name) {
-                return s1 == s2 ? -1 : s1 < s2 ? 1 : -1; // студенты с отрицательными оценками идут в конце
+                return s1 == s2 ? -1 : s1 < s2 ? 1 : -1;
             } else if (left.second_name > right.second_name) {
                 return s1 == s2 ? 1 : s1 < s2 ? 1 : -1;
             } else {

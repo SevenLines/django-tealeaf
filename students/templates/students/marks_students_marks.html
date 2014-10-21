@@ -39,12 +39,15 @@
                     <div class="info">
                         <table width="100%">
                             <tr>
-                                <td class="name"><span class="pull-left"
-                                                       data-bind="text: (second_name + ' ' + name)"></span>
+                                <td class="name">
+                                    <span class="pull-left" data-bind="text: (second_name + ' ' + name)"></span>
                                 </td>
                                 <td class="score" style="padding-left: 8px">
-                                <span class="pull-right badge" style="background: white; color: green"
-                                      data-bind="text: sum, style: { color: sum() < 0 ? 'red' : 'green' }, visible: sum() != 0"></span>
+                                <span class="pull-right badge student-info-badge" style="background: white; color: green"
+                                      data-bind="attr: { 'data-original-title': sum }, style: { color: sum() < 0 ? 'red' : 'green' }">
+                                        <span class="student-info-badge-percent" data-bind="text: ~~(success_factor() * 100) + '%'"></span>
+{#                                        <span class="student-info-badge-score" data-bind="text: sum"></span>#}
+                                      </span>
                                 </td>
                             </tr>
                         </table>
