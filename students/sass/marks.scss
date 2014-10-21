@@ -126,8 +126,22 @@ $marks-size: 30px;
       .student {
         @include transition(0.3s);
         opacity: 1 !important;
+
       }
     }
+
+    .student .god {
+      //      box-shadow: inset 0 0 0 4px #ffb600, inset  0 0 0 8px #beff00, inset  0 0 0 12px #00ff34, inset  0 0 0 20px #00ff9f;
+      $stripe-color: #fff871;
+      background: linear-gradient(
+                      135deg, $stripe-color 25%, transparent 25%,
+                      transparent 50%, $stripe-color 50%, $stripe-color 75%,
+                      transparent 75%, transparent
+      );
+      @include background_size(40px 40px);
+      @include animation(godAnimation 1s linear infinite);
+    }
+
     > table {
       width: 100%;
       border: 1px solid $table-border-color;
@@ -353,3 +367,14 @@ $marks-size: 30px;
     transform: rotate(360deg);
   }
 }
+
+@include keyframes(godAnimation) {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 0;
+  }
+}
+
+

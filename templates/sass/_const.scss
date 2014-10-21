@@ -1,4 +1,5 @@
-$common_color: #8cacae;//#adadad;//#8cacae;//#96b3a4;//#96b0b3;//#aacfd3;
+$common_color: #8cacae;
+//#adadad;//#8cacae;//#96b3a4;//#96b0b3;//#aacfd3;
 
 $item_width: 64px;
 $item_height: 64px;
@@ -18,13 +19,13 @@ $main_background_image: "images/use_your_illusion.png";
 $menu_width: 64px;
 $shrink_k: 3/4;
 $menu_width_shrinked: $menu_width * $shrink_k;
-$container_radius: 12px;//$menu_width / 3;
+$container_radius: 12px;
+//$menu_width / 3;
 
 $menu_border_color: lighten(darken($common_color, 40%), 30%);
 $container_bg_color: white;
 
 $min_screen_width: 750px;
-
 
 @mixin transition($speed) {
   -webkit-transition: all ease-in-out $speed;
@@ -32,4 +33,30 @@ $min_screen_width: 750px;
   -ms-transition: all ease-in-out $speed;
   -o-transition: all ease-in-out $speed;
   transition: all ease-in-out $speed;
+}
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes $animation-name {
+    @content;
+  }
+  @-moz-keyframes $animation-name {
+    @content;
+  }
+  @keyframes $animation-name {
+    @content;
+  }
+}
+
+@mixin background_size($size) {
+  -webkit-background-size: $size;
+  -moz-background-size: $size;
+  -ms-background-size: $size;
+  background-size: $size;
+}
+
+@mixin animation($description) {
+  -webkit-animation: $description;
+  -moz-animation: $description;
+  -o-animation: $description;
+  animation: $description;
 }
