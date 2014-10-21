@@ -64,6 +64,16 @@
     -o-transition: all ease-in-out 0.3s;
     transition: all ease-in-out 0.3s;
     opacity: 1 !important; }
+  .marks-editor .students-list .student .god {
+    background: linear-gradient(135deg, #fff871 25%, transparent 25%, transparent 50%, #fff871 50%, #fff871 75%, transparent 75%, transparent);
+    -webkit-background-size: 40px 40px;
+    -moz-background-size: 40px 40px;
+    -ms-background-size: 40px 40px;
+    background-size: 40px 40px;
+    -webkit-animation: godAnimation 1s linear infinite;
+    -moz-animation: godAnimation 1s linear infinite;
+    -o-animation: godAnimation 1s linear infinite;
+    animation: godAnimation 1s linear infinite; }
   .marks-editor .students-list > table {
     width: 100%;
     border: 1px solid #cccccc; }
@@ -238,3 +248,24 @@
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
+
+@-webkit-keyframes godAnimation {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 40px 0; } }
+
+@-moz-keyframes godAnimation {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 40px 0; } }
+
+@keyframes godAnimation {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 40px 0; } }

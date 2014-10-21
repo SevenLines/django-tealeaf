@@ -186,16 +186,15 @@
             } else {
                 return 0.4 - (self.sum() / min) * 0.4;
             }
-//            return Math.abs(min - self.sum()) / diff;
         });
 
         self.color = ko.computed(function () {
             if (self.sum() != 0) {
-//                var max = self.marks.length * marksTypes.max;
-//                var min = self.marks.length * marksTypes.min;
-//                var diff = (max - min);
-//                var k = 1 - self.sum() / diff;
-                var k = 1 - self.success_factor();
+                var max = self.marks.length * marksTypes.max;
+                var min = self.marks.length * marksTypes.min;
+                var diff = (max - min);
+                var k = 1 - self.sum() / diff;
+//                var k = 1 - self.success_factor();
                 var clr = studentColorMax.clone();
                 clr.mix(studentColorMin, k * k * k);
 
