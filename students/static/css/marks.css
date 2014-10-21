@@ -54,7 +54,9 @@
         transition: all 0.1s;
         border: 6px solid black; }
 .marks-editor .students-list {
-  width: 220px;
+  max-width: 250px;
+  width: 250px;
+  overflow: hidden;
   float: left;
   clear: none; }
   .marks-editor .students-list .hover .student {
@@ -87,7 +89,7 @@
           padding-right: 3px; }
 .marks-editor .marks-list {
   border-right: 1px solid #cccccc;
-  margin-left: 220px;
+  margin-left: 250px;
   overflow: scroll;
   overflow-x: auto;
   overflow-y: hidden;
