@@ -5,10 +5,11 @@
 
 {% block basecontent %}
     <div class="lesson">
+        {% include "elements/breadcrumb.html" %}
         <h1>{% page_attribute "title" %}</h1>
         <hr>
         <ul class="list-group">
-            {% show_sub_menu 1 1 1 "elements/menu_articles_list.html" %}
+            {% show_sub_menu 1 None 1 "elements/menu_articles_list.html" %}
         </ul>
     </div>
 {% endblock %}

@@ -1,18 +1,16 @@
 <!-- ФОРМА УПРАВЛЕНИЯ СПИСКОМ СТУДЕНТОВ -->
 <form class="form form-inline">
-    <button class="btn btn-sm btn-default pull-left" data-bind="click: toggleStudentsSorting">
-        <span class="glyphicon glyphicon-sort"></span>
-        <!-- ko text: $root.sortMethod() ? $root.sortMethod().title : "" --><!-- /ko -->
-    </button>
-    {% if user.is_authenticated %}
-        <!-- КНОПКА СОХРАНЕНИЯ -->
-        <div class="pull-right">
-            <button class="btn btn-sm btn-success"
-                    data-bind="click: $root.saveMarks, visible: students && discipline">
-                <i class="glyphicon glyphicon glyphicon-save"></i>
+    <div class="form-group-sm pull-left">
+        <div class="btn-group  btn-group-sm marks-students-list-header-button-group">
+            <button class="btn btn-sm btn-link" data-bind="click: toggleStudentsSorting">
+                <span class="glyphicon glyphicon-sort"></span>
+                <!-- ko text: $root.sortMethod() ? $root.sortMethod().title : "" --><!-- /ko -->
+            </button>
+            <button style="padding-left: 0.5em" class="btn btn-sm btn-link" data-bind="click: toggleScorePercents">
+                <span class="glyphicon glyphicon-star"></span>
+                <!-- ko text: $root.scoreMethod --><!-- /ko -->
             </button>
         </div>
-        <!-- КОНЕЦ КНОПКИ СОХРАНЕНИЯ -->
-    {% endif %}
+    </div>
 </form>
 <!-- КОНЕЦ ФОРМА УПРАВЛЕНИЯ СПИСКОМ СТУДЕНТОВ -->
