@@ -255,24 +255,45 @@ $marks-size: 30px;
       box-shadow: $color 0 0 8px inset;
     }
 
-    @mixin test_exam($color, $use-shadow: false) {
+    @mixin mark-stripes($stripe-color) {
+//      $stripe-color2: lighten($stripe-color, 2);
+//      background: linear-gradient(
+//                      90deg, $stripe-color 25%, $stripe-color2 25%,
+//                      $stripe-color2 50%, $stripe-color 50%, $stripe-color 75%,
+//                      $stripe-color2 75%, $stripe-color2
+//      );
+//      @include background_size(40px 40px);
+//      @include animation(godAnimation 2s linear infinite);
+    }
+
+    @mixin test_exam($color, $use-shadow: false, $stripes: false) {
+
       $lighten: 10;
       @if ($use-shadow) {
         @include shadow(darken($color, $lighten));
       }
+      @if ($stripes) {
+        @include mark-stripes($color);
+      }
       &.test {
+        $clr: adjust_hue($color, $test-hue-offset);
         @if ($use-shadow) {
-          $clr: adjust_hue($color, $test-hue-offset);
           @include shadow(darken($clr, $lighten));
         }
-        background-color: adjust_hue($color, $test-hue-offset);
+        background-color: $clr;
+        @if ($stripes) {
+          @include mark-stripes($clr)
+        }
       }
       &.exam {
+        $clr: adjust_hue($color, $exam-hue-offset);
         @if ($use-shadow) {
-          $clr: adjust_hue($color, $exam-hue-offset);
           @include shadow(darken($clr, $lighten));
         }
-        background-color: adjust_hue($color, $exam-hue-offset);
+        background-color: $clr;
+        @if ($stripes) {
+          @include mark-stripes($clr)
+        }
       }
     }
 
@@ -318,11 +339,11 @@ $marks-size: 30px;
     }
     &.awesome {
       background-color: $awesome;
-      @include test_exam($awesome, true);
+      @include test_exam($awesome, true, true);
     }
     &.fantastic {
       background-color: $fantastic;
-      @include test_exam($fantastic, true);
+      @include test_exam($fantastic, true, true);
     }
     &.godlike {
       background-color: $godlike;
