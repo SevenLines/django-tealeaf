@@ -1,15 +1,17 @@
 <!-- ФОРМА УПРАВЛЕНИЯ СПИСКОМ СТУДЕНТОВ -->
 <form class="form form-inline">
-<div class="form-group-sm pull-left">
-    <button class="btn btn-sm btn-default " data-bind="click: toggleStudentsSorting">
-        <span class="glyphicon glyphicon-sort"></span>
-        <!-- ko text: $root.sortMethod() ? $root.sortMethod().title : "" --><!-- /ko -->
-    </button>
-    <button style="padding-left: 0.5em" class="btn btn-sm btn-default" data-bind="click: toggleScorePercents">
-        <span class="glyphicon glyphicon-star"></span>
-        <!-- ko text: $root.scoreMethod --><!-- /ko -->
-    </button>
-</div>
+    <div class="form-group-sm pull-left">
+        <div class="btn-group  btn-group-sm">
+            <button class="btn btn-sm btn-link" data-bind="click: toggleStudentsSorting">
+                <span class="glyphicon glyphicon-sort"></span>
+                <!-- ko text: $root.sortMethod() ? $root.sortMethod().title : "" --><!-- /ko -->
+            </button>
+            <button style="padding-left: 0.5em" class="btn btn-sm btn-link" data-bind="click: toggleScorePercents">
+                <span class="glyphicon glyphicon-star"></span>
+                <!-- ko text: $root.scoreMethod --><!-- /ko -->
+            </button>
+        </div>
+    </div>
     {% if user.is_authenticated %}
         <!-- КНОПКА СОХРАНЕНИЯ -->
         <div class="pull-right">

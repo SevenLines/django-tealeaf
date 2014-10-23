@@ -443,7 +443,7 @@
         self.resetMarksInterface = function () {
             $('thead [data-toggle="tooltip"]').tooltip({placement: "bottom"});
             $('tfoot [data-toggle="tooltip"]').tooltip({placement: "top"});
-            $('.student [data-toggle="tooltip"]').tooltip({placement: "top"});
+            //$('.student [data-toggle="tooltip"]').tooltip({placement: "top"});
 
 // подключаем события, чтобы не закрывалась менюшка
             $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
@@ -611,7 +611,7 @@
         self.sortByStudentsMark = function (left, right) {
             return left.sum() == right.sum() ? 0 : left.sum() < right.sum() ? 1 : -1;
         };
-        self.sortByStudentsMark.title = "Цвет";
+        self.sortByStudentsMark.title = "По цвету";
 
         self.sortByStudentsName = function (left, right) {
             var s1 = left.sum() >= 0 ? 1 : -1;
@@ -626,7 +626,7 @@
                 return 0;
             }
         };
-        self.sortByStudentsName.title = "Имя";
+        self.sortByStudentsName.title = "По имени";
 
         self.sortMethod = ko.observable();
         self.sortMethod.subscribe(function () {
@@ -642,7 +642,7 @@
 /// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
         self.showPercents = ko.observable(true);
         self.scoreMethod = ko.computed(function () {
-            return self.showPercents() ? "В процентах" : "В баллах"
+            return self.showPercents() ? "в процентах" : "в баллах"
         }, self.showPercents);
         self.toggleScorePercents = function () {
             self.showPercents(!self.showPercents());
