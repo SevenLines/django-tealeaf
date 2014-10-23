@@ -53,9 +53,13 @@
         -o-transition: all 0.1s;
         transition: all 0.1s;
         border: 6px solid black; }
+.marks-editor .marks-students-list-header-button-group button {
+  max-width: 90px;
+  font-size: 12px;
+  overflow: hidden; }
 .marks-editor .students-list {
-  max-width: 250px;
-  width: 250px;
+  max-width: 200px;
+  width: 200px;
   overflow: hidden;
   float: left;
   clear: none; }
@@ -78,18 +82,20 @@
     animation: godAnimation 1s linear infinite; }
   .marks-editor .students-list > table {
     width: 100%;
+    table-layout: fixed;
     border: 1px solid #cccccc; }
     .marks-editor .students-list > table .info {
       height: 30px; }
       .marks-editor .students-list > table .info > table {
-        height: 100%; }
+        height: 100%;
+        table-layout: fixed; }
         .marks-editor .students-list > table .info > table td.name {
           padding-left: 3px; }
         .marks-editor .students-list > table .info > table td.score {
           padding-right: 3px; }
 .marks-editor .marks-list {
   border-right: 1px solid #cccccc;
-  margin-left: 250px;
+  margin-left: 200px;
   overflow: scroll;
   overflow-x: auto;
   overflow-y: hidden;

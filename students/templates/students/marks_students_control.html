@@ -1,7 +1,7 @@
 <!-- ФОРМА УПРАВЛЕНИЯ СПИСКОМ СТУДЕНТОВ -->
 <form class="form form-inline">
     <div class="form-group-sm pull-left">
-        <div class="btn-group  btn-group-sm">
+        <div class="btn-group  btn-group-sm marks-students-list-header-button-group">
             <button class="btn btn-sm btn-link" data-bind="click: toggleStudentsSorting">
                 <span class="glyphicon glyphicon-sort"></span>
                 <!-- ko text: $root.sortMethod() ? $root.sortMethod().title : "" --><!-- /ko -->
@@ -12,15 +12,5 @@
             </button>
         </div>
     </div>
-    {% if user.is_authenticated %}
-        <!-- КНОПКА СОХРАНЕНИЯ -->
-        <div class="pull-right">
-            <button class="btn btn-sm btn-success"
-                    data-bind="click: $root.saveMarks, visible: students && discipline">
-                <i class="glyphicon glyphicon glyphicon-save"></i>
-            </button>
-        </div>
-        <!-- КОНЕЦ КНОПКИ СОХРАНЕНИЯ -->
-    {% endif %}
 </form>
 <!-- КОНЕЦ ФОРМА УПРАВЛЕНИЯ СПИСКОМ СТУДЕНТОВ -->

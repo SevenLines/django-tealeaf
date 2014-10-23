@@ -57,8 +57,21 @@
             {% endif %}
             {#            <div class="form-group">#}
             <!-- СПИСОК ГРУПП -->
-            <select class="form-control" name="group"
-                    data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
+            <div class="form-group">
+                <select class="form-control" name="group"
+                        data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
+
+            </div>
+            {% if user.is_authenticated %}
+                <!-- КНОПКА СОХРАНЕНИЯ -->
+                {#                <div class="">#}
+                <button class="btn btn-sm btn-success"
+                        data-bind="click: $root.saveMarks, visible: students && discipline">
+                    <i class="glyphicon glyphicon glyphicon-save"></i>
+                </button>
+                {#                </div>#}
+                <!-- КОНЕЦ КНОПКИ СОХРАНЕНИЯ -->
+            {% endif %}
             <!-- КОНЕЦ СПИСОК ГРУПП -->
             {#            </div>#}
 

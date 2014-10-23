@@ -14,7 +14,7 @@ $td-margin: 0px;
 
 $table-border-color: #CCC;
 
-$students-list-width: 250px;
+$students-list-width: 200px;
 $marks-size: 30px;
 
 @mixin tooltip($hue-offset) {
@@ -120,9 +120,18 @@ $marks-size: 30px;
     }
   }
 
+  .marks-students-list-header-button-group {
+    button {
+      max-width: $students-list-width/2 - 10;
+      font-size: 12px;
+      overflow: hidden;
+    }
+  }
+
   .students-list {
     max-width: $students-list-width;
     width: $students-list-width;
+
     overflow: hidden;
     float: left;
     clear: none;
@@ -147,11 +156,13 @@ $marks-size: 30px;
 
     > table {
       width: 100%;
+      table-layout: fixed;
       border: 1px solid $table-border-color;
       .info {
         height: $marks-size;
         > table {
           height: 100%;
+          table-layout: fixed;
           td {
             &.name {
               padding-left: 3px;
