@@ -56,15 +56,9 @@
       position: relative;
 
       &:hover {
-
         ul {
           opacity: 1;
           max-width: 3*$menu_width;
-          &.email {
-//            border: 1px solid $menu_border_color;
-//            border-left: none;
-//            border-left: 1px solid $menu_border_color;
-          }
         }
       }
 
@@ -136,5 +130,11 @@
         }
       }
     }
+  }
+}
+
+#articles-list {
+  >ul {
+
   }
 }

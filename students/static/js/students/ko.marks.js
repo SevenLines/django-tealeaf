@@ -179,12 +179,13 @@
             var max = self.marks.length * 3;
             var min = self.marks.length * marksTypes.min;
             var diff = (max - min);
+            var base = 0.3;
             if (self.sum() == 0) {
-                return 0.4;
+                return base;
             } else if (self.sum() > 0 ) {
-                return 0.4 + (self.sum() / max) * 0.6;
+                return base + (self.sum() / max) * (1-base);
             } else {
-                return 0.4 - (self.sum() / min) * 0.4;
+                return base - (self.sum() / min) * base;
             }
         });
 
