@@ -19,6 +19,9 @@
 }
 
 #enter-button {
+  @media (max-width: 800px) {
+    display: none;
+  }
   @include transition(0.3s);
   padding: 1em;
   cursor: pointer;

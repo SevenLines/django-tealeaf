@@ -1,5 +1,5 @@
 {% extends "base-page-with-toolbar.html" %}
-{% load static cms_tags sekizai_tags file_upload_form_tags %}
+{% load static cms_tags sekizai_tags file_upload_form_tags menu_tags %}
 
 {% block basecontent %}
 
@@ -8,7 +8,7 @@
     {% endif %}
 
     <div class="lesson">
-        <div class="breadcrumbs">{{ current_page.parent.get_page_title }}</div>
+        {% include "elements/breadcrumb.html" %}
         <h1>{% page_attribute "title" %}</h1>
         <hr>
         {% placeholder "content" %}

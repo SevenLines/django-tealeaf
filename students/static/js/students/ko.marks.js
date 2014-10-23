@@ -115,7 +115,6 @@
         self.mark.subscribe(function () {
             if (self.student) {
                 var sum = self.student.sum();
-                console.log(sum);
                 sum += self.mark() - last_mark;
                 last_mark = self.mark();
                 self.student.sum(sum);
@@ -179,12 +178,13 @@
             var max = self.marks.length * 3;
             var min = self.marks.length * marksTypes.min;
             var diff = (max - min);
+            var base = 0.3;
             if (self.sum() == 0) {
-                return 0.4;
+                return base;
             } else if (self.sum() > 0 ) {
-                return 0.4 + (self.sum() / max) * 0.6;
+                return base + (self.sum() / max) * (1-base);
             } else {
-                return 0.4 - (self.sum() / min) * 0.4;
+                return base - (self.sum() / min) * base;
             }
         });
 
@@ -443,8 +443,7 @@
         self.resetMarksInterface = function () {
             $('thead [data-toggle="tooltip"]').tooltip({placement: "bottom"});
             $('tfoot [data-toggle="tooltip"]').tooltip({placement: "top"});
-            $('.student [data-toggle="tooltip"]').tooltip({placement: "top"});
-            console.log($('.student [data-toggle="tooltip"]').length);
+            //$('.student [data-toggle="tooltip"]').tooltip({placement: "top"});
 
 // подключаем события, чтобы не закрывалась менюшка
             $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
@@ -612,7 +611,7 @@
         self.sortByStudentsMark = function (left, right) {
             return left.sum() == right.sum() ? 0 : left.sum() < right.sum() ? 1 : -1;
         };
-        self.sortByStudentsMark.title = "Цвет";
+        self.sortByStudentsMark.title = "По цвету";
 
         self.sortByStudentsName = function (left, right) {
             var s1 = left.sum() >= 0 ? 1 : -1;
@@ -627,7 +626,7 @@
                 return 0;
             }
         };
-        self.sortByStudentsName.title = "Имя";
+        self.sortByStudentsName.title = "По имени";
 
         self.sortMethod = ko.observable();
         self.sortMethod.subscribe(function () {
@@ -638,6 +637,16 @@
         self.toggleStudentsSorting = function () {
             self.sortMethod(self.sortMethod() == self.sortByStudentsMark ?
                 self.sortByStudentsName : self.sortByStudentsMark);
+        };
+
+/// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
+        self.showPercents = ko.observable(true);
+        self.scoreMethod = ko.computed(function () {
+            return self.showPercents() ? "в процентах" : "в баллах"
+        }, self.showPercents);
+        self.toggleScorePercents = function () {
+            self.showPercents(!self.showPercents());
+            //$.cookie("show_percents", self.showPercents());
         };
 
 

@@ -14,7 +14,7 @@ $td-margin: 0px;
 
 $table-border-color: #CCC;
 
-$students-list-width: 250px;
+$students-list-width: 220px;
 $marks-size: 30px;
 
 @mixin tooltip($hue-offset) {
@@ -59,8 +59,10 @@ $marks-size: 30px;
 
   .marks-legend {
     padding-left: 1em;
+    font-size: 0.8em;
     tr {
       padding: 0;
+
       float: left;
       clear: both;
       list-style: none;
@@ -70,8 +72,8 @@ $marks-size: 30px;
       &.marks {
         margin-bottom: 0;
         td {
-          width: 4em;
-          height: 1.5em;
+//          width: 4em;
+          height: 2em;
           border-bottom: none;
         }
       }
@@ -118,9 +120,18 @@ $marks-size: 30px;
     }
   }
 
+  .marks-students-list-header-button-group {
+    button {
+      max-width: $students-list-width/2 - 10;
+      font-size: 12px;
+      overflow: hidden;
+    }
+  }
+
   .students-list {
     max-width: $students-list-width;
     width: $students-list-width;
+
     overflow: hidden;
     float: left;
     clear: none;
@@ -145,11 +156,13 @@ $marks-size: 30px;
 
     > table {
       width: 100%;
+      table-layout: fixed;
       border: 1px solid $table-border-color;
       .info {
         height: $marks-size;
         > table {
           height: 100%;
+          table-layout: fixed;
           td {
             &.name {
               padding-left: 3px;
@@ -404,4 +417,9 @@ $marks-size: 30px;
   }
 }
 
-
+//.marks-legend {
+//  tr.marks td {
+//    width: auto;
+//  }
+//}
+//

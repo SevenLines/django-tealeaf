@@ -1,0 +1,7 @@
+<div class="breadcrumbs">
+    {% if  current_page.parent.parent %}
+        <a href="{{ current_page.parent.parent.get_absolute_url }}">{{ current_page.parent.parent.get_page_title }}</a>
+        /
+    {% endif %}
+    <a href="{{ current_page.parent.get_absolute_url }}">{{ current_page.parent.get_page_title }}</a>
+</div>
