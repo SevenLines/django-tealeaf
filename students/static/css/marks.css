@@ -10,7 +10,8 @@
   max-width: 100%; }
 
 .marks-editor .marks-legend {
-  padding-left: 1em; }
+  padding-left: 1em;
+  font-size: 0.8em; }
   .marks-editor .marks-legend tr {
     padding: 0;
     float: left;
@@ -21,8 +22,7 @@
     .marks-editor .marks-legend tr.marks {
       margin-bottom: 0; }
       .marks-editor .marks-legend tr.marks td {
-        width: 4em;
-        height: 1.5em;
+        height: 2em;
         border-bottom: none; }
     .marks-editor .marks-legend tr.values td {
       background-color: #EEE;

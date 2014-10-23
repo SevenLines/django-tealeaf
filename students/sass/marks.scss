@@ -59,8 +59,10 @@ $marks-size: 30px;
 
   .marks-legend {
     padding-left: 1em;
+    font-size: 0.8em;
     tr {
       padding: 0;
+
       float: left;
       clear: both;
       list-style: none;
@@ -70,8 +72,8 @@ $marks-size: 30px;
       &.marks {
         margin-bottom: 0;
         td {
-          width: 4em;
-          height: 1.5em;
+//          width: 4em;
+          height: 2em;
           border-bottom: none;
         }
       }
@@ -404,4 +406,9 @@ $marks-size: 30px;
   }
 }
 
-
+//.marks-legend {
+//  tr.marks td {
+//    width: auto;
+//  }
+//}
+//

@@ -45,10 +45,11 @@
                                 <td class="score" style="padding-left: 8px">
                                 <span class="pull-right badge student-info-badge"
                                       style="background: white; color: green"
-                                      data-bind="attr: { 'data-original-title': sum }, style: { color: sum() < 0 ? 'red' : 'green' }">
+                                      data-bind="attr: { 'data-original-title': sum() }, style: { color: sum() < 0 ? 'red' : 'green' }">
                                         <span class="student-info-badge-percent"
-                                              data-bind="text: ~~(success_factor() * 100) + '%'"></span>
-{#                                        <span class="student-info-badge-score" data-bind="text: sum"></span>#}
+                                              data-bind="visible: $root.showPercents(), text: ~~(success_factor() * 100) + '%'"></span>
+                                        <span class="student-info-badge-score"
+                                              data-bind="visible: !$root.showPercents(), text: sum"></span>
                                       </span>
                                 </td>
                             </tr>
@@ -138,12 +139,16 @@
 <div class="row" style="padding-top: 1em">
     <div class="col-md-8">
         <div class="mark-table-description">
-            * В таблице представлена эффективность студентов по 100+ бальной шкале.<br>
-            Согласно <b>положению о балльно-рейтинговой системе оценки успеваемости студентов</b><br>
-            студенты, чья эффективность ниже <b>40%</b>, к экзамену (зачету и т.п.) допущены не будут.
+            <p>* В таблице представлена эффективность студентов по 100+ бальной шкале.
+            <p>** Согласно <a style="display: inline" href="http://math.isu.ru/ru/teacher/docs/polojenie-BRS-2014.pdf">положению о балльно-рейтинговой системе оценки успеваемости студентов (пункт 4.3), </a>
+            студенты, чья эффективность ниже <b>30%</b>, к экзамену (зачету и т.п.) допущены не будут.
         </div>
     </div>
 </div>
+
+
+
+
 <!-- /ko -->
 <div style="clear: both"></div>
 

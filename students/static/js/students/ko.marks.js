@@ -115,7 +115,6 @@
         self.mark.subscribe(function () {
             if (self.student) {
                 var sum = self.student.sum();
-                console.log(sum);
                 sum += self.mark() - last_mark;
                 last_mark = self.mark();
                 self.student.sum(sum);
@@ -445,7 +444,6 @@
             $('thead [data-toggle="tooltip"]').tooltip({placement: "bottom"});
             $('tfoot [data-toggle="tooltip"]').tooltip({placement: "top"});
             $('.student [data-toggle="tooltip"]').tooltip({placement: "top"});
-            console.log($('.student [data-toggle="tooltip"]').length);
 
 // подключаем события, чтобы не закрывалась менюшка
             $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
@@ -639,6 +637,16 @@
         self.toggleStudentsSorting = function () {
             self.sortMethod(self.sortMethod() == self.sortByStudentsMark ?
                 self.sortByStudentsName : self.sortByStudentsMark);
+        };
+
+/// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
+        self.showPercents = ko.observable(true);
+        self.scoreMethod = ko.computed(function () {
+            return self.showPercents() ? "В процентах" : "В баллах"
+        }, self.showPercents);
+        self.toggleScorePercents = function () {
+            self.showPercents(!self.showPercents());
+            //$.cookie("show_percents", self.showPercents());
         };
 
 
