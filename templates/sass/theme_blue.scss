@@ -11,7 +11,7 @@ body {
 }
 
 .container {
-  box-shadow: 0 0 16px lighten($common_color, 10);
+//  box-shadow: 0 0 16px lighten($common_color, 10);
   .left-board {
     background-color: desaturate(lighten($common_color, 5), 15);
   }

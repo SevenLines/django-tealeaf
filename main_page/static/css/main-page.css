@@ -5,6 +5,9 @@ body {
   -o-transition: all 0.3s;
   transition: all 0.3s; }
 
+.container {
+  box-shadow: 0px 4px 16px #aac2c3; }
+
 #main-banner {
   text-align: center; }
   #main-banner img#preview {

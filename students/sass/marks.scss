@@ -7,8 +7,8 @@ $awesome: hsl(100, 80%, 30%);
 $fantastic: hsl(100, 80%, 20%);
 $godlike: hsl(100, 80%, 10%);
 $hover-color: grey;
-$exam-hue-offset: -270;
-$test-hue-offset: -120;
+$exam-hue-offset: 90;
+$test-hue-offset: 250;
 $mix-weight: 70%;
 $td-margin: 0px;
 
@@ -133,7 +133,6 @@ $marks-size: 30px;
     }
 
     .student .god {
-      //      box-shadow: inset 0 0 0 4px #ffb600, inset  0 0 0 8px #beff00, inset  0 0 0 12px #00ff34, inset  0 0 0 20px #00ff9f;
       $stripe-color: #fff871;
       background: linear-gradient(
                       135deg, $stripe-color 25%, transparent 25%,
@@ -252,16 +251,27 @@ $marks-size: 30px;
 
     //    background-color: white;
 
-    @mixin shadow {
-      //      box-shadow: #ffbbd7 0px 0px 4px inset;
-      //      border: 1px solid white;
+    @mixin shadow($color) {
+      box-shadow: $color 0 0 8px inset;
     }
 
-    @mixin test_exam($color) {
+    @mixin test_exam($color, $use-shadow: false) {
+      $lighten: 10;
+      @if ($use-shadow) {
+        @include shadow(darken($color, $lighten));
+      }
       &.test {
+        @if ($use-shadow) {
+          $clr: adjust_hue($color, $test-hue-offset);
+          @include shadow(darken($clr, $lighten));
+        }
         background-color: adjust_hue($color, $test-hue-offset);
       }
       &.exam {
+        @if ($use-shadow) {
+          $clr: adjust_hue($color, $exam-hue-offset);
+          @include shadow(darken($clr, $lighten));
+        }
         background-color: adjust_hue($color, $exam-hue-offset);
       }
     }
@@ -296,33 +306,27 @@ $marks-size: 30px;
 
     &.normal {
       background-color: $quater;
-      @include shadow;
       @include test_exam($quater);
     }
     &.good {
       background-color: $half; //#c9ff49
-      @include shadow;
       @include test_exam($half);
     }
     &.excellent {
       background-color: $full;
-      @include shadow;
-      @include test_exam($full);
+      @include test_exam($full, true);
     }
     &.awesome {
       background-color: $awesome;
-      @include shadow;
-      @include test_exam($awesome);
+      @include test_exam($awesome, true);
     }
     &.fantastic {
       background-color: $fantastic;
-      @include shadow;
-      @include test_exam($fantastic);
+      @include test_exam($fantastic, true);
     }
     &.godlike {
       background-color: $godlike;
-      @include shadow;
-      @include test_exam($godlike);
+      @include test_exam($godlike, true);
     }
     // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
   }

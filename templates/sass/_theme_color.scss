@@ -15,7 +15,7 @@
     }
     border-bottom-color: darken($common_color, 35);
 
-    box-shadow: 0px 4px 16px lighten($color, 10);
+    box-shadow: 0 0 10px lighten($color, 10);
 
     .left-board {
       background-color: $common_color;
