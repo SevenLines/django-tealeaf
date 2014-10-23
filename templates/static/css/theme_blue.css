@@ -3,7 +3,7 @@ body {
 
 .container {
   border-bottom-color: #020405;
-  box-shadow: 0px 4px 16px #4a8ba3; }
+  box-shadow: 0 0 10px #4a8ba3; }
   @media (min-width: 750px) {
     .container {
       border-color: #14252c;
@@ -65,10 +65,8 @@ body {
   background-position: 0 0;
   background-repeat: repeat, repeat; }
 
-.container {
-  box-shadow: 0 0 16px #4a8ba3; }
-  .container .left-board {
-    background-color: #527582; }
+.container .left-board {
+  background-color: #527582; }
 
 .menu > ul > li > ul > li {
   background-color: rgba(155, 195, 210, 0.95); }
