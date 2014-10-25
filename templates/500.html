@@ -3,9 +3,105 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <style>
+        body {
+            background: #689294;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            padding: 0;
+            margin: 0;
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -ms-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+
+        #bg-fill {
+            z-index: -1;
+            position: fixed;
+
+            background-image: url("static/css/images/flower-ribon_300_top.png"), url("static/css/images/flower_ornament_everywhere_300_.png"), url("static/css/images/stripe_40px_45deg.png");
+            background-attachment: fixed, fixed, fixed;
+            background-position: 0 0, 0px 70px, 0 0;
+            background-repeat: repeat, repeat, repeat;
+            width: 100%;
+            height: 100%;
+        }
+
+        body .message {
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 4px solid white;
+            border-radius: 1em;
+            padding: 1em;
+            width: 400px;
+
+            margin: 2em auto;
+            text-align: center;
+            box-shadow: 0 0 8px white;
+
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -ms-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+
+            -webkit-animation: glow 3s infinite;
+            animation: glow 3s infinite;
+        }
+
+        body .message .number {
+            font-weight: bold;
+        }
+
+        body .message .info {
+            font-weight: normal;
+        }
+
+
+        @media (max-width: 400px) {
+            body .message {
+                width: 100%;
+                border: 4px solid white;
+                border-left: none;
+                border-right: none;
+                border-radius: 0;
+                margin: 2em 0;
+                padding: 1em 0;
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 8px white
+            }
+            50% {
+                box-shadow: 0 0 32px #82d5ff
+            }
+            100% {
+                box-shadow: 0 0 8px white
+            }
+        }
+
+        @-webkit-keyframes glow {
+            0% {
+                box-shadow: 0 0 8px white
+            }
+            50% {
+                box-shadow: 0 0 32px #82d5ff
+            }
+            100% {
+                box-shadow: 0 0 8px white
+            }
+        }
+    </style>
 </head>
 <body>
-<h1 style="text-align: center">500</h1>
-<h2 style="text-align: center">...</h2>
+<div id="bg-fill">
+    <div class="message">
+        <h1 class="number">500</h1>
+        <h2 class="info">Что-то сломалось, я уже в курсе <br>и скоро все починю.</h2>
+        <a class="email">&#109;&#109;&#97;&#105;&#108;&#109;&#46;&#109;&#97;&#116;&#104;&#64;&#109;&#97;&#105;&#108;&#46;&#114;&#117;</a>
+    </div>
+</div>
 </body>
 </html>
