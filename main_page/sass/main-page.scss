@@ -136,6 +136,7 @@ body {
   .main-page-description {
   }
   .main-page-image {
+    //    margin-bottom: 1em;
   }
 
   .main-page-message {
@@ -151,7 +152,15 @@ body {
       margin-top: 1em;
     }
 
+    border: 1px solid darken($common_color, 20);
+
+    &:hover {
+
+      box-shadow: 0 0 7px lighten($common_color, 25);
+    }
+
     @mixin alert($color) {
+      border: none;
       $alter-color: darken($color, 3);
       box-shadow: 0 0 4px darken($color, 15);
 
@@ -181,7 +190,6 @@ body {
       @include alert(#f2dede);
     }
 
-    //    background-color: lighten($common_color, 37);
   }
 }
 

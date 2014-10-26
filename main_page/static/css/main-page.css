@@ -105,11 +105,15 @@ body {
     -moz-background-size: 40px 40px;
     -ms-background-size: 40px 40px;
     background-size: 40px 40px;
-    margin-bottom: 1em; }
+    margin-bottom: 1em;
+    border: 1px solid #587a7c; }
     @media (max-width: 750px) {
       #main-banner .main-page-message {
         margin-top: 1em; } }
+    #main-banner .main-page-message:hover {
+      box-shadow: 0 0 7px #d7e2e3; }
     #main-banner .main-page-message.alert-info {
+      border: none;
       box-shadow: 0 0 4px #9acfea;
       color: black; }
       #main-banner .main-page-message.alert-info:hover {
@@ -121,6 +125,7 @@ body {
         -o-animation: mainPageMessageAnimation 3s infinite linear;
         animation: mainPageMessageAnimation 3s infinite linear; }
     #main-banner .main-page-message.alert-success {
+      border: none;
       box-shadow: 0 0 4px #b2dba1;
       color: black; }
       #main-banner .main-page-message.alert-success:hover {
@@ -132,6 +137,7 @@ body {
         -o-animation: mainPageMessageAnimation 3s infinite linear;
         animation: mainPageMessageAnimation 3s infinite linear; }
     #main-banner .main-page-message.alert-warning {
+      border: none;
       box-shadow: 0 0 4px #f5e79e;
       color: black; }
       #main-banner .main-page-message.alert-warning:hover {
@@ -143,6 +149,7 @@ body {
         -o-animation: mainPageMessageAnimation 3s infinite linear;
         animation: mainPageMessageAnimation 3s infinite linear; }
     #main-banner .main-page-message.alert-danger {
+      border: none;
       box-shadow: 0 0 4px #dca7a7;
       color: black; }
       #main-banner .main-page-message.alert-danger:hover {

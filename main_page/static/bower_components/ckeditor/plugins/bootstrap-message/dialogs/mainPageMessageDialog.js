@@ -37,7 +37,7 @@ CKEDITOR.dialog.add("mainPageMessageDialog", function (editor) {
                         setup: function (element) {
                             var that = this;
                             if (this.items.every(function (item) {
-                                    if (element.hasClass(item[0])) {
+                                    if (element.hasClass(item[1])) {
                                         that.setValue(item[1]);
                                         return false;
                                     }
@@ -48,7 +48,7 @@ CKEDITOR.dialog.add("mainPageMessageDialog", function (editor) {
                         },
                         commit: function (element) {
                             this.items.every(function (item) {
-                                element.removeClass(item[0]);
+                                element.removeClass(item[1]);
                                 return true;
                             });
                             element.addClass(this.getValue());
