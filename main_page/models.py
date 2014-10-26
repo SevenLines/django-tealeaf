@@ -26,7 +26,7 @@ class MainPageItem(Model):
         return {
             'id': self.pk,
             'title': self.title,
-            'description': self.description,
+            # 'description': self.description,
             'item_url': self.img.url if self.img.name and exists else "",
             'item_thumb_url': self.img['main_page_thumb'].url if self.img.name and exists else ""
         }
@@ -37,6 +37,7 @@ class MainPage(Model):
     current_theme_css = models.TextField(default="")
     _img_bootstrap_cols = models.IntegerField(default=0)
     show_border = models.BooleanField(default=True)
+    description = models.TextField(blank=True, null=True, default="")
 
     @property
     def img_bootstrap_cols(self):

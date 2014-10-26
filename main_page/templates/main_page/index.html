@@ -23,7 +23,8 @@
                         <form data-bind="submit: $root.saveItem">
                             <textarea data-icon="{% static "img/main_page/saveme.png" %}" id="description-edit"
                                       style="resize: vertical" class="form-control" name="description"
-                                      data-bind="ckeditor: $root.current_item.description">
+                                      data-bind="ckeditor: description">
+                                {{ description|safe }}
                             </textarea>
                         </form>
                     </div>
