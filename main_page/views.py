@@ -25,14 +25,17 @@ from main_page.models import MainPageItem, MainPage
 def main_page_context(data=None):
     if not data:
         data = {}
+    obj = MainPage.solo()
+
     if 'item' not in data:
-        data['item'] = MainPage.solo().current_item.dictionary if MainPage.solo().current_item else None
+        data['item'] = obj.current_item.dictionary if obj.current_item else None
     if 'show_border' not in data:
-        data['show_border'] = MainPage.solo().show_border
+        data['show_border'] = obj.show_border
     if 'img_bootstrap_cols' not in data:
-        data['img_bootstrap_cols'] = MainPage.solo().img_bootstrap_cols
+        data['img_bootstrap_cols'] = obj.img_bootstrap_cols
     if 'desc_bootstrap_cols' not in data:
-        data['desc_bootstrap_cols'] = 12 - MainPage.solo().img_bootstrap_cols
+        data['desc_bootstrap_cols'] = 12 - obj.img_bootstrap_cols
+    data['description'] = obj.description
     return data
 
 
@@ -52,10 +55,10 @@ def item(request):
             i = MainPage.solo().current_item
     except ObjectDoesNotExist as e:
         return HttpResponseBadRequest("can't get item with the item_id")
-
-    html = render_to_string('main_page/image.html', RequestContext(request, main_page_context({
+    context = main_page_context({
         'item': i.dictionary if i else None,
-    })))
+    })
+    html = render_to_string('main_page/image.html', RequestContext(request, context))
 
     return HttpResponse(json.dumps(main_page_context({
         'item': i.dictionary if i else None,
@@ -213,3 +216,13 @@ def toggle_img_bootstrap_cols(request):
     obj.save()
 
     return HttpResponse(img_bootstrap_cols)
+
+@login_required
+@require_in_POST("description")
+def update_description(request):
+    description = request.POST['description']
+    obj = MainPage.solo()
+    obj.description = description
+    obj.save()
+
+    return HttpResponse(description)

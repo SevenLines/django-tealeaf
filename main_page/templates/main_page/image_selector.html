@@ -94,6 +94,7 @@
                 remove_item: "{% url "main_page.views.remove_item" %}",
                 toggle_border: "{% url "main_page.views.toggle_border" %}",
                 toggle_img_bootstrap_cols: "{% url "main_page.views.toggle_img_bootstrap_cols" %}",
+                update_description: "{% url "main_page.views.update_description" %}",
 
                 themes: "{% url "main_page.views.list_themes" %}",
                 set_theme: "{% url "main_page.views.set_current_theme" %}"
@@ -101,6 +102,7 @@
             selector: {
                 view: "#main-banner .left .view"
             },
+{#            description: "{{ description|safe }}",#}
             show_border: {% if show_border %}true{% else %}false{% endif %},
             img_bootstrap_cols: {{ img_bootstrap_cols }},
             csrf: "{{ csrf_token }}"
