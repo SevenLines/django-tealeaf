@@ -10,6 +10,7 @@ urlpatterns = patterns("main_page.views",
        url(r"themes/set", 'set_current_theme'),
        url(r"toggle-border$", "toggle_border"),
        url(r"toggle-img-bootstrap-cols$", "toggle_img_bootstrap_cols"),
+       url(r"update-description$", "update_description"),
        url(r"item$", "item"),
        url(r"$", "index"),
 )

@@ -4,10 +4,10 @@
     <img src="{{ item.item_url }}" id="view" class="main-page-image{% if not show_border %} borderless{% endif %}"/>
     {% if img_bootstrap_cols > 0 %} </div> {% endif %}
 {% endif %}
-{% if item.description and img_bootstrap_cols < 12 %}
+{% if description and img_bootstrap_cols < 12 %}
      {% if img_bootstrap_cols > 0 %} <div class="col-sm-{{ desc_bootstrap_cols }}"> {% endif %}
         <div class="main-page-description">
-            {{ item.description|safe }}
+            {{ description|safe }}
         </div>
     {% if img_bootstrap_cols > 0 %}</div> {% endif %}
 {% endif %}

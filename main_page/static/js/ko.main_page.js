@@ -33,11 +33,13 @@ function MainPageModel(data) {
         remove_item: data.url.remove_item,      // remove item with id
         toggle_border: data.url.toggle_border,  // toggle main image border
         toggle_img_bootstrap_cols: data.url.toggle_img_bootstrap_cols,
+        update_description: data.url.update_description,
 
         themes: data.url.themes,
         set_theme: data.url.set_theme
     };
 
+    self.description = ko.observable("");
     self.show_border = ko.observable(data.show_border);
 
     self.selector = {
@@ -100,14 +102,15 @@ function MainPageModel(data) {
                 extraPlugins: 'divarea,bootstrap-collapse,insertpre,div,image,' +
                 'bootstrap-collapse,bootstrap-message,showblocks,justify,divarea,colordialog,colorbutton,liststyle,eqneditor'
             }).editor;
+            self.description(editor.getData());
             editor.on('change', function (data) {
-                self.current_item().description(editor.getData());
+                self.description(editor.getData());
             });
 
             // create save button
             editor.addCommand("SaveCommand", {
                 exec: function () {
-                    self.saveItem();
+                    self.update_description();
                 }
             });
             editor.ui.addButton("Save", {
@@ -119,10 +122,10 @@ function MainPageModel(data) {
             // <<<
         },
         update: function (element) {
-            var value = self.current_item().description;
-//            console.log(value());
-            if ($(element).val() !== value()) {
-                $(element).val(value());
+            var value = self.description();
+            //console.log(value);
+            if ($(element).val() !== value) {
+                $(element).val(value);
             }
         }
     };
@@ -205,6 +208,18 @@ function MainPageModel(data) {
         }).fail(function () {
             InterfaceAlerts.showFail();
         });
+    };
+
+    self.update_description = function () {
+        console.log(self.description());
+        $.post(self.url.update_description, csrfize({
+            description: self.description()
+        })).success(function() {
+            InterfaceAlerts.showSuccess();
+            self.update_view();
+        }).fail(function () {
+            InterfaceAlerts.showFail();
+        })
     };
 
     self.removeItem = function (data) {
