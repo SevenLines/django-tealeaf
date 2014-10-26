@@ -93,3 +93,39 @@ body {
             list-style: none; }
             #main-banner .right > ul > li.item ul.mini-menu > li {
               padding: 0.1em; }
+  #main-banner .main-page-message {
+    -webkit-transition: all ease-in-out 0.3s;
+    -moz-transition: all ease-in-out 0.3s;
+    -ms-transition: all ease-in-out 0.3s;
+    -o-transition: all ease-in-out 0.3s;
+    transition: all ease-in-out 0.3s;
+    padding: 1em;
+    border-radius: 8px;
+    margin-bottom: 1em; }
+    @media (max-width: 750px) {
+      #main-banner .main-page-message {
+        margin-top: 1em; } }
+    #main-banner .main-page-message.alert-info {
+      box-shadow: 0 0 4px #9acfea;
+      color: black; }
+      #main-banner .main-page-message.alert-info:hover {
+        box-shadow: 0 0 7px #9acfea;
+        color: #134158; }
+    #main-banner .main-page-message.alert-success {
+      box-shadow: 0 0 4px #b2dba1;
+      color: black; }
+      #main-banner .main-page-message.alert-success:hover {
+        box-shadow: 0 0 7px #b2dba1;
+        color: #28471c; }
+    #main-banner .main-page-message.alert-warning {
+      box-shadow: 0 0 4px #f5e79e;
+      color: black; }
+      #main-banner .main-page-message.alert-warning:hover {
+        box-shadow: 0 0 7px #f5e79e;
+        color: #6e5e0c; }
+    #main-banner .main-page-message.alert-danger {
+      box-shadow: 0 0 4px #dca7a7;
+      color: black; }
+      #main-banner .main-page-message.alert-danger:hover {
+        box-shadow: 0 0 7px #dca7a7;
+        color: #4d1e1e; }

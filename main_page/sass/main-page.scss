@@ -137,4 +137,41 @@ body {
   }
   .main-page-image {
   }
+
+  .main-page-message {
+    @include transition(0.3s);
+    padding: 1em;
+    border-radius: 8px;
+//    cursor: pointer;
+
+    margin-bottom: 1em;
+    @media (max-width: 750px) {
+      margin-top: 1em;
+    }
+
+    @mixin alert($color) {
+      box-shadow: 0 0 4px darken($color, 15);
+      &:hover {
+        box-shadow: 0 0 7px darken($color, 15);
+        color: darken($color, 70);
+     }
+      color: black; //darken($color, 70);
+    }
+
+    &.alert-info {
+      @include alert(#d9edf7);
+    }
+    &.alert-success {
+      @include alert(#dff0d8);
+    }
+    &.alert-warning {
+      @include alert(#fcf8e3);
+    }
+    &.alert-danger {
+      @include alert(#f2dede);
+    }
+
+
+//    background-color: lighten($common_color, 37);
+  }
 }
