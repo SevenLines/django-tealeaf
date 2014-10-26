@@ -101,6 +101,10 @@ body {
     transition: all ease-in-out 0.3s;
     padding: 1em;
     border-radius: 8px;
+    -webkit-background-size: 40px 40px;
+    -moz-background-size: 40px 40px;
+    -ms-background-size: 40px 40px;
+    background-size: 40px 40px;
     margin-bottom: 1em; }
     @media (max-width: 750px) {
       #main-banner .main-page-message {
@@ -110,22 +114,63 @@ body {
       color: black; }
       #main-banner .main-page-message.alert-info:hover {
         box-shadow: 0 0 7px #9acfea;
-        color: #134158; }
+        color: #134158;
+        background-image: linear-gradient(45deg, #cce7f4 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, #cce7f4 50%, #cce7f4 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0));
+        -webkit-animation: mainPageMessageAnimation 3s infinite linear;
+        -moz-animation: mainPageMessageAnimation 3s infinite linear;
+        -o-animation: mainPageMessageAnimation 3s infinite linear;
+        animation: mainPageMessageAnimation 3s infinite linear; }
     #main-banner .main-page-message.alert-success {
       box-shadow: 0 0 4px #b2dba1;
       color: black; }
       #main-banner .main-page-message.alert-success:hover {
         box-shadow: 0 0 7px #b2dba1;
-        color: #28471c; }
+        color: #28471c;
+        background-image: linear-gradient(45deg, #d6eccd 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, #d6eccd 50%, #d6eccd 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0));
+        -webkit-animation: mainPageMessageAnimation 3s infinite linear;
+        -moz-animation: mainPageMessageAnimation 3s infinite linear;
+        -o-animation: mainPageMessageAnimation 3s infinite linear;
+        animation: mainPageMessageAnimation 3s infinite linear; }
     #main-banner .main-page-message.alert-warning {
       box-shadow: 0 0 4px #f5e79e;
       color: black; }
       #main-banner .main-page-message.alert-warning:hover {
         box-shadow: 0 0 7px #f5e79e;
-        color: #6e5e0c; }
+        color: #6e5e0c;
+        background-image: linear-gradient(45deg, #fbf5d5 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, #fbf5d5 50%, #fbf5d5 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0));
+        -webkit-animation: mainPageMessageAnimation 3s infinite linear;
+        -moz-animation: mainPageMessageAnimation 3s infinite linear;
+        -o-animation: mainPageMessageAnimation 3s infinite linear;
+        animation: mainPageMessageAnimation 3s infinite linear; }
     #main-banner .main-page-message.alert-danger {
       box-shadow: 0 0 4px #dca7a7;
       color: black; }
       #main-banner .main-page-message.alert-danger:hover {
         box-shadow: 0 0 7px #dca7a7;
-        color: #4d1e1e; }
+        color: #4d1e1e;
+        background-image: linear-gradient(45deg, #eed3d3 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, #eed3d3 50%, #eed3d3 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0));
+        -webkit-animation: mainPageMessageAnimation 3s infinite linear;
+        -moz-animation: mainPageMessageAnimation 3s infinite linear;
+        -o-animation: mainPageMessageAnimation 3s infinite linear;
+        animation: mainPageMessageAnimation 3s infinite linear; }
+
+@-webkit-keyframes mainPageMessageAnimation {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 40px 0; } }
+
+@-moz-keyframes mainPageMessageAnimation {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 40px 0; } }
+
+@keyframes mainPageMessageAnimation {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 40px 0; } }
