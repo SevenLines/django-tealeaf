@@ -221,6 +221,12 @@ a {
     padding-left: 20px;
     line-height: 20px;
   }
+  &[href$='.sqlite'] {
+    background: transparent url(../css/images/icons/db.png) center left no-repeat;
+    display: inline-block;
+    padding-left: 20px;
+    line-height: 20px;
+  }
 }
 
 /* Style for immitating console in DIV block*/
