@@ -225,7 +225,7 @@ function MainPageModel(data) {
     self.removeItem = function (data) {
         self.modalDelete.show(function () {
             $.post(self.url.remove_item, csrfize({
-                item_id: data.id,
+                item_id: data.id
             })).success(function () {
                 InterfaceAlerts.showSuccess();
                 self.items.remove(data);
