@@ -22,7 +22,7 @@ CKEDITOR.plugins.add('bootstrap-collapse', {
             });
             editor.contextMenu.addListener(function(element) {
                 var p = $(element.$).parents("div.panel");
-                if (p.size() > 0) {
+                if (p.size() <= 0) {
                     return { bootstrapCollapseItem: CKEDITOR.TRISTATE_OFF };
                 }
             })
