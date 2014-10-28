@@ -1,4 +1,7 @@
 from datetime import datetime
+# import json
+# from students.models import DisciplineMarksCache
+
 
 def current_year():
     """
@@ -15,3 +18,6 @@ def current_semestr():
     if 2 <= now.month < 9:
         return 2
     return 1
+
+
+
