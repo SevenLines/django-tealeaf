@@ -1,6 +1,7 @@
 # coding: utf-8
 # Create your models here.
 import StringIO
+import io
 import json
 
 from django.db import models, transaction
@@ -185,13 +186,24 @@ class DisciplineMarksCache(models.Model):
     discipline = models.ForeignKey(Discipline, null=True, default=None)
     group = models.ForeignKey(Group, null=True, default=None)
     marks_json = models.TextField(default="")
+    marks_excel = models.BinaryField(null=True)
 
     @staticmethod
     def get(discipline_id, group_id):
         val = DisciplineMarksCache.objects.filter(discipline_id=discipline_id, group_id=group_id).first()
-        if not val or val.marks_json == u'[]':
+        if not val or val.marks_json == u'[]' or val.marks_excel is None:
             val = DisciplineMarksCache.update(discipline_id, group_id)
+        return val
+
+    @staticmethod
+    def get_json(discipline_id, group_id):
+        val = DisciplineMarksCache.get(discipline_id, group_id)
         return val.marks_json
+
+    @staticmethod
+    def get_excel(discipline_id, group_id):
+        val = DisciplineMarksCache.get(discipline_id, group_id)
+        return val.marks_excel
 
 
     @staticmethod
@@ -210,41 +222,46 @@ class DisciplineMarksCache(models.Model):
         marks = d.marks(group_id)
         val.marks_json = json.dumps(marks)
 
+        excel = val._marks_to_excel(json.loads(json.loads(val.marks_json)))
+
+        val.marks_excel = excel.getvalue()
+
         val.save()
 
         return val
 
     @staticmethod
-    def marks_to_excel(group, discipline):
+    def _marks_to_excel(data):
         """
         :type discipline: students.models.Discipline
         :type group: students.models.Group
         """
-        data = json.loads(json.loads(DisciplineMarksCache.get(discipline.pk, group.pk)))
+        # data = json.loads(json.loads(DisciplineMarksCache.get(discipline.pk, group.pk)))
 
         lessons = data['lessons']
         students = data['students']
         mark_types = data['mark_types']
         lesson_types = data['lesson_types']
 
-        # Create an in-memory output file for the new workbook.
-        output = StringIO.StringIO()
-        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        frmt_header = workbook.add_format()
-        frmt_header.set_border()
-        frmt_header.set_align('center')
-        frmt_header.set_align('vcenter')
-        frmt_header.set_rotation(90)
-        frmt_header.set_font_size(8)
-        frmt_header.set_text_wrap()
+        students.sort(key=lambda s: s['sum'], reverse=True)
 
+        # Create an in-memory output file for the new workbook.
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         frmt_student = workbook.add_format()
         frmt_student.set_border()
         frmt_student.set_align('center')
         frmt_student.set_align('vcenter')
+        frmt_student.set_rotation(90)
+        frmt_student.set_text_wrap()
 
-        worksheet = workbook.add_worksheet(group.title)
+        frmt_header = workbook.add_format()
+        frmt_header.set_border()
+        frmt_header.set_align('center')
+        frmt_header.set_align('vcenter')
+        frmt_header.set_text_wrap()
 
+        worksheet = workbook.add_worksheet(u"группа")
 
         mark_formats = {}
         for mt in mark_types:
@@ -271,7 +288,7 @@ class DisciplineMarksCache(models.Model):
                 color = Color(color)
                 if lt['id'] == 2 and mt['k'] > 0:
                     color.set_hue(0)
-                    color.set_luminance(min(color.get_luminance() * 1.1, 1))
+                    color.set_luminance(min(color.get_luminance() * 1.3, 1))
                 elif lt['id'] == 3 and mt['k'] > 0:
                     color.set_hue(0.5)
                     color.set_luminance(min(color.get_luminance() * 1.1, 1))
@@ -280,9 +297,11 @@ class DisciplineMarksCache(models.Model):
 
                 mark_formats[lt['id']][mt['k']] = frmt
 
-        worksheet.set_row(0, 130)
-        for c, l in enumerate(lessons, 2):
-            worksheet.write(0, c, l['dn_raw'].strip(), frmt_header)
+        worksheet.set_row(0, 90)
+        for r, l in enumerate(lessons, 2):
+            worksheet.write(r, 0, l['dn_raw'].strip(), frmt_header)
+            h = 20 * max(1, l['dn_raw'].strip().count("\n") + 1)
+            worksheet.set_row(r, h)
 
         max_width = 1
 
@@ -290,7 +309,7 @@ class DisciplineMarksCache(models.Model):
         score_min = len(lessons) * -2
         score_base = 0.3
 
-        for r, s in enumerate(students, 1):
+        for c, s in enumerate(students, 1):
             name = "%s %s" % (s['second_name'], s['name'])
 
             if s['sum'] == 0:
@@ -300,12 +319,15 @@ class DisciplineMarksCache(models.Model):
             else:
                 score = score_base - (float(s['sum']) / score_min) * score_base
 
-            score = "%s%%" % (int(score * 100))
-            worksheet.write(r, 0, name, frmt_student)
-            worksheet.write(r, 1, score, frmt_student)
+            score = "{score} / {percents}%".format(**{
+                'percents': int(score * 100),
+                'score': s['sum'],
+            })
+            worksheet.write(0, c, name, frmt_student)
+            worksheet.write(1, c, score, frmt_header)
             marks = s['marks']
-            for c, m in enumerate(marks, 2):
-                worksheet.write(r, c, m['m'], mark_formats[lessons[c-2]['lt']][0 if m['m'] is None else m['m']])
+            for r, m in enumerate(marks, 2):
+                worksheet.write(r, c, m['m'], mark_formats[lessons[r-2]['lt']][0 if m['m'] is None else m['m']])
             if len(name) > max_width:
                 max_width = len(name)
         worksheet.set_column(0, 0, max_width)
@@ -316,9 +338,9 @@ class DisciplineMarksCache(models.Model):
         # Rewind the buffer.
         output.seek(0)
 
-        response = HttpResponse(output.read(), content_type="application/xlsx")
-        response['Content-Disposition'] = 'attachment; filename=%s.xlsx' % group.title
-        return response
+        # response = HttpResponse(output.read(), content_type="application/xlsx")
+        # response['Content-Disposition'] = 'attachment; filename=%s.xlsx' % group.title
+        return output
 
 
 class Lesson(models.Model):
