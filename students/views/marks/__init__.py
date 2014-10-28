@@ -4,8 +4,9 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.db.transaction import atomic
 from django.forms.models import model_to_dict
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
+import students.utils
 
 from app.utils import require_in_POST, require_in_GET, json_encoder
 from students.models import Lesson, Discipline, Group, Mark, DisciplineMarksCache
@@ -90,3 +91,20 @@ def marks_save(request):
         DisciplineMarksCache.update(mark.lesson.discipline_id, mark.lesson.group_id)
 
     return HttpResponse()
+
+
+@require_in_GET("group_id", "discipline_id")
+def marks_to_excel(request):
+    try:
+        group = Group.objects.get(pk=request.GET['group_id'])
+    except Exception as e:
+        return HttpResponseBadRequest("cant find group with id=%s" % request.GET['group_id'])
+
+    try:
+        discipline = Discipline.objects.get(pk=request.GET['discipline_id'])
+    except Exception as e:
+        return HttpResponseBadRequest("cant find discipline with id=%s" % request.GET['discipline_id'])
+
+    response = DisciplineMarksCache.marks_to_excel(group, discipline)
+
+    return response

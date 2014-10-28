@@ -1,5 +1,6 @@
 # coding: utf-8
 # Create your models here.
+import StringIO
 import json
 
 from django.db import models, transaction
@@ -7,7 +8,10 @@ from django.db.models.signals import post_delete, post_save
 from django.db.transaction import atomic
 from django.dispatch.dispatcher import receiver
 from django.forms import model_to_dict
+from django.http import HttpResponse
 from markupfield.fields import MarkupField
+from colour import Color
+import xlsxwriter
 
 from app.utils import json_encoder
 import students.utils
@@ -209,6 +213,112 @@ class DisciplineMarksCache(models.Model):
         val.save()
 
         return val
+
+    @staticmethod
+    def marks_to_excel(group, discipline):
+        """
+        :type discipline: students.models.Discipline
+        :type group: students.models.Group
+        """
+        data = json.loads(json.loads(DisciplineMarksCache.get(discipline.pk, group.pk)))
+
+        lessons = data['lessons']
+        students = data['students']
+        mark_types = data['mark_types']
+        lesson_types = data['lesson_types']
+
+        # Create an in-memory output file for the new workbook.
+        output = StringIO.StringIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        frmt_header = workbook.add_format()
+        frmt_header.set_border()
+        frmt_header.set_align('center')
+        frmt_header.set_align('vcenter')
+        frmt_header.set_rotation(90)
+        frmt_header.set_font_size(8)
+        frmt_header.set_text_wrap()
+
+        frmt_student = workbook.add_format()
+        frmt_student.set_border()
+        frmt_student.set_align('center')
+        frmt_student.set_align('vcenter')
+
+        worksheet = workbook.add_worksheet(group.title)
+
+
+        mark_formats = {}
+        for mt in mark_types:
+            for lt in lesson_types:
+                if mark_formats.get(lt['id']) is None:
+                    mark_formats[lt['id']] = {}
+                frmt = workbook.add_format()
+                frmt.set_align('center')
+                frmt.set_align('vcenter')
+                frmt.set_border()
+
+                color = 'white'
+                if mt['k'] < 0:
+                    color = "#ffeeee"
+                elif mt['k'] > 0:
+                    color = {
+                        1: "#aef28c",
+                        2: "#7eeb47",
+                        3: "#4bb814",
+                        4: "#388a0f",
+                        5: "#255c0a",
+                    }[mt['k']]
+
+                color = Color(color)
+                if lt['id'] == 2 and mt['k'] > 0:
+                    color.set_hue(0)
+                    color.set_luminance(min(color.get_luminance() * 1.1, 1))
+                elif lt['id'] == 3 and mt['k'] > 0:
+                    color.set_hue(0.5)
+                    color.set_luminance(min(color.get_luminance() * 1.1, 1))
+
+                frmt.set_bg_color(color.get_hex_l())
+
+                mark_formats[lt['id']][mt['k']] = frmt
+
+        worksheet.set_row(0, 130)
+        for c, l in enumerate(lessons, 2):
+            worksheet.write(0, c, l['dn_raw'].strip(), frmt_header)
+
+        max_width = 1
+
+        score_max = len(lessons) * 3
+        score_min = len(lessons) * -2
+        score_base = 0.3
+
+        for r, s in enumerate(students, 1):
+            name = "%s %s" % (s['second_name'], s['name'])
+
+            if s['sum'] == 0:
+                score = score_base
+            elif s['sum'] > 0:
+                score = score_base + (float(s['sum']) / score_max) * (1-score_base)
+            else:
+                score = score_base - (float(s['sum']) / score_min) * score_base
+
+            score = "%s%%" % (int(score * 100))
+            worksheet.write(r, 0, name, frmt_student)
+            worksheet.write(r, 1, score, frmt_student)
+            marks = s['marks']
+            for c, m in enumerate(marks, 2):
+                worksheet.write(r, c, m['m'], mark_formats[lessons[c-2]['lt']][0 if m['m'] is None else m['m']])
+            if len(name) > max_width:
+                max_width = len(name)
+        worksheet.set_column(0, 0, max_width)
+
+        # Close the workbook before streaming the data.
+        workbook.close()
+
+        # Rewind the buffer.
+        output.seek(0)
+
+        response = HttpResponse(output.read(), content_type="application/xlsx")
+        response['Content-Disposition'] = 'attachment; filename=%s.xlsx' % group.title
+        return response
 
 
 class Lesson(models.Model):
