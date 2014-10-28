@@ -338,8 +338,6 @@ class DisciplineMarksCache(models.Model):
         # Rewind the buffer.
         output.seek(0)
 
-        # response = HttpResponse(output.read(), content_type="application/xlsx")
-        # response['Content-Disposition'] = 'attachment; filename=%s.xlsx' % group.title
         return output
 
 
