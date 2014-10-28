@@ -12,6 +12,7 @@ urlpatterns = patterns('students.views.marks',
    url(r'lesson/remove$', "lesson_remove"),
    url(r'lesson/save', "lesson_save"),
    url(r'marks/save$', "marks_save"),
+   url(r'marks/excel', "marks_to_excel"),
 
    url(r'students$', "students"),
 

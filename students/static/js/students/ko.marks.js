@@ -294,7 +294,8 @@
             lesson_add: data.url.lesson_add,
             lesson_remove: data.url.lesson_remove,
             lesson_save: data.url.lesson_save,
-            marks_save: data.url.marks_save
+            marks_save: data.url.marks_save,
+            to_excel: data.url.to_excel
         };
 
         self.cookie = { // cookie names
@@ -769,6 +770,15 @@
                 InterfaceAlerts.showFail()
             })
 
+        };
+
+        self.toExcel = function (data, e) {
+            //$.post(self.url.to_excel, self.csrfize({
+            //    group_id: self.group().id,
+            //    discipline_id: self.discipline().id
+            //}));
+            window.location = self.url.to_excel + "?group_id=" + self.group().id
+                + "&discipline_id=" + self.discipline().id;
         };
 
         self.clickMark = function (data, e) {
