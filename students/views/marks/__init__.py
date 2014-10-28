@@ -18,7 +18,7 @@ def index(request):
 
 def students_cached(discipline_id, group_id):
     # таблица оценок для всех студентов группы загружается из кэша
-    cache = json.loads(DisciplineMarksCache.get(discipline_id, group_id))
+    cache = json.loads(DisciplineMarksCache.get_json(discipline_id, group_id))
     return cache
 
 
@@ -100,11 +100,12 @@ def marks_to_excel(request):
     except Exception as e:
         return HttpResponseBadRequest("cant find group with id=%s" % request.GET['group_id'])
 
-    try:
-        discipline = Discipline.objects.get(pk=request.GET['discipline_id'])
-    except Exception as e:
-        return HttpResponseBadRequest("cant find discipline with id=%s" % request.GET['discipline_id'])
+    # if Discipline.objects.filter(pk=request.GET['discipline_id']).first():
+    #     return HttpResponseBadRequest("cant find discipline with id=%s" % request.GET['discipline_id'])
 
-    response = DisciplineMarksCache.marks_to_excel(group, discipline)
+    excel = DisciplineMarksCache.get_excel(request.GET['discipline_id'], request.GET['group_id'])
+
+    response = HttpResponse(excel, content_type="application/xlsx")
+    response['Content-Disposition'] = 'attachment; filename=%s.xlsx' % group.title
 
     return response
