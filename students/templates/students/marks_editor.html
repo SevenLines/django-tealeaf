@@ -60,7 +60,13 @@
             <div class="form-group">
                 <select class="form-control" name="group"
                         data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
-
+                {% if user.is_authenticated %}
+                    <!-- КНОПКА ВЫГРУЗКИ В EXCEL -->
+                    <button class="btn btn-info" data-bind="click: toExcel">
+                        <span>список в *.xls</span>
+                    </button>
+                    <!-- КОНЕЦ КНОПКА ВЫГРУЗКИ В EXCEL -->
+                {% endif %}
             </div>
             {% if user.is_authenticated %}
                 <!-- КНОПКА СОХРАНЕНИЯ -->
@@ -100,6 +106,7 @@
                         groups: "{% url "students.views.students.ajax.json.groups" %}",
                         students: "{% url "students.views.marks.students" %}",
                         disciplines: "{% url "students.views.marks.disciplines.index" %}",
+                        to_excel: "{% url "students.views.marks.marks_to_excel" %}",
                         {% if user.is_authenticated %}
                             discipline_add: "{% url "students.views.marks.disciplines.add" %}",
                             discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
