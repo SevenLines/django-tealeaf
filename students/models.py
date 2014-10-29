@@ -131,8 +131,9 @@ class Discipline(models.Model):
         for m in student_marks:
             mark = m['m']
             if mark is not None:
-                if mark == Mark.MARK_BLACK_HOLE and s > 0:  # черная дыра сжирает все старые достижнения
-                    s = 0
+                if mark == Mark.MARK_BLACK_HOLE:  # черная дыра сжирает все старые достижнения
+                    if s > 0:
+                        s = 0
                 else:
                     s += mark
         return s

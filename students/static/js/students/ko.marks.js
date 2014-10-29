@@ -121,7 +121,9 @@
                 marks.every(function(item) {
                     var cls = marksTypes[item.mark()];
                     if (cls == 'black-hole') {
-                        sum = 0;
+                        if (item.mark() > 0) {
+                            sum = 0;
+                        }
                     } else {
                         sum += item.mark();
                     }
