@@ -362,7 +362,26 @@ $marks-size: 30px;
       background-color: $godlike;
       @include test_exam($godlike, true);
     }
+    &.black-hole {
+      background-color: black;
+      box-shadow: 0 0 16px black;
+      z-index: 100;
+      @include test_exam($godlike, true);
+      @include animation(black-hole-glow 3s infinite)
+    }
     // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
+  }
+}
+
+@include keyframes(black-hole-glow) {
+  0% {
+    box-shadow: 0 0 4px black, 0 0 2px rgb(255, 24, 0) inset;
+  }
+  50% {
+    box-shadow: 0 0 10px rgb(255, 24, 0), 0 0 10px rgb(255, 24, 0) inset;
+  }
+  100% {
+    box-shadow: 0 0 4px black, 0 0 2px rgb(255, 24, 0) inset;
   }
 }
 

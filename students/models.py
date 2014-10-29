@@ -125,6 +125,19 @@ class Discipline(models.Model):
     year = models.IntegerField(default=students.utils.current_year())
     semestr = models.SmallIntegerField(default=students.utils.current_semestr())
 
+    @staticmethod
+    def compute_marks(student_marks):
+        s = 0
+        for m in student_marks:
+            mark = m['m']
+            if mark is not None:
+                if mark == Mark.MARK_BLACK_HOLE and s > 0:  # черная дыра сжирает все старые достижнения
+                    s = 0
+                else:
+                    s += mark
+        return s
+        # return sum([m['m'] for m in student_marks if m['m']], 0)
+
     def __unicode__(self):
         return u"%s %s %s" % (self.title, self.year, self.semestr)
 
@@ -154,7 +167,7 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
         for s in stdnts:
             # формируем оценки для студентов
             s_marks = list(filter(lambda m: m['sid'] == s['id'], marks))
-            s_sum = sum([m['m'] for m in s_marks if m['m']], 0)
+            s_sum = Discipline.compute_marks(s_marks)
             s.update({
                 'marks': s_marks,
                 'sum': s_sum
@@ -283,7 +296,7 @@ class DisciplineMarksCache(models.Model):
                         3: "#4bb814",
                         4: "#388a0f",
                         5: "#255c0a",
-                    }[mt['k']]
+                    }.get(mt['k'], 'white')
 
                 color = Color(color)
                 if lt['id'] == 2 and mt['k'] > 0:
@@ -327,7 +340,10 @@ class DisciplineMarksCache(models.Model):
             worksheet.write(1, c, score, frmt_header)
             marks = s['marks']
             for r, m in enumerate(marks, 2):
-                worksheet.write(r, c, m['m'], mark_formats[lessons[r-2]['lt']][0 if m['m'] is None else m['m']])
+                mark = 0 if m['m'] is None else m['m']
+                lt = lessons[r-2]['lt']
+                worksheet.write(r, c, mark, mark_formats[lt].get(mark, None))
+
             if len(name) > max_width:
                 max_width = len(name)
         worksheet.set_column(0, 0, max_width)
@@ -394,18 +410,29 @@ class Mark(models.Model):
     """
     оценка студента за пару
     """
-    MARK_NORMAL = 0
+    MARK_BASE = 0
+    MARK_SPECIAL = 1000
+
+    MARK_BLACK_HOLE = MARK_BASE - MARK_SPECIAL - 1
+    MARK_ABSENT = MARK_BASE - 2
+    MARK_EMPTY = MARK_BASE
+    MARK_NORMAL = MARK_BASE + 1
+    MARK_GOOD = MARK_BASE + 2
+    MARK_EXCELLENT = MARK_BASE + 3
+    MARK_AWESOME = MARK_BASE + 4
+    MARK_FANTASTIC = MARK_BASE + 5
 
     MARKS = [
         # (MARK_NORMAL-3, 'terrible'),
         # (MARK_NORMAL-2, 'bad'),
-        (MARK_NORMAL - 2, 'absent'),
-        (MARK_NORMAL, 'empty'),  # без оценки
-        (MARK_NORMAL + 1, 'normal'),
-        (MARK_NORMAL + 2, 'good'),
-        (MARK_NORMAL + 3, 'excellent'),
-        (MARK_NORMAL + 4, 'awesome'),
-        (MARK_NORMAL + 5, 'fantastic'),
+        (MARK_BLACK_HOLE, 'black-hole'),
+        (MARK_ABSENT, 'absent'),
+        (MARK_EMPTY, 'empty'),  # без оценки
+        (MARK_NORMAL, 'normal'),
+        (MARK_GOOD, 'good'),
+        (MARK_EXCELLENT, 'excellent'),
+        (MARK_AWESOME, 'awesome'),
+        (MARK_FANTASTIC, 'fantastic'),
         # (MARK_NORMAL + 6, 'godlike'),
     ]
 
