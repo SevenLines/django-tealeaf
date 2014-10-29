@@ -139,7 +139,7 @@ $marks-size: 30px;
       .student {
         @include transition(0.3s);
         opacity: 1 !important;
-
+//        box-shadow: 0 0 0 2px #ffff00 inset;
       }
     }
 
@@ -210,7 +210,7 @@ $marks-size: 30px;
         -o-transition: all 0.1s;
         transition: all 0.1s;
         &.hover {
-          box-shadow: 0 0 4px $hover-color;
+          box-shadow: 0 0  2px $hover-color;
         }
         > td, > th {
           height: $marks-size - $td-margin * 2 + 1;
@@ -364,10 +364,10 @@ $marks-size: 30px;
     }
     &.black-hole {
       background-color: black;
-      box-shadow: 0 0 16px black;
       z-index: 100;
-      @include test_exam($godlike, true);
-      @include animation(black-hole-glow 3s infinite)
+//      @include test_exam($godlike);
+      box-shadow: 0 0 12px rgb(255, 24, 0) inset ;
+//      @include animation(black-hole-glow 3s infinite)
     }
     // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
   }
@@ -375,13 +375,13 @@ $marks-size: 30px;
 
 @include keyframes(black-hole-glow) {
   0% {
-    box-shadow: 0 0 4px black, 0 0 2px rgb(255, 24, 0) inset;
+    box-shadow: 0 0 2px rgb(255, 24, 0), 0 0 2px rgb(255, 24, 0) inset;
   }
   50% {
-    box-shadow: 0 0 10px rgb(255, 24, 0), 0 0 10px rgb(255, 24, 0) inset;
+    box-shadow: 0 0 4px rgb(255, 24, 0), 0 0 4px rgb(255, 24, 0) inset ;
   }
   100% {
-    box-shadow: 0 0 4px black, 0 0 2px rgb(255, 24, 0) inset;
+    box-shadow: 0 0 2px rgb(255, 24, 0), 0 0 2px rgb(255, 24, 0) inset ;
   }
 }
 
