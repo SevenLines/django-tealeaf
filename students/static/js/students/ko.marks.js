@@ -21,6 +21,7 @@
             var offset = $(target).offset();
             var width = target.clientWidth * 1.1;
             var height = target.clientHeight;
+            console.log(self.mark_types())
             var index = $.map(self.mark_types(), function (item) {
                 return item.k;
             }).indexOf(mark.mark());
@@ -112,10 +113,24 @@
         self.lesson = data.lesson;
 
         var last_mark = data.m;
+        // тут происходит пересчет оценок
         self.mark.subscribe(function () {
             if (self.student) {
-                var sum = self.student.sum();
-                sum += self.mark() - last_mark;
+                var marks = self.student.marks;
+                var sum = 0;
+                marks.every(function(item) {
+                    var cls = marksTypes[item.mark()];
+                    if (cls == 'black-hole') {
+                        if (item.mark() > 0) {
+                            sum = 0;
+                        }
+                    } else {
+                        sum += item.mark();
+                    }
+                    return true;
+                });
+                //var sum = self.student.sum();
+                //sum += self.mark() - last_mark;
                 last_mark = self.mark();
                 self.student.sum(sum);
             }
@@ -176,7 +191,7 @@
 
         self.success_factor = ko.computed(function () {
             var max = self.marks.length * 3;
-            var min = self.marks.length * marksTypes.min;
+            var min = self.marks.length * -2;
             var diff = (max - min);
             var base = 0.3;
             if (self.sum() == 0) {
@@ -191,7 +206,7 @@
         self.color = ko.computed(function () {
             if (self.sum() != 0) {
                 var max = self.marks.length * marksTypes.max;
-                var min = self.marks.length * marksTypes.min;
+                var min = self.marks.length * -2;
                 var diff = (max - min);
                 var k = 1 - self.sum() / diff;
 //                var k = 1 - self.success_factor();
