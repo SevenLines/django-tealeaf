@@ -234,6 +234,51 @@
     .marks-editor .mark.godlike.exam {
       box-shadow: black 0 0 8px inset;
       background-color: #05272e; }
+  .marks-editor .mark.black-hole {
+    background-color: black;
+    box-shadow: 0 0 16px black;
+    z-index: 100;
+    box-shadow: black 0 0 8px inset;
+    -webkit-animation: black-hole-glow 3s infinite;
+    -moz-animation: black-hole-glow 3s infinite;
+    -o-animation: black-hole-glow 3s infinite;
+    animation: black-hole-glow 3s infinite; }
+    .marks-editor .mark.black-hole.test {
+      box-shadow: black 0 0 8px inset;
+      background-color: #2e050c; }
+    .marks-editor .mark.black-hole.exam {
+      box-shadow: black 0 0 8px inset;
+      background-color: #05272e; }
+
+@-webkit-keyframes black-hole-glow {
+  0% {
+    box-shadow: 0 0 4px black, 0 0 2px #ff1800 inset; }
+
+  50% {
+    box-shadow: 0 0 10px #ff1800, 0 0 10px #ff1800 inset; }
+
+  100% {
+    box-shadow: 0 0 4px black, 0 0 2px #ff1800 inset; } }
+
+@-moz-keyframes black-hole-glow {
+  0% {
+    box-shadow: 0 0 4px black, 0 0 2px #ff1800 inset; }
+
+  50% {
+    box-shadow: 0 0 10px #ff1800, 0 0 10px #ff1800 inset; }
+
+  100% {
+    box-shadow: 0 0 4px black, 0 0 2px #ff1800 inset; } }
+
+@keyframes black-hole-glow {
+  0% {
+    box-shadow: 0 0 4px black, 0 0 2px #ff1800 inset; }
+
+  50% {
+    box-shadow: 0 0 10px #ff1800, 0 0 10px #ff1800 inset; }
+
+  100% {
+    box-shadow: 0 0 4px black, 0 0 2px #ff1800 inset; } }
 
 .loader {
   margin: 0 auto;
