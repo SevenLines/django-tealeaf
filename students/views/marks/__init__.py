@@ -77,7 +77,7 @@ def marks_save(request):
     for m in marks:
         mark = Mark.objects.filter(lesson__id=m['lesson_id'],
                                    student__id=m['student_id']).first()
-        if m['mark'] == Mark.MARK_NORMAL:
+        if m['mark'] == Mark.MARK_BASE:
             mark.delete()
         else:
             if mark is None:
