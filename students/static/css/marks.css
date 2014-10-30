@@ -31,19 +31,25 @@
   display: none;
   position: absolute;
   z-index: 1000;
-  padding: 0;
-  background-color: white;
-  float: left;
-  border: 1px solid #000000;
-  box-shadow: grey 0 4px 6px; }
+  padding: 0; }
   .marks-editor #mark-selector > ul {
+    display: block;
     list-style: none;
     padding: 0;
     margin: 0;
-    height: auto; }
+    border: 1px solid;
+    width: 70px;
+    height: 70px;
+    border-radius: 100px;
+    background-color: rgba(255, 255, 0, 0.55);
+    box-shadow: 0 0 6px black; }
     .marks-editor #mark-selector > ul > li {
+      position: relative;
       display: block;
-      width: auto; }
+      width: 28px;
+      height: 28px;
+      border-radius: 16px;
+      border: 1px solid; }
       .marks-editor #mark-selector > ul > li:hover {
         box-shadow: gray 0 0 6px inset; }
       .marks-editor #mark-selector > ul > li.current {
