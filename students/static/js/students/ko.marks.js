@@ -14,25 +14,52 @@
         self.type = ko.observable();
         self.mark = null;
 
+        var last_offset = {
+            left: 0,
+            top: 0
+        };
+
         var visible = false;
 
         self.show = function (mark, target) {
+
             self.mark = mark;
             var offset = $(target).offset();
             var width = target.clientWidth * 1.1;
             var height = target.clientHeight;
-            console.log(self.mark_types())
             var index = $.map(self.mark_types(), function (item) {
                 return item.k;
             }).indexOf(mark.mark());
-            self.mark_selector.show().offset({
-                left: offset.left,
-                top: offset.top - height * (index)
-            }).find("li").css({
-                width: width,
-                height: height
-            });
 
+            var item_width = 28;
+            var ul_width = self.mark_selector.find("ul").first().width();
+            console.log(ul_width);
+
+            var items = self.mark_selector.show().offset({
+                left: offset.left - ul_width / 2 + width / 2,
+                top: offset.top - ul_width / 2 + height / 2
+            }).find("li");
+
+            last_offset.left = offset.left + (width - item_width) / 2;
+            last_offset.top = offset.top + (height - item_width) / 2;
+
+            if (items.size()) {
+                var radius = 35;
+                var angle = 2 * Math.PI / (items.size());
+                items.each(function (i, item) {
+                    if (i != index) {
+                        $(item).offset({
+                            left: last_offset.left + radius * Math.cos(i * angle),
+                            top: last_offset.top + radius * Math.sin(i * angle)
+                        });
+                    } else {
+                        $(item).offset({
+                            left: last_offset.left,
+                            top: last_offset.top
+                        });
+                    }
+                });
+            }
 
             if (self.mark && self.mark.student) {
                 self.mark.student.toggleActive(true);
@@ -51,6 +78,7 @@
             if (self.mark && self.mark.student) {
                 self.mark.student.toggleActive(false);
             }
+            self.mark_selector.find("li").removeAttr( 'style' );
         };
 
         self.init = function () {
@@ -115,13 +143,15 @@
         var last_mark = data.m;
         // тут происходит пересчет оценок
         self.mark.subscribe(function () {
+            console.log("hi");
             if (self.student) {
                 var marks = self.student.marks;
                 var sum = 0;
-                marks.every(function(item) {
+                marks.every(function (item) {
                     var cls = marksTypes[item.mark()];
+                    console.log(cls);
                     if (cls == 'black-hole') {
-                        if (item.mark() > 0) {
+                        if (sum > 0) {
                             sum = 0;
                         }
                     } else {
@@ -196,8 +226,8 @@
             var base = 0.3;
             if (self.sum() == 0) {
                 return base;
-            } else if (self.sum() > 0 ) {
-                return base + (self.sum() / max) * (1-base);
+            } else if (self.sum() > 0) {
+                return base + (self.sum() / max) * (1 - base);
             } else {
                 return base - (self.sum() / min) * base;
             }
@@ -440,12 +470,12 @@
                 });
                 self.unblock();
                 if (self.groups().every(function (entry) {
-                    if (group_id == entry.id) {
-                        self.group(entry);
-                        return false;
-                    }
-                    return true;
-                })) {
+                        if (group_id == entry.id) {
+                            self.group(entry);
+                            return false;
+                        }
+                        return true;
+                    })) {
                     if (self.groups().length) {
                         self.group(self.groups()[0]);
                     } else {
@@ -793,7 +823,7 @@
             //    discipline_id: self.discipline().id
             //}));
             window.location = self.url.to_excel + "?group_id=" + self.group().id
-                + "&discipline_id=" + self.discipline().id;
+            + "&discipline_id=" + self.discipline().id;
         };
 
         self.clickMark = function (data, e) {
