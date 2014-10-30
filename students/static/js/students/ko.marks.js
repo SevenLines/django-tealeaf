@@ -143,13 +143,15 @@
         var last_mark = data.m;
         // тут происходит пересчет оценок
         self.mark.subscribe(function () {
+            console.log("hi");
             if (self.student) {
                 var marks = self.student.marks;
                 var sum = 0;
                 marks.every(function (item) {
                     var cls = marksTypes[item.mark()];
+                    console.log(cls);
                     if (cls == 'black-hole') {
-                        if (item.mark() > 0) {
+                        if (sum > 0) {
                             sum = 0;
                         }
                     } else {
