@@ -33,7 +33,7 @@
 
             var item_width = 28;
             var ul_width = self.mark_selector.find("ul").first().width();
-            console.log(ul_width);
+            //console.log(ul_width);
 
             var items = self.mark_selector.show().offset({
                 left: offset.left - ul_width / 2 + width / 2,
@@ -78,7 +78,7 @@
             if (self.mark && self.mark.student) {
                 self.mark.student.toggleActive(false);
             }
-            self.mark_selector.find("li").removeAttr( 'style' );
+            self.mark_selector.find("li").removeAttr('style');
         };
 
         self.init = function () {
@@ -143,22 +143,34 @@
         var last_mark = data.m;
         // тут происходит пересчет оценок
         self.mark.subscribe(function () {
-            console.log("hi");
+            //console.log("hi");
             if (self.student) {
                 var marks = self.student.marks;
                 var sum = 0;
-                marks.every(function (item) {
+                for (var i = 0; i < marks.length; ++i) {
+                    var item = marks[i];
                     var cls = marksTypes[item.mark()];
-                    console.log(cls);
-                    if (cls == 'black-hole') {
-                        if (sum > 0) {
-                            sum = 0;
-                        }
-                    } else {
-                        sum += item.mark();
+                    switch (cls) {
+                        case 'black-hole':
+                            if (sum > 0) {
+                                sum = 0;
+                            }
+                            break;
+                        case 'shining':
+                            if (sum < (i + 1) * 3) {
+                                sum = (i + 1) * 3;
+                            } else if (i + 1 == marks.length) {
+                                sum = (i + 1) * 30 + ((i+1) * 30) / 70 * 27;
+                            }
+                            break;
+                        default :
+                            sum += item.mark();
                     }
-                    return true;
-                });
+                }
+                //marks.every(function (item) {
+                //
+                //    return true;
+                //});
                 //var sum = self.student.sum();
                 //sum += self.mark() - last_mark;
                 last_mark = self.mark();
@@ -235,7 +247,7 @@
 
         self.color = ko.computed(function () {
             if (self.sum() != 0) {
-                var max = self.marks.length * marksTypes.max;
+                var max = self.marks.length * 3;
                 var min = self.marks.length * -2;
                 var diff = (max - min);
                 var k = 1 - self.sum() / diff;
@@ -559,13 +571,13 @@
 // --- конец всплывающее меню редактирование занятия
 
 // ### синхронизация подсветки строк таблицы оценок
-            $("table.table-marks>tbody>tr>td").hover(function () {
-                var index = $(this).closest('tr').index();
+            $("table.table-marks>tbody>tr").hover(function () {
+                var index = $(this).index();
                 $("table.table-marks>tbody").each(function (i, item) {
                     $($(item).find(">tr")[index]).addClass("hover");
                 });
             }, function () {
-                var index = $(this).closest('tr').index();
+                var index = $(this).index();
                 $("table.table-marks>tbody").each(function (i, item) {
                     $($(item).find(">tr")[index]).removeClass("hover");
                 });

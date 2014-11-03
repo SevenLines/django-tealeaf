@@ -128,12 +128,17 @@ class Discipline(models.Model):
     @staticmethod
     def compute_marks(student_marks):
         s = 0
-        for m in student_marks:
+        for i, m in enumerate(student_marks, 1):
             mark = m['m']
             if mark is not None:
                 if mark == Mark.MARK_BLACK_HOLE:  # черная дыра сжирает все старые достижнения
                     if s > 0:
                         s = 0
+                elif mark == Mark.MARK_SHINING:  # сияние дарует 100% достижнения
+                    if s < i * 3:
+                        s = i * 3
+                    elif i == len(student_marks):
+                        s = i * 30 + float(i * 30) / 70 * 27
                 else:
                     s += mark
         return s
@@ -414,7 +419,7 @@ class Mark(models.Model):
     MARK_BASE = 0
     MARK_SPECIAL = 1000
 
-    MARK_BLACK_HOLE = MARK_BASE - MARK_SPECIAL - 1
+    MARK_BLACK_HOLE = MARK_BASE - (MARK_SPECIAL + 1)
     MARK_ABSENT = MARK_BASE - 2
     MARK_EMPTY = MARK_BASE
     MARK_NORMAL = MARK_BASE + 1
@@ -422,6 +427,7 @@ class Mark(models.Model):
     MARK_EXCELLENT = MARK_BASE + 3
     MARK_AWESOME = MARK_BASE + 4
     MARK_FANTASTIC = MARK_BASE + 5
+    MARK_SHINING = MARK_BASE + (MARK_SPECIAL + 1)
 
     MARKS = [
         # (MARK_NORMAL-3, 'terrible'),
@@ -434,6 +440,7 @@ class Mark(models.Model):
         (MARK_EXCELLENT, 'excellent'),
         (MARK_AWESOME, 'awesome'),
         (MARK_FANTASTIC, 'fantastic'),
+        (MARK_SHINING, 'shining'),
         # (MARK_NORMAL + 6, 'godlike'),
     ]
 
