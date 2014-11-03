@@ -58,6 +58,9 @@ body {
   .students_plugin .student-photo img.student-photo-img:hover {
     box-shadow: 0 0 8px #3a6d80; }
 
+.marks-editor .students-list .hover .student {
+  border-color: #3a6d80; }
+
 body {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #122228);
   background-color: #3a6d80;

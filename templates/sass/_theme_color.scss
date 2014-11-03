@@ -118,5 +118,16 @@
       }
     }
   }
+
+  .marks-editor {
+    .students-list {
+      .hover {
+        .student {
+          border-color: $common_color;
+        }
+      }
+    }
+  }
+
 }
 

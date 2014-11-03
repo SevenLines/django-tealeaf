@@ -70,12 +70,22 @@
   float: left;
   clear: none; }
   .marks-editor .students-list .hover .student {
-    -webkit-transition: all ease-in-out 0.3s;
-    -moz-transition: all ease-in-out 0.3s;
-    -ms-transition: all ease-in-out 0.3s;
-    -o-transition: all ease-in-out 0.3s;
-    transition: all ease-in-out 0.3s;
-    opacity: 1 !important; }
+    -webkit-transition: all ease-in-out 0.1s;
+    -moz-transition: all ease-in-out 0.1s;
+    -ms-transition: all ease-in-out 0.1s;
+    -o-transition: all ease-in-out 0.1s;
+    transition: all ease-in-out 0.1s;
+    opacity: 1 !important;
+    background-color: white !important;
+    border-left: 16px solid #8cacae; }
+    .marks-editor .students-list .hover .student .god {
+      background: linear-gradient(135deg, #f5f8f8 25%, white 25%, white 50%, #f5f8f8 50%, #f5f8f8 75%, white 75%, white);
+      -webkit-background-size: 40px 40px;
+      -moz-background-size: 40px 40px;
+      -ms-background-size: 40px 40px;
+      background-size: 40px 40px; }
+  .marks-editor .students-list .hover noindex:-o-prefocus, .marks-editor .students-list .hover .student {
+    border-left: 0px; }
   .marks-editor .students-list .student .god {
     background: linear-gradient(135deg, #fff871 25%, transparent 25%, transparent 50%, #fff871 50%, #fff871 75%, transparent 75%, transparent);
     -webkit-background-size: 40px 40px;
@@ -127,7 +137,9 @@
     -o-transition: all 0.1s;
     transition: all 0.1s; }
     .marks-editor table.table-marks > tbody > tr.hover, .marks-editor table.table-marks > thead > tr.hover, .marks-editor table.table-marks > tfoot > tr.hover {
-      box-shadow: 0 0 2px grey; }
+      background-color: white; }
+      .marks-editor table.table-marks > tbody > tr.hover .empty, .marks-editor table.table-marks > thead > tr.hover .empty, .marks-editor table.table-marks > tfoot > tr.hover .empty {
+        background-color: white; }
     .marks-editor table.table-marks > tbody > tr > td, .marks-editor table.table-marks > tbody > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > tfoot > tr > td, .marks-editor table.table-marks > tfoot > tr > th {
       height: 31px;
       margin: 0px;
@@ -243,37 +255,79 @@
   .marks-editor .mark.black-hole {
     background-color: black;
     z-index: 100;
-    box-shadow: 0 0 12px #ff1800 inset; }
+    box-shadow: 0 0 12px #ff1800 inset;
+    -webkit-animation: black-hole-glow 2s infinite;
+    -moz-animation: black-hole-glow 2s infinite;
+    -o-animation: black-hole-glow 2s infinite;
+    animation: black-hole-glow 2s infinite; }
+  .marks-editor .mark.shining {
+    background-color: #ffe20a;
+    z-index: 100;
+    box-shadow: 0 0 12px #ffb62c inset;
+    -webkit-animation: shinig-glow 2s infinite;
+    -moz-animation: shinig-glow 2s infinite;
+    -o-animation: shinig-glow 2s infinite;
+    animation: shinig-glow 2s infinite; }
 
 @-webkit-keyframes black-hole-glow {
   0% {
-    box-shadow: 0 0 2px #ff1800, 0 0 2px #ff1800 inset; }
+    box-shadow: 0 0 2px #ff1800 inset; }
 
   50% {
-    box-shadow: 0 0 4px #ff1800, 0 0 4px #ff1800 inset; }
+    box-shadow: 0 0 32px #ff1800 inset; }
 
   100% {
-    box-shadow: 0 0 2px #ff1800, 0 0 2px #ff1800 inset; } }
+    box-shadow: 0 0 2px #ff1800 inset; } }
 
 @-moz-keyframes black-hole-glow {
   0% {
-    box-shadow: 0 0 2px #ff1800, 0 0 2px #ff1800 inset; }
+    box-shadow: 0 0 2px #ff1800 inset; }
 
   50% {
-    box-shadow: 0 0 4px #ff1800, 0 0 4px #ff1800 inset; }
+    box-shadow: 0 0 32px #ff1800 inset; }
 
   100% {
-    box-shadow: 0 0 2px #ff1800, 0 0 2px #ff1800 inset; } }
+    box-shadow: 0 0 2px #ff1800 inset; } }
 
 @keyframes black-hole-glow {
   0% {
-    box-shadow: 0 0 2px #ff1800, 0 0 2px #ff1800 inset; }
+    box-shadow: 0 0 2px #ff1800 inset; }
 
   50% {
-    box-shadow: 0 0 4px #ff1800, 0 0 4px #ff1800 inset; }
+    box-shadow: 0 0 32px #ff1800 inset; }
 
   100% {
-    box-shadow: 0 0 2px #ff1800, 0 0 2px #ff1800 inset; } }
+    box-shadow: 0 0 2px #ff1800 inset; } }
+
+@-webkit-keyframes shinig-glow {
+  0% {
+    box-shadow: 0 0 2px #ffb62c inset; }
+
+  50% {
+    box-shadow: 0 0 32px #ffb62c inset; }
+
+  100% {
+    box-shadow: 0 0 2px #ffb62c inset; } }
+
+@-moz-keyframes shinig-glow {
+  0% {
+    box-shadow: 0 0 2px #ffb62c inset; }
+
+  50% {
+    box-shadow: 0 0 32px #ffb62c inset; }
+
+  100% {
+    box-shadow: 0 0 2px #ffb62c inset; } }
+
+@keyframes shinig-glow {
+  0% {
+    box-shadow: 0 0 2px #ffb62c inset; }
+
+  50% {
+    box-shadow: 0 0 32px #ffb62c inset; }
+
+  100% {
+    box-shadow: 0 0 2px #ffb62c inset; } }
 
 .loader {
   margin: 0 auto;

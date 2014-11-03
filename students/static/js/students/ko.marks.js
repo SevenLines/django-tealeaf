@@ -33,7 +33,7 @@
 
             var item_width = 28;
             var ul_width = self.mark_selector.find("ul").first().width();
-            console.log(ul_width);
+            //console.log(ul_width);
 
             var items = self.mark_selector.show().offset({
                 left: offset.left - ul_width / 2 + width / 2,
@@ -143,13 +143,13 @@
         var last_mark = data.m;
         // тут происходит пересчет оценок
         self.mark.subscribe(function () {
-            console.log("hi");
+            //console.log("hi");
             if (self.student) {
                 var marks = self.student.marks;
                 var sum = 0;
                 marks.every(function (item) {
                     var cls = marksTypes[item.mark()];
-                    console.log(cls);
+                    //console.log(cls);
                     if (cls == 'black-hole') {
                         if (sum > 0) {
                             sum = 0;
@@ -235,7 +235,7 @@
 
         self.color = ko.computed(function () {
             if (self.sum() != 0) {
-                var max = self.marks.length * marksTypes.max;
+                var max = self.marks.length * 3;
                 var min = self.marks.length * -2;
                 var diff = (max - min);
                 var k = 1 - self.sum() / diff;
@@ -559,13 +559,13 @@
 // --- конец всплывающее меню редактирование занятия
 
 // ### синхронизация подсветки строк таблицы оценок
-            $("table.table-marks>tbody>tr>td").hover(function () {
-                var index = $(this).closest('tr').index();
+            $("table.table-marks>tbody>tr").hover(function () {
+                var index = $(this).index();
                 $("table.table-marks>tbody").each(function (i, item) {
                     $($(item).find(">tr")[index]).addClass("hover");
                 });
             }, function () {
-                var index = $(this).closest('tr').index();
+                var index = $(this).index();
                 $("table.table-marks>tbody").each(function (i, item) {
                     $($(item).find(">tr")[index]).removeClass("hover");
                 });
