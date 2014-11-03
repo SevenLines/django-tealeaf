@@ -169,90 +169,90 @@
   transition: all 0.3s; }
   .marks-editor .mark .tooltip > .tooltip-inner {
     background-color: white;
-    color: #4bb814;
-    border: 1px solid #4bb814; }
+    color: #9cb814;
+    border: 1px solid #9cb814; }
   .marks-editor .mark .btn-default {
-    color: #4bb814;
-    border: #4bb814;
+    color: #9cb814;
+    border: #9cb814;
     text-decoration: none; }
     .marks-editor .mark .btn-default:hover {
-      background-color: #f9fef6; }
+      background-color: #f9fdf1; }
   .marks-editor .mark.test {
-    background-color: #fdedef; }
+    background-color: #fcefe8; }
     .marks-editor .mark.test .btn-default {
-      color: #b81430;
-      border: #b81430;
+      color: #b83014;
+      border: #b83014;
       text-decoration: none; }
       .marks-editor .mark.test .btn-default:hover {
-        background-color: #fef6f7; }
+        background-color: #fdf5f1; }
     .marks-editor .mark.test .tooltip > .tooltip-inner {
       background-color: white;
-      color: #b81430;
-      border: 1px solid #b81430; }
+      color: #b83014;
+      border: 1px solid #b83014; }
   .marks-editor .mark.exam {
-    background-color: #edfafd; }
+    background-color: #e8fcfc; }
     .marks-editor .mark.exam .btn-default {
-      color: #149cb8;
-      border: #149cb8;
+      color: #14b89c;
+      border: #14b89c;
       text-decoration: none; }
       .marks-editor .mark.exam .btn-default:hover {
-        background-color: #f6fdfe; }
+        background-color: #f1fdfd; }
     .marks-editor .mark.exam .tooltip > .tooltip-inner {
       background-color: white;
-      color: #149cb8;
-      border: 1px solid #149cb8; }
+      color: #14b89c;
+      border: 1px solid #14b89c; }
   .marks-editor .mark.modified {
     box-shadow: #9ebdff 0px 0px 8px inset !important; }
   .marks-editor .mark.absent:after {
     content: "н"; }
   .marks-editor .mark.normal {
-    background-color: #aef28c; }
+    background-color: #cef08a; }
     .marks-editor .mark.normal.test {
-      background-color: #f28c9d; }
+      background-color: #f0ac8a; }
     .marks-editor .mark.normal.exam {
-      background-color: #8ce1f2; }
+      background-color: #8af0f0; }
   .marks-editor .mark.good {
-    background-color: #7eeb47; }
+    background-color: #cfeb47; }
     .marks-editor .mark.good.test {
-      background-color: #eb4763; }
+      background-color: #eb6347; }
     .marks-editor .mark.good.exam {
-      background-color: #47cfeb; }
+      background-color: #47ebcf; }
   .marks-editor .mark.excellent {
-    background-color: #4bb814;
-    box-shadow: #388a0f 0 0 8px inset; }
+    background-color: #9cb814;
+    box-shadow: #758a0f 0 0 8px inset; }
     .marks-editor .mark.excellent.test {
-      box-shadow: #8a0f24 0 0 8px inset;
-      background-color: #b81430; }
+      box-shadow: #8a240f 0 0 8px inset;
+      background-color: #b83014; }
     .marks-editor .mark.excellent.exam {
-      box-shadow: #0f758a 0 0 8px inset;
-      background-color: #149cb8; }
+      box-shadow: #0f8a75 0 0 8px inset;
+      background-color: #14b89c; }
   .marks-editor .mark.awesome {
-    background-color: #388a0f;
-    box-shadow: #255c0a 0 0 8px inset; }
+    background-color: #618a0f;
+    box-shadow: #415c0a 0 0 8px inset; }
     .marks-editor .mark.awesome.test {
-      box-shadow: #5c0a18 0 0 8px inset;
-      background-color: #8a0f24; }
+      box-shadow: #5c250a 0 0 8px inset;
+      background-color: #8a380f; }
     .marks-editor .mark.awesome.exam {
-      box-shadow: #0a4e5c 0 0 8px inset;
-      background-color: #0f758a; }
+      box-shadow: #0a5c5c 0 0 8px inset;
+      background-color: #0f8a8a; }
   .marks-editor .mark.fantastic {
-    background-color: #255c0a;
-    box-shadow: #132e05 0 0 8px inset; }
+    background-color: #415c0a;
+    box-shadow: #202e05 0 0 8px inset; }
     .marks-editor .mark.fantastic.test {
-      box-shadow: #2e050c 0 0 8px inset;
-      background-color: #5c0a18; }
+      box-shadow: #2e1305 0 0 8px inset;
+      background-color: #5c250a; }
     .marks-editor .mark.fantastic.exam {
-      box-shadow: #05272e 0 0 8px inset;
-      background-color: #0a4e5c; }
+      box-shadow: #052e2e 0 0 8px inset;
+      background-color: #0a5c5c; }
   .marks-editor .mark.godlike {
-    background-color: #132e05;
+    background-color: #202e05;
     box-shadow: black 0 0 8px inset; }
     .marks-editor .mark.godlike.test {
       box-shadow: black 0 0 8px inset;
-      background-color: #2e050c; }
+      background-color: #2e1305; }
     .marks-editor .mark.godlike.exam {
       box-shadow: black 0 0 8px inset;
-      background-color: #05272e; }
+      background-color: #052e2e; }
   .marks-editor .mark.black-hole {
     background-color: black;
     z-index: 100;
@@ -265,10 +265,10 @@
     background-color: #ffe20a;
     z-index: 100;
     box-shadow: 0 0 12px #ffb62c inset;
-    -webkit-animation: shinig-glow 2s infinite;
-    -moz-animation: shinig-glow 2s infinite;
-    -o-animation: shinig-glow 2s infinite;
-    animation: shinig-glow 2s infinite; }
+    -webkit-animation: shinig-glow 4s infinite;
+    -moz-animation: shinig-glow 4s infinite;
+    -o-animation: shinig-glow 4s infinite;
+    animation: shinig-glow 4s infinite; }
 
 @-webkit-keyframes black-hole-glow {
   0% {

@@ -3,7 +3,7 @@
 
     var marksTypes = [];
     var studentColorMin = Color("#FDD").lighten(0.03);
-    var studentColorMax = Color("#0F0").lighten(0.5);
+    var studentColorMax = Color("#89EB04").lighten(0.5);
 
 
 // >>> селектор оценки
