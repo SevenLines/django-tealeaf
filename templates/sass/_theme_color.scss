@@ -124,6 +124,15 @@
       .hover {
         .student {
           border-color: $common_color;
+          .god {
+            $stripe-color: lighten($common_color, 37);
+            background: linear-gradient(
+                            135deg, $stripe-color 25%, white 25%,
+                            white 50%, $stripe-color 50%, $stripe-color 75%,
+                            white 75%, white
+            );
+            @include background_size(40px 40px);
+          }
         }
       }
     }

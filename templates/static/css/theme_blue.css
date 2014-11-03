@@ -60,6 +60,12 @@ body {
 
 .marks-editor .students-list .hover .student {
   border-color: #3a6d80; }
+  .marks-editor .students-list .hover .student .god {
+    background: linear-gradient(135deg, #a2c7d5 25%, white 25%, white 50%, #a2c7d5 50%, #a2c7d5 75%, white 75%, white);
+    -webkit-background-size: 40px 40px;
+    -moz-background-size: 40px 40px;
+    -ms-background-size: 40px 40px;
+    background-size: 40px 40px; }
 
 body {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #122228);

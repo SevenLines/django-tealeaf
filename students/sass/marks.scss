@@ -110,6 +110,7 @@ $marks-size: 30px;
         height: 28px;
         border-radius: 16px;
         border: 1px solid;
+        cursor: pointer;
         &:hover {
           box-shadow: gray 0 0 6px inset;
         }
