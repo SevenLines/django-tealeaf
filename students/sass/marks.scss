@@ -72,7 +72,7 @@ $marks-size: 30px;
       &.marks {
         margin-bottom: 0;
         td {
-//          width: 4em;
+          //          width: 4em;
           height: 2em;
           border-bottom: none;
         }
@@ -110,6 +110,7 @@ $marks-size: 30px;
         height: 28px;
         border-radius: 16px;
         border: 1px solid;
+        cursor: pointer;
         &:hover {
           box-shadow: gray 0 0 6px inset;
         }
@@ -142,21 +143,38 @@ $marks-size: 30px;
     clear: none;
     .hover {
       .student {
-        @include transition(0.3s);
+        @include transition(0.1s);
         opacity: 1 !important;
-//        box-shadow: 0 0 0 2px #ffff00 inset;
+        background-color: white !important;
+        border-left: 16px solid $common_color;
+        .god {
+          $stripe-color: lighten($common_color, 35);
+          background: linear-gradient(
+                          135deg, $stripe-color 25%, white 25%,
+                          white 50%, $stripe-color 50%, $stripe-color 75%,
+                          white 75%, white
+          );
+          @include background_size(40px 40px);
+        }
+
+      }
+      noindex:-o-prefocus, .student {
+        border-left: 0px;
       }
     }
 
-    .student .god {
-      $stripe-color: #fff871;
-      background: linear-gradient(
-                      135deg, $stripe-color 25%, transparent 25%,
-                      transparent 50%, $stripe-color 50%, $stripe-color 75%,
-                      transparent 75%, transparent
-      );
-      @include background_size(40px 40px);
-      @include animation(godAnimation 1s linear infinite);
+    .student {
+      //      box-sizing: border-box !important;
+      .god {
+        $stripe-color: #fff871;
+        background: linear-gradient(
+                        135deg, $stripe-color 25%, transparent 25%,
+                        transparent 50%, $stripe-color 50%, $stripe-color 75%,
+                        transparent 75%, transparent
+        );
+        @include background_size(40px 40px);
+        @include animation(godAnimation 1s linear infinite);
+      }
     }
 
     > table {
@@ -215,7 +233,10 @@ $marks-size: 30px;
         -o-transition: all 0.1s;
         transition: all 0.1s;
         &.hover {
-          box-shadow: 0 0  2px $hover-color;
+          background-color: white;
+          .empty {
+            background-color: white;
+          }
         }
         > td, > th {
           height: $marks-size - $td-margin * 2 + 1;
@@ -257,7 +278,6 @@ $marks-size: 30px;
 
   .mark {
     width: 1.3*$marks-size;
-    //    height: $marks-size - $td-margin * 2 + 1;
     vertical-align: middle;
     text-align: center;
 
@@ -267,21 +287,11 @@ $marks-size: 30px;
     -o-transition: all 0.3s;
     transition: all 0.3s;
 
-    //    background-color: white;
-
     @mixin shadow($color) {
       box-shadow: $color 0 0 8px inset;
     }
 
     @mixin mark-stripes($stripe-color) {
-//      $stripe-color2: lighten($stripe-color, 2);
-//      background: linear-gradient(
-//                      90deg, $stripe-color 25%, $stripe-color2 25%,
-//                      $stripe-color2 50%, $stripe-color 50%, $stripe-color 75%,
-//                      $stripe-color2 75%, $stripe-color2
-//      );
-//      @include background_size(40px 40px);
-//      @include animation(godAnimation 2s linear infinite);
     }
 
     @mixin test_exam($color, $use-shadow: false, $stripes: false) {
@@ -370,9 +380,15 @@ $marks-size: 30px;
     &.black-hole {
       background-color: black;
       z-index: 100;
-//      @include test_exam($godlike);
-      box-shadow: 0 0 12px rgb(255, 24, 0) inset ;
-//      @include animation(black-hole-glow 3s infinite)
+      box-shadow: 0 0 12px rgb(255, 24, 0) inset;
+      @include animation(black-hole-glow 2s infinite);
+    }
+    &.shining {
+      background-color: #ffe20a;
+      z-index: 100;
+      box-shadow: 0 0 12px rgb(255, 182, 44) inset;
+      @include animation(shinig-glow 2s infinite);
+
     }
     // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
   }
@@ -380,13 +396,25 @@ $marks-size: 30px;
 
 @include keyframes(black-hole-glow) {
   0% {
-    box-shadow: 0 0 2px rgb(255, 24, 0), 0 0 2px rgb(255, 24, 0) inset;
+    box-shadow: 0 0 2px rgb(255, 24, 0) inset;
   }
   50% {
-    box-shadow: 0 0 4px rgb(255, 24, 0), 0 0 4px rgb(255, 24, 0) inset ;
+    box-shadow: 0 0 32px rgb(255, 24, 0) inset;
   }
   100% {
-    box-shadow: 0 0 2px rgb(255, 24, 0), 0 0 2px rgb(255, 24, 0) inset ;
+    box-shadow: 0 0 2px rgb(255, 24, 0) inset;
+  }
+}
+
+@include keyframes(shinig-glow) {
+  0% {
+    box-shadow: 0 0 2px rgb(255, 182, 44) inset;
+  }
+  50% {
+    box-shadow: 0 0 32px rgb(255, 182, 44) inset;
+  }
+  100% {
+    box-shadow: 0 0 2px rgb(255, 182, 44) inset;
   }
 }
 
