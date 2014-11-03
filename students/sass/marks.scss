@@ -1,14 +1,14 @@
 @import "const";
 
-$quater: hsl(100, 80%, 75%);
-$half: hsl(100, 80%, 60%);
-$full: hsl(100, 80%, 40%);
-$awesome: hsl(100, 80%, 30%);
-$fantastic: hsl(100, 80%, 20%);
-$godlike: hsl(100, 80%, 10%);
+$quater: hsl(80, 77%, 74%);
+$half: hsl(70, 80%, 60%);
+$full: hsl(70, 80%, 40%);
+$awesome: hsl(80, 80%, 30%);
+$fantastic: hsl(80, 80%, 20%);
+$godlike: hsl(80, 80%, 10%);
 $hover-color: grey;
-$exam-hue-offset: 90;
-$test-hue-offset: 250;
+$exam-hue-offset: 100;
+$test-hue-offset: 300;
 $mix-weight: 70%;
 $td-margin: 0px;
 
@@ -387,7 +387,7 @@ $marks-size: 30px;
       background-color: #ffe20a;
       z-index: 100;
       box-shadow: 0 0 12px rgb(255, 182, 44) inset;
-      @include animation(shinig-glow 2s infinite);
+      @include animation(shinig-glow 4s infinite);
 
     }
     // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
