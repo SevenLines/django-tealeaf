@@ -80,7 +80,7 @@
     background-color: white !important;
     border-left: 16px solid #8cacae; }
     .marks-editor .students-list .hover .student .god {
-      background: linear-gradient(135deg, #f5f8f8 25%, white 25%, white 50%, #f5f8f8 50%, #f5f8f8 75%, white 75%, white);
+      background: linear-gradient(135deg, rgba(140, 172, 174, 0.05) 25%, white 25%, white 50%, rgba(140, 172, 174, 0.05) 50%, rgba(140, 172, 174, 0.05) 75%, white 75%, white);
       -webkit-background-size: 40px 40px;
       -moz-background-size: 40px 40px;
       -ms-background-size: 40px 40px;
@@ -132,15 +132,28 @@
   border-collapse: collapse; }
   .marks-editor table.table-marks > tbody > tr, .marks-editor table.table-marks > thead > tr, .marks-editor table.table-marks > tfoot > tr {
     border-bottom: 1px solid #c0c0c0;
-    -webkit-transition: all 0.1s;
-    -moz-transition: all 0.1s;
-    -ms-transition: all 0.1s;
-    -o-transition: all 0.1s;
-    transition: all 0.1s; }
+    -webkit-transition: all ease-in-out 0.1s;
+    -moz-transition: all ease-in-out 0.1s;
+    -ms-transition: all ease-in-out 0.1s;
+    -o-transition: all ease-in-out 0.1s;
+    transition: all ease-in-out 0.1s; }
     .marks-editor table.table-marks > tbody > tr.hover, .marks-editor table.table-marks > thead > tr.hover, .marks-editor table.table-marks > tfoot > tr.hover {
       background-color: white; }
       .marks-editor table.table-marks > tbody > tr.hover .empty, .marks-editor table.table-marks > thead > tr.hover .empty, .marks-editor table.table-marks > tfoot > tr.hover .empty {
         background-color: white; }
+      .marks-editor table.table-marks > tbody > tr.hover .shining:after, .marks-editor table.table-marks > thead > tr.hover .shining:after, .marks-editor table.table-marks > tfoot > tr.hover .shining:after {
+        content: "∞"; }
+      .marks-editor table.table-marks > tbody > tr.hover .black-hole:after, .marks-editor table.table-marks > thead > tr.hover .black-hole:after, .marks-editor table.table-marks > tfoot > tr.hover .black-hole:after {
+        content: '∅'; }
+      .marks-editor table.table-marks > tbody > tr.hover .absent:after, .marks-editor table.table-marks > thead > tr.hover .absent:after, .marks-editor table.table-marks > tfoot > tr.hover .absent:after {
+        content: "-2";
+        color: red; }
+      .marks-editor table.table-marks > tbody > tr.hover .excellent, .marks-editor table.table-marks > tbody > tr.hover .awesome, .marks-editor table.table-marks > tbody > tr.hover .fantastic, .marks-editor table.table-marks > tbody > tr.hover .black-hole, .marks-editor table.table-marks > thead > tr.hover .excellent, .marks-editor table.table-marks > thead > tr.hover .awesome, .marks-editor table.table-marks > thead > tr.hover .fantastic, .marks-editor table.table-marks > thead > tr.hover .black-hole, .marks-editor table.table-marks > tfoot > tr.hover .excellent, .marks-editor table.table-marks > tfoot > tr.hover .awesome, .marks-editor table.table-marks > tfoot > tr.hover .fantastic, .marks-editor table.table-marks > tfoot > tr.hover .black-hole {
+        color: white;
+        text-shadow: none; }
+      .marks-editor table.table-marks > tbody > tr.hover > td, .marks-editor table.table-marks > thead > tr.hover > td, .marks-editor table.table-marks > tfoot > tr.hover > td {
+        color: #000000;
+        box-shadow: 0 0 0 4px white inset !important; }
     .marks-editor table.table-marks > tbody > tr > td, .marks-editor table.table-marks > tbody > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > tfoot > tr > td, .marks-editor table.table-marks > tfoot > tr > th {
       height: 31px;
       margin: 0px;
@@ -162,11 +175,13 @@
   width: 39px;
   vertical-align: middle;
   text-align: center;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s; }
+  padding: 0;
+  color: transparent;
+  -webkit-transition: all ease-in-out 0.1s;
+  -moz-transition: all ease-in-out 0.1s;
+  -ms-transition: all ease-in-out 0.1s;
+  -o-transition: all ease-in-out 0.1s;
+  transition: all ease-in-out 0.1s; }
   .marks-editor .mark .tooltip > .tooltip-inner {
     background-color: white;
     color: #9cb814;
@@ -203,8 +218,10 @@
       border: 1px solid #14b89c; }
   .marks-editor .mark.modified {
     box-shadow: #9ebdff 0px 0px 8px inset !important; }
-  .marks-editor .mark.absent:after {
-    content: "н"; }
+  .marks-editor .mark.absent {
+    color: #000000; }
+    .marks-editor .mark.absent:after {
+      content: "н"; }
   .marks-editor .mark.normal {
     background-color: #cef08a; }
     .marks-editor .mark.normal.test {
@@ -227,32 +244,32 @@
       box-shadow: #0f8a75 0 0 8px inset;
       background-color: #14b89c; }
   .marks-editor .mark.awesome {
-    background-color: #618a0f;
-    box-shadow: #415c0a 0 0 8px inset; }
+    background-color: #758a0f;
+    box-shadow: #4e5c0a 0 0 8px inset; }
     .marks-editor .mark.awesome.test {
-      box-shadow: #5c250a 0 0 8px inset;
-      background-color: #8a380f; }
+      box-shadow: #5c180a 0 0 8px inset;
+      background-color: #8a240f; }
     .marks-editor .mark.awesome.exam {
-      box-shadow: #0a5c5c 0 0 8px inset;
-      background-color: #0f8a8a; }
+      box-shadow: #0a5c4e 0 0 8px inset;
+      background-color: #0f8a75; }
   .marks-editor .mark.fantastic {
-    background-color: #415c0a;
-    box-shadow: #202e05 0 0 8px inset; }
+    background-color: #4e5b0b;
+    box-shadow: #272d06 0 0 8px inset; }
     .marks-editor .mark.fantastic.test {
-      box-shadow: #2e1305 0 0 8px inset;
-      background-color: #5c250a; }
+      box-shadow: #2d0c06 0 0 8px inset;
+      background-color: #5b180b; }
     .marks-editor .mark.fantastic.exam {
-      box-shadow: #052e2e 0 0 8px inset;
-      background-color: #0a5c5c; }
+      box-shadow: #062d27 0 0 8px inset;
+      background-color: #0b5b4e; }
   .marks-editor .mark.godlike {
-    background-color: #202e05;
+    background-color: #272e05;
     box-shadow: black 0 0 8px inset; }
     .marks-editor .mark.godlike.test {
       box-shadow: black 0 0 8px inset;
-      background-color: #2e1305; }
+      background-color: #2e0c05; }
     .marks-editor .mark.godlike.exam {
       box-shadow: black 0 0 8px inset;
-      background-color: #052e2e; }
+      background-color: #052e27; }
   .marks-editor .mark.black-hole {
     background-color: black;
     z-index: 100;
