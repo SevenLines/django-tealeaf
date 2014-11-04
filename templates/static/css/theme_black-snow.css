@@ -59,8 +59,7 @@ body {
     box-shadow: 0 0 8px gray; }
 
 .marks-editor .students-list .hover .student .badge {
-  background-color: gray;
-  color: white !important; }
+  background-color: gray; }
 .marks-editor .students-list .hover .student .god {
   background: linear-gradient(135deg, rgba(128, 128, 128, 0.05) 25%, white 25%, white 50%, rgba(128, 128, 128, 0.05) 50%, rgba(128, 128, 128, 0.05) 75%, white 75%, white);
   -webkit-background-size: 40px 40px;
