@@ -94,8 +94,6 @@
       -moz-background-size: 40px 40px;
       -ms-background-size: 40px 40px;
       background-size: 40px 40px; }
-  .marks-editor .students-list .hover noindex:-o-prefocus, .marks-editor .students-list .hover .student {
-    border-left: 0; }
   .marks-editor .students-list .student .badge {
     background-color: white; }
   .marks-editor .students-list .student .god {
@@ -167,6 +165,8 @@
         .marks-editor table.table-marks > tbody > tr.hover > td.mark.absent:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.absent:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.absent:after {
           content: "-2";
           color: red; }
+      .marks-editor table.table-marks > tbody > tr.hover noindex:-o-prefocus, .marks-editor table.table-marks > tbody > tr.hover > td.mark, .marks-editor table.table-marks > thead > tr.hover noindex:-o-prefocus, .marks-editor table.table-marks > thead > tr.hover > td.mark, .marks-editor table.table-marks > tfoot > tr.hover noindex:-o-prefocus, .marks-editor table.table-marks > tfoot > tr.hover > td.mark {
+        box-shadow: none !important; }
     .marks-editor table.table-marks > tbody > tr > td, .marks-editor table.table-marks > tbody > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > tfoot > tr > td, .marks-editor table.table-marks > tfoot > tr > th {
       height: 31px;
       margin: 0px;
