@@ -123,7 +123,11 @@
     .students-list {
       .hover {
         .student {
-          border-color: $common_color;
+          .badge {
+            background-color: $common_color;
+            color: white !important;
+          }
+          //          border-color: $common_color;
           .god {
             $stripe-color: rgba($common_color, 0.05);
             background: linear-gradient(
