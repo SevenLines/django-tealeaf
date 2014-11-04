@@ -61,7 +61,7 @@ body {
 .marks-editor .students-list .hover .student {
   border-color: gray; }
   .marks-editor .students-list .hover .student .god {
-    background: linear-gradient(135deg, #dedede 25%, white 25%, white 50%, #dedede 50%, #dedede 75%, white 75%, white);
+    background: linear-gradient(135deg, rgba(128, 128, 128, 0.05) 25%, white 25%, white 50%, rgba(128, 128, 128, 0.05) 50%, rgba(128, 128, 128, 0.05) 75%, white 75%, white);
     -webkit-background-size: 40px 40px;
     -moz-background-size: 40px 40px;
     -ms-background-size: 40px 40px;
