@@ -58,6 +58,8 @@ body {
   .students_plugin .student-photo img.student-photo-img:hover {
     box-shadow: 0 0 8px gray; }
 
+.marks-editor .students-list .hover .student .name {
+  border-left-color: gray; }
 .marks-editor .students-list .hover .student .badge {
   background-color: gray; }
 .marks-editor .students-list .hover .student .god {
