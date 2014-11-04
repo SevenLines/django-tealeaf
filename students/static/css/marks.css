@@ -71,14 +71,17 @@
   float: left;
   clear: none; }
   .marks-editor .students-list .hover .student {
-    -webkit-transition: all ease-in-out 0.1s;
-    -moz-transition: all ease-in-out 0.1s;
-    -ms-transition: all ease-in-out 0.1s;
-    -o-transition: all ease-in-out 0.1s;
-    transition: all ease-in-out 0.1s;
+    -webkit-transition: all ease-in-out 0.2s;
+    -moz-transition: all ease-in-out 0.2s;
+    -ms-transition: all ease-in-out 0.2s;
+    -o-transition: all ease-in-out 0.2s;
+    transition: all ease-in-out 0.2s;
+    padding-left: 8px;
     opacity: 1 !important;
-    background-color: white !important;
-    border-left: 16px solid #8cacae; }
+    background-color: white !important; }
+    .marks-editor .students-list .hover .student .badge {
+      background-color: #8cacae;
+      color: white !important; }
     .marks-editor .students-list .hover .student .god {
       background: linear-gradient(135deg, rgba(140, 172, 174, 0.05) 25%, white 25%, white 50%, rgba(140, 172, 174, 0.05) 50%, rgba(140, 172, 174, 0.05) 75%, white 75%, white);
       -webkit-background-size: 40px 40px;
@@ -86,7 +89,14 @@
       -ms-background-size: 40px 40px;
       background-size: 40px 40px; }
   .marks-editor .students-list .hover noindex:-o-prefocus, .marks-editor .students-list .hover .student {
-    border-left: 0px; }
+    border-left: 0; }
+  .marks-editor .students-list .student .badge {
+    -webkit-transition: all ease-in-out 0.1s;
+    -moz-transition: all ease-in-out 0.1s;
+    -ms-transition: all ease-in-out 0.1s;
+    -o-transition: all ease-in-out 0.1s;
+    transition: all ease-in-out 0.1s;
+    background-color: white; }
   .marks-editor .students-list .student .god {
     background: linear-gradient(135deg, #fff871 25%, transparent 25%, transparent 50%, #fff871 50%, #fff871 75%, transparent 75%, transparent);
     -webkit-background-size: 40px 40px;
