@@ -76,7 +76,7 @@
     -ms-transition: all ease-in-out 0.2s;
     -o-transition: all ease-in-out 0.2s;
     transition: all ease-in-out 0.2s;
-    padding-left: 8px;
+    padding-left: 4px;
     opacity: 1 !important;
     background-color: white !important; }
     .marks-editor .students-list .hover .student .badge {
@@ -91,11 +91,6 @@
   .marks-editor .students-list .hover noindex:-o-prefocus, .marks-editor .students-list .hover .student {
     border-left: 0; }
   .marks-editor .students-list .student .badge {
-    -webkit-transition: all ease-in-out 0.1s;
-    -moz-transition: all ease-in-out 0.1s;
-    -ms-transition: all ease-in-out 0.1s;
-    -o-transition: all ease-in-out 0.1s;
-    transition: all ease-in-out 0.1s;
     background-color: white; }
   .marks-editor .students-list .student .god {
     background: linear-gradient(135deg, #fff871 25%, transparent 25%, transparent 50%, #fff871 50%, #fff871 75%, transparent 75%, transparent);

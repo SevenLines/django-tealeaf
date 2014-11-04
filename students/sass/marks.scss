@@ -144,16 +144,14 @@ $marks-size: 30px;
     .hover {
       .student {
         @include transition(0.2s);
-        padding-left: 8px;
+        padding-left: 4px;
         .badge {
           background-color: $common_color;
           color: white !important;
         }
-//        box-shadow: 0 0 0 1px $common_color inset !important;
         opacity: 1 !important;
         background-color: white !important;
 
-//        border-left: 16px solid $common_color;
         .god {
           $stripe-color: rgba($common_color, 0.05);
           background: linear-gradient(
@@ -172,7 +170,7 @@ $marks-size: 30px;
 
     .student {
       .badge {
-        @include transition(0.1s);
+//        @include transition(0.1s);
         background-color: white;
       }
       .god {
