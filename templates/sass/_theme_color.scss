@@ -123,6 +123,9 @@
     .students-list {
       .hover {
         .student {
+          .name {
+            border-left-color:$common_color;
+          }
           .badge {
             background-color: $common_color;
           }

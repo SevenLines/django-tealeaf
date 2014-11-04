@@ -144,7 +144,11 @@ $marks-size: 30px;
     .hover {
       .student {
         @include transition(0.2s);
-        padding-left: 4px;
+        .name {
+          @include transition(0.1s);
+          border-left: 8gpx solid $common_color;
+        }
+
         .badge {
           background-color: $common_color;
           color: white !important;
@@ -495,6 +499,7 @@ $marks-size: 30px;
     background-position: 40px 0;
   }
 }
+
 //.marks-legend {
 //  tr.marks td {
 //    width: auto;
