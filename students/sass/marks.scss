@@ -146,7 +146,7 @@ $marks-size: 30px;
         @include transition(0.2s);
         .name {
           @include transition(0.1s);
-          border-left: 8gpx solid $common_color;
+          border-left: 8px solid $common_color;
         }
 
         .badge {
