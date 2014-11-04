@@ -111,7 +111,7 @@
             <tr style="text-align: center">
                 <!-- ko foreach: marks -->
                 <td class="mark"
-                    data-bind="css: mark_class{% if user.is_authenticated %},click: $root.clickMark{% endif %}">
+                    data-bind="text: $data.mark() < 10 && $data.mark() > 0 ? $data.mark() : '', css: mark_class{% if user.is_authenticated %},click: $root.clickMark{% endif %}">
                 </td>
                 <!-- /ko -->
                 <td></td>
