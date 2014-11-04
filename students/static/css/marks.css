@@ -101,7 +101,8 @@
     -webkit-animation: godAnimation 1s linear infinite;
     -moz-animation: godAnimation 1s linear infinite;
     -o-animation: godAnimation 1s linear infinite;
-    animation: godAnimation 1s linear infinite; }
+    animation: godAnimation 1s linear infinite;
+    position: relative; }
   .marks-editor .students-list > table {
     width: 100%;
     table-layout: fixed;
@@ -144,21 +145,22 @@
     transition: all ease-in-out 0.1s; }
     .marks-editor table.table-marks > tbody > tr.hover, .marks-editor table.table-marks > thead > tr.hover, .marks-editor table.table-marks > tfoot > tr.hover {
       background-color: white; }
-      .marks-editor table.table-marks > tbody > tr.hover .empty, .marks-editor table.table-marks > thead > tr.hover .empty, .marks-editor table.table-marks > tfoot > tr.hover .empty {
-        background-color: white; }
-      .marks-editor table.table-marks > tbody > tr.hover .shining:after, .marks-editor table.table-marks > thead > tr.hover .shining:after, .marks-editor table.table-marks > tfoot > tr.hover .shining:after {
-        content: "∞"; }
-      .marks-editor table.table-marks > tbody > tr.hover .black-hole:after, .marks-editor table.table-marks > thead > tr.hover .black-hole:after, .marks-editor table.table-marks > tfoot > tr.hover .black-hole:after {
-        content: '∅'; }
-      .marks-editor table.table-marks > tbody > tr.hover .absent:after, .marks-editor table.table-marks > thead > tr.hover .absent:after, .marks-editor table.table-marks > tfoot > tr.hover .absent:after {
-        content: "-2";
-        color: red; }
-      .marks-editor table.table-marks > tbody > tr.hover .excellent, .marks-editor table.table-marks > tbody > tr.hover .awesome, .marks-editor table.table-marks > tbody > tr.hover .fantastic, .marks-editor table.table-marks > tbody > tr.hover .black-hole, .marks-editor table.table-marks > thead > tr.hover .excellent, .marks-editor table.table-marks > thead > tr.hover .awesome, .marks-editor table.table-marks > thead > tr.hover .fantastic, .marks-editor table.table-marks > thead > tr.hover .black-hole, .marks-editor table.table-marks > tfoot > tr.hover .excellent, .marks-editor table.table-marks > tfoot > tr.hover .awesome, .marks-editor table.table-marks > tfoot > tr.hover .fantastic, .marks-editor table.table-marks > tfoot > tr.hover .black-hole {
-        color: white;
-        text-shadow: none; }
-      .marks-editor table.table-marks > tbody > tr.hover > td, .marks-editor table.table-marks > thead > tr.hover > td, .marks-editor table.table-marks > tfoot > tr.hover > td {
+      .marks-editor table.table-marks > tbody > tr.hover > td.mark, .marks-editor table.table-marks > thead > tr.hover > td.mark, .marks-editor table.table-marks > tfoot > tr.hover > td.mark {
         color: #000000;
-        box-shadow: 0 0 0 4px white inset !important; }
+        box-shadow: 0 0 0 2px white inset, 0 0 6px grey inset !important; }
+        .marks-editor table.table-marks > tbody > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tbody > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tbody > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > thead > tr.hover > td.mark.excellent, .marks-editor table.table-marks > thead > tr.hover > td.mark.awesome, .marks-editor table.table-marks > thead > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole {
+          color: white;
+          text-shadow: none; }
+        .marks-editor table.table-marks > tbody > tr.hover > td.mark.empty, .marks-editor table.table-marks > thead > tr.hover > td.mark.empty, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.empty {
+          background-color: white;
+          box-shadow: none !important; }
+        .marks-editor table.table-marks > tbody > tr.hover > td.mark.shining:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.shining:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.shining:after {
+          content: "∞"; }
+        .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole:after {
+          content: '∅'; }
+        .marks-editor table.table-marks > tbody > tr.hover > td.mark.absent:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.absent:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.absent:after {
+          content: "-2";
+          color: red; }
     .marks-editor table.table-marks > tbody > tr > td, .marks-editor table.table-marks > tbody > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > tfoot > tr > td, .marks-editor table.table-marks > tfoot > tr > th {
       height: 31px;
       margin: 0px;
