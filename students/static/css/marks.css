@@ -101,7 +101,8 @@
     -webkit-animation: godAnimation 1s linear infinite;
     -moz-animation: godAnimation 1s linear infinite;
     -o-animation: godAnimation 1s linear infinite;
-    animation: godAnimation 1s linear infinite; }
+    animation: godAnimation 1s linear infinite;
+    position: relative; }
   .marks-editor .students-list > table {
     width: 100%;
     table-layout: fixed;

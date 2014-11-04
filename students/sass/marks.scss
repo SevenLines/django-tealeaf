@@ -182,6 +182,7 @@ $marks-size: 30px;
         );
         @include background_size(40px 40px);
         @include animation(godAnimation 1s linear infinite);
+        position: relative;
       }
     }
 
@@ -494,7 +495,6 @@ $marks-size: 30px;
     background-position: 40px 0;
   }
 }
-
 //.marks-legend {
 //  tr.marks td {
 //    width: auto;
