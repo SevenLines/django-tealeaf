@@ -85,9 +85,6 @@
       -o-transition: all ease-in-out 0.1s;
       transition: all ease-in-out 0.1s;
       border-left: 8px solid #8cacae; }
-    .marks-editor .students-list .hover .student .badge {
-      background-color: #8cacae;
-      color: white !important; }
     .marks-editor .students-list .hover .student .god {
       background: linear-gradient(135deg, rgba(140, 172, 174, 0.05) 25%, white 25%, white 50%, rgba(140, 172, 174, 0.05) 50%, rgba(140, 172, 174, 0.05) 75%, white 75%, white);
       -webkit-background-size: 40px 40px;
@@ -150,8 +147,7 @@
     .marks-editor table.table-marks > tbody > tr.hover, .marks-editor table.table-marks > thead > tr.hover, .marks-editor table.table-marks > tfoot > tr.hover {
       background-color: white; }
       .marks-editor table.table-marks > tbody > tr.hover > td.mark, .marks-editor table.table-marks > thead > tr.hover > td.mark, .marks-editor table.table-marks > tfoot > tr.hover > td.mark {
-        color: #000000;
-        box-shadow: 0 0 0 3px white inset, 0 0 6px grey inset !important; }
+        color: #000000; }
         .marks-editor table.table-marks > tbody > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tbody > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tbody > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > thead > tr.hover > td.mark.excellent, .marks-editor table.table-marks > thead > tr.hover > td.mark.awesome, .marks-editor table.table-marks > thead > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole {
           color: white;
           text-shadow: none; }

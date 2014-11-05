@@ -60,8 +60,6 @@ body {
 
 .marks-editor .students-list .hover .student .name {
   border-left-color: #3a6d80; }
-.marks-editor .students-list .hover .student .badge {
-  background-color: #3a6d80; }
 .marks-editor .students-list .hover .student .god {
   background: linear-gradient(135deg, rgba(58, 109, 128, 0.05) 25%, white 25%, white 50%, rgba(58, 109, 128, 0.05) 50%, rgba(58, 109, 128, 0.05) 75%, white 75%, white);
   -webkit-background-size: 40px 40px;
