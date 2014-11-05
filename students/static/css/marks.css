@@ -85,9 +85,6 @@
       -o-transition: all ease-in-out 0.1s;
       transition: all ease-in-out 0.1s;
       border-left: 8px solid #8cacae; }
-    .marks-editor .students-list .hover .student .badge {
-      background-color: #8cacae;
-      color: white !important; }
     .marks-editor .students-list .hover .student .god {
       background: linear-gradient(135deg, rgba(140, 172, 174, 0.05) 25%, white 25%, white 50%, rgba(140, 172, 174, 0.05) 50%, rgba(140, 172, 174, 0.05) 75%, white 75%, white);
       -webkit-background-size: 40px 40px;

@@ -149,10 +149,6 @@ $marks-size: 30px;
           border-left: 8px solid $common_color;
         }
 
-        .badge {
-          background-color: $common_color;
-          color: white !important;
-        }
         opacity: 1 !important;
         background-color: white !important;
 
@@ -172,7 +168,6 @@ $marks-size: 30px;
 
     .student {
       .badge {
-        //        @include transition(0.1s);
         background-color: white;
       }
       .god {
