@@ -150,8 +150,7 @@
     .marks-editor table.table-marks > tbody > tr.hover, .marks-editor table.table-marks > thead > tr.hover, .marks-editor table.table-marks > tfoot > tr.hover {
       background-color: white; }
       .marks-editor table.table-marks > tbody > tr.hover > td.mark, .marks-editor table.table-marks > thead > tr.hover > td.mark, .marks-editor table.table-marks > tfoot > tr.hover > td.mark {
-        color: #000000;
-        box-shadow: 0 0 0 3px white inset, 0 0 6px grey inset !important; }
+        color: #000000; }
         .marks-editor table.table-marks > tbody > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tbody > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tbody > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > thead > tr.hover > td.mark.excellent, .marks-editor table.table-marks > thead > tr.hover > td.mark.awesome, .marks-editor table.table-marks > thead > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole {
           color: white;
           text-shadow: none; }

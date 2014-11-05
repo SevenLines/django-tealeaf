@@ -243,7 +243,7 @@ $marks-size: 30px;
           background-color: white;
           > td.mark {
             color: #000000;
-            box-shadow: 0 0 0 3px white inset, 0 0 6px grey inset !important;
+//            box-shadow: 0 0 0 2px white inset/*, 0 0 6px grey inset !important*/;
             &.excellent, &.awesome, &.fantastic, &.black-hole {
               color: white;
               text-shadow: none;
