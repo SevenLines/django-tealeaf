@@ -320,8 +320,14 @@ a[href$='.sqlite'] {
       @media (max-width: 750px) {
         .menu > ul > li > a {
           width: 48px; } }
+      @media (max-width: 750px) {
+        .menu > ul > li > a {
+          padding: 10px 2px 2px; } }
       .menu > ul > li > a > img {
         width: 100%; }
+        @media (max-width: 750px) {
+          .menu > ul > li > a > img {
+            padding: 0px 4px; } }
     .menu > ul > li:hover ul {
       opacity: 1;
       max-width: 192px; }
