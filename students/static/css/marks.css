@@ -76,6 +76,11 @@
     -ms-transition: all ease-in-out 0.2s;
     -o-transition: all ease-in-out 0.2s;
     transition: all ease-in-out 0.2s;
+    -webkit-transition: opacity 0s;
+    -moz-transition: opacity 0s;
+    -ms-transition: opacity 0s;
+    -o-transition: opacity 0s;
+    transition: opacity 0s;
     opacity: 1 !important;
     background-color: white !important; }
     .marks-editor .students-list .hover .student .name {

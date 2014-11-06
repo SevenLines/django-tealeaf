@@ -144,6 +144,11 @@ $marks-size: 30px;
     .hover {
       .student {
         @include transition(0.2s);
+        -webkit-transition: opacity 0s;
+        -moz-transition: opacity 0s;
+        -ms-transition: opacity 0s;
+        -o-transition: opacity 0s;
+        transition: opacity 0s;
         .name {
           @include transition(0.1s);
           border-left: 8px solid $common_color;

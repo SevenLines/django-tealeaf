@@ -48,7 +48,13 @@
         vertical-align: middle;
         overflow: hidden;
         padding: 10px 6px 6px;
+        @media (max-width: $min_screen_width) {
+          padding: 10px 2px 2px;
+        }
         > img {
+          @media (max-width: $min_screen_width) {
+            padding: 0px 4px;
+          }
           width: 100%;
         }
       }
