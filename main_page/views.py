@@ -40,8 +40,8 @@ def main_page_context(data=None):
 
 
 def index(request):
-    context = RequestContext(request, main_page_context())
-    return render(request, 'main_page/index.html', context)
+    # context = RequestContext(request, main_page_context())
+    return render(request, 'main_page/index.html', main_page_context())
 
 
 @login_required
