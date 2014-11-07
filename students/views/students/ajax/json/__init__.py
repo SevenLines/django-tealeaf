@@ -25,7 +25,7 @@ def years(request):
     else:  # не аутентефицированным только текущий год
         yrs = [{'year': current_year()}]
 
-    return HttpResponse(json.dumps(yrs), mimetype='application/json')
+    return HttpResponse(json.dumps(yrs), content_type='application/json')
 
 
 # @login_required
@@ -48,7 +48,7 @@ def groups(request):
         g_dict.update({'has_ancestor': g.has_ancestor})
         out.append(g_dict)
 
-    r = HttpResponse(json.dumps(out), mimetype='application/json')
+    r = HttpResponse(json.dumps(out), content_type='application/json')
     r.cookies['year'] = year
     return r
 
@@ -149,7 +149,7 @@ def students(request):
 
     _students = list([s.to_dict(request.user.is_authenticated) for s in grp.students.all()])
 
-    return HttpResponse(json.dumps(_students, default=json_encoder), mimetype='application/json')
+    return HttpResponse(json.dumps(_students, default=json_encoder), content_type='application/json')
 
 
 @require_GET

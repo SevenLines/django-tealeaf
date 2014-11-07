@@ -8,30 +8,29 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cmsplugin_cascade',  # bootstrap inline plugin
-    'djangocms_text_ckeditor',
+    # 'cmsplugin_cascade',  # bootstrap inline plugin
+    # 'djangocms_text_ckeditor',
     'cms',  # django CMS itself
     'mptt',  # utilities for implementing a modified pre-order traversal tree
     'menus',  # helper for model independent hierarchical website navigation
-    'south',  # intelligent schema and data migrations
+    # 'south',  # intelligent schema and data migrations
     'sekizai',  # for javascript and css management
     'djangocms_admin_style',
     'django.contrib.admin',
     'filer',
     'easy_thumbnails',
-    'cmsplugin_filer_file',
-    'cmsplugin_filer_image',
+    # 'cmsplugin_filer_file',
+    # 'cmsplugin_filer_image',
     'ex_tags',
 
     'plugin_markdown',
     'page_extend',
     'labs',
     'toc',
-    'email_obfuscator',
     'wrapper',
     'django_ace',
-    'djangocms_file',
-    'djangocms_flash',
+    # 'djangocms_file',
+    # 'djangocms_flash',
     'custom_css',
     'students',
     'tealeaf_admin',

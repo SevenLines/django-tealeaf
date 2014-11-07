@@ -1,53 +1,33 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import filer.fields.image
+import markupfield.fields
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'MarkdownSnippet'
-        db.create_table(u'plugin_markdown_markdownsnippet', (
-            (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
-            ('text', self.gf('django.db.models.fields.TextField')()),
-        ))
-        db.send_create_signal(u'plugin_markdown', ['MarkdownSnippet'])
+    dependencies = [
+        ('cms', '__first__'),
+        ('filer', '__first__'),
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'MarkdownSnippet'
-        db.delete_table(u'plugin_markdown_markdownsnippet')
-
-
-    models = {
-        'cms.cmsplugin': {
-            'Meta': {'object_name': 'CMSPlugin'},
-            'changed_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'creation_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'language': ('django.db.models.fields.CharField', [], {'max_length': '15', 'db_index': 'True'}),
-            'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'parent': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cms.CMSPlugin']", 'null': 'True', 'blank': 'True'}),
-            'placeholder': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cms.Placeholder']", 'null': 'True'}),
-            'plugin_type': ('django.db.models.fields.CharField', [], {'max_length': '50', 'db_index': 'True'}),
-            'position': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
-        },
-        'cms.placeholder': {
-            'Meta': {'object_name': 'Placeholder'},
-            'default_width': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'slot': ('django.db.models.fields.CharField', [], {'max_length': '50', 'db_index': 'True'})
-        },
-        u'plugin_markdown.markdownsnippet': {
-            'Meta': {'object_name': 'MarkdownSnippet', '_ormbases': ['cms.CMSPlugin']},
-            u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
-            'text': ('django.db.models.fields.TextField', [], {})
-        }
-    }
-
-    complete_apps = ['plugin_markdown']
+    operations = [
+        migrations.CreateModel(
+            name='MarkdownSnippet',
+            fields=[
+                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('body', markupfield.fields.MarkupField(default=b'', blank=True)),
+                ('body_markup_type', models.CharField(default=b'textile', max_length=30, blank=True, choices=[(b'', b'--'), (b'html', b'html'), (b'plain', b'plain'), (b'markdown', b'markdown'), (b'restructuredtext', b'restructuredtext'), (b'textile', b'textile')])),
+                ('_body_rendered', models.TextField(editable=False)),
+                ('body_class', models.CharField(default=b'', max_length=255, verbose_name=b'wrap class', blank=True, choices=[(b'alert alert-info', b'alert alert-info'), (b'alert alert-success', b'alert alert-success'), (b'alert alert-warning', b'alert alert-warning'), (b'alert alert-danger', b'alert alert-danger')])),
+                ('body_wrap_tag', models.CharField(default=b'div', max_length=20, verbose_name=b'wrap tag', blank=True, choices=[(b'div', b'div')])),
+                ('image', filer.fields.image.FilerImageField(default=None, blank=True, to='filer.Image', null=True, verbose_name=b'image')),
+            ],
+            options={
+                'abstract': False,
+            },
+            bases=('cms.cmsplugin',),
+        ),
+    ]
