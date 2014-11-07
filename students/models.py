@@ -26,8 +26,8 @@ class Group(models.Model):
     captain = models.ForeignKey("Student", default=None, null=True,
                                 on_delete=models.SET_NULL, related_name="%(class)s_captain")
 
-    kindness = models.FloatField(default=1)  # показатель доброжелательности группы от 0 до 1
-    erudition = models.FloatField(default=1)  # показатель эрудированность группы от 0 до 1
+    # kindness = models.FloatField(default=1)  # показатель доброжелательности группы от 0 до 1
+    # erudition = models.FloatField(default=1)  # показатель эрудированность группы от 0 до 1
 
     def __unicode__(self):
         return "%s | %s" % (self.year, self.title)
