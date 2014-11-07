@@ -186,7 +186,9 @@ FILER_PAGINATE_BY = 50
 
 CUSTOM_MENU_ITEMS = ({
      'img': 'img/profle.png',
-     'href': reverse("tracking_ex.views.stat"),
+     'href': 'tracking_ex.views.stat',
+     'reverse': True,
+     # 'href': reverse("tracking_ex.views.stat"),
      'title': 'кто тут',
      'touchable': True
 },)
@@ -198,6 +200,11 @@ MESSAGE_TAGS = {
 ASSETS_MODULES = [
     'app.assets'
 ]
+
+MIGRATION_MODULES = {
+    'cms': 'cms.migrations_django',
+    'menus': 'menus.migrations_django',
+}
 
 if not DEBUG:
     ASSETS_CACHE = False

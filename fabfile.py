@@ -61,16 +61,16 @@ def pip_sync(on_server=False):
             with prefix(env.activate):
                 # local("which python")
                 with settings(warn_only=True):
-                    run('pip freeze | grep -v -f requirements.txt - | xargs pip uninstall -y')
-                run('pip install -r requirements.txt')
-                run('pip freeze > requirements.txt')
+                    run('pip-accel freeze | grep -v -f requirements.txt - | xargs pip uninstall -y')
+                run('pip-accel install -r requirements.txt')
+                run('pip-accel freeze > requirements.txt')
     else:
         with prefix("../env/bin/activate"):
             # local("which python")
             with settings(warn_only=True):
-                local('pip freeze | grep -v -f requirements.txt - | xargs pip uninstall -y')
-            local('pip install -r requirements.txt')
-            local('pip freeze > requirements.txt')
+                local('pip-accel freeze | grep -v -f requirements.txt - | xargs pip uninstall -y')
+            local('pip-accel install -r requirements.txt')
+            local('pip-accel freeze > requirements.txt')
 
 
 def prettyprint():
@@ -138,7 +138,7 @@ def deploy(without_build=False):
             run("git pull")
             with settings(warn_only=True):
                 run("git stash apply")
-                run('pip install -r requirements.txt')
+                run('pip-accel install -r requirements.txt')
             run("python manage.py migrate")
             run("python manage.py collectstatic --noinput")
             run("touch django.wsgi")
