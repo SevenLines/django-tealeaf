@@ -7,6 +7,7 @@ Unidecode==0.04.16
 XlsxWriter==0.5.7
 argparse==1.2.1
 cmsplugin-filer==0.10.1
+coloredlogs==0.8
 colour==0.0.5
 cssmin==0.2.0
 distlib==0.1.2
@@ -15,7 +16,8 @@ django-admin-bootstrapped==2.1.0
 django-appconf==0.6
 django-assets==0.10
 django-classy-tags==0.5.1
-git+https://github.com/divio/django-cms.git@992f70304f7749e353c48ac6acdec4ac70a32a9b
+django-cms==3.0.7.dev1
+django-email-obfuscator==0.1.2
 django-filebrowser==3.5.7
 django-filer==0.9.8
 django-grappelli==2.6.2
@@ -35,10 +37,12 @@ docutils==0.11
 easy-thumbnails==2.2
 ecdsa==0.11
 html5lib==0.999
+humanfriendly==1.9.6
 jdcal==1.0
 jsmin==2.0.11
 jsonfield==0.9.20
 paramiko==1.14.0
+pip-accel==0.13.5
 psycopg2==2.5.3
 pycrypto==2.6.1
 six==1.8.0
