@@ -201,6 +201,11 @@ ASSETS_MODULES = [
     'app.assets'
 ]
 
+MIGRATION_MODULES = {
+    'cms': 'cms.migrations_django',
+    'menus': 'menus.migrations_django',
+}
+
 if not DEBUG:
     ASSETS_CACHE = False
     ASSETS_MANIFEST = False
