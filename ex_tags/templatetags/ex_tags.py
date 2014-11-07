@@ -18,9 +18,10 @@ def custom_menu_items(request):
 
     if hasattr(settings, "CUSTOM_MENU_ITEMS"):
         for item in settings.CUSTOM_MENU_ITEMS:
+            href = reverse(item.get('href', '')) if item.get('reverse') else item.get('href', '')
             out += render_to_string("ex_tags/menu_item.html", {
-                'active': request.path == item['href'],
-                'href':  reverse(item.get('href', '')) if item.get('reverse') else item.get('href', ''),
+                'active': request.path == href,
+                'href':  href,
                 'img': item.get('img', ''),
                 'title': item.get('title', '', ),
                 'touchable': item.get('touchable', ''),
