@@ -34,7 +34,7 @@
       background-color: rgba($container_bg_color, 0.75);
       &:hover {
         background-color: rgba($container_bg_color, 0.94) !important;
-        box-shadow: none !important;
+        box-shadow: none  !important;
       }
 
       > a {
