@@ -60,14 +60,14 @@
             <div class="form-group">
                 <select class="form-control" name="group"
                         data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
-                {% if user.is_authenticated %}
-                    <!-- КНОПКА ВЫГРУЗКИ В EXCEL -->
-                    <button class="btn btn-info" data-bind="click: toExcel">
-                        <span>список в *.xls</span>
-                    </button>
-                    <!-- КОНЕЦ КНОПКА ВЫГРУЗКИ В EXCEL -->
-                {% endif %}
             </div>
+            {#                {% if user.is_authenticated %}#}
+            <!-- КНОПКА ВЫГРУЗКИ В EXCEL -->
+            <button class="btn btn-success" data-bind="click: toExcel">
+                <span>список в *.xls</span>
+            </button>
+            <!-- КОНЕЦ КНОПКА ВЫГРУЗКИ В EXCEL -->
+            {#                {% endif %}#}
             {% if user.is_authenticated %}
                 <!-- КНОПКА СОХРАНЕНИЯ -->
                 {#                <div class="">#}

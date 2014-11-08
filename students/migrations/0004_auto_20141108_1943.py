@@ -12,5 +12,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(lambda a, s: DisciplineMarksCache.objects.all().delete())
+        migrations.RunPython(lambda a, s: DisciplineMarksCache.objects.all().delete()),
     ]
