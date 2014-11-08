@@ -265,6 +265,12 @@ class DisciplineMarksCache(models.Model):
         mark_types = data['mark_types']
         lesson_types = data['lesson_types']
 
+        group = None
+        if len(students) > 0:
+            group = Group.objects.filter(pk=students[0]['group']).first()
+        else:
+            return ''
+
         students.sort(key=lambda s: s['sum'], reverse=True)
 
         # Create an in-memory output file for the new workbook.
@@ -283,11 +289,41 @@ class DisciplineMarksCache(models.Model):
         frmt_header.set_align('vcenter')
         frmt_header.set_text_wrap()
 
-        worksheet = workbook.add_worksheet(u"группа")
+        worksheet = workbook.add_worksheet(u"{}".format(group.title if group else u'студенты'))
+
+        bg_colors = {
+            # Mark.MARK_ABSENT: "#ffeeee",
+            Mark.MARK_NORMAL: "#aef28c",
+            Mark.MARK_GOOD: "#aef28c",
+            Mark.MARK_EXCELLENT: "#4bb814",
+            Mark.MARK_AWESOME: "#388a0f",
+            Mark.MARK_FANTASTIC: "#255c0a",
+            Mark.MARK_BLACK_HOLE: "black",
+            Mark.MARK_SHINING: "yellow",
+        }
 
         mark_formats = {}
-        for mt in mark_types:
-            for lt in lesson_types:
+        lesson_formts = {}
+
+        for lt in lesson_types:
+            frmt = workbook.add_format()
+            frmt.set_align('center')
+            frmt.set_align('vcenter')
+            frmt.set_text_wrap()
+            frmt.set_border()
+
+            if lt['id'] >= 2:
+                bg_color = Color(bg_colors[Mark.MARK_NORMAL])
+                bg_color.set_hue({
+                    2: 0.15,
+                    3: 0.5
+                }.get(lt['id'], bg_color.get_hue()))
+
+                frmt.set_bg_color(bg_color.get_hex_l())
+
+            lesson_formts[lt['id']] = frmt
+
+            for mt in mark_types:
                 if mark_formats.get(lt['id']) is None:
                     mark_formats[lt['id']] = {}
                 frmt = workbook.add_format()
@@ -295,33 +331,40 @@ class DisciplineMarksCache(models.Model):
                 frmt.set_align('vcenter')
                 frmt.set_border()
 
-                color = 'white'
-                if mt['k'] < 0:
-                    color = "#ffeeee"
-                elif mt['k'] > 0:
-                    color = {
-                        1: "#aef28c",
-                        2: "#7eeb47",
-                        3: "#4bb814",
-                        4: "#388a0f",
-                        5: "#255c0a",
-                    }.get(mt['k'], 'white')
+                bg_color = bg_colors.get(mt['k'], 'white')
 
+                color = {
+                    Mark.MARK_BLACK_HOLE: 'white',
+                    Mark.MARK_AWESOME: 'white',
+                    Mark.MARK_FANTASTIC: 'white',
+                }.get(mt['k'], 'black')
+
+                bg_color = Color(bg_color)
                 color = Color(color)
-                if lt['id'] == 2 and mt['k'] > 0:
-                    color.set_hue(0)
-                    color.set_luminance(min(color.get_luminance() * 1.3, 1))
-                elif lt['id'] == 3 and mt['k'] > 0:
-                    color.set_hue(0.5)
-                    color.set_luminance(min(color.get_luminance() * 1.1, 1))
 
-                frmt.set_bg_color(color.get_hex_l())
+                if mt['k'] > 0:
+                    if lt['id'] == 2:
+                        bg_color.set_hue(0.15)
+                        bg_color.set_luminance(min(bg_color.get_luminance() * 1.4, 0.9))
+                    elif lt['id'] == 3:
+                        bg_color.set_hue(0.5)
+                        bg_color.set_luminance(min(bg_color.get_luminance() * 1.1, 0.9))
+                    else:
+                        bg_color.set_hue(0.25)
+
+                bg_color = {
+                    Mark.MARK_SHINING: Color(bg_colors[Mark.MARK_SHINING]),
+                    Mark.MARK_BLACK_HOLE: Color(bg_colors[Mark.MARK_BLACK_HOLE]),
+                }.get(mt['k'], bg_color)
+
+                frmt.set_bg_color(bg_color.get_hex_l())
+                frmt.set_color(color.get_hex_l())
 
                 mark_formats[lt['id']][mt['k']] = frmt
 
         worksheet.set_row(0, 90)
         for r, l in enumerate(lessons, 2):
-            worksheet.write(r, 0, l['dn_raw'].strip(), frmt_header)
+            worksheet.write(r, 0, l['dn_raw'].strip(), lesson_formts[l['lt']])
             h = 20 * max(1, l['dn_raw'].strip().count("\n") + 1)
             worksheet.set_row(r, h)
 
@@ -337,7 +380,7 @@ class DisciplineMarksCache(models.Model):
             if s['sum'] == 0:
                 score = score_base
             elif s['sum'] > 0:
-                score = score_base + (float(s['sum']) / score_max) * (1-score_base)
+                score = score_base + (float(s['sum']) / score_max) * (1 - score_base)
             else:
                 score = score_base - (float(s['sum']) / score_min) * score_base
 
@@ -349,13 +392,33 @@ class DisciplineMarksCache(models.Model):
             worksheet.write(1, c, score, frmt_header)
             marks = s['marks']
             for r, m in enumerate(marks, 2):
-                mark = 0 if m['m'] is None else m['m']
-                lt = lessons[r-2]['lt']
-                worksheet.write(r, c, mark, mark_formats[lt].get(mark, None))
+                if m['m'] is not None:
+                    if abs(m['m']) > Mark.MARK_SPECIAL:
+                        mark = {
+                            Mark.MARK_BLACK_HOLE: u'∅',
+                            Mark.MARK_SHINING: u'∞',
+                        }.get(m['m'], '')
+                    else:
+                        mark = u'н' if m['m'] == -2 else m['m']
+                else:
+                    mark = ''
+
+                lt = lessons[r - 2]['lt']
+                worksheet.write(r, c, mark,
+                                mark_formats[lt].get(0 if m['m'] is None else m['m'], None))
 
             if len(name) > max_width:
                 max_width = len(name)
         worksheet.set_column(0, 0, max_width)
+        worksheet.merge_range('A1:A2', group.title, frmt_header)
+
+        # print setup
+        if len(lessons) < len(students):
+            worksheet.set_landscape()
+        # if group:
+        #     worksheet.set_header(u"&C{}".format(group.title))
+
+        worksheet.fit_to_pages(1, 1)
 
         # Close the workbook before streaming the data.
         workbook.close()
