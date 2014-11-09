@@ -47,7 +47,7 @@ def compile_css():
 
 def minify():
     with prefix("activate"):
-        local("./manage.py assets build")  # build assets
+        local("python manage.py assets build")  # build assets
     compile_css()
     compile_js()
 
