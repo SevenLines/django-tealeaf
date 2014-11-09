@@ -358,6 +358,8 @@
         self.cookie = { // cookie names
             year: "year",
             group_id: "group_id",
+            sorting: 'students-sorting',
+            score_method: 'score-method',
             expires: 7 // days
         };
 
@@ -650,7 +652,8 @@
                     return new Student(item);
                 });
                 self.students(map_students);
-                self.sortMethod(self.sortByStudentsName);
+
+                self.sortMethod(self.sortMethods[$.cookie(self.cookie.sorting)]);
 
                 $.cookie(self.cookie.group_id, self.group().id, {expires: self.cookie.expires});
             }).always(function () {
@@ -665,7 +668,7 @@
             })
         };
 
-// >>> STUDENTS CONTROL
+// >>> СОРТИРОВКА
         self.sortByStudentsMark = function (left, right) {
             return left.sum() == right.sum() ? 0 : left.sum() < right.sum() ? 1 : -1;
         };
@@ -686,6 +689,11 @@
         };
         self.sortByStudentsName.title = "По имени";
 
+        self.sortMethods = {};
+        self.sortMethods[self.sortByStudentsMark.title] = self.sortByStudentsMark;
+        self.sortMethods[self.sortByStudentsName.title] = self.sortByStudentsName;
+        self.sortMethods['undefined'] = self.sortByStudentsName;
+
         self.sortMethod = ko.observable();
         self.sortMethod.subscribe(function () {
             if (self.sortMethod()) {
@@ -695,16 +703,17 @@
         self.toggleStudentsSorting = function () {
             self.sortMethod(self.sortMethod() == self.sortByStudentsMark ?
                 self.sortByStudentsName : self.sortByStudentsMark);
+            $.cookie(self.cookie.sorting, self.sortMethod().title, {expires: self.cookie.expires});
         };
 
 /// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
-        self.showPercents = ko.observable(true);
+        self.showPercents = ko.observable($.cookie(self.cookie.score_method)!=='false');
         self.scoreMethod = ko.computed(function () {
             return self.showPercents() ? "в процентах" : "в баллах"
         }, self.showPercents);
         self.toggleScorePercents = function () {
             self.showPercents(!self.showPercents());
-            //$.cookie("show_percents", self.showPercents());
+            $.cookie(self.cookie.score_method, self.showPercents(), {expires: self.cookie.expires});
         };
 
 
