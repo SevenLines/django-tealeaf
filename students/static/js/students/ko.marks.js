@@ -160,7 +160,7 @@
                             if (sum < (i + 1) * 3) {
                                 sum = (i + 1) * 3;
                             } else if (i + 1 == marks.length) {
-                                sum = (i + 1) * 30 + ((i+1) * 30) / 70 * 27;
+                                sum = (i + 1) * 30 + ((i + 1) * 30) / 70 * 27;
                             }
                             break;
                         default :
@@ -486,12 +486,12 @@
                 });
                 self.unblock();
                 if (self.groups().every(function (entry) {
-                        if (group_id == entry.id) {
-                            self.group(entry);
-                            return false;
-                        }
-                        return true;
-                    })) {
+                    if (group_id == entry.id) {
+                        self.group(entry);
+                        return false;
+                    }
+                    return true;
+                })) {
                     if (self.groups().length) {
                         self.group(self.groups()[0]);
                     } else {
@@ -500,7 +500,6 @@
                 }
             })
         };
-
 
 
 // ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
@@ -668,8 +667,11 @@
         };
 
         self.loadStudentsControl = function () {
-             window.location = self.url.students_control + "?year=" + self.year()
-                 + "&discipline_id=" + self.discipline().id;
+            window.location = self.url.students_control + '?' + $.param([
+                {name: 'year', value: self.year()},
+                {name: 'discipline_id', value: self.discipline().id},
+                {name: 'k', value: 0.5},
+            ])
         };
 
         self.loadDisciplines = function () {
@@ -717,7 +719,7 @@
         };
 
 /// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
-        self.showPercents = ko.observable($.cookie(self.cookie.score_method)!=='false');
+        self.showPercents = ko.observable($.cookie(self.cookie.score_method) !== 'false');
         self.scoreMethod = ko.computed(function () {
             return self.showPercents() ? "в процентах" : "в баллах"
         }, self.showPercents);
@@ -849,12 +851,10 @@
         };
 
         self.toExcel = function (data, e) {
-            //$.post(self.url.to_excel, self.csrfize({
-            //    group_id: self.group().id,
-            //    discipline_id: self.discipline().id
-            //}));
-            window.location = self.url.to_excel + "?group_id=" + self.group().id
-            + "&discipline_id=" + self.discipline().id;
+            window.location = self.url.to_excel + '?' + $.param([
+                {name: 'group_id', value: self.group().id},
+                {name: 'discipline_id', value: self.discipline().id},
+            ]);
         };
 
         self.clickMark = function (data, e) {

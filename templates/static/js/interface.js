@@ -117,6 +117,7 @@ $(window).on("scroll resize touchmove", function () {
     }
 });
 
+
 //
 //$(function () {
 //    var body = document.body;
