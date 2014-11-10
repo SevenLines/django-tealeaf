@@ -114,13 +114,16 @@ def marks_to_excel(request):
     return response
 
 
-@require_in_GET("year", "discipline_id")
+@login_required
+@require_in_GET("year", "discipline_id", "k")
 def students_control(request):
     """
-    Промежуточная атестация студентов
+    request.GET['k'] -- коэффициент баллов
+    Промежуточная аттестация студентов
     :param request:
     """
     grps = Group.year_groups(request.GET['year']).order_by('title')
+    k = float(request.GET['k'])
 
     output = io.BytesIO()
     xls = xlsxwriter.Workbook(output, {'in_memory': True})
@@ -150,7 +153,7 @@ def students_control(request):
 
             sheet.write(j + 1, i * 2, s['second_name'], frmt)
             score = Discipline.compute_percents(s['marks'])
-            score *= 0.5
+            score *= k  # так как аттестация промежуточная то умножаем на 0.5
             score = int(score*100)
             result = score if s['sum'] >= 0 else u'н/а'
             sheet.write(j + 1, i * 2 + 1, result, frmt)
