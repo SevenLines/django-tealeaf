@@ -344,6 +344,7 @@
             years: data.url.years,
             groups: data.url.groups,
             students: data.url.students,
+            students_control: data.url.students_control,
             disciplines: data.url.disciplines,
             discipline_add: data.url.discipline_add,
             discipline_edit: data.url.discipline_edit,
@@ -394,6 +395,7 @@
         self.group = ko.observable();
 
         self.students = ko.observableArray();
+        self.students_control = ko.observableArray();
         self.student = ko.observable();
 
         self.disciplines = ko.observableArray();
@@ -498,6 +500,8 @@
                 }
             })
         };
+
+
 
 // ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
         self.resetMarksInterface = function () {
@@ -616,6 +620,7 @@
         };
 // КОНЕЦ РЕИНИЦИАЛИЗАЦИИ ИНТЕРФЕЙСА
 
+// >>> ЗАГРУЗКА ДАННЫХ
         self.isStudentsLoading = ko.observable(true);
         self.loadStudents = function () {
             self.isStudentsLoading(true);
@@ -660,6 +665,11 @@
                 self.isStudentsLoading(false);
                 self.resetMarksInterface();
             });
+        };
+
+        self.loadStudentsControl = function () {
+             window.location = self.url.students_control + "?year=" + self.year()
+                 + "&discipline_id=" + self.discipline().id;
         };
 
         self.loadDisciplines = function () {

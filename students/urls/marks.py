@@ -14,6 +14,7 @@ urlpatterns = patterns('students.views.marks',
    url(r'marks/save$', "marks_save"),
    url(r'marks/excel', "marks_to_excel"),
 
+   url(r'students-control$', "students_control"),
    url(r'students$', "students"),
 
    url(r'$', 'index'),

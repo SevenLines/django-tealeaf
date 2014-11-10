@@ -76,6 +76,10 @@
                     <i class="glyphicon glyphicon glyphicon-save"></i>
                 </button>
                 {#                </div>#}
+                <button class="btn btn-info pull-right"
+                        data-bind="click: $root.loadStudentsControl, visible: students && discipline">
+                    <span class="glyphicon glyphicon glyphicon-file"> Аттестация</span>
+                </button>
                 <!-- КОНЕЦ КНОПКИ СОХРАНЕНИЯ -->
             {% endif %}
             <!-- КОНЕЦ СПИСОК ГРУПП -->
@@ -111,6 +115,7 @@
                             discipline_add: "{% url "students.views.marks.disciplines.add" %}",
                             discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
                             discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
+                            students_control: "{% url "students.views.marks.students_control" %}",
                             lesson_add: "{% url "students.views.marks.lesson_add" %}",
                             lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
                             lesson_save: "{% url "students.views.marks.lesson_save" %}",
