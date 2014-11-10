@@ -145,7 +145,21 @@ class Discipline(models.Model):
                 else:
                     s += mark
         return s
-        # return sum([m['m'] for m in student_marks if m['m']], 0)
+
+    @staticmethod
+    def compute_percents(student_marks):
+        _sum = Discipline.compute_marks(student_marks)
+        max = len(student_marks) * 3
+        min = len(student_marks) * -2
+        base = 0.3
+        if _sum == 0:
+            out = base
+        elif _sum > 0:
+            out = base + (float(_sum) / max) * (1 - base)
+        else:
+            out = base - (float(_sum) / min) * base
+        return out
+
 
     def __unicode__(self):
         return u"%s %s %s" % (self.title, self.year, self.semestr)

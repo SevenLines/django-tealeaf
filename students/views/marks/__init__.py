@@ -1,4 +1,5 @@
 # coding=utf-8
+import io
 import json
 
 from django.contrib.auth.decorators import login_required
@@ -6,10 +7,12 @@ from django.db.transaction import atomic
 from django.forms.models import model_to_dict
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
+import xlsxwriter
+import xlsxwriter.worksheet
 import students.utils
 
 from app.utils import require_in_POST, require_in_GET, json_encoder
-from students.models import Lesson, Discipline, Group, Mark, DisciplineMarksCache
+from students.models import Lesson, Discipline, Group, Mark, DisciplineMarksCache, Student
 
 
 def index(request):
@@ -101,7 +104,7 @@ def marks_to_excel(request):
         return HttpResponseBadRequest("cant find group with id=%s" % request.GET['group_id'])
 
     # if Discipline.objects.filter(pk=request.GET['discipline_id']).first():
-    #     return HttpResponseBadRequest("cant find discipline with id=%s" % request.GET['discipline_id'])
+    # return HttpResponseBadRequest("cant find discipline with id=%s" % request.GET['discipline_id'])
 
     excel = DisciplineMarksCache.get_excel(request.GET['discipline_id'], request.GET['group_id'])
 
@@ -109,3 +112,60 @@ def marks_to_excel(request):
     response['Content-Disposition'] = 'attachment; filename=%s.xlsx' % group.title
 
     return response
+
+
+@require_in_GET("year", "discipline_id")
+def students_control(request):
+    """
+    Промежуточная атестация студентов
+    :param request:
+    """
+    grps = Group.year_groups(request.GET['year']).order_by('title')
+
+    output = io.BytesIO()
+    xls = xlsxwriter.Workbook(output, {'in_memory': True})
+    sheet = xls.add_worksheet()
+    # assert isinstance(sheet, xlsxwriter.worksheet.Worksheet)
+
+    frmt = xls.add_format()
+    frmt.set_align("center")
+    frmt.set_align("vcenter")
+    frmt.set_border()
+
+    frmt_header = xls.add_format()
+    frmt_header.set_bold()
+    frmt_header.set_align("center")
+    frmt_header.set_align("vcenter")
+    frmt_header.set_bg_color("#EEEEEE")
+    frmt_header.set_border()
+
+    for i, g in enumerate(grps):
+        cache = json.loads(json.loads(DisciplineMarksCache.get_json(request.GET['discipline_id'], g.pk)))
+        students = cache['students']
+        sheet.merge_range(0, i * 2, 0, i * 2 + 1, g.title, frmt_header)
+        max_len = 0
+        for j, s in enumerate(students):
+            if len(s['second_name']) > max_len:
+                max_len = len(s['second_name'])
+
+            sheet.write(j + 1, i * 2, s['second_name'], frmt)
+            score = Discipline.compute_percents(s['marks'])
+            score *= 0.5
+            score = int(score*100)
+            result = score if s['sum'] >= 0 else u'н/а'
+            sheet.write(j + 1, i * 2 + 1, result, frmt)
+
+        sheet.set_column(i*2, i*2, width=max_len*1.1)
+
+    sheet.set_landscape()
+    sheet.fit_to_pages(1, 1)
+
+    xls.close()
+    output.seek(0)
+
+    r = HttpResponse(output, content_type="application/xlsx")
+    r['Content-Disposition'] = 'attachment; filename=%s.xlsx' % request.GET['year']
+
+    return r
+
+
