@@ -232,8 +232,9 @@
         });
 
         self.success_factor = ko.computed(function () {
-            var max = self.marks.length * 3;
-            var min = self.marks.length * -2;
+            var lessons_count = self.marks.filter(function(m){return m.lesson.score_ignore()==false;}).length;
+            var max = lessons_count * 3;
+            var min = lessons_count * -2;
             var diff = (max - min);
             var base = 0.3;
             if (self.sum() == 0) {
@@ -300,6 +301,7 @@
         self.description = ko.observable(data.dn);
         self.description_raw = ko.observable(data.dn_raw);
         self.multiplier = ko.observable(data.k);
+        self.score_ignore = ko.observable(data.si);
         self.isodate_old = data.dt;
         self.id = data.id;
 
@@ -317,6 +319,8 @@
                     return "test";
                 case 3:
                     return "exam";
+                case 4:
+                    return "laba";
             }
             return "";
 
@@ -809,7 +813,8 @@
                 lesson_type: data.lesson_type(),
                 date: data.isodate(),
                 multiplier: data.multiplier(),
-                description_raw: data.description_raw()
+                description_raw: data.description_raw(),
+                score_ignore: data.score_ignore()
             })).done(function (response) {
                 if (data.isodate() != data.isodate_old) {
                     self.loadStudents();
