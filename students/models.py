@@ -140,17 +140,18 @@ class Discipline(models.Model):
                 elif mark == Mark.MARK_SHINING:  # сияние дарует 100% достижнения
                     if s < i * 3:
                         s = i * 3
-                    elif i == len(student_marks):
+                    elif i == len(student_marks):  # а если в самом конце и у студента не меньше 100 дарует 1000 балов :D
                         s = i * 30 + float(i * 30) / 70 * 27
                 else:
                     s += mark
         return s
 
     @staticmethod
-    def compute_percents(student_marks):
+    def compute_percents(student_marks, lessons=None):
         _sum = Discipline.compute_marks(student_marks)
-        max = len(student_marks) * 3
-        min = len(student_marks) * -2
+        lessons_count = len(filter(lambda x: x['si'], lessons)) if lessons else len(student_marks)
+        max = lessons_count * 3
+        min = lessons_count * -2
         base = 0.3
         if _sum == 0:
             out = base
@@ -184,6 +185,18 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
                        "lid": m.lesson_id,
                        "m": m.mark} for m in marks])
 
+        # занятия у группы по дисциплине
+        lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=self.pk)
+                       .order_by("date", "id"))
+        lessons = list([{"id": l.id,
+                         "lt": l.lesson_type if l.lesson_type else None,
+                         "dt": l.date,
+                         "k": l.multiplier,
+                         "dn": l.description.rendered,
+                         "dn_raw": l.description.raw,
+                         'si': l.score_ignore,
+                        } for l in lessons])
+
         # студенты группы
         stdnts = Group.objects.get(pk=group_id).students.all().order_by("second_name")
         stdnts = list([s.to_dict() for s in stdnts])
@@ -196,15 +209,6 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
                 'sum': s_sum
             })
 
-        lessons = list(Lesson.objects.filter(group__pk=group_id, discipline__id=self.pk)
-                       .order_by("date", "id"))
-        lessons = list([{"id": l.id,
-                         "lt": l.lesson_type if l.lesson_type else None,
-                         "dt": l.date,
-                         "k": l.multiplier,
-                         "dn": l.description.rendered,
-                         "dn_raw": l.description.raw
-                        } for l in lessons])
 
         # виды занятий
         lesson_types = list([{'id': t[0], 'title': t[1]} for t in Lesson.LESSON_TYPES])
@@ -452,6 +456,7 @@ class Lesson(models.Model):
         (1, "Пара"),
         (2, "Контрольная"),
         (3, "Экзамен"),
+        (4, "Лабораторная"),
     ]
 
     description = MarkupField(default="", markup_type="textile", blank=True)
@@ -461,6 +466,8 @@ class Lesson(models.Model):
     date = models.DateField(auto_now_add=True)
     lesson_type = models.IntegerField(verbose_name="type", default=1, choices=LESSON_TYPES)
     multiplier = models.FloatField(default=1)
+
+    score_ignore = models.BooleanField(default=False)
 
     def to_dict(self):
         d = model_to_dict(self)

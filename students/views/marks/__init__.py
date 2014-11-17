@@ -66,6 +66,8 @@ def lesson_save(request):
         l.date = request.POST['date']
     if 'multiplier' in request.POST:
         l.multiplier = float(request.POST['multiplier'])
+    if 'score_ignore' in request.POST:
+        l.score_ignore = request.POST['score_ignore'] == 'true'
     l.save()
 
     return HttpResponse(json.dumps(l.to_dict(), default=json_encoder), content_type="json")

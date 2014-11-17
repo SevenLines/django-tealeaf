@@ -8,6 +8,7 @@ $fantastic: hsl(70, 78%, 20%);
 $godlike: hsl(70, 80%, 10%);
 $hover-color: grey;
 $exam-hue-offset: 100;
+$laba-hue-offset: 280;
 $test-hue-offset: 300;
 $mix-weight: 70%;
 $td-margin: 0px;
@@ -338,6 +339,7 @@ $marks-size: 30px;
       @if ($stripes) {
         @include mark-stripes($color);
       }
+
       &.test {
         $clr: adjust_hue($color, $test-hue-offset);
         @if ($use-shadow) {
@@ -348,6 +350,7 @@ $marks-size: 30px;
           @include mark-stripes($clr)
         }
       }
+
       &.exam {
         $clr: adjust_hue($color, $exam-hue-offset);
         @if ($use-shadow) {
@@ -358,6 +361,18 @@ $marks-size: 30px;
           @include mark-stripes($clr)
         }
       }
+
+      &.laba {
+        $clr: adjust_hue($color, $laba-hue-offset);
+        @if ($use-shadow) {
+          @include shadow(darken($clr, $lighten));
+        }
+        background-color: $clr;
+        @if ($stripes) {
+          @include mark-stripes($clr)
+        }
+      }
+
     }
 
     @include tooltip(0);
@@ -371,6 +386,11 @@ $marks-size: 30px;
     &.exam {
       @include btn-default($exam-hue-offset);
       @include tooltip($exam-hue-offset);
+    }
+
+    &.laba {
+      @include btn-default($laba-hue-offset);
+      @include tooltip($laba-hue-offset);
     }
 
     &.modified {

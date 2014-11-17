@@ -9,9 +9,6 @@
                 <div class="form-group">
                     <input class="form-control lesson-date" data-bind="value: date">
                 </div>
-                {#                <div class="form-group">#}
-                {#                    <input class="form-control" data-bind="value: multiplier">#}
-                {#                </div>#}
                 <div class="form-group">
                     <textarea id="lesson-description" class="form-control"
                               data-bind="value: description_raw"></textarea>
@@ -20,6 +17,11 @@
                     <select class="form-control"
                             data-bind="value: lesson_type, options: $root.lesson_types, optionsValue: 'id', optionsText: 'title'">
                     </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" data-bind="checked: score_ignore"> не учитывать
+                    </label>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary save" data-bind="click: $root.saveLesson">
