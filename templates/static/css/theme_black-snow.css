@@ -2,8 +2,7 @@ body {
   background-color: gray; }
 
 .container {
-  border-bottom-color: #272727;
-  box-shadow: 0 0 10px #9a9a9a; }
+  border-bottom-color: #272727; }
   @media (min-width: 750px) {
     .container {
       border-color: #434343;
@@ -75,7 +74,7 @@ body {
   background-repeat: repeat, repeat; }
 
 .container {
-  box-shadow: 0px 4px 8px #f3d180; }
+  box-shadow: 0px 0px 8px #f3d180; }
 
 .collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
   background-color: #f3f3f3; }
@@ -90,10 +89,8 @@ body {
   background-position: 0 0;
   padding-top: 1; }
 
-.container {
-  box-shadow: 0 0 16px white; }
-  .container .left-board {
-    background-color: grey; }
+.container .left-board {
+  background-color: grey; }
 
 .collapsable .collapsable-body > ol > li, .collapsable .collapsable-body > ul > li {
   background-color: white !important; }
