@@ -5,6 +5,7 @@ $half: hsl(70, 80%, 60%);
 $full: hsl(70, 80%, 40%);
 $awesome: hsl(70, 80%, 30%);
 $fantastic: hsl(70, 78%, 20%);
+$incredible: hsl(70, 78%, 15%);
 $godlike: hsl(70, 80%, 10%);
 $hover-color: grey;
 $exam-hue-offset: 100;
@@ -245,7 +246,7 @@ $marks-size: 30px;
           > td.mark {
             color: #000000;
 //            box-shadow: 0 0 0 2px white inset/*, 0 0 6px grey inset !important*/;
-            &.excellent, &.awesome, &.fantastic, &.black-hole {
+            &.excellent, &.awesome, &.fantastic, &.black-hole, &.incredible {
               color: white;
               text-shadow: none;
             }
@@ -428,6 +429,10 @@ $marks-size: 30px;
     &.fantastic {
       background-color: $fantastic;
       @include test_exam($fantastic, true, true);
+    }
+    &.incredible {
+      background-color: $incredible;
+      @include test_exam($incredible, true, true);
     }
     &.godlike {
       background-color: $godlike;

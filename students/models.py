@@ -316,6 +316,7 @@ class DisciplineMarksCache(models.Model):
             Mark.MARK_EXCELLENT: "#4bb814",
             Mark.MARK_AWESOME: "#388a0f",
             Mark.MARK_FANTASTIC: "#255c0a",
+            Mark.MARK_INCREDIBLE: "#3a4408",
             Mark.MARK_BLACK_HOLE: "black",
             Mark.MARK_SHINING: "yellow",
         }
@@ -514,6 +515,7 @@ class Mark(models.Model):
     MARK_EXCELLENT = MARK_BASE + 3
     MARK_AWESOME = MARK_BASE + 4
     MARK_FANTASTIC = MARK_BASE + 5
+    MARK_INCREDIBLE = MARK_BASE + 6
     MARK_SHINING = MARK_BASE + (MARK_SPECIAL + 1)
 
     MARKS = [
@@ -527,6 +529,7 @@ class Mark(models.Model):
         (MARK_EXCELLENT, 'excellent'),
         (MARK_AWESOME, 'awesome'),
         (MARK_FANTASTIC, 'fantastic'),
+        (MARK_INCREDIBLE, 'incredible'),
         (MARK_SHINING, 'shining'),
         # (MARK_NORMAL + 6, 'godlike'),
     ]
