@@ -245,7 +245,7 @@ $marks-size: 30px;
           background-color: white;
           > td.mark {
             color: #000000;
-//            box-shadow: 0 0 0 2px white inset/*, 0 0 6px grey inset !important*/;
+            //            box-shadow: 0 0 0 2px white inset/*, 0 0 6px grey inset !important*/;
             &.excellent, &.awesome, &.fantastic, &.black-hole, &.incredible {
               color: white;
               text-shadow: none;
@@ -257,14 +257,17 @@ $marks-size: 30px;
             &.shining {
               &:after {
                 content: "∞";
-//                background-color: #7eeb47;
-//                background-color: #5eb82e;
-//                background-color: #388a0f;
-//                background-color: #255c0a;
               }
             }
-            &.black-hole:after {
-              content: '∅';
+            &.mercy {
+              &:after {
+                content: "○";
+              }
+            }
+            &.black-hole {
+              :after {
+                content: '∅';
+              }
             }
             &.absent {
               &:after {
@@ -449,7 +452,12 @@ $marks-size: 30px;
       z-index: 100;
       box-shadow: 0 0 12px rgb(255, 182, 44) inset;
       @include animation(shinig-glow 4s infinite);
-
+    }
+    &.mercy {
+      background-color: white;
+      z-index: 100;
+//      box-shadow: 0 0 4px white inset;
+      @include animation(mercy-glow 6s infinite);
     }
     // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
   }
@@ -476,6 +484,18 @@ $marks-size: 30px;
   }
   100% {
     box-shadow: 0 0 2px rgb(255, 182, 44) inset;
+  }
+}
+
+@include keyframes(mercy-glow) {
+  0% {
+    box-shadow: 0 0 0px $quater inset;
+  }
+  50% {
+    box-shadow: 0 0 32px $quater inset;
+  }
+  100% {
+    box-shadow: 0 0 0px $quater inset;
   }
 }
 

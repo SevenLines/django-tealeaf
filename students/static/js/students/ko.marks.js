@@ -163,6 +163,11 @@
                                 sum = (i + 1) * 30 + ((i + 1) * 30) / 70 * 27;
                             }
                             break;
+                        case 'mercy':
+                            if (sum < 0) {
+                                sum = 0;
+                            }
+                            break;
                         default :
                             sum += item.mark();
                     }

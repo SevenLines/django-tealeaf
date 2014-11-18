@@ -142,6 +142,9 @@ class Discipline(models.Model):
                         s = i * 3
                     elif i == len(student_marks):  # а если в самом конце и у студента не меньше 100 дарует 1000 балов :D
                         s = i * 30 + float(i * 30) / 70 * 27
+                elif mark == Mark.MARK_MERCY:
+                    if s < 0:
+                        s = 0
                 else:
                     s += mark
         return s
@@ -517,6 +520,7 @@ class Mark(models.Model):
     MARK_FANTASTIC = MARK_BASE + 5
     MARK_INCREDIBLE = MARK_BASE + 6
     MARK_SHINING = MARK_BASE + (MARK_SPECIAL + 1)
+    MARK_MERCY = MARK_BASE + (MARK_SPECIAL + 2)
 
     MARKS = [
         # (MARK_NORMAL-3, 'terrible'),
@@ -531,6 +535,7 @@ class Mark(models.Model):
         (MARK_FANTASTIC, 'fantastic'),
         (MARK_INCREDIBLE, 'incredible'),
         (MARK_SHINING, 'shining'),
+        (MARK_MERCY, 'mercy'),
         # (MARK_NORMAL + 6, 'godlike'),
     ]
 
