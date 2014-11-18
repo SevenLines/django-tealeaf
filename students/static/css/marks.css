@@ -153,7 +153,7 @@
       background-color: white; }
       .marks-editor table.table-marks > tbody > tr.hover > td.mark, .marks-editor table.table-marks > thead > tr.hover > td.mark, .marks-editor table.table-marks > tfoot > tr.hover > td.mark {
         color: #000000; }
-        .marks-editor table.table-marks > tbody > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tbody > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tbody > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > thead > tr.hover > td.mark.excellent, .marks-editor table.table-marks > thead > tr.hover > td.mark.awesome, .marks-editor table.table-marks > thead > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole {
+        .marks-editor table.table-marks > tbody > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tbody > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tbody > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > tbody > tr.hover > td.mark.incredible, .marks-editor table.table-marks > thead > tr.hover > td.mark.excellent, .marks-editor table.table-marks > thead > tr.hover > td.mark.awesome, .marks-editor table.table-marks > thead > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > thead > tr.hover > td.mark.incredible, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.incredible {
           color: white;
           text-shadow: none; }
         .marks-editor table.table-marks > tbody > tr.hover > td.mark.empty, .marks-editor table.table-marks > thead > tr.hover > td.mark.empty, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.empty {
@@ -161,7 +161,9 @@
           box-shadow: none !important; }
         .marks-editor table.table-marks > tbody > tr.hover > td.mark.shining:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.shining:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.shining:after {
           content: "∞"; }
-        .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole:after {
+        .marks-editor table.table-marks > tbody > tr.hover > td.mark.mercy:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.mercy:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.mercy:after {
+          content: "○"; }
+        .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole :after, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole :after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole :after {
           content: '∅'; }
         .marks-editor table.table-marks > tbody > tr.hover > td.mark.absent:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.absent:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.absent:after {
           content: "-2";
@@ -300,6 +302,18 @@
     .marks-editor .mark.fantastic.laba {
       box-shadow: #2d060c 0 0 8px inset;
       background-color: #5b0b18; }
+  .marks-editor .mark.incredible {
+    background-color: #3a4408;
+    box-shadow: #131703 0 0 8px inset; }
+    .marks-editor .mark.incredible.test {
+      box-shadow: #170603 0 0 8px inset;
+      background-color: #441208; }
+    .marks-editor .mark.incredible.exam {
+      box-shadow: #031713 0 0 8px inset;
+      background-color: #08443a; }
+    .marks-editor .mark.incredible.laba {
+      box-shadow: #170306 0 0 8px inset;
+      background-color: #440812; }
   .marks-editor .mark.godlike {
     background-color: #272e05;
     box-shadow: black 0 0 8px inset; }
@@ -328,6 +342,13 @@
     -moz-animation: shinig-glow 4s infinite;
     -o-animation: shinig-glow 4s infinite;
     animation: shinig-glow 4s infinite; }
+  .marks-editor .mark.mercy {
+    background-color: white;
+    z-index: 100;
+    -webkit-animation: mercy-glow 6s infinite;
+    -moz-animation: mercy-glow 6s infinite;
+    -o-animation: mercy-glow 6s infinite;
+    animation: mercy-glow 6s infinite; }
 
 @-webkit-keyframes black-hole-glow {
   0% {
@@ -388,6 +409,36 @@
 
   100% {
     box-shadow: 0 0 2px #ffb62c inset; } }
+
+@-webkit-keyframes mercy-glow {
+  0% {
+    box-shadow: 0 0 0px #cef08a inset; }
+
+  50% {
+    box-shadow: 0 0 32px #cef08a inset; }
+
+  100% {
+    box-shadow: 0 0 0px #cef08a inset; } }
+
+@-moz-keyframes mercy-glow {
+  0% {
+    box-shadow: 0 0 0px #cef08a inset; }
+
+  50% {
+    box-shadow: 0 0 32px #cef08a inset; }
+
+  100% {
+    box-shadow: 0 0 0px #cef08a inset; } }
+
+@keyframes mercy-glow {
+  0% {
+    box-shadow: 0 0 0px #cef08a inset; }
+
+  50% {
+    box-shadow: 0 0 32px #cef08a inset; }
+
+  100% {
+    box-shadow: 0 0 0px #cef08a inset; } }
 
 .loader {
   margin: 0 auto;
