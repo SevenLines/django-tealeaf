@@ -2,8 +2,7 @@ body {
   background-color: gray; }
 
 .container {
-  border-bottom-color: #272727;
-  box-shadow: 0 0 10px #9a9a9a; }
+  border-bottom-color: #272727; }
   @media (min-width: 750px) {
     .container {
       border-color: #434343;
@@ -58,6 +57,15 @@ body {
   .students_plugin .student-photo img.student-photo-img:hover {
     box-shadow: 0 0 8px gray; }
 
+.marks-editor .students-list .hover .student .name {
+  border-left-color: gray; }
+.marks-editor .students-list .hover .student .god {
+  background: linear-gradient(135deg, rgba(128, 128, 128, 0.05) 25%, white 25%, white 50%, rgba(128, 128, 128, 0.05) 50%, rgba(128, 128, 128, 0.05) 75%, white 75%, white);
+  -webkit-background-size: 40px 40px;
+  -moz-background-size: 40px 40px;
+  -ms-background-size: 40px 40px;
+  background-size: 40px 40px; }
+
 body {
   background: linear-gradient(to bottom, rgba(238, 192, 82, 0), #272727);
   background-color: gray;
@@ -66,7 +74,7 @@ body {
   background-repeat: repeat, repeat; }
 
 .container {
-  box-shadow: 0px 4px 8px #f3d180; }
+  box-shadow: 0px 0px 8px #f3d180; }
 
 .collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
   background-color: #f3f3f3; }

@@ -1,4 +1,4 @@
-@import "theme_grey";
+@import "theme_grey_base";
 
 //@include theme_color(#4d473c);
 
@@ -13,7 +13,7 @@ body {
 }
 
 .container {
-  box-shadow: 0 0 16px $glow-color;
+//  box-shadow: 0 0 16px $glow-color;
 
   .left-board {
     background-color: grey;
