@@ -4,26 +4,6 @@
 {# Редактор лабов #}
 {% block basecontent %}
 
-    {% addtoblock "js" %}
-        <script src="{% static "js/labscontrol.js" %}"></script>
-    {% endaddtoblock %}
-
-    {% addtoblock "css" %}
-        <link rel="stylesheet" href="{% static "css/labs.css" %}"/>
-    {% endaddtoblock %}
-
-    {% addtoblock "top_js" %}
-        <script src="{% static "bower_components/jstree/dist/jstree.min.js" %}"></script>
-    {% endaddtoblock %}
-
-    {% addtoblock "css" %}
-        <link rel="stylesheet" href="{% static "bower_components/jstree/dist/themes/default/style.min.css" %}"/>
-    {% endaddtoblock %}
-
-    {% if user.is_authenticated %}
-        <script src="{% static "bower_components/jquery-form/jquery.form.js" %}"></script>
-    {% endif %}
-
     <div class="row">
         {% if user.is_authenticated %}
             <div class="col-md-7" id="labs-preview">
@@ -32,30 +12,9 @@
             <div class="col-md-5" id="tree">
                 {% include "labs-control/labs-tree.html" %}
             </div>
-        {% else %}
-            {% include "labs-control/labs-preview.html" %}
         {% endif %}
     </div>
 
-    <script>
-
-    </script>
-
-    {% addtoblock "js" %}
-    <script>
-        new LabsTree({
-            urls: {
-                labs: {
-                    update: "{% url "labs.views.labscontrol.update_lab" %}",
-                    list: "{% url "labs.views.labscontrol.labs" %}"
-                },
-                tasks: {
-                    update: "{% url "labs.views.labscontrol.update_task" %}"
-                },
-                tree: "{% url "labs.views.labscontrol.tree" %}"
-            }
-        })
-    </script>
-{% endaddtoblock %}
+    {% include "labs-control/labs-static.html" %}
 
 {% endblock %}

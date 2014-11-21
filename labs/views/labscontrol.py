@@ -28,7 +28,7 @@ def labs(request):
     return render(request, "labs-control/labs-preview.html", context)
 
 
-@login_required
+# @login_required
 def labs_editor(request):
     disciplines = list([model_to_dict(d) for d in Discipline.objects.all()])
     disciplines.append(model_to_dict(Discipline(id=-1, title="неактивные")))

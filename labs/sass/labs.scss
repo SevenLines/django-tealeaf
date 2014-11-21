@@ -162,14 +162,14 @@ $color_change_speed: 0.3s;
     box-shadow: none;
     border: none;
   }
-  h2 {
+  /*h2 {
     color: #003366;
     cursor: pointer;
-    border-bottom: dashed 1px;
+//    border-bottom: dashed 1px;
     display: inline-block;
     margin: 0 0 0.3em;
     padding: 0;
-  }
+  }*/
   h2:hover {
     color: black;
   }
@@ -179,12 +179,12 @@ $color_change_speed: 0.3s;
     padding-left: 2em;
     li.item {
       @include complex_style;
-      margin: 0.5em 0;
-      padding: 0.5em;
-      border-radius: 10px;
-      background: #EEEEEE;
-      border: #c0c0c0 1px solid;
-      position: relative;
+//      margin: 0.5em 0;
+//      padding: 0.5em;
+//      border-radius: 10px;
+//      background: #EEEEEE;
+//      border: #c0c0c0 1px solid;
+//      position: relative;
     }
     .user-info {
       display: inline-block;
@@ -221,8 +221,23 @@ $color_change_speed: 0.3s;
 
 }
 
+.task-counter {
+  float: left;
+  padding: 0.1em 0.4em;
+  margin-top: -2px;
+  margin-right: 6px;
+  margin-left: -10px;
+//  width: 24px;
+//  height: 24px;
+  border: 1px solid #c0c0c0;
+  border-radius: 30px;
+  background-color: white;
+  font-weight: bold;
+}
+
 .lab-description {
-  padding-bottom: 0.5em;
+  padding-bottom: 1em;
+  font-size: 1.2em;
 }
 
 /* end labs */

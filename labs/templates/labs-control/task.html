@@ -1,10 +1,16 @@
-{% if user.is_authenticated %}
-    <li class="task item {{ task.complexity }}"
+<li class="task item {{ task.complexity }}"
+    {% if user.is_authenticated and not is_plugin %}
         style="position: relative;"
         data-complexity="{{ task.complexity }}"
-        data-id="{{ task.id }}">
-        <div class="description" contenteditable="true"> {{ task.description|safe }}</div>
+        data-id="{{ task.id }}"
+    {% endif %}>
 
+    <div class="task-counter">{{ forloop.counter }}</div>
+    <div class="task-description" {% if user.is_authenticated and not is_plugin %}contenteditable="true"{% endif %}>
+         {{ task.description|safe }}
+    </div>
+
+    {% if user.is_authenticated and not is_plugin %}
         <div class="menu-task">
             <div class="menu-complexity">
                 {% for c in complex_choices %}
@@ -12,19 +18,9 @@
                     </div>
                 {% endfor %}
             </div>
-            <a href="{% url "labs.views.labscontrol.update_task" %}" class="save" style="margin-left: 8px">сохранить</a>
+            <a href="{% url "labs.views.labscontrol.update_task" %}" class="save"
+               style="margin-left: 8px">сохранить</a>
             <a href="{% url "labs.views.labscontrol.remove_task" task.id %}" class="remove text-danger pull-right">удалить</a>
         </div>
-    </li>
-{% else %}
-    {% if task.users %}
-        <ul class="user-info">
-            {% for u in task.users %}
-                <li><span style="float: right">{{ u.second_name }} {{ u.name }} | {{ u.group.title }}</span></li>
-            {% endfor %}
-        </ul>
     {% endif %}
-    <div id="task_content_{{ task.id }}">
-        {{ task.description|safe|default:"..." }}
-    </div>
-{% endif %}
+</li>

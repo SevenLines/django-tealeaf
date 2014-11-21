@@ -55,6 +55,7 @@
                         discipline_id: discipline_id,
                         csrfmiddlewaretoken: $.cookie("csrftoken")
                     }).done(function () {
+                        self.previewLabs(self.lastNode);
                         InterfaceAlerts.showSuccess();
                     }).fail(function () {
                         InterfaceAlerts.showFail();
@@ -69,6 +70,7 @@
                         csrfmiddlewaretoken: $.cookie("csrftoken")
                     }).done(function () {
                         InterfaceAlerts.showSuccess();
+
                     }).fail(function () {
                         InterfaceAlerts.showFail();
                     })
@@ -207,7 +209,7 @@
             $.post(self.urls.tasks.update, {
                 pk: task[0].dataset.id,
                 complexity: task[0].dataset.complexity,
-                description: task.find(".description").html(),
+                description: task.find(".task-description").html(),
                 csrfmiddlewaretoken: $.cookie("csrftoken")
             }).done(function () {
                 InterfaceAlerts.showSuccess();

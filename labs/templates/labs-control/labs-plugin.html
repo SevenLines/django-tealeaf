@@ -1,0 +1,16 @@
+{% load sekizai_tags static %}
+
+{% addtoblock "js" %}
+    <script src="{% static "js/labscontrol.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" href="{% static "css/labs.css" %}"/>
+{% endaddtoblock %}
+
+
+<div class="panel-group" id="labs-accordion">
+    {% for lab in labs %}
+        {% include "labs-control/lab.html" %}
+    {% endfor %}
+</div>

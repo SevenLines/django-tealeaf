@@ -1,22 +1,27 @@
-<div id="lab lab_{{ lab.id }}" class="panel panel-default lab">
-    <div class="panel-heading"
-        {% if not user.is_authenticated %}
-         data-parent="#labs-accordion"
+<div class="panel panel-default lab collapsable expanded">
+    <div class="panel-heading collapsable-header"
+        {% if not user.is_authenticated or is_plugin %}
+{#         data-parent="#labs-accordion"#}
          data-toggle="collapse"
          data-target="#lab_{{ lab.id }}"
         {% endif %}
          style="position: relative">
-        <h1 class="panel-title">
-            <span contenteditable="true" class="editable" data-pk="{{ lab.id }}" data-prop="title"
-                  data-url="{% url "labs.views.labscontrol.update_lab" %}">
+        <h2 class="panel-title">
+            <span   class="lab-title"
+                    {% if user.is_authenticated and not is_plugin %}
+                        contenteditable="true"
+                        data-pk="{{ lab.id }}"
+                        data-prop="title"
+                        data-url="{% url "labs.views.labscontrol.update_lab" %}"
+                    {% endif %}>
                         {% if user.is_authenticated %}
-                            <span class="lab-title" contenteditable="true">{{ lab.title|safe|default:"..." }}</span>
+                            {{ lab.title|safe|default:"..." }}
                         {% else %}
-                            <span class="lab-title" contenteditable="true">{{ lab.title|safe }}</span>
+                            {{ lab.title|safe }}
                         {% endif %}
             </span>
-        </h1>
-        {% if user.is_authenticated %}
+        </h2>
+        {% if user.is_authenticated and not is_plugin %}
             <div style="position: absolute; right: 4px; top:4px;">
                 <button class="form-button-update-lab btn btn-sm btn-success"
                         data-action="{% url "labs.views.labscontrol.update_lab" %}"
@@ -42,12 +47,16 @@
         {% endif %}
     </div>
 
-    <div class="panel-collapse {% if not user.is_authenticated %}collapse{% endif %} {% if show_opened %}in{% endif %}">
-        <div class="panel-body">
-            {% if user.is_authenticated %}
+{#    <div id="lab_{{ lab.id }}" class="panel-collapse#}
+{#    {% if not user.is_authenticated or is_plugin %}#}
+{#        collapse#}
+{#    {% endif %}#}
+{#    in">#}
+        <div class="panel-body collapsable-body">
+            {% if user.is_authenticated and not is_plugin  %}
                 <div class="lab-description" contenteditable="true">{{ lab.description|safe|default:"..." }}</div>
             {% else %}
-                <div class="lab-description" contenteditable="true">{{ lab.description|safe }}</div>
+                <div class="lab-description">{{ lab.description|safe }}</div>
             {% endif %}
 
             {% if lab.tasks %}
@@ -58,5 +67,5 @@
                 </ol>
             {% endif %}
         </div>
-    </div>
+{#    </div>#}
 </div>
