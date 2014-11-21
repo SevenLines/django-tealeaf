@@ -265,7 +265,7 @@ $marks-size: 30px;
               }
             }
             &.black-hole {
-              :after {
+              &:after {
                 content: '∅';
               }
             }
