@@ -240,4 +240,7 @@
         display: block;
         margin: 0 auto; }
 
+.lab-description {
+  padding-bottom: 0.5em; }
+
 /* end labs */

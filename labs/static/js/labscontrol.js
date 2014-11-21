@@ -4,6 +4,7 @@
 
         var self = this;
         self.lastNode = null;
+        self.lastNodeID = null;
 
         self.urls = {
             tasks: {
@@ -75,10 +76,24 @@
             }).on("select_node.jstree", function (e, info) {
                 self.previewLabs(info.node);
             });
+
+            //labs_tree.jstree("open_all");
+            var node = labs_tree.jstree("get_node", localStorage.lastNodeID);
+            labs_tree.jstree("close_all");
+            if (node) {
+                labs_tree.jstree("open_node", node);
+            }else {
+                labs_tree.jstree("open_all");
+            }
+            self.previewLabs(node);
         }
 
         self.previewLabs = function (node) {
             var request;
+            if (node == null || node.data == null) {
+                labs_preview.html("<h2>Ничего не выбрано</h2>");
+                return;
+            }
             if (node.data.lab_id) {
                 request = {
                     lab_id: node.data.lab_id
@@ -92,8 +107,9 @@
             }
             request.csrfmiddlewaretoken = $.cookie("csrftoken");
             $.post(self.urls.labs.list, request).done(function (r) {
-                $("#labs-preview").html(r);
+                labs_preview.html(r);
                 self.lastNode = node;
+                localStorage.lastNodeID = node.id;
             }).fail(function () {
                 InterfaceAlerts.showFail();
             });
@@ -116,9 +132,35 @@
 
         self.Init();
 
-        // добавление задачи и удаление лабы
-        labs_preview.on("click", ".form-button", function () {
+        //  удаление лабы
+        labs_preview.on("click", ".form-button-remove-lab", function () {
             MethodPostDataset(this, {
+                csrfmiddlewaretoken: $.cookie("csrftoken")
+            }).success(function () {
+                InterfaceAlerts.showSuccess();
+                self.previewLabs(self.lastNode);
+                self.ReloadTree();
+            });
+        });
+
+        // добавление задачи
+        labs_preview.on("click", ".form-button-add-task", function () {
+            MethodPostDataset(this, {
+                csrfmiddlewaretoken: $.cookie("csrftoken")
+            }).success(function () {
+                InterfaceAlerts.showSuccess();
+                self.previewLabs(self.lastNode);
+                self.ReloadTree();
+            });
+        });
+
+        // обновление лабы
+        labs_preview.on("click", ".form-button-update-lab", function () {
+            var description = $(this).parents(".lab").find(".lab-description").html();
+            var title = $(this).parents(".lab").find(".lab-title").html();
+            MethodPostDataset(this, {
+                description: description,
+                title: title,
                 csrfmiddlewaretoken: $.cookie("csrftoken")
             }).success(function () {
                 InterfaceAlerts.showSuccess();
@@ -131,7 +173,12 @@
         tree.on("submit", "#form-lab-add", function () {
             var discipline_id;
             if (self.lastNode) {
-               discipline_id = self.lastNode.data.discipline_id;
+                var parent_node = labs_tree.jstree("get_node", self.lastNode.parent);
+                if (self.lastNode.data.discipline_id) {
+                    discipline_id = self.lastNode.data.discipline_id;
+                } else if (parent_node && parent_node.data.discipline_id) {
+                    discipline_id = parent_node.data.discipline_id;
+                }
             }
             $.post(this.action, {
                 csrfmiddlewaretoken: $.cookie("csrftoken"),
@@ -139,7 +186,6 @@
                 description: this.title.description,
                 discipline_id: discipline_id
             }).done(function () {
-                console.log(self.lastNode);
                 self.ReloadTree();
             });
             return false;
@@ -157,7 +203,6 @@
         // сохранение задачи
         labs_preview.on("click", "a.save", function () {
             var task = $(this).parents(".task.item");
-            console.log(self.urls.tasks.update);
 
             $.post(self.urls.tasks.update, {
                 pk: task[0].dataset.id,
