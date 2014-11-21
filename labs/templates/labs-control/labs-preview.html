@@ -1,0 +1,10 @@
+{% load static %}
+
+{# Лабы в том виде в каком они выводятся для конечного пользователя #}
+
+<div class="panel-group" id="labs-accordion">
+    {% for lab in labs %}
+        {% include "labs-control/lab.html" %}
+    {% endfor %}
+</div>
+

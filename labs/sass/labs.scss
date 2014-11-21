@@ -1,3 +1,5 @@
+@import "const";
+
 $color_change_speed: 0.3s;
 
 @mixin transition {
@@ -39,6 +41,28 @@ $color_change_speed: 0.3s;
     background-color: #dddddd;
     code {
       color: gray;
+    }
+  }
+}
+
+.menu-task {
+  margin-top: 4px;
+  overflow: hidden;
+  .menu-complexity {
+    margin-right: 4px;
+    .menu-complexity-item {
+      background: white;
+      float: left;
+      width: 20px;
+      height: 20px;
+      margin-right: 2px;
+      border-radius: 10px;
+      border: 1px solid black;
+      @include complex_style();
+      &:hover {
+        border-width: 4px;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -111,6 +135,23 @@ $color_change_speed: 0.3s;
   -ms-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s;
+
+  > .panel-heading {
+    cursor: pointer;
+    -webkit-transition: all $color_change_speed*0.5;
+    -moz-transition: all $color_change_speed*0.5;
+    -ms-transition: all $color_change_speed*0.5;
+    -o-transition: all $color_change_speed*0.5;
+    transition: all $color_change_speed*0.5;
+    &:hover {
+      background-color: $common_color;
+      //      color: white;
+    }
+    //    &:focus {
+    //      color: #000000;
+    //    }
+
+  }
 
   code {
     color: black;

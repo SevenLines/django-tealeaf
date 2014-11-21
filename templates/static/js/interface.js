@@ -118,17 +118,32 @@ $(window).on("scroll resize touchmove", function () {
 });
 
 
-//
-//$(function () {
-//    var body = document.body;
-//    var timer;
-//    window.addEventListener('scroll', function () {
-//        clearTimeout(timer);
-//        if (!body.classList.contains('disable-hover')) {
-//            body.classList.add('disable-hover')
-//        }
-//        timer = setTimeout(function () {
-//            body.classList.remove('disable-hover');
-//        }, 500);
-//    }, false);
-//});
+(function () {
+    function sendData(el, jquery_method, data) {
+
+        if (el.dataset.action == 'undefined') {
+            throw new DOMException("action attribute should be defined: ");
+        }
+
+        if (data == 'undefined')
+            data = {};
+
+        for (var i in el.dataset) {
+            if (i != 'action') {
+                data[i] = el.dataset[i];
+            }
+        }
+
+        return jquery_method(el.dataset.action, data);
+    }
+
+    window.MethodPostDataset = function (element, data) {
+        return sendData(element, $.post, data);
+    };
+
+
+    window.MethodGetDataset = function (element, data) {
+        return sendData(element, $.get, data);
+    };
+
+})();

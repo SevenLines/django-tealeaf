@@ -1,0 +1,38 @@
+<div class="panel panel-default lab">
+    <div class="panel-heading" style="position: relative">
+        <h4 class="panel-title">
+            <span class="editable" data-pk="{{ lab.id }}" data-prop="title"
+                  data-url="{% url "labs.views.labscontrol.update_lab" %}">{{ lab.title }}</span>
+        </h4>
+        {% if user.is_authenticated %}
+        <div style="position: absolute; right: 4px; top:4px;">
+            <button class="form-button btn btn-sm btn-default"
+                    data-action="{% url "labs.views.labscontrol.add_task" lab.id %}"
+                    data-title="title"
+                    data-csrfmiddlewaretoken="{{ csrf_token }}"
+                    data-description="description"
+                    data-lab_id="{{ lab.id }}">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+
+            <button class="form-button btn btn-sm btn-danger"
+                    data-action="{% url "labs.views.labscontrol.remove_lab" lab.id %}">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="lab_{{ lab.id }}" class="panel-collapse collapse {% if show_opened %}in{% endif %}">
+        <div class="panel-body">
+            {{ lab.description|safe }}
+            {% if lab.tasks %}
+                <ol class="tasks">
+                    {% with lab.tasks as tasks %}
+                        {% include "labs-control/task-list.html" %}
+                    {% endwith %}
+                </ol>
+            {% endif %}
+        </div>
+    </div>
+</div>

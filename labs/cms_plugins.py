@@ -3,7 +3,15 @@
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from labs.models import TaskEx, LabEx
+from labs.models import TaskEx, LabEx, LabsList
+
+
+class LabsListPlugin(CMSPluginBase):
+    name = u'Список задач'
+    allow_children = False
+    model = LabsList
+    render_template = 'labs-control/labs.html'
+
 
 class TaskExPlugin(CMSPluginBase):
     name = u'Задача'
