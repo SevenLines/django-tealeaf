@@ -1,7 +1,7 @@
 {% load sekizai_tags static %}
 
 {% addtoblock "js" %}
-    <script src="{% static "js/labscontrol.js" %}"></script>
+    <script src="{% static "js/labscontrol/labscontrol.js" %}"></script>
 {% endaddtoblock %}
 
 {% addtoblock "css" %}
@@ -10,6 +10,35 @@
 
 {% addtoblock "top_js" %}
     <script src="{% static "bower_components/jstree/dist/jstree.min.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "top_js" %}
+    <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "top_js" %}
+    <script src="{% static "bower_components/knockout/dist/knockout.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "top_js" %}
+    <script src="{% static "js/ko.ckeditor.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "top_js" %}
+    <script src="{% static "js/ko.modal_confirm.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "top_js" %}
+    <script src="{% static "bower_components/select2/select2.min.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "top_js" %}
+    <script src="{% static "js/ko.select2.js" %}"></script>
+{% endaddtoblock %}
+
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" href="{% static "bower_components/select2/select2.css" %}"/>
 {% endaddtoblock %}
 
 {% addtoblock "css" %}
@@ -24,18 +53,22 @@
 {% if user.is_authenticated %}
     {% addtoblock "js" %}
         <script>
-            new LabsTree({
+            ko.applyBindings(new LabsTree({
                 urls: {
                     labs: {
                         update: "{% url "labs.views.labscontrol.update_lab" %}",
-                        list: "{% url "labs.views.labscontrol.labs" %}"
+                        list: "{% url "labs.views.labscontrol.labs" %}",
+                        list_json: "{% url "labs.views.labscontrol._json.labs" %}"
                     },
                     tasks: {
-                        update: "{% url "labs.views.labscontrol.update_task" %}"
+                        update: "{% url "labs.views.labscontrol.update_task" %}",
+                        users: "{% url "students.views.students.ajax.json.list_students" %}",
+                        add: "{% url "labs.views.labscontrol.add_task" %}"
                     },
-                    tree: "{% url "labs.views.labscontrol.tree" %}"
-                }
-            })
+                    tree: "{% url "labs.views.labscontrol.tree" %}",
+                },
+                ckeditor_config: "{% static "js/labscontrol/ckeditor-config.js" %}"
+            }));
         </script>
     {% endaddtoblock %}
 {% endif %}

@@ -6,7 +6,7 @@
     {% endif %}>
 
     <div class="task-counter">{{ forloop.counter }}</div>
-    <div class="task-description" {% if user.is_authenticated and not is_plugin %}contenteditable="true"{% endif %}>
+    <div id="task-description-{{ task.id }}" class="task-description" {% if user.is_authenticated and not is_plugin %}contenteditable="true"{% endif %}>
          {{ task.description|safe }}
     </div>
 

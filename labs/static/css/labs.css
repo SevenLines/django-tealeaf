@@ -237,6 +237,10 @@
   background-color: white;
   font-weight: bold; }
 
+.task-users-selector {
+  min-width: 200px;
+  margin-left: 0.5em; }
+
 .lab-description {
   padding-bottom: 1em;
   font-size: 1.2em; }

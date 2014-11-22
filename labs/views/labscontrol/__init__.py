@@ -117,13 +117,14 @@ def publish_lab(request):
 
 
 # ## TASKS ###
+@require_in_POST("lab_id")
 @login_required
-def add_task(request, lab_id):
+def add_task(request):
     task = Task()
     if 'description' in request.POST:
         task.description = request.POST['description']
 
-    task.lab_id = lab_id
+    task.lab_id = request.POST['lab_id']
 
     task.save()
 

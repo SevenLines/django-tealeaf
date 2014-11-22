@@ -27,7 +27,14 @@ class Lab(OrderedModel):
     # position = PositionField(collection='discipline')
     def to_dict(self):
         d = model_to_dict(self)
-        d['tasks'] = list([model_to_dict(t) for t in Task.objects.filter(lab=self).order_by("order", "id")])
+        d['tasks'] = []
+        for t in Task.objects.filter(lab=self).order_by("order", "id"):
+            dt = model_to_dict(t)
+            dt.update({
+                "users": list(t.users().values("id", "name", "second_name", "group__title"))
+            })
+            d['tasks'].append(dt)
+
         return d
 
     @staticmethod
@@ -67,9 +74,19 @@ class Task(OrderedModel):
     description = models.TextField(blank=True, default="")
     order_with_respect_to = "lab"
 
+    def users(self, year=0):
+        students = Student.objects
+
+        if year == 0:
+            year = current_year()
+
+        if year != -1:
+            students = students.filter(group__year=year)
+
+        return students.filter(taskstudent__task_id=self.pk).order_by("second_name")
+
     class Meta(OrderedModel.Meta):
         pass
-    # position = PositionField(collection='lab')
 
 
 class LabEx(CMSPlugin):
@@ -147,7 +164,8 @@ class TaskEx(CMSPlugin):
 
 
 class TaskStudent(Model):
-    taskex = ForeignKey(TaskEx)
-    student = ForeignKey(Student)
+    task = ForeignKey(Task, null=True)
+    taskex = ForeignKey(TaskEx, null=True)
+    student = ForeignKey(Student, null=True)
 
 

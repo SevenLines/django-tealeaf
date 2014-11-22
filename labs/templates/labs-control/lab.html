@@ -54,7 +54,7 @@
 {#    in">#}
         <div class="panel-body collapsable-body">
             {% if user.is_authenticated and not is_plugin  %}
-                <div class="lab-description" contenteditable="true">{{ lab.description|safe|default:"..." }}</div>
+                <div id="lab-description-{{ lab.id }}" class="lab-description" contenteditable="true">{{ lab.description|safe|default:"..." }}</div>
             {% else %}
                 <div class="lab-description">{{ lab.description|safe }}</div>
             {% endif %}

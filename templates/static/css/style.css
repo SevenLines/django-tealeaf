@@ -394,7 +394,8 @@ a[href$='.sqlite'] {
 
 /* lesson */
 .lesson {
-  font-size: 1em; }
+  font-size: 1em;
+  font-family: Verdana, Arial; }
   .lesson h1 {
     margin: 0px;
     font-weight: normal;

@@ -1,10 +1,58 @@
 {% load static %}
 
-{# Лабы в том виде в каком они выводятся для конечного пользователя #}
+<div class="panel-group" id="labs-accordion" data-bind="foreach: labs">
+    <div class="panel panel-default lab collapsable expanded">
+        <div class="panel-heading collapsable-header" style="position: relative">
+            <h2 class="panel-title">
+                <span class="lab-title" data-bind="text: title"></span>
+            </h2>
 
-<div class="panel-group" id="labs-accordion">
-    {% for lab in labs %}
-        {% include "labs-control/lab.html" %}
-    {% endfor %}
+            {% if user.is_authenticated and not is_plugin %}
+                <div style="position: absolute; right: 4px; top:4px;">
+                    <button class="form-button-update-lab btn btn-sm btn-success"
+                            data-action="{% url "labs.views.labscontrol.update_lab" %}"
+                            data-bind="click: Save">
+                        <span class="glyphicon glyphicon-save"></span>
+                    </button>
+
+                    <button class="form-button-add-task btn btn-sm btn-default"
+                            data-bind="click: AddTask">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+
+                    <button class="form-button-remove-lab btn btn-sm btn-danger">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="panel-body collapsable-body">
+            <div class="lab-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
+            <ol class="tasks" data-bind="foreach: tasks">
+                <li class="task item" style="position: relative;" data-bind="css: complexity">
+
+                    <div class="task-counter" data-bind="text: $index() + 1"></div>
+                    <div class="task-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
+
+                    <div class="menu-task">
+                        <div class="menu-complexity" data-bind="foreach: $root.complex_choices">
+                            <div class="menu-complexity-item"
+                                 data-bind="css: $data, attr: {value: $data}, click: $parent.setComplex"></div>
+                        </div>
+
+                        <div class="task-users-selector"></div>
+
+                        <a href="#" class="save" style="margin-left: 8px"
+                           data-bind="visible: changed,
+                           click: Save.bind($data, '{% url "labs.views.labscontrol.update_task" %}')">
+                            сохранить
+                        </a>
+                        <a href="#" class="text-danger pull-right" data-bind="click: Remove">удалить</a>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
 </div>
 

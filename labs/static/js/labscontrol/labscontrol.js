@@ -1,26 +1,136 @@
 (function () {
 
+    function Task(lab, data) {
+        var self = this;
+
+        self.lab = lab;
+        self.pk = data.id;
+        self.users = data.users;
+
+        self.description = ko.observable(data.description);
+        self.complexity = ko.observable(data.complexity);
+
+        self.base_values = {
+            description: ko.observable(data.description),
+            complexity: ko.observable(data.complexity)
+        };
+
+        self.changed = ko.pureComputed(function () {
+            return true;
+            return self.description() != self.base_values.description() ||
+                self.complexity() != self.base_values.complexity()
+        });
+
+        self.reset = function () {
+            self.base_values.description(self.description());
+            self.base_values.complexity(self.complexity());
+        };
+
+        self.setComplex = function (value) {
+            self.complexity(value);
+        };
+
+        self.Save = function (action) {
+            $.post(action, {
+                pk: self.pk,
+                description: self.description(),
+                complexity: self.complexity(),
+                csrfmiddlewaretoken: $.cookie("csrftoken")
+            }).done(function () {
+                self.reset();
+            });
+        };
+
+        self.Remove = function (i, event) {
+            lab.tasks.pop(self);
+        }
+    }
+
+    function Lab(model, data) {
+        var self = this;
+
+        self.model = model;
+        self.pk = data.id;
+        self.tasks = ko.observableArray([]);
+        self.description = ko.observable(data.description);
+        self.title = ko.observable(data.title);
+
+        self.Init = function (data) {
+            self.tasks.removeAll();
+            data.tasks.every(function (item) {
+                self.tasks.push(new Task(self, item));
+                return true;
+            })
+        };
+
+        function getLab(el) {
+            return $(el).parents(".lab")[0];
+        }
+
+        self.Save = function (i, event) {
+            var el = event.currentTarget;
+            var action = el.dataset.action;
+
+            self.tasks().every(function (item) {
+                if (item.changed()) {
+                    item.Save(model.urls.tasks.update);
+                }
+                return true;
+            });
+
+            $.post(action, {
+                title: self.title(),
+                pk: self.pk,
+                description: self.description(),
+                csrfmiddlewaretoken: $.cookie("csrftoken")
+            }).done(function () {
+                InterfaceAlerts.showSuccess();
+            })
+        };
+
+        self.AddTask = function () {
+            $.post(model.urls.tasks.add, {
+                lab_id: self.pk,
+                description: "...",
+                csrfmiddlewaretoken: $.cookie("csrftoken")
+            }).done(function () {
+                model.previewLabs();
+            });
+        };
+
+
+        self.Init(data);
+    }
+
     window.LabsTree = function (data) {
 
         var self = this;
+
+        self.labs = ko.observableArray();
+        self.cool = ko.observable("cool");
+
         self.lastNode = null;
         self.lastNodeID = null;
 
         self.urls = {
             tasks: {
-                update: data.urls.tasks.update
+                update: data.urls.tasks.update,
+                users: data.urls.tasks.users,
+                add: data.urls.tasks.add
             },
             labs: {
                 update: data.urls.labs.update,
-                list: data.urls.labs.list
+                list: data.urls.labs.list,
+                list_json: data.urls.labs.list_json
             },
             tree: data.urls.tree
         };
+        self.ckeditor_config = data.ckeditor_config;
 
         var labs_preview = $("#labs-preview");
         var tree = $("#tree");
         var labs_tree = $("#labs-tree");
-
+        self.complex_choices = ko.observableArray();
 
         function InitTree() {
             // настройка дерева
@@ -81,39 +191,54 @@
 
             //labs_tree.jstree("open_all");
             var node = labs_tree.jstree("get_node", localStorage.lastNodeID);
-            labs_tree.jstree("close_all");
             if (node) {
-                labs_tree.jstree("open_node", node);
-            }else {
-                labs_tree.jstree("open_all");
+                labs_tree.jstree("close_all");
+                if (node) {
+                    labs_tree.jstree("open_node", node);
+                } else {
+                    labs_tree.jstree("open_all");
+                }
+                self.previewLabs(node);
             }
-            self.previewLabs(node);
         }
 
         self.previewLabs = function (node) {
-            var request;
-            if (node == null || node.data == null) {
-                labs_preview.html("<h2>Ничего не выбрано</h2>");
-                return;
+            if (!node && self.lastNode) {
+                node = self.lastNode;
             }
-            if (node.data.lab_id) {
-                request = {
-                    lab_id: node.data.lab_id
-                }
-            } else if (node.data.discipline_id) {
-                request = {
-                    discipline_id: node.data.discipline_id
-                }
-            } else {
-                return;
+
+            if (!node) {
+                return false;
             }
-            request.csrfmiddlewaretoken = $.cookie("csrftoken");
-            $.post(self.urls.labs.list, request).done(function (r) {
-                labs_preview.html(r);
-                self.lastNode = node;
-                localStorage.lastNodeID = node.id;
-            }).fail(function () {
-                InterfaceAlerts.showFail();
+
+            $.get(self.urls.labs.list_json, {
+                discipline_id: node.data.discipline_id,
+                lab_id: node.data.lab_id
+            }).done(function (r) {
+                self.labs.removeAll();
+                self.complex_choices(r.complex_choices);
+                r.labs.every(function (item) {
+                    self.labs.push(new Lab(self, item));
+                    return true;
+                });
+                /*$(".task-users-selector").select2({
+                    minimumInputLength: 2,
+                    multiple: true,
+                    ajax: {
+                        url: self.urls.tasks.users,
+                        dataType: 'json',
+                        data: function (term, page) {
+                            return {
+                                filter: term, // search term
+                            };
+                        },
+                        results: function (data, page) {
+                            console.log(data);
+                            return {results: data};
+                        },
+                        cache: true
+                    }
+                });*/
             });
         };
 
@@ -156,20 +281,6 @@
             });
         });
 
-        // обновление лабы
-        labs_preview.on("click", ".form-button-update-lab", function () {
-            var description = $(this).parents(".lab").find(".lab-description").html();
-            var title = $(this).parents(".lab").find(".lab-title").html();
-            MethodPostDataset(this, {
-                description: description,
-                title: title,
-                csrfmiddlewaretoken: $.cookie("csrftoken")
-            }).success(function () {
-                InterfaceAlerts.showSuccess();
-                self.previewLabs(self.lastNode);
-                self.ReloadTree();
-            });
-        });
 
         // добавление лабы
         tree.on("submit", "#form-lab-add", function () {
@@ -202,24 +313,6 @@
             task.addClass(this.dataset.value);
         });
 
-        // сохранение задачи
-        labs_preview.on("click", "a.save", function () {
-            var task = $(this).parents(".task.item");
-
-            $.post(self.urls.tasks.update, {
-                pk: task[0].dataset.id,
-                complexity: task[0].dataset.complexity,
-                description: task.find(".task-description").html(),
-                csrfmiddlewaretoken: $.cookie("csrftoken")
-            }).done(function () {
-                InterfaceAlerts.showSuccess();
-            }).fail(function () {
-                InterfaceAlerts.showFail();
-            });
-
-            return false;
-        });
-
         // удаление задачи
         labs_preview.on("click", "a.remove", function () {
 
@@ -234,6 +327,6 @@
         });
 
     };
-})();
 
+})();
 
