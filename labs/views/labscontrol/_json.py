@@ -13,6 +13,6 @@ def labs(request):
 
     context = {
         'labs': labs_list if labs_list else [],
-        'complex_choices': list([t[0] for t in Task.COMPLEX_CHOICES]),
+        'complex_choices': Task.COMPLEX_CHOICES,
     }
     return HttpResponse(json.dumps(context), content_type="json")

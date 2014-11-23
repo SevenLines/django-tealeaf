@@ -18,11 +18,13 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #d1ff99;
-        box-shadow: 0 0 1px #83b14c !important; }
+        box-shadow: 0 0 3px #baff66 !important; }
         .menu-task .menu-complexity .menu-complexity-item.easy.selected {
-          border-color: #83b14c !important; }
+          border-color: #baff66 !important; }
         .menu-task .menu-complexity .menu-complexity-item.easy .user-info {
-          border-color: #83b14c !important; }
+          border-color: #baff66 !important; }
+        .menu-task .menu-complexity .menu-complexity-item.easy:hover {
+          background-color: #ddffb3; }
       .menu-task .menu-complexity .menu-complexity-item.medium {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -30,11 +32,13 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #ffff99;
-        box-shadow: 0 0 1px #ffde60 !important; }
+        box-shadow: 0 0 3px #ffff66 !important; }
         .menu-task .menu-complexity .menu-complexity-item.medium.selected {
-          border-color: #ffde60 !important; }
+          border-color: #ffff66 !important; }
         .menu-task .menu-complexity .menu-complexity-item.medium .user-info {
-          border-color: #ffde60 !important; }
+          border-color: #ffff66 !important; }
+        .menu-task .menu-complexity .menu-complexity-item.medium:hover {
+          background-color: #ffffb3; }
       .menu-task .menu-complexity .menu-complexity-item.hard {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -42,11 +46,13 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #ffca99;
-        box-shadow: 0 0 1px #ffa75c !important; }
+        box-shadow: 0 0 3px #ffaf66 !important; }
         .menu-task .menu-complexity .menu-complexity-item.hard.selected {
-          border-color: #ffa75c !important; }
+          border-color: #ffaf66 !important; }
         .menu-task .menu-complexity .menu-complexity-item.hard .user-info {
-          border-color: #ffa75c !important; }
+          border-color: #ffaf66 !important; }
+        .menu-task .menu-complexity .menu-complexity-item.hard:hover {
+          background-color: #ffd7b3; }
       .menu-task .menu-complexity .menu-complexity-item.nightmare {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -54,20 +60,19 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #ffbdb3;
-        box-shadow: 0 0 1px #ff7e79 !important; }
+        box-shadow: 0 0 3px #ff9180 !important; }
         .menu-task .menu-complexity .menu-complexity-item.nightmare.selected {
-          border-color: #ff7e79 !important; }
+          border-color: #ff9180 !important; }
         .menu-task .menu-complexity .menu-complexity-item.nightmare .user-info {
-          border-color: #ff7e79 !important; }
+          border-color: #ff9180 !important; }
+        .menu-task .menu-complexity .menu-complexity-item.nightmare:hover {
+          background-color: #ffd3cc; }
       .menu-task .menu-complexity .menu-complexity-item.selected {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
-        transition: all ease-in-out 0.3s;
-        background-color: #EEE; }
-        .menu-task .menu-complexity .menu-complexity-item.selected code {
-          color: gray; }
+        transition: all ease-in-out 0.3s; }
       .menu-task .menu-complexity .menu-complexity-item:hover {
         border-width: 4px;
         cursor: pointer; }
@@ -112,11 +117,13 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #d1ff99;
-        box-shadow: 0 0 1px #83b14c !important; }
+        box-shadow: 0 0 3px #baff66 !important; }
         .lab .tasks li.item.easy.selected {
-          border-color: #83b14c !important; }
+          border-color: #baff66 !important; }
         .lab .tasks li.item.easy .user-info {
-          border-color: #83b14c !important; }
+          border-color: #baff66 !important; }
+        .lab .tasks li.item.easy:hover {
+          background-color: #ddffb3; }
       .lab .tasks li.item.medium {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -124,11 +131,13 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #ffff99;
-        box-shadow: 0 0 1px #ffde60 !important; }
+        box-shadow: 0 0 3px #ffff66 !important; }
         .lab .tasks li.item.medium.selected {
-          border-color: #ffde60 !important; }
+          border-color: #ffff66 !important; }
         .lab .tasks li.item.medium .user-info {
-          border-color: #ffde60 !important; }
+          border-color: #ffff66 !important; }
+        .lab .tasks li.item.medium:hover {
+          background-color: #ffffb3; }
       .lab .tasks li.item.hard {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -136,11 +145,13 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #ffca99;
-        box-shadow: 0 0 1px #ffa75c !important; }
+        box-shadow: 0 0 3px #ffaf66 !important; }
         .lab .tasks li.item.hard.selected {
-          border-color: #ffa75c !important; }
+          border-color: #ffaf66 !important; }
         .lab .tasks li.item.hard .user-info {
-          border-color: #ffa75c !important; }
+          border-color: #ffaf66 !important; }
+        .lab .tasks li.item.hard:hover {
+          background-color: #ffd7b3; }
       .lab .tasks li.item.nightmare {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -148,20 +159,19 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #ffbdb3;
-        box-shadow: 0 0 1px #ff7e79 !important; }
+        box-shadow: 0 0 3px #ff9180 !important; }
         .lab .tasks li.item.nightmare.selected {
-          border-color: #ff7e79 !important; }
+          border-color: #ff9180 !important; }
         .lab .tasks li.item.nightmare .user-info {
-          border-color: #ff7e79 !important; }
+          border-color: #ff9180 !important; }
+        .lab .tasks li.item.nightmare:hover {
+          background-color: #ffd3cc; }
       .lab .tasks li.item.selected {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
-        transition: all ease-in-out 0.3s;
-        background-color: #EEE; }
-        .lab .tasks li.item.selected code {
-          color: gray; }
+        transition: all ease-in-out 0.3s; }
       .lab .tasks li.item:hover.easy {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -169,11 +179,13 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #d1ff99;
-        box-shadow: 0 0 1px #83b14c !important; }
+        box-shadow: 0 0 3px #baff66 !important; }
         .lab .tasks li.item:hover.easy.selected {
-          border-color: #83b14c !important; }
+          border-color: #baff66 !important; }
         .lab .tasks li.item:hover.easy .user-info {
-          border-color: #83b14c !important; }
+          border-color: #baff66 !important; }
+        .lab .tasks li.item:hover.easy:hover {
+          background-color: #ddffb3; }
       .lab .tasks li.item:hover.medium {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -181,11 +193,13 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #ffff99;
-        box-shadow: 0 0 1px #ffde60 !important; }
+        box-shadow: 0 0 3px #ffff66 !important; }
         .lab .tasks li.item:hover.medium.selected {
-          border-color: #ffde60 !important; }
+          border-color: #ffff66 !important; }
         .lab .tasks li.item:hover.medium .user-info {
-          border-color: #ffde60 !important; }
+          border-color: #ffff66 !important; }
+        .lab .tasks li.item:hover.medium:hover {
+          background-color: #ffffb3; }
       .lab .tasks li.item:hover.hard {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -193,11 +207,13 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #ffca99;
-        box-shadow: 0 0 1px #ffa75c !important; }
+        box-shadow: 0 0 3px #ffaf66 !important; }
         .lab .tasks li.item:hover.hard.selected {
-          border-color: #ffa75c !important; }
+          border-color: #ffaf66 !important; }
         .lab .tasks li.item:hover.hard .user-info {
-          border-color: #ffa75c !important; }
+          border-color: #ffaf66 !important; }
+        .lab .tasks li.item:hover.hard:hover {
+          background-color: #ffd7b3; }
       .lab .tasks li.item:hover.nightmare {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -205,11 +221,13 @@
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
         background-color: #ffbdb3;
-        box-shadow: 0 0 1px #ff7e79 !important; }
+        box-shadow: 0 0 3px #ff9180 !important; }
         .lab .tasks li.item:hover.nightmare.selected {
-          border-color: #ff7e79 !important; }
+          border-color: #ff9180 !important; }
         .lab .tasks li.item:hover.nightmare .user-info {
-          border-color: #ff7e79 !important; }
+          border-color: #ff9180 !important; }
+        .lab .tasks li.item:hover.nightmare:hover {
+          background-color: #ffd3cc; }
     .lab .tasks .user-info {
       display: inline-block;
       padding: 0.5em 1em;
@@ -217,13 +235,12 @@
       list-style: none;
       border-radius: 8px;
       background-color: white;
-      border: silver 2px solid;
-      box-shadow: 0 0 4px white;
+      border: silver 3px solid;
       min-width: 9em;
       text-align: center;
       margin-right: 0.25em;
       margin-left: 0.25em; }
-      @media (max-width: 479px) {
+      @media (max-width: 480px) {
         .lab .tasks .user-info {
           display: none; } }
     .lab .tasks .edit {

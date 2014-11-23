@@ -1,4 +1,5 @@
-<li class="task item {{ task.complexity }}{% if task.users %} selected{% endif %}">
+{% load ex_tags %}
+<li class="task item {{ complex_choice_tokens|get_item:task.complexity }}{% if task.users %} selected{% endif %}">
     {% if task.users %}
         <ul class="user-info">
             {% for u in task.users %}

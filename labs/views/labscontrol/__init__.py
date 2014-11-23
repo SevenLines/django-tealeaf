@@ -10,22 +10,20 @@ from app.utils import require_in_POST
 from labs.models import Lab, Task, TaskStudent
 from students.models import Discipline
 
-
-def labs(request):
-    labs_list = None
-    if "lab_id" in request.POST:
-        lab = Lab.objects.get(pk=int(request.POST['lab_id']))
-        labs_list = [lab.to_dict()]
-    elif "discipline_id" in request.POST:
-        labs_list = Lab.all_to_dict(int(request.POST['discipline_id']))
-
-    context = {
-        'labs': labs_list if labs_list else [],
-        'complex_choices': Task.COMPLEX_CHOICES,
-        'editable': request.user.is_authenticated() and labs_list is not None and len(labs_list) == 1,
-        'show_opened': labs_list is not None and len(labs_list) <= 1
-    }
-    return render(request, "labs-control/labs-preview.html", context)
+#
+# def labs(request):
+#     labs_list = None
+#     if "lab_id" in request.POST:
+#         lab = Lab.objects.get(pk=int(request.POST['lab_id']))
+#         labs_list = [lab.to_dict()]
+#     elif "discipline_id" in request.POST:
+#         labs_list = Lab.all_to_dict(int(request.POST['discipline_id']))
+#
+#     context = {
+#         'labs': labs_list if labs_list else [],
+#         'complex_choices': Task.COMPLEX_CHOICES,
+#     }
+#     return render(request, "labs-control/labs-preview.html", context)
 
 
 @login_required
@@ -152,7 +150,9 @@ def update_task(request):
     if 'complexity' in request.POST:
         task.complexity = request.POST['complexity']
 
-    if 'users[]' in request.POST:
+    if 'remove_users' in request.POST and int(request.POST['remove_users']) == 1:
+        TaskStudent.objects.filter(task=task.pk).delete()
+    elif 'users[]' in request.POST:
         TaskStudent.objects.filter(task=task.pk).delete()
         for u_id in request.POST.getlist("users[]"):
             tu = TaskStudent()

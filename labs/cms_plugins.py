@@ -3,7 +3,7 @@
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from labs.models import TaskEx, LabEx, LabsList, Lab
+from labs.models import TaskEx, LabEx, LabsList, Lab, Task
 
 
 class LabsListPlugin(CMSPluginBase):
@@ -16,6 +16,7 @@ class LabsListPlugin(CMSPluginBase):
     def render(self, context, instance, placeholder):
         context['labs'] = Lab.all_to_dict(instance.discipline.pk)
         context['is_plugin'] = True
+        context['complex_choice_tokens'] = dict(Task.COMPLEX_CHOICES)
         return context
 
 

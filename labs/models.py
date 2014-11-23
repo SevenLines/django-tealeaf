@@ -29,7 +29,7 @@ class Lab(OrderedModel):
     def to_dict(self, for_lab_control=False):
         d = model_to_dict(self)
         d['tasks'] = []
-        for t in Task.objects.filter(lab=self).order_by("order", "id"):
+        for t in Task.objects.filter(lab=self).order_by("complexity", "id"):
             dt = model_to_dict(t)
             if for_lab_control:
                 dt.update({
@@ -58,28 +58,28 @@ class Lab(OrderedModel):
         pass
 
 
-class Task(OrderedModel):
+class Task(models.Model):
     lab = models.ForeignKey(Lab)
-    UNDEFINED = ""
-    EASY = "easy"
-    MEDIUM = "medium"
-    HARD = "hard"
-    NIGHTMARE = "nightmare"
+
+    UNDEFINED = 0
+    EASY = UNDEFINED + 1
+    MEDIUM = UNDEFINED + 2
+    HARD = UNDEFINED + 3
+    NIGHTMARE = UNDEFINED + 4
 
     COMPLEX_CHOICES = (
-        (UNDEFINED, _("")),
-        (EASY, _("Easy")),
-        (MEDIUM, _("Medium")),
-        (HARD, _("Hard")),
-        (NIGHTMARE, _("Nightmare")),
+        (UNDEFINED, ""),
+        (EASY, "easy"),
+        (MEDIUM, "medium"),
+        (HARD, "hard"),
+        (NIGHTMARE, "nightmare"),
     )
 
-    complexity = models.CharField(max_length=20,
-                                  choices=COMPLEX_CHOICES,
-                                  default=EASY)
+    complexity = models.IntegerField(max_length=20,
+                                     choices=COMPLEX_CHOICES,
+                                     default=EASY)
 
     description = models.TextField(blank=True, default="")
-    order_with_respect_to = "lab"
 
     def users(self, year=0):
         students = Student.objects
@@ -91,9 +91,6 @@ class Task(OrderedModel):
             students = students.filter(group__year=year)
 
         return students.filter(taskstudent__task_id=self.pk).order_by("second_name")
-
-    class Meta(OrderedModel.Meta):
-        pass
 
 
 class LabEx(CMSPlugin):

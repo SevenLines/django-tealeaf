@@ -12,7 +12,7 @@ urlpatterns = patterns('labs.views.labscontrol',
     url(r'labs-editor/tasks/remove$', 'remove_task'),
     url(r'labs-editor/tasks/add$', 'add_task'),
 
-    url(r'labs$', 'labs'),
+    # url(r'labs$', 'labs'),
     url(r'labs-tree$', 'tree'),
     url(r'$', 'labs_editor'),
 )

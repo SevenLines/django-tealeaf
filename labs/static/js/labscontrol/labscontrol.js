@@ -29,8 +29,18 @@
         };
 
         self.setComplex = function (value) {
-            self.complexity(value);
+            self.complexity(value[0]);
         };
+
+        self.complex_css = ko.pureComputed(function () {
+            for (var i=0;i<lab.model.complex_choices().length;++i) {
+                var c = lab.model.complex_choices()[i];
+                if (c[0] == self.complexity()) {
+                    return c[1];
+                }
+            }
+            return '';
+        });
 
         self.Save = function (action) {
             $.post(action, {
@@ -40,9 +50,19 @@
                 users: self.users().map(function (i) {
                     return i.id
                 }),
+                remove_users: self.users().length == 0 ? 1 : 0,
                 csrfmiddlewaretoken: $.cookie("csrftoken")
             }).done(function () {
                 self.reset();
+                console.log(self.complexity());
+                lab.tasks.sort(function (left, right) {
+                    if (left.complexity() == right.complexity()){
+                        return left.pk == right.pk ? 0 : left.pk < right.pk ? -1 : 1;
+                    } else {
+                        return left.complexity() < right.complexity()? -1 : 1;
+                    }
+
+                });
             });
         };
 
@@ -108,6 +128,7 @@
                 csrfmiddlewaretoken: $.cookie("csrftoken")
             }).done(function () {
                 model.previewLabs();
+                model.ReloadTree();
             });
         };
 
@@ -147,7 +168,6 @@
             labs: {
                 update: data.urls.labs.update,
                 remove: data.urls.labs.remove,
-                list: data.urls.labs.list,
                 list_json: data.urls.labs.list_json
             },
             tree: data.urls.tree
@@ -249,6 +269,7 @@
                     self.labs.push(new Lab(self, item));
                     return true;
                 });
+                self.lastNode = node;
             });
         };
 

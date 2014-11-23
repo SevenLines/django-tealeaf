@@ -30,7 +30,7 @@
         <div class="panel-body">
             <div class="lab-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
             <ol class="tasks" data-bind="foreach: tasks">
-                <li class="task item" style="position: relative;" data-bind="css: complexity">
+                <li class="task item" style="position: relative;" data-bind="css: complex_css">
 
                     <div class="task-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
 
@@ -46,7 +46,7 @@
                         <!-- СЛОЖНОСТЬ ЗАДАЧИ -->
                         <div class="menu-complexity" data-bind="foreach: $root.complex_choices">
                             <div class="menu-complexity-item"
-                                 data-bind="css: $data, attr: {value: $data},
+                                 data-bind="css: $data[1], attr: {value: $data[1]},
                                   click: $parent.setComplex,
                                   visible: $parent.complexity() != $data"></div>
                         </div>

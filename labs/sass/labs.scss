@@ -13,35 +13,46 @@ $color_change_speed: 0.3s;
 @mixin complexity($bg, $fg) {
   @include transition;
   background-color: $bg;
-  box-shadow: 0 0 1px $fg !important;
+  box-shadow: 0 0 3px $fg !important;
   &.selected {
     border-color: $fg !important;
+//    background-color: lighten($bg, 5);
   }
   .user-info {
     border-color: $fg !important;
   }
+  &:hover {
+    background-color: lighten($bg, 5);
+  }
+}
+
+@mixin choices($lighten:0) {
+  $darken: 10;
+  &.easy {
+    $clr: #d1ff99;
+    @include complexity(#d1ff99, darken($clr, $darken));
+  }
+  &.medium {
+    $clr: #ffff99;
+    @include complexity(#ffff99, darken($clr, $darken));
+  }
+  &.hard {
+    $clr: #ffca99;
+    @include complexity(#ffca99, darken($clr, $darken));
+  }
+  &.nightmare {
+    $clr: #ffbdb3;
+    @include complexity(#ffbdb3, darken($clr, $darken));
+  }
 }
 
 @mixin complex_style {
-  &.easy {
-    @include complexity(#d1ff99, #83b14c);
-  }
-  &.medium {
-    @include complexity(#ffff99, #ffde60);
-  }
-  &.hard {
-    @include complexity(#ffca99, #ffa75c);
-  }
-  &.nightmare {
-    @include complexity(#ffbdb3, #ff7e79);
-  }
-
+  @include choices;
   &.selected {
     @include transition;
-    background-color: #EEE;
-    code {
-      color: gray;
-    }
+//    background-color: #EEE;
+//    background-image: url("images/stripe_40px_135deg.png");
+//    @include background_size(60px 60px);
   }
 }
 
@@ -185,22 +196,11 @@ $color_change_speed: 0.3s;
       background: #EEEEEE;
       border: #c0c0c0 1px solid;
       &:hover {
-        &.easy {
-          @include complexity(#d1ff99, #83b14c);
-        }
-        &.medium {
-          @include complexity(#ffff99, #ffde60);
-        }
-        &.hard {
-          @include complexity(#ffca99, #ffa75c);
-        }
-        &.nightmare {
-          @include complexity(#ffbdb3, #ff7e79);
-        }
+        @include choices;
       }
     }
     .user-info {
-      @media (max-width: 479px) {
+      @media (max-width: 480px) {
         display: none;
       }
       display: inline-block;
@@ -209,8 +209,8 @@ $color_change_speed: 0.3s;
       list-style: none;
       border-radius: 8px;
       background-color: white;
-      border: silver 2px solid;
-      box-shadow: 0 0 4px white;
+      border: silver 3px solid;
+      //      box-shadow: 0 0 4px white;
       min-width: 9em;
       text-align: center;
       margin-right: 0.25em;
@@ -262,7 +262,7 @@ $color_change_speed: 0.3s;
 
 .lab-description {
   padding-bottom: 1em;
-//  font-size: 1.2em;
+  //  font-size: 1.2em;
 }
 
 /* end labs */
