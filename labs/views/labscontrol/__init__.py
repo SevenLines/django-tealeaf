@@ -28,7 +28,7 @@ def labs(request):
     return render(request, "labs-control/labs-preview.html", context)
 
 
-# @login_required
+@login_required
 def labs_editor(request):
     disciplines = list([model_to_dict(d) for d in Discipline.objects.all()])
     disciplines.append(model_to_dict(Discipline(id=-1, title="неактивные")))
@@ -71,11 +71,10 @@ def add_lab(request):
 
     return HttpResponse()
 
-
+@require_in_POST("pk")
 @login_required
-def remove_lab(request, id):
-    Lab.objects.get(pk=id).delete()
-
+def remove_lab(request):
+    Lab.objects.get(pk=int(request.POST['pk'])).delete()
     return HttpResponse()
 
 
@@ -131,8 +130,10 @@ def add_task(request):
     return HttpResponse()
 
 
-def remove_task(request, id):
-    Task.objects.get(pk=id).delete()
+@login_required
+@require_in_POST("pk")
+def remove_task(request):
+    Task.objects.get(pk=int(request.POST['pk'])).delete()
     return HttpResponse()
 
 

@@ -10,7 +10,7 @@ class LabsListPlugin(CMSPluginBase):
     name = u'Список лабораторных заданий'
     allow_children = False
     model = LabsList
-    render_template = 'labs-control/labs-plugin.html'
+    render_template = 'labs-control/cms-plugin/labs-plugin.html'
     cache = False
 
     def render(self, context, instance, placeholder):

@@ -17,7 +17,7 @@
         };
 
         self.changed = ko.pureComputed(function () {
-            var users_eq = JSON.stringify(self.users())==JSON.stringify(self.base_values.users());
+            var users_eq = JSON.stringify(self.users()) == JSON.stringify(self.base_values.users());
             return !users_eq || self.description() != self.base_values.description() ||
                 self.complexity() != self.base_values.complexity()
         });
@@ -37,7 +37,9 @@
                 pk: self.pk,
                 description: self.description(),
                 complexity: self.complexity(),
-                users: self.users().map(function(i) {return i.id}),
+                users: self.users().map(function (i) {
+                    return i.id
+                }),
                 csrfmiddlewaretoken: $.cookie("csrftoken")
             }).done(function () {
                 self.reset();
@@ -45,7 +47,15 @@
         };
 
         self.Remove = function (i, event) {
-            lab.tasks.pop(self);
+            lab.model.modalConfirm.message("<h2>Удалить задачу:</h2>" + self.description());
+            lab.model.modalConfirm.show(function () {
+                $.post(lab.model.urls.tasks.remove, {
+                    pk: self.pk,
+                    csrfmiddlewaretoken: $.cookie("csrftoken")
+                }).done(function () {
+                    lab.tasks.remove(self);
+                })
+            });
         }
     }
 
@@ -101,6 +111,18 @@
             });
         };
 
+        self.Remove = function () {
+            model.modalConfirm.message("Удалить лабораторную?<h2>" + self.title() + "</h2>");
+            model.modalConfirm.show(function() {
+                $.post(model.urls.labs.remove, {
+                    pk: self.pk,
+                    csrfmiddlewaretoken: $.cookie("csrftoken")
+                }).done(function () {
+                    model.previewLabs();
+                    model.ReloadTree();
+                })
+            })
+        };
 
         self.Init(data);
     }
@@ -119,16 +141,19 @@
             tasks: {
                 update: data.urls.tasks.update,
                 users: data.urls.tasks.users,
-                add: data.urls.tasks.add
+                add: data.urls.tasks.add,
+                remove: data.urls.tasks.remove
             },
             labs: {
                 update: data.urls.labs.update,
+                remove: data.urls.labs.remove,
                 list: data.urls.labs.list,
                 list_json: data.urls.labs.list_json
             },
             tree: data.urls.tree
         };
         self.ckeditor_config = data.ckeditor_config;
+        self.modalConfirm = new ModalConfirm({variable_name: "modalConfirm"});
 
         var labs_preview = $("#labs-preview");
         var tree = $("#tree");
@@ -224,27 +249,6 @@
                     self.labs.push(new Lab(self, item));
                     return true;
                 });
-                /*$(".task-users-selector").select2({
-                    minimumInputLength: 2,
-                    multiple: true,
-                    ajax: {
-                        url: self.urls.tasks.users,
-                        dataType: 'json',
-                        data: function (term, page) {
-                            return {
-                                filter: term, // search term
-                            };
-                        },
-                        results: function (data, page) {
-                            //console.log(data);
-                            return {results: data};
-                        },
-                        cache: true
-                    }
-                });
-                $(".task-users-selector").on("change", function () {
-                    console.log($(this).select2("data"));
-                });*/
             });
         };
 
@@ -264,29 +268,6 @@
         };
 
         self.Init();
-
-        //  удаление лабы
-        labs_preview.on("click", ".form-button-remove-lab", function () {
-            MethodPostDataset(this, {
-                csrfmiddlewaretoken: $.cookie("csrftoken")
-            }).success(function () {
-                InterfaceAlerts.showSuccess();
-                self.previewLabs(self.lastNode);
-                self.ReloadTree();
-            });
-        });
-
-        // добавление задачи
-        labs_preview.on("click", ".form-button-add-task", function () {
-            MethodPostDataset(this, {
-                csrfmiddlewaretoken: $.cookie("csrftoken")
-            }).success(function () {
-                InterfaceAlerts.showSuccess();
-                self.previewLabs(self.lastNode);
-                self.ReloadTree();
-            });
-        });
-
 
         // добавление лабы
         tree.on("submit", "#form-lab-add", function () {
@@ -309,29 +290,6 @@
             });
             return false;
         });
-
-        // смена сложности задачи
-        labs_preview.on("click", ".menu-complexity-item", function () {
-            var task = $(this).parents(".task.item");
-
-            task.removeClass(task[0].dataset.complexity);
-            task[0].dataset.complexity = this.dataset.value;
-            task.addClass(this.dataset.value);
-        });
-
-        // удаление задачи
-        labs_preview.on("click", "a.remove", function () {
-
-            $.get(this.href).done(function () {
-                InterfaceAlerts.showSuccess();
-                self.previewLabs(self.lastNode);
-            }).fail(function () {
-                InterfaceAlerts.showFail();
-            });
-
-            return false;
-        });
-
     };
 
 })();

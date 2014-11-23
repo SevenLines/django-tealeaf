@@ -35,14 +35,16 @@
                     labs: {
                         update: "{% url "labs.views.labscontrol.update_lab" %}",
                         list: "{% url "labs.views.labscontrol.labs" %}",
-                        list_json: "{% url "labs.views.labscontrol._json.labs" %}"
+                        list_json: "{% url "labs.views.labscontrol._json.labs" %}",
+                        remove: "{% url "labs.views.labscontrol.remove_lab" %}"
                     },
                     tasks: {
                         update: "{% url "labs.views.labscontrol.update_task" %}",
                         users: "{% url "students.views.students.ajax.json.list_students" %}",
-                        add: "{% url "labs.views.labscontrol.add_task" %}"
+                        add: "{% url "labs.views.labscontrol.add_task" %}",
+                        remove: "{% url "labs.views.labscontrol.remove_task" %}"
                     },
-                    tree: "{% url "labs.views.labscontrol.tree" %}",
+                    tree: "{% url "labs.views.labscontrol.tree" %}"
                 },
                 ckeditor_config: "{% static "js/labscontrol/ckeditor-config.js" %}"
             }));

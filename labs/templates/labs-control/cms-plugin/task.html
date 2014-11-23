@@ -2,7 +2,7 @@
     {% if task.users %}
         <ul class="user-info">
             {% for u in task.users %}
-                <li><span style="float: right">{{ u.second_name }} {{ u.name }} | {{ u.group.title }}</span></li>
+                <li><span style="float: right">{{ u.second_name }} {{ u.name.0 }}. | {{ u.group.title }}</span></li>
             {% endfor %}
         </ul>
     {% endif %}

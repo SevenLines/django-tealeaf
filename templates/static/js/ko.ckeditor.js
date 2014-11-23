@@ -8,8 +8,6 @@ ko.bindingHandlers.ckeditorInline = {
         }
 
         var options = allBindingsAccessor.get("ckeditorOptions") || {};
-        var ckUpdate = allBindingsAccessor.get('ckUpdate') || function () {
-            };
 
         options.floatSpaceDockedOffsetY = 0;
         options.extraPlugins = 'sourcedialog';
