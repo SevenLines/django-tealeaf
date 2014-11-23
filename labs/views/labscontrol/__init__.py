@@ -1,5 +1,6 @@
 # coding=utf-8
 # ## LABS ###
+import json
 
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
@@ -125,7 +126,7 @@ def add_task(request):
 
     task.save()
 
-    return HttpResponse()
+    return HttpResponse(json.dumps(model_to_dict(task)), content_type="json")
 
 
 @login_required
