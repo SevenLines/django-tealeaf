@@ -23,6 +23,7 @@ ko.bindingHandlers.ckeditorInline = {
         $(element).on("click", function () {
             if (!CKEDITOR.instances[element.id]) {
                 var editor = CKEDITOR.inline(element.id, options);
+                editor.config.enterMode = CKEDITOR.ENTER_BR;
 
                 // handle value changed
                 editor.on('change', function () {

@@ -223,6 +223,9 @@
       text-align: center;
       margin-right: 0.25em;
       margin-left: 0.25em; }
+      @media (max-width: 479px) {
+        .lab .tasks .user-info {
+          display: none; } }
     .lab .tasks .edit {
       -webkit-transition: all 0.3s;
       -moz-transition: all 0.3s;
@@ -298,7 +301,6 @@
   clear: both; }
 
 .lab-description {
-  padding-bottom: 1em;
-  font-size: 1.2em; }
+  padding-bottom: 1em; }
 
 /* end labs */

@@ -200,6 +200,9 @@ $color_change_speed: 0.3s;
       }
     }
     .user-info {
+      @media (max-width: 479px) {
+        display: none;
+      }
       display: inline-block;
       padding: 0.5em 1em;
       float: right;
@@ -259,7 +262,7 @@ $color_change_speed: 0.3s;
 
 .lab-description {
   padding-bottom: 1em;
-  font-size: 1.2em;
+//  font-size: 1.2em;
 }
 
 /* end labs */
