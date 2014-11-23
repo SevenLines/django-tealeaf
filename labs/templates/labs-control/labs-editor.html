@@ -1,8 +1,8 @@
 {% load static %}
 
 <div class="panel-group" id="labs-accordion" data-bind="foreach: labs">
-    <div class="panel panel-default lab collapsable expanded">
-        <div class="panel-heading collapsable-header" style="position: relative">
+    <div class="panel panel-default lab expanded">
+        <div class="panel-heading" style="position: relative">
             <h2 class="panel-title">
                 <span class="lab-title" data-bind="text: title"></span>
             </h2>
@@ -27,12 +27,11 @@
             {% endif %}
         </div>
 
-        <div class="panel-body collapsable-body">
+        <div class="panel-body">
             <div class="lab-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
             <ol class="tasks" data-bind="foreach: tasks">
                 <li class="task item" style="position: relative;" data-bind="css: complexity">
 
-                    <div class="task-counter" data-bind="text: $index() + 1"></div>
                     <div class="task-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
 
                     <div class="menu-task">

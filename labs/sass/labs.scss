@@ -38,7 +38,7 @@ $color_change_speed: 0.3s;
 
   &.selected {
     @include transition;
-    background-color: #dddddd;
+    background-color: #EEE;
     code {
       color: gray;
     }
@@ -179,12 +179,25 @@ $color_change_speed: 0.3s;
     padding-left: 2em;
     li.item {
       @include complex_style;
-//      margin: 0.5em 0;
-//      padding: 0.5em;
-//      border-radius: 10px;
-//      background: #EEEEEE;
-//      border: #c0c0c0 1px solid;
-//      position: relative;
+      margin: 0.5em 0;
+      padding: 0.5em;
+      border-radius: 10px;
+      background: #EEEEEE;
+      border: #c0c0c0 1px solid;
+      &:hover {
+        &.easy {
+          @include complexity(#d1ff99, #83b14c);
+        }
+        &.medium {
+          @include complexity(#ffff99, #ffde60);
+        }
+        &.hard {
+          @include complexity(#ffca99, #ffa75c);
+        }
+        &.nightmare {
+          @include complexity(#ffbdb3, #ff7e79);
+        }
+      }
     }
     .user-info {
       display: inline-block;
@@ -227,8 +240,8 @@ $color_change_speed: 0.3s;
   margin-top: -2px;
   margin-right: 6px;
   margin-left: -10px;
-//  width: 24px;
-//  height: 24px;
+  //  width: 24px;
+  //  height: 24px;
   border: 1px solid #c0c0c0;
   border-radius: 30px;
   background-color: white;
@@ -238,9 +251,9 @@ $color_change_speed: 0.3s;
 .task-users-selector {
   display: block;
   width: 100%;
-//  margin-left: 0.5em;
-  padding: 0.5em 0 ;
-//  float: left;
+  //  margin-left: 0.5em;
+  padding: 0.5em 0;
+  //  float: left;
   clear: both;
 }
 

@@ -25,30 +25,34 @@ class Lab(OrderedModel):
     title = models.CharField(max_length=200, blank=True, default="")
     order_with_respect_to = "discipline"
     # position = PositionField(collection='discipline')
-    def to_dict(self):
+
+    def to_dict(self, for_lab_control=False):
         d = model_to_dict(self)
         d['tasks'] = []
         for t in Task.objects.filter(lab=self).order_by("order", "id"):
             dt = model_to_dict(t)
-            dt.update({
-                "users": list([{
-                    'id': i['id'],
-                    'text': "%s %s | %s" % (i['name'], i['second_name'], i['group__title'])
-                } for i in t.users().values("id", "name", "second_name", "group__title")])
-            })
+            if for_lab_control:
+                dt.update({
+                    "users": list([{
+                        'id': i['id'],
+                        'text': "%s %s | %s" % (i['name'], i['second_name'], i['group__title'])
+                    } for i in t.users().values("id", "name", "second_name", "group__title")])
+                })
+            else:
+                dt["users"] = t.users()
             d['tasks'].append(dt)
 
         return d
 
     @staticmethod
-    def all_to_dict(discipline_id=0):
+    def all_to_dict(discipline_id=0, for_lab_control=False):
         if discipline_id == 0:
             labs = Lab.objects.all()
         elif discipline_id == -1:
             labs = Lab.objects.filter(discipline_id=None)
         else:
             labs = Lab.objects.filter(discipline_id=discipline_id)
-        return list([l.to_dict() for l in labs.order_by("order", "id")])
+        return list([l.to_dict(for_lab_control) for l in labs.order_by("order", "id")])
 
     class Meta(OrderedModel.Meta):
         pass

@@ -1,71 +1,26 @@
-<div class="panel panel-default lab collapsable expanded">
-    <div class="panel-heading collapsable-header"
-        {% if not user.is_authenticated or is_plugin %}
-{#         data-parent="#labs-accordion"#}
+<div class="panel panel-default lab  expanded">
+    <div class="panel-heading "
          data-toggle="collapse"
-         data-target="#lab_{{ lab.id }}"
-        {% endif %}
-         style="position: relative">
+         data-target="#lab_{{ lab.id }}">
         <h2 class="panel-title">
-            <span   class="lab-title"
-                    {% if user.is_authenticated and not is_plugin %}
-                        contenteditable="true"
-                        data-pk="{{ lab.id }}"
-                        data-prop="title"
-                        data-url="{% url "labs.views.labscontrol.update_lab" %}"
-                    {% endif %}>
-                        {% if user.is_authenticated %}
-                            {{ lab.title|safe|default:"..." }}
-                        {% else %}
-                            {{ lab.title|safe }}
-                        {% endif %}
+            <span class="lab-title">
+                {{ lab.title|safe }}
             </span>
         </h2>
-        {% if user.is_authenticated and not is_plugin %}
-            <div style="position: absolute; right: 4px; top:4px;">
-                <button class="form-button-update-lab btn btn-sm btn-success"
-                        data-action="{% url "labs.views.labscontrol.update_lab" %}"
-                        data-csrfmiddlewaretoken="{{ csrf_token }}"
-                        data-pk="{{ lab.id }}">
-                    <span class="glyphicon glyphicon-save"></span>
-                </button>
-
-                <button class="form-button-add-task btn btn-sm btn-default"
-                        data-action="{% url "labs.views.labscontrol.add_task" lab.id %}"
-                        data-title="title"
-                        data-csrfmiddlewaretoken="{{ csrf_token }}"
-                        data-description="description"
-                        data-lab_id="{{ lab.id }}">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-
-                <button class="form-button-remove-lab btn btn-sm btn-danger"
-                        data-action="{% url "labs.views.labscontrol.remove_lab" lab.id %}">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </button>
-            </div>
-        {% endif %}
     </div>
 
-{#    <div id="lab_{{ lab.id }}" class="panel-collapse#}
-{#    {% if not user.is_authenticated or is_plugin %}#}
-{#        collapse#}
-{#    {% endif %}#}
-{#    in">#}
-        <div class="panel-body collapsable-body">
-            {% if user.is_authenticated and not is_plugin  %}
-                <div id="lab-description-{{ lab.id }}" class="lab-description" contenteditable="true">{{ lab.description|safe|default:"..." }}</div>
-            {% else %}
-                <div class="lab-description">{{ lab.description|safe }}</div>
-            {% endif %}
-
+    <div id="lab_{{ lab.id }}" class="panel-collapse collapse">
+        <div class="panel-body">
+            <div class="lab-description">{{ lab.description|safe }}</div>
             {% if lab.tasks %}
                 <ol class="tasks">
                     {% with lab.tasks as tasks %}
-                        {% include "labs-control/task-list.html" %}
+                        {% for task in tasks %}
+                            {% include "labs-control/task.html" %}
+                        {% endfor %}
                     {% endwith %}
                 </ol>
             {% endif %}
         </div>
-{#    </div>#}
+    </div>
 </div>
