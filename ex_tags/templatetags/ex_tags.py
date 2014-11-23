@@ -65,3 +65,7 @@ def obfuscate_mailto(value, text=False):
 
     return mark_safe('<a href="%s%s">%s</a>'.format(
         obfuscate_string('mailto:'), mail, link_text))
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

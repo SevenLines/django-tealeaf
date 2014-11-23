@@ -1,1 +1,334 @@
-.lab{-webkit-transition:all 0.3s;-moz-transition:all 0.3s;-ms-transition:all 0.3s;-o-transition:all 0.3s;transition:all 0.3s}.lab code{color:black}.lab img{margin:0.5em 0;border-radius:0;box-shadow:none;border:none}.lab h2{color:#003366;cursor:pointer;border-bottom:dashed 1px;display:inline-block;margin:0 0 0.3em;padding:0}.lab h2:hover{color:black}.lab .tasks{padding-left:2em}.lab .tasks li.item{margin:0.5em 0;padding:0.5em;border-radius:10px;background:#EEEEEE;border:#c0c0c0 1px solid;position:relative}.lab .tasks li.item.easy{-webkit-transition:all ease-in-out 0.3s;-moz-transition:all ease-in-out 0.3s;-ms-transition:all ease-in-out 0.3s;-o-transition:all ease-in-out 0.3s;transition:all ease-in-out 0.3s;background-color:#d1ff99;box-shadow:0 0 1px #83b14c !important}.lab .tasks li.item.easy.selected{border-color:#83b14c !important}.lab .tasks li.item.easy .user-info{border-color:#83b14c !important}.lab .tasks li.item.medium{-webkit-transition:all ease-in-out 0.3s;-moz-transition:all ease-in-out 0.3s;-ms-transition:all ease-in-out 0.3s;-o-transition:all ease-in-out 0.3s;transition:all ease-in-out 0.3s;background-color:#ff9;box-shadow:0 0 1px #ffde60 !important}.lab .tasks li.item.medium.selected{border-color:#ffde60 !important}.lab .tasks li.item.medium .user-info{border-color:#ffde60 !important}.lab .tasks li.item.hard{-webkit-transition:all ease-in-out 0.3s;-moz-transition:all ease-in-out 0.3s;-ms-transition:all ease-in-out 0.3s;-o-transition:all ease-in-out 0.3s;transition:all ease-in-out 0.3s;background-color:#ffca99;box-shadow:0 0 1px #ffa75c !important}.lab .tasks li.item.hard.selected{border-color:#ffa75c !important}.lab .tasks li.item.hard .user-info{border-color:#ffa75c !important}.lab .tasks li.item.nightmare{-webkit-transition:all ease-in-out 0.3s;-moz-transition:all ease-in-out 0.3s;-ms-transition:all ease-in-out 0.3s;-o-transition:all ease-in-out 0.3s;transition:all ease-in-out 0.3s;background-color:#ffbdb3;box-shadow:0 0 1px #ff7e79 !important}.lab .tasks li.item.nightmare.selected{border-color:#ff7e79 !important}.lab .tasks li.item.nightmare .user-info{border-color:#ff7e79 !important}.lab .tasks li.item.selected{-webkit-transition:all ease-in-out 0.3s;-moz-transition:all ease-in-out 0.3s;-ms-transition:all ease-in-out 0.3s;-o-transition:all ease-in-out 0.3s;transition:all ease-in-out 0.3s;background-color:#dddddd}.lab .tasks li.item.selected code{color:gray}.lab .tasks .user-info{display:inline-block;padding:0.5em 1em;float:right;list-style:none;border-radius:8px;background-color:white;border:silver 2px solid;box-shadow:0 0 4px white;min-width:9em;text-align:center;margin-right:0.25em;margin-left:0.25em}.lab .tasks .edit{-webkit-transition:all 0.3s;-moz-transition:all 0.3s;-ms-transition:all 0.3s;-o-transition:all 0.3s;transition:all 0.3s}.lab .tasks .edit .form-inline{padding-top:0.5em}.lab .tasks .edit .form-inline .form-group{padding-right:0.5em}.lab .tasks .edit .select-control{min-width:300px}.lab .tasks.gallery{list-style:none;float:left}.lab .tasks.gallery .edit .form-group{padding-right:0}.lab .tasks.gallery .edit .form-control{width:100%}.lab .tasks.gallery .edit .select-control{width:102px}.lab .tasks.gallery img{box-shadow:none;border-radius:0;margin:0}.lab .tasks.gallery li{position:relative;padding:6px;margin:8px 8px 8px 0;float:left;width:116px}.lab .tasks.gallery li .task_number{text-align:center;font-weight:bold}.lab .tasks.gallery li img{border:1px solid gray;border-radius:8px 8px 0 0;padding:0;margin:0 auto;width:100px;display:block}.lab .tasks.gallery .caption{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:center;font-size:0.8em;width:100px;padding:0.25em 0.25em;border-radius:0 0 8px 8px;background-color:white;border:silver 1px solid;border-top:none;box-shadow:0 0 4px white;display:block;margin:0 auto}
+.menu-task {
+  margin-top: 4px;
+  overflow: hidden; }
+  .menu-task .menu-complexity {
+    margin-right: 4px; }
+    .menu-task .menu-complexity .menu-complexity-item {
+      background: white;
+      float: left;
+      width: 20px;
+      height: 20px;
+      margin-right: 2px;
+      border-radius: 10px;
+      border: 1px solid black; }
+      .menu-task .menu-complexity .menu-complexity-item.easy {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #cafcb1;
+        box-shadow: 0 0 3px #cafcb1 !important; }
+        .menu-task .menu-complexity .menu-complexity-item.easy.selected {
+          background-color: #dbfdca; }
+          .menu-task .menu-complexity .menu-complexity-item.easy.selected:hover {
+            background-color: #cafcb1; }
+        .menu-task .menu-complexity .menu-complexity-item.easy .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #b9fb98 !important; }
+      .menu-task .menu-complexity .menu-complexity-item.medium {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #fcfcb1;
+        box-shadow: 0 0 3px #fcfcb1 !important; }
+        .menu-task .menu-complexity .menu-complexity-item.medium.selected {
+          background-color: #fdfdca; }
+          .menu-task .menu-complexity .menu-complexity-item.medium.selected:hover {
+            background-color: #fcfcb1; }
+        .menu-task .menu-complexity .menu-complexity-item.medium .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbfb98 !important; }
+      .menu-task .menu-complexity .menu-complexity-item.hard {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #fccab1;
+        box-shadow: 0 0 3px #fccab1 !important; }
+        .menu-task .menu-complexity .menu-complexity-item.hard.selected {
+          background-color: #fddbca; }
+          .menu-task .menu-complexity .menu-complexity-item.hard.selected:hover {
+            background-color: #fccab1; }
+        .menu-task .menu-complexity .menu-complexity-item.hard .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbb998 !important; }
+      .menu-task .menu-complexity .menu-complexity-item.nightmare {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #fcb7b1;
+        box-shadow: 0 0 3px #fcb7b1 !important; }
+        .menu-task .menu-complexity .menu-complexity-item.nightmare.selected {
+          background-color: #fdceca; }
+          .menu-task .menu-complexity .menu-complexity-item.nightmare.selected:hover {
+            background-color: #fcb7b1; }
+        .menu-task .menu-complexity .menu-complexity-item.nightmare .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #fba198 !important; }
+      .menu-task .menu-complexity .menu-complexity-item.selected {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s; }
+      .menu-task .menu-complexity .menu-complexity-item:hover {
+        border-width: 4px;
+        cursor: pointer; }
+
+/* labs */
+.lab {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s; }
+  .lab > .panel-heading {
+    cursor: pointer;
+    -webkit-transition: all 0.15s;
+    -moz-transition: all 0.15s;
+    -ms-transition: all 0.15s;
+    -o-transition: all 0.15s;
+    transition: all 0.15s; }
+    .lab > .panel-heading:hover {
+      background-color: #8cacae; }
+  .lab code {
+    color: black; }
+  .lab img {
+    margin: 0.5em 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none; }
+  .lab h2:hover {
+    color: black; }
+  .lab .tasks {
+    padding-left: 2em; }
+    .lab .tasks li.item {
+      margin: 0.5em 0;
+      padding: 0.5em;
+      border-radius: 10px;
+      border: #c0c0c0 1px solid; }
+      .lab .tasks li.item.easy {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #cafcb1;
+        box-shadow: 0 0 3px #cafcb1 !important; }
+        .lab .tasks li.item.easy.selected {
+          background-color: #dbfdca; }
+          .lab .tasks li.item.easy.selected:hover {
+            background-color: #cafcb1; }
+        .lab .tasks li.item.easy .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #b9fb98 !important; }
+      .lab .tasks li.item.medium {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #fcfcb1;
+        box-shadow: 0 0 3px #fcfcb1 !important; }
+        .lab .tasks li.item.medium.selected {
+          background-color: #fdfdca; }
+          .lab .tasks li.item.medium.selected:hover {
+            background-color: #fcfcb1; }
+        .lab .tasks li.item.medium .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbfb98 !important; }
+      .lab .tasks li.item.hard {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #fccab1;
+        box-shadow: 0 0 3px #fccab1 !important; }
+        .lab .tasks li.item.hard.selected {
+          background-color: #fddbca; }
+          .lab .tasks li.item.hard.selected:hover {
+            background-color: #fccab1; }
+        .lab .tasks li.item.hard .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbb998 !important; }
+      .lab .tasks li.item.nightmare {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #fcb7b1;
+        box-shadow: 0 0 3px #fcb7b1 !important; }
+        .lab .tasks li.item.nightmare.selected {
+          background-color: #fdceca; }
+          .lab .tasks li.item.nightmare.selected:hover {
+            background-color: #fcb7b1; }
+        .lab .tasks li.item.nightmare .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #fba198 !important; }
+      .lab .tasks li.item.selected {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s; }
+      .lab .tasks li.item:hover.easy {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #cafcb1;
+        box-shadow: 0 0 3px #cafcb1 !important; }
+        .lab .tasks li.item:hover.easy.selected {
+          background-color: #dbfdca; }
+          .lab .tasks li.item:hover.easy.selected:hover {
+            background-color: #cafcb1; }
+        .lab .tasks li.item:hover.easy .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #b9fb98 !important; }
+      .lab .tasks li.item:hover.medium {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #fcfcb1;
+        box-shadow: 0 0 3px #fcfcb1 !important; }
+        .lab .tasks li.item:hover.medium.selected {
+          background-color: #fdfdca; }
+          .lab .tasks li.item:hover.medium.selected:hover {
+            background-color: #fcfcb1; }
+        .lab .tasks li.item:hover.medium .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbfb98 !important; }
+      .lab .tasks li.item:hover.hard {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #fccab1;
+        box-shadow: 0 0 3px #fccab1 !important; }
+        .lab .tasks li.item:hover.hard.selected {
+          background-color: #fddbca; }
+          .lab .tasks li.item:hover.hard.selected:hover {
+            background-color: #fccab1; }
+        .lab .tasks li.item:hover.hard .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbb998 !important; }
+      .lab .tasks li.item:hover.nightmare {
+        -webkit-transition: all ease-in-out 0.3s;
+        -moz-transition: all ease-in-out 0.3s;
+        -ms-transition: all ease-in-out 0.3s;
+        -o-transition: all ease-in-out 0.3s;
+        transition: all ease-in-out 0.3s;
+        background-color: #fcb7b1;
+        box-shadow: 0 0 3px #fcb7b1 !important; }
+        .lab .tasks li.item:hover.nightmare.selected {
+          background-color: #fdceca; }
+          .lab .tasks li.item:hover.nightmare.selected:hover {
+            background-color: #fcb7b1; }
+        .lab .tasks li.item:hover.nightmare .user-info {
+          box-shadow: 0 0 0 2px white;
+          border-color: #fba198 !important; }
+    .lab .tasks .user-info {
+      display: inline-block;
+      padding: 0.5em 1em;
+      float: right;
+      list-style: none;
+      border-radius: 8px;
+      background-color: white;
+      border: silver 3px solid;
+      min-width: 9em;
+      text-align: center;
+      margin-right: 0.25em;
+      margin-left: 0.25em; }
+      @media (max-width: 480px) {
+        .lab .tasks .user-info {
+          display: none; } }
+    .lab .tasks .edit {
+      -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      -ms-transition: all 0.3s;
+      -o-transition: all 0.3s;
+      transition: all 0.3s; }
+      .lab .tasks .edit .form-inline {
+        padding-top: 0.5em; }
+        .lab .tasks .edit .form-inline .form-group {
+          padding-right: 0.5em; }
+      .lab .tasks .edit .select-control {
+        min-width: 300px; }
+    .lab .tasks.gallery {
+      list-style: none;
+      float: left; }
+      .lab .tasks.gallery .edit .form-group {
+        padding-right: 0; }
+      .lab .tasks.gallery .edit .form-control {
+        width: 100%; }
+      .lab .tasks.gallery .edit .select-control {
+        width: 102px; }
+      .lab .tasks.gallery img {
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0; }
+      .lab .tasks.gallery li {
+        position: relative;
+        padding: 6px;
+        margin: 8px 8px 8px 0;
+        float: left;
+        width: 116px; }
+        .lab .tasks.gallery li .task_number {
+          text-align: center;
+          font-weight: bold; }
+        .lab .tasks.gallery li img {
+          border: 1px solid gray;
+          border-radius: 8px 8px 0 0;
+          padding: 0;
+          margin: 0 auto;
+          width: 100px;
+          display: block; }
+      .lab .tasks.gallery .caption {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: center;
+        font-size: 0.8em;
+        width: 100px;
+        padding: 0.25em 0.25em;
+        border-radius: 0 0 8px 8px;
+        background-color: white;
+        border: silver 1px solid;
+        border-top: none;
+        box-shadow: 0 0 4px white;
+        display: block;
+        margin: 0 auto; }
+
+.task-counter {
+  float: left;
+  padding: 0.1em 0.4em;
+  margin-top: -2px;
+  margin-right: 6px;
+  margin-left: -10px;
+  border: 1px solid #c0c0c0;
+  border-radius: 30px;
+  background-color: white;
+  font-weight: bold; }
+
+.task-users-selector {
+  display: block;
+  width: 100%;
+  padding: 0.5em 0;
+  clear: both; }
+
+.lab-description {
+  padding-bottom: 1em; }
+
+/* end labs */

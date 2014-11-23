@@ -1,0 +1,26 @@
+<div class="panel panel-default lab  expanded">
+    <div class="panel-heading "
+         data-toggle="collapse"
+         data-target="#lab_{{ lab.id }}">
+        <h2 class="panel-title">
+            <span class="lab-title">
+                {{ lab.title|safe }}
+            </span>
+        </h2>
+    </div>
+
+    <div id="lab_{{ lab.id }}" class="panel-collapse collapse">
+        <div class="panel-body">
+            <div class="lab-description">{{ lab.description|safe }}</div>
+            {% if lab.tasks %}
+                <ol class="tasks">
+                    {% with lab.tasks as tasks %}
+                        {% for task in tasks %}
+                            {% include "labs-control/cms-plugin/task.html" %}
+                        {% endfor %}
+                    {% endwith %}
+                </ol>
+            {% endif %}
+        </div>
+    </div>
+</div>

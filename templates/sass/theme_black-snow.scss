@@ -38,9 +38,9 @@ body {
   > ol, > ul {
     > li {
       &:hover {
-        background-color: lighten($glow-color, 10) !important;
+        background-color: lighten($glow-color, 10);
       }
-      background-color: white !important;
+      background-color: white;
     }
   }
 }
