@@ -17,56 +17,60 @@
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #d1ff99;
-        box-shadow: 0 0 3px #baff66 !important; }
+        background-color: #cafcb1;
+        box-shadow: 0 0 3px #cafcb1 !important; }
         .menu-task .menu-complexity .menu-complexity-item.easy.selected {
-          border-color: #baff66 !important; }
+          background-color: #dbfdca; }
+          .menu-task .menu-complexity .menu-complexity-item.easy.selected:hover {
+            background-color: #cafcb1; }
         .menu-task .menu-complexity .menu-complexity-item.easy .user-info {
-          border-color: #baff66 !important; }
-        .menu-task .menu-complexity .menu-complexity-item.easy:hover {
-          background-color: #ddffb3; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #b9fb98 !important; }
       .menu-task .menu-complexity .menu-complexity-item.medium {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #ffff99;
-        box-shadow: 0 0 3px #ffff66 !important; }
+        background-color: #fcfcb1;
+        box-shadow: 0 0 3px #fcfcb1 !important; }
         .menu-task .menu-complexity .menu-complexity-item.medium.selected {
-          border-color: #ffff66 !important; }
+          background-color: #fdfdca; }
+          .menu-task .menu-complexity .menu-complexity-item.medium.selected:hover {
+            background-color: #fcfcb1; }
         .menu-task .menu-complexity .menu-complexity-item.medium .user-info {
-          border-color: #ffff66 !important; }
-        .menu-task .menu-complexity .menu-complexity-item.medium:hover {
-          background-color: #ffffb3; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbfb98 !important; }
       .menu-task .menu-complexity .menu-complexity-item.hard {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #ffca99;
-        box-shadow: 0 0 3px #ffaf66 !important; }
+        background-color: #fccab1;
+        box-shadow: 0 0 3px #fccab1 !important; }
         .menu-task .menu-complexity .menu-complexity-item.hard.selected {
-          border-color: #ffaf66 !important; }
+          background-color: #fddbca; }
+          .menu-task .menu-complexity .menu-complexity-item.hard.selected:hover {
+            background-color: #fccab1; }
         .menu-task .menu-complexity .menu-complexity-item.hard .user-info {
-          border-color: #ffaf66 !important; }
-        .menu-task .menu-complexity .menu-complexity-item.hard:hover {
-          background-color: #ffd7b3; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbb998 !important; }
       .menu-task .menu-complexity .menu-complexity-item.nightmare {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #ffbdb3;
-        box-shadow: 0 0 3px #ff9180 !important; }
+        background-color: #fcb7b1;
+        box-shadow: 0 0 3px #fcb7b1 !important; }
         .menu-task .menu-complexity .menu-complexity-item.nightmare.selected {
-          border-color: #ff9180 !important; }
+          background-color: #fdceca; }
+          .menu-task .menu-complexity .menu-complexity-item.nightmare.selected:hover {
+            background-color: #fcb7b1; }
         .menu-task .menu-complexity .menu-complexity-item.nightmare .user-info {
-          border-color: #ff9180 !important; }
-        .menu-task .menu-complexity .menu-complexity-item.nightmare:hover {
-          background-color: #ffd3cc; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #fba198 !important; }
       .menu-task .menu-complexity .menu-complexity-item.selected {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -108,7 +112,6 @@
       margin: 0.5em 0;
       padding: 0.5em;
       border-radius: 10px;
-      background: #EEEEEE;
       border: #c0c0c0 1px solid; }
       .lab .tasks li.item.easy {
         -webkit-transition: all ease-in-out 0.3s;
@@ -116,56 +119,60 @@
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #d1ff99;
-        box-shadow: 0 0 3px #baff66 !important; }
+        background-color: #cafcb1;
+        box-shadow: 0 0 3px #cafcb1 !important; }
         .lab .tasks li.item.easy.selected {
-          border-color: #baff66 !important; }
+          background-color: #dbfdca; }
+          .lab .tasks li.item.easy.selected:hover {
+            background-color: #cafcb1; }
         .lab .tasks li.item.easy .user-info {
-          border-color: #baff66 !important; }
-        .lab .tasks li.item.easy:hover {
-          background-color: #ddffb3; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #b9fb98 !important; }
       .lab .tasks li.item.medium {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #ffff99;
-        box-shadow: 0 0 3px #ffff66 !important; }
+        background-color: #fcfcb1;
+        box-shadow: 0 0 3px #fcfcb1 !important; }
         .lab .tasks li.item.medium.selected {
-          border-color: #ffff66 !important; }
+          background-color: #fdfdca; }
+          .lab .tasks li.item.medium.selected:hover {
+            background-color: #fcfcb1; }
         .lab .tasks li.item.medium .user-info {
-          border-color: #ffff66 !important; }
-        .lab .tasks li.item.medium:hover {
-          background-color: #ffffb3; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbfb98 !important; }
       .lab .tasks li.item.hard {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #ffca99;
-        box-shadow: 0 0 3px #ffaf66 !important; }
+        background-color: #fccab1;
+        box-shadow: 0 0 3px #fccab1 !important; }
         .lab .tasks li.item.hard.selected {
-          border-color: #ffaf66 !important; }
+          background-color: #fddbca; }
+          .lab .tasks li.item.hard.selected:hover {
+            background-color: #fccab1; }
         .lab .tasks li.item.hard .user-info {
-          border-color: #ffaf66 !important; }
-        .lab .tasks li.item.hard:hover {
-          background-color: #ffd7b3; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbb998 !important; }
       .lab .tasks li.item.nightmare {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #ffbdb3;
-        box-shadow: 0 0 3px #ff9180 !important; }
+        background-color: #fcb7b1;
+        box-shadow: 0 0 3px #fcb7b1 !important; }
         .lab .tasks li.item.nightmare.selected {
-          border-color: #ff9180 !important; }
+          background-color: #fdceca; }
+          .lab .tasks li.item.nightmare.selected:hover {
+            background-color: #fcb7b1; }
         .lab .tasks li.item.nightmare .user-info {
-          border-color: #ff9180 !important; }
-        .lab .tasks li.item.nightmare:hover {
-          background-color: #ffd3cc; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #fba198 !important; }
       .lab .tasks li.item.selected {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
@@ -178,56 +185,60 @@
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #d1ff99;
-        box-shadow: 0 0 3px #baff66 !important; }
+        background-color: #cafcb1;
+        box-shadow: 0 0 3px #cafcb1 !important; }
         .lab .tasks li.item:hover.easy.selected {
-          border-color: #baff66 !important; }
+          background-color: #dbfdca; }
+          .lab .tasks li.item:hover.easy.selected:hover {
+            background-color: #cafcb1; }
         .lab .tasks li.item:hover.easy .user-info {
-          border-color: #baff66 !important; }
-        .lab .tasks li.item:hover.easy:hover {
-          background-color: #ddffb3; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #b9fb98 !important; }
       .lab .tasks li.item:hover.medium {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #ffff99;
-        box-shadow: 0 0 3px #ffff66 !important; }
+        background-color: #fcfcb1;
+        box-shadow: 0 0 3px #fcfcb1 !important; }
         .lab .tasks li.item:hover.medium.selected {
-          border-color: #ffff66 !important; }
+          background-color: #fdfdca; }
+          .lab .tasks li.item:hover.medium.selected:hover {
+            background-color: #fcfcb1; }
         .lab .tasks li.item:hover.medium .user-info {
-          border-color: #ffff66 !important; }
-        .lab .tasks li.item:hover.medium:hover {
-          background-color: #ffffb3; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbfb98 !important; }
       .lab .tasks li.item:hover.hard {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #ffca99;
-        box-shadow: 0 0 3px #ffaf66 !important; }
+        background-color: #fccab1;
+        box-shadow: 0 0 3px #fccab1 !important; }
         .lab .tasks li.item:hover.hard.selected {
-          border-color: #ffaf66 !important; }
+          background-color: #fddbca; }
+          .lab .tasks li.item:hover.hard.selected:hover {
+            background-color: #fccab1; }
         .lab .tasks li.item:hover.hard .user-info {
-          border-color: #ffaf66 !important; }
-        .lab .tasks li.item:hover.hard:hover {
-          background-color: #ffd7b3; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #fbb998 !important; }
       .lab .tasks li.item:hover.nightmare {
         -webkit-transition: all ease-in-out 0.3s;
         -moz-transition: all ease-in-out 0.3s;
         -ms-transition: all ease-in-out 0.3s;
         -o-transition: all ease-in-out 0.3s;
         transition: all ease-in-out 0.3s;
-        background-color: #ffbdb3;
-        box-shadow: 0 0 3px #ff9180 !important; }
+        background-color: #fcb7b1;
+        box-shadow: 0 0 3px #fcb7b1 !important; }
         .lab .tasks li.item:hover.nightmare.selected {
-          border-color: #ff9180 !important; }
+          background-color: #fdceca; }
+          .lab .tasks li.item:hover.nightmare.selected:hover {
+            background-color: #fcb7b1; }
         .lab .tasks li.item:hover.nightmare .user-info {
-          border-color: #ff9180 !important; }
-        .lab .tasks li.item:hover.nightmare:hover {
-          background-color: #ffd3cc; }
+          box-shadow: 0 0 0 2px white;
+          border-color: #fba198 !important; }
     .lab .tasks .user-info {
       display: inline-block;
       padding: 0.5em 1em;

@@ -15,34 +15,38 @@ $color_change_speed: 0.3s;
   background-color: $bg;
   box-shadow: 0 0 3px $fg !important;
   &.selected {
-    border-color: $fg !important;
-//    background-color: lighten($bg, 5);
+    //    border-color: $fg !important;
+    background-color: lighten($bg, 5);
+    &:hover {
+      background-color: $bg;
+    }
   }
   .user-info {
-    border-color: $fg !important;
+    box-shadow: 0 0 0 2px white;
+    border-color: darken($bg, 5) !important;
   }
-  &:hover {
-    background-color: lighten($bg, 5);
-  }
+
 }
 
-@mixin choices($lighten:0) {
-  $darken: 10;
+@mixin choices($lighten: 0) {
+  $darken: 0;
+  $base-clr: #cafcb1;
+
   &.easy {
-    $clr: #d1ff99;
-    @include complexity(#d1ff99, darken($clr, $darken));
+    $clr: $base-clr;
+    @include complexity($clr, darken($clr, $darken));
   }
   &.medium {
-    $clr: #ffff99;
-    @include complexity(#ffff99, darken($clr, $darken));
+    $clr: adjust_hue($base-clr, -40);
+    @include complexity($clr, darken($clr, $darken));
   }
   &.hard {
-    $clr: #ffca99;
-    @include complexity(#ffca99, darken($clr, $darken));
+    $clr: adjust_hue($base-clr, -80);
+    @include complexity($clr, darken($clr, $darken));
   }
   &.nightmare {
-    $clr: #ffbdb3;
-    @include complexity(#ffbdb3, darken($clr, $darken));
+    $clr: adjust_hue($base-clr, -95);
+    @include complexity($clr, darken($clr, $darken));
   }
 }
 
@@ -50,9 +54,9 @@ $color_change_speed: 0.3s;
   @include choices;
   &.selected {
     @include transition;
-//    background-color: #EEE;
-//    background-image: url("images/stripe_40px_135deg.png");
-//    @include background_size(60px 60px);
+    //    background-color: #EEE;
+    //    background-image: url("images/stripe_40px_135deg.png");
+    //    @include background_size(60px 60px);
   }
 }
 
@@ -193,7 +197,7 @@ $color_change_speed: 0.3s;
       margin: 0.5em 0;
       padding: 0.5em;
       border-radius: 10px;
-      background: #EEEEEE;
+      //      background: #EEEEEE;
       border: #c0c0c0 1px solid;
       &:hover {
         @include choices;
