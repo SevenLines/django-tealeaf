@@ -5,25 +5,27 @@
 
         self.lab = lab;
         self.pk = data.id;
-        self.users = data.users;
+        self.users = ko.observableArray(data.users);
 
         self.description = ko.observable(data.description);
         self.complexity = ko.observable(data.complexity);
 
         self.base_values = {
             description: ko.observable(data.description),
-            complexity: ko.observable(data.complexity)
+            complexity: ko.observable(data.complexity),
+            users: ko.observableArray(data.users)
         };
 
         self.changed = ko.pureComputed(function () {
-            return true;
-            return self.description() != self.base_values.description() ||
+            var users_eq = JSON.stringify(self.users())==JSON.stringify(self.base_values.users());
+            return !users_eq || self.description() != self.base_values.description() ||
                 self.complexity() != self.base_values.complexity()
         });
 
         self.reset = function () {
             self.base_values.description(self.description());
             self.base_values.complexity(self.complexity());
+            self.base_values.users(self.users());
         };
 
         self.setComplex = function (value) {
@@ -35,6 +37,7 @@
                 pk: self.pk,
                 description: self.description(),
                 complexity: self.complexity(),
+                users: self.users().map(function(i) {return i.id}),
                 csrfmiddlewaretoken: $.cookie("csrftoken")
             }).done(function () {
                 self.reset();
@@ -233,11 +236,14 @@
                             };
                         },
                         results: function (data, page) {
-                            console.log(data);
+                            //console.log(data);
                             return {results: data};
                         },
                         cache: true
                     }
+                });
+                $(".task-users-selector").on("change", function () {
+                    console.log($(this).select2("data"));
                 });*/
             });
         };

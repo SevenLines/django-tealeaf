@@ -31,7 +31,10 @@ class Lab(OrderedModel):
         for t in Task.objects.filter(lab=self).order_by("order", "id"):
             dt = model_to_dict(t)
             dt.update({
-                "users": list(t.users().values("id", "name", "second_name", "group__title"))
+                "users": list([{
+                    'id': i['id'],
+                    'text': "%s %s | %s" % (i['name'], i['second_name'], i['group__title'])
+                } for i in t.users().values("id", "name", "second_name", "group__title")])
             })
             d['tasks'].append(dt)
 

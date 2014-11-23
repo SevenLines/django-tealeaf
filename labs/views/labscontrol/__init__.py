@@ -7,7 +7,7 @@ from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 
 from app.utils import require_in_POST
-from labs.models import Lab, Task
+from labs.models import Lab, Task, TaskStudent
 from students.models import Discipline
 
 
@@ -150,6 +150,14 @@ def update_task(request):
 
     if 'complexity' in request.POST:
         task.complexity = request.POST['complexity']
+
+    if 'users[]' in request.POST:
+        TaskStudent.objects.filter(task=task.pk).delete()
+        for u_id in request.POST.getlist("users[]"):
+            tu = TaskStudent()
+            tu.task = task
+            tu.student_id = int(u_id)
+            tu.save()
 
     if 'lab_id' in request.POST:
         if task.lab_id != request.POST['lab_id']:

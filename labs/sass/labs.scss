@@ -236,8 +236,12 @@ $color_change_speed: 0.3s;
 }
 
 .task-users-selector {
-  min-width: 200px;
-  margin-left: 0.5em;
+  display: block;
+  width: 100%;
+//  margin-left: 0.5em;
+  padding: 0.5em 0 ;
+//  float: left;
+  clear: both;
 }
 
 .lab-description {

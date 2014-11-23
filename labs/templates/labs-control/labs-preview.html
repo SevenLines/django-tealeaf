@@ -36,12 +36,16 @@
                     <div class="task-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
 
                     <div class="menu-task">
+                        <div class="task-users-selector"
+                             data-ajax-url="{% url "students.views.students.ajax.json.list_students" %}"
+                             data-ajax-term="filter"
+                             data-placeholder="никто не выбрал эту задачу"
+                             data-bind="select2: users"></div>
                         <div class="menu-complexity" data-bind="foreach: $root.complex_choices">
                             <div class="menu-complexity-item"
                                  data-bind="css: $data, attr: {value: $data}, click: $parent.setComplex"></div>
                         </div>
 
-                        <div class="task-users-selector"></div>
 
                         <a href="#" class="save" style="margin-left: 8px"
                            data-bind="visible: changed,

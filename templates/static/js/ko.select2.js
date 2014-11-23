@@ -1,25 +1,39 @@
 ko.bindingHandlers.select2 = {
-  init: function(element, valueAccessor, allBindingsAccessor) {
-    var obj = valueAccessor(),
-      allBindings = allBindingsAccessor(),
-      lookupKey = allBindings.lookupKey;
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var ajaxUrl = element.dataset.ajaxUrl || '';
+        var ajaxTerm = element.dataset.ajaxTerm || 'q';
+        var minimumInputLength = element.dataset.minimumInputLength || 2;
 
-    setTimeout(function() { 
-      $(element).select2(obj);
-    }, 0);
+        $(element).select2({
+            minimumInputLength: minimumInputLength,
+            multiple: true,
+            placeholder: element.dataset.placeholder,
+            ajax: {
+                url: ajaxUrl,
+                dataType: 'json',
+                data: function (term, page) {
+                    var d = {};
+                    d[ajaxTerm] = term;
+                    return d;
+                },
+                results: function (data, page) {
+                    return {results: data};
+                },
+                cache: true
+            }
+        });
+        $(element).select2('data', ko.utils.unwrapObservable(valueAccessor()));
 
-    if (lookupKey) {
-      var value = ko.utils.unwrapObservable(allBindings.value);
-      $(element).select2('data', ko.utils.arrayFirst(obj.data.results, function(item) {
-        return item[lookupKey] === value;
-      }));
-    }
+        $(element).on("change", function () {
+            var d = $(element).select2("data");
+            valueAccessor()(d);
+            });
 
-    ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-      $(element).select2('destroy');
-    });
-  },
-  update: function(element) {
-    $(element).trigger('change');
-  }
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            $(element).select2('destroy');
+        });
+    },
+    //update: function (element) {
+    //    $(element).trigger('change');
+    //}
 };
