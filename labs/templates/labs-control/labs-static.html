@@ -1,0 +1,52 @@
+{% load sekizai_tags static assets %}
+
+{% addtoblock "js" %}
+    {% assets "labs_js" %}
+        <script type="text/javascript" src="{% static ASSET_URL %}"></script>
+    {% endassets %}
+{% endaddtoblock %}
+
+{% addtoblock "top_js" %}
+<script type="text/javascript" src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" href="{% static "css/labs.css" %}"/>
+{% endaddtoblock %}
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" href="{% static "bower_components/select2/select2.css" %}"/>
+{% endaddtoblock %}
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" href="{% static "bower_components/jstree/dist/themes/default/style.min.css" %}"/>
+{% endaddtoblock %}
+
+{#{% if user.is_authenticated %}#}
+{#    <script src="{% static "bower_components/jquery-form/jquery.form.js" %}"></script>#}
+{#{% endif %}#}
+
+
+{% if user.is_authenticated %}
+    {% addtoblock "js" %}
+        <script>
+            ko.applyBindings(new LabsTree({
+                urls: {
+                    labs: {
+                        update: "{% url "labs.views.labscontrol.update_lab" %}",
+                        list_json: "{% url "labs.views.labscontrol._json.labs" %}",
+                        remove: "{% url "labs.views.labscontrol.remove_lab" %}"
+                    },
+                    tasks: {
+                        update: "{% url "labs.views.labscontrol.update_task" %}",
+                        users: "{% url "students.views.students.ajax.json.list_students" %}",
+                        add: "{% url "labs.views.labscontrol.add_task" %}",
+                        remove: "{% url "labs.views.labscontrol.remove_task" %}"
+                    },
+                    tree: "{% url "labs.views.labscontrol.tree" %}"
+                },
+                ckeditor_config: "{% static "js/labscontrol/ckeditor-config.js" %}"
+            }));
+        </script>
+    {% endaddtoblock %}
+{% endif %}

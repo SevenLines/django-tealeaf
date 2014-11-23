@@ -95,6 +95,6 @@ body {
     background-color: grey; }
 
 .collapsable .collapsable-body > ol > li, .collapsable .collapsable-body > ul > li {
-  background-color: white !important; }
+  background-color: white; }
   .collapsable .collapsable-body > ol > li:hover, .collapsable .collapsable-body > ul > li:hover {
-    background-color: white !important; }
+    background-color: white; }

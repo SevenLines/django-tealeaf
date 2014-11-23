@@ -163,7 +163,7 @@
           content: "∞"; }
         .marks-editor table.table-marks > tbody > tr.hover > td.mark.mercy:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.mercy:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.mercy:after {
           content: "○"; }
-        .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole :after, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole :after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole :after {
+        .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole:after {
           content: '∅'; }
         .marks-editor table.table-marks > tbody > tr.hover > td.mark.absent:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.absent:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.absent:after {
           content: "-2";

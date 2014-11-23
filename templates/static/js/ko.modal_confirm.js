@@ -26,7 +26,7 @@ function ModalConfirm(data) {
       self.modalConfirm = new ModalConfirm({ variable_name: "modalConfirm" })
 
  call to show dialog:
-
+as
       self.modalConfirm.show(function() { console.log("Yes") }, function() { console.log("No") })
 
  You can omit second argument and implement only confirm event.

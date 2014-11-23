@@ -31,3 +31,4 @@ media.tgz
 dump.sql
 credentials.json
 .webassets-cache
+/.project

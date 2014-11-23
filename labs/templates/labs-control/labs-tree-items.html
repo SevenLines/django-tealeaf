@@ -1,0 +1,16 @@
+<ul>
+    <li>Дисциплины
+        <ul>
+            {% for dis in disciplines %}
+                <li id="node-disc{{ dis.id }}" data-discipline_id="{{ dis.id }}">{{ dis.title }}
+                    <ul>
+                        {% for lab in dis.labs %}
+                            <li data-lab_id="{{ lab.id }}" class="jstree-drop">{{ lab.title }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>

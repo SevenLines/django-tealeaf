@@ -3,7 +3,22 @@
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from labs.models import TaskEx, LabEx
+from labs.models import TaskEx, LabEx, LabsList, Lab, Task
+
+
+class LabsListPlugin(CMSPluginBase):
+    name = u'Список лабораторных заданий'
+    allow_children = False
+    model = LabsList
+    render_template = 'labs-control/cms-plugin/labs-plugin.html'
+    cache = False
+
+    def render(self, context, instance, placeholder):
+        context['labs'] = Lab.all_to_dict(instance.discipline.pk)
+        context['is_plugin'] = True
+        context['complex_choice_tokens'] = dict(Task.COMPLEX_CHOICES)
+        return context
+
 
 class TaskExPlugin(CMSPluginBase):
     name = u'Задача'
@@ -55,3 +70,4 @@ class LabsExPlugin(CMSPluginBase):
 
 
 plugin_pool.register_plugin(LabsExPlugin)
+plugin_pool.register_plugin(LabsListPlugin)

@@ -22,8 +22,10 @@
     "pickmeup": "~2.5.1",
     "google-code-prettify": "~1.0.3",
     "jquery.cookie": "~1.4.1",
-    "jquery-form": "https://github.com/malsup/form.git#~3.46.0",
+    "jquery-form": "~3.46.0",
     "respond": "~1.4.2",
-    "ckeditor": "~4.4.5"
+    "ckeditor": "~4.4.5",
+    "select2": "~3.5.2",
+    "jstree": "~3.0.8"
   }
 }
