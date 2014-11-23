@@ -1,41 +1,18 @@
-{% load sekizai_tags static %}
+{% load sekizai_tags static assets %}
 
 {% addtoblock "js" %}
-    <script src="{% static "js/labscontrol/labscontrol.js" %}"></script>
+    {% assets "labs_js" %}
+        <script type="text/javascript" src="{% static ASSET_URL %}"></script>
+    {% endassets %}
+{% endaddtoblock %}
+
+{% addtoblock "top_js" %}
+<script type="text/javascript" src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
 {% endaddtoblock %}
 
 {% addtoblock "css" %}
     <link rel="stylesheet" href="{% static "css/labs.css" %}"/>
 {% endaddtoblock %}
-
-{% addtoblock "top_js" %}
-    <script src="{% static "bower_components/jstree/dist/jstree.min.js" %}"></script>
-{% endaddtoblock %}
-
-{% addtoblock "top_js" %}
-    <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
-{% endaddtoblock %}
-
-{% addtoblock "top_js" %}
-    <script src="{% static "bower_components/knockout/dist/knockout.js" %}"></script>
-{% endaddtoblock %}
-
-{% addtoblock "top_js" %}
-    <script src="{% static "js/ko.ckeditor.js" %}"></script>
-{% endaddtoblock %}
-
-{% addtoblock "top_js" %}
-    <script src="{% static "js/ko.modal_confirm.js" %}"></script>
-{% endaddtoblock %}
-
-{% addtoblock "top_js" %}
-    <script src="{% static "bower_components/select2/select2.min.js" %}"></script>
-{% endaddtoblock %}
-
-{% addtoblock "top_js" %}
-    <script src="{% static "js/ko.select2.js" %}"></script>
-{% endaddtoblock %}
-
 
 {% addtoblock "css" %}
     <link rel="stylesheet" href="{% static "bower_components/select2/select2.css" %}"/>
@@ -45,9 +22,9 @@
     <link rel="stylesheet" href="{% static "bower_components/jstree/dist/themes/default/style.min.css" %}"/>
 {% endaddtoblock %}
 
-{% if user.is_authenticated %}
-    <script src="{% static "bower_components/jquery-form/jquery.form.js" %}"></script>
-{% endif %}
+{#{% if user.is_authenticated %}#}
+{#    <script src="{% static "bower_components/jquery-form/jquery.form.js" %}"></script>#}
+{#{% endif %}#}
 
 
 {% if user.is_authenticated %}

@@ -37,7 +37,7 @@ def labs_editor(request):
     context = {
         'disciplines': disciplines
     }
-    return render(request, "labs-control/labs.html", context)
+    return render(request, "labs-control/labs-editor.html", context)
 
 
 @login_required

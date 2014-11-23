@@ -1,20 +1,61 @@
-{% extends "page.html" %}
-{% load sekizai_tags static %}
+{% load static %}
 
-{# Редактор лабов #}
-{% block basecontent %}
+<div class="panel-group" id="labs-accordion" data-bind="foreach: labs">
+    <div class="panel panel-default lab expanded">
+        <div class="panel-heading" style="position: relative">
+            <h2 class="panel-title">
+                <span class="lab-title" data-bind="text: title"></span>
+            </h2>
 
-    <div class="row">
-        {% if user.is_authenticated %}
-            <div class="col-md-7" id="labs-preview">
-                {% include "labs-control/labs-editor.html" %}
-            </div>
-            <div class="col-md-5" id="tree">
-                {% include "labs-control/labs-tree.html" %}
-            </div>
-        {% endif %}
+            {% if user.is_authenticated and not is_plugin %}
+                <div style="position: absolute; right: 4px; top:4px;">
+                    <button class="form-button-update-lab btn btn-sm btn-success"
+                            data-action="{% url "labs.views.labscontrol.update_lab" %}"
+                            data-bind="click: Save">
+                        <span class="glyphicon glyphicon-save"></span>
+                    </button>
+
+                    <button class="form-button-add-task btn btn-sm btn-default"
+                            data-bind="click: AddTask">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+
+                    <button class="form-button-remove-lab btn btn-sm btn-danger">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="panel-body">
+            <div class="lab-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
+            <ol class="tasks" data-bind="foreach: tasks">
+                <li class="task item" style="position: relative;" data-bind="css: complexity">
+
+                    <div class="task-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
+
+                    <div class="menu-task">
+                        <div class="task-users-selector"
+                             data-ajax-url="{% url "students.views.students.ajax.json.list_students" %}"
+                             data-ajax-term="filter"
+                             data-placeholder="никто не выбрал эту задачу"
+                             data-bind="select2: users"></div>
+                        <div class="menu-complexity" data-bind="foreach: $root.complex_choices">
+                            <div class="menu-complexity-item"
+                                 data-bind="css: $data, attr: {value: $data}, click: $parent.setComplex"></div>
+                        </div>
+
+
+                        <a href="#" class="save" style="margin-left: 8px"
+                           data-bind="visible: changed,
+                           click: Save.bind($data, '{% url "labs.views.labscontrol.update_task" %}')">
+                            сохранить
+                        </a>
+                        <a href="#" class="text-danger pull-right" data-bind="click: Remove">удалить</a>
+                    </div>
+                </li>
+            </ol>
+        </div>
     </div>
+</div>
 
-    {% include "labs-control/labs-static.html" %}
-
-{% endblock %}
