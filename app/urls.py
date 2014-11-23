@@ -17,7 +17,7 @@ urlpatterns = i18n_patterns('',
     url(r'^robots\.txt$', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     url(r'^admin/', include(admin.site.urls)),
     url(r'login/', "app.views.login_user"),
-    url(r'^labs/', include('labs.urls')),
+    # url(r'^labs/', include('labs.urls')),
     url(r'^', include('cms.urls')),
 )
 
