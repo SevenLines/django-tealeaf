@@ -33,7 +33,7 @@
         };
 
         self.complex_css = ko.pureComputed(function () {
-            for (var i=0;i<lab.model.complex_choices().length;++i) {
+            for (var i = 0; i < lab.model.complex_choices().length; ++i) {
                 var c = lab.model.complex_choices()[i];
                 if (c[0] == self.complexity()) {
                     return c[1];
@@ -56,10 +56,10 @@
                 self.reset();
                 console.log(self.complexity());
                 lab.tasks.sort(function (left, right) {
-                    if (left.complexity() == right.complexity()){
+                    if (left.complexity() == right.complexity()) {
                         return left.pk == right.pk ? 0 : left.pk < right.pk ? -1 : 1;
                     } else {
-                        return left.complexity() < right.complexity()? -1 : 1;
+                        return left.complexity() < right.complexity() ? -1 : 1;
                     }
 
                 });
@@ -126,20 +126,23 @@
                 lab_id: self.pk,
                 description: "...",
                 csrfmiddlewaretoken: $.cookie("csrftoken")
-            }).done(function () {
-                model.previewLabs();
-                model.ReloadTree();
+            }).done(function (r) {
+                self.tasks.push(new Task(self, r));
+                //new Task()
+                //model.previewLabs();
+                //model.ReloadTree();
             });
         };
 
         self.Remove = function () {
             model.modalConfirm.message("Удалить лабораторную?<h2>" + self.title() + "</h2>");
-            model.modalConfirm.show(function() {
+            model.modalConfirm.show(function () {
                 $.post(model.urls.labs.remove, {
                     pk: self.pk,
                     csrfmiddlewaretoken: $.cookie("csrftoken")
                 }).done(function () {
-                    model.previewLabs();
+                    //model.previewLabs();
+                    model.labs.remove(self);
                     model.ReloadTree();
                 })
             })
@@ -157,6 +160,7 @@
 
         self.lastNode = null;
         self.lastNodeID = null;
+        self.visible = ko.observable(true);
 
         self.urls = {
             tasks: {
@@ -236,18 +240,6 @@
             }).on("select_node.jstree", function (e, info) {
                 self.previewLabs(info.node);
             });
-
-            //labs_tree.jstree("open_all");
-            var node = labs_tree.jstree("get_node", localStorage.lastNodeID);
-            if (node) {
-                labs_tree.jstree("close_all");
-                if (node) {
-                    labs_tree.jstree("open_node", node);
-                } else {
-                    labs_tree.jstree("open_all");
-                }
-                self.previewLabs(node);
-            }
         }
 
         self.previewLabs = function (node) {
@@ -258,7 +250,7 @@
             if (!node) {
                 return false;
             }
-
+            self.visible(false);
             $.get(self.urls.labs.list_json, {
                 discipline_id: node.data.discipline_id,
                 lab_id: node.data.lab_id
@@ -270,14 +262,28 @@
                     return true;
                 });
                 self.lastNode = node;
+            }).always(function () {
+                self.visible(true);
             });
         };
 
         self.Init = function () {
-            //$(window).on("scroll", function (e) {
-            //    $("#tree").css("margin-top", $(this).scrollTop());
-            //});
+            $(window).on("scroll", function (e) {
+                $("#tree-holder").css("top", $(this).scrollTop());
+            });
+
             InitTree();
+
+            var node = labs_tree.jstree("get_node", localStorage.lastNodeID);
+            if (node) {
+                labs_tree.jstree("close_all");
+                if (node) {
+                    labs_tree.jstree("open_node", node);
+                } else {
+                    labs_tree.jstree("open_all");
+                }
+                self.previewLabs(node);
+            }
         };
 
         self.ReloadTree = function () {

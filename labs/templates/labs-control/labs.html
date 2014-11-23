@@ -1,14 +1,29 @@
 {% load static %}
 
-<div class="panel-group" id="labs-accordion" data-bind="foreach: labs">
-    <div class="panel panel-default lab expanded">
-        <div class="panel-heading" style="position: relative">
-            <h2 class="panel-title">
-                <span class="lab-title" data-bind="text: title"></span>
-            </h2>
+<div data-bind="ifnot: visible">
+    <h1 style="text-align: center">Загрузка...</h1>
 
-            {% if user.is_authenticated and not is_plugin %}
-                <div style="position: absolute; right: 4px; top:4px;">
+    <div class="progress">
+        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar"
+             style="width: 100%">
+        </div>
+    </div>
+</div>
+
+<div data-bind="if: visible">
+    <div class="panel-group" id="labs-accordion" data-bind="foreach: labs">
+        <div class="panel panel-default lab expanded">
+            <div class="panel-heading" style="position: relative">
+                {#                <h2 class="panel-title" >#}
+
+                {#                </h2>#}
+                <div class="form-inline">
+                    <button class="btn btn-default" data-toggle="collapse"
+                            data-bind="attr: {'data-target': '#lab_' + $data.pk }">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+                    <input class="form-control" data-bind="value: title" style="width: 50%"/>
+
                     <button class="form-button-update-lab btn btn-sm btn-success"
                             data-action="{% url "labs.views.labscontrol.update_lab" %}"
                             data-bind="click: Save">
@@ -19,51 +34,85 @@
                             data-bind="click: AddTask">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
-
-                    <button class="form-button-remove-lab btn btn-sm btn-danger" data-bind="click: Remove">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
+                    <div class="form-group pull-right">
+                        <button class="form-button-remove-lab btn btn-sm btn-danger" data-bind="click: Remove">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
                 </div>
-            {% endif %}
-        </div>
+                {% if user.is_authenticated and not is_plugin %}
+                    <div style="position: absolute; right: 4px; top:4px;">
 
-        <div class="panel-body">
-            <div class="lab-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
-            <ol class="tasks" data-bind="foreach: tasks">
-                <li class="task item" style="position: relative;" data-bind="css: complex_css">
+                    </div>
+                {% endif %}
+            </div>
+            <div class="panel-collapse collapse"
+                 data-bind="attr: {'id': 'lab_' + $data.pk }, css: {'in': $root.labs().length == 1}">
+                <div class="panel-body">
+                    <div class="lab-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
+                    <ol class="tasks" data-bind="foreach: tasks">
+                        <li class="task item" style="position: relative;" data-bind="css: complex_css">
 
-                    <div class="task-description" contenteditable="true" data-bind="ckeditorInline: description"></div>
+                            <div class="task-description" contenteditable="true"
+                                 data-bind="ckeditorInline: description"></div>
 
-                    <div class="menu-task">
-                        <!-- СТУДЕНТЫ ВЫБРАВШИЕ ЗАДАЧУ -->
-                        <div class="task-users-selector"
-                             data-ajax-url="{% url "students.views.students.ajax.json.list_students" %}"
-                             data-ajax-term="filter"
-                             data-placeholder="никто не выбрал эту задачу"
-                             data-bind="select2: users"></div>
-                        <!-- / СТУДЕНТЫ ВЫБРАВШИЕ ЗАДАЧУ -->
+                            <div class="menu-task">
+                                <!-- СТУДЕНТЫ ВЫБРАВШИЕ ЗАДАЧУ -->
+                                <div class="task-users-selector"
+                                     data-ajax-url="{% url "students.views.students.ajax.json.list_students" %}"
+                                     data-ajax-term="filter"
+                                     data-placeholder="никто не выбрал эту задачу"
+                                     data-bind="select2: users"></div>
+                                <!-- / СТУДЕНТЫ ВЫБРАВШИЕ ЗАДАЧУ -->
 
-                        <!-- СЛОЖНОСТЬ ЗАДАЧИ -->
-                        <div class="menu-complexity" data-bind="foreach: $root.complex_choices">
-                            <div class="menu-complexity-item"
-                                 data-bind="css: $data[1], attr: {value: $data[1]},
+                                <!-- СЛОЖНОСТЬ ЗАДАЧИ -->
+                                <div class="menu-complexity" data-bind="foreach: $root.complex_choices">
+                                    <div class="menu-complexity-item"
+                                         data-bind="css: $data[1], attr: {value: $data[1]},
                                   click: $parent.setComplex,
                                   visible: $parent.complexity() != $data[0]"></div>
-                        </div>
-                        <!-- / СЛОЖНОСТЬ ЗАДАЧИ -->
+                                </div>
+                                <!-- / СЛОЖНОСТЬ ЗАДАЧИ -->
 
-                        <!-- КНОПКИ УПРАВЛЕНИЯ ЗАДАЧЕЙ -->
-                        <a href="#" class="save" style="margin-left: 8px"
-                           data-bind="visible: changed,
+                                <!-- КНОПКИ УПРАВЛЕНИЯ ЗАДАЧЕЙ -->
+                                <a href="#" class="save" style="margin-left: 8px"
+                                   data-bind="visible: changed,
                            click: Save.bind($data, '{% url "labs.views.labscontrol.update_task" %}')">
-                            сохранить
-                        </a>
-                        <a href="#" class="text-danger pull-right" data-bind="click: Remove">удалить</a>
-                        <!-- / КНОПКИ УПРАВЛЕНИЯ ЗАДАЧЕЙ -->
-                    </div>
-                </li>
-            </ol>
+                                    сохранить
+                                </a>
+                                <a href="#" class="text-danger pull-right" data-bind="click: Remove">удалить</a>
+                                <!-- / КНОПКИ УПРАВЛЕНИЯ ЗАДАЧЕЙ -->
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="panel-heading" style="position: relative">
+                    <h2 class="panel-title">
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </h2>
+
+                    {% if user.is_authenticated and not is_plugin %}
+                        <div style="position: absolute; right: 4px; top:4px;">
+                            <button class="form-button-update-lab btn btn-sm btn-success"
+                                    data-action="{% url "labs.views.labscontrol.update_lab" %}"
+                                    data-bind="click: Save">
+                                <span class="glyphicon glyphicon-save"></span>
+                            </button>
+
+                            <button class="form-button-add-task btn btn-sm btn-default"
+                                    data-bind="click: AddTask">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+
+                            <button class="form-button-remove-lab btn btn-sm btn-danger" data-bind="click: Remove">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
         </div>
     </div>
-</div>
 
+</div>
