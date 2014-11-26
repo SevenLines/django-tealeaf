@@ -137,6 +137,21 @@ $marks-size: 30px;
   }
 
   .students-list {
+        @for $i from 1 through 4 {
+          > table > tbody > tr:nth-child(#{$i}) {
+            .student {
+              .god {
+                &:after {
+                  -webkit-animation-delay: #{$i/10}s;
+                  -moz-animation-delay: #{$i/10}s;
+                  -o-animation-delay: #{$i/10}s;
+                  animation-delay: #{$i/10}s;
+                }
+              }
+            }
+          }
+        }
+
     max-width: $students-list-width;
     width: $students-list-width;
 
@@ -160,13 +175,10 @@ $marks-size: 30px;
         background-color: white !important;
 
         .god {
-          $stripe-color: rgba($common_color, 0.05);
-          background: linear-gradient(
-                          135deg, $stripe-color 25%, white 25%,
-                          white 50%, $stripe-color 50%, $stripe-color 75%,
-                          white 75%, white
-          );
-          @include background_size(40px 40px);
+          //          box-shadow: 0 0 4px white;
+          &:after {
+//            @include animation(godAnimation2 3s linear infinite);
+          }
         }
 
       }
@@ -178,15 +190,23 @@ $marks-size: 30px;
         background-color: white;
       }
       .god {
-        $stripe-color: #fff871;
-        background: linear-gradient(
-                        135deg, $stripe-color 25%, transparent 25%,
-                        transparent 50%, $stripe-color 50%, $stripe-color 75%,
-                        transparent 75%, transparent
-        );
-        @include background_size(40px 40px);
-        @include animation(godAnimation 1s linear infinite);
         position: relative;
+        box-shadow: 0 0 6px #f49900;
+        &:after {
+          content: ' ';
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          left: 4px;
+          right: 0;
+          bottom: 0;
+          background: white;
+          margin: 3px;
+          border-radius: 3px;
+          @include animation(godAnimation2 3s linear infinite);
+
+        }
+        background-color: #ffe500;
       }
     }
 
@@ -456,7 +476,7 @@ $marks-size: 30px;
     &.mercy {
       background-color: white;
       z-index: 100;
-//      box-shadow: 0 0 4px white inset;
+      //      box-shadow: 0 0 4px white inset;
       @include animation(mercy-glow 6s infinite);
     }
     // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
@@ -547,6 +567,20 @@ $marks-size: 30px;
   }
   100% {
     background-position: 40px 0;
+  }
+}
+
+@include keyframes(godAnimation2) {
+  0% {
+    opacity: 0;
+    width: 0;
+  }
+  50% {
+    opacity: .4;
+  }
+  100% {
+    opacity: 0;
+    width: 100%;
   }
 }
 
