@@ -61,7 +61,7 @@
         transition: all 0.1s;
         border: 6px solid black; }
 .marks-editor .marks-students-list-header-button-group button {
-  max-width: 100px;
+  padding-right: 0;
   font-size: 12px;
   overflow: hidden; }
 .marks-editor .students-list {
