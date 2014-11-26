@@ -70,6 +70,26 @@
   overflow: hidden;
   float: left;
   clear: none; }
+  .marks-editor .students-list > table > tbody > tr:nth-child(1) .student .god:after {
+    -webkit-animation-delay: 0.1s;
+    -moz-animation-delay: 0.1s;
+    -o-animation-delay: 0.1s;
+    animation-delay: 0.1s; }
+  .marks-editor .students-list > table > tbody > tr:nth-child(2) .student .god:after {
+    -webkit-animation-delay: 0.2s;
+    -moz-animation-delay: 0.2s;
+    -o-animation-delay: 0.2s;
+    animation-delay: 0.2s; }
+  .marks-editor .students-list > table > tbody > tr:nth-child(3) .student .god:after {
+    -webkit-animation-delay: 0.3s;
+    -moz-animation-delay: 0.3s;
+    -o-animation-delay: 0.3s;
+    animation-delay: 0.3s; }
+  .marks-editor .students-list > table > tbody > tr:nth-child(4) .student .god:after {
+    -webkit-animation-delay: 0.4s;
+    -moz-animation-delay: 0.4s;
+    -o-animation-delay: 0.4s;
+    animation-delay: 0.4s; }
   .marks-editor .students-list .hover .student {
     -webkit-transition: all ease-in-out 0.2s;
     -moz-transition: all ease-in-out 0.2s;
@@ -90,25 +110,28 @@
       -o-transition: all ease-in-out 0.1s;
       transition: all ease-in-out 0.1s;
       border-left: 8px solid #8cacae; }
-    .marks-editor .students-list .hover .student .god {
-      background: linear-gradient(135deg, rgba(140, 172, 174, 0.05) 25%, white 25%, white 50%, rgba(140, 172, 174, 0.05) 50%, rgba(140, 172, 174, 0.05) 75%, white 75%, white);
-      -webkit-background-size: 40px 40px;
-      -moz-background-size: 40px 40px;
-      -ms-background-size: 40px 40px;
-      background-size: 40px 40px; }
+    .marks-editor .students-list .hover .student .god:after {
+      -webkit-animation: godAnimation2 3s linear infinite;
+      -moz-animation: godAnimation2 3s linear infinite;
+      -o-animation: godAnimation2 3s linear infinite;
+      animation: godAnimation2 3s linear infinite; }
   .marks-editor .students-list .student .badge {
     background-color: white; }
   .marks-editor .students-list .student .god {
-    background: linear-gradient(135deg, #fff871 25%, transparent 25%, transparent 50%, #fff871 50%, #fff871 75%, transparent 75%, transparent);
-    -webkit-background-size: 40px 40px;
-    -moz-background-size: 40px 40px;
-    -ms-background-size: 40px 40px;
-    background-size: 40px 40px;
-    -webkit-animation: godAnimation 1s linear infinite;
-    -moz-animation: godAnimation 1s linear infinite;
-    -o-animation: godAnimation 1s linear infinite;
-    animation: godAnimation 1s linear infinite;
-    position: relative; }
+    position: relative;
+    box-shadow: 0 0 6px #f49900;
+    background-color: #ffe500; }
+    .marks-editor .students-list .student .god:after {
+      content: ' ';
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 4px;
+      right: 0;
+      bottom: 0;
+      background: white;
+      margin: 3px;
+      border-radius: 3px; }
   .marks-editor .students-list > table {
     width: 100%;
     table-layout: fixed;
@@ -494,3 +517,39 @@
 
   100% {
     background-position: 40px 0; } }
+
+@-webkit-keyframes godAnimation2 {
+  0% {
+    opacity: 0;
+    width: 0; }
+
+  50% {
+    opacity: .4; }
+
+  100% {
+    opacity: 0;
+    width: 100%; } }
+
+@-moz-keyframes godAnimation2 {
+  0% {
+    opacity: 0;
+    width: 0; }
+
+  50% {
+    opacity: .4; }
+
+  100% {
+    opacity: 0;
+    width: 100%; } }
+
+@keyframes godAnimation2 {
+  0% {
+    opacity: 0;
+    width: 0; }
+
+  50% {
+    opacity: .4; }
+
+  100% {
+    opacity: 0;
+    width: 100%; } }
