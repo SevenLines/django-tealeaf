@@ -10,6 +10,9 @@
                 <span class="glyphicon glyphicon-star"></span>
                 <!-- ko text: $root.scoreMethod --><!-- /ko -->
             </button>
+            <button style="padding-left: 0.5em" class="btn btn-sm btn-link pull-right" data-bind="click: toggleBadStudentHiding">
+                <span class="glyphicon" data-bind="css: {'glyphicon-eye-close': hideBadStudents(), 'glyphicon-eye-open': !hideBadStudents()} "></span>
+            </button>
         </div>
     </div>
 </form>

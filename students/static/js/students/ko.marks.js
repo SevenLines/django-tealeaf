@@ -374,6 +374,7 @@
         };
 
         self.marksTypes = ko.observableArray();
+        self.hideBadStudents = ko.observable(true);
 
 // CSRF UTILS
         self.csrf = data.csrf;
@@ -735,6 +736,10 @@
         self.toggleScorePercents = function () {
             self.showPercents(!self.showPercents());
             $.cookie(self.cookie.score_method, self.showPercents(), {expires: self.cookie.expires});
+        };
+
+        self.toggleBadStudentHiding = function () {
+            self.hideBadStudents(!self.hideBadStudents());
         };
 
 

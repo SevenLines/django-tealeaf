@@ -110,11 +110,6 @@
       -o-transition: all ease-in-out 0.1s;
       transition: all ease-in-out 0.1s;
       border-left: 8px solid #8cacae; }
-    .marks-editor .students-list .hover .student .god:after {
-      -webkit-animation: godAnimation2 3s linear infinite;
-      -moz-animation: godAnimation2 3s linear infinite;
-      -o-animation: godAnimation2 3s linear infinite;
-      animation: godAnimation2 3s linear infinite; }
   .marks-editor .students-list .student .badge {
     background-color: white; }
   .marks-editor .students-list .student .god {
@@ -131,7 +126,11 @@
       bottom: 0;
       background: white;
       margin: 3px;
-      border-radius: 3px; }
+      border-radius: 3px;
+      -webkit-animation: godAnimation2 3s linear infinite;
+      -moz-animation: godAnimation2 3s linear infinite;
+      -o-animation: godAnimation2 3s linear infinite;
+      animation: godAnimation2 3s linear infinite; }
   .marks-editor .students-list > table {
     width: 100%;
     table-layout: fixed;

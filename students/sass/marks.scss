@@ -137,20 +137,20 @@ $marks-size: 30px;
   }
 
   .students-list {
-    @for $i from 1 through 4 {
-      > table > tbody > tr:nth-child(#{$i}) {
-        .student {
-          .god {
-            &:after {
-              -webkit-animation-delay: #{$i/10}s;
-              -moz-animation-delay: #{$i/10}s;
-              -o-animation-delay: #{$i/10}s;
-              animation-delay: #{$i/10}s;
+        @for $i from 1 through 4 {
+          > table > tbody > tr:nth-child(#{$i}) {
+            .student {
+              .god {
+                &:after {
+                  -webkit-animation-delay: #{$i/10}s;
+                  -moz-animation-delay: #{$i/10}s;
+                  -o-animation-delay: #{$i/10}s;
+                  animation-delay: #{$i/10}s;
+                }
+              }
             }
           }
         }
-      }
-    }
 
     max-width: $students-list-width;
     width: $students-list-width;
@@ -175,8 +175,9 @@ $marks-size: 30px;
         background-color: white !important;
 
         .god {
+          //          box-shadow: 0 0 4px white;
           &:after {
-            @include animation(godAnimation2 3s linear infinite);
+//            @include animation(godAnimation2 3s linear infinite);
           }
         }
 
@@ -202,6 +203,8 @@ $marks-size: 30px;
           background: white;
           margin: 3px;
           border-radius: 3px;
+          @include animation(godAnimation2 3s linear infinite);
+
         }
         background-color: #ffe500;
       }

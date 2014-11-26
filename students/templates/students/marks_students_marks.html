@@ -34,11 +34,11 @@
             </thead>
             <!-- ТАБЛИЦА КОЛОНА СТУДЕНТОВ -->
             <tbody data-bind="foreach: $root.students">
+            <!-- ko if: !$root.hideBadStudents() || (success_factor() >= 0.25) -->
             <tr style="text-align: center">
                 <td data-bind="style: color, css: style" class="student">
                     <div class="info">
                         <table width="100%" data-bind="css: { 'god': success_factor() >= 1 } ">
-                            <tr>
                                 <td class="name">
                                     <span class="pull-left" data-bind="text: (second_name + ' ' + name)"></span>
                                 </td>
@@ -57,6 +57,7 @@
                     </div>
                 </td>
             </tr>
+            <!-- /ko -->
             </tbody>
             <tfoot>
             <tr>
@@ -108,6 +109,7 @@
             </thead>
             <!-- ТАБЛИЦА ОЦЕНОК -->
             <tbody data-bind="foreach: $root.students">
+            <!-- ko if: !$root.hideBadStudents() || (success_factor() >= 0.25) -->
             <tr style="text-align: center">
                 <!-- ko foreach: marks -->
                 <td class="mark"
@@ -116,6 +118,7 @@
                 <!-- /ko -->
                 <td></td>
             </tr>
+            <!-- /ko -->
             </tbody>
             <tfoot>
             <tr>
