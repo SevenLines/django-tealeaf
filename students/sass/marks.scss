@@ -130,7 +130,8 @@ $marks-size: 30px;
 
   .marks-students-list-header-button-group {
     button {
-      max-width: $students-list-width/2 - 10;
+//      max-width: $students-list-width/2 - 10;
+      padding-right: 0;
       font-size: 12px;
       overflow: hidden;
     }
