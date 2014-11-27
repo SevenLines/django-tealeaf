@@ -236,6 +236,16 @@
             return new Mark(item);
         });
 
+        self.full_name = ko.computed(function () {
+            //var name = $(document).width() < 400 ? self.name[0] + '.' : self.name;
+            return self.second_name + ' ' + self.name;
+        });
+
+        self.short_name = ko.computed(function () {
+            return self.name && self.name.slice(-1) != '.' ? self.name[0] + '.' : '';
+        });
+
+
         self.success_factor = ko.computed(function () {
             var lessons_count = self.marks.filter(function(m){return m.lesson.score_ignore()==false;}).length;
             var max = lessons_count * 3;

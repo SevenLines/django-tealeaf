@@ -153,11 +153,6 @@ $marks-size: 30px;
       }
     }
 
-    @media (max-width: $width-medium) {
-      max-width: $students-list-width*0.75;
-      width: $students-list-width*0.75;
-    }
-
     max-width: $students-list-width;
     width: $students-list-width;
 
@@ -215,7 +210,6 @@ $marks-size: 30px;
         background-color: #ffe500;
       }
     }
-
     > table {
       width: 100%;
       table-layout: fixed;
@@ -228,6 +222,9 @@ $marks-size: 30px;
           td {
             &.name {
               padding-left: 3px;
+              .name-n {
+                display: none
+              }
             }
             &.score {
               padding-right: 3px;
@@ -249,9 +246,6 @@ $marks-size: 30px;
       > thead {
         box-shadow: 0 2px 8px $table-border-color;
       }
-    }
-    @media (max-width: $width-medium) {
-      margin-left: $students-list-width*0.75;
     }
     margin-left: $students-list-width;
     overflow: scroll;
@@ -599,3 +593,5 @@ $marks-size: 30px;
 //  }
 //}
 //
+
+@import "xs-small";

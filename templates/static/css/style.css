@@ -520,7 +520,7 @@ a[href$='.sqlite'] {
     background-color: #8cacae;
     color: white; }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   .container .left-board {
     padding-left: 0; }
     .container .left-board .content {

@@ -90,10 +90,6 @@
     -moz-animation-delay: 0.4s;
     -o-animation-delay: 0.4s;
     animation-delay: 0.4s; }
-  @media (max-width: 768px) {
-    .marks-editor .students-list {
-      max-width: 165px;
-      width: 165px; } }
   .marks-editor .students-list .hover .student {
     -webkit-transition: all ease-in-out 0.2s;
     -moz-transition: all ease-in-out 0.2s;
@@ -146,6 +142,8 @@
         table-layout: fixed; }
         .marks-editor .students-list > table .info > table td.name {
           padding-left: 3px; }
+          .marks-editor .students-list > table .info > table td.name .name-n {
+            display: none; }
         .marks-editor .students-list > table .info > table td.score {
           padding-right: 3px; }
 .marks-editor .marks-list {
@@ -166,9 +164,6 @@
     border-right: none; }
     .marks-editor .marks-list > table > thead {
       box-shadow: 0 2px 8px #cccccc; }
-  @media (max-width: 768px) {
-    .marks-editor .marks-list {
-      margin-left: 165px; } }
 .marks-editor table.table-marks {
   border-collapse: collapse; }
   .marks-editor table.table-marks > tbody > tr, .marks-editor table.table-marks > thead > tr, .marks-editor table.table-marks > tfoot > tr {
@@ -559,3 +554,18 @@
   100% {
     opacity: 0;
     width: 100%; } }
+
+@media (max-width: 420px) {
+  .marks-editor .marks-students-list-header-button-group .btn-text {
+    display: none; }
+  .marks-editor .marks-students-list-header-button-group button {
+    padding-right: 10px; }
+  .marks-editor .students-list {
+    max-width: 132px;
+    width: 132px; }
+    .marks-editor .students-list > table .info > table td.name .name-n {
+      display: inline; }
+    .marks-editor .students-list > table .info > table td.name .name-name {
+      display: none; }
+  .marks-editor .marks-list {
+    margin-left: 132px; } }

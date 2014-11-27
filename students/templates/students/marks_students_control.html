@@ -4,11 +4,11 @@
         <div class="marks-students-list-header-button-group">
                 <button class="btn btn-sm btn-link" data-bind="click: toggleStudentsSorting">
                     <span class="glyphicon glyphicon-sort"></span>
-                    <!-- ko text: $root.sortMethod() ? $root.sortMethod().title : "" --><!-- /ko -->
+                    <span class="btn-text" data-bind="text: $root.sortMethod() ? $root.sortMethod().title : ''"></span>
                 </button>
                 <button style="padding-left: 0.5em" class="btn btn-sm btn-link" data-bind="click: toggleScorePercents">
                     <span class="glyphicon glyphicon-star"></span>
-                    <!-- ko text: $root.scoreMethod --><!-- /ko -->
+                    <span class="btn-text" data-bind="text: $root.scoreMethod"></span>
                 </button>
                 <button style="padding-left: 0.5em" class="btn btn-sm btn-link"
                         data-bind="click: toggleBadStudentHiding">

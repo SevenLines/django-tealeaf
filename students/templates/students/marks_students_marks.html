@@ -38,7 +38,11 @@
                     <div class="info">
                         <table width="100%" data-bind="css: { 'god': success_factor() >= 1 } ">
                             <td class="name">
-                                <span class="pull-left" data-bind="text: (second_name + ' ' + name)"></span>
+                                <span class="pull-left">
+                                    <span class="name-second-name" data-bind="text: second_name"></span>
+                                    <span class="name-name" data-bind="text: name"></span>
+                                    <span class="name-n" data-bind="text: short_name"></span>
+                                </span>
                             </td>
                             <td class="score" style="padding-left: 8px">
                                 <span class="pull-right badge student-info-badge"
