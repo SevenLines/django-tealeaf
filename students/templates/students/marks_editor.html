@@ -99,9 +99,11 @@
             <link rel="stylesheet" href="{% static "css/marks.css" %}"/>
         {% endaddtoblock %}
 
-        {% assets "marks_js" %}
-            <script type="text/javascript" src="{% static ASSET_URL %}"></script>
-        {% endassets %}
+        {% addtoblock "js" %}
+            {% assets "marks_js" %}
+                <script type="text/javascript" src="{% static ASSET_URL %}"></script>
+            {% endassets %}
+        {% endaddtoblock %}
 
         {% addtoblock "js" %}
             <script>

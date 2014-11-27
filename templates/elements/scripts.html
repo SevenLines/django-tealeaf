@@ -1,13 +1,19 @@
 {% load static sekizai_tags assets %}
 
-{% addtoblock "top_js" %}
+{% addtoblock "core_js" %}
     {% assets "main_js" %}
         <script type="text/javascript" src="{% static ASSET_URL %}"></script>
     {% endassets %}
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="{% static "lib/html5shiv.js" %}"></script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="{% static "lib/respond.min.js" %}" ></script>
+    <![endif]-->
 {% endaddtoblock %}
 
 
-{% addtoblock "js" %}
+{% addtoblock "core_js" %}
     {% if user.is_authenticated %}
         <script>
             $("body").click(function (evt) {
@@ -24,9 +30,3 @@
     {% endif %}
 {% endaddtoblock %}
 
-<!--[if lt IE 9]>
-      <script type="text/javascript" src="{% static "lib/html5shiv.js" %}"></script>
-<![endif]-->
-<!--[if lt IE 9]>
-      <script type="text/javascript" src="{% static "lib/respond.min.js" %}" ></script>
-<![endif]-->
