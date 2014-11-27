@@ -9,8 +9,9 @@ $incredible: hsl(70, 78%, 15%);
 $godlike: hsl(70, 80%, 10%);
 $hover-color: grey;
 $exam-hue-offset: 100;
+$exam-hue-offset: 100;
 $laba-hue-offset: 280;
-$test-hue-offset: 300;
+$test-hue-offset: 295;
 $mix-weight: 70%;
 $td-margin: 0px;
 
@@ -174,16 +175,7 @@ $marks-size: 30px;
 
         opacity: 1 !important;
         background-color: white !important;
-
-        .god {
-          //          box-shadow: 0 0 4px white;
-          &:after {
-            //            @include animation(godAnimation2 3s linear infinite);
-          }
-        }
-
       }
-
     }
 
     .student {
@@ -368,9 +360,11 @@ $marks-size: 30px;
       }
 
       &.test {
-        $clr: adjust_hue($color, $test-hue-offset);
+//        adjust_hue($color, $test-hue-offset),
+        $clr: saturate(adjust_hue($color, $test-hue-offset), 20);
         @if ($use-shadow) {
           @include shadow(darken($clr, $lighten));
+//          box-shadow: 0 0 4px darken($clr, $lighten);
         }
         background-color: $clr;
         @if ($stripes) {
@@ -390,7 +384,7 @@ $marks-size: 30px;
       }
 
       &.laba {
-        $clr: adjust_hue($color, $laba-hue-offset);
+        $clr: lighten(adjust_hue($color, $laba-hue-offset), 15);
         @if ($use-shadow) {
           @include shadow(darken($clr, $lighten));
         }
