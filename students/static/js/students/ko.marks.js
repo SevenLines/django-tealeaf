@@ -247,7 +247,9 @@
 
 
         self.success_factor = ko.computed(function () {
-            var lessons_count = self.marks.filter(function(m){return m.lesson.score_ignore()==false;}).length;
+            var lessons_count = self.marks.filter(function (m) {
+                return m.lesson.score_ignore() == false;
+            }).length;
             var max = lessons_count * 3;
             var min = lessons_count * -2;
             var diff = (max - min);
@@ -506,12 +508,12 @@
                 });
                 self.unblock();
                 if (self.groups().every(function (entry) {
-                    if (group_id == entry.id) {
-                        self.group(entry);
-                        return false;
-                    }
-                    return true;
-                })) {
+                        if (group_id == entry.id) {
+                            self.group(entry);
+                            return false;
+                        }
+                        return true;
+                    })) {
                     if (self.groups().length) {
                         self.group(self.groups()[0]);
                     } else {
@@ -641,49 +643,55 @@
 
 // >>> ЗАГРУЗКА ДАННЫХ
         self.isStudentsLoading = ko.observable(true);
+        self.showLoading = ko.computed(function () {
+            return self.group() && (self.isStudentsLoading() || (self.students && self.students().length == 0));
+        });
+
         self.loadStudents = function () {
             self.isStudentsLoading(true);
-            $.get(self.url.students, {
-                'group_id': self.group().id,
-                'discipline_id': self.discipline() ? self.discipline().id : -1
-            }).done(function (data) {
-                // fill lesson_types list
-                self.lesson_types(data.lesson_types);
+            setTimeout(function () {
+                $.get(self.url.students, {
+                    'group_id': self.group().id,
+                    'discipline_id': self.discipline() ? self.discipline().id : -1
+                }).done(function (data) {
+                    // fill lesson_types list
+                    self.lesson_types(data.lesson_types);
 
-                // fill mark types, and find max and min value at the same time
-                marksTypes = {};
-                self.marksTypes(data.mark_types);
-                data.mark_types.every(function (item) {
-                    marksTypes[item['k']] = item['v'];
-                    if (!marksTypes.max < parseInt(item['k'])) {
-                        marksTypes.max = parseInt(item['k']);
-                    }
-                    if (!marksTypes.min > parseInt(item['k'])) {
-                        marksTypes.min = parseInt(item['k']);
-                    }
-                    return true
+                    // fill mark types, and find max and min value at the same time
+                    marksTypes = {};
+                    self.marksTypes(data.mark_types);
+                    data.mark_types.every(function (item) {
+                        marksTypes[item['k']] = item['v'];
+                        if (!marksTypes.max < parseInt(item['k'])) {
+                            marksTypes.max = parseInt(item['k']);
+                        }
+                        if (!marksTypes.min > parseInt(item['k'])) {
+                            marksTypes.min = parseInt(item['k']);
+                        }
+                        return true
+                    });
+
+                    // fill lessons list
+                    var map_lessons = $.map(data.lessons, function (item) {
+                        return new Lesson(item);
+                    });
+                    self.lessons(map_lessons);
+
+                    // map students list
+                    var map_students = $.map(data.students, function (item) {
+                        item.lessons = self.lessons;
+                        return new Student(item);
+                    });
+                    self.students(map_students);
+
+                    self.sortMethod(self.sortMethods[$.cookie(self.cookie.sorting)]);
+
+                    $.cookie(self.cookie.group_id, self.group().id, {expires: self.cookie.expires});
+                }).always(function () {
+                    self.isStudentsLoading(false);
+                    self.resetMarksInterface();
                 });
-
-                // fill lessons list
-                var map_lessons = $.map(data.lessons, function (item) {
-                    return new Lesson(item);
-                });
-                self.lessons(map_lessons);
-
-                // map students list
-                var map_students = $.map(data.students, function (item) {
-                    item.lessons = self.lessons;
-                    return new Student(item);
-                });
-                self.students(map_students);
-
-                self.sortMethod(self.sortMethods[$.cookie(self.cookie.sorting)]);
-
-                $.cookie(self.cookie.group_id, self.group().id, {expires: self.cookie.expires});
-            }).always(function () {
-                self.isStudentsLoading(false);
-                self.resetMarksInterface();
-            });
+            }, 60);
         };
 
         self.loadStudentsControl = function () {

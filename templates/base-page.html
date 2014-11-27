@@ -44,17 +44,17 @@
     {% endspaceless %}
     <div class="left-board">
         <div class="content">
-
             {% block basecontent %}
             {% endblock %}
         </div>
     </div>
 </div>
 
-
 {% render_block "css" %}
 {% render_block "core_js" %}
 {% render_block "js" %}
+
+{% cms_toolbar %}
 
 {% if not DEBUG and not DONT_USE_METRICS %}
     {% include "elements/google-analytics.html" %}
@@ -62,10 +62,6 @@
 {% else %}
     <!-- IN DEBUG VERSION google-analytics and yandex-metrics is not accessible -->
 {% endif %}
-{% cms_toolbar %}
-{% include "elements/back-to-top-button.html" %}
-{% include "elements/login-form.html" %}
-{% include "elements/messages.html" %}
 
 </body>
 </html>

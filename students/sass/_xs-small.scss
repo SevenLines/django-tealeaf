@@ -1,8 +1,8 @@
 @import "const";
 
-$shrink: 0.6;
+$shrink: 0.7;
 
-@media (max-width: $width-xsmall) {
+@media (max-width: $width-medium) {
 
   .marks-editor {
     .marks-students-list-header-button-group {

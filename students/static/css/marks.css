@@ -555,17 +555,17 @@
     opacity: 0;
     width: 100%; } }
 
-@media (max-width: 420px) {
+@media (max-width: 768px) {
   .marks-editor .marks-students-list-header-button-group .btn-text {
     display: none; }
   .marks-editor .marks-students-list-header-button-group button {
     padding-right: 10px; }
   .marks-editor .students-list {
-    max-width: 132px;
-    width: 132px; }
+    max-width: 154px;
+    width: 154px; }
     .marks-editor .students-list > table .info > table td.name .name-n {
       display: inline; }
     .marks-editor .students-list > table .info > table td.name .name-name {
       display: none; }
   .marks-editor .marks-list {
-    margin-left: 132px; } }
+    margin-left: 154px; } }

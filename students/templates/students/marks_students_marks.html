@@ -1,5 +1,4 @@
-<!-- ko if: group() && (isStudentsLoading() || (students && students().length == 0)) -->
-<div class="jumbotron">
+<div class="jumbotron" data-bind="visible: showLoading">
     <div class="row">
         <div class="col-md-9">
             <h1 class="">Группа &laquo;<!-- ko text: group()? group().title : '' --><!-- /ko -->&raquo;</h1>
@@ -17,7 +16,6 @@
     </div>
 </div>
 
-<!-- /ko -->
 <!-- ko ifnot: isStudentsLoading -->
 <!-- ko if: students && students().length > 0 -->
 <div class="marks-table">
