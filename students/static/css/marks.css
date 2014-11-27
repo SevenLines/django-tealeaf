@@ -90,6 +90,10 @@
     -moz-animation-delay: 0.4s;
     -o-animation-delay: 0.4s;
     animation-delay: 0.4s; }
+  @media (max-width: 768px) {
+    .marks-editor .students-list {
+      max-width: 165px;
+      width: 165px; } }
   .marks-editor .students-list .hover .student {
     -webkit-transition: all ease-in-out 0.2s;
     -moz-transition: all ease-in-out 0.2s;
@@ -162,6 +166,9 @@
     border-right: none; }
     .marks-editor .marks-list > table > thead {
       box-shadow: 0 2px 8px #cccccc; }
+  @media (max-width: 768px) {
+    .marks-editor .marks-list {
+      margin-left: 165px; } }
 .marks-editor table.table-marks {
   border-collapse: collapse; }
   .marks-editor table.table-marks > tbody > tr, .marks-editor table.table-marks > thead > tr, .marks-editor table.table-marks > tfoot > tr {

@@ -305,9 +305,6 @@ a[href$='.sqlite'] {
       box-shadow: none; }
       .menu > ul > li.active > a, .menu > ul > li.ancestor > a {
         text-decoration: none; }
-    .menu > ul > li:hover {
-      background-color: rgba(255, 255, 255, 0.94) !important;
-      box-shadow: none  !important; }
     .menu > ul > li > a {
       text-shadow: 0 0 1px silver;
       width: 64px;
@@ -327,9 +324,20 @@ a[href$='.sqlite'] {
         @media (max-width: 750px) {
           .menu > ul > li > a > img {
             padding: 0px 4px; } }
-    .menu > ul > li:hover ul {
-      opacity: 1;
-      max-width: 192px; }
+    .menu > ul > li:hover {
+      background-color: rgba(255, 255, 255, 0.94) !important;
+      box-shadow: none !important; }
+      .menu > ul > li:hover ul {
+        opacity: 1;
+        max-width: 192px; }
+    .menu > ul > li.email ul {
+      box-shadow: none; }
+      .menu > ul > li.email ul > li {
+        text-align: center;
+        background-color: white; }
+        .menu > ul > li.email ul > li a {
+          color: black;
+          text-decoration: none; }
     .menu > ul > li ul {
       -webkit-transition: all ease-in-out 0.2s;
       -moz-transition: all ease-in-out 0.2s;
@@ -343,7 +351,7 @@ a[href$='.sqlite'] {
       list-style: none;
       position: absolute;
       left: 64px;
-      top: 0px;
+      top: 0;
       box-shadow: 0 0 2px #8cacae;
       border: 1px none;
       border-radius: 0 8px 8px 0;
@@ -351,14 +359,6 @@ a[href$='.sqlite'] {
       @media (max-width: 750px) {
         .menu > ul > li ul {
           left: 48px; } }
-      .menu > ul > li ul.email {
-        box-shadow: none; }
-        .menu > ul > li ul.email > li {
-          text-align: center;
-          background-color: white; }
-          .menu > ul > li ul.email > li a {
-            color: black;
-            text-decoration: none; }
       .menu > ul > li ul > li {
         -webkit-transition: all ease-in-out 0.1s;
         -moz-transition: all ease-in-out 0.1s;
@@ -519,3 +519,34 @@ a[href$='.sqlite'] {
   #back-to-top:hover {
     background-color: #8cacae;
     color: white; }
+
+@media (max-width: 400px) {
+  .container .left-board {
+    padding-left: 0; }
+    .container .left-board .content {
+      padding-top: 60px; }
+  .container .menu {
+    top: 0;
+    overflow: hidden; }
+    .container .menu > ul {
+      background: #8cacae url("images/ornaments_in_36px_h.png") repeat-x;
+      width: 100%;
+      margin-bottom: 0; }
+      .container .menu > ul > li {
+        float: left;
+        border-right: 1px solid #000000; }
+        .container .menu > ul > li.active, .container .menu > ul > li.ancestor {
+          border-bottom: none; }
+        .container .menu > ul > li:first-child {
+          border-left: none; }
+        .container .menu > ul > li.email {
+          display: none; }
+        .container .menu > ul > li > ul {
+          left: 0;
+          top: 37px; }
+        .container .menu > ul > li > a {
+          width: auto;
+          padding: 1em;
+          height: 36px; }
+          .container .menu > ul > li > a > .glyphicon, .container .menu > ul > li > a > img {
+            display: none; } }
