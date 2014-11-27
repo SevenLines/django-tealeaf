@@ -15,7 +15,7 @@
         {% include "students/marks_discipline_list.html" %}
         <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
 
-        <form class="form-inline">
+        <form class="form-inline" style="padding-bottom: 1em">
             {% if user.is_authenticated %}
                 <!-- СПИСОК ГОДОВ -->
                 <div class="form-group">
@@ -25,7 +25,7 @@
                 <!-- КОНЕЦ СПИСОК ГОДОВ -->
             {% endif %}
             <!-- СПИСОК ГРУПП -->
-            <div class="form-group" style="padding-bottom: 0">
+            <div class="form-group" style="margin-bottom: 0">
                 <select class="form-control" name="group"
                         data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
             </div>
