@@ -1,14 +1,18 @@
 {% load static sekizai_tags assets ex_tags %}
 
-{% addtoblock "css" %}
+{% addtoblock "core_css" %}
     {% assets "main_css" %}
         <link rel="stylesheet" href="{{ ASSET_URL }}"/>
     {% endassets %}
 {% endaddtoblock %}
 
-{% theme %}
+{% addtoblock "core_css" %}
+    {% theme %}
+{% endaddtoblock %}
 {#<link rel="stylesheet" href="{% static "css/theme_grey.css" %}"/>#}
+{% addtoblock "core_css" %}
+    <!--[if lt IE 9]>
+        <link rel="stylesheet" href="{% static 'css/ie8.css' %}" media="all">
+    <![endif]-->
+{% endaddtoblock %}
 
-<!--[if lt IE 9]>
-    <link rel="stylesheet" href="{% static 'css/ie8.css' %}" media="all">
-<![endif]-->
