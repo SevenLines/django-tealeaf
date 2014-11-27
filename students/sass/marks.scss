@@ -58,6 +58,26 @@ $marks-size: 30px;
   }
 }
 
+.god {
+  position: relative;
+  box-shadow: 0 0 6px #f49900;
+  &:after {
+    content: ' ';
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white;
+    margin: 3px;
+    border-radius: 3px;
+    @include animation(godAnimation2 3s linear infinite);
+
+  }
+  background-color: #ffe500;
+}
+
 .marks-editor {
 
   .marks-legend {
@@ -181,25 +201,6 @@ $marks-size: 30px;
     .student {
       .badge {
         background-color: white;
-      }
-      .god {
-        position: relative;
-        box-shadow: 0 0 6px #f49900;
-        &:after {
-          content: ' ';
-          opacity: 0;
-          position: absolute;
-          top: 0;
-          left: 4px;
-          right: 0;
-          bottom: 0;
-          background: white;
-          margin: 3px;
-          border-radius: 3px;
-          @include animation(godAnimation2 3s linear infinite);
-
-        }
-        background-color: #ffe500;
       }
     }
     > table {
@@ -360,11 +361,11 @@ $marks-size: 30px;
       }
 
       &.test {
-//        adjust_hue($color, $test-hue-offset),
+        //        adjust_hue($color, $test-hue-offset),
         $clr: saturate(adjust_hue($color, $test-hue-offset), 20);
         @if ($use-shadow) {
           @include shadow(darken($clr, $lighten));
-//          box-shadow: 0 0 4px darken($clr, $lighten);
+          //          box-shadow: 0 0 4px darken($clr, $lighten);
         }
         background-color: $clr;
         @if ($stripes) {
