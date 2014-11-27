@@ -2,53 +2,20 @@
 {% load static sekizai_tags assets %}
 
 {% block basecontent %}
-    {% if user.is_authenticated %}
-        <!-- lesson template -->
-        <div style="display: none" data-bind="with: lesson">
-            <form id="template-lesson-edit" class="form">
-                <div class="form-group">
-                    <input class="form-control lesson-date" data-bind="value: date">
-                </div>
-                <div class="form-group">
-                    <textarea id="lesson-description" class="form-control"
-                              data-bind="value: description_raw"></textarea>
-                </div>
-                <div class="form-group">
-                    <select class="form-control"
-                            data-bind="value: lesson_type, options: $root.lesson_types, optionsValue: 'id', optionsText: 'title'">
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" data-bind="checked: score_ignore"> не учитывать
-                    </label>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary save" data-bind="click: $root.saveLesson">
-                        <i class="glyphicon glyphicon-save"></i>
-                    </button>
-                    <button class="btn btn-danger pull-right delete" data-bind="click: $root.removeLesson">
-                        <i class="glyphicon glyphicon-remove"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-        <!-- END lesson template -->
-    {% endif %}
-
     <noscript>
         <div class="jumbotron">
             <h1>Javascript</h1>
 
-            <h3>Необходимо включить его, чтобы таблица отображалось!</h3>
+            <h3>Необходимо включить его, чтобы таблица отображалось корректно!</h3>
         </div>
     </noscript>
+
     <div class="marks-editor nojs">
         <!-- СПИСОК ДИСЦИПЛИН -->
         {% include "students/marks_discipline_list.html" %}
         <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
 
-        <form class="form-inline" style="padding-bottom: 1em">
+        <form class="form-inline">
             {% if user.is_authenticated %}
                 <!-- СПИСОК ГОДОВ -->
                 <div class="form-group">
@@ -57,20 +24,18 @@
                 </div>
                 <!-- КОНЕЦ СПИСОК ГОДОВ -->
             {% endif %}
-            {#            <div class="form-group">#}
             <!-- СПИСОК ГРУПП -->
-            <div class="form-group">
+            <div class="form-group" style="padding-bottom: 0">
                 <select class="form-control" name="group"
                         data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
             </div>
-            {#                {% if user.is_authenticated %}#}
-            <!-- КНОПКА ВЫГРУЗКИ В EXCEL -->
-            <button class="btn btn-success" data-bind="click: toExcel">
-                <span>список в *.xls</span>
-            </button>
-            <!-- КОНЕЦ КНОПКА ВЫГРУЗКИ В EXCEL -->
-            {#                {% endif %}#}
+
             {% if user.is_authenticated %}
+                <!-- КНОПКА ВЫГРУЗКИ В EXCEL -->
+                <button class="btn btn-success" data-bind="click: toExcel">
+                    <span>список в *.xls</span>
+                </button>
+                <!-- КОНЕЦ КНОПКА ВЫГРУЗКИ В EXCEL -->
                 <!-- КНОПКА СОХРАНЕНИЯ -->
                 {#                <div class="">#}
                 <button class="btn btn-sm btn-success"
@@ -85,7 +50,6 @@
                 <!-- КОНЕЦ КНОПКИ СОХРАНЕНИЯ -->
             {% endif %}
             <!-- КОНЕЦ СПИСОК ГРУПП -->
-            {#            </div>#}
 
             <div style="clear: both;"></div>
         </form>
@@ -107,26 +71,28 @@
 
         {% addtoblock "js" %}
             <script>
-                ko.applyBindings(new MarksViewModel({
-                    csrf: "{{ csrf_token }}",
-                    url: {
-                        years: "{% url "students.views.students.ajax.json.years" %}",
-                        groups: "{% url "students.views.students.ajax.json.groups" %}",
-                        students: "{% url "students.views.marks.students" %}",
-                        disciplines: "{% url "students.views.marks.disciplines.index" %}",
-                        to_excel: "{% url "students.views.marks.marks_to_excel" %}",
-                        {% if user.is_authenticated %}
-                            discipline_add: "{% url "students.views.marks.disciplines.add" %}",
-                            discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
-                            discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
-                            students_control: "{% url "students.views.marks.students_control" %}",
-                            lesson_add: "{% url "students.views.marks.lesson_add" %}",
-                            lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
-                            lesson_save: "{% url "students.views.marks.lesson_save" %}",
-                            marks_save: "{% url "students.views.marks.marks_save" %}"
-                        {% endif %}
-                    }
-                }));
+                $(function () {
+                    ko.applyBindings(new MarksViewModel({
+                        csrf: "{{ csrf_token }}",
+                        url: {
+                            years: "{% url "students.views.students.ajax.json.years" %}",
+                            groups: "{% url "students.views.students.ajax.json.groups" %}",
+                            students: "{% url "students.views.marks.students" %}",
+                            disciplines: "{% url "students.views.marks.disciplines.index" %}",
+                            to_excel: "{% url "students.views.marks.marks_to_excel" %}",
+                            {% if user.is_authenticated %}
+                                discipline_add: "{% url "students.views.marks.disciplines.add" %}",
+                                discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
+                                discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
+                                students_control: "{% url "students.views.marks.students_control" %}",
+                                lesson_add: "{% url "students.views.marks.lesson_add" %}",
+                                lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
+                                lesson_save: "{% url "students.views.marks.lesson_save" %}",
+                                marks_save: "{% url "students.views.marks.marks_save" %}"
+                            {% endif %}
+                        }
+                    }));
+                });
             </script>
         {% endaddtoblock "js" %}
     </div>

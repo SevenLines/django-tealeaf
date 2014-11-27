@@ -1,5 +1,7 @@
 {% load static sekizai_tags assets %}
 
+
+
 {% addtoblock "core_js" %}
     {% assets "main_js" %}
         <script type="text/javascript" src="{% static ASSET_URL %}"></script>
@@ -8,8 +10,12 @@
       <script type="text/javascript" src="{% static "lib/html5shiv.js" %}"></script>
     <![endif]-->
     <!--[if lt IE 9]>
-      <script type="text/javascript" src="{% static "lib/respond.min.js" %}" ></script>
+      <script type="text/javascript" src="{% static "lib/respond.min.js" %}"></script>
     <![endif]-->
+
+    {% include "elements/back-to-top-button.html" %}
+    {% include "elements/login-form.html" %}
+    {% include "elements/messages.html" %}
 {% endaddtoblock %}
 
 
