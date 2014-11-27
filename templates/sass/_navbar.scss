@@ -32,10 +32,6 @@
 
       border-bottom: 1px solid $menu_border_color;
       background-color: rgba($container_bg_color, 0.75);
-      &:hover {
-        background-color: rgba($container_bg_color, 0.94) !important;
-        box-shadow: none  !important;
-      }
 
       > a {
         text-shadow: 0 0 1px silver;
@@ -62,9 +58,25 @@
       position: relative;
 
       &:hover {
+        background-color: rgba($container_bg_color, 0.94) !important;
+        box-shadow: none !important;
         ul {
           opacity: 1;
           max-width: 3*$menu_width;
+        }
+      }
+
+      &.email {
+        ul {
+          box-shadow: none;
+          > li {
+            text-align: center;
+            a {
+              color: black;
+              text-decoration: none;
+            }
+            background-color: $container_bg_color;
+          }
         }
       }
 
@@ -80,24 +92,12 @@
           left: $menu_width_shrinked;
         }
         left: $menu_width;
-        top: 0px;
+        top: 0;
         box-shadow: 0 0 2px $common_color;
         border: 1px none;
         border-radius: 0 8px 8px 0;
 
         opacity: 0;
-
-        &.email {
-          box-shadow: none;
-          > li {
-            text-align: center;
-            a {
-              color: black;
-              text-decoration: none;
-            }
-            background-color: $container_bg_color;
-          }
-        }
 
         > li {
           @include transition(0.1s);
@@ -140,7 +140,7 @@
 }
 
 #articles-list {
-  >ul {
+  > ul {
 
   }
 }

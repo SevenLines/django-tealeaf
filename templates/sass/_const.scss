@@ -26,6 +26,10 @@ $menu_border_color: lighten(darken($common_color, 40%), 30%);
 $container_bg_color: white;
 
 $min_screen_width: 750px;
+$width-xsmall: 420px;
+$width-small: 500px;
+$width-medium: 768px;
+$width-big: 990px;
 
 @mixin transition($speed) {
   -webkit-transition: all ease-in-out $speed;

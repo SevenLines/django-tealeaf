@@ -1,0 +1,50 @@
+@import "const";
+
+@media (max-width: $width-xsmall) {
+  .container {
+
+    .left-board {
+      padding-left: 0;
+      .content {
+        padding-top: 60px;
+      }
+    }
+    .menu {
+      top: 0;
+      overflow: hidden;
+      > ul {
+        background: $common_color url("images/ornaments_in_36px_h.png") repeat-x;
+
+        width: 100%;
+        margin-bottom: 0;
+//        padding-bottom: 4px;
+        //        background-color: white;
+        > li {
+          float: left;
+          &.active, &.ancestor {
+            border-bottom: none;
+          }
+          &:first-child {
+            border-left: none;
+          }
+          border-right: 1px solid #000000;
+          &.email {
+            display: none;
+          }
+          > ul {
+            left: 0;
+            top: 37px;
+          }
+          > a {
+            > .glyphicon, > img {
+              display: none;
+            }
+            width: auto;
+            padding: 1em;
+            height: 36px;
+          }
+        }
+      }
+    }
+  }
+}

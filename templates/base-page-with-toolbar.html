@@ -21,7 +21,8 @@
             <ul>
                 <li class="logo{% if request.path == "/" %} active{% endif %}">
                     <a {% if not request.path == "/" %} href="/" {% endif %}><span
-                            class="glyphicon glyphicon-leaf"></span><br>чаинка
+                            class="glyphicon glyphicon-leaf"></span>
+                        <span>чаинка</span>
                     </a>
                 </li>
                 {% show_menu 0 100 100 100 "elements/menu_vertical.html" %}
@@ -30,11 +31,11 @@
                     {% custom_menu_items request %}
                 {% endif %}
                 {# END CUSTOM MENU ITEMS #}
-                <li>
+                <li class="email">
                     <a>
                         <span class="glyphicon glyphicon-envelope"></span>
                     </a>
-                    <ul class="email">
+                    <ul>
                         <li><a>{{ "mmailm.math@mail.ru"|obfuscate }}</a></li>
                     </ul>
                 </li>

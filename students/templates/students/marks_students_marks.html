@@ -38,7 +38,11 @@
                     <div class="info">
                         <table width="100%" data-bind="css: { 'god': success_factor() >= 1 } ">
                             <td class="name">
-                                <span class="pull-left" data-bind="text: (second_name + ' ' + name)"></span>
+                                <span class="pull-left">
+                                    <span class="name-second-name" data-bind="text: second_name"></span>
+                                    <span class="name-name" data-bind="text: name"></span>
+                                    <span class="name-n" data-bind="text: short_name"></span>
+                                </span>
                             </td>
                             <td class="score" style="padding-left: 8px">
                                 <span class="pull-right badge student-info-badge"
@@ -146,26 +150,29 @@
                 о балльно-рейтинговой системе оценки успеваемости студентов (пункт 4.3), </a>
                 студенты, чья эффективность ниже <b>30%</b>, к экзамену (зачету и т.п.) допущены не будут.
 
-            <p>*** Максимальная возможная итоговая оценка за дисциплину (которая идет в зачетку) рассчитывается согласно
-                таблице:
-            <table class="table table-bordered table-">
-                <thead>
-                <tr>
-                    <th>Сумма</th>
-                    <th> меньше 70%</th>
-                    <th> меньше 80%</th>
-                    <th> в остальных случаях</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Ваша эффективность + 30%</td>
-                    <td>удовл.</td>
-                    <td>хорошо</td>
-                    <td>отлично</td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="visible-sm visible-md visible-lg">
+                <p>*** Максимальная возможная итоговая оценка за дисциплину (которая идет в зачетку) рассчитывается
+                    согласно
+                    таблице:
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Сумма</th>
+                        <th> меньше 70%</th>
+                        <th> меньше 80%</th>
+                        <th> в остальных случаях</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Ваша эффективность + 30%</td>
+                        <td>удовл.</td>
+                        <td>хорошо</td>
+                        <td>отлично</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

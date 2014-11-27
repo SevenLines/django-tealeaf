@@ -130,7 +130,7 @@ $marks-size: 30px;
 
   .marks-students-list-header-button-group {
     button {
-//      max-width: $students-list-width/2 - 10;
+      //      max-width: $students-list-width/2 - 10;
       padding-right: 0;
       font-size: 12px;
       overflow: hidden;
@@ -138,20 +138,20 @@ $marks-size: 30px;
   }
 
   .students-list {
-        @for $i from 1 through 4 {
-          > table > tbody > tr:nth-child(#{$i}) {
-            .student {
-              .god {
-                &:after {
-                  -webkit-animation-delay: #{$i/10}s;
-                  -moz-animation-delay: #{$i/10}s;
-                  -o-animation-delay: #{$i/10}s;
-                  animation-delay: #{$i/10}s;
-                }
-              }
+    @for $i from 1 through 4 {
+      > table > tbody > tr:nth-child(#{$i}) {
+        .student {
+          .god {
+            &:after {
+              -webkit-animation-delay: #{$i/10}s;
+              -moz-animation-delay: #{$i/10}s;
+              -o-animation-delay: #{$i/10}s;
+              animation-delay: #{$i/10}s;
             }
           }
         }
+      }
+    }
 
     max-width: $students-list-width;
     width: $students-list-width;
@@ -178,7 +178,7 @@ $marks-size: 30px;
         .god {
           //          box-shadow: 0 0 4px white;
           &:after {
-//            @include animation(godAnimation2 3s linear infinite);
+            //            @include animation(godAnimation2 3s linear infinite);
           }
         }
 
@@ -210,7 +210,6 @@ $marks-size: 30px;
         background-color: #ffe500;
       }
     }
-
     > table {
       width: 100%;
       table-layout: fixed;
@@ -223,6 +222,9 @@ $marks-size: 30px;
           td {
             &.name {
               padding-left: 3px;
+              .name-n {
+                display: none
+              }
             }
             &.score {
               padding-right: 3px;
@@ -591,3 +593,5 @@ $marks-size: 30px;
 //  }
 //}
 //
+
+@import "xs-small";
