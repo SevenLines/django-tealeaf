@@ -4,13 +4,13 @@
             <h1 class="">Группа &laquo;<!-- ko text: group()? group().title : '' --><!-- /ko -->&raquo;</h1>
 
             <p>
-                <!-- ko if: isStudentsLoading -->Загружаю список...<!-- /ko-->
-                <!-- ko ifnot: isStudentsLoading -->Список пока не готов<!-- /ko-->
+                <!-- ko if: isStudentsLoading -->загружаю список...<!-- /ko-->
+                <!-- ko ifnot: isStudentsLoading -->список пока не готов<!-- /ko-->
             </p>
         </div>
         <!-- ko if: isStudentsLoading -->
         <div class="col-md-3">
-            <div class="pull-right loader"></div>
+            <div class="loader"></div>
         </div>
         <!-- /ko -->
     </div>
