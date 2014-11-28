@@ -140,7 +140,8 @@ class Discipline(models.Model):
                 elif mark == Mark.MARK_SHINING:  # сияние дарует 100% достижнения
                     if s < i * 3:
                         s = i * 3
-                    elif i == len(student_marks):  # а если в самом конце и у студента не меньше 100 дарует 1000 балов :D
+                    elif i == len(
+                            student_marks):  # а если в самом конце и у студента не меньше 100 дарует 1000 балов :D
                         s = i * 30 + float(i * 30) / 70 * 27
                 elif mark == Mark.MARK_MERCY:
                     if s < 0:
@@ -231,6 +232,11 @@ class DisciplineMarksCache(models.Model):
     marks_json = models.TextField(default="")
     marks_excel = models.BinaryField(null=True)
 
+    class Meta:
+        index_together = [
+            ["discipline", "group"],
+        ]
+
     @staticmethod
     def get(discipline_id, group_id):
         val = DisciplineMarksCache.objects.filter(discipline_id=discipline_id, group_id=group_id).first()
@@ -256,6 +262,7 @@ class DisciplineMarksCache(models.Model):
         :param discipline_id:
         :param group_id:
         """
+
         val = DisciplineMarksCache.objects.filter(discipline_id=discipline_id, group_id=group_id).first()
         if val is None:
             val = DisciplineMarksCache()
@@ -337,9 +344,9 @@ class DisciplineMarksCache(models.Model):
             if lt['id'] >= 2:
                 bg_color = Color(bg_colors[Mark.MARK_NORMAL])
                 bg_color.set_hue({
-                    2: 0.15,
-                    3: 0.5
-                }.get(lt['id'], bg_color.get_hue()))
+                                     2: 0.15,
+                                     3: 0.5
+                                 }.get(lt['id'], bg_color.get_hue()))
 
                 frmt.set_bg_color(bg_color.get_hex_l())
 
@@ -438,7 +445,7 @@ class DisciplineMarksCache(models.Model):
         if len(lessons) < len(students):
             worksheet.set_landscape()
         # if group:
-        #     worksheet.set_header(u"&C{}".format(group.title))
+        # worksheet.set_header(u"&C{}".format(group.title))
 
         worksheet.fit_to_pages(1, 1)
 
