@@ -1,0 +1,15 @@
+@import "theme_grey_base";
+
+//@include theme_color(#ffb800);
+
+$common_color: #ffb800;
+
+body {
+  background-image: none;
+  background-color: $common_color;
+  #bg-fill {
+//    box-shadow: 0 0 510px adjust_hue($common_color, -20) inset;
+    background-image: radial-gradient( #ffb800 0%, adjust_hue($common_color, -20) 100%);
+//    background-image: none;
+  }
+}
