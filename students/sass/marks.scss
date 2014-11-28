@@ -78,6 +78,38 @@ $marks-size: 30px;
   background-color: #ffe500;
 }
 
+.jumbotron {
+    &.loading {
+//      font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
+
+      background-color: #ffe500;
+      box-shadow: 0 0 6px #f49900, 0 0 40px white inset;
+      color: darken(#f47e00, 10);
+      h1 {
+        color: #f46400;
+//        text-shadow: 0 0 4px white;
+        font-weight: bold;
+      }
+      .loader {
+        margin: 0 auto;
+        font-size: 14px;
+        text-indent: -9999em;
+        border: 1.1em solid #ffc700;
+        border-left-color: #fff199;
+        -webkit-animation: loaderAnimation 1.1s infinite linear;
+        animation: loaderAnimation 1.1s infinite linear;
+        border-radius: 50%;
+        width: 10em;
+        height: 10em;
+        &:after {
+          border-radius: 50%;
+          width: 10em;
+          height: 10em;
+        }
+      }
+    }
+  }
+
 .marks-editor {
 
   .marks-legend {
@@ -518,24 +550,6 @@ $marks-size: 30px;
 }
 
 // --- ОЦЕНКА
-
-.loader {
-  margin: 0 auto;
-  font-size: 14px;
-  text-indent: -9999em;
-  border: 1.1em solid #E8E8E8;
-  border-left-color: skyblue;
-  -webkit-animation: loaderAnimation 1.1s infinite linear;
-  animation: loaderAnimation 1.1s infinite linear;
-  border-radius: 50%;
-  width: 10em;
-  height: 10em;
-  &:after {
-    border-radius: 50%;
-    width: 10em;
-    height: 10em;
-  }
-}
 
 @-webkit-keyframes loaderAnimation {
   0% {
