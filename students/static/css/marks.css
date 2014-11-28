@@ -29,6 +29,29 @@
     -o-animation: godAnimation2 3s linear infinite;
     animation: godAnimation2 3s linear infinite; }
 
+.jumbotron.loading {
+  background-color: #ffe500;
+  box-shadow: 0 0 6px #f49900, 0 0 40px white inset;
+  color: #c16400; }
+  .jumbotron.loading h1 {
+    color: #f46400;
+    font-weight: bold; }
+  .jumbotron.loading .loader {
+    margin: 0 auto;
+    font-size: 14px;
+    text-indent: -9999em;
+    border: 1.1em solid #ffc700;
+    border-left-color: #fff199;
+    -webkit-animation: loaderAnimation 1.1s infinite linear;
+    animation: loaderAnimation 1.1s infinite linear;
+    border-radius: 50%;
+    width: 10em;
+    height: 10em; }
+    .jumbotron.loading .loader:after {
+      border-radius: 50%;
+      width: 10em;
+      height: 10em; }
+
 .marks-editor .marks-legend {
   padding-left: 1em;
   font-size: 0.8em; }
@@ -464,22 +487,6 @@
 
   100% {
     box-shadow: 0 0 0px #cef08a inset; } }
-
-.loader {
-  margin: 0 auto;
-  font-size: 14px;
-  text-indent: -9999em;
-  border: 1.1em solid #E8E8E8;
-  border-left-color: skyblue;
-  -webkit-animation: loaderAnimation 1.1s infinite linear;
-  animation: loaderAnimation 1.1s infinite linear;
-  border-radius: 50%;
-  width: 10em;
-  height: 10em; }
-  .loader:after {
-    border-radius: 50%;
-    width: 10em;
-    height: 10em; }
 
 @-webkit-keyframes loaderAnimation {
   0% {
