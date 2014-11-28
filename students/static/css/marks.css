@@ -32,7 +32,10 @@
 .jumbotron.loading {
   background-color: #ffe500;
   box-shadow: 0 0 6px #f49900, 0 0 40px white inset;
-  color: #c16400; }
+  border-radius: 0;
+  border: 1px solid #f4b500;
+  color: #c16400;
+  margin-bottom: 1em; }
   .jumbotron.loading h1 {
     color: #f46400;
     font-weight: bold; }
