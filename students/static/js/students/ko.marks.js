@@ -678,17 +678,29 @@
                     });
                     self.lessons(map_lessons);
 
-                    // map students list
-                    var map_students = $.map(data.students, function (item) {
-                        item.lessons = self.lessons;
-                        return new Student(item);
-                    });
-                    self.students(map_students);
+                    var i = 0;
+                    self.students.removeAll();
+                    if (data.students.length > 0) {
+                        function add_item() {
+                            if (i == data.students.length - 1) {
+                                //self.students(map_students);
+                                self.sortMethod(self.sortMethods[$.cookie(self.cookie.sorting)]);
+                                $.cookie(self.cookie.group_id, self.group().id, {expires: self.cookie.expires});
+                                self.isStudentsLoading(false);
+                                self.resetMarksInterface();
+                            } else {
+                                var item = data.students[i];
+                                i += 1;
+                                item.lessons = self.lessons;
+                                self.students.push(new Student(item));
+                                setTimeout(add_item, 0);
+                            }
+                        }
 
-                    self.sortMethod(self.sortMethods[$.cookie(self.cookie.sorting)]);
-
-                    $.cookie(self.cookie.group_id, self.group().id, {expires: self.cookie.expires});
+                        add_item();
+                    }
                 }).always(function () {
+                }).fail(function () {
                     self.isStudentsLoading(false);
                     self.resetMarksInterface();
                 });
