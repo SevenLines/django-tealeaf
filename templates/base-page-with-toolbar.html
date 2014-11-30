@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static custom_css_tags cms_tags sekizai_tags menu_tags ex_tags %}
+{% load static custom_css_tags cms_tags sekizai_tags menu_tags ex_tags page_extend_tags %}
 <html>
 <head>
     {% include "elements/meta.html" %}
@@ -48,6 +48,9 @@
             {% endblock %}
         </div>
     </div>
+{#    {% if user.is_authenticated %}#}
+{#        {% pe_settings request %}#}
+{#    {% endif %}#}
 </div>
 
 {% render_block "css" %}

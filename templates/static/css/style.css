@@ -520,6 +520,30 @@ a[href$='.sqlite'] {
     background-color: #8cacae;
     color: white; }
 
+#page-properties {
+  position: fixed;
+  top: 0;
+  left: -170px;
+  padding-right: 50px;
+  padding-left: 0.5em;
+  margin-top: 0.5em;
+  -webkit-transition: all ease-in-out 0.3s;
+  -moz-transition: all ease-in-out 0.3s;
+  -ms-transition: all ease-in-out 0.3s;
+  -o-transition: all ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s; }
+  #page-properties img {
+    max-width: 64px;
+    max-height: 64px; }
+  #page-properties .form {
+    width: 160px;
+    border-radius: 1em;
+    border: 2px solid #c0c0c0;
+    background: white;
+    padding: 1em; }
+  #page-properties:hover {
+    left: 0; }
+
 @media (max-width: 420px) {
   .container .left-board {
     padding-left: 0; }

@@ -7,6 +7,7 @@ from django.views.generic.base import TemplateView
 admin.autodiscover()
 
 urlpatterns = i18n_patterns('',
+    url(r'^page_settings/', include('page_extend.urls')),
     url(r'^labs-control/', include('labs.urls.labs_control')),
     url(r'^students-url/', include('students.urls.students')),
     url(r'^marks-url/', include('students.urls.marks')),
