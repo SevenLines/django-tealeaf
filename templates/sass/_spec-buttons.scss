@@ -57,3 +57,30 @@
     color: white;
   }
 }
+
+#page-properties {
+  position: fixed;
+  top: 0;
+//  left: 99%;
+  left: -170px;
+  padding-right: 50px;
+  padding-left: 0.5em;
+  margin-top: 0.5em;
+  img {
+    max-width: 64 px;
+    max-height: 64px;
+  }
+  @include transition(0.3s);
+  .form {
+    width: 160px;
+    border-radius: 1em;
+    border: 2px solid #c0c0c0;
+    background: white;
+    padding: 1em;
+  }
+
+  &:hover {
+    left: 0;
+  }
+
+}
