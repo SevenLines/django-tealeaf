@@ -90,10 +90,18 @@
 
         self.Init = function (data) {
             self.tasks.removeAll();
-            data.tasks.every(function (item) {
-                self.tasks.push(new Task(self, item));
-                return true;
-            })
+
+            var i = 0;
+            function add_task() {
+                if (i < data.tasks.length) {
+                    self.tasks.push(new Task(self, data.tasks[i]));
+                    ++i;
+                    setTimeout(add_task, 0);
+                }
+            }
+            if (data.tasks.length > 0) {
+                add_task();
+            }
         };
 
         function getLab(el) {
@@ -257,11 +265,21 @@
             }).done(function (r) {
                 self.labs.removeAll();
                 self.complex_choices(r.complex_choices);
-                r.labs.every(function (item) {
-                    self.labs.push(new Lab(self, item));
-                    return true;
-                });
-                self.lastNode = node;
+
+                var i = 0;
+
+                function add_lab() {
+                    if (i < r.labs.length) {
+                        self.labs.push(new Lab(self, r.labs[i]));
+                        ++i;
+                        setTimeout(add_lab, 0);
+                    } else {
+                        self.lastNode = node;
+                    }
+                }
+                if (r.labs.length > 0) {
+                    add_lab();
+                }
             }).always(function () {
                 self.visible(true);
             });

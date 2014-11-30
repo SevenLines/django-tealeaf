@@ -680,25 +680,25 @@
 
                     var i = 0;
                     self.students.removeAll();
-                    if (data.students.length > 0) {
-                        function add_item() {
-                            if (i == data.students.length - 1) {
-                                //self.students(map_students);
-                                self.sortMethod(self.sortMethods[$.cookie(self.cookie.sorting)]);
-                                $.cookie(self.cookie.group_id, self.group().id, {expires: self.cookie.expires});
-                                self.isStudentsLoading(false);
-                                self.resetMarksInterface();
-                            } else {
-                                var item = data.students[i];
-                                i += 1;
-                                item.lessons = self.lessons;
-                                self.students.push(new Student(item));
-                                setTimeout(add_item, 0);
-                            }
+                    function add_item() {
+                        if (i < data.students.length) {
+                            var item = data.students[i];
+                            ++i;
+                            item.lessons = self.lessons;
+                            self.students.push(new Student(item));
+                            setTimeout(add_item, 0);
+                        } else {
+                            self.sortMethod(self.sortMethods[$.cookie(self.cookie.sorting)]);
+                            $.cookie(self.cookie.group_id, self.group().id, {expires: self.cookie.expires});
+                            self.isStudentsLoading(false);
+                            self.resetMarksInterface();
                         }
+                    }
 
+                    if (data.students.length > 0) {
                         add_item();
                     }
+
                 }).always(function () {
                 }).fail(function () {
                     self.isStudentsLoading(false);
