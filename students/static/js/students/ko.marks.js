@@ -536,7 +536,7 @@
             });
 
 // ### всплывающее меню редактирование занятия
-            console.log($(".lesson-edit").qtip());
+//            console.log($(".lesson-edit").qtip());
             $(".lesson-edit").qtip({
                 content: {
                     text: "",
