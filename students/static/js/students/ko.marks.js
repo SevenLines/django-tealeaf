@@ -678,9 +678,14 @@
                     });
                     self.lessons(map_lessons);
 
-                    var i = 0;
-                    self.students.removeAll();
+                    var i = -1;
+
                     function add_item() {
+                        if (i == -1) {
+                            self.students.removeAll();
+                            setTimeout(add_item, 0);
+                            ++i;
+                        }
                         if (i < data.students.length) {
                             var item = data.students[i];
                             ++i;
