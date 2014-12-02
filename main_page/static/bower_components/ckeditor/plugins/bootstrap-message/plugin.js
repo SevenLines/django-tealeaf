@@ -13,7 +13,7 @@ CKEDITOR.plugins.add('bootstrap-message', {
             toolbar: 'insert',
             icon : this.path + 'icons/message.png'
         });
-        console.log("hi");
+        //console.log("hi");
         if (editor.contextMenu) {
             editor.addMenuGroup("bootstrapMessageGroup");
             editor.addMenuItem("bootstrapMessageItem", {
