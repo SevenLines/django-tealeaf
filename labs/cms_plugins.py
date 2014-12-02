@@ -14,7 +14,11 @@ class LabsListPlugin(CMSPluginBase):
     cache = False
 
     def render(self, context, instance, placeholder):
-        context['labs'] = Lab.all_to_dict(instance.discipline.pk)
+        if instance.group:
+            context['labs'] = Lab.all_for_group(instance.group.pk)
+        elif instance.discipline:
+            context['labs'] = Lab.all_for_discipline(instance.discipline.pk)
+
         context['is_plugin'] = True
         context['complex_choice_tokens'] = dict(Task.COMPLEX_CHOICES)
         return context

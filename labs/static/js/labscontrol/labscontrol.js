@@ -92,6 +92,7 @@
             self.tasks.removeAll();
 
             var i = 0;
+
             function add_task() {
                 if (i < data.tasks.length) {
                     self.tasks.push(new Task(self, data.tasks[i]));
@@ -99,6 +100,7 @@
                     setTimeout(add_task, 0);
                 }
             }
+
             if (data.tasks.length > 0) {
                 add_task();
             }
@@ -197,9 +199,20 @@
             labs_tree.jstree({
                 "core": {
                     "check_callback": function (op, node, node_parent) {
+                        if (op == 'delete_node' && node_parent.data.group_id) {
+                            $.post(self.urls.labs.update, {
+                                pk: node.data.lab_id,
+                                group_id: -1,
+                                csrfmiddlewaretoken: $.cookie("csrftoken")
+                            }).done(function () {
+                                InterfaceAlerts.showSuccess();
+                            }).fail(function () {
+                                InterfaceAlerts.showFail();
+                            })
+                        }
                         if (op == 'move_node') {
                             if (node.data.lab_id && node_parent.data.discipline_id
-                                || node.data.task_id && node_parent.data.lab_id) {
+                                || node.data.lab_id && node_parent.data.group_id) {
                                 return true;
                             }
                             return false;
@@ -207,25 +220,59 @@
                     },
                     "multiple": false
                 },
+                "contextmenu": {
+                    items: function (o, cb) {
+                        var parent_node = $("#" + o.parent)[0];
+                        if (parent_node && parent_node.dataset.group_id) {
+                            return {
+                                "remove": {
+                                    "separator_before": false,
+                                    "icon": false,
+                                    "separator_after": false,
+                                    "_disabled": !parent_node.dataset.group_id, //(this.check("delete_node", data.reference, this.get_parent(data.reference), "")),
+                                    "label": "Удалить",
+                                    "action": function (data) {
+                                        var inst = $.jstree.reference(data.reference),
+                                            obj = inst.get_node(data.reference);
+                                        if (inst.is_selected(obj)) {
+                                            inst.delete_node(inst.get_selected());
+                                        }
+                                        else {
+                                            inst.delete_node(obj);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        return null;
+                    }
+                },
                 "dnd": {
                     inside_pos: "last",
                     is_draggable: function (info) {
                         if (info[0].data.lab_id) {
                             return true;
                         }
+                        return false;
                     }
                 },
-                "plugins": ["dnd", "wholerow", "state"]
+                "plugins": ["dnd", "wholerow", "state", "contextmenu"]
             }).on("move_node.jstree", function (e, info) {
                 if (info.node.data.lab_id) { // если перетаскиваем лабу
-                    var discipline_id = $("#" + info.node.parent)[0].dataset.discipline_id;
+                    var parent_node = $("#" + info.node.parent)[0];
+                    var discipline_id = parent_node.dataset.discipline_id;
+                    var group_id = parent_node.dataset.group_id;
                     $.post(self.urls.labs.update, {
                         pk: info.node.data.lab_id,
-                        position: info.position,
+                        position: group_id ? null : info.position,
                         discipline_id: discipline_id,
+                        group_id: group_id,
                         csrfmiddlewaretoken: $.cookie("csrftoken")
                     }).done(function () {
-                        self.previewLabs(self.lastNode);
+                        if (group_id) {
+                            self.ReloadTree();
+                        }
+                        //self.previewLabs(self.lastNode);
                         InterfaceAlerts.showSuccess();
                     }).fail(function () {
                         InterfaceAlerts.showFail();
@@ -261,6 +308,7 @@
             self.visible(false);
             $.get(self.urls.labs.list_json, {
                 discipline_id: node.data.discipline_id,
+                group_id: node.data.group_id,
                 lab_id: node.data.lab_id
             }).done(function (r) {
                 self.labs.removeAll();
@@ -268,6 +316,7 @@
 
                 var i = 0;
 
+                self.labs.removeAll();
                 function add_lab() {
                     if (i < r.labs.length) {
                         self.labs.push(new Lab(self, r.labs[i]));
@@ -277,6 +326,7 @@
                         self.lastNode = node;
                     }
                 }
+
                 if (r.labs.length > 0) {
                     add_lab();
                 }
@@ -316,20 +366,25 @@
 
         // добавление лабы
         tree.on("submit", "#form-lab-add", function () {
-            var discipline_id;
+            var discipline_id
+                ,group_id;
+
             if (self.lastNode) {
                 var parent_node = labs_tree.jstree("get_node", self.lastNode.parent);
                 if (self.lastNode.data.discipline_id) {
                     discipline_id = self.lastNode.data.discipline_id;
                 } else if (parent_node && parent_node.data.discipline_id) {
                     discipline_id = parent_node.data.discipline_id;
+                } else if (parent_node && parent_node.data.group_id) {
+                    group_id = parent_node.data.group_id;
                 }
             }
             $.post(this.action, {
                 csrfmiddlewaretoken: $.cookie("csrftoken"),
                 title: this.title.value,
                 description: this.title.description,
-                discipline_id: discipline_id
+                discipline_id: discipline_id,
+                group_id: group_id
             }).done(function () {
                 self.ReloadTree();
             });

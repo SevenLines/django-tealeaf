@@ -12,6 +12,8 @@
 </head>
 <body>
 
+{% cms_toolbar %}
+
 <div id="bg-fill">
 </div>
 
@@ -53,11 +55,12 @@
 {#    {% endif %}#}
 </div>
 
+
+
 {% render_block "css" %}
 {% render_block "core_js" %}
 {% render_block "js" %}
 
-{% cms_toolbar %}
 
 {% if not DEBUG and not DONT_USE_METRICS %}
     {% include "elements/google-analytics.html" %}

@@ -240,8 +240,9 @@
           box-shadow: 0 0 0 2px white;
           border-color: #fba198 !important; }
     .lab .tasks .user-info {
+      font-size: 0.9em;
       display: inline-block;
-      padding: 0.5em 1em;
+      padding: 0.25em 0.5em;
       float: right;
       list-style: none;
       border-radius: 8px;

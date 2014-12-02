@@ -13,4 +13,33 @@
             {% endfor %}
         </ul>
     </li>
+    <li>
+        Группы
+        <ul>
+            {% for y in years %}
+                <li>{{ y.year }}
+                    <ul>
+                        {% for grp in y.groups %}
+                            <li id="node-disc{{ grp.id }}" data-group_id="{{ grp.id }}">{{ grp.title }}
+                                <ul>
+                                    {% for lab in grp.labs %}
+                                        <li data-lab_id="{{ lab.id }}" class="jstree-drop">{{ lab.title }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>Остальные
+        <ul>
+            {% for lab in unsorted.labs %}
+                <li data-lab_id="{{ lab.id }}" class="jstree-drop">{{ lab.title }}
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
 </ul>
