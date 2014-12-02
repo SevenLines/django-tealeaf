@@ -37,21 +37,28 @@
             self.visitors_loading(true);
             $.get(url.visitors, {
                 page: page
-            }).done(function (responce) {
+            }).done(function (response) {
                 var lastD = null;
-                responce.visitors.every(function (item) {
-                    var curD = toLocString(item.start_time).substring(0, 10);
-                    if (lastD && curD != lastD) {
-                        item.last_of_day = true;
-                        console.log(lastD + " " + curD);
+                var i = 0;
+                function add_item() {
+                    if (i < response.visitors.length) {
+                        var item = response.visitors[i];
+                        var curD = toLocString(item.start_time).substring(0, 10);
+                        if (lastD && curD != lastD) {
+                            item.last_of_day = true;
+                            console.log(lastD + " " + curD);
+                        }
+                        lastD = curD;
+                        ++i;
+                        self.visitors.push(new Visitor(item));
+                        setTimeout(add_item, 0);
+                    } else {
+                        self.no_more_visitors(response.no_more);
+                        page++;
+                        resetInterface();
                     }
-                    lastD = curD;
-                    self.visitors.push(new Visitor(item));
-                    return true;
-                });
-                self.no_more_visitors(responce.no_more);
-                page++;
-                resetInterface();
+                }
+                add_item();
             }).always(function () {
                 self.visitors_loading(false);
             });
