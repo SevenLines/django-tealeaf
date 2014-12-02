@@ -9,7 +9,9 @@ def labs(request):
         lab = Lab.objects.get(pk=int(request.GET['lab_id']))
         labs_list = [lab.to_dict(True)]
     elif "discipline_id" in request.GET:
-        labs_list = Lab.all_to_dict(int(request.GET['discipline_id']), True)
+        labs_list = Lab.all_for_discipline(int(request.GET['discipline_id']), True)
+    elif "group_id" in request.GET:
+        labs_list = Lab.all_for_group(int(request.GET['group_id']), True)
 
     context = {
         'labs': labs_list if labs_list else [],

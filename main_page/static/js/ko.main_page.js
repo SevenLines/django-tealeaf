@@ -51,7 +51,7 @@ function MainPageModel(data) {
     });
     self.img_bootstrap_cols = ko.observable(data.img_bootstrap_cols);
 
-    self.modalSave = new ModalConfirm({ modal_selector: "#modalSave" });
+    self.modalSave = new ModalConfirm({modal_selector: "#modalSave"});
     self.modalDelete = new ModalConfirm({
         variable_name: "modalDelete",
         message: "Удалить?"
@@ -72,7 +72,7 @@ function MainPageModel(data) {
     self.init_current_theme = ko.observable();
 
     self.img_bootstrap_cols.subscribe(function (value) {
-        console.log(value);
+        //console.log(value);
         self.toggleImgBootstrapCols();
     });
 
@@ -149,21 +149,31 @@ function MainPageModel(data) {
     self.loadItems = function (select_newest_item) {
         $.get(self.url.items, {}, function (data) {
             self.current_item(self.reset_item());
-            self.items($.map(data, function (item) {
-                return new MainPageItem(item);
-            }));
-
-            for (var i = 0; i < self.items().length; ++i) {
-                if (select_newest_item) {
-                    self.current_item(self.items()[i]);
-                    break;
-                }
-                if (self.items()[i].active()) {
-                    self.current_item(self.items()[i]);
-                    break;
+            //self.items($.map(data, function (item) {
+            //    return new MainPageItem(item);
+            //}));
+            self.items.removeAll();
+            var j = 0;
+            function add_item() {
+                if (j < data.length) {
+                    self.items.push(new MainPageItem(data[j]));
+                    ++j;
+                    setTimeout(add_item, 0);
+                } else {
+                    for (var i = 0; i < self.items().length; ++i) {
+                        if (select_newest_item) {
+                            self.current_item(self.items()[i]);
+                            break;
+                        }
+                        if (self.items()[i].active()) {
+                            self.current_item(self.items()[i]);
+                            break;
+                        }
+                    }
+                    self.update_view();
                 }
             }
-            self.update_view();
+            add_item();
         })
     };
 
@@ -211,10 +221,10 @@ function MainPageModel(data) {
     };
 
     self.update_description = function () {
-        console.log(self.description());
+        //console.log(self.description());
         $.post(self.url.update_description, csrfize({
             description: self.description()
-        })).success(function() {
+        })).success(function () {
             InterfaceAlerts.showSuccess();
             self.update_view();
         }).fail(function () {
@@ -253,7 +263,7 @@ function MainPageModel(data) {
         })).done(function () {
             self.update_view();
             InterfaceAlerts.showSuccess();
-        }).fail(function() {
+        }).fail(function () {
             InterfaceAlerts.showFail();
         });
     }

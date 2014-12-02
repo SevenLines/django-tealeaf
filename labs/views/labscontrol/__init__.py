@@ -6,15 +6,17 @@ from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
+import itertools
 
 from app.utils import require_in_POST
 from labs.models import Lab, Task, TaskStudent
-from students.models import Discipline
+from labs.views.labscontrol import _ajax
+from students.models import Discipline, Group
 
 #
 # def labs(request):
-#     labs_list = None
-#     if "lab_id" in request.POST:
+# labs_list = None
+# if "lab_id" in request.POST:
 #         lab = Lab.objects.get(pk=int(request.POST['lab_id']))
 #         labs_list = [lab.to_dict()]
 #     elif "discipline_id" in request.POST:
@@ -27,27 +29,37 @@ from students.models import Discipline
 #     return render(request, "labs-control/labs-preview.html", context)
 
 
+def tree_context(request):
+    disciplines = list([model_to_dict(d) for d in Discipline.objects.all()])
+    for d in disciplines:
+        d.update(labs=Lab.all_for_discipline(d['id']))
+
+    years = itertools.groupby([model_to_dict(g) for g in Group.objects.all()], lambda x: x['year'])
+    years = [{'year': i[0], 'groups': list(i[1])} for i in years]
+    for y in years:
+        for g in y['groups']:
+            g.update(labs=Lab.all_for_group(g['id']))
+
+    context = {
+        'disciplines': disciplines,
+        'years': years,
+        'unsorted': {
+            'labs': Lab.objects.filter(discipline=None, group=None),
+        },
+    }
+
+    return context
+
+
 @login_required
 def labs_editor(request):
-    disciplines = list([model_to_dict(d) for d in Discipline.objects.all()])
-    disciplines.append(model_to_dict(Discipline(id=-1, title="неактивные")))
-    for d in disciplines:
-        d.update(labs=Lab.all_to_dict(d['id']))
-    context = {
-        'disciplines': disciplines
-    }
+    context = tree_context(request)
     return render(request, "labs-control/labs-editor.html", context)
 
 
 @login_required
 def tree(request):
-    disciplines = list([model_to_dict(d) for d in Discipline.objects.all()])
-    disciplines.append(model_to_dict(Discipline(id=-1, title="неактивные")))
-    for d in disciplines:
-        d.update(labs=Lab.all_to_dict(d['id']))
-    context = {
-        'disciplines': disciplines
-    }
+    context = tree_context(request)
     return render(request, "labs-control/labs-tree-items.html", context)
 
 
@@ -66,9 +78,15 @@ def add_lab(request):
         if discipline_id > 0:
             lab.discipline_id = discipline_id
 
+    if 'group_id' in request.POST:
+        group_id = int(request.POST['group_id'])
+        if group_id > 0:
+            lab.group_id = group_id
+
     lab.save()
 
     return HttpResponse()
+
 
 @require_in_POST("pk")
 @login_required
@@ -80,32 +98,7 @@ def remove_lab(request):
 @require_in_POST("pk")
 @login_required
 def update_lab(request):
-    lab = Lab.objects.filter(pk=request.POST['pk']).first()
-    if not lab:
-        return HttpResponseBadRequest("Lab with pk=%s doesn't exist" % request.POST['pk'])
-
-    assert isinstance(lab, Lab)
-
-    if 'position' in request.POST:
-        lab.to(int(request.POST['position']))
-
-    if 'discipline_id' in request.POST:
-        if lab.discipline_id != request.POST['discipline_id']:
-            lab.discipline_id = int(request.POST['discipline_id'])
-            if lab.discipline_id == -1:
-                lab.discipline_id = None
-
-    if 'title' in request.POST:
-        if lab.title != request.POST['title']:
-            lab.title = request.POST['title']
-
-    if 'description' in request.POST:
-        if lab.description != request.POST['description']:
-            lab.description = request.POST['description']
-
-    lab.save()
-
-    return HttpResponse()
+    return _ajax.update_lab(request)
 
 
 @require_in_POST("pk")

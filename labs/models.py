@@ -10,18 +10,28 @@ from filer.fields.image import FilerImageField
 from django.utils.text import Truncator
 from ordered_model.models import OrderedModel
 
-from students.models import Student, Discipline
+from students.models import Student, Discipline, Group
 from students.utils import current_year
 
 
 class LabsList(CMSPlugin):
-    discipline = models.ForeignKey(Discipline, on_delete=models.SET_NULL, null=True)
+    discipline = models.ForeignKey(Discipline, on_delete=models.SET_NULL, null=True, blank=True)
+    group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __unicode__(self):
+        if self.group:
+            return u"Группа: %s" % unicode(self.group)
+        elif self.discipline:
+            return u"Дисциплина" % unicode(self.discipline)
+        else:
+            return u"Не определенна"
 
 
 class Lab(OrderedModel):
     visible = models.BooleanField(default=True)
     description = models.TextField(blank=True, default="")
     discipline = models.ForeignKey(Discipline, on_delete=models.SET_NULL, null=True)
+    group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, default=None)
     title = models.CharField(max_length=200, blank=True, default="")
     order_with_respect_to = "discipline"
     # position = PositionField(collection='discipline')
@@ -45,7 +55,7 @@ class Lab(OrderedModel):
         return d
 
     @staticmethod
-    def all_to_dict(discipline_id=0, for_lab_control=False):
+    def all_for_discipline(discipline_id=0, for_lab_control=False):
         if discipline_id == 0:
             labs = Lab.objects.all()
         elif discipline_id == -1:
@@ -53,6 +63,17 @@ class Lab(OrderedModel):
         else:
             labs = Lab.objects.filter(discipline_id=discipline_id)
         return list([l.to_dict(for_lab_control) for l in labs.order_by("order", "id")])
+
+    @staticmethod
+    def all_for_group(group_id=0, for_lab_control=False):
+        if group_id == 0:
+            labs = Lab.objects.all()
+        elif group_id == -1:
+            labs = Lab.objects.filter(group_id=None)
+        else:
+            labs = Lab.objects.filter(group_id=group_id)
+        return list([l.to_dict(for_lab_control) for l in labs.order_by("order", "id")])
+
 
     class Meta(OrderedModel.Meta):
         pass
