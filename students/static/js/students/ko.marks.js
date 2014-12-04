@@ -684,6 +684,7 @@
                         if (i == -1) {
                             self.students.removeAll();
                             setTimeout(add_item, 0);
+
                             ++i;
                         }
                         if (i < data.students.length) {
