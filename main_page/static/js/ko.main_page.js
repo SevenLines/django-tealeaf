@@ -99,7 +99,7 @@ function MainPageModel(data) {
     ko.bindingHandlers.ckeditor = {
         init: function (element) {
             var editor = $(element).ckeditor({
-                extraPlugins: 'divarea,bootstrap-collapse,insertpre,div,image,' +
+                extraPlugins: 'sourcedialog,divarea,bootstrap-collapse,insertpre,div,image,' +
                 'bootstrap-collapse,bootstrap-message,showblocks,justify,divarea,colordialog,colorbutton,liststyle,eqneditor'
             }).editor;
             self.description(editor.getData());
@@ -121,13 +121,6 @@ function MainPageModel(data) {
             });
             // <<<
         },
-        update: function (element) {
-            var value = self.description();
-            //console.log(value);
-            if ($(element).val() !== value) {
-                $(element).val(value);
-            }
-        }
     };
     // <<<
     self.loadThemes = function () {

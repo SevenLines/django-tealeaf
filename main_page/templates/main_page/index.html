@@ -12,26 +12,26 @@
                 {% include "main_page/image.html" %}
             </div>
             {% if user.is_authenticated %}
-            <!--  РЕДАКТИРОВАНИЕ ВИДА  -->
+                <!--  РЕДАКТИРОВАНИЕ СООБЩЕНИЯ  -->
                 <div style="clear:left;"></div>
-            <div id="editor-panel" class="panel panel-default hidden-xs" style="margin-top: 1em">
-                <div class="panel-heading" data-toggle="collapse" href="#editor">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                </div>
-                <div class="panel-collapse collapse" id="editor">
-                    <div class="panel-body">
-                        <form data-bind="submit: $root.saveItem">
+                <div id="editor-panel" class="panel panel-default hidden-xs" style="margin-top: 1em">
+                    <div class="panel-heading" data-toggle="collapse" href="#editor">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </div>
+                    <div class="panel-collapse collapse" id="editor">
+                        <div class="panel-body">
+                            <form data-bind="submit: $root.saveItem">
                             <textarea data-icon="{% static "img/main_page/saveme.png" %}" id="description-edit"
                                       style="resize: vertical" class="form-control" name="description"
                                       data-bind="ckeditor: description">
                                 {{ description|safe }}
                             </textarea>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!--  КОНЕЦ РЕДАКТИРОВАНИЯ ВИДА  -->
-        {% endif %}
+                <!--  КОНЕЦ РЕДАКТИРОВАНИЯ СООБЩЕНИЯ  -->
+            {% endif %}
         </div>
     </div>
 
