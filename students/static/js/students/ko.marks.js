@@ -322,6 +322,8 @@
         self.isodate_old = data.dt;
         self.id = data.id;
 
+        self.icon_has_loaded = ko.observable(false);
+
         self.icon_id = ko.observable(data.icn_id);
         self.icn_fld_id = ko.observable(data.icn_fld_id);
         self.icon_url = ko.observable(data.icn_url);
