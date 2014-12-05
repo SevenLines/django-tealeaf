@@ -9,6 +9,13 @@
 #template-lesson-edit textarea {
   max-width: 100%; }
 
+.lesson-icon-selector img {
+  max-width: 32px;
+  max-height: 32px; }
+
+.lesson-icon {
+  max-height: 20px !important; }
+
 .god {
   position: relative;
   box-shadow: 0 0 6px #f49900;

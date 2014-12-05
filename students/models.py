@@ -10,6 +10,7 @@ from django.db.transaction import atomic
 from django.dispatch.dispatcher import receiver
 from django.forms import model_to_dict
 from django.http import HttpResponse
+from filer.fields.image import FilerImageField
 from markupfield.fields import MarkupField
 from colour import Color
 import xlsxwriter
@@ -199,6 +200,9 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
                          "dn": l.description.rendered,
                          "dn_raw": l.description.raw,
                          'si': l.score_ignore,
+                         'icn_id': l.icon.id if l.icon else '',
+                         'icn_url': l.icon.url if l.icon else '',
+                         'icn_fld_id': l.icon.folder.id if l.icon else '',
                         } for l in lessons])
 
         # студенты группы
@@ -476,6 +480,7 @@ class Lesson(models.Model):
     group = models.ForeignKey(Group, null=True)
     date = models.DateField(auto_now_add=True)
     lesson_type = models.IntegerField(verbose_name="type", default=1, choices=LESSON_TYPES)
+    icon = FilerImageField(null=True, blank=True, default=None)
     multiplier = models.FloatField(default=1)
 
     score_ignore = models.BooleanField(default=False)
@@ -485,6 +490,9 @@ class Lesson(models.Model):
         d.update({
             'description': self.description.rendered,
             'description_raw': self.description.raw,
+            'icon_id': self.icon.id if self.icon else None,
+            'icon_url': self.icon.url if self.icon else None,
+            'icon': None,
         })
         return d
 

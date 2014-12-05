@@ -7,6 +7,7 @@ get_env().append_path("students/static")
 
 marks_js = Bundle('bower_components/knockout/dist/knockout.js',
                   'js/ko.modal_confirm.js',
+                  'js/ko.bindings.js',
                   'js/students/ko.marks.js',
                   filters="yui_js",
                   output="js/students/marks.min.js")

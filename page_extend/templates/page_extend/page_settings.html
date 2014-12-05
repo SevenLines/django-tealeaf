@@ -1,17 +1,17 @@
 <div id="page-properties">
     <div class="form">
         <div class="form-group">
-            <img src="{{ request.current_page.pageextend.image.url }}" id="pe_image_url">
-            <a id="lookup_id_image" onclick="return showRelatedObjectLookupPopup(this);"
+            <img src="{{ request.current_page.pageextend.image.url }}" id="lookup_page_image_image_url">
+            <a id="lookup_page_image" onclick="return imageSelectPopup(this);"
                {% if request.current_page.pageextend.image.folder_id %}
-               href="/admin/filer/folder/{{ request.current_page.pageextend.image.folder_id }}/list/?_to_field=file_ptr"
+               href="/admin/filer/folder/{{ request.current_page.pageextend.image.folder_id }}/list/"
                {% else %}
                href="/admin/filer/folder/"
                {% endif %}
                     >
                 <img height="16" width="16" alt="Lookup" src="/static/admin/img/icon_searchbox.png">
             </a>
-            <a id="pe_image_clear" href="#">
+            <a id="lookup_page_image_clear" href="#">
                 <img height="10" width="10" title="Clear" alt="Clear" src="/static/admin/img/icon_deletelink.gif">
             </a>
         </div>
@@ -20,7 +20,7 @@
             {% csrf_token %}
             <input name="page_id" value="{{ request.current_page.pk }}" hidden="">
             <div class="form-group">
-                <input id="pe_image_id" name="image_id" value="{{ request.current_page.pageextend.image.id }}" hidden=""/>
+                <input id="lookup_page_image_image_id" name="image_id" value="{{ request.current_page.pageextend.image.id }}" hidden=""/>
                 <label>Login required</label>
                 <input id="pe_image_authenticated" type="checkbox" name="authentication_required"
                        {% if request.current_page.pageextend.authentication_required %}checked=""{% endif %}/>
@@ -34,36 +34,20 @@
                 <button id="pe-update-page" class="btn btn-success" type="submit">Сохранить</button >
             </div>
         </form>
-{#        <form method="post" action="{% url "page_extend.views.publish_page" request.current_page.pk %}">#}
-{#            {% csrf_token %}#}
-{#            <input name="page_id" value="{{ request.current_page.pk }}" hidden="">#}
-{#            <div class="form-group">#}
-{#                <button id="pe-publish-page" class="btn btn-primary" type="submit">Опубликовать</button>#}
-{#            </div>#}
-{#        </form>#}
     </div>
 </div>
 
 <script>
-    dismissRelatedImageLookupPopup = function (win, chosenId, chosenThumbnailUrl, chosenDescriptionTxt) {
-        document.getElementById("pe_image_id").value = chosenId;
-        document.getElementById("pe_image_url").src = chosenThumbnailUrl;
-        win.close();
-    };
-
-    $("#pe_image_clear").click(function () {
-        $("#pe_image_url")[0].src = "";
-        $("#pe_image_id")[0].value = "";
+    $("#lookup_page_image_clear").click(function () {
+        $("#lookup_page_image_image_id")[0].value = "";
+        $("#lookup_page_image_image_url")[0].src = "";
     });
 
-    function showRelatedObjectLookupPopup(triggeringLink) {
+    function imageSelectPopup(triggeringLink) {
         var name = triggeringLink.id;
         var href;
-        if (triggeringLink.href.search(/\?/) >= 0) {
-            href = triggeringLink.href + '&_popup=1';
-        } else {
-            href = triggeringLink.href + '?_popup=1';
-        }
+        href = triggeringLink.href + '?_popup=1';
+
         var win = window.open(href, name, 'height=500,width=800,resizable=yes,scrollbars=yes');
         win.focus();
         return false;
