@@ -1,0 +1,54 @@
+<!-- lesson template -->
+<div style="display: none" data-bind="with: lesson">
+    <form id="template-lesson-edit" class="form">
+        <div class="form-group">
+            <input class="form-control lesson-date" data-bind="value: date">
+        </div>
+
+        <input hidden="" id="lesson_icon_selector_image_id" name="image_id" type="text" value="" data-bind="input: icon_id"/>
+
+        <div class="form-group">
+            <div class="lesson-icon-selector">
+                <img src="" id="lesson_icon_selector_image_url" data-bind="img: icon_url">
+                <a onclick="return lessonIconSelectPopup(this);" data-bind="attr: {href: icon_edit_url}" >
+                    <img height="16" width="16" alt="Lookup" src="/static/admin/img/icon_searchbox.png">
+                </a>
+                <a id="lesson_image_clear" data-bind="click: clearIcon">
+                    <img height="10" width="10" title="Clear" alt="Clear" src="/static/admin/img/icon_deletelink.gif">
+                </a>
+            </div>
+        </div>
+        <div class="form-group">
+                    <textarea id="lesson-description" class="form-control"
+                              data-bind="value: description_raw"></textarea>
+        </div>
+
+        <div class="form-group">
+            <select class="form-control"
+                    data-bind="value: lesson_type, options: $root.lesson_types, optionsValue: 'id', optionsText: 'title'">
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" data-bind="checked: score_ignore"> не учитывать
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary save" data-bind="click: $root.saveLesson">
+                <i class="glyphicon glyphicon-save"></i>
+            </button>
+            <button class="btn btn-danger pull-right delete" data-bind="click: $root.removeLesson">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+        </div>
+    </form>
+</div>
+<!-- END lesson template -->
+
+<script>
+    function lessonIconSelectPopup(triggeringLink) {
+        var href;
+        href = triggeringLink.href + '?_popup=1';
+        var win = window.open(href, 'lesson_icon_selector', 'height=500,width=800,resizable=yes,scrollbars=yes');
+        win.focus();
+        return false;
+    }
+</script>

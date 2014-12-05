@@ -80,13 +80,15 @@
                     <div class="header">
                         {% if user.is_authenticated %}
                             <div class="lesson-edit btn btn-sm btn-default"
-                                 data-bind="attr: { 'data-original-title': info, 'data-date': date }, event: { 'mouseenter': $root.lessonHover } ">
-                                <span class="" data-bind="text: day"></span>
+                                 data-bind="attr: { 'data-original-title': info, 'data-date': date }, event: { 'click': $root.lessonHover } ">
+                                <span class="" data-bind="text: day, visible: (!$data.icon_url())"></span>
+                                <img class="lesson-icon" src="" data-bind="img: icon_url, visible: ($data.icon_url())">
                             </div>
                         {% else %}
                             <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
                                  data-bind="attr: { 'data-original-title': info }">
-                                <span class="" data-bind="text: day"></span>
+                                <span class="" data-bind="text: day, visible: (!$data.icon_url())"></span>
+                                <img class="lesson-icon" src="" data-bind="img: icon_url, visible: ($data.icon_url())">
                             </div>
                         {% endif %}
                     </div>
@@ -126,7 +128,8 @@
                 <th class="mark" data-bind="css: style">
                     <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
                          data-bind="attr: { 'data-original-title': info }">
-                        <span class="" data-bind="text: day"></span>
+                        <span class="" data-bind="text: day, visible: (!$data.icon_url())"></span>
+                        <img class="lesson-icon" src="" data-bind="img: icon_url, visible: ($data.icon_url())">
                     </div>
                 </th>
                 <!-- /ko -->
@@ -172,7 +175,8 @@
                 </table>
             </div>
 
-            <p>**** Чтобы получить автомат надо <span class="god" style="display: inline-block; margin: 0.25em; padding: 0.25em">светиться</span>
+            <p>**** Чтобы получить автомат надо <span class="god"
+                                                      style="display: inline-block; margin: 0.25em; padding: 0.25em">светиться</span>
         </div>
     </div>
 </div>

@@ -147,3 +147,27 @@ $(window).on("scroll resize touchmove", function () {
     };
 
 })();
+
+dismissRelatedImageLookupPopup = function (win, chosenId, chosenThumbnailUrl, chosenDescriptionTxt) {
+    var el;
+
+    var name = win.name;
+
+    if (el = document.getElementById(name + "_image_id")) {
+        $(el).val(chosenId).trigger("change");
+    } else {
+        console.warn("win.id_image_url is not defined or element with id=" + name + "_image_id is not exists");
+    }
+
+    if (el = document.getElementById(name + "_image_url")) {
+        if (el.tagName == "INPUT") {
+            $(el).val(chosenThumbnailUrl).trigger("change");
+        } else {
+            el.src = chosenThumbnailUrl;
+        }
+    } else {
+        console.warn("win.id_image_url is not defined or element with id=" + name + "_image_url is not exists");
+    }
+    win.close();
+};
+

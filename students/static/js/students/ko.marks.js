@@ -322,6 +322,14 @@
         self.isodate_old = data.dt;
         self.id = data.id;
 
+        self.icon_id = ko.observable(data.icn_id);
+        self.icn_fld_id = ko.observable(data.icn_fld_id);
+        self.icon_url = ko.observable(data.icn_url);
+
+        self.icon_edit_url = ko.computed(function () {
+           return "/admin/filer/folder/" + (self.icn_fld_id() == null ? '' : self.icn_fld_id());
+        });
+
         self.day = ko.computed(function () {
             return self.date().split('/')[0];
         }, self.date);
@@ -349,6 +357,12 @@
             return items[2] + "-" + items[1] + "-" + items[0];
 
         }, self.date);
+
+        self.clearIcon = function () {
+            self.icon_id(null);
+            self.icn_fld_id('');
+            self.icon_url('');
+        }
     }
 
 // >>> MAIN MODEL
@@ -861,7 +875,8 @@
                 date: data.isodate(),
                 multiplier: data.multiplier(),
                 description_raw: data.description_raw(),
-                score_ignore: data.score_ignore()
+                score_ignore: data.score_ignore(),
+                icon_id: data.icon_id() == null ? -1 : data.icon_id()
             })).done(function (response) {
                 if (data.isodate() != data.isodate_old) {
                     self.loadStudents();
