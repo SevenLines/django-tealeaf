@@ -329,7 +329,11 @@
         self.icon_url = ko.observable(data.icn_url);
 
         self.icon_edit_url = ko.computed(function () {
-           return "/admin/filer/folder/" + (self.icn_fld_id() == '' ? '' : self.icn_fld_id() + '/list/');
+            var folder_id;
+            if (self.icn_fld_id() == '' || self.icn_fld_id() == null) {
+                folder_id = '';
+            }
+            return "/admin/filer/folder/" + ( folder_id == '' ? '' : self.icn_fld_id() + '/list/');
         });
 
         self.day = ko.computed(function () {
