@@ -255,6 +255,8 @@
   -ms-transition: all ease-in-out 0.1s;
   -o-transition: all ease-in-out 0.1s;
   transition: all ease-in-out 0.1s; }
+  .marks-editor .mark .tooltip > .tooltip-arrow {
+    display: none; }
   .marks-editor .mark .tooltip > .tooltip-inner {
     background-color: white;
     color: #9cb814;
@@ -281,6 +283,8 @@
     .marks-editor .mark.test.header-label:hover {
       cursor: pointer;
       background-color: #f9d8cd; }
+  .marks-editor .mark.test .tooltip > .tooltip-arrow {
+    display: none; }
   .marks-editor .mark.test .tooltip > .tooltip-inner {
     background-color: white;
     color: #b82214;
@@ -296,6 +300,8 @@
     .marks-editor .mark.exam.header-label:hover {
       cursor: pointer;
       background-color: #cdf9f9; }
+  .marks-editor .mark.exam .tooltip > .tooltip-arrow {
+    display: none; }
   .marks-editor .mark.exam .tooltip > .tooltip-inner {
     background-color: white;
     color: #14b89c;
@@ -311,6 +317,8 @@
     .marks-editor .mark.laba.header-label:hover {
       cursor: pointer;
       background-color: #f9cdcd; }
+  .marks-editor .mark.laba .tooltip > .tooltip-arrow {
+    display: none; }
   .marks-editor .mark.laba .tooltip > .tooltip-inner {
     background-color: white;
     color: #b81430;

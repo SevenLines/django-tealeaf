@@ -578,7 +578,7 @@
                     }
                 },
                 style: {
-                    classes: 'qtip-bootstrap'
+                    classes: 'qtip-bootstrap',
                 },
                 events: {
                     show: function (event, api) {

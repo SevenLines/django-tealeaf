@@ -21,10 +21,20 @@ $students-list-width: 220px;
 $marks-size: 30px;
 
 @mixin tooltip($hue-offset) {
-  .tooltip > .tooltip-inner {
-    background-color: white;
-    color: adjust_hue($full, $hue-offset);
-    border: 1px solid adjust_hue($full, $hue-offset);
+  .tooltip > {
+    .tooltip-arrow {
+      display: none;
+    }
+    .tooltip-inner {
+      //    overflow: hidden;
+      background-color: white;
+      color: adjust_hue($full, $hue-offset);
+      border: 1px solid adjust_hue($full, $hue-offset);
+      &:after {
+        //      content: '';
+        //      clear: both;
+      }
+    }
   }
 }
 
@@ -35,9 +45,9 @@ $marks-size: 30px;
       max-width: $marks-size !important;
       max-height: $marks-size !important;
     }
-//    @if $hue-offset != 0 {
-      background-color: adjust_hue(lighten($quater, 23), $hue-offset);
-//    }
+    //    @if $hue-offset != 0 {
+    background-color: adjust_hue(lighten($quater, 23), $hue-offset);
+    //    }
     font-size: 0.9em;
     color: darken(adjust_hue($full, $hue-offset), 20);
     font-weight: normal;
