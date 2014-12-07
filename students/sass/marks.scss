@@ -29,15 +29,16 @@ $marks-size: 30px;
 }
 
 @mixin btn-default($hue-offset) {
-  @if $hue-offset != 0 {
-    background-color: adjust_hue(lighten($quater, 21), $hue-offset);
-  }
-  .btn-default {
-    color: adjust_hue($full, $hue-offset);
-    border: adjust_hue($full, $hue-offset);
-    text-decoration: none;
-    &:hover {
+
+  &.header-label {
+    @if $hue-offset != 0 {
       background-color: adjust_hue(lighten($quater, 23), $hue-offset);
+    }
+    font-size: 0.9em;
+    color: darken(adjust_hue($full, $hue-offset), 20);
+    &:hover {
+      cursor: pointer;
+      background-color: adjust_hue(lighten($quater, 15), $hue-offset);
     }
   }
 }
@@ -60,13 +61,13 @@ $marks-size: 30px;
 
 .lesson-icon-selector {
   img {
-    max-width: 32px;
-    max-height: 32px;
+    max-width: 100%;
+    max-height: 100%;
   }
 }
 
 .lesson-icon {
-//  max-width: 20px !important;
+  //  max-width: 20px !important;
   max-height: 20px !important;
 }
 
@@ -299,6 +300,7 @@ $marks-size: 30px;
   }
 
   table.table-marks {
+    table-layout: fixed;
     border-collapse: collapse;
     > tbody, > thead, > tfoot {
       > tr {

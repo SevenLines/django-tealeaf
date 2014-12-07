@@ -76,22 +76,22 @@
             <tr>
                 <!-- СТРОКА ЗАНЯТИЙ -->
                 <!-- ko foreach: lessons -->
-                <th class="mark" data-bind="css: style" style="max-height: 20px !important;">
-                    <div class="header">
-                        {% if user.is_authenticated %}
-                            <div class="lesson-edit btn btn-sm btn-default"
-                                 data-bind="attr: { 'data-original-title': info, 'data-date': date }, event: { 'click': $root.lessonHover } ">
-                                <span class="" data-bind="text: day, visible: (!icon_has_loaded())"></span>
-                                <img class="lesson-icon" src="" data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
-                            </div>
-                        {% else %}
-                            <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
-                                 data-bind="attr: { 'data-original-title': info }">
-                                <span class="" data-bind="text: day, visible: (!icon_has_loaded())"></span>
-                                <img class="lesson-icon" src="" data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
-                            </div>
-                        {% endif %}
-                    </div>
+                <th class="mark header header-label" data-bind="css: style" style="max-height: 20px !important;">
+                    {% if user.is_authenticated %}
+                        <div class="lesson-edit"
+                             data-bind="attr: { 'data-original-title': info, 'data-date': date }, event: { 'click': $root.lessonHover } ">
+                            <span class="" data-bind="text: day, visible: (!icon_has_loaded())"></span>
+                            <img class="lesson-icon" src=""
+                                 data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
+                        </div>
+                    {% else %}
+                        <div rel="tooltip" data-html="true" data-toggle="tooltip"
+                             data-bind="attr: { 'data-original-title': info }">
+                            <span class="" data-bind="text: day, visible: (!icon_has_loaded())"></span>
+                            <img class="lesson-icon" src=""
+                                 data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
+                        </div>
+                    {% endif %}
                 </th>
                 <!-- /ko -->
                 <th>
@@ -125,11 +125,12 @@
             <tfoot>
             <tr>
                 <!-- ko foreach: lessons -->
-                <th class="mark" data-bind="css: style">
-                    <div class="btn btn-sm btn-default" rel="tooltip" data-html="true" data-toggle="tooltip"
+                <th class="mark header header-label" data-bind="css: style">
+                    <div class="" rel="tooltip" data-html="true" data-toggle="tooltip"
                          data-bind="attr: { 'data-original-title': info }">
-                        <span class="" data-bind="text: day, visible: (!$data.icon_url())"></span>
-                        <img class="lesson-icon" src="" data-bind="img: icon_url, visible: ($data.icon_url())">
+                        <span class="" data-bind="text: day, visible: (!icon_has_loaded())"></span>
+                        <img class="lesson-icon" src=""
+                             data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
                     </div>
                 </th>
                 <!-- /ko -->
