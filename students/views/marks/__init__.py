@@ -58,6 +58,14 @@ def lesson_remove(request):
 @require_in_POST('lesson_id')
 def lesson_save(request):
     l = Lesson.objects.get(pk=request.POST['lesson_id'])
+
+    if 'icon_id' in request.POST:
+        icon_id = int(request.POST['icon_id'])
+        if icon_id == -1:
+            l.icon = None
+        else:
+            l.icon_id = request.POST['icon_id']
+
     if 'lesson_type' in request.POST:
         l.lesson_type = request.POST['lesson_type']
     if 'description_raw' in request.POST:

@@ -9,6 +9,10 @@
 #template-lesson-edit textarea {
   max-width: 100%; }
 
+.lesson-icon-selector img {
+  max-width: 100%;
+  max-height: 100%; }
+
 .god {
   position: relative;
   box-shadow: 0 0 6px #f49900;
@@ -192,6 +196,7 @@
     .marks-editor .marks-list > table > thead {
       box-shadow: 0 2px 8px #cccccc; }
 .marks-editor table.table-marks {
+  table-layout: fixed;
   border-collapse: collapse; }
   .marks-editor table.table-marks > tbody > tr, .marks-editor table.table-marks > thead > tr, .marks-editor table.table-marks > tfoot > tr {
     border-bottom: 1px solid #c0c0c0;
@@ -233,7 +238,8 @@
         border-right: none; }
   .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > tfoot > tr > th, .marks-editor table.table-marks > tfoot > tr > td {
     padding: 2px;
-    height: 38px; }
+    height: 38px;
+    max-height: 38px; }
   .marks-editor table.table-marks > tfoot:last-child {
     border-bottom: none; }
   .marks-editor table.table-marks .header {
@@ -249,52 +255,102 @@
   -ms-transition: all ease-in-out 0.1s;
   -o-transition: all ease-in-out 0.1s;
   transition: all ease-in-out 0.1s; }
+  .marks-editor .mark .tooltip > .tooltip-arrow {
+    display: none; }
   .marks-editor .mark .tooltip > .tooltip-inner {
+    font-weight: bold;
     background-color: white;
     color: #9cb814;
     border: 1px solid #9cb814; }
-  .marks-editor .mark .btn-default {
-    color: #9cb814;
-    border: #9cb814;
-    text-decoration: none; }
-    .marks-editor .mark .btn-default:hover {
-      background-color: #f9fdf1; }
-  .marks-editor .mark.test {
-    background-color: #fcede8; }
-    .marks-editor .mark.test .btn-default {
-      color: #b82214;
-      border: #b82214;
-      text-decoration: none; }
-      .marks-editor .mark.test .btn-default:hover {
-        background-color: #fdf4f1; }
-    .marks-editor .mark.test .tooltip > .tooltip-inner {
-      background-color: white;
-      color: #b82214;
-      border: 1px solid #b82214; }
-  .marks-editor .mark.exam {
-    background-color: #e8fcfc; }
-    .marks-editor .mark.exam .btn-default {
-      color: #14b89c;
-      border: #14b89c;
-      text-decoration: none; }
-      .marks-editor .mark.exam .btn-default:hover {
-        background-color: #f1fdfd; }
-    .marks-editor .mark.exam .tooltip > .tooltip-inner {
-      background-color: white;
-      color: #14b89c;
-      border: 1px solid #14b89c; }
-  .marks-editor .mark.laba {
-    background-color: #fce8e8; }
-    .marks-editor .mark.laba .btn-default {
-      color: #b81430;
-      border: #b81430;
-      text-decoration: none; }
-      .marks-editor .mark.laba .btn-default:hover {
-        background-color: #fdf1f1; }
-    .marks-editor .mark.laba .tooltip > .tooltip-inner {
-      background-color: white;
-      color: #b81430;
-      border: 1px solid #b81430; }
+  .marks-editor .mark.header-label {
+    padding: 0;
+    background-color: #f9fdf1;
+    font-size: 0.9em;
+    color: #4e5c0a;
+    font-weight: normal; }
+    .marks-editor .mark.header-label .header-label-text {
+      height: 37px;
+      width: 37px;
+      display: table-cell;
+      vertical-align: middle; }
+    .marks-editor .mark.header-label .lesson-icon {
+      max-width: 30px !important;
+      max-height: 30px !important; }
+    .marks-editor .mark.header-label:hover {
+      cursor: pointer;
+      background-color: #eaf9cd; }
+  .marks-editor .mark.test.header-label {
+    padding: 0;
+    background-color: #fdf4f1;
+    font-size: 0.9em;
+    color: #5c110a;
+    font-weight: normal; }
+    .marks-editor .mark.test.header-label .header-label-text {
+      height: 37px;
+      width: 37px;
+      display: table-cell;
+      vertical-align: middle; }
+    .marks-editor .mark.test.header-label .lesson-icon {
+      max-width: 30px !important;
+      max-height: 30px !important; }
+    .marks-editor .mark.test.header-label:hover {
+      cursor: pointer;
+      background-color: #f9d8cd; }
+  .marks-editor .mark.test .tooltip > .tooltip-arrow {
+    display: none; }
+  .marks-editor .mark.test .tooltip > .tooltip-inner {
+    font-weight: bold;
+    background-color: white;
+    color: #b82214;
+    border: 1px solid #b82214; }
+  .marks-editor .mark.exam.header-label {
+    padding: 0;
+    background-color: #f1fdfd;
+    font-size: 0.9em;
+    color: #0a5c4e;
+    font-weight: normal; }
+    .marks-editor .mark.exam.header-label .header-label-text {
+      height: 37px;
+      width: 37px;
+      display: table-cell;
+      vertical-align: middle; }
+    .marks-editor .mark.exam.header-label .lesson-icon {
+      max-width: 30px !important;
+      max-height: 30px !important; }
+    .marks-editor .mark.exam.header-label:hover {
+      cursor: pointer;
+      background-color: #cdf9f9; }
+  .marks-editor .mark.exam .tooltip > .tooltip-arrow {
+    display: none; }
+  .marks-editor .mark.exam .tooltip > .tooltip-inner {
+    font-weight: bold;
+    background-color: white;
+    color: #14b89c;
+    border: 1px solid #14b89c; }
+  .marks-editor .mark.laba.header-label {
+    padding: 0;
+    background-color: #fdf1f1;
+    font-size: 0.9em;
+    color: #5c0a18;
+    font-weight: normal; }
+    .marks-editor .mark.laba.header-label .header-label-text {
+      height: 37px;
+      width: 37px;
+      display: table-cell;
+      vertical-align: middle; }
+    .marks-editor .mark.laba.header-label .lesson-icon {
+      max-width: 30px !important;
+      max-height: 30px !important; }
+    .marks-editor .mark.laba.header-label:hover {
+      cursor: pointer;
+      background-color: #f9cdcd; }
+  .marks-editor .mark.laba .tooltip > .tooltip-arrow {
+    display: none; }
+  .marks-editor .mark.laba .tooltip > .tooltip-inner {
+    font-weight: bold;
+    background-color: white;
+    color: #b81430;
+    border: 1px solid #b81430; }
   .marks-editor .mark.modified {
     box-shadow: #9ebdff 0px 0px 8px inset !important; }
   .marks-editor .mark.absent {

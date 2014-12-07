@@ -21,23 +21,45 @@ $students-list-width: 220px;
 $marks-size: 30px;
 
 @mixin tooltip($hue-offset) {
-  .tooltip > .tooltip-inner {
-    background-color: white;
-    color: adjust_hue($full, $hue-offset);
-    border: 1px solid adjust_hue($full, $hue-offset);
+  .tooltip > {
+    .tooltip-arrow {
+      display: none;
+    }
+    .tooltip-inner {
+      //    overflow: hidden;
+      font-weight: bold;
+      background-color: white;
+      color: adjust_hue($full, $hue-offset);
+      border: 1px solid adjust_hue($full, $hue-offset);
+    }
   }
 }
 
 @mixin btn-default($hue-offset) {
-  @if $hue-offset != 0 {
-    background-color: adjust_hue(lighten($quater, 21), $hue-offset);
-  }
-  .btn-default {
-    color: adjust_hue($full, $hue-offset);
-    border: adjust_hue($full, $hue-offset);
-    text-decoration: none;
+
+  &.header-label {
+
+    .header-label-text {
+      height: 37px;
+      width: 37px;
+      display: table-cell;
+      vertical-align: middle
+    }
+
+    padding: 0;
+    .lesson-icon {
+      max-width: $marks-size !important;
+      max-height: $marks-size !important;
+    }
+    //    @if $hue-offset != 0 {
+    background-color: adjust_hue(lighten($quater, 23), $hue-offset);
+    //    }
+    font-size: 0.9em;
+    color: darken(adjust_hue($full, $hue-offset), 20);
+    font-weight: normal;
     &:hover {
-      background-color: adjust_hue(lighten($quater, 23), $hue-offset);
+      cursor: pointer;
+      background-color: adjust_hue(lighten($quater, 15), $hue-offset);
     }
   }
 }
@@ -55,6 +77,13 @@ $marks-size: 30px;
 #template-lesson-edit {
   textarea {
     max-width: 100%;
+  }
+}
+
+.lesson-icon-selector {
+  img {
+    max-width: 100%;
+    max-height: 100%;
   }
 }
 
@@ -79,39 +108,39 @@ $marks-size: 30px;
 }
 
 .jumbotron {
-    &.loading {
-//      font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
+  &.loading {
+    //      font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
 
-      background-color: #ffe500;
-      box-shadow: 0 0 6px #f49900, 0 0 40px white inset;
-      border-radius: 0;
-      border: 1px solid #f4b500;
-      color: darken(#f47e00, 10);
-      margin-bottom: 1em;
-      h1 {
-        color: #f46400;
-//        text-shadow: 0 0 4px white;
-        font-weight: bold;
-      }
-      .loader {
-        margin: 0 auto;
-        font-size: 14px;
-        text-indent: -9999em;
-        border: 1.1em solid #ffc700;
-        border-left-color: #fff199;
-        -webkit-animation: loaderAnimation 1.1s infinite linear;
-        animation: loaderAnimation 1.1s infinite linear;
+    background-color: #ffe500;
+    box-shadow: 0 0 6px #f49900, 0 0 40px white inset;
+    border-radius: 0;
+    border: 1px solid #f4b500;
+    color: darken(#f47e00, 10);
+    margin-bottom: 1em;
+    h1 {
+      color: #f46400;
+      //        text-shadow: 0 0 4px white;
+      font-weight: bold;
+    }
+    .loader {
+      margin: 0 auto;
+      font-size: 14px;
+      text-indent: -9999em;
+      border: 1.1em solid #ffc700;
+      border-left-color: #fff199;
+      -webkit-animation: loaderAnimation 1.1s infinite linear;
+      animation: loaderAnimation 1.1s infinite linear;
+      border-radius: 50%;
+      width: 10em;
+      height: 10em;
+      &:after {
         border-radius: 50%;
         width: 10em;
         height: 10em;
-        &:after {
-          border-radius: 50%;
-          width: 10em;
-          height: 10em;
-        }
       }
     }
   }
+}
 
 .marks-editor {
 
@@ -287,6 +316,7 @@ $marks-size: 30px;
   }
 
   table.table-marks {
+    table-layout: fixed;
     border-collapse: collapse;
     > tbody, > thead, > tfoot {
       > tr {
@@ -353,6 +383,7 @@ $marks-size: 30px;
         > th, > td {
           padding: 2px;
           height: 38px;
+          max-height: 38px;
         }
       }
     }
