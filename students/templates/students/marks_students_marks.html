@@ -76,7 +76,7 @@
             <tr>
                 <!-- СТРОКА ЗАНЯТИЙ -->
                 <!-- ko foreach: lessons -->
-                <th class="mark header header-label" data-bind="css: style" style="max-height: 20px !important;">
+                <th class="mark header header-label" data-bind="css: style">
                     {% if user.is_authenticated %}
                         <div class="lesson-edit"
                              data-bind="attr: { 'data-original-title': info, 'data-date': date }, event: { 'click': $root.lessonHover } ">

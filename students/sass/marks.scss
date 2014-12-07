@@ -31,11 +31,16 @@ $marks-size: 30px;
 @mixin btn-default($hue-offset) {
 
   &.header-label {
-    @if $hue-offset != 0 {
-      background-color: adjust_hue(lighten($quater, 23), $hue-offset);
+    .lesson-icon {
+      max-width: $marks-size !important;
+      max-height: $marks-size !important;
     }
+//    @if $hue-offset != 0 {
+      background-color: adjust_hue(lighten($quater, 23), $hue-offset);
+//    }
     font-size: 0.9em;
     color: darken(adjust_hue($full, $hue-offset), 20);
+    font-weight: normal;
     &:hover {
       cursor: pointer;
       background-color: adjust_hue(lighten($quater, 15), $hue-offset);
@@ -64,11 +69,6 @@ $marks-size: 30px;
     max-width: 100%;
     max-height: 100%;
   }
-}
-
-.lesson-icon {
-  //  max-width: 20px !important;
-  max-height: 20px !important;
 }
 
 .god {
@@ -367,6 +367,7 @@ $marks-size: 30px;
         > th, > td {
           padding: 2px;
           height: 38px;
+          max-height: 38px;
         }
       }
     }

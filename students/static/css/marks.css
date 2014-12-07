@@ -13,9 +13,6 @@
   max-width: 100%;
   max-height: 100%; }
 
-.lesson-icon {
-  max-height: 20px !important; }
-
 .god {
   position: relative;
   box-shadow: 0 0 6px #f49900;
@@ -241,7 +238,8 @@
         border-right: none; }
   .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > tfoot > tr > th, .marks-editor table.table-marks > tfoot > tr > td {
     padding: 2px;
-    height: 38px; }
+    height: 38px;
+    max-height: 38px; }
   .marks-editor table.table-marks > tfoot:last-child {
     border-bottom: none; }
   .marks-editor table.table-marks .header {
@@ -262,15 +260,24 @@
     color: #9cb814;
     border: 1px solid #9cb814; }
   .marks-editor .mark.header-label {
+    background-color: #f9fdf1;
     font-size: 0.9em;
-    color: #4e5c0a; }
+    color: #4e5c0a;
+    font-weight: normal; }
+    .marks-editor .mark.header-label .lesson-icon {
+      max-width: 30px !important;
+      max-height: 30px !important; }
     .marks-editor .mark.header-label:hover {
       cursor: pointer;
       background-color: #eaf9cd; }
   .marks-editor .mark.test.header-label {
     background-color: #fdf4f1;
     font-size: 0.9em;
-    color: #5c110a; }
+    color: #5c110a;
+    font-weight: normal; }
+    .marks-editor .mark.test.header-label .lesson-icon {
+      max-width: 30px !important;
+      max-height: 30px !important; }
     .marks-editor .mark.test.header-label:hover {
       cursor: pointer;
       background-color: #f9d8cd; }
@@ -281,7 +288,11 @@
   .marks-editor .mark.exam.header-label {
     background-color: #f1fdfd;
     font-size: 0.9em;
-    color: #0a5c4e; }
+    color: #0a5c4e;
+    font-weight: normal; }
+    .marks-editor .mark.exam.header-label .lesson-icon {
+      max-width: 30px !important;
+      max-height: 30px !important; }
     .marks-editor .mark.exam.header-label:hover {
       cursor: pointer;
       background-color: #cdf9f9; }
@@ -292,7 +303,11 @@
   .marks-editor .mark.laba.header-label {
     background-color: #fdf1f1;
     font-size: 0.9em;
-    color: #5c0a18; }
+    color: #5c0a18;
+    font-weight: normal; }
+    .marks-editor .mark.laba.header-label .lesson-icon {
+      max-width: 30px !important;
+      max-height: 30px !important; }
     .marks-editor .mark.laba.header-label:hover {
       cursor: pointer;
       background-color: #f9cdcd; }
