@@ -27,13 +27,10 @@ $marks-size: 30px;
     }
     .tooltip-inner {
       //    overflow: hidden;
+      font-weight: bold;
       background-color: white;
       color: adjust_hue($full, $hue-offset);
       border: 1px solid adjust_hue($full, $hue-offset);
-      &:after {
-        //      content: '';
-        //      clear: both;
-      }
     }
   }
 }
@@ -41,6 +38,15 @@ $marks-size: 30px;
 @mixin btn-default($hue-offset) {
 
   &.header-label {
+
+    .header-label-text {
+      height: 37px;
+      width: 37px;
+      display: table-cell;
+      vertical-align: middle
+    }
+
+    padding: 0;
     .lesson-icon {
       max-width: $marks-size !important;
       max-height: $marks-size !important;

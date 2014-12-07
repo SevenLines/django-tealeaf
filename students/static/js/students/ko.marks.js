@@ -561,7 +561,7 @@
                     }
                 },
                 position: {
-                    my: 'top center'
+                    my: 'top center',
                 },
                 show: {
                     solo: true,
@@ -578,7 +578,7 @@
                     }
                 },
                 style: {
-                    classes: 'qtip-bootstrap',
+                    classes: 'qtip-bootstrap'
                 },
                 events: {
                     show: function (event, api) {

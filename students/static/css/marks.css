@@ -258,14 +258,21 @@
   .marks-editor .mark .tooltip > .tooltip-arrow {
     display: none; }
   .marks-editor .mark .tooltip > .tooltip-inner {
+    font-weight: bold;
     background-color: white;
     color: #9cb814;
     border: 1px solid #9cb814; }
   .marks-editor .mark.header-label {
+    padding: 0;
     background-color: #f9fdf1;
     font-size: 0.9em;
     color: #4e5c0a;
     font-weight: normal; }
+    .marks-editor .mark.header-label .header-label-text {
+      height: 37px;
+      width: 37px;
+      display: table-cell;
+      vertical-align: middle; }
     .marks-editor .mark.header-label .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
@@ -273,10 +280,16 @@
       cursor: pointer;
       background-color: #eaf9cd; }
   .marks-editor .mark.test.header-label {
+    padding: 0;
     background-color: #fdf4f1;
     font-size: 0.9em;
     color: #5c110a;
     font-weight: normal; }
+    .marks-editor .mark.test.header-label .header-label-text {
+      height: 37px;
+      width: 37px;
+      display: table-cell;
+      vertical-align: middle; }
     .marks-editor .mark.test.header-label .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
@@ -286,14 +299,21 @@
   .marks-editor .mark.test .tooltip > .tooltip-arrow {
     display: none; }
   .marks-editor .mark.test .tooltip > .tooltip-inner {
+    font-weight: bold;
     background-color: white;
     color: #b82214;
     border: 1px solid #b82214; }
   .marks-editor .mark.exam.header-label {
+    padding: 0;
     background-color: #f1fdfd;
     font-size: 0.9em;
     color: #0a5c4e;
     font-weight: normal; }
+    .marks-editor .mark.exam.header-label .header-label-text {
+      height: 37px;
+      width: 37px;
+      display: table-cell;
+      vertical-align: middle; }
     .marks-editor .mark.exam.header-label .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
@@ -303,14 +323,21 @@
   .marks-editor .mark.exam .tooltip > .tooltip-arrow {
     display: none; }
   .marks-editor .mark.exam .tooltip > .tooltip-inner {
+    font-weight: bold;
     background-color: white;
     color: #14b89c;
     border: 1px solid #14b89c; }
   .marks-editor .mark.laba.header-label {
+    padding: 0;
     background-color: #fdf1f1;
     font-size: 0.9em;
     color: #5c0a18;
     font-weight: normal; }
+    .marks-editor .mark.laba.header-label .header-label-text {
+      height: 37px;
+      width: 37px;
+      display: table-cell;
+      vertical-align: middle; }
     .marks-editor .mark.laba.header-label .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
@@ -320,6 +347,7 @@
   .marks-editor .mark.laba .tooltip > .tooltip-arrow {
     display: none; }
   .marks-editor .mark.laba .tooltip > .tooltip-inner {
+    font-weight: bold;
     background-color: white;
     color: #b81430;
     border: 1px solid #b81430; }
