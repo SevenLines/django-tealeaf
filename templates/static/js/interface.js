@@ -155,8 +155,6 @@ dismissRelatedImageLookupPopup = function (win, chosenId, chosenThumbnailUrl, ch
 
     if (el = document.getElementById(name + "_image_id")) {
         $(el).val(chosenId).trigger("change");
-    } else {
-        console.warn("win.id_image_url is not defined or element with id=" + name + "_image_id is not exists");
     }
 
     if (el = document.getElementById(name + "_image_url")) {
@@ -165,9 +163,12 @@ dismissRelatedImageLookupPopup = function (win, chosenId, chosenThumbnailUrl, ch
         } else {
             el.src = chosenThumbnailUrl;
         }
-    } else {
-        console.warn("win.id_image_url is not defined or element with id=" + name + "_image_url is not exists");
     }
+
+    if (RelatedImageLookupPopupBeforeClose) {
+        RelatedImageLookupPopupBeforeClose(win, chosenId, chosenThumbnailUrl, chosenDescriptionTxt);
+    }
+
     win.close();
 };
 
