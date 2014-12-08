@@ -97,18 +97,19 @@
                 });
 
                 ko.applyBindings(model);
-
-                function lessonIconSelectPopup(triggeringLink) {
-                    var win, href;
-                    href = triggeringLink.href + '?_popup=1';
-                    win = window.open(href, '', 'height=500,width=800,resizable=yes,scrollbars=yes');
-                    window.RelatedImageLookupPopupBeforeClose = function (win, chosenId, chosenThumbnailUrl) {
-                        model.lesson().icon_id(chosenId);
-                        model.lesson().icon_url(chosenThumbnailUrl);
-                    };
-                    win.focus();
-                    return false;
-                }
+                {% if user.is_authenticated %}
+                    function lessonIconSelectPopup(triggeringLink) {
+                        var win, href;
+                        href = triggeringLink.href + '?_popup=1';
+                        win = window.open(href, '', 'height=500,width=800,resizable=yes,scrollbars=yes');
+                        window.RelatedImageLookupPopupBeforeClose = function (win, chosenId, chosenThumbnailUrl) {
+                            model.lesson().icon_id(chosenId);
+                            model.lesson().icon_url(chosenThumbnailUrl);
+                        };
+                        win.focus();
+                        return false;
+                    }
+                {% endif %}
             </script>
         {% endaddtoblock "js" %}
     </div>
