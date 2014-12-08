@@ -75,31 +75,40 @@
 
         {% addtoblock "js" %}
             <script>
-
-
-
-                $(function () {
-                    ko.applyBindings(new MarksViewModel({
-                        csrf: "{{ csrf_token }}",
-                        url: {
-                            years: "{% url "students.views.students.ajax.json.years" %}",
-                            groups: "{% url "students.views.students.ajax.json.groups" %}",
-                            students: "{% url "students.views.marks.students" %}",
-                            disciplines: "{% url "students.views.marks.disciplines.index" %}",
-                            to_excel: "{% url "students.views.marks.marks_to_excel" %}",
-                            {% if user.is_authenticated %}
-                                discipline_add: "{% url "students.views.marks.disciplines.add" %}",
-                                discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
-                                discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
-                                students_control: "{% url "students.views.marks.students_control" %}",
-                                lesson_add: "{% url "students.views.marks.lesson_add" %}",
-                                lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
-                                lesson_save: "{% url "students.views.marks.lesson_save" %}",
-                                marks_save: "{% url "students.views.marks.marks_save" %}"
-                            {% endif %}
-                        }
-                    }));
+                var model = new MarksViewModel({
+                    csrf: "{{ csrf_token }}",
+                    url: {
+                        years: "{% url "students.views.students.ajax.json.years" %}",
+                        groups: "{% url "students.views.students.ajax.json.groups" %}",
+                        students: "{% url "students.views.marks.students" %}",
+                        disciplines: "{% url "students.views.marks.disciplines.index" %}",
+                        to_excel: "{% url "students.views.marks.marks_to_excel" %}",
+                        {% if user.is_authenticated %}
+                            discipline_add: "{% url "students.views.marks.disciplines.add" %}",
+                            discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
+                            discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
+                            students_control: "{% url "students.views.marks.students_control" %}",
+                            lesson_add: "{% url "students.views.marks.lesson_add" %}",
+                            lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
+                            lesson_save: "{% url "students.views.marks.lesson_save" %}",
+                            marks_save: "{% url "students.views.marks.marks_save" %}"
+                        {% endif %}
+                    }
                 });
+
+                ko.applyBindings(model);
+
+                function lessonIconSelectPopup(triggeringLink) {
+                    var win, href;
+                    href = triggeringLink.href + '?_popup=1';
+                    win = window.open(href, '', 'height=500,width=800,resizable=yes,scrollbars=yes');
+                    window.RelatedImageLookupPopupBeforeClose = function (win, chosenId, chosenThumbnailUrl) {
+                        model.lesson().icon_id(chosenId);
+                        model.lesson().icon_url(chosenThumbnailUrl);
+                    };
+                    win.focus();
+                    return false;
+                }
             </script>
         {% endaddtoblock "js" %}
     </div>
