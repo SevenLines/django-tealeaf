@@ -17,6 +17,7 @@ from students.utils import current_year
 class LabsList(CMSPlugin):
     discipline = models.ForeignKey(Discipline, on_delete=models.SET_NULL, null=True, blank=True)
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
+    show_users = models.BooleanField(default=True)
 
     def __unicode__(self):
         if self.group:

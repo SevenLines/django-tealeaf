@@ -18,7 +18,7 @@ class LabsListPlugin(CMSPluginBase):
             context['labs'] = Lab.all_for_group(instance.group.pk)
         elif instance.discipline:
             context['labs'] = Lab.all_for_discipline(instance.discipline.pk)
-
+        context['show_users'] = instance.show_users
         context['is_plugin'] = True
         context['complex_choice_tokens'] = dict(Task.COMPLEX_CHOICES)
         return context
