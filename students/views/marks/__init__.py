@@ -49,6 +49,12 @@ def lesson_add(request):
 
 
 @login_required
+def reset_cache(request):
+    DisciplineMarksCache.objects.all().delete()
+    return HttpResponse()
+
+
+@login_required
 @require_in_POST('lesson_id')
 def lesson_remove(request):
     lesson_id = request.POST['lesson_id']
