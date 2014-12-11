@@ -143,11 +143,14 @@
         var last_mark = data.m;
         // тут происходит пересчет оценок
         self.mark.subscribe(function () {
-            //console.log("hi");
             if (self.student) {
                 var marks = self.student.marks;
                 var sum = 0;
+                var lessons_count = 0;
                 for (var i = 0; i < marks.length; ++i) {
+                    if (!marks[i].lesson.score_ignore()) {
+                        ++lessons_count;
+                    }
                     var item = marks[i];
                     var cls = marksTypes[item.mark()];
                     switch (cls) {
@@ -157,10 +160,10 @@
                             }
                             break;
                         case 'shining':
-                            if (sum < (i + 1) * 3) {
-                                sum = (i + 1) * 3;
+                            if (sum < (lessons_count) * 3) {
+                                sum = (lessons_count) * 3;
                             } else if (i + 1 == marks.length) {
-                                sum = (i + 1) * 30 + ((i + 1) * 30) / 70 * 27;
+                                sum = (lessons_count) * 30 + ((lessons_count) * 30) / 70 * 27;
                             }
                             break;
                         case 'mercy':
@@ -171,13 +174,7 @@
                         default :
                             sum += item.mark();
                     }
-                }
-                //marks.every(function (item) {
-                //
-                //    return true;
-                //});
-                //var sum = self.student.sum();
-                //sum += self.mark() - last_mark;
+                };
                 last_mark = self.mark();
                 self.student.sum(sum);
             }
@@ -252,7 +249,6 @@
             }).length;
             var max = lessons_count * 3;
             var min = lessons_count * -2;
-            var diff = (max - min);
             var base = 0.3;
             if (self.sum() == 0) {
                 return base;
