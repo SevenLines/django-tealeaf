@@ -35,23 +35,27 @@
             </div>
 
             {% if user.is_authenticated %}
-                <!-- КНОПКА ВЫГРУЗКИ В EXCEL -->
-                <button class="btn btn-success" data-bind="click: toExcel">
-                    <span>список в *.xls</span>
-                </button>
-                <!-- КОНЕЦ КНОПКА ВЫГРУЗКИ В EXCEL -->
+
                 <!-- КНОПКА СОХРАНЕНИЯ -->
-                {#                <div class="">#}
                 <button class="btn btn-sm btn-success"
                         data-bind="click: $root.saveMarks, visible: students && discipline">
                     <i class="glyphicon glyphicon glyphicon-save"></i>
                 </button>
-                {#                </div>#}
                 <button class="btn btn-info pull-right"
                         data-bind="click: $root.loadStudentsControl, visible: students && discipline">
                     <span class="glyphicon glyphicon glyphicon-file"> Аттестация</span>
                 </button>
                 <!-- КОНЕЦ КНОПКИ СОХРАНЕНИЯ -->
+                <!-- КНОПКА ВЫГРУЗКИ В EXCEL -->
+                <button class="btn btn-sm btn-success" data-bind="click: toExcel">
+                    <span>список в *.xls</span>
+                </button>
+                <!-- КОНЕЦ КНОПКА ВЫГРУЗКИ В EXCEL -->
+                <!-- КНОПКА СБРОСА КЕША -->
+                <button class="btn btn-sm btn-warning" data-bind="click: resetCache">
+                    <span>сбросить кеш</span>
+                </button>
+                <!-- КОНЕЦ КНОПКИ СБРОСА КЕША -->
             {% endif %}
             <!-- КОНЕЦ СПИСОК ГРУПП -->
 
@@ -91,7 +95,8 @@
                             lesson_add: "{% url "students.views.marks.lesson_add" %}",
                             lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
                             lesson_save: "{% url "students.views.marks.lesson_save" %}",
-                            marks_save: "{% url "students.views.marks.marks_save" %}"
+                            marks_save: "{% url "students.views.marks.marks_save" %}",
+                            reset_cache: "{% url "students.views.marks.reset_cache" %}"
                         {% endif %}
                     }
                 });

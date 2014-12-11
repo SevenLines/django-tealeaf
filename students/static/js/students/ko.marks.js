@@ -391,7 +391,8 @@
             lesson_remove: data.url.lesson_remove,
             lesson_save: data.url.lesson_save,
             marks_save: data.url.marks_save,
-            to_excel: data.url.to_excel
+            to_excel: data.url.to_excel,
+            reset_cache: data.url.reset_cache
         };
 
         self.cookie = { // cookie names
@@ -925,6 +926,12 @@
                 {name: 'group_id', value: self.group().id},
                 {name: 'discipline_id', value: self.discipline().id},
             ]);
+        };
+
+        self.resetCache = function (date, e) {
+            $.get(self.url.reset_cache).done(function () {
+                window.location.reload();
+            })
         };
 
         self.clickMark = function (data, e) {
