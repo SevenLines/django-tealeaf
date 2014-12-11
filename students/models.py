@@ -554,7 +554,7 @@ class Mark(models.Model):
         (MARK_SHINING, 'shining'),
         (MARK_MERCY, 'mercy'),
         (MARK_MERCY, 'mercy'),
-        (MARK_KEEP, 'keep'),
+        # (MARK_KEEP, 'keep'),
         # (MARK_NORMAL + 6, 'godlike'),
     ]
 

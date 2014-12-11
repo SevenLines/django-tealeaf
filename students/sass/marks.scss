@@ -223,7 +223,7 @@ $marks-size: 30px;
   }
 
   .students-list {
-    @for $i from 1 through 4 {
+    @for $i from 1 through 10 {
       > table > tbody > tr:nth-child(#{$i}) {
         .student {
           .god {
