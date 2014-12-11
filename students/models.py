@@ -133,7 +133,7 @@ class Discipline(models.Model):
     def compute_marks(student_marks, lessons=None):
         s = 0
 
-        if not lessons:
+        if lessons is None:
             raise BaseException("lessons is not defined")
 
         lessons_count = 0
