@@ -162,7 +162,7 @@ class Discipline(models.Model):
     @staticmethod
     def compute_percents(student_marks, lessons=None):
         _sum = Discipline.compute_marks(student_marks, lessons)
-        lessons_count = len(filter(lambda x: x['si'], lessons)) if lessons else len(student_marks)
+        lessons_count = len(filter(lambda x: not x['si'], lessons)) if lessons else len(student_marks)
         max = lessons_count * 3
         min = lessons_count * -2
         base = 0.3
