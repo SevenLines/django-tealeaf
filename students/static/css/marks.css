@@ -384,9 +384,24 @@
   .marks-editor .mark.modified {
     box-shadow: #9ebdff 0px 0px 8px inset !important; }
   .marks-editor .mark.absent {
-    color: #000000; }
+    background-color: #f0fadb;
+    color: grey; }
+    .marks-editor .mark.absent.test {
+      background-color: #fee1d7; }
+    .marks-editor .mark.absent.exam {
+      background-color: #dbfafa; }
+    .marks-editor .mark.absent.laba {
+      background-color: white; }
     .marks-editor .mark.absent:after {
       content: "н"; }
+  .marks-editor .mark.empty {
+    background-color: #f0fadb; }
+    .marks-editor .mark.empty.test {
+      background-color: #fee1d7; }
+    .marks-editor .mark.empty.exam {
+      background-color: #dbfafa; }
+    .marks-editor .mark.empty.laba {
+      background-color: white; }
   .marks-editor .mark.normal {
     background-color: #cef08a; }
     .marks-editor .mark.normal.test {
