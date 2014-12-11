@@ -169,7 +169,7 @@ def students_control(request):
                 max_len = len(s['second_name'])
 
             sheet.write(j + 1, i * 2, s['second_name'], frmt)
-            score = Discipline.compute_percents(s['marks'])
+            score = Discipline.compute_percents(s['marks'], cache['lessons'])
             score *= k  # так как аттестация промежуточная то умножаем на 0.5
             score = int(score * 100)
             result = score if s['sum'] >= 0 else u'н/а'

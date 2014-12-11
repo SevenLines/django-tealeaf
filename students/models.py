@@ -130,19 +130,26 @@ class Discipline(models.Model):
     semestr = models.SmallIntegerField(default=students.utils.current_semestr())
 
     @staticmethod
-    def compute_marks(student_marks):
+    def compute_marks(student_marks, lessons=None):
         s = 0
+
+        if not lessons:
+            raise BaseException("lessons is not defined")
+
+        lessons_count = 0
         for i, m in enumerate(student_marks, 1):
             mark = m['m']
+            if not lessons[i-1]['si']:
+                lessons_count += 1
             if mark is not None:
                 if mark == Mark.MARK_BLACK_HOLE:  # черная дыра сжирает все старые достижнения
                     if s > 0:
                         s = 0
                 elif mark == Mark.MARK_SHINING:  # сияние дарует 100% достижнения
-                    if s < i * 3:
-                        s = i * 3
+                    if s < lessons_count * 3:
+                        s = lessons_count * 3
                     elif i == len(student_marks):  # а если в самом конце и у студента не меньше 100 дарует 1000 балов :D
-                        s = i * 30 + float(i * 30) / 70 * 27
+                        s = lessons_count * 30 + float(lessons_count * 30) / 70 * 27
                 elif mark == Mark.MARK_MERCY:
                     if s < 0:
                         s = 0
@@ -154,8 +161,8 @@ class Discipline(models.Model):
 
     @staticmethod
     def compute_percents(student_marks, lessons=None):
-        _sum = Discipline.compute_marks(student_marks)
-        lessons_count = len(filter(lambda x: x['si'], lessons)) if lessons else len(student_marks)
+        _sum = Discipline.compute_marks(student_marks, lessons)
+        lessons_count = len(filter(lambda x: not x['si'], lessons)) if lessons else len(student_marks)
         max = lessons_count * 3
         min = lessons_count * -2
         base = 0.3
@@ -212,7 +219,7 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
         for s in stdnts:
             # формируем оценки для студентов
             s_marks = list(filter(lambda m: m['sid'] == s['id'], marks))
-            s_sum = Discipline.compute_marks(s_marks)
+            s_sum = Discipline.compute_marks(s_marks, lessons)
             s.update({
                 'marks': s_marks,
                 'sum': s_sum

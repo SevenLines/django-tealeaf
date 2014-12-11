@@ -417,7 +417,7 @@ $marks-size: 30px;
     }
 
     @mixin test_exam($color, $use-shadow: false, $stripes: false) {
-
+      background-color: $color;
       $lighten: 10;
       @if ($use-shadow) {
         @include shadow(darken($color, $lighten));
@@ -427,11 +427,9 @@ $marks-size: 30px;
       }
 
       &.test {
-        //        adjust_hue($color, $test-hue-offset),
         $clr: saturate(adjust_hue($color, $test-hue-offset), 20);
         @if ($use-shadow) {
           @include shadow(darken($clr, $lighten));
-          //          box-shadow: 0 0 4px darken($clr, $lighten);
         }
         background-color: $clr;
         @if ($stripes) {
@@ -451,7 +449,7 @@ $marks-size: 30px;
       }
 
       &.laba {
-        $clr: lighten(adjust_hue($color, $laba-hue-offset), 15);
+        $clr: lighten(adjust_hue($color, $laba-hue-offset), 5);
         @if ($use-shadow) {
           @include shadow(darken($clr, $lighten));
         }
@@ -488,41 +486,36 @@ $marks-size: 30px;
 
     // ОЦЕНКИ ЗА ПАРУ
     &.absent {
-      color: #000000;
+      @include test_exam(lighten($quater, 18));
+      color: grey;
       &:after {
         content: "н";
       }
     }
 
     &.empty {
+      @include test_exam(lighten($quater, 18));
     }
 
     &.normal {
-      background-color: $quater;
       @include test_exam($quater);
     }
     &.good {
-      background-color: $half; //#c9ff49
       @include test_exam($half);
     }
     &.excellent {
-      background-color: $full;
       @include test_exam($full, true);
     }
     &.awesome {
-      background-color: $awesome;
       @include test_exam($awesome, true, true);
     }
     &.fantastic {
-      background-color: $fantastic;
       @include test_exam($fantastic, true, true);
     }
     &.incredible {
-      background-color: $incredible;
       @include test_exam($incredible, true, true);
     }
     &.godlike {
-      background-color: $godlike;
       @include test_exam($godlike, true);
     }
     &.black-hole {
