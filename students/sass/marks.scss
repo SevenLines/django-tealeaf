@@ -449,7 +449,7 @@ $marks-size: 30px;
       }
 
       &.laba {
-        $clr: lighten(adjust_hue($color, $laba-hue-offset), 15);
+        $clr: lighten(adjust_hue($color, $laba-hue-offset), 5);
         @if ($use-shadow) {
           @include shadow(darken($clr, $lighten));
         }

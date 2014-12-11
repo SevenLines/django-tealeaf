@@ -391,7 +391,7 @@
     .marks-editor .mark.absent.exam {
       background-color: #dbfafa; }
     .marks-editor .mark.absent.laba {
-      background-color: white; }
+      background-color: #fdf1f1; }
     .marks-editor .mark.absent:after {
       content: "н"; }
   .marks-editor .mark.empty {
@@ -401,7 +401,7 @@
     .marks-editor .mark.empty.exam {
       background-color: #dbfafa; }
     .marks-editor .mark.empty.laba {
-      background-color: white; }
+      background-color: #fdf1f1; }
   .marks-editor .mark.normal {
     background-color: #cef08a; }
     .marks-editor .mark.normal.test {
@@ -409,7 +409,7 @@
     .marks-editor .mark.normal.exam {
       background-color: #8af0f0; }
     .marks-editor .mark.normal.laba {
-      background-color: #f9cdcd; }
+      background-color: #f3a0a0; }
   .marks-editor .mark.good {
     background-color: #cfeb47; }
     .marks-editor .mark.good.test {
@@ -417,7 +417,7 @@
     .marks-editor .mark.good.exam {
       background-color: #47ebcf; }
     .marks-editor .mark.good.laba {
-      background-color: #f28c9d; }
+      background-color: #ed5e76; }
   .marks-editor .mark.excellent {
     background-color: #9cb814;
     box-shadow: #758a0f 0 0 8px inset; }
@@ -428,8 +428,8 @@
       box-shadow: #0f8a75 0 0 8px inset;
       background-color: #14b89c; }
     .marks-editor .mark.excellent.laba {
-      box-shadow: #cf1736 0 0 8px inset;
-      background-color: #e8304f; }
+      box-shadow: #a1122a 0 0 8px inset;
+      background-color: #cf1736; }
   .marks-editor .mark.awesome {
     background-color: #758a0f;
     box-shadow: #4e5c0a 0 0 8px inset; }
@@ -440,8 +440,8 @@
       box-shadow: #0a5c4e 0 0 8px inset;
       background-color: #0f8a75; }
     .marks-editor .mark.awesome.laba {
-      box-shadow: #a1122a 0 0 8px inset;
-      background-color: #cf1736; }
+      box-shadow: #730d1e 0 0 8px inset;
+      background-color: #a1122a; }
   .marks-editor .mark.fantastic {
     background-color: #4e5b0b;
     box-shadow: #272d06 0 0 8px inset; }
@@ -452,8 +452,8 @@
       box-shadow: #062d27 0 0 8px inset;
       background-color: #0b5b4e; }
     .marks-editor .mark.fantastic.laba {
-      box-shadow: #710e1f 0 0 8px inset;
-      background-color: #9f142b; }
+      box-shadow: #440812 0 0 8px inset;
+      background-color: #710e1f; }
   .marks-editor .mark.incredible {
     background-color: #3a4408;
     box-shadow: #131703 0 0 8px inset; }
@@ -464,8 +464,8 @@
       box-shadow: #031713 0 0 8px inset;
       background-color: #08443a; }
     .marks-editor .mark.incredible.laba {
-      box-shadow: #5b0b18 0 0 8px inset;
-      background-color: #881125; }
+      box-shadow: #2d060c 0 0 8px inset;
+      background-color: #5b0b18; }
   .marks-editor .mark.godlike {
     background-color: #272e05;
     box-shadow: black 0 0 8px inset; }
@@ -476,8 +476,8 @@
       box-shadow: black 0 0 8px inset;
       background-color: #052e27; }
     .marks-editor .mark.godlike.laba {
-      box-shadow: #450812 0 0 8px inset;
-      background-color: #730d1e; }
+      box-shadow: #170306 0 0 8px inset;
+      background-color: #450812; }
   .marks-editor .mark.black-hole {
     background-color: black;
     z-index: 100;
