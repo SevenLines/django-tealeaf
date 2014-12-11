@@ -13,6 +13,9 @@ import students.utils
 
 from app.utils import require_in_POST, require_in_GET, json_encoder
 from students.models import Lesson, Discipline, Group, Mark, DisciplineMarksCache, Student
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -60,11 +63,15 @@ def lesson_save(request):
     l = Lesson.objects.get(pk=request.POST['lesson_id'])
 
     if 'icon_id' in request.POST:
-        icon_id = int(request.POST['icon_id'])
-        if icon_id == -1:
-            l.icon = None
-        else:
-            l.icon_id = request.POST['icon_id']
+        icon_id = request.POST['icon_id']
+        try:
+            icon_id = int(icon_id)
+            if icon_id == -1:
+                l.icon = None
+            else:
+                l.icon_id = request.POST['icon_id']
+        except ValueError as ex:
+            logger.warning(ex.message)
 
     if 'lesson_type' in request.POST:
         l.lesson_type = request.POST['lesson_type']
@@ -164,11 +171,11 @@ def students_control(request):
             sheet.write(j + 1, i * 2, s['second_name'], frmt)
             score = Discipline.compute_percents(s['marks'])
             score *= k  # так как аттестация промежуточная то умножаем на 0.5
-            score = int(score*100)
+            score = int(score * 100)
             result = score if s['sum'] >= 0 else u'н/а'
             sheet.write(j + 1, i * 2 + 1, result, frmt)
 
-        sheet.set_column(i*2, i*2, width=max_len*1.1)
+        sheet.set_column(i * 2, i * 2, width=max_len * 1.1)
 
     sheet.set_landscape()
     sheet.fit_to_pages(1, 1)
