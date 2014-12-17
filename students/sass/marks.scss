@@ -8,7 +8,7 @@ $fantastic: hsl(70, 78%, 20%);
 $incredible: hsl(70, 78%, 15%);
 $godlike: hsl(70, 80%, 10%);
 $hover-color: grey;
-$exam-hue-offset: 100;
+$exam-hue-offset: -105;
 $lect-hue-offset: 100;
 $laba-hue-offset: 280;
 $test-hue-offset: 295;
@@ -407,6 +407,9 @@ $marks-size: 30px;
     padding: 0;
 
     color: transparent;
+    &.exam {
+      color: #ffffff;
+    }
     @include transition(0.1s);
 
     @mixin shadow($color) {
@@ -438,7 +441,7 @@ $marks-size: 30px;
       }
 
       &.lect {
-        $clr: adjust_hue($color, $exam-hue-offset);
+        $clr: adjust_hue($color, $lect-hue-offset);
         @if ($use-shadow) {
           @include shadow(darken($clr, $lighten));
         }
@@ -459,6 +462,15 @@ $marks-size: 30px;
         }
       }
 
+      &.exam {
+        $clr: lighten(adjust_hue($color, $exam-hue-offset), 5);
+        @if ($use-shadow) {
+          box-shadow: #9ebdff 0 0 6px inset;
+        }
+        background-color: $clr;
+//        color: white;
+      }
+
     }
 
     @include tooltip(0);
@@ -470,13 +482,18 @@ $marks-size: 30px;
       @include tooltip($test-hue-offset);
     }
     &.lect {
-      @include btn-default($exam-hue-offset);
-      @include tooltip($exam-hue-offset);
+      @include btn-default($lect-hue-offset);
+      @include tooltip($lect-hue-offset);
     }
 
     &.laba {
       @include btn-default($laba-hue-offset);
       @include tooltip($laba-hue-offset);
+    }
+
+    &.exam {
+      @include btn-default($exam-hue-offset);
+      @include tooltip($exam-hue-offset);
     }
 
     &.modified {
