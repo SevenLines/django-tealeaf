@@ -67,7 +67,7 @@
 
             visible = true;
 
-            self.mark_selector.find(".mark").removeClass("exam test current");
+            self.mark_selector.find(".mark").removeClass("lect exam test current");
             self.mark_selector.find(".mark").toggleClass(mark.lesson.style(), true);
             self.mark_selector.find(".mark." + marksTypes[mark.mark()]).toggleClass("current", true);
         };
@@ -140,6 +140,10 @@
         self.mark_old = ko.observable(data.m);
         self.lesson = data.lesson;
 
+        self.ignore_lesson = function () {
+          return self.lesson.score_ignore() || self.lesson.lesson_type() == 5;
+        };
+
         var last_mark = data.m;
         // тут происходит пересчет оценок
         self.mark.subscribe(function () {
@@ -148,8 +152,12 @@
                 var sum = 0;
                 var lessons_count = 0;
                 for (var i = 0; i < marks.length; ++i) {
-                    if (!marks[i].lesson.score_ignore()) {
+                    if (!marks[i].ignore_lesson()) {
                         ++lessons_count;
+                    }
+                    // пропускаем экзамены, они не влияют на оценку
+                    if (marks[i].lesson.lesson_type() == 5) {
+                        continue;
                     }
                     var item = marks[i];
                     var cls = marksTypes[item.mark()];
@@ -245,7 +253,7 @@
 
         self.success_factor = ko.computed(function () {
             var lessons_count = self.marks.filter(function (m) {
-                return m.lesson.score_ignore() == false;
+                return !m.ignore_lesson();
             }).length;
             var max = lessons_count * 3;
             var min = lessons_count * -2;
@@ -346,9 +354,11 @@
                 case 2:
                     return "test";
                 case 3:
-                    return "exam";
+                    return "lect";
                 case 4:
                     return "laba";
+                case 5:
+                    return "exam";
             }
             return "";
 

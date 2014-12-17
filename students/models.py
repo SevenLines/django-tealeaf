@@ -130,6 +130,10 @@ class Discipline(models.Model):
     semestr = models.SmallIntegerField(default=students.utils.current_semestr())
 
     @staticmethod
+    def ignore_lesson(lesson):
+        return lesson['si'] or lesson['lt'] == Lesson.LESSON_TYPE_EXAM
+
+    @staticmethod
     def compute_marks(student_marks, lessons=None):
         s = 0
 
@@ -139,8 +143,13 @@ class Discipline(models.Model):
         lessons_count = 0
         for i, m in enumerate(student_marks, 1):
             mark = m['m']
-            if not lessons[i-1]['si']:
+            if not Discipline.ignore_lesson(lessons[i-1]):
                 lessons_count += 1
+
+            # оценка за экзамен не влияет на общий бал
+            if lessons[i-1]['lt'] == Lesson.LESSON_TYPE_EXAM:
+                continue
+
             if mark is not None:
                 if mark == Mark.MARK_BLACK_HOLE:  # черная дыра сжирает все старые достижнения
                     if s > 0:
@@ -162,7 +171,7 @@ class Discipline(models.Model):
     @staticmethod
     def compute_percents(student_marks, lessons=None):
         _sum = Discipline.compute_marks(student_marks, lessons)
-        lessons_count = len(filter(lambda x: not x['si'], lessons)) if lessons else len(student_marks)
+        lessons_count = len(filter(lambda x: not Discipline.ignore_lesson(x), lessons)) if lessons else len(student_marks)
         max = lessons_count * 3
         min = lessons_count * -2
         base = 0.3
@@ -475,11 +484,18 @@ class Lesson(models.Model):
     пара по некоторой дисциплине
     """
 
+    LESSON_TYPE_PRACTICE = 1
+    LESSON_TYPE_TEST = 2
+    LESSON_TYPE_LECTION = 3
+    LESSON_TYPE_LAB = 4
+    LESSON_TYPE_EXAM = 5
+
     LESSON_TYPES = [
-        (1, "Пара"),
-        (2, "Контрольная"),
-        (3, "Экзамен"),
-        (4, "Лабораторная"),
+        (LESSON_TYPE_PRACTICE, "Практика"),
+        (LESSON_TYPE_TEST, "Контрольная"),
+        (LESSON_TYPE_LECTION, "Лекция"),
+        (LESSON_TYPE_LAB, "Лабораторная"),
+        (LESSON_TYPE_EXAM, "Экзамен"),
     ]
 
     description = MarkupField(default="", markup_type="textile", blank=True)
