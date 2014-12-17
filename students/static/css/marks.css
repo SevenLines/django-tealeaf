@@ -333,26 +333,26 @@
     background-color: white;
     color: #b82214;
     border: 1px solid #b82214; }
-  .marks-editor .mark.exam.header-label {
+  .marks-editor .mark.lect.header-label {
     padding: 0;
     background-color: #f1fdfd;
     font-size: 0.9em;
     color: #0a5c4e;
     font-weight: normal; }
-    .marks-editor .mark.exam.header-label .header-label-text {
+    .marks-editor .mark.lect.header-label .header-label-text {
       height: 37px;
       width: 37px;
       display: table-cell;
       vertical-align: middle; }
-    .marks-editor .mark.exam.header-label .lesson-icon {
+    .marks-editor .mark.lect.header-label .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .marks-editor .mark.exam.header-label:hover {
+    .marks-editor .mark.lect.header-label:hover {
       cursor: pointer;
       background-color: #cdf9f9; }
-  .marks-editor .mark.exam .tooltip > .tooltip-arrow {
+  .marks-editor .mark.lect .tooltip > .tooltip-arrow {
     display: none; }
-  .marks-editor .mark.exam .tooltip > .tooltip-inner {
+  .marks-editor .mark.lect .tooltip > .tooltip-inner {
     font-weight: bold;
     background-color: white;
     color: #14b89c;
@@ -388,7 +388,7 @@
     color: grey; }
     .marks-editor .mark.absent.test {
       background-color: #fee1d7; }
-    .marks-editor .mark.absent.exam {
+    .marks-editor .mark.absent.lect {
       background-color: #dbfafa; }
     .marks-editor .mark.absent.laba {
       background-color: #fdf1f1; }
@@ -398,7 +398,7 @@
     background-color: #f0fadb; }
     .marks-editor .mark.empty.test {
       background-color: #fee1d7; }
-    .marks-editor .mark.empty.exam {
+    .marks-editor .mark.empty.lect {
       background-color: #dbfafa; }
     .marks-editor .mark.empty.laba {
       background-color: #fdf1f1; }
@@ -406,7 +406,7 @@
     background-color: #cef08a; }
     .marks-editor .mark.normal.test {
       background-color: #fd9d7c; }
-    .marks-editor .mark.normal.exam {
+    .marks-editor .mark.normal.lect {
       background-color: #8af0f0; }
     .marks-editor .mark.normal.laba {
       background-color: #f3a0a0; }
@@ -414,7 +414,7 @@
     background-color: #cfeb47; }
     .marks-editor .mark.good.test {
       background-color: #ff4433; }
-    .marks-editor .mark.good.exam {
+    .marks-editor .mark.good.lect {
       background-color: #47ebcf; }
     .marks-editor .mark.good.laba {
       background-color: #ed5e76; }
@@ -424,7 +424,7 @@
     .marks-editor .mark.excellent.test {
       box-shadow: #990d00 0 0 8px inset;
       background-color: #cc1100; }
-    .marks-editor .mark.excellent.exam {
+    .marks-editor .mark.excellent.lect {
       box-shadow: #0f8a75 0 0 8px inset;
       background-color: #14b89c; }
     .marks-editor .mark.excellent.laba {
@@ -436,7 +436,7 @@
     .marks-editor .mark.awesome.test {
       box-shadow: #660900 0 0 8px inset;
       background-color: #990d00; }
-    .marks-editor .mark.awesome.exam {
+    .marks-editor .mark.awesome.lect {
       box-shadow: #0a5c4e 0 0 8px inset;
       background-color: #0f8a75; }
     .marks-editor .mark.awesome.laba {
@@ -448,7 +448,7 @@
     .marks-editor .mark.fantastic.test {
       box-shadow: #320501 0 0 8px inset;
       background-color: #650901; }
-    .marks-editor .mark.fantastic.exam {
+    .marks-editor .mark.fantastic.lect {
       box-shadow: #062d27 0 0 8px inset;
       background-color: #0b5b4e; }
     .marks-editor .mark.fantastic.laba {
@@ -460,7 +460,7 @@
     .marks-editor .mark.incredible.test {
       box-shadow: #190200 0 0 8px inset;
       background-color: #4c0701; }
-    .marks-editor .mark.incredible.exam {
+    .marks-editor .mark.incredible.lect {
       box-shadow: #031713 0 0 8px inset;
       background-color: #08443a; }
     .marks-editor .mark.incredible.laba {
@@ -472,7 +472,7 @@
     .marks-editor .mark.godlike.test {
       box-shadow: black 0 0 8px inset;
       background-color: #330400; }
-    .marks-editor .mark.godlike.exam {
+    .marks-editor .mark.godlike.lect {
       box-shadow: black 0 0 8px inset;
       background-color: #052e27; }
     .marks-editor .mark.godlike.laba {
