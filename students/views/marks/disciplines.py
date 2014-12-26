@@ -4,10 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST
-
 from app.utils import require_in_POST
-
-from students.models import Discipline
+from students.models.discipline import Discipline
 from students.utils import current_year
 
 

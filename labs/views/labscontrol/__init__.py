@@ -11,7 +11,6 @@ import itertools
 from app.utils import require_in_POST
 from labs.models import Lab, Task, TaskStudent
 from labs.views.labscontrol import _ajax
-from students.models import Discipline, Group
 
 #
 # def labs(request):
@@ -27,6 +26,8 @@ from students.models import Discipline, Group
 #         'complex_choices': Task.COMPLEX_CHOICES,
 #     }
 #     return render(request, "labs-control/labs-preview.html", context)
+from students.models import Group
+from students.models.discipline import Discipline
 
 
 def tree_context(request):

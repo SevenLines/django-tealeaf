@@ -1,125 +1,12 @@
-# coding: utf-8
-# Create your models here.
-import StringIO
+# coding=utf-8
+from colour import Color
+from django.db import models
 import io
 import json
-
-from django.db import models, transaction
-from django.db.models.signals import post_delete, post_save
-from django.db.transaction import atomic
-from django.dispatch.dispatcher import receiver
-from django.forms import model_to_dict
-from django.http import HttpResponse
-from filer.fields.image import FilerImageField
-from markupfield.fields import MarkupField
-from colour import Color
 import xlsxwriter
-
 from app.utils import json_encoder
+from students.models.mark import Mark
 import students.utils
-from students.utils import current_year
-
-
-class Group(models.Model):
-    title = models.CharField(max_length=10, default='')
-    ancestor = models.ForeignKey('self', null=True, default=None, blank=True, on_delete=models.SET_NULL)
-    year = models.IntegerField(default=students.utils.current_year())
-    captain = models.ForeignKey("Student", default=None, null=True,
-                                on_delete=models.SET_NULL, related_name="%(class)s_captain")
-
-    # kindness = models.FloatField(default=1)  # показатель доброжелательности группы от 0 до 1
-    # erudition = models.FloatField(default=1)  # показатель эрудированность группы от 0 до 1
-
-    def __unicode__(self):
-        return "%s | %s" % (self.year, self.title)
-
-    @staticmethod
-    def year_groups(year):
-        """
-        return groups of specific year
-        :param year: specific year
-        :return:
-        """
-        return Group.objects.filter(year=year)
-
-    @staticmethod
-    def current_year_groups():
-        """
-        groups of current learning year
-        :return:
-        """
-        return Group.year_groups(year=students.utils.current_year())
-
-    @property
-    def students(self):
-        """
-        students of this group
-        use like this: some_group.students.all()
-        :return:
-        """
-        return Group.objects.get(pk=self.pk).student_set
-
-    @transaction.atomic
-    def copy_to_next_year(self):
-        g = Group.objects.get(pk=self.pk)
-        g.pk = None
-        g.year += 1
-        g.ancestor = self
-        g.save()
-        for s in self.students.all():
-            s.pk = None
-            s.group = g
-            s.save()
-
-    @property
-    def has_ancestor(self):
-        return Group.objects.filter(ancestor=self.pk, year=self.year + 1).exists()
-
-    def lessons(self, discipline):
-        """
-        lessons for current group for current discipline
-        use like: lessons.all()
-        :return:
-        """
-        lst = Mark.objects.filter(student__group=self.pk).values('lesson').distinct()
-        return Lesson.objects.filter(pk__in=lst).distinct()
-
-
-class Student(models.Model):
-    name = models.CharField(max_length=50, default='')
-    second_name = models.CharField(max_length=50, default='')
-    group = models.ForeignKey(Group, null=True)
-
-    phone = models.CharField(max_length=50, default='')
-    email = models.EmailField(default='')
-    vk = models.URLField(default='')
-
-    photo = models.ImageField(upload_to="students", max_length=255, default='')
-
-    def __unicode__(self):
-        return "%s | %s" % (self.second_name, self.name)
-
-    def to_dict(self, authenticated=False):
-        excluded = ['phone', 'email', 'vk', 'photo'] if not authenticated else []
-        return model_to_dict(self, exclude=excluded)
-
-    @staticmethod
-    def year_students(year):
-        groups = Group.year_groups(year)
-        return Student.objects.filter(groups__in=groups)
-
-    @staticmethod
-    def current_year_students():
-        """
-        students of current learning year
-        :return:
-        """
-        return Student.year_students(current_year())
-
-    def marks_for_discipline(self, discipline):
-        assert isinstance(discipline, Discipline)
-        return Mark.objects.filter(lesson__discipline=discipline, student=self)
-
 
 class Discipline(models.Model):
     """
@@ -131,10 +18,12 @@ class Discipline(models.Model):
 
     @staticmethod
     def ignore_lesson(lesson):
+        from students.models.lesson import Lesson
         return lesson['si'] or lesson['lt'] == Lesson.LESSON_TYPE_EXAM
 
     @staticmethod
     def compute_marks(student_marks, lessons=None):
+        from students.models.lesson import Lesson
         s = 0
 
         if lessons is None:
@@ -188,6 +77,9 @@ class Discipline(models.Model):
         return u"%s %s %s" % (self.title, self.year, self.semestr)
 
     def marks(self, group_id):
+        from students.models.group import Group
+        from students.models.lesson import Lesson
+
         marks = list(Mark.objects.raw("""
 SELECT s.id as student_id, l.lesson_id, date, sm.id as id, mark
 FROM students_student s
@@ -248,8 +140,8 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
 
 
 class DisciplineMarksCache(models.Model):
-    discipline = models.ForeignKey(Discipline, null=True, default=None)
-    group = models.ForeignKey(Group, null=True, default=None)
+    discipline = models.ForeignKey("Discipline", null=True, default=None)
+    group = models.ForeignKey("Group", null=True, default=None)
     marks_json = models.TextField(default="")
     marks_excel = models.BinaryField(null=True)
 
@@ -307,6 +199,7 @@ class DisciplineMarksCache(models.Model):
         :type discipline: students.models.Discipline
         :type group: students.models.Group
         """
+        from students.models.group import Group
         # data = json.loads(json.loads(DisciplineMarksCache.get(discipline.pk, group.pk)))
 
         lessons = data['lessons']
@@ -477,155 +370,3 @@ class DisciplineMarksCache(models.Model):
         output.seek(0)
 
         return output
-
-
-class Lesson(models.Model):
-    """
-    пара по некоторой дисциплине
-    """
-
-    LESSON_TYPE_PRACTICE = 1
-    LESSON_TYPE_TEST = 2
-    LESSON_TYPE_LECTION = 3
-    LESSON_TYPE_LAB = 4
-    LESSON_TYPE_EXAM = 5
-
-    LESSON_TYPES = [
-        (LESSON_TYPE_PRACTICE, "Практика"),
-        (LESSON_TYPE_TEST, "Контрольная"),
-        (LESSON_TYPE_LECTION, "Лекция"),
-        (LESSON_TYPE_LAB, "Лабораторная"),
-        (LESSON_TYPE_EXAM, "Экзамен"),
-    ]
-
-    description = MarkupField(default="", markup_type="textile", blank=True)
-
-    discipline = models.ForeignKey(Discipline)
-    group = models.ForeignKey(Group, null=True)
-    date = models.DateField(auto_now_add=True)
-    lesson_type = models.IntegerField(verbose_name="type", default=1, choices=LESSON_TYPES)
-    icon = FilerImageField(null=True, blank=True, default=None)
-    multiplier = models.FloatField(default=1)
-
-    score_ignore = models.BooleanField(default=False)
-
-    def to_dict(self):
-        d = model_to_dict(self)
-        d.update({
-            'description': self.description.rendered,
-            'description_raw': self.description.raw,
-            'icon_id': self.icon.id if self.icon else None,
-            'icon_url': self.icon.url if self.icon else None,
-            'icon': None,
-        })
-        return d
-
-    def __unicode__(self):
-        return u"%s %s (%s)" % (self.discipline, self.date, self.lesson_type)
-
-
-    @staticmethod
-    @atomic
-    def create_lesson_for_group(group, discipline):
-        """
-        creates lesson with empty marks fields for group
-        with current date and returns lesson on success or None on failure
-        """
-        assert isinstance(discipline, Discipline)
-        assert isinstance(group, Group)
-
-        l = Lesson(discipline=discipline)
-        l.save()
-        for s in group.students.all():
-            m = Mark(lesson=l, student=s)
-            m.save()
-        return l
-
-
-class Mark(models.Model):
-    """
-    оценка студента за пару
-    """
-    MARK_BASE = 0
-    MARK_SPECIAL = 1000
-
-    MARK_BLACK_HOLE = MARK_BASE - (MARK_SPECIAL + 1)
-    MARK_ABSENT = MARK_BASE - 2
-    MARK_EMPTY = MARK_BASE
-    MARK_NORMAL = MARK_BASE + 1
-    MARK_GOOD = MARK_BASE + 2
-    MARK_EXCELLENT = MARK_BASE + 3
-    MARK_AWESOME = MARK_BASE + 4
-    MARK_FANTASTIC = MARK_BASE + 5
-    MARK_INCREDIBLE = MARK_BASE + 6
-    MARK_SHINING = MARK_BASE + (MARK_SPECIAL + 1)
-    MARK_MERCY = MARK_BASE + (MARK_SPECIAL + 2)
-    MARK_KEEP = MARK_BASE + (MARK_SPECIAL + 3)
-
-    MARKS = [
-        # (MARK_NORMAL-3, 'terrible'),
-        # (MARK_NORMAL-2, 'bad'),
-        (MARK_BLACK_HOLE, 'black-hole'),
-        (MARK_ABSENT, 'absent'),
-        (MARK_EMPTY, 'empty'),  # без оценки
-        (MARK_NORMAL, 'normal'),
-        (MARK_GOOD, 'good'),
-        (MARK_EXCELLENT, 'excellent'),
-        (MARK_AWESOME, 'awesome'),
-        (MARK_FANTASTIC, 'fantastic'),
-        (MARK_INCREDIBLE, 'incredible'),
-        (MARK_SHINING, 'shining'),
-        (MARK_MERCY, 'mercy'),
-        (MARK_MERCY, 'mercy'),
-        # (MARK_KEEP, 'keep'),
-        # (MARK_NORMAL + 6, 'godlike'),
-    ]
-
-    student = models.ForeignKey(Student)
-    lesson = models.ForeignKey(Lesson)
-    mark = models.SmallIntegerField(choices=MARKS, default=MARK_NORMAL)
-
-    def __unicode__(self):
-        return u"%s %s" % (self.student, self.mark)
-
-    @staticmethod
-    def get_for(group, discipline):
-        return Mark.objects.filter(lesson__discipline=discipline, student__group=group).all()
-
-    @staticmethod
-    def get_for_id(group_id, discipline_id):
-        return Mark.get_for(Group.objects.get(pk=group_id), Discipline.objects.get(pk=discipline_id))
-
-
-def active_years(r=2):
-    """
-    returns list of active years like current year +-r
-    :param r: range from current year [-r, r]
-    :return:
-    """
-    years = Group.objects.all().values_list('year').distinct()
-    if len(years) == 0:
-        years = [current_year(), ]
-    else:
-        years = list(zip(*years)[0])
-
-    _min = min(years)
-    _max = max(years)
-    for i in xrange(1, r + 1):
-        years.insert(0, _min - i)
-    for i in xrange(1, r + 1):
-        years.append(_max + i)
-    years.sort()
-    return years
-
-
-@receiver(post_delete, sender=Lesson)
-@receiver(post_save, sender=Lesson)
-def update_cache_lesson(instance, **kwargs):
-    DisciplineMarksCache.update(instance.discipline_id, instance.group_id)
-
-
-@receiver(post_delete, sender=Student)
-@receiver(post_save, sender=Student)
-def update_cache_student(instance, **kwargs):
-    DisciplineMarksCache.objects.filter(group=instance.group_id).delete()

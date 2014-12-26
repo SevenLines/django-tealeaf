@@ -10,8 +10,8 @@ from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
 from django.views.decorators.http import require_POST, require_GET
 from app.utils import require_in_POST, json_encoder
-
-from students.models import active_years, Group, Student
+from students.models import active_years, Group
+from students.models.student import Student
 from students.utils import current_year
 
 

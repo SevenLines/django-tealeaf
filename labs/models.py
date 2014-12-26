@@ -9,8 +9,10 @@ from django.utils.translation import ugettext_lazy as _
 from filer.fields.image import FilerImageField
 from django.utils.text import Truncator
 from ordered_model.models import OrderedModel
+from students.models import Group
+from students.models.discipline import Discipline
+from students.models.student import Student
 
-from students.models import Student, Discipline, Group
 from students.utils import current_year
 
 

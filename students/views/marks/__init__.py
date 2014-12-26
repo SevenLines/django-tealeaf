@@ -9,10 +9,13 @@ from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 import xlsxwriter
 import xlsxwriter.worksheet
+from students.models import Group
+from students.models.discipline import DisciplineMarksCache, Discipline
+from students.models.lesson import Lesson
+from students.models.mark import Mark
 import students.utils
 
 from app.utils import require_in_POST, require_in_GET, json_encoder
-from students.models import Lesson, Discipline, Group, Mark, DisciplineMarksCache, Student
 import logging
 
 logger = logging.getLogger(__name__)
