@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.template import RequestContext
 
-from students.models import Group
+from students.models.group import Group
 
 
 def index(request):

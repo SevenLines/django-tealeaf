@@ -1,6 +1,5 @@
 from datetime import datetime
 # import json
-# from students.models import DisciplineMarksCache
 
 
 def current_year():

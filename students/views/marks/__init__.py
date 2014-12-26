@@ -9,7 +9,7 @@ from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 import xlsxwriter
 import xlsxwriter.worksheet
-from students.models import Group
+from students.models.group import Group
 from students.models.discipline import DisciplineMarksCache, Discipline
 from students.models.lesson import Lesson
 from students.models.mark import Mark

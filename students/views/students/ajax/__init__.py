@@ -4,7 +4,7 @@ from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_GET
 import xlsxwriter
 
-from students.models import Group
+from students.models.group import Group
 
 
 @require_GET

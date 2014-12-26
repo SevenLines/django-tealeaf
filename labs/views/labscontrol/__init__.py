@@ -26,7 +26,7 @@ from labs.views.labscontrol import _ajax
 #         'complex_choices': Task.COMPLEX_CHOICES,
 #     }
 #     return render(request, "labs-control/labs-preview.html", context)
-from students.models import Group
+from students.models.group import Group
 from students.models.discipline import Discipline
 
 
