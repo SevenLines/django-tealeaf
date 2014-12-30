@@ -8,9 +8,20 @@ from students.utils import current_year
 
 
 class Student(models.Model):
+    SEX_UNDEFINED = -1
+    SEX_WOMAN = 0
+    SEX_MAN = 1
+
+    SEX_ENUM = [
+        (SEX_WOMAN, 'woman'),
+        (SEX_WOMAN, 'woman'),
+        (SEX_MAN, 'man'),
+    ]
+
     name = models.CharField(max_length=50, default='')
     second_name = models.CharField(max_length=50, default='')
     group = models.ForeignKey("Group", null=True)
+    sex = models.SmallIntegerField(choices=SEX_ENUM, default=SEX_UNDEFINED)
 
     phone = models.CharField(max_length=50, default='')
     email = models.EmailField(default='')
