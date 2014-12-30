@@ -1,6 +1,5 @@
 # coding=utf-8
 from django.db import models
-from students.models.student import Student
 
 
 class Mark(models.Model):
@@ -45,6 +44,8 @@ class Mark(models.Model):
     student = models.ForeignKey("Student")
     lesson = models.ForeignKey("Lesson")
     mark = models.SmallIntegerField(choices=MARKS, default=MARK_NORMAL)
+    date_create = models.DateTimeField(auto_now_add=True)
+    date_update = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return u"%s %s" % (self.student, self.mark)
