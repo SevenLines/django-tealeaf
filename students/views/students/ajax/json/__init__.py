@@ -10,8 +10,9 @@ from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
 from django.views.decorators.http import require_POST, require_GET
 from app.utils import require_in_POST, json_encoder
-
-from students.models import active_years, Group, Student
+from students.models import active_years
+from students.models.group import Group
+from students.models.student import Student
 from students.utils import current_year
 
 
@@ -62,14 +63,14 @@ def update_students_data(students_list):
 
         if s['modified'] and s['id'] != -1:  # modifieded items
             student = Student.objects.filter(pk=s['id']).first()
-            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk']:
+            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk', 'sex']:
                 if prop in s:
                     setattr(student, prop, s[prop])
             student.save()
 
         if s['id'] == -1:  # new items
             student = Student()
-            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk']:
+            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk', 'sex']:
                 if prop in s:
                     setattr(student, prop, s[prop])
             student.save()

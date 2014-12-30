@@ -3,7 +3,7 @@ from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
-from students.models import DisciplineMarksCache
+from students.models.discipline import DisciplineMarksCache
 
 
 class Migration(SchemaMigration):

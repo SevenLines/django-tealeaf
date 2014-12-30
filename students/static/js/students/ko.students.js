@@ -3,6 +3,7 @@ function Student(data) {
     self.id = data.id;
     self.name = ko.observable(data.name);
     self.second_name = ko.observable(data.second_name);
+    self.sex = ko.observable(data.sex);
     self.phone = ko.observable(data.phone);
     self.vk = ko.observable(data.vk);
     self.email = ko.observable(data.email);
@@ -11,6 +12,7 @@ function Student(data) {
 
     self.old_name = ko.observable(data.name);
     self.old_second_name = ko.observable(data.second_name);
+    self.old_sex = ko.observable(data.sex);
     self.old_phone = ko.observable(data.phone);
     self.old_vk = ko.observable(data.vk);
     self.old_email = ko.observable(data.email);
@@ -23,6 +25,7 @@ function Student(data) {
             || self.old_vk() != self.vk()
             || self.old_email() != self.email()
             || self.old_phone() != self.phone()
+            || self.old_sex() != self.sex()
             || self.old_group_id != self.group_id
     });
 
@@ -32,7 +35,12 @@ function Student(data) {
         self.old_phone(self.phone());
         self.old_vk(self.vk());
         self.old_email(self.email());
+        self.old_sex(self.sex());
         self.old_group_id = self.group_id;
+    };
+
+    self.setSex = function(sexEnum) {
+        self.sex(sexEnum);
     };
 
     self.changePhoto = function (form) {

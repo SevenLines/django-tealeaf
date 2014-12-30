@@ -5,8 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.http.response import Http404
 from django.shortcuts import render
 from django.template import RequestContext
-
-from students.models import Student, Lesson, Group, Discipline, Mark
+from students.models.group import Group
+from students.models.discipline import Discipline
+from students.models.lesson import Lesson
 
 
 @login_required(login_url="login/")
