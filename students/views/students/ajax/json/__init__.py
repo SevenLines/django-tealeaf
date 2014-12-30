@@ -63,14 +63,14 @@ def update_students_data(students_list):
 
         if s['modified'] and s['id'] != -1:  # modifieded items
             student = Student.objects.filter(pk=s['id']).first()
-            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk']:
+            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk', 'sex']:
                 if prop in s:
                     setattr(student, prop, s[prop])
             student.save()
 
         if s['id'] == -1:  # new items
             student = Student()
-            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk']:
+            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk', 'sex']:
                 if prop in s:
                     setattr(student, prop, s[prop])
             student.save()

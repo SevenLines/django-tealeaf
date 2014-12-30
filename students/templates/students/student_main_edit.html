@@ -4,7 +4,12 @@
             data-bind="attr: {'href': '#student_' + $data.id }">
         <span class="glyphicon glyphicon-chevron-down"></span>
     </button>
-
+    <div class="btn-group">
+        <button class="btn btn-sm btn-default"
+                data-bind="click: function() { setSex(0); }, css: { 'btn-primary': sex() == 0 }">♀</button>
+        <button class="btn btn-sm btn-default"
+                data-bind="click: function() { setSex(1); }, , css: { 'btn-primary': sex() == 1 }"><b>♂</b></button>
+    </div>
     <input class="form-control" data-bind="value: second_name,
                                         valueUpdate: 'input'"/>
     <input class="form-control" data-bind="value: name,
