@@ -282,6 +282,7 @@ class DisciplineMarksCache(models.Model):
                 color = {
                     Mark.MARK_BLACK_HOLE: 'white',
                     Mark.MARK_AWESOME: 'white',
+                    Mark.MARK_EXCELLENT: 'white',
                     Mark.MARK_FANTASTIC: 'white',
                     Mark.MARK_INCREDIBLE: 'white',
                 }.get(mt['k'], 'black')
