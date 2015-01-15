@@ -248,6 +248,7 @@ class DisciplineMarksCache(models.Model):
         mark_formats = {}
         lesson_formts = {}
 
+        # Подготовка стилей
         for lt in lesson_types:
             frmt = workbook.add_format()
             frmt.set_align('center')
@@ -259,7 +260,9 @@ class DisciplineMarksCache(models.Model):
                 bg_color = Color(bg_colors[Mark.MARK_NORMAL])
                 bg_color.set_hue({
                                      2: 0.15,
-                                     3: 0.5
+                                     3: 0.5,
+                                     4: 0.6,
+                                     5: 0.8
                                  }.get(lt['id'], bg_color.get_hue()))
 
                 frmt.set_bg_color(bg_color.get_hex_l())
@@ -280,6 +283,7 @@ class DisciplineMarksCache(models.Model):
                     Mark.MARK_BLACK_HOLE: 'white',
                     Mark.MARK_AWESOME: 'white',
                     Mark.MARK_FANTASTIC: 'white',
+                    Mark.MARK_INCREDIBLE: 'white',
                 }.get(mt['k'], 'black')
 
                 bg_color = Color(bg_color)
@@ -291,6 +295,12 @@ class DisciplineMarksCache(models.Model):
                         bg_color.set_luminance(min(bg_color.get_luminance() * 1.4, 0.9))
                     elif lt['id'] == 3:
                         bg_color.set_hue(0.5)
+                        bg_color.set_luminance(min(bg_color.get_luminance() * 1.1, 0.9))
+                    elif lt['id'] == 4:
+                        bg_color.set_hue(0.6)
+                        bg_color.set_luminance(min(bg_color.get_luminance() * 1.1, 0.9))
+                    elif lt['id'] == 5:
+                        bg_color.set_hue(0.8)
                         bg_color.set_luminance(min(bg_color.get_luminance() * 1.1, 0.9))
                     else:
                         bg_color.set_hue(0.25)
@@ -305,34 +315,27 @@ class DisciplineMarksCache(models.Model):
 
                 mark_formats[lt['id']][mt['k']] = frmt
 
+        # заполнение строки занятий
         worksheet.set_row(0, 90)
         for r, l in enumerate(lessons, 2):
             worksheet.write(r, 0, l['dn_raw'].strip(), lesson_formts[l['lt']])
             h = 20 * max(1, l['dn_raw'].strip().count("\n") + 1)
             worksheet.set_row(r, h)
 
+        # заполнение таблицы оценок
         max_width = 1
-
-        score_max = len(lessons) * 3
-        score_min = len(lessons) * -2
-        score_base = 0.3
-
         for c, s in enumerate(students, 1):
             name = "%s %s" % (s['second_name'], s['name'])
-
-            if s['sum'] == 0:
-                score = score_base
-            elif s['sum'] > 0:
-                score = score_base + (float(s['sum']) / score_max) * (1 - score_base)
-            else:
-                score = score_base - (float(s['sum']) / score_min) * score_base
-
+            score = Discipline.compute_percents(s['marks'], lessons=lessons)
             score = "{score} / {percents}%".format(**{
                 'percents': int(score * 100),
                 'score': s['sum'],
             })
+
+            # ячейка имени
             worksheet.write(0, c, name, frmt_student)
             worksheet.write(1, c, score, frmt_header)
+            # заполняем оценки
             marks = s['marks']
             for r, m in enumerate(marks, 2):
                 if m['m'] is not None:
@@ -340,6 +343,8 @@ class DisciplineMarksCache(models.Model):
                         mark = {
                             Mark.MARK_BLACK_HOLE: u'∅',
                             Mark.MARK_SHINING: u'∞',
+                            Mark.MARK_MERCY: u'○',
+                            Mark.MARK_KEEP: u'=',
                         }.get(m['m'], '')
                     else:
                         mark = u'н' if m['m'] == -2 else m['m']
@@ -352,14 +357,14 @@ class DisciplineMarksCache(models.Model):
 
             if len(name) > max_width:
                 max_width = len(name)
+
+        # декоративные улучшения
         worksheet.set_column(0, 0, max_width)
         worksheet.merge_range('A1:A2', group.title, frmt_header)
 
         # print setup
         if len(lessons) < len(students):
             worksheet.set_landscape()
-        # if group:
-        # worksheet.set_header(u"&C{}".format(group.title))
 
         worksheet.fit_to_pages(1, 1)
 
