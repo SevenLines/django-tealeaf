@@ -1,9 +1,9 @@
-{% extends "base-page-with-toolbar.html" %}
+{% extends "base-page.html" %}
 {% load static cms_tags sekizai_tags file_upload_form_tags menu_tags %}
 
 {% block basecontent %}
 
-    {% if user.is_authenticated and current_page.publisher_is_draft %}
+    {% if user.is_authenticated %}
         {% file_upload_form current_page.pk %}
     {% endif %}
 
@@ -19,7 +19,7 @@
 
     {#  TOP SCRIPTS #}
     {% addtoblock "top_js" %}
-        {% if user.is_authenticated and current_page.publisher_is_draft %}
+        {% if user.is_authenticated %}
             <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
         {% endif %}
     {% endaddtoblock %}

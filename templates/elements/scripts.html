@@ -17,22 +17,3 @@
     {% include "elements/login-form.html" %}
     {% include "elements/messages.html" %}
 {% endaddtoblock %}
-
-
-{% addtoblock "core_js" %}
-    {% if user.is_authenticated %}
-        <script>
-            $("body").click(function (evt) {
-                if (evt.altKey && evt.ctrlKey && evt.shiftKey) {
-                    // делаем logout
-                    $.post("/admin/logout/", {
-                        csrfmiddlewaretoken: "{{ csrf_token }}"
-                    }).success(function () {
-                        location.reload();
-                    });
-                }
-            });
-        </script>
-    {% endif %}
-{% endaddtoblock %}
-
