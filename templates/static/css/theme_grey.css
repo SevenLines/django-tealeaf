@@ -67,9 +67,6 @@ body {
   background-position: 0 0;
   background-repeat: repeat, repeat; }
 
-.container {
-  box-shadow: 0px 0px 8px #f3d180; }
-
 .collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
   background-color: #f3f3f3; }
 .collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
