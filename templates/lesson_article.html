@@ -5,6 +5,9 @@
 
     {% if user.is_authenticated %}
         {% file_upload_form current_page.pk %}
+        {% addtoblock "top_js" %}
+            <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
+        {% endaddtoblock %}
     {% endif %}
 
     <div class="lesson">
@@ -16,14 +19,6 @@
 
     {% block lesson_content %}
     {% endblock %}
-
-    {#  TOP SCRIPTS #}
-    {% addtoblock "top_js" %}
-        {% if user.is_authenticated %}
-            <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
-        {% endif %}
-    {% endaddtoblock %}
-    {#  TOP SCRIPTS  END #}
 
     {# SCRIPTS #}
     {% addtoblock "js" %}
@@ -46,6 +41,5 @@
         <link rel="stylesheet" type="text/css" href="{% static "lib/google-code-prettify/prettify-bootstrap.css" %}">
     {% endaddtoblock %}
     {#  STYLES END #}
-
 
 {% endblock %}

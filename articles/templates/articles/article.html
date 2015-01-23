@@ -10,7 +10,14 @@
             var ckEditor = CKEDITOR.inline("content_{{ instance.pk }}", {
                 customConfig: "{% static "bower_components/ckeditor/articles_ckeditor_config.js" %}"
             });
-            var editor = new Editor(ckEditor, "#instance_{{ instance.pk }}");
+            var editor = new Editor(ckEditor, "#instance_{{ instance.pk }}",
+                    {
+                        id: {{ instance.pk }},
+                        csrf: "{{ csrf_token }}",
+                        url: {
+                            save: '{% url "articles.views.ajax.article.save" %}'
+                        }
+                    });
 
             {% file_upload_form_bind_ckeditor "ckEditor" %}
         </script>
