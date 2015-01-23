@@ -101,7 +101,8 @@ $marks-size: 30px;
     background: white;
     margin: 3px;
     border-radius: 3px;
-    @include animation(godAnimation2 3s linear infinite);
+
+//    @include animation(godAnimation2 3s linear infinite);
 
   }
   background-color: #ffe500;
@@ -465,7 +466,7 @@ $marks-size: 30px;
       &.exam {
         $clr: lighten(adjust_hue($color, $exam-hue-offset), 5);
         @if ($use-shadow) {
-          box-shadow: #9ebdff 0 0 6px inset;
+          box-shadow: darken($clr, 10) 0 0 2px inset;
         }
         background-color: $clr;
 //        color: white;
@@ -539,19 +540,19 @@ $marks-size: 30px;
       background-color: black;
       z-index: 100;
       box-shadow: 0 0 12px rgb(255, 24, 0) inset;
-      @include animation(black-hole-glow 2s infinite);
+//      @include animation(black-hole-glow 2s infinite);
     }
     &.shining {
       background-color: #ffe20a;
       z-index: 100;
       box-shadow: 0 0 12px rgb(255, 182, 44) inset;
-      @include animation(shinig-glow 4s infinite);
+//      @include animation(shinig-glow 4s infinite);
     }
     &.mercy {
       background-color: white;
       z-index: 100;
       //      box-shadow: 0 0 4px white inset;
-      @include animation(mercy-glow 6s infinite);
+//      @include animation(mercy-glow 6s infinite);
     }
     // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
   }
