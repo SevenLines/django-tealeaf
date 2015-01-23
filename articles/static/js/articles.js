@@ -1,1 +1,73 @@
-(function(){var e;e=function(){function e(e,t){e.setKeystroke([[CKEDITOR.CTRL+CKEDITOR.ALT+83,"saveme"]]),e.on("instanceReady",function(e){return e.editor.addCommand("saveme",{exec:function(){var n,r,o,i;return r=$(t).find("form.save")[0],null===r&&rturn(!1),o=e.editor.getData(),n=$(r).serializeArray(),n.push({name:"raw",value:o}),i=$.post(r.action,n),i.success(function(){return location.reload()})}}),e.editor.addCommand("insert_article_file",{exec:function(){var n,r;return r=$(""+t+" form.upload-file"),0===r.size()?void console.error("form '"+id_contoller+" form.upload-file' not found"):(r=r[0],n=$(r).find(":file")[0],$(n).on("change",function(){var t;return t=new FormData(r),$.ajax({url:r.action,type:"POST",data:t,beforeSend:function(){return $(n).unbind("change")},success:function(t){var n;return console.log(t),n=null,"image"===t.type?(n=e.editor.document.createElement("img"),n.setAttribute("src",t.url),n.setAttribute("alt",t.filename)):(n=e.editor.document.createElement("a"),n.setAttribute("href",t.url),n.setText(t.filename)),n?e.editor.insertElement(n):void 0},contentType:!1,processData:!1})}),n.click())}})})}return e}(),window.Editor=e}).call(this);
+var Editor;
+
+Editor = (function () {
+    function Editor(ckEditor, id_controller, data) {
+
+        ckEditor.setKeystroke([[CKEDITOR.CTRL + CKEDITOR.ALT + 83, "saveme"]]);
+
+        ckEditor.on("instanceReady", function (ev) {
+
+            ev.editor.addCommand("saveme", {
+                exec: function () {
+                    $.post(data.url.save, {
+                        plugin_id: data.id,
+                        raw: ev.editor.getData(),
+                        csrfmiddlewaretoken: data.csrf
+                    }).done(function () {
+                        InterfaceAlerts.showSuccess();
+                    })
+                }
+            });
+
+            ev.editor.addCommand("insert_article_file", {
+                exec: function () {
+                    var file_input, form;
+                    form = $("" + id_controller + " form.upload-file");
+                    if (form.size() === 0) {
+                        console.error("form '" + id_contoller + " form.upload-file' not found");
+                        return;
+                    }
+                    form = form[0];
+                    file_input = $(form).find(":file")[0];
+                    $(file_input).on("change", function () {
+                        var formData;
+                        formData = new FormData(form);
+                        return $.ajax({
+                            url: form.action,
+                            type: "POST",
+                            data: formData,
+                            beforeSend: function () {
+                                return $(file_input).unbind("change");
+                            },
+                            success: function (data) {
+                                var element;
+                                console.log(data);
+                                element = null;
+                                if (data['type'] === "image") {
+                                    element = ev.editor.document.createElement("img");
+                                    element.setAttribute("src", data['url']);
+                                    element.setAttribute("alt", data['filename']);
+                                } else {
+                                    element = ev.editor.document.createElement("a");
+                                    element.setAttribute("href", data['url']);
+                                    element.setText(data['filename']);
+                                }
+                                if (element) {
+                                    return ev.editor.insertElement(element);
+                                }
+                            },
+                            contentType: false,
+                            processData: false
+                        });
+                    });
+                    return file_input.click();
+                }
+            });
+        });
+    }
+
+    return Editor;
+
+})();
+
+window.Editor = Editor;
