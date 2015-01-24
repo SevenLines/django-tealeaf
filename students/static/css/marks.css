@@ -17,17 +17,6 @@
   position: relative;
   box-shadow: 0 0 6px #f49900;
   background-color: #ffe500; }
-  .god:after {
-    content: ' ';
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: white;
-    margin: 3px;
-    border-radius: 3px; }
 
 .jumbotron.loading {
   background-color: #ffe500;
