@@ -1,0 +1,34 @@
+{% load sekizai_tags static %}
+{% addtoblock "css" %}
+    <link rel="stylesheet" href="{% static "css/textpage.css" %}"/>
+{% endaddtoblock %}
+
+<div class="textpage-content">
+    {% if user.is_authenticated %}
+        {% addtoblock "js" %}
+            <script src="{% static "js/textpage/main.js" %}"></script>{% endaddtoblock %}
+        <div contenteditable="true" id="page-content">{{ instance.text|safe }}</div>
+        <form id="images-form"></form>
+        <form id="files-form"></form>
+        {% addtoblock "js" %}
+            <script>
+                new TextPageModel({
+                            save_url: "{% url "textpage.views.save" %}",
+                            upload_image:'{% url "textpage.views.upload_image" %}',
+                            remove_image:'{% url "textpage.views.remove_image" %}',
+                            upload_file:'{% url "textpage.views.upload_file" %}',
+                            remove_file:'{% url "textpage.views.remove_file" %}',
+                        },
+                        {{ instance.id }});
+
+            </script>
+        {% endaddtoblock %}
+    {% else %}
+        {{ instance.text|safe }}
+    {% endif %}
+</div>
+{#<script>#}
+{#    if (!$("html").is(".lt-ie9, .lt-ie8, .lt-ie7")) {#}
+{#        $('.textpage-content').hyphenate('ru');#}
+{#    }#}
+{#</script>#}

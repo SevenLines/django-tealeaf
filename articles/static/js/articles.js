@@ -21,46 +21,35 @@ Editor = (function () {
 
             ev.editor.addCommand("insert_article_file", {
                 exec: function () {
-                    var file_input, form;
-                    form = $("" + id_controller + " form.upload-file");
-                    if (form.size() === 0) {
-                        console.error("form '" + id_contoller + " form.upload-file' not found");
-                        return;
-                    }
-                    form = form[0];
-                    file_input = $(form).find(":file")[0];
-                    $(file_input).on("change", function () {
-                        var formData;
-                        formData = new FormData(form);
-                        return $.ajax({
-                            url: form.action,
+                    var input = $("<input type=file>");
+                    input.one("change", function () {
+                        var formData = new FormData()
+                        formData.append("file", input.files[0])
+                        $.ajax({
+                            url: data.url.upload,
                             type: "POST",
                             data: formData,
-                            beforeSend: function () {
-                                return $(file_input).unbind("change");
-                            },
-                            success: function (data) {
-                                var element;
-                                console.log(data);
-                                element = null;
-                                if (data['type'] === "image") {
-                                    element = ev.editor.document.createElement("img");
-                                    element.setAttribute("src", data['url']);
-                                    element.setAttribute("alt", data['filename']);
-                                } else {
-                                    element = ev.editor.document.createElement("a");
-                                    element.setAttribute("href", data['url']);
-                                    element.setText(data['filename']);
-                                }
-                                if (element) {
-                                    return ev.editor.insertElement(element);
-                                }
-                            },
                             contentType: false,
                             processData: false
-                        });
+                        }).done(function (r) {
+                            var element;
+                            element = null;
+                            if (r['type'] === "image") {
+                                element = ev.editor.document.createElement("img");
+                                element.setAttribute("src", r['url']);
+                                element.setAttribute("alt", r['filename']);
+                            } else {
+                                element = ev.editor.document.createElement("a");
+                                element.setAttribute("href", r['url']);
+                                element.setText(r['filename']);
+                            }
+                            if (element) {
+                                ev.editor.insertElement(element);
+                            }
+                            InterfaceAlerts.showSuccess();
+                        }).fail(InterfaceAlerts.showFail)
                     });
-                    return file_input.click();
+                    input.click();
                 }
             });
         });

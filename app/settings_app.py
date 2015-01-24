@@ -40,4 +40,5 @@ INSTALLED_APPS = (
     'tracking',
     'tracking_ex',
     'django_assets',
+    'textpage',
 )

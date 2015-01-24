@@ -15,7 +15,8 @@
                         id: {{ instance.pk }},
                         csrf: "{{ csrf_token }}",
                         url: {
-                            save: '{% url "articles.views.ajax.article.save" %}'
+                            save: '{% url "articles.views.ajax.article.save" %}',
+                            upload: '{% url "my_file_browser.views.ajax.file.upload" %}'
                         }
                     });
 
