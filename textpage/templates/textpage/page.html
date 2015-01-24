@@ -5,19 +5,20 @@
 
 <div class="textpage-content">
     {% if user.is_authenticated %}
-
-        {#        {% addtoblock "js" %}#}
-        {#            <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>#}
-        {#        {% endaddtoblock %}#}
         {% addtoblock "js" %}
             <script src="{% static "js/textpage/main.js" %}"></script>{% endaddtoblock %}
         <div contenteditable="true" id="page-content">{{ instance.text|safe }}</div>
         <form id="images-form"></form>
+        <form id="files-form"></form>
         {% addtoblock "js" %}
             <script>
-                new TextPageModel("{% url "textpage.views.save" %}",
-                        '{% url "textpage.views.upload_image" %}',
-                        '{% url "textpage.views.remove_image" %}',
+                new TextPageModel({
+                            save_url: "{% url "textpage.views.save" %}",
+                            upload_image:'{% url "textpage.views.upload_image" %}',
+                            remove_image:'{% url "textpage.views.remove_image" %}',
+                            upload_file:'{% url "textpage.views.upload_file" %}',
+                            remove_file:'{% url "textpage.views.remove_file" %}',
+                        },
                         {{ instance.id }});
 
             </script>

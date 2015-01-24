@@ -8,7 +8,7 @@ import json
 
 # Create your views here.
 from app.utils import require_in_POST, require_in_GET
-from textpage.models import TextPage, TextPageImage
+from textpage.models import TextPage, TextPageImage, TextPageFile
 
 
 @login_required
@@ -33,10 +33,31 @@ def upload_image(request):
     }), content_type="json")
 
 @login_required
+def upload_file(request):
+    f = request.FILES['file']
+    fl = TextPageFile()
+    ext = f.name.split('.')[-1]
+    fl.file.save(f.name, ContentFile(f.read()))
+    fl.save()
+    return HttpResponse(json.dumps({
+        "url": fl.file.url,
+        "id": fl.id
+    }), content_type="json")
+
+
+@login_required
 @require_in_GET("id")
 def remove_image(request):
     im = TextPageImage.objects.get(pk=request.GET['id'])
     im.delete()
+    return HttpResponse()
+
+
+@login_required
+@require_in_GET("id")
+def remove_file(request):
+    fl = TextPageFile.objects.get(pk=request.GET['id'])
+    fl.delete()
     return HttpResponse()
 
 

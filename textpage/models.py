@@ -18,7 +18,17 @@ class TextPageImage(models.Model):
     image = ThumbnailerImageField(upload_to="textpage")
 
 
+class TextPageFile(models.Model):
+    file = models.FileField(upload_to="textpage/files")
+
+
 @receiver(post_delete, sender=TextPageImage)
 def mymodel_delete(sender, instance, **kwargs):
     if instance.image:
         instance.image.delete(False)
+
+
+@receiver(post_delete, sender=TextPageFile)
+def mymodel_delete(sender, instance, **kwargs):
+    if instance.file:
+        instance.file.delete(False)
