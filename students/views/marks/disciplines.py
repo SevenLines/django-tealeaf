@@ -1,3 +1,4 @@
+# coding=utf-8
 import json
 
 from django.contrib.auth.decorators import login_required
@@ -10,17 +11,20 @@ from students.utils import current_year
 
 
 def index(request):
+    # список дисциплин
     if not request.user.is_authenticated():
+        # если неатутентифицирован
         disciplines = Discipline.objects.raw("""
 SELECT DISTINCT sd.*
 FROM students_discipline sd
   LEFT JOIN students_lesson sl ON sl.discipline_id = sd.id
   LEFT JOIN students_group sg ON sg.id = sl.group_id
-  WHERE sg.year = %(year)s
+  WHERE sg.year = %(year)s AND sd.visible
     """, {
             'year': current_year()
         })
     else:
+        # иначе весь список
         disciplines = Discipline.objects.all()
 
     disciplines = list([model_to_dict(d) for d in disciplines])
@@ -58,6 +62,8 @@ def edit(request):
     d = Discipline.objects.get(pk=request.POST["id"])
     if "title" in request.POST:
         d.title = request.POST['title']
+    if "visible" in request.POST:
+        d.visible = request.POST['visible'] == 'true'
 
     d.save()
 
