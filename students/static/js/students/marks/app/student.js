@@ -2,7 +2,7 @@
  * Created by m on 11.02.15.
  */
 // >>> STUDENT CLASS
-define(['knockout', 'mark'], function (ko, Mark) {
+define(['knockout', 'app/mark'], function (ko, Mark) {
     return function (data) {
         var self = this;
         self.id = data.id;

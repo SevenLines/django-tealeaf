@@ -3,7 +3,7 @@ var studentColorMin = Color("#FDD").lighten(0.03);
 var studentColorMax = Color("#89EB04").lighten(0.5);
 
 // create modal discipline for adding purposes
-define(['knockout', 'lesson', 'mark', 'student', 'discipline', 'markselector'],
+define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', 'app/markselector'],
     function (ko, Lesson, Mark, Student, Discipline, MarkSelector) {
         return function (data) {
             var self = this;
@@ -357,6 +357,9 @@ define(['knockout', 'lesson', 'mark', 'student', 'discipline', 'markselector'],
                     for (var i = 0; i < data.length; ++i) {
                         self.disciplines.push(new Discipline(data[i], self));
                     }
+                    //if (!self.discipline()) {
+                    //    self.discipline(self.disciplines()[0]);
+                    //}
                 }).fail(function () {
                     InterfaceAlerts.showFail();
                 });

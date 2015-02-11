@@ -1,6 +1,9 @@
 # coding:utf8
+from fabric.context_managers import lcd
+import fnmatch
+import glob
 from fabric.api import run, env, cd, prefix, settings
-from fabric.operations import local
+from fabric.operations import local, os
 
 # ## ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
@@ -48,8 +51,23 @@ def compile_css():
 def minify():
     # with prefix("activate"):
     local("python manage.py assets build")  # build assets
-    compile_css()
-    compile_js()
+    requirejs();
+    # compile_css()
+    # compile_js()
+
+
+def requirejs():
+    # ищет файлы build.js и компилирует их спомощью build.js
+    matches = []
+    for root, dirnames, filenames in os.walk('.'):
+        if root.startswith('./node_modules'):
+            continue
+        for filename in fnmatch.filter(filenames, 'build.js'):
+            matches.append(os.path.join(root, filename))
+    for file in matches:
+        cd_path = os.path.dirname(os.path.abspath(file))
+        with lcd(cd_path):
+            local('r.js -o build.js')
 
 
 def pip_sync(on_server=False):
