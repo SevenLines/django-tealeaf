@@ -72,48 +72,45 @@
         {% endaddtoblock %}
 
         {% addtoblock "js" %}
-            {% assets "marks_js" %}
-                <script type="text/javascript" src="{% static ASSET_URL %}"></script>
-            {% endassets %}
-        {% endaddtoblock %}
+            <script src="{% static "bower_components/requirejs/require.js" %}"></script>{% endaddtoblock %}
 
         {% addtoblock "js" %}
             <script>
-                var model = new MarksViewModel({
-                    csrf: "{{ csrf_token }}",
-                    url: {
-                        years: "{% url "students.views.students.ajax.json.years" %}",
-                        groups: "{% url "students.views.students.ajax.json.groups" %}",
-                        students: "{% url "students.views.marks.students" %}",
-                        disciplines: "{% url "students.views.marks.disciplines.index" %}",
-                        to_excel: "{% url "students.views.marks.marks_to_excel" %}",
-                        {% if user.is_authenticated %}
-                            discipline_add: "{% url "students.views.marks.disciplines.add" %}",
-                            discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
-                            discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
-                            students_control: "{% url "students.views.marks.students_control" %}",
-                            lesson_add: "{% url "students.views.marks.lesson_add" %}",
-                            lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
-                            lesson_save: "{% url "students.views.marks.lesson_save" %}",
-                            marks_save: "{% url "students.views.marks.marks_save" %}",
-                            reset_cache: "{% url "students.views.marks.reset_cache" %}"
-                        {% endif %}
-                    }
+                require.config({
+                    baseUrl: '{% static 'js/students/marks' %}',
+                    {% if not DEBUG %}paths: {'marks': 'marks-built'}{% endif %}
                 });
 
-                ko.applyBindings(model);
+                require(['model_config', 'marks']);
+
+                define('model_config',
+                        function () {
+                            return {
+                                csrf: "{{ csrf_token }}",
+                                url: {
+                                    years: "{% url "students.views.students.ajax.json.years" %}",
+                                    groups: "{% url "students.views.students.ajax.json.groups" %}",
+                                    students: "{% url "students.views.marks.students" %}",
+                                    disciplines: "{% url "students.views.marks.disciplines.index" %}",
+                                    to_excel: "{% url "students.views.marks.marks_to_excel" %}",
+                                    {% if user.is_authenticated %}
+                                        discipline_add: "{% url "students.views.marks.disciplines.add" %}",
+                                        discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
+                                        discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
+                                        students_control: "{% url "students.views.marks.students_control" %}",
+                                        lesson_add: "{% url "students.views.marks.lesson_add" %}",
+                                        lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
+                                        lesson_save: "{% url "students.views.marks.lesson_save" %}",
+                                        marks_save: "{% url "students.views.marks.marks_save" %}",
+                                        reset_cache: "{% url "students.views.marks.reset_cache" %}"
+                                    {% endif %}
+                                }
+                            }
+                        }
+                );
+
                 {% if user.is_authenticated %}
-                    function lessonIconSelectPopup(triggeringLink) {
-                        var win, href;
-                        href = triggeringLink.href + '?_popup=1';
-                        win = window.open(href, '', 'height=500,width=800,resizable=yes,scrollbars=yes');
-                        window.RelatedImageLookupPopupBeforeClose = function (win, chosenId, chosenThumbnailUrl) {
-                            model.lesson().icon_id(chosenId);
-                            model.lesson().icon_url(chosenThumbnailUrl);
-                        };
-                        win.focus();
-                        return false;
-                    }
+
                 {% endif %}
             </script>
         {% endaddtoblock "js" %}
