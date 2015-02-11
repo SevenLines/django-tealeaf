@@ -21,7 +21,7 @@ def blank(request):
 
 def years(request):
 
-    if request.user.is_superuser:
+    if request.user.is_authenticated:
         yrs = list([{'year': y} for y in active_years()])
     else:  # не аутентефицированным только текущий год
         yrs = [{'year': current_year()}]
