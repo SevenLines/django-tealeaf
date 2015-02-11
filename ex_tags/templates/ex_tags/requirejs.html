@@ -1,0 +1,8 @@
+{% load static %}
+<script>
+    require.config({
+        baseUrl: '{% static baseUrl %}',
+        {% if not DEBUG %}paths: {'{{ main }}': '{{ main_built }}'}{% endif %}
+    });
+    require(['{{ main }}'{% if add_modules %}, {{ add_modules|safe }}{% endif %}]);
+</script>
