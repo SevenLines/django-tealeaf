@@ -9,8 +9,8 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             var self = this;
 
             self.init = function () {
-                self.loadYears();
                 self.loadDisciplines();
+                //self.loadYears();
             };
 
 // SERVICE VARIABLES
@@ -105,10 +105,10 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
 
             self.discipline.subscribe(function () {
                 self.check_block(function () {
-                    self.loadGroups();
                     if (self.discipline()) {
                         $.cookie(self.cookie.discipline_id, self.discipline().id, {expires: self.cookie.expires});
                     }
+                    self.loadGroups();
                 });
             });
 
@@ -357,6 +357,7 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             };
 
             self.loadDisciplines = function () {
+                var lastDisciplineId = $.cookie(self.cookie.discipline_id);
                 $.get(self.url.disciplines).done(function (data) {
                     for (var i = 0; i < data.length; ++i) {
                         var disc = new Discipline(data[i], self);
@@ -364,11 +365,13 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                     }
                     for (var i = 0; i < self.disciplines().length; ++i) {
                         var disc = self.disciplines()[i];
-                        if (disc.id == $.cookie(self.cookie.discipline_id)) {
+                        if (disc.id == lastDisciplineId) {
                             self.discipline(disc);
                             break;
                         }
                     }
+                    self.loadYears();
+
                 }).fail(function () {
                     InterfaceAlerts.showFail();
                 });

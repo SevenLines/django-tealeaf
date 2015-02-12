@@ -36,10 +36,10 @@ def groups(request):
     if not year.isdigit():
         year = current_year()
 
-    if not request.user.is_authenticated:
-        grps = Group.objects.all()
-    else:
+    if not request.user.is_authenticated():
         grps = Group.objects.filter(id__in=Lesson.objects.filter(discipline=discipline_id).values('group').distinct())
+    else:
+        grps = Group.objects.all()
 
     if year:
         grps = grps.filter(year=year)
