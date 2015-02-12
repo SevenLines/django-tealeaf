@@ -14,7 +14,8 @@
         </div>
     </noscript>
 
-    <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none" data-bind="visible: !disciplines().length">
+    <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none"
+         data-bind="visible: !disciplines().length">
         <h1>Нету актуальных данных</h1>
 
         <h3>-=-=-=-=-=-=-</h3>
@@ -77,21 +78,20 @@
             {% addtoblock "js" %}
                 <script src="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.min.js" %}"></script>
             {% endaddtoblock %}
+            {% addtoblock "core_css" %}
+                <link rel="stylesheet"
+                      href="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.css" %}"/>
+            {% endaddtoblock %}
         {% endif %}
 
         {% addtoblock "core_css" %}
             <link rel="stylesheet" href="{% static "css/marks.css" %}"/>
         {% endaddtoblock %}
 
-        {% addtoblock "core_css" %}
-            <link rel="stylesheet" href="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.css" %}"/>
-        {% endaddtoblock %}
+
 
         {% addtoblock "js" %}
             <script src="{% static "bower_components/requirejs/require.js" %}"></script>
-            {#            {% assets "marks_js" %}#}
-            {#                <script type="text/javascript" src="{% static ASSET_URL %}"></script>#}
-            {#            {% endassets %}#}
             {% requirejs 'js/students/marks' 'marks' 'marks-built' 'model_config' %}
         {% endaddtoblock %}
 
