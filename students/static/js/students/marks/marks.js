@@ -31,5 +31,5 @@ function lessonIconSelectPopup(triggeringLink) {
 
 require(['model_config', 'app/main', 'knockout'], function (config, MarksViewModel, ko) {
     var model = new MarksViewModel(config);
-    ko.applyBindings(model);
+    ko.applyBindings(model, document.getElementById("marks-editor"));
 });

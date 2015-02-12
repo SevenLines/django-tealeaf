@@ -101,7 +101,7 @@
             </div>
             <!-- END СПИСОК ГРУПП -->
             <div style="clear: both"></div>
-            {% include "students/student_add.html" %}
+            {% include "students/student/add.html" %}
         </div>
 
         <div style="clear: both"></div>
@@ -112,16 +112,16 @@
             <div class="panel"
                  data-bind="css: { 'panel-success' : $data.modified(), 'panel-default' : !$data.modified() }">
                 <div class="panel-heading">
-                    {% include "students/student_main_edit.html" %}
+                    {% include "students/student/main_edit.html" %}
                 </div>
                 <div class="panel-collapse collapse" data-bind="attr: {'id': 'student_' + $data.id }">
                     <div class="panel-body">
-                        {% include "students/student_extend_edit.html" %}
+                        {% include "students/student/edit.html" %}
                     </div>
                 </div>
             </div>
         </div>
-        {% include "students/student_add.html" %}
+        {% include "students/student/add.html" %}
         {% comment %}<div class="panel-body" data-bind="visible: $root.group()">
             <div class="group-students">
                 <div class="content">

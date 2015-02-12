@@ -24,7 +24,7 @@
             <thead>
             <tr>
                 <th>
-                    {% include "students/marks_students_control.html" %}
+                    {% include "students/marks/students_control.html" %}
                 </th>
             </tr>
             </thead>
@@ -62,7 +62,7 @@
             <tfoot>
             <tr>
                 <th class="headcol">
-                    {% include "students/marks_students_control.html" %}
+                    {% include "students/marks/students_control.html" %}
                 </th>
             </tr>
             </tfoot>
@@ -187,5 +187,5 @@
 <div style="clear: both"></div>
 
 {% if user.is_authenticated %}
-    {% include "students/mark_selector.html" %}
+    {% include "students/marks/mark_selector.html" %}
 {% endif %}

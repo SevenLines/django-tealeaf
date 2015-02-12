@@ -4,5 +4,5 @@ from django.shortcuts import render
 
 @login_required
 def index(request):
-    return render(request, 'students/students_editor.html')
+    return render(request, 'students/student/index.html')
 

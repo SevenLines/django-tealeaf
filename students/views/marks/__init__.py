@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-    return render(request, "students/marks_editor.html")
+    return render(request, "students/teacher-editor.html")
 
 
 def students_cached(discipline_id, group_id):
