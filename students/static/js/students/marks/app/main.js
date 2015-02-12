@@ -131,7 +131,7 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
 
             self.lessons = ko.observableArray();
             self.lesson_types = ko.observableArray();
-            self.lesson = ko.observable(new Lesson({}));
+            self.lesson = ko.observable(new Lesson({}, self));
 
             self.markSelector = new MarkSelector("#mark-selector", self.marksTypes);
 
@@ -234,7 +234,7 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
 
                         // fill lessons list
                         var map_lessons = $.map(data.lessons, function (item) {
-                            return new Lesson(item);
+                            return new Lesson(item, self);
                         });
                         self.lessons(map_lessons);
 
@@ -479,36 +479,29 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                     id: '-1',
                     title: 'без названия'
                 }, self);
-                self.disciplines.push(d);
-                self.discipline(d);
                 d.add(function () {
-                    self.loadDisciplines();
+                    location.reload();
                 });
             };
 
             self.editDiscipline = function () {
                 if (self.discipline().id) {
-                    self.discipline().editDiscipline();
+                    self.discipline().edit();
                 }
             };
 
             self.toggleDiscipline = function () {
                 if (self.discipline()) {
-                    self.discipline().toggleDiscipline();
+                    self.discipline().toggle();
                 }
             };
 
-            self.removeDiscipline = function (data) {
-                self.modalDeleteDescipline.message("Удалить дисциплину<h2>" + self.discipline().title + "?</h2>");
-                self.modalDeleteDescipline.show(function () {
-                    $.post(self.url.discipline_remove, self.csrfize({
-                        id: self.discipline().id
-                    })).done(function () {
+            self.removeDiscipline = function () {
+                if (self.discipline()) {
+                    self.discipline().remove(function () {
                         self.disciplines.remove(self.discipline());
-                    }).fail(function () {
-                        InterfaceAlerts.showFail();
-                    })
-                })
+                    });
+                }
             };
 
 // LESSONS CONTROL
@@ -527,15 +520,10 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                 });
             };
 
-            self.removeLesson = function (data) {
-                self.modelRemoveLesson.show(function () {
-                    $.post(self.url.lesson_remove, self.csrfize({
-                        lesson_id: data.id
-                    })).done(function () {
-                        self.loadStudents();
-                    }).fail(function () {
-                        InterfaceAlerts.showFail();
-                    });
+            self.removeLesson = function(data) {
+                data.remove(function () {
+                    //self.lessons.remove(data);
+                    self.loadStudents();
                 });
             };
 

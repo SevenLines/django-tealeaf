@@ -15,7 +15,7 @@ class Discipline(models.Model):
     title = models.CharField(max_length=50, default='')
     year = models.IntegerField(default=students.utils.current_year())
     semestr = models.SmallIntegerField(default=students.utils.current_semestr())
-    visible = models.BooleanField(default=True)
+    visible = models.BooleanField(default=False)
 
     @staticmethod
     def ignore_lesson(lesson):
