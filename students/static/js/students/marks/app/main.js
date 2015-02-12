@@ -9,7 +9,59 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             var self = this;
 
             self.init = function () {
-                self.loadDisciplines();
+                self.loadDisciplines().done(function () {
+                    self.loadYears().done(function () {
+
+                        var lastDisciplineId = $.cookie(self.cookie.discipline_id);
+                        var lastYear = $.cookie(self.cookie.year);
+
+                        // set year and discipline
+                        for (var i = 0; i < self.disciplines().length; ++i) {
+                            var disc = self.disciplines()[i];
+                            if (disc.id == lastDisciplineId) {
+                                self.discipline(disc);
+                                break;
+                            }
+                        }
+
+                        self.year.subscribe(function () {
+                            self.check_block(function () {
+                                if (self.year() && self.discipline()) {
+                                    self.loadGroups();
+                                }
+                            });
+                        });
+
+                        self.group.subscribe(function () {
+                            self.check_block(function () {
+                                if (self.group()) {
+                                    self.loadStudents();
+                                } else {
+                                    self.students([]);
+                                }
+                            });
+                        });
+
+                        self.discipline.subscribe(function () {
+                            self.check_block(function () {
+                                if (self.discipline()) {
+                                    $.cookie(self.cookie.discipline_id, self.discipline().id, {expires: self.cookie.expires});
+                                }
+                                self.loadGroups();
+                            });
+                        });
+
+                        var contains_year = self.years().some(function (item) {
+                            return item.year == lastYear;
+                        });
+                        if (contains_year) {
+                            self.year(lastYear);
+                        } else if (self.years().length > 0) {
+                            self.year(self.years()[0].year);
+                        }
+
+                    })
+                });
             };
 
 // SERVICE VARIABLES
@@ -84,52 +136,40 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             self.markSelector = new MarkSelector("#mark-selector", self.marksTypes);
 
 // >>> SUBSCRIPTIONS
-            self.year.subscribe(function () {
-                self.check_block(function () {
-                    if (self.year() && self.discipline()) {
-                        self.loadGroups();
-                    }
-                });
-            });
-
-            self.group.subscribe(function () {
-                self.check_block(function () {
-                    if (self.group()) {
-                        self.loadStudents();
-                    } else {
-                        self.students([]);
-                    }
-                });
-            });
-
-            self.discipline.subscribe(function () {
-                self.check_block(function () {
-                    if (self.discipline()) {
-                        $.cookie(self.cookie.discipline_id, self.discipline().id, {expires: self.cookie.expires});
-                    }
-                    self.loadGroups();
-                });
-            });
+//            self.year.subscribe(function () {
+//                self.check_block(function () {
+//                    if (self.year() && self.discipline()) {
+//                        self.loadGroups();
+//                    }
+//                });
+//            });
+//
+//            self.group.subscribe(function () {
+//                self.check_block(function () {
+//                    if (self.group()) {
+//                        self.loadStudents();
+//                    } else {
+//                        self.students([]);
+//                    }
+//                });
+//            });
+//
+//            self.discipline.subscribe(function () {
+//                self.check_block(function () {
+//                    if (self.discipline()) {
+//                        $.cookie(self.cookie.discipline_id, self.discipline().id, {expires: self.cookie.expires});
+//                    }
+//                    self.loadGroups();
+//                });
+//            });
 
 // >>> LOADING FUNCTIONS
             self.loadYears = function () {
-                if (self._block) return;
-                self.block();
+                //if (self._block) return;
+                //self.block();
                 self.years.length = 0;
-                $.get(self.url.years, {}, self.years).success(function (data) {
-                    var c_year = $.cookie(self.cookie.year);
-                    var contains_year = self.years().some(function (item) {
-                        return item.year == c_year;
-                    });
-                    if (contains_year) {
-                        self.unblock();
-                        self.year(c_year);
-                    } else if (self.years().length > 0) {
-                        self.year(self.years()[0].year);
-                    }
-                }).always(function () {
-                    self.unblock();
-                })
+                return $.get(self.url.years, {}, self.years).success(function (data) {
+                });
             };
 
             self.loadGroups = function () {
@@ -145,6 +185,7 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                     self.groups.sort(function (left, right) {
                         return left.title == right.title ? 0 : left.title < right.title ? -1 : 1;
                     });
+                    self.unblock();
                     if (self.groups().every(function (entry) {
                             if (group_id == entry.id) {
                                 self.group(entry);
@@ -241,30 +282,15 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             };
 
             self.loadDisciplines = function () {
-                if (self._block) return;
-                self.block();
-
                 self.disciplines.removeAll();
-                var lastDisciplineId = $.cookie(self.cookie.discipline_id);
-                $.get(self.url.disciplines).done(function (data) {
+                return $.get(self.url.disciplines).done(function (data) {
                     for (var i = 0; i < data.length; ++i) {
                         var disc = new Discipline(data[i], self);
                         self.disciplines.push(disc);
                     }
-                    for (var i = 0; i < self.disciplines().length; ++i) {
-                        var disc = self.disciplines()[i];
-                        if (disc.id == lastDisciplineId) {
-                            self.discipline(disc);
-                            break;
-                        }
-                    }
 
-                    self.unblock();
-                    self.loadYears();
                 }).fail(function () {
                     InterfaceAlerts.showFail();
-                }).always(function () {
-                    self.unblock();
                 });
             };
 
@@ -392,8 +418,6 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             self.showLoading = ko.computed(function () {
                 return self.group() && (self.isStudentsLoading() || (self.students && self.students().length == 0));
             });
-
-
 
 
 // >>> СОРТИРОВКА
