@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST, require_GET
 from app.utils import require_in_POST, json_encoder
 from students.models import active_years
 from students.models.group import Group
+from students.models.lesson import Lesson
 from students.models.student import Student
 from students.utils import current_year
 
@@ -28,15 +29,17 @@ def years(request):
     return HttpResponse(json.dumps(yrs), content_type='application/json')
 
 
-# @login_required
 def groups(request):
-    year = request.POST.get('year', None)
-    year = request.GET.get('year', None) if year is None else year
+    year = request.GET.get('year', None)
+    discipline_id = request.GET.get('discipline_id', -1)
 
     if not year.isdigit():
         year = current_year()
 
-    grps = Group.objects.all()
+    if not request.user.is_authenticated():
+        grps = Group.objects.filter(id__in=Lesson.objects.filter(discipline=discipline_id).values('group').distinct())
+    else:
+        grps = Group.objects.all()
 
     if year:
         grps = grps.filter(year=year)

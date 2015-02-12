@@ -1,0 +1,9 @@
+{% load static %}
+<script>
+    require.config({
+        baseUrl: '{% static baseUrl %}',
+        {% if not debug %}paths: {'{{ main }}': '{{ main_built }}'},{% endif %}
+        {% if debug %}urlArgs: "v=" + new Date().getTime(),{% endif %}
+    });
+    require(['{{ main }}'{% if add_modules %}, {{ add_modules|safe }}{% endif %}]);
+</script>

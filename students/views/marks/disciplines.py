@@ -20,12 +20,13 @@ FROM students_discipline sd
   LEFT JOIN students_lesson sl ON sl.discipline_id = sd.id
   LEFT JOIN students_group sg ON sg.id = sl.group_id
   WHERE sg.year = %(year)s AND sd.visible
+  ORDER BY sd.title
     """, {
             'year': current_year()
         })
     else:
         # иначе весь список
-        disciplines = Discipline.objects.all()
+        disciplines = Discipline.objects.all().order_by("title")
 
     disciplines = list([model_to_dict(d) for d in disciplines])
 

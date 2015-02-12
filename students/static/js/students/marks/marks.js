@@ -4,8 +4,8 @@
 require.config({
     paths: {
         app: './app',
-        knockout: './../lib/knockout'
-    }
+        knockout: '/static/bower_components/knockout/dist/knockout',
+    },
 });
 
 // >>> DATE FORMATING

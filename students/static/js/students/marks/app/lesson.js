@@ -1,6 +1,6 @@
 // >>> LESSON CLASS
 define(['knockout'], function (ko) {
-    return function(data) {
+    return function (data, model) {
         var self = this;
         self.convert_date = function (isodate) {
             var date = new Date(isodate);
@@ -65,6 +65,26 @@ define(['knockout'], function (ko) {
             self.icon_id(null);
             self.icn_fld_id('');
             self.icon_url('');
+        }
+
+        self.remove = function (ondone, onfail) {
+            $.prompt("Удалить занятие?", {
+                title: "Подтвердите",
+                buttons: {'Да': true, 'Не сейчас': false},
+                submit: function (e, v, m, f) {
+                    if (v) {
+                        $.post(model.url.lesson_remove, model.csrfize({
+                            lesson_id: self.id
+                        })).done(function (d) {
+                            if (ondone) ondone(d);
+                            InterfaceAlerts.showSuccess();
+                        }).fail(function () {
+                            if (onfail) onfail(d);
+                            InterfaceAlerts.showFail();
+                        });
+                    }
+                }
+            });
         }
     }
 });
