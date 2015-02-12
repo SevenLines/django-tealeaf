@@ -1,5 +1,5 @@
 {% extends "base-page.html" %}
-{% load static sekizai_tags %}
+{% load static sekizai_tags assets ex_tags %}
 
 {% block basecontent %}
     {% if user.is_authenticated %}
@@ -14,7 +14,13 @@
         </div>
     </noscript>
 
-    <div class="marks-editor nojs">
+    <div class="jumbotron loading" style="display: none" data-bind="visible: !disciplines().length">
+        <h1>Нету актульных данных</h1>
+
+        <h3></h3>
+    </div>
+
+    <div class="marks-editor nojs" style="display: none" data-bind="visible: disciplines().length">
         <!-- СПИСОК ДИСЦИПЛИН -->
         {% include "students/marks_discipline_list.html" %}
         <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
@@ -67,21 +73,31 @@
         {% include "students/marks_students_marks.html" %}
         <!-- КОНЕЦ СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
 
+        {% if user.is_authenticated %}
+            {% addtoblock "js" %}
+                <script src="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.min.js" %}"></script>
+            {% endaddtoblock %}
+        {% endif %}
+
         {% addtoblock "core_css" %}
             <link rel="stylesheet" href="{% static "css/marks.css" %}"/>
         {% endaddtoblock %}
 
+        {% addtoblock "core_css" %}
+            <link rel="stylesheet" href="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.css" %}"/>
+        {% endaddtoblock %}
+
         {% addtoblock "js" %}
-            <script src="{% static "bower_components/requirejs/require.js" %}"></script>{% endaddtoblock %}
+            <script src="{% static "bower_components/requirejs/require.js" %}"></script>
+            {#            {% assets "marks_js" %}#}
+            {#                <script type="text/javascript" src="{% static ASSET_URL %}"></script>#}
+            {#            {% endassets %}#}
+            {% requirejs 'js/students/marks' 'marks' 'marks-built' 'model_config' %}
+        {% endaddtoblock %}
+
 
         {% addtoblock "js" %}
             <script>
-                require.config({
-                    baseUrl: '{% static 'js/students/marks' %}',
-                    {% if not DEBUG %}paths: {'marks': 'marks-built'}{% endif %}
-                });
-
-                require(['model_config', 'marks']);
 
                 define('model_config',
                         function () {

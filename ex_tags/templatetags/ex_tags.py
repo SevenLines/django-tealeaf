@@ -69,3 +69,16 @@ def obfuscate_mailto(value, text=False):
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+
+
+@register.simple_tag
+def requirejs(baseUrl, main, main_built, *args):
+    add_modules = ",".join(["'" + arg+ "'" for arg in args])
+
+    return render_to_string('ex_tags/requirejs.html', {
+        'baseUrl': baseUrl,
+        'main': main,
+        'main_built': main_built,
+        'add_modules': add_modules,
+        'debug': settings.DEBUG,
+    })
