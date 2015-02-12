@@ -4,7 +4,7 @@
 require.config({
     paths: {
         app: './app',
-        knockout: '/static/bower_components/knockout/dist/knockout'
+        knockout: '/static/bower_components/knockout/dist/knockout',
     },
 });
 

@@ -16,6 +16,7 @@
 
     <div class="jumbotron loading" style="display: none" data-bind="visible: !disciplines().length">
         <h1>Нету актульных данных</h1>
+
         <h3></h3>
     </div>
 
@@ -72,8 +73,18 @@
         {% include "students/marks_students_marks.html" %}
         <!-- КОНЕЦ СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
 
+        {% if user.is_authenticated %}
+            {% addtoblock "js" %}
+                <script src="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.min.js" %}"></script>
+            {% endaddtoblock %}
+        {% endif %}
+
         {% addtoblock "core_css" %}
             <link rel="stylesheet" href="{% static "css/marks.css" %}"/>
+        {% endaddtoblock %}
+
+        {% addtoblock "core_css" %}
+            <link rel="stylesheet" href="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.css" %}"/>
         {% endaddtoblock %}
 
         {% addtoblock "js" %}
@@ -83,6 +94,7 @@
             {#            {% endassets %}#}
             {% requirejs 'js/students/marks' 'marks' 'marks-built' 'model_config' %}
         {% endaddtoblock %}
+
 
         {% addtoblock "js" %}
             <script>
