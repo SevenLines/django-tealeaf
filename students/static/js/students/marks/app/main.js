@@ -34,6 +34,7 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             self.cookie = { // cookie names
                 year: "year",
                 group_id: "group_id",
+                discipline_id: "discipline_id",
                 sorting: 'students-sorting',
                 score_method: 'score-method',
                 expires: 7 // days
@@ -86,7 +87,7 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
 // >>> SUBSCRIPTIONS
             self.year.subscribe(function () {
                 self.check_block(function () {
-                    if (self.year()) {
+                    if (self.year() && self.discipline()) {
                         self.loadGroups();
                     }
                 });
@@ -104,10 +105,9 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
 
             self.discipline.subscribe(function () {
                 self.check_block(function () {
-                    if (self.group()) {
-                        self.loadStudents();
-                    } else {
-                        self.students(null);
+                    self.loadGroups();
+                    if (self.discipline()) {
+                        $.cookie(self.cookie.discipline_id, self.discipline().id, {expires: self.cookie.expires});
                     }
                 });
             });
@@ -131,7 +131,10 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
 
             self.loadGroups = function () {
                 self.block();
-                $.get(self.url.groups, {'year': self.year()}, self.groups).done(function (data) {
+                $.get(self.url.groups, {
+                    'year': self.year(),
+                    'discipline_id': self.discipline().id
+                }, self.groups).done(function (data) {
                     $.cookie(self.cookie.year, self.year(), {expires: self.cookie.expires});
                     var group_id = $.cookie(self.cookie.group_id);
                     self.groups.sort(function (left, right) {
@@ -281,6 +284,8 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
 
             self.loadStudents = function () {
                 self.isStudentsLoading(true);
+                self.students.removeAll();
+
                 setTimeout(function () {
                     $.get(self.url.students, {
                         'group_id': self.group().id,
@@ -315,7 +320,6 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                             if (i == -1) {
                                 self.students.removeAll();
                                 setTimeout(add_item, 0);
-
                                 ++i;
                             }
                             if (i < data.students.length) {
@@ -355,11 +359,16 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             self.loadDisciplines = function () {
                 $.get(self.url.disciplines).done(function (data) {
                     for (var i = 0; i < data.length; ++i) {
-                        self.disciplines.push(new Discipline(data[i], self));
+                        var disc = new Discipline(data[i], self);
+                        self.disciplines.push(disc);
                     }
-                    //if (!self.discipline()) {
-                    //    self.discipline(self.disciplines()[0]);
-                    //}
+                    for (var i = 0; i < self.disciplines().length; ++i) {
+                        var disc = self.disciplines()[i];
+                        if (disc.id == $.cookie(self.cookie.discipline_id)) {
+                            self.discipline(disc);
+                            break;
+                        }
+                    }
                 }).fail(function () {
                     InterfaceAlerts.showFail();
                 });

@@ -7,13 +7,13 @@
     </select>
     {% if user.is_authenticated %}</div>{% endif %}
     {% if user.is_authenticated %}
-        {#        <div class="form-group">#}
+        <!-- ko if: discipline -->
         <button class="btn btn-default btn-sm" data-bind="visible: discipline, click: editDiscipline">
             <span class="glyphicon glyphicon-edit"></span>
         </button>
-        <button class="btn btn-default btn-sm" data-bind="click: toggleDiscipline">
+        <button class="btn btn-sm" data-bind="click: toggleDiscipline, css: {'btn-primary': discipline().visible(), 'btn-default': !discipline().visible() }">
             <span class="glyphicon glyphicon-eye-open"
-                  data-bind="css: {'glyphicon-eye-open': discipline.visible, 'glyphicon-eye-close': !discipline.visible}"></span>
+                  data-bind="css: {'glyphicon-eye-open': discipline().visible(), 'glyphicon-eye-close': !discipline().visible() }"></span>
         </button>
         <button class="btn btn-default btn-sm" data-bind="click: addDiscipline">
             <span class="glyphicon glyphicon-plus"> Добавить дисциплину</span>
@@ -22,7 +22,7 @@
         <button class="btn btn-danger btn-sm pull-right" data-bind="visible: discipline, click: removeDiscipline">
             <span class="glyphicon glyphicon-minus"></span>
         </button>
-        {#        </div>#}
+        <!-- /ko -->
     {% endif %}
 </form>
 <div style="clear: both"></div>

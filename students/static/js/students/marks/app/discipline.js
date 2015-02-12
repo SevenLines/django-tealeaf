@@ -18,11 +18,12 @@ define(['knockout'], function (ko) {
         self.visible = ko.observable(data.visible);
 
         self.toggleDiscipline = function () {
+            console.log("cool");
             $.post(model.url.discipline_edit, model.csrfize({
                 'id': self.id,
                 'visible': !self.visible()
             })).done(function () {
-                self.visible(self.visible());
+                self.visible(!self.visible());
                 InterfaceAlerts.showSuccess();
             }).fail(function () {
                 InterfaceAlerts.showFail();

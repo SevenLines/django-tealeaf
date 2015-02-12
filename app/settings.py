@@ -206,9 +206,9 @@ MIGRATION_MODULES = {
     'menus': 'menus.migrations_django',
 }
 
+ASSETS_CACHE = False
+ASSETS_MANIFEST = False
 if not DEBUG:
-    ASSETS_CACHE = False
-    ASSETS_MANIFEST = False
     ASSETS_AUTO_BUILD = False
 
 ASSETS_ROOT = os.path.join(BASE_DIR, 'templates/static')
