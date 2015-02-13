@@ -1,14 +1,20 @@
 from django.db import models
 
 
-class Lab(models.Model):
+class StudentLab(models.Model):
+    class Meta:
+        managed = True
+
     title = models.CharField(max_length=100, default='')
     description = models.TextField(default='')
     discipline = models.ForeignKey('Discipline')
     order = models.SmallIntegerField(default=0)
 
 
-class Task(models.Model):
+class StudentTask(models.Model):
+    class Meta:
+        managed = True
+
     UNDEFINED = 0
     EASY = UNDEFINED + 1
     MEDIUM = UNDEFINED + 2
@@ -23,7 +29,7 @@ class Task(models.Model):
         (NIGHTMARE, "nightmare"),
     )
 
-    lab = models.ForeignKey('Lab')
+    lab = models.ForeignKey('StudentLab')
     complexity = models.IntegerField(max_length=20,
                                      choices=COMPLEX_CHOICES,
                                      default=EASY)
