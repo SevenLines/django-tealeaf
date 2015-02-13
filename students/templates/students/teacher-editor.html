@@ -14,7 +14,7 @@
     {% include "students/marks/discipline_list.html" %}
     <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
 
-    <form class="form-inline" style="padding-bottom: 1em">
+    <form class="form-inline" style="padding-bottom: 1em; display: none" data-bind="visible: disciplines().length">
         {% if user.is_authenticated %}
             <!-- СПИСОК ГОДОВ -->
             <div class="form-group">
