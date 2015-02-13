@@ -1,3 +1,18 @@
-<div id="labs-editor" data-bind="foreach: labs">
-    {% include "students/labs/lab.html" %}
+<div class="panel panel-default">
+    <div class="panel-heading" style="cursor: pointer" role="tab" id="headingOne" data-toggle="collapse"
+         href="#labs-editor">
+        <h5 class="panel-title pull">Лабораторные</h5>
+        <div style="clear: both"></div>
+    </div>
+
+    <div class="panel-collapse collapse in" id="labs-editor" data-bind="with: labsTable">
+        <div class="panel-body" style=" padding: 0">
+            <ul class="m-labs" data-bind="foreach: labs">
+                <li class="m-lab">
+                    {% include "students/labs/lab.html" %}
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
+

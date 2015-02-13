@@ -1,18 +1,28 @@
 {% load static sekizai_tags assets ex_tags %}
 
-<div id="marks-editor" style="display: none" data-bind="with: marksTable, visible: disciplines().length">
-    {% if user.is_authenticated %}
-        {% include "students/marks/lesson-template.html" %}
-    {% endif %}
-
-    <div class="marks-editor nojs">
-        <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
-        {% include "students/marks/students_marks.html" %}
-        <!-- КОНЕЦ СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
-
-        {% if user.is_authenticated %}
-            {% include "students/marks/mark_selector.html" %}
-        {% endif %}
+<div class="panel panel-default">
+    <div class="panel-heading" style="cursor: pointer" role="tab" id="headingOne" data-toggle="collapse" href="#marks-editor">
+        <h5 class="panel-title pull">Оценки</h5>
+        <div style="clear: both"></div>
     </div>
 
+    <div class="panel-collapse collapse" id="marks-editor" style="display: none;"
+         data-bind="with: marksTable, visible: disciplines().length">
+        <div class="panel-body" style=" padding: 0">
+            {% if user.is_authenticated %}
+                {% include "students/marks/lesson-template.html" %}
+            {% endif %}
+
+            <div class="marks-editor nojs">
+                <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
+                {% include "students/marks/students_marks.html" %}
+                <!-- КОНЕЦ СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
+
+                {% if user.is_authenticated %}
+                    {% include "students/marks/mark_selector.html" %}
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
 </div>

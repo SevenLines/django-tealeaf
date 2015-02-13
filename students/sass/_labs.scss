@@ -1,0 +1,136 @@
+@import "const";
+
+@mixin complexity($bg, $fg) {
+  @include transition(0.3s);
+  background-color: $bg;
+  box-shadow: 0 0 3px $fg !important;
+  &.selected {
+    //    border-color: $fg !important;
+    background-color: lighten($bg, 5);
+    &:hover {
+      background-color: $bg;
+    }
+  }
+  .user-info {
+    box-shadow: 0 0 0 2px white;
+    border-color: darken($bg, 5) !important;
+  }
+
+}
+
+@mixin choices($lighten: 0) {
+  $darken: 0;
+  $base-clr: #cafcb1;
+
+  &.easy {
+    $clr: $base-clr;
+    @include complexity($clr, darken($clr, $darken));
+  }
+  &.medium {
+    $clr: adjust_hue($base-clr, -40);
+    @include complexity($clr, darken($clr, $darken));
+  }
+  &.hard {
+    $clr: adjust_hue($base-clr, -80);
+    @include complexity($clr, darken($clr, $darken));
+  }
+  &.nightmare {
+    $clr: adjust_hue($base-clr, -95);
+    @include complexity($clr, darken($clr, $darken));
+  }
+}
+
+@mixin complex_style {
+  @include choices;
+  &.selected {
+    @include transition(0.3);
+    //    background-color: #EEE;
+    //    background-image: url("images/stripe_40px_135deg.png");
+    //    @include background_size(60px 60px);
+  }
+}
+
+.panel {
+  .panel-heading {
+    background-color: #FDFDFD;
+    @include transition(0.3s);
+  }
+  &:hover {
+    .panel-heading {
+    }
+  }
+}
+
+.m-labs {
+  padding-left: 0;
+  list-style: none;
+  margin-bottom: 0%;
+}
+
+.m-lab {
+  a {
+//    color: #000000;
+//    text-decoration: none;
+  }
+  &:hover {
+    .m-lab-title {
+      background-color: #FAFAFA;
+    }
+  }
+  .m-lab-title {
+    @include transition(0.1s);
+    cursor: pointer;
+    padding: 0.25em 0.5em;
+    border-bottom: 1px solid #c0c0c0;
+    font-size: 1.75em;
+  }
+  .m-lab-info {
+    border-bottom: 1px solid #c0c0c0;
+    > div {
+      padding: 1em;
+    }
+  }
+}
+
+.m-tasks {
+  list-style: none;
+  padding: 0;
+}
+
+.m-lab-description {
+  font-size: 1.2em;
+}
+
+.m-task {
+  @include complex_style;
+  margin: 0.5em 0;
+  padding: 0.5em;
+  border-radius: 10px;
+  //      background: #EEEEEE;
+  border: #c0c0c0 1px solid;
+  &:hover {
+    @include choices;
+  }
+}
+
+.m-task-menu {
+  margin-top: 4px;
+  overflow: hidden;
+  .menu-complexity {
+    margin-right: 4px;
+    .menu-complexity-item {
+      background: white;
+      float: left;
+      width: 20px;
+      height: 20px;
+      margin-right: 2px;
+      border-radius: 10px;
+      border: 1px solid black;
+      @include complex_style();
+      &:hover {
+        border-width: 4px;
+        cursor: pointer;
+      }
+    }
+  }
+}

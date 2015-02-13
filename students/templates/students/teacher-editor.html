@@ -40,11 +40,14 @@
     <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none"
          data-bind="visible: !disciplines().length">
         <h1>Нету актуальных данных</h1>
+
         <h3>-=-=-=-=-=-=-</h3>
     </div>
 
-    {% include "students/marks/index.html" %}
-    {#    {% include "students/labs/index.html" %}#}
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        {% include "students/marks/index.html" %}
+        {% include "students/labs/index.html" %}
+    </div>
 
     {% include "students/scripts.html" %}
 

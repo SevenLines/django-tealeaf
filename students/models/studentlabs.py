@@ -4,7 +4,8 @@ from django.db import models
 class Lab(models.Model):
     title = models.CharField(max_length=100, default='')
     description = models.TextField(default='')
-    discipline = models.ForeignKey('students.models.discipline.Discipline')
+    discipline = models.ForeignKey('Discipline')
+    order = models.SmallIntegerField(default=0)
 
 
 class Task(models.Model):
@@ -28,3 +29,4 @@ class Task(models.Model):
                                      default=EASY)
 
     description = models.TextField(default="")
+    order = models.SmallIntegerField(default=0)

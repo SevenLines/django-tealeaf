@@ -1,0 +1,27 @@
+<div class="" data-bind="html: description"></div>
+
+{% if user.is_authenticated %}
+<div class="m-task-menu">
+    <!-- СТУДЕНТЫ ВЫБРАВШИЕ ЗАДАЧУ -->
+{#    <div class="task-users-selector"#}
+{#                     data-ajax-url="{% url "students.views.students.ajax.json.list_students" %}"#}
+{#         data-ajax-term="filter"#}
+{#         data-placeholder="никто не выбрал эту задачу"#}
+{#         data-bind="select2: users"></div>#}
+    <!-- / СТУДЕНТЫ ВЫБРАВШИЕ ЗАДАЧУ -->
+
+    <!-- СЛОЖНОСТЬ ЗАДАЧИ -->
+    <div class="menu-complexity" data-bind="foreach: complex_choices">
+        <div class="menu-complexity-item"
+             data-bind="css: $data.class, click: $parents[0].setComplex,
+                                  visible: $parents[0].complexity() != $data.value"></div>
+    </div>
+    <!-- / СЛОЖНОСТЬ ЗАДАЧИ -->
+
+    <!-- КНОПКИ УПРАВЛЕНИЯ ЗАДАЧЕЙ -->
+    <a href="#" class="save" style="margin-left: 8px"
+       data-bind="visible: changed, click: save">сохранить</a>
+    <a href="#" class="text-danger pull-right" data-bind="click: remove">удалить</a>
+    <!-- / КНОПКИ УПРАВЛЕНИЯ ЗАДАЧЕЙ -->
+</div>
+{% endif %}

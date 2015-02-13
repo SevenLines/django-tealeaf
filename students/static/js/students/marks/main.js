@@ -7,14 +7,16 @@ define(['knockout',
         'cookies',
         'marks/discipline',
         'marks/markstable',
+        'labs/labstable',
         'urls',
         'utils'
     ],
-    function (ko, cookies, Discipline, MarksTable, urls, utils) {
+    function (ko, cookies, Discipline, MarksTable, LabsTable, urls, utils) {
         return function () {
             var self = this;
 
-            self.marksTable = ko.observable(new MarksTable());
+            self.marksTable = new MarksTable();
+            self.labsTable = new LabsTable();
 
             function Init() {
                 self.loadDisciplines().done(function () {
@@ -43,7 +45,8 @@ define(['knockout',
                         self.group.subscribe(function () {
                             self.check_block(function () {
                                 if (self.group()) {
-                                    self.marksTable().setParams(self.group().id, self.discipline().id);
+                                    self.marksTable.setParams(self.group().id, self.discipline().id);
+                                    self.labsTable.setParams(self.group().id, self.discipline().id);
                                 } else {
                                     self.students([]);
                                 }

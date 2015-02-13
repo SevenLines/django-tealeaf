@@ -1,4 +1,5 @@
 @import "const";
+@import "labs";
 
 $quater: hsl(80, 77%, 74%);
 $half: hsl(70, 80%, 60%);
@@ -102,7 +103,7 @@ $marks-size: 30px;
     border-radius: 0;
     border: 1px solid #f4b500;
     color: darken(#f47e00, 10);
-    margin-bottom: 1em;
+    margin-bottom: 0;
     h1 {
       color: #f46400;
       //        text-shadow: 0 0 4px white;
@@ -292,7 +293,7 @@ $marks-size: 30px;
     }
     margin-left: $students-list-width;
     overflow: scroll;
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: hidden;
     cursor: move;
     -webkit-user-select: none;

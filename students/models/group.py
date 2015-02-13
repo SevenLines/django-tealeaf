@@ -3,6 +3,7 @@ from django.db import models
 from django.db.transaction import atomic
 from students.models.lesson import Lesson
 from students.models.mark import Mark
+from students.models.student import Student
 import students.utils
 
 

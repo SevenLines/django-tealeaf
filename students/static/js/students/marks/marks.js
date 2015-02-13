@@ -4,7 +4,7 @@
 require.config({
     paths: {
         marks: './marks',
-        labs: './marks',
+        labs: './labs',
         cookies: './cookies',
         utils: './utils',
         knockout: '/static/bower_components/knockout/dist/knockout'
@@ -33,14 +33,8 @@ function lessonIconSelectPopup(triggeringLink) {
     return false;
 }
 
-require(['marks/main', 'knockout'], function (MarksViewModel, ko) {
+require(['main', 'knockout'], function (MarksViewModel, ko) {
     var model = new MarksViewModel();
     ko.applyBindings(model);
 });
-//
-//require(['urls', 'labs/main', 'knockout'], function (config, MarksViewModel, ko) {
-//    var model = new MarksViewModel(config);
-//    ko.applyBindings(model, document.getElementById("marks-editor"));
-//});
-
 

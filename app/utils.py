@@ -1,3 +1,4 @@
+# coding=utf-8
 import datetime
 from django.db.models.fields.files import ImageFieldFile
 from django.http import HttpResponseBadRequest
@@ -33,6 +34,21 @@ def require_in_GET(*items):
         return wrapper
 
     return decorator
+
+
+def update_post_object(request, Model, *permited_keys):
+    """
+    Обновляет объект полями из request.POST, идентификатор объекта находится в id
+    :param request: объект запроса
+    :param Model: класс модели
+    :param permited_keys: разрешенные для обновления поля
+    :return:
+    """
+    obj = Model.objects.get(pk=request.POST['id'])
+    for key in permited_keys:
+        if key in request.POST:
+            setattr(obj, key, request.POST[key])
+    obj.save()
 
 
 def json_encoder(obj):

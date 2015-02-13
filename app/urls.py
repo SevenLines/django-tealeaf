@@ -4,12 +4,8 @@ from django.contrib import admin
 from django.conf import settings
 from django.views.generic.base import TemplateView
 from students.urls import students, labs
-from students.views.labsview import LabsResource
 
 admin.autodiscover()
-
-labs_resource = LabsResource()
-
 
 urlpatterns = i18n_patterns('',
     url(r'^page_settings/', include('page_extend.urls')),
