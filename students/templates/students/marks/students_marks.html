@@ -1,7 +1,7 @@
 <div class="jumbotron loading" data-bind="visible: showLoading">
     <div class="row">
         <div class="col-md-9">
-            <h1 class="">Группа &laquo;<!-- ko text: group()? group().title : '' --><!-- /ko -->&raquo;</h1>
+            <h1 class="">Группа &laquo;<!-- ko text: $root.group()? $root.group().title : '' --><!-- /ko -->&raquo;</h1>
 
             <p>
                 <!-- ko if: isStudentsLoading -->загружаю список...<!-- /ko-->
@@ -29,29 +29,30 @@
             </tr>
             </thead>
             <!-- ТАБЛИЦА КОЛОНА СТУДЕНТОВ -->
-            <tbody data-bind="foreach: $root.students">
-            <!-- ko if: !$root.hideBadStudents() || (success_factor() >= 0.25) -->
+            <tbody data-bind="foreach: students">
+            <!-- ko if: !$parents[0].hideBadStudents() || (success_factor() >= 0.25) -->
             <tr style="text-align: center">
                 <td data-bind="style: color, css: style" class="student">
                     <div class="info">
                         <table width="100%" data-bind="css: { 'god': success_factor() >= 1 } ">
-                            <td class="name">
+                            <tr>
+                                <td class="name">
                                 <span class="pull-left">
                                     <span class="name-second-name" data-bind="text: second_name"></span>
                                     <span class="name-name" data-bind="text: name"></span>
                                     <span class="name-n" data-bind="text: short_name"></span>
                                 </span>
-                            </td>
-                            <td class="score" style="padding-left: 8px">
+                                </td>
+                                <td class="score" style="padding-left: 8px">
                                 <span class="pull-right badge student-info-badge"
                                       style="color: green"
                                       data-bind="attr: { 'data-original-title': sum() }, style: { color: sum() < 0 ? 'red' : 'green' }">
                                         <span class="student-info-badge-percent"
-                                              data-bind="visible: $root.showPercents(), text: ~~(success_factor() * 100) + '%'"></span>
+                                              data-bind="visible: $parents[0].showPercents(), text: ~~(success_factor() * 100) + '%'"></span>
                                         <span class="student-info-badge-score"
-                                              data-bind="visible: !$root.showPercents(), text: sum"></span>
+                                              data-bind="visible: !$parents[0].showPercents(), text: sum"></span>
                                       </span>
-                            </td>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -77,21 +78,21 @@
                 <!-- СТРОКА ЗАНЯТИЙ -->
                 <!-- ko foreach: lessons -->
                 <th class="mark header header-label" data-bind="css: style">
-                        {% if user.is_authenticated %}
-                            <div class="lesson-edit"
-                                 data-bind="attr: { 'data-original-title': info, 'data-date': date }, event: { 'click': $root.lessonHover } ">
-                                <div class="header-label-text" data-bind="text: day, visible: (!icon_has_loaded())"></div>
-                                <img class="lesson-icon" src=""
-                                     data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
-                            </div>
-                        {% else %}
-                            <div rel="tooltip" data-html="true" data-toggle="tooltip"
-                                 data-bind="attr: { 'data-original-title': info }">
-                                <div class="header-label-text" data-bind="text: day, visible: (!icon_has_loaded())"></div>
-                                <img class="lesson-icon" src=""
-                                     data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
-                            </div>
-                        {% endif %}
+                    {% if user.is_authenticated %}
+                        <div class="lesson-edit"
+                             data-bind="attr: { 'data-original-title': info, 'data-date': date }, event: { 'click': $parents[0].lessonHover } ">
+                            <div class="header-label-text" data-bind="text: day, visible: (!icon_has_loaded())"></div>
+                            <img class="lesson-icon" src=""
+                                 data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
+                        </div>
+                    {% else %}
+                        <div rel="tooltip" data-html="true" data-toggle="tooltip"
+                             data-bind="attr: { 'data-original-title': info }">
+                            <div class="header-label-text" data-bind="text: day, visible: (!icon_has_loaded())"></div>
+                            <img class="lesson-icon" src=""
+                                 data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
+                        </div>
+                    {% endif %}
                 </th>
                 <!-- /ko -->
                 <th>
@@ -99,7 +100,7 @@
                         {% if user.is_authenticated %}
                             <!-- КНОПКА ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
                             <button class="btn btn-sm btn-primary"
-                                    data-bind="visible: discipline, click: addLesson">
+                                    data-bind="visible: $root.discipline, click: addLesson">
                                 <i class="glyphicon glyphicon glyphicon-plus"></i>
                             </button>
                             <!-- КОНЕЦ КНОПКИ ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
@@ -110,12 +111,12 @@
             </tr>
             </thead>
             <!-- ТАБЛИЦА ОЦЕНОК -->
-            <tbody data-bind="foreach: $root.students">
-            <!-- ko if: !$root.hideBadStudents() || (success_factor() >= 0.25) -->
+            <tbody data-bind="foreach: students">
+            <!-- ko if: !$parents[0].hideBadStudents() || (success_factor() >= 0.25) -->
             <tr style="text-align: center">
                 <!-- ko foreach: marks -->
                 <td class="mark"
-                    data-bind="text: $data.mark() < 10 && $data.mark() > 0 ? $data.mark() : '', css: mark_class{% if user.is_authenticated %},click: $root.clickMark{% endif %}">
+                    data-bind="text: $data.mark() < 10 && $data.mark() > 0 ? $data.mark() : '', css: mark_class{% if user.is_authenticated %},click: $parents[1].clickMark{% endif %}">
                 </td>
                 <!-- /ko -->
                 <td></td>
@@ -128,7 +129,7 @@
                 <th class="mark header header-label" data-bind="css: style">
                     <div class="" rel="tooltip" data-html="true" data-toggle="tooltip"
                          data-bind="attr: { 'data-original-title': info }">
-                        <div class="header-label-text"  data-bind="text: day, visible: (!icon_has_loaded())"></div>
+                        <div class="header-label-text" data-bind="text: day, visible: (!icon_has_loaded())"></div>
                         <img class="lesson-icon" src=""
                              data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
                     </div>
@@ -143,6 +144,7 @@
 </div>
 
 <!-- /ko -->
+
 <div class="row" style="padding-top: 1em">
     <div class="col-md-8">
         <div class="mark-table-description">
@@ -185,7 +187,3 @@
 
 <!-- /ko -->
 <div style="clear: both"></div>
-
-{% if user.is_authenticated %}
-    {% include "students/marks/mark_selector.html" %}
-{% endif %}

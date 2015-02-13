@@ -1,0 +1,50 @@
+{% load static sekizai_tags assets ex_tags %}
+{% if user.is_authenticated %}
+    {% addtoblock "js" %}
+        <script src="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.min.js" %}"></script>
+    {% endaddtoblock %}
+    {% addtoblock "core_css" %}
+        <link rel="stylesheet"
+              href="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.css" %}"/>
+    {% endaddtoblock %}
+{% endif %}
+
+{% addtoblock "core_css" %}
+    <link rel="stylesheet" href="{% static "css/marks.css" %}"/>
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+    <script src="{% static "bower_components/requirejs/require.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+    {% requirejs 'js/students/marks' 'marks' 'marks-built' 'urls' %}
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+    <script>
+        define('urls', {
+                    csrf: "{{ csrf_token }}",
+                    url: {
+                        years: "{% url "students.views.students.ajax.json.years" %}",
+                        groups: "{% url "students.views.students.ajax.json.groups" %}",
+                        students: "{% url "students.views.marks.students" %}",
+                        disciplines: "{% url "students.views.marks.disciplines.index" %}",
+                        labs: "{% url "students.views.labsview.index" %}",
+                        to_excel: "{% url "students.views.marks.marks_to_excel" %}",
+                        {% if user.is_authenticated %}
+                            discipline_add: "{% url "students.views.marks.disciplines.add" %}",
+                            discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
+                            discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
+                            students_control: "{% url "students.views.marks.students_control" %}",
+                            lesson_add: "{% url "students.views.marks.lesson_add" %}",
+                            lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
+                            lesson_save: "{% url "students.views.marks.lesson_save" %}",
+                            marks_save: "{% url "students.views.marks.marks_save" %}",
+                            reset_cache: "{% url "students.views.marks.reset_cache" %}"
+                        {% endif %}
+                    }
+                }
+        );
+    </script>
+{% endaddtoblock "js" %}

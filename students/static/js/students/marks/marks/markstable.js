@@ -1,219 +1,53 @@
-var marksTypes = [];
-var studentColorMin = Color("#FDD").lighten(0.03);
-var studentColorMax = Color("#89EB04").lighten(0.5);
-
-// create modal discipline for adding purposes
-define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', 'app/markselector'],
-    function (ko, Lesson, Mark, Student, Discipline, MarkSelector) {
-        return function (data) {
+/**
+ * Created by m on 13.02.15.
+ */
+define(['knockout',
+        'urls',
+        'cookies',
+        'utils',
+        'marks/lesson',
+        'marks/mark',
+        'marks/student',
+        'marks/markselector'
+    ],
+    function (ko, urls, cookies, utils, Lesson, Mark, Student, MarkSelector) {
+        return function () {
             var self = this;
-
-            self.init = function () {
-                self.loadDisciplines().done(function () {
-                    self.loadYears().done(function () {
-
-                        var lastDisciplineId = $.cookie(self.cookie.discipline_id);
-                        var lastYear = $.cookie(self.cookie.year);
-
-                        // set year and discipline
-                        for (var i = 0; i < self.disciplines().length; ++i) {
-                            var disc = self.disciplines()[i];
-                            if (disc.id == lastDisciplineId) {
-                                self.discipline(disc);
-                                break;
-                            }
-                        }
-
-                        self.year.subscribe(function () {
-                            self.check_block(function () {
-                                if (self.year() && self.discipline()) {
-                                    self.loadGroups();
-                                }
-                            });
-                        });
-
-                        self.group.subscribe(function () {
-                            self.check_block(function () {
-                                if (self.group()) {
-                                    self.loadStudents();
-                                } else {
-                                    self.students([]);
-                                }
-                            });
-                        });
-
-                        self.discipline.subscribe(function () {
-                            self.check_block(function () {
-                                if (self.discipline()) {
-                                    $.cookie(self.cookie.discipline_id, self.discipline().id, {expires: self.cookie.expires});
-                                }
-                                self.loadGroups();
-                            });
-                        });
-
-                        var contains_year = self.years().some(function (item) {
-                            return item.year == lastYear;
-                        });
-                        if (contains_year) {
-                            self.year(lastYear);
-                        } else if (self.years().length > 0) {
-                            self.year(self.years()[0].year);
-                        }
-
-                    })
-                });
-            };
-
-// SERVICE VARIABLES
-            self.url = { // urls
-                years: data.url.years,
-                groups: data.url.groups,
-                students: data.url.students,
-                students_control: data.url.students_control,
-                disciplines: data.url.disciplines,
-                discipline_add: data.url.discipline_add,
-                discipline_edit: data.url.discipline_edit,
-                discipline_remove: data.url.discipline_remove,
-                lesson_add: data.url.lesson_add,
-                lesson_remove: data.url.lesson_remove,
-                lesson_save: data.url.lesson_save,
-                marks_save: data.url.marks_save,
-                to_excel: data.url.to_excel,
-                reset_cache: data.url.reset_cache
-            };
-
-            self.cookie = { // cookie names
-                year: "year",
-                group_id: "group_id",
-                discipline_id: "discipline_id",
-                sorting: 'students-sorting',
-                score_method: 'score-method',
-                expires: 7 // days
-            };
-
-            self.marksTypes = ko.observableArray();
-            self.hideBadStudents = ko.observable(true);
-
-// CSRF UTILS
-            self.csrf = data.csrf;
-            self.csrfize = function (data) {
-                data.csrfmiddlewaretoken = self.csrf;
-                return data;
-            };
-
-// subscribes blocking control
-            self._block = false;
-            self.block = function () {
-                self._block = true
-            };
-            self.unblock = function () {
-                self._block = false
-            };
-            self.check_block = function (func) {
-                if (!self._block)
-                    return func();
-                return null;
-            };
-
-// >>> VARIABLES
-            self.years = ko.observableArray();
-            self.year = ko.observable();
-
-            self.groups = ko.observableArray();
-            self.group = ko.observable();
 
             self.students = ko.observableArray();
             self.students_control = ko.observableArray();
             self.student = ko.observable();
 
-            self.disciplines = ko.observableArray();
-            self.discipline = ko.observable();
-
             self.lessons = ko.observableArray();
             self.lesson_types = ko.observableArray();
-            self.lesson = ko.observable(new Lesson({}, self));
+            self.lesson = ko.observable();
+
+            self.group_id = 0;
+            self.discipline_id = 0;
+
+            self.setParams = function (group_id, discipline_id) {
+                self.group_id = group_id;
+                self.discipline_id = discipline_id;
+                self.loadStudents();
+            };
+
+            // SERVICE VARIABLES
+
+            self.marksTypes = ko.observableArray();
+            self.hideBadStudents = ko.observable(true);
 
             self.markSelector = new MarkSelector("#mark-selector", self.marksTypes);
 
-// >>> SUBSCRIPTIONS
-//            self.year.subscribe(function () {
-//                self.check_block(function () {
-//                    if (self.year() && self.discipline()) {
-//                        self.loadGroups();
-//                    }
-//                });
-//            });
-//
-//            self.group.subscribe(function () {
-//                self.check_block(function () {
-//                    if (self.group()) {
-//                        self.loadStudents();
-//                    } else {
-//                        self.students([]);
-//                    }
-//                });
-//            });
-//
-//            self.discipline.subscribe(function () {
-//                self.check_block(function () {
-//                    if (self.discipline()) {
-//                        $.cookie(self.cookie.discipline_id, self.discipline().id, {expires: self.cookie.expires});
-//                    }
-//                    self.loadGroups();
-//                });
-//            });
-
-// >>> LOADING FUNCTIONS
-            self.loadYears = function () {
+            self.loadStudents = function () {
                 //if (self._block) return;
                 //self.block();
-                self.years.length = 0;
-                return $.get(self.url.years, {}, self.years).success(function (data) {
-                });
-            };
-
-            self.loadGroups = function () {
-                if (self._block) return;
-                self.block();
-                self.groups.removeAll();
-                $.get(self.url.groups, {
-                    'year': self.year() || 0,
-                    'discipline_id': self.discipline().id
-                }, self.groups).done(function (data) {
-                    $.cookie(self.cookie.year, self.year(), {expires: self.cookie.expires});
-                    var group_id = $.cookie(self.cookie.group_id);
-                    self.groups.sort(function (left, right) {
-                        return left.title == right.title ? 0 : left.title < right.title ? -1 : 1;
-                    });
-                    self.unblock();
-                    if (self.groups().every(function (entry) {
-                            if (group_id == entry.id) {
-                                self.group(entry);
-                                return false;
-                            }
-                            return true;
-                        })) {
-                        if (self.groups().length) {
-                            self.group(self.groups()[0]);
-                        } else {
-                            self.group(null);
-                        }
-                    }
-                }).always(function () {
-                    self.unblock();
-                })
-            };
-
-            self.loadStudents = function () {
-                if (self._block) return;
-                self.block();
                 self.students.removeAll();
                 self.isStudentsLoading(true);
 
                 setTimeout(function () {
-                    $.get(self.url.students, {
-                        'group_id': self.group().id,
-                        'discipline_id': self.discipline() ? self.discipline().id : -1
+                    $.get(urls.url.students, {
+                        'group_id': self.group_id,
+                        'discipline_id': self.discipline_id
                     }).done(function (data) {
                         // fill lesson_types list
                         self.lesson_types(data.lesson_types);
@@ -253,8 +87,8 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                                 self.students.push(new Student(item));
                                 setTimeout(add_item, 0);
                             } else {
-                                self.sortMethod(self.sortMethods[$.cookie(self.cookie.sorting)]);
-                                $.cookie(self.cookie.group_id, self.group().id, {expires: self.cookie.expires});
+                                self.sortMethod(self.sortMethods[$.cookie(cookies.sorting)]);
+                                $.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
                                 self.isStudentsLoading(false);
                                 self.resetMarksInterface();
                             }
@@ -265,7 +99,7 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                         }
 
                     }).always(function () {
-                        self.unblock();
+                        //self.unblock();
                     }).fail(function () {
                         self.isStudentsLoading(false);
                         self.resetMarksInterface();
@@ -274,29 +108,16 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             };
 
             self.loadStudentsControl = function () {
-                window.location = self.url.students_control + '?' + $.param([
+                window.location = urls.url.students_control + '?' + $.param([
                     {name: 'year', value: self.year()},
-                    {name: 'discipline_id', value: self.discipline().id},
+                    {name: 'discipline_id', value: self.discipline_id},
                     {name: 'k', value: 0.5}
                 ])
             };
 
-            self.loadDisciplines = function () {
-                self.disciplines.removeAll();
-                return $.get(self.url.disciplines).done(function (data) {
-                    for (var i = 0; i < data.length; ++i) {
-                        var disc = new Discipline(data[i], self);
-                        self.disciplines.push(disc);
-                    }
-
-                }).fail(function () {
-                    InterfaceAlerts.showFail();
-                });
-            };
-
-
-// ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
+            // ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
             self.resetMarksInterface = function () {
+
                 $('thead [data-toggle="tooltip"]').tooltip({placement: "bottom"});
                 $('tfoot [data-toggle="tooltip"]').tooltip({placement: "top"});
                 //$('.student [data-toggle="tooltip"]').tooltip({placement: "top"});
@@ -305,6 +126,35 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                 $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
                     e.stopPropagation()
                 });
+
+                // ### скроллинг мышью таблицы оценок
+                var lastX = -1;
+                var leftButtonDown = false;
+                var scroll_container = $(".marks-list");
+                var funcScroll = function (e) {
+                    var left = e.clientX;
+                    if (leftButtonDown) {
+                        if (lastX != -1 && Math.abs(lastX - left) > 2) {
+                            this.scrollLeft += lastX - left;
+                            $.cookie("lastScroll", this.scrollLeft);
+                        }
+                    }
+                    lastX = left;
+                };
+                scroll_container.mousedown(function (e) {
+                    if (e.which === 1) leftButtonDown = true;
+                });
+                $(document).mouseup(function (e) {
+                    leftButtonDown = false;
+                });
+                scroll_container.on("touchmove, mousemove", funcScroll);
+
+                // восстановления последнего скролла значения из куков
+                if (scroll_container.size() && $.cookie("lastScroll")) {
+                    scroll_container[0].scrollLeft = $.cookie("lastScroll");
+                }
+// --- конец скроллинг мышью таблицы оценок
+
 
 // ### всплывающее меню редактирование занятия
 //            console.log($(".lesson-edit").qtip());
@@ -382,41 +232,13 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                     });
                 });
 // --- конец синхронизация подсветки строк таблицы оценок
-
-// ### скроллинг мышью таблицы оценок
-                var lastX = -1;
-                var leftButtonDown = false;
-                var scroll_container = $(".marks-list");
-                var funcScroll = function (e) {
-                    var left = e.clientX;
-                    if (leftButtonDown) {
-                        if (lastX != -1 && Math.abs(lastX - left) > 2) {
-                            this.scrollLeft += lastX - left;
-                            $.cookie("lastScroll", this.scrollLeft);
-                        }
-                    }
-                    lastX = left;
-                };
-                scroll_container.mousedown(function (e) {
-                    if (e.which === 1) leftButtonDown = true;
-                });
-                $(document).mouseup(function (e) {
-                    leftButtonDown = false;
-                });
-                scroll_container.on("touchmove, mousemove", funcScroll);
-
-                // восстановления последнего скролла значения из куков
-                if (scroll_container.size() && $.cookie("lastScroll")) {
-                    scroll_container[0].scrollLeft = $.cookie("lastScroll");
-                }
-// --- конец скроллинг мышью таблицы оценок
             };
 // КОНЕЦ РЕИНИЦИАЛИЗАЦИИ ИНТЕРФЕЙСА
 
 // >>> ЗАГРУЗКА ДАННЫХ
             self.isStudentsLoading = ko.observable(true);
             self.showLoading = ko.computed(function () {
-                return self.group() && (self.isStudentsLoading() || (self.students && self.students().length == 0));
+                return (self.isStudentsLoading() || (self.students && self.students().length == 0));
             });
 
 
@@ -455,64 +277,32 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             self.toggleStudentsSorting = function () {
                 self.sortMethod(self.sortMethod() == self.sortByStudentsMark ?
                     self.sortByStudentsName : self.sortByStudentsMark);
-                $.cookie(self.cookie.sorting, self.sortMethod().title, {expires: self.cookie.expires});
+                $.cookie(cookies.sorting, self.sortMethod().title, {expires: cookies.expires});
             };
 
 /// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
-            self.showPercents = ko.observable($.cookie(self.cookie.score_method) !== 'false');
+            self.showPercents = ko.observable($.cookie(cookies.score_method) !== 'false');
             self.scoreMethod = ko.computed(function () {
                 return self.showPercents() ? "в процентах" : "в баллах"
             }, self.showPercents);
             self.toggleScorePercents = function () {
                 self.showPercents(!self.showPercents());
-                $.cookie(self.cookie.score_method, self.showPercents(), {expires: self.cookie.expires});
+                $.cookie(cookies.score_method, self.showPercents(), {expires: cookies.expires});
             };
 
             self.toggleBadStudentHiding = function () {
                 self.hideBadStudents(!self.hideBadStudents());
             };
 
-
-// >>> DISCIPLINES CONTROL
-            self.addDiscipline = function () {
-                var d = new Discipline({
-                    id: '-1',
-                    title: 'без названия'
-                }, self);
-                d.add(function () {
-                    location.reload();
-                });
-            };
-
-            self.editDiscipline = function () {
-                if (self.discipline().id) {
-                    self.discipline().edit();
-                }
-            };
-
-            self.toggleDiscipline = function () {
-                if (self.discipline()) {
-                    self.discipline().toggle();
-                }
-            };
-
-            self.removeDiscipline = function () {
-                if (self.discipline()) {
-                    self.discipline().remove(function () {
-                        self.disciplines.remove(self.discipline());
-                    });
-                }
-            };
-
-// LESSONS CONTROL
+            // LESSONS CONTROL
             self.lessonHover = function (data) {
                 self.lesson(data);
             };
 
             self.addLesson = function () {
-                $.post(self.url.lesson_add, self.csrfize({
-                    discipline_id: self.discipline().id,
-                    group_id: self.group().id
+                $.post(urls.url.lesson_add, utils.csrfize({
+                    discipline_id: self.discipline_id,
+                    group_id: self.group_id
                 })).done(function () {
                     self.loadStudents()
                 }).fail(function () {
@@ -520,7 +310,7 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                 });
             };
 
-            self.removeLesson = function(data) {
+            self.removeLesson = function (data) {
                 data.remove(function () {
                     //self.lessons.remove(data);
                     self.loadStudents();
@@ -528,7 +318,7 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             };
 
             self.saveLesson = function (data) {
-                $.post(self.url.lesson_save, self.csrfize({
+                $.post(urls.url.lesson_save, utils.csrfize({
                     lesson_id: data.id,
                     lesson_type: data.lesson_type(),
                     date: data.isodate(),
@@ -563,7 +353,7 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
                         return true;
                     })
                 }
-                $.post(self.url.marks_save, self.csrfize({
+                $.post(urls.url.marks_save, utils.csrfize({
                     marks: JSON.stringify(marks)
                 })).done(function () {
                     for (var i = 0; i < self.students().length; ++i) {
@@ -577,14 +367,14 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             };
 
             self.toExcel = function (data, e) {
-                window.location = self.url.to_excel + '?' + $.param([
-                    {name: 'group_id', value: self.group().id},
-                    {name: 'discipline_id', value: self.discipline().id},
+                window.location = urls.url.to_excel + '?' + $.param([
+                    {name: 'group_id', value: self.group_id},
+                    {name: 'discipline_id', value: self.discipline_id},
                 ]);
             };
 
             self.resetCache = function (date, e) {
-                $.get(self.url.reset_cache).done(function () {
+                $.get(urls.url.reset_cache).done(function () {
                     window.location.reload();
                 })
             };
@@ -606,11 +396,6 @@ define(['knockout', 'app/lesson', 'app/mark', 'app/student', 'app/discipline', '
             self.decrease = function (mark) {
                 mark.decrease();
             };
-
-            self.init();
         }
-
-//add model to global namespace
-        //window.MarksViewModel = MarksViewModel;
-    });
-
+    })
+;

@@ -53,3 +53,4 @@ urllib3==1.9
 webassets==0.10
 wsgiref==0.1.2
 yuicompressor==2.4.8
+django-tastypie

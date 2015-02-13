@@ -1,5 +1,5 @@
 // >>> LESSON CLASS
-define(['knockout'], function (ko) {
+define(['knockout', 'utils', 'urls'], function (ko, utils, urls) {
     return function (data, model) {
         var self = this;
         self.convert_date = function (isodate) {
@@ -73,7 +73,7 @@ define(['knockout'], function (ko) {
                 buttons: {'Да': true, 'Не сейчас': false},
                 submit: function (e, v, m, f) {
                     if (v) {
-                        $.post(model.url.lesson_remove, model.csrfize({
+                        $.post(urls.url.lesson_remove, utils.csrfize({
                             lesson_id: self.id
                         })).done(function (d) {
                             if (ondone) ondone(d);
