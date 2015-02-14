@@ -11,7 +11,11 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
         self.labs = ko.observableArray();
 
         function initSorting() {
-            Sortable.create($("#labs-editor").find(".m-labs")[0], {
+            var mlabs = $("#labs-editor").find(".m-labs")[0];
+            if (!mlabs)  {
+                return;
+            }
+            Sortable.create(mlabs, {
                 handle: '.drag-handler',
                 onUpdate: function (evt) {
                     self.labs().every(function (item) {

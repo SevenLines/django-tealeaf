@@ -11,6 +11,7 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
         self.discipline = ko.observable(data.discipline);
         self.order = ko.observable(data.order);
         self.tasks = ko.observableArray();
+        self.visible = ko.observable(data.visible);
 
         function init() {
             data.tasks.every(function (item) {
@@ -50,7 +51,8 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
                 id: self.id,
                 title: self.title(),
                 description: self.description(),
-                discipline: self.discipline()
+                discipline: self.discipline(),
+                visible: self.visible()
             }, self.reset);
         };
 
@@ -59,6 +61,7 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
             data.description = self.description();
             data.discipline = self.discipline();
             data.order = self.order();
+            data.visible = self.visible();
             self.title.notifySubscribers();
             self.order.notifySubscribers();
         };
@@ -90,6 +93,11 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
             });
         };
 
+        self.toggle = function (data, e) {
+            if (e) e.stopImmediatePropagation();
+            self.visible(!self.visible());
+            self.save(data, e);
+        };
         init();
     }
 });

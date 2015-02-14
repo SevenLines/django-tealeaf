@@ -5,6 +5,7 @@ class StudentLab(models.Model):
     title = models.CharField(max_length=100, default='')
     description = models.TextField(default='')
     discipline = models.ForeignKey('Discipline')
+    visible = models.BooleanField(default=False)
 
     class Meta:
         order_with_respect_to = 'discipline'

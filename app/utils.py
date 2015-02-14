@@ -43,7 +43,12 @@ def get_post_object(request, Model):
 def update_object(dict, obj, *permitted_keys):
     for key in permitted_keys:
         if key in dict:
-            setattr(obj, key, dict[key])
+            val = dict[key]
+            if val == "false":
+                val = False
+            elif val == "true":
+                val = True
+            setattr(obj, key, val)
 
 
 def update_post_object(request, Model, *permitted_keys):
