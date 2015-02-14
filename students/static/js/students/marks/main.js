@@ -43,6 +43,8 @@ define(['knockout',
                             self.check_block(function () {
                                 if (self.year() && self.discipline()) {
                                     self.loadGroups();
+                                } else {
+                                    self.marksTable.setParams(null, null);
                                 }
                             });
                         });

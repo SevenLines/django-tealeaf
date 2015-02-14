@@ -27,6 +27,9 @@ define(['knockout',
 
             self.setParams = function (group_id, discipline_id) {
                 self.group_id = group_id;
+                if (group_id == null) {
+                    self.isStudentsLoading(false);
+                }
                 self.discipline_id = discipline_id;
                 self.loadStudents();
             };
@@ -93,8 +96,8 @@ define(['knockout',
                             } else {
                                 self.sortMethod(self.sortMethods[$.cookie(cookies.sorting)]);
                                 $.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
-                                self.isStudentsLoading(false);
                                 self.resetMarksInterface();
+                                self.isStudentsLoading(false);
 
                                 var keep_mark_table_open = $.cookie(cookies.keep_mark_table_open);
                                 console.log(keep_mark_table_open);
@@ -111,7 +114,6 @@ define(['knockout',
                         }
                     }).always(function () {
                     }).fail(function () {
-                        self.isStudentsLoading(false);
                         self.resetMarksInterface();
                     });
                 }, 60);
