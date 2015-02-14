@@ -10,14 +10,24 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
         self.complex_choices = {};
         self.labs = ko.observableArray();
 
+        var lastSortable = null;
+
         function initSorting() {
+            if (lastSortable) {
+                return;
+            }
             var mlabs = $("#labs-editor").find(".m-labs")[0];
             if (!mlabs)  {
                 return;
             }
-            Sortable.create(mlabs, {
+            lastSortable = new Sortable(mlabs, {
                 handle: '.drag-handler',
                 onUpdate: function (evt) {
+                    var mainItem = self.labs()[evt.oldIndex];
+                    evt.item.remove();
+                    self.labs.remove(mainItem);
+                    self.labs.push(mainItem);
+                    console.log(self.labs());
                     self.labs().every(function (item) {
                         if (evt.oldIndex > evt.newIndex) {
                             if (evt.newIndex <= item.order() && item.order() <= evt.oldIndex) {
@@ -38,7 +48,11 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                         }
                         return true;
                     });
-                }
+                },
+                //onEnd: function (evt) {
+                //    //self.sort();
+                //    return false;
+                //}
             });
         };
 
