@@ -8,6 +8,7 @@ class StudentLab(models.Model):
 
     class Meta:
         order_with_respect_to = 'discipline'
+        ordering = ['_order']
 
 
 class StudentTask(models.Model):
@@ -36,3 +37,4 @@ class StudentTask(models.Model):
 
     class Meta:
         order_with_respect_to = 'lab'
+        ordering = ['_order']

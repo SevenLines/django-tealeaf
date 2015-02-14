@@ -1,6 +1,6 @@
 {% load static sekizai_tags assets ex_tags %}
-
-<div class="panel panel-default">
+<!-- ko if: marksTable.lessons().length -->
+<div class="panel panel-default" style="display: none" data-bind="visible: marksTable">
     <div class="panel-heading" style="cursor: pointer" role="tab" id="headingOne" data-toggle="collapse" href="#marks-editor">
         <h5 class="panel-title pull">Оценки</h5>
         <div style="clear: both"></div>
@@ -26,3 +26,5 @@
         </div>
     </div>
 </div>
+<!-- /ko -->
+

@@ -9,7 +9,7 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
         self.title = ko.observable(data.title);
         self.description = ko.observable(data.description);
         self.discipline = ko.observable(data.discipline);
-        self.position = ko.observable(data.position);
+        self.order = ko.observable(data.order);
         self.tasks = ko.observableArray();
 
         function init() {
