@@ -10,7 +10,7 @@
 .m-labs {
   padding-left: 0;
   list-style: none;
-  margin-bottom: 0%; }
+  margin-bottom: 0; }
 
 .m-lab:hover .m-lab-title {
   background-color: #FAFAFA; }
@@ -32,15 +32,69 @@
 .m-tasks {
   list-style: none;
   padding: 0; }
+  .m-tasks.columns2 {
+    -webkit-column-count: 2;
+    /* Chrome, Safari, Opera */
+    -moz-column-count: 2;
+    /* Firefox */
+    column-count: 2; }
+    @media (max-width: 768px) {
+      .m-tasks.columns2 {
+        -webkit-column-count: 1;
+        /* Chrome, Safari, Opera */
+        -moz-column-count: 1;
+        /* Firefox */
+        column-count: 1; } }
+    .m-tasks.columns2 .m-task {
+      margin-top: 0; }
+  .m-tasks.columns3 {
+    -webkit-column-count: 3;
+    /* Chrome, Safari, Opera */
+    -moz-column-count: 3;
+    /* Firefox */
+    column-count: 3; }
+    @media (max-width: 768px) {
+      .m-tasks.columns3 {
+        -webkit-column-count: 2;
+        /* Chrome, Safari, Opera */
+        -moz-column-count: 2;
+        /* Firefox */
+        column-count: 2; } }
+    @media (max-width: 500px) {
+      .m-tasks.columns3 {
+        -webkit-column-count: 1;
+        /* Chrome, Safari, Opera */
+        -moz-column-count: 1;
+        /* Firefox */
+        column-count: 1; } }
+    .m-tasks.columns3 .m-task {
+      margin-top: 0; }
 
 .m-lab-description {
   font-size: 1.2em; }
 
+.m-task-description {
+  margin-left: 36px; }
+
+.m-task-label {
+  padding: 0.5em;
+  float: left;
+  width: 32px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  background-color: #ffffff;
+  border-right: 1px solid #c0c0c0; }
+
 .m-task {
   margin: 0.5em 0;
   padding: 0.5em;
+  padding-left: 0;
   border-radius: 10px;
-  border: #c0c0c0 1px solid; }
+  position: relative;
+  border: #c0c0c0 1px solid;
+  overflow: hidden; }
   .m-task.easy {
     -webkit-transition: all ease-in-out 0.3s;
     -moz-transition: all ease-in-out 0.3s;
@@ -170,6 +224,7 @@
 
 .m-task-menu {
   margin-top: 4px;
+  margin-left: 36px;
   overflow: hidden; }
   .m-task-menu .menu-complexity {
     margin-right: 4px; }

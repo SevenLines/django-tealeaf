@@ -6,6 +6,7 @@ class StudentLab(models.Model):
     description = models.TextField(default='')
     discipline = models.ForeignKey('Discipline')
     visible = models.BooleanField(default=False)
+    columns_count = models.SmallIntegerField(default=1)
 
     class Meta:
         order_with_respect_to = 'discipline'
@@ -38,4 +39,4 @@ class StudentTask(models.Model):
 
     class Meta:
         order_with_respect_to = 'lab'
-        ordering = ['_order']
+        ordering = ['complexity', '_order', 'id']

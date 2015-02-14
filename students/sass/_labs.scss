@@ -1,5 +1,7 @@
 @import "const";
 
+$m_task_label_width: 32px;
+
 @mixin complexity($bg, $fg) {
   @include transition(0.3s);
   background-color: $bg;
@@ -64,13 +66,13 @@
 .m-labs {
   padding-left: 0;
   list-style: none;
-  margin-bottom: 0%;
+  margin-bottom: 0;
 }
 
 .m-lab {
   a {
-//    color: #000000;
-//    text-decoration: none;
+    //    color: #000000;
+    //    text-decoration: none;
   }
   &:hover {
     .m-lab-title {
@@ -95,26 +97,78 @@
 .m-tasks {
   list-style: none;
   padding: 0;
+  &.columns2 {
+    -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+    @media (max-width: $width-medium) {
+      -webkit-column-count: 1; /* Chrome, Safari, Opera */
+      -moz-column-count: 1; /* Firefox */
+      column-count: 1;
+    }
+    .m-task {
+      margin-top: 0;
+    }
+  }
+  &.columns3 {
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+    @media (max-width: $width-medium) {
+      -webkit-column-count: 2; /* Chrome, Safari, Opera */
+      -moz-column-count: 2; /* Firefox */
+      column-count: 2;
+    }
+    @media (max-width: $width-small) {
+      -webkit-column-count: 1; /* Chrome, Safari, Opera */
+      -moz-column-count: 1; /* Firefox */
+      column-count: 1;
+    }
+
+    .m-task {
+      margin-top: 0;
+    }
+  }
 }
 
 .m-lab-description {
   font-size: 1.2em;
 }
 
+.m-task-description {
+  margin-left: $m_task_label_width + 4;
+}
+
+.m-task-label {
+  padding: 0.5em;
+  float: left;
+  width: $m_task_label_width;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  background-color: #ffffff;
+  border-right: 1px solid #c0c0c0;
+}
+
 .m-task {
   @include complex_style;
   margin: 0.5em 0;
   padding: 0.5em;
+  padding-left: 0;
   border-radius: 10px;
+  position: relative;
   //      background: #EEEEEE;
   border: #c0c0c0 1px solid;
   &:hover {
     @include choices;
   }
+  overflow: hidden;
 }
 
 .m-task-menu {
   margin-top: 4px;
+  margin-left: $m_task_label_width + 4;
   overflow: hidden;
   .menu-complexity {
     margin-right: 4px;

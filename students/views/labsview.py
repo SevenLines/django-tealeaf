@@ -7,7 +7,7 @@ from app.utils import require_in_GET, update_object, require_in_POST, update_pos
 from ..models.labs import StudentLab, StudentTask
 from ..models.discipline import Discipline
 
-permitted_keys = ['title', 'description', 'discipline_id', 'visible']
+permitted_keys = ['title', 'description', 'discipline_id', 'visible', 'columns_count']
 
 @require_in_GET('discipline_id', 'group_id')
 def index(request):
@@ -21,7 +21,7 @@ def index(request):
 
     data = list([model_to_dict(d) for d in data])
     for d in data:
-        tasks = list([model_to_dict(t) for t in StudentTask.objects.filter(lab=d['id'])])
+        tasks = list([model_to_dict(t) for t in StudentTask.objects.filter(lab=d['id']).order_by('complexity', 'id')])
         d.update({
             'tasks': tasks
         })

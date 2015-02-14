@@ -1,7 +1,11 @@
+{#<div class="label label-default" data-bind="text: $index" style="float: left;"></div>#}
+<div class="m-task-label" data-bind="text: $index"></div>
 {% if not user.is_authenticated %}
-    <div class="" data-bind="html: description"></div>
+    <div class="m-task-description" data-bind="html: description"></div>
 {% else %}
-    <div class="m-task-description" data-bind="ckeditorInline: description" contenteditable="true"></div>
+
+    <div class="m-task-description" data-bind="ckeditorInline: description"
+         contenteditable="true"></div>
 
     <div class="m-task-menu">
         <!-- СТУДЕНТЫ ВЫБРАВШИЕ ЗАДАЧУ -->
@@ -23,7 +27,7 @@
         <!-- КНОПКИ УПРАВЛЕНИЯ ЗАДАЧЕЙ -->
         <a href="#" class="save" style="margin-left: 8px"
            data-bind="visible: changed, click: save">сохранить</a>
-        <a href="#" class="text-danger pull-right" data-bind="click: remove">удалить</a>
+        <a href="#" class="text-danger pull-right" data-bind="click: $parents[0].removeTask">удалить</a>
         <!-- / КНОПКИ УПРАВЛЕНИЯ ЗАДАЧЕЙ -->
     </div>
 {% endif %}

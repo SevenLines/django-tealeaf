@@ -8,6 +8,7 @@
         <input class="form-control" style="display: inline-block; max-width: 50%" type="text"
                data-bind="value: title, valueUpdate: 'input'"
                onclick="arguments[0].stopImmediatePropagation()"/>
+        <select class="form-control" style="display: inline-block; max-width: 4em" data-bind="options: [1,2,3], value: columns_count" onclick="arguments[0].stopImmediatePropagation()"></select>
     {% else %}
         <span data-bind="text: title"></span>
     {% endif %}
@@ -16,7 +17,8 @@
             {#            <div class="label label-primary" data-bind="text: tasks().length"></div>#}
             {#            <div class="label label-primary" data-bind="text: order"></div>#}
             <button class="btn" data-bind="click: toggle, css: {'btn-success': visible, 'btn-default': !visible()}">
-                <span class="glyphicon glyphicon-eye-close" data-bind="css: {'glyphicon-eye-close': !visible(), 'glyphicon-eye-open': visible }"></span>
+                <span class="glyphicon glyphicon-eye-close"
+                      data-bind="css: {'glyphicon-eye-close': !visible(), 'glyphicon-eye-open': visible }"></span>
             </button>
             <button class="btn btn-default" data-bind="click: save, css: {'btn-success': changed }">
                 <span class="glyphicon glyphicon-save"></span>
@@ -34,8 +36,12 @@
             <span data-bind="html: description"></span>
             <hr>
         </div>
-        <ul class="m-tasks" data-bind="foreach: tasks">
-            <li class="m-task" data-bind="css: complex">{% include "students/labs/task.html" %}</li>
+        <ul class="m-tasks" data-bind="foreach: { data:tasks }, css: style">
+            <li>
+                <div class="m-task" data-bind="css: complex">
+                    {% include "students/labs/task.html" %}
+                </div>
+            </li>
         </ul>
     </div>
 </div>

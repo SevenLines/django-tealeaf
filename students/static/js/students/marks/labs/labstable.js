@@ -12,7 +12,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
 
         var lastSortable = null;
 
-        function initSorting() {
+        function initSorting(data) {
             if (lastSortable) {
                 return;
             }
@@ -147,6 +147,12 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                 return left.order() == right.order() ? 0 : left.order() < right.order() ? -1 : 1;
             })
         };
+
+
+        self.refresh = function () {
+            self.loadLabs();
+        };
+
 
         //init();
     }

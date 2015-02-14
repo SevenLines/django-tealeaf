@@ -50,8 +50,18 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
             }), self.reset);
         };
 
-        self.remove = function () {
-            console.log('remove');
+        self.remove = function (done, fail) {
+            $.prompt("Удалить \"" + self.description() + "\"?", {
+                persistent: false,
+                buttons: {"Да": true, 'Не сейчас': false},
+                submit: function (e, v) {
+                    if (v) {
+                        utils.post(urls.url.task_delete, {
+                            id: self.id
+                        }, done, fail);
+                    }
+                }
+            });
         };
 
     }
