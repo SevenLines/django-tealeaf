@@ -34,6 +34,28 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
             });
         };
 
+        self.changed = ko.computed(function () {
+            return data.title != self.title() ||
+                data.description != self.description() ||
+                data.discipline != self.discipline();
+        });
+
+        self.save = function (data, e) {
+            e.stopImmediatePropagation();
+            utils.post(urls.url.lab_save, {
+                id: self.id,
+                title: self.title(),
+                description: self.description(),
+                discipline: self.discipline()
+            }, self.reset);
+        };
+
+        self.reset = function () {
+            data.title = self.title();
+            data.description = self.description();
+            data.discipline = self.discipline();
+        };
+
         init();
     }
 });

@@ -10,7 +10,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
         self.complex_choices = {};
         self.labs = ko.observableArray();
 
-        function init() {
+        function initSorting() {
             Sortable.create($("#labs-editor").find(".m-labs")[0], {
                 onUpdate: function (evt) {
                     self.labs().every(function (item) {
@@ -59,6 +59,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                     self.labs.push(new Lab(item));
                     return true;
                 });
+                initSorting();
             }).fail(InterfaceAlerts.showFail);
         };
 
@@ -88,14 +89,14 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
             });
         };
 
-        self.addLab = function (data, e) {
+        self.saveOrder = function (data, e) {
             e.stopImmediatePropagation();
         };
 
-        self.resort = function (data, e) {
+        self.is_active = ko.computed(function() {
+            return self.labs().length > 0;
+        });
 
-        };
-
-        init();
+        //init();
     }
 });

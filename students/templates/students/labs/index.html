@@ -1,12 +1,14 @@
-<!-- ko if: labsTable.labs().length -->
+{% if not user.is_authenticated %}<!-- ko if: labsTable.labs().length --> {% endif %}
 <div class="panel panel-default" style="display: none" data-bind="visible: labsTable, with: labsTable">
     <div class="panel-heading" style="cursor: pointer" role="tab" id="headingOne" data-toggle="collapse"
          data-target="#labs-editor">
         <h5 class="panel-title pull-left">Лабораторные</h5>
         {% if user.is_authenticated %}
-            <div class="pull-right">
-                <button class="btn btn-success btn-sm" data-bind="click: addLab"><span
+            <div class="btn-group pull-right">
+                <button class="btn btn-primary btn-sm" data-bind="click: addLab"><span
                         class="glyphicon glyphicon-plus"></span></button>
+                <button class="btn btn-default btn-sm" data-bind="click: addLab"><span
+                        class="glyphicon glyphicon-sort"> Сохранить порядок</span></button>
             </div>
             <div style="clear: both"></div>
         {% endif %}
@@ -22,4 +24,4 @@
         </div>
     </div>
 </div>
-<!-- /ko -->
+{% if not user.is_authenticated %}<!-- /ko -->{% endif %}

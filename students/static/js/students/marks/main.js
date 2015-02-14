@@ -185,6 +185,15 @@ define(['knockout',
                     });
                 }
             };
+
+            /**
+             * Возврщает количество активных объектов
+             */
+            self.activeItems = ko.computed(function () {
+                return self.marksTable.is_active() +
+                        self.labsTable.is_active();
+            });
+
             Init();
         };
 //add model to global namespace

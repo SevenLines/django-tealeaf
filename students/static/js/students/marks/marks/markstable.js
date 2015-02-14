@@ -396,6 +396,10 @@ define(['knockout',
             self.decrease = function (mark) {
                 mark.decrease();
             };
+
+            self.is_active = ko.computed(function () {
+                return self.students().length > 0;
+            });
         }
     })
 ;
