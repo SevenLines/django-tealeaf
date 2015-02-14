@@ -18,7 +18,12 @@ define(['knockout',
             self.marksTable = new MarksTable();
             self.labsTable = new LabsTable();
 
+            self.updateCookies = function(data, event) {
+                $.cookie(cookies.keep_mark_table_open, !$("#marks-editor").hasClass("in"), cookies.expires);
+            };
+
             function Init() {
+                // подключение байдингов после загрузки дисциплин и годов
                 self.loadDisciplines().done(function () {
                     self.loadYears().done(function () {
 

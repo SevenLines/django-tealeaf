@@ -95,15 +95,21 @@ define(['knockout',
                                 $.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
                                 self.isStudentsLoading(false);
                                 self.resetMarksInterface();
+
+                                var keep_mark_table_open = $.cookie(cookies.keep_mark_table_open);
+                                console.log(keep_mark_table_open);
+                                if (keep_mark_table_open == "false") {
+                                    $("#marks-editor").removeClass("in");
+                                } else {
+                                    $("#marks-editor").addClass("in");
+                                }
                             }
                         }
 
                         if (data.students.length > 0) {
                             add_item();
                         }
-
                     }).always(function () {
-                        //self.unblock();
                     }).fail(function () {
                         self.isStudentsLoading(false);
                         self.resetMarksInterface();

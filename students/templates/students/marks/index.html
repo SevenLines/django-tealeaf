@@ -1,13 +1,13 @@
 {% load static sekizai_tags assets ex_tags %}
 <!-- ko if: marksTable.students().length -->
 <div class="panel panel-default" style="display: none" data-bind="visible: marksTable">
-    <div class="panel-heading" style="cursor: pointer" role="tab" id="headingOne" data-toggle="collapse" href="#marks-editor" {% if not user.is_authenticated %}data-bind="visible: activeItems() > 1"{% endif %}>
+    <div class="panel-heading" style="cursor: pointer" role="tab" id="headingOne" data-toggle="collapse" href="#marks-editor" data-bind="click: updateCookies{% if not user.is_authenticated %}, visible: activeItems() > 1{% endif %}">
         <h5 class="panel-title pull">Оценки</h5>
         <div style="clear: both"></div>
     </div>
 
     <div class="panel-collapse collapse" id="marks-editor" style="display: none;"
-         data-bind="css: {'in': activeItems() == 1}, with: marksTable, visible: disciplines().length">
+         data-bind="with: marksTable, visible: disciplines().length">
         <div class="panel-body" style=" padding: 0">
             {% if user.is_authenticated %}
                 {% include "students/marks/lesson-template.html" %}
