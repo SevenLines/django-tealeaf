@@ -6,6 +6,7 @@ require.config({
         marks: './marks',
         labs: './labs',
         cookies: './cookies',
+        ckeditorbinding: './ckeditorbinding',
         utils: './utils',
         knockout: '/static/bower_components/knockout/dist/knockout'
     },
@@ -33,7 +34,7 @@ function lessonIconSelectPopup(triggeringLink) {
     return false;
 }
 
-require(['main', 'knockout'], function (MarksViewModel, ko) {
+require(['main', 'knockout', 'ckeditorbinding'], function (MarksViewModel, ko, binding) {
     var model = new MarksViewModel();
     ko.applyBindings(model);
 });

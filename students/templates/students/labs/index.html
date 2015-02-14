@@ -7,11 +7,12 @@
             <div class="btn-group pull-right">
                 <button class="btn btn-primary btn-sm" data-bind="click: addLab"><span
                         class="glyphicon glyphicon-plus"></span></button>
-                <button class="btn btn-default btn-sm" data-bind="click: addLab"><span
+                <button class="btn btn-default btn-sm" data-bind="click: saveAll, css: {'btn-success': changed}"><span
                         class="glyphicon glyphicon-sort"> Сохранить порядок</span></button>
             </div>
-            <div style="clear: both"></div>
         {% endif %}
+        <div style="clear: both"></div>
+
     </div>
     <div class="panel-collapse collapse in" id="labs-editor">
         <div class="panel-body" style=" padding: 0">

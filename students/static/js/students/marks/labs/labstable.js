@@ -12,6 +12,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
 
         function initSorting() {
             Sortable.create($("#labs-editor").find(".m-labs")[0], {
+                handle: '.drag-handler',
                 onUpdate: function (evt) {
                     self.labs().every(function (item) {
                         if (evt.oldIndex > evt.newIndex) {
@@ -82,6 +83,30 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
             });
         };
 
+        self.saveAll = function (data, e) {
+            e.stopImmediatePropagation();
+            var order_array = [];
+            self.sort();
+            self.labs().every(function(item) {
+                order_array.push(item.id);
+                item.reset_order();
+                return true;
+            });
+
+            utils.post(urls.url.lab_save_order, {
+                'order_array': JSON.stringify(order_array),
+                'id': self.discipline_id
+            }, function () {
+                self.labs.notifySubscribers();
+                self.labs().every(function(lab) {
+                    if (lab.changed()) {
+                        lab.save();
+                    }
+                    return true;
+                });
+            })
+        };
+
         self.removeLab = function (data, e) {
             e.stopImmediatePropagation();
             data.remove(function () {
@@ -89,13 +114,21 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
             });
         };
 
-        self.saveOrder = function (data, e) {
-            e.stopImmediatePropagation();
-        };
+        self.changed = ko.computed(function () {
+            return self.labs().some(function (item) {
+                return item.order_changed();
+            });
+        });
 
-        self.is_active = ko.computed(function() {
+        self.is_active = ko.computed(function () {
             return self.labs().length > 0;
         });
+
+        self.sort = function() {
+            self.labs.sort(function (left, right) {
+                return left.order() == right.order() ? 0 : left.order() < right.order() ? -1 : 1;
+            })
+        };
 
         //init();
     }

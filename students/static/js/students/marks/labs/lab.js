@@ -40,8 +40,12 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
                 data.discipline != self.discipline();
         });
 
+        self.order_changed = ko.computed(function () {
+            return data.order != self.order();
+        });
+
         self.save = function (data, e) {
-            e.stopImmediatePropagation();
+            if (e) e.stopImmediatePropagation();
             utils.post(urls.url.lab_save, {
                 id: self.id,
                 title: self.title(),
@@ -54,6 +58,36 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
             data.title = self.title();
             data.description = self.description();
             data.discipline = self.discipline();
+            data.order = self.order();
+            self.title.notifySubscribers();
+            self.order.notifySubscribers();
+        };
+
+        self.reset_order = function () {
+            data.order = self.order();
+            self.order.notifySubscribers();
+        };
+
+        self.addTask = function (data, e) {
+            if (e) e.stopImmediatePropagation();
+            $.prompt({
+                state: {
+                    title: "Заполните",
+                    html: '<textarea class="form-control" name="description" placeholder="описание" value="..."></textarea>',
+                    buttons: {'Добавить': true, 'Отмена': false},
+                    submit: function (e, v, m, f) {
+                        if (v) {
+                            utils.post(urls.url.task_add, {
+                                lab_id: self.id,
+                                description: f.description
+                            }, function (r) {
+                                r.complex_choices = self.complex_choices;
+                                self.tasks.push(new Task(r))
+                            });
+                        }
+                    }
+                }
+            });
         };
 
         init();

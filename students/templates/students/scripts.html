@@ -2,6 +2,7 @@
 {% if user.is_authenticated %}
     {% addtoblock "js" %}
         <script src="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.min.js" %}"></script>
+        <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
     {% endaddtoblock %}
     {% addtoblock "core_css" %}
         <link rel="stylesheet"
@@ -15,6 +16,7 @@
 
 {% addtoblock "js" %}
     <script src="{% static "bower_components/requirejs/require.js" %}"></script>
+{#    <script src="{% static "bower_components/almond/almond.js" %}"></script>#}
 {% endaddtoblock %}
 
 {% addtoblock "js" %}
@@ -48,7 +50,8 @@
                             task_add: "{% url "students.views.tasksview.new" %}",
                             lab_save: "{% url "students.views.labsview.save" %}",
                             lab_delete: "{% url "students.views.labsview.delete" %}",
-                            lab_add: "{% url "students.views.labsview.new" %}"
+                            lab_add: "{% url "students.views.labsview.new" %}",
+                            lab_save_order: "{% url "students.views.labsview.lab_save_order" %}"
                         {% endif %}
                     }
                 }
