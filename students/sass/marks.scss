@@ -627,11 +627,25 @@ $marks-size: 30px;
   }
 }
 
-//.marks-legend {
-//  tr.marks td {
-//    width: auto;
-//  }
-//}
-//
+
+
+@include keyframes(godAnimation) {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 0;
+  }
+}
+
+.marsk-panel-heading {
+  cursor: pointer;
+  &.loading {
+    background-image: url("images/stripe_40px_45deg.png");
+    background-color: #ffffff;
+    background-size: 40px;
+    @include animation(godAnimation 4s);
+  }
+}
 
 @import "xs-small";

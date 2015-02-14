@@ -996,6 +996,38 @@
     opacity: 0;
     width: 100%; } }
 
+@-webkit-keyframes godAnimation {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 40px 0; } }
+
+@-moz-keyframes godAnimation {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 40px 0; } }
+
+@keyframes godAnimation {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 40px 0; } }
+
+.marsk-panel-heading {
+  cursor: pointer; }
+  .marsk-panel-heading.loading {
+    background-image: url("images/stripe_40px_45deg.png");
+    background-color: #ffffff;
+    background-size: 40px;
+    -webkit-animation: godAnimation 4s;
+    -moz-animation: godAnimation 4s;
+    -o-animation: godAnimation 4s;
+    animation: godAnimation 4s; }
+
 @media (max-width: 768px) {
   .marks-editor .marks-students-list-header-button-group .btn-text {
     display: none; }

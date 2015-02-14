@@ -18,7 +18,7 @@ define(['knockout',
             self.marksTable = new MarksTable();
             self.labsTable = new LabsTable();
 
-            self.updateCookies = function(data, event) {
+            self.updateCookies = function (data, event) {
                 $.cookie(cookies.keep_mark_table_open, !$("#marks-editor").hasClass("in"), cookies.expires);
             };
 
@@ -194,6 +194,12 @@ define(['knockout',
             self.activeItems = ko.computed(function () {
                 return self.marksTable.is_active() +
                     self.labsTable.is_active();
+            });
+
+            self.hasData = ko.computed(function () {
+                return self.marksTable.students().length > 0 ||
+                    self.marksTable.isStudentsLoading() ||
+                    self.labsTable.labs().length > 0;
             });
 
             Init();

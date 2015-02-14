@@ -1,8 +1,8 @@
 {% load static sekizai_tags assets ex_tags %}
-<!-- ko if: marksTable.students().length -->
+<!-- ko if: (marksTable.students().length || marksTable.isStudentsLoading()) -->
 <div class="panel panel-default" style="display: none" data-bind="visible: marksTable">
-    <div class="panel-heading" style="cursor: pointer" role="tab" id="headingOne" data-toggle="collapse" href="#marks-editor" data-bind="click: updateCookies{% if not user.is_authenticated %}, visible: activeItems() > 1{% endif %}">
-        <h5 class="panel-title pull">Оценки</h5>
+    <div class="panel-heading marsk-panel-heading" role="tab" id="headingOne" data-toggle="collapse" href="#marks-editor" data-bind="click: updateCookies{% if not user.is_authenticated %}, visible: activeItems() > 1{% endif %}, css: { 'loading': marksTable.isStudentsLoading }">
+        <h5 class="panel-title pull" data-bind="text: marksTable.isStudentsLoading()? 'Загружаю...' : 'Оценки'">Оценки</h5>
         <div style="clear: both"></div>
     </div>
 

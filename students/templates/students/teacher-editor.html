@@ -38,11 +38,10 @@
     </form>
     <!-- /ko -->
 
-    <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none"
-         data-bind="visible: !disciplines().length">
-        <h1>Нету актуальных данных</h1>
+    <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none" data-bind="visible: !hasData()">
+        <h1>Нет актуальных данных</h1>
 
-        <h3>-=-=-=-=-=-=-</h3>
+        <h3>-=-=-=-=-=-</h3>
     </div>
 
     <div class="panel-group" id="edit-tables" role="tablist" aria-multiselectable="true">
