@@ -1,4 +1,4 @@
-Django==1.7.1
+Django==1.7.4
 Fabric==1.9.0
 Markdown==2.4.1
 Pillow==2.4.0
@@ -16,7 +16,7 @@ django-admin-bootstrapped==2.1.0
 django-appconf==0.6
 django-assets==0.10
 django-classy-tags==0.5.1
-django-cms==3.0.7.dev1
+django-cms==3.0.9
 django-email-obfuscator==0.1.2
 django-filebrowser==3.5.7
 django-filer==0.9.8
@@ -53,4 +53,3 @@ urllib3==1.9
 webassets==0.10
 wsgiref==0.1.2
 yuicompressor==2.4.8
-django-tastypie

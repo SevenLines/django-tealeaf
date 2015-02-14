@@ -33,12 +33,42 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
             }).fail(InterfaceAlerts.showFail);
         };
 
-        self.movedown = function (data) {
-
+        self.addLab = function (data, e) {
+            e.stopImmediatePropagation();
+            $.prompt({
+                state: {
+                    title: "Заполните",
+                    html: '<input class="form-control" type="text" name="title" placeholder="название" value="без названия">',
+                    buttons: {'Добавить': true, 'Отмена': false},
+                    submit: function (e, v, m, f) {
+                        if (v) {
+                            utils.post(urls.url.lab_add, {
+                                discipline_id: self.discipline_id,
+                                title: f.title
+                            }, self.loadLabs);
+                        }
+                    }
+                }
+            });
         };
 
-        self.moveup = function (data) {
+        self.remove = function (data, e) {
+            e.stopImmediatePropagation();
+            data.remove(function () {
+                self.labs.remove(data);
+            });
+        };
 
+        self.add = function (data, e) {
+            e.stopImmediatePropagation();
+        };
+
+        self.movedown = function (data, e) {
+            e.stopImmediatePropagation();
+        };
+
+        self.moveup = function (data, e) {
+            e.stopImmediatePropagation();
         };
     }
 });

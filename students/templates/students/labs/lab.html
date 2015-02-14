@@ -2,9 +2,17 @@
     <span data-bind="text: title"></span>
     {% if user.is_authenticated %}
         <div class="pull-right">
-                    <div class="label label-primary" data-bind="text: tasks().length"></div>
-            <button class="btn btn-default" data-bind="click: $parents[0].moveup"><span class="glyphicon glyphicon-chevron-down"></span></button>
-            <button class="btn btn-default" data-bind="click: $parents[0].movedown"><span class="glyphicon glyphicon-chevron-up"></span></button>
+            <div class="label label-primary" data-bind="text: tasks().length"></div>
+            <button class="btn btn-success" data-bind="click: $parents[0].add"><span
+                    class="glyphicon glyphicon-plus"></span></button>
+            <div class="btn-group">
+                <button class="btn btn-default" data-bind="click: $parents[0].moveup"><span
+                        class="glyphicon glyphicon-chevron-down"></span></button>
+                <button class="btn btn-default" data-bind="click: $parents[0].movedown"><span
+                        class="glyphicon glyphicon-chevron-up"></span></button>
+            </div>
+            <button class="btn btn-danger" data-bind="click: $parents[0].remove"><span
+                    class="glyphicon glyphicon-remove"></span></button>
         </div>
     {% endif %}
 </div>

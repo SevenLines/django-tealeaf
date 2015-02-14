@@ -36,19 +36,28 @@ def require_in_GET(*items):
     return decorator
 
 
-def update_post_object(request, Model, *permited_keys):
+def get_post_object(request, Model):
+    return Model.objects.get(pk=request.POST['id'])
+
+
+def update_object(dict, obj, *permitted_keys):
+    for key in permitted_keys:
+        if key in dict:
+            setattr(obj, key, dict[key])
+
+
+def update_post_object(request, Model, *permitted_keys):
     """
     Обновляет объект полями из request.POST, идентификатор объекта находится в id
     :param request: объект запроса
     :param Model: класс модели
     :param permited_keys: разрешенные для обновления поля
-    :return:
+    :return: обновленный объект
     """
-    obj = Model.objects.get(pk=request.POST['id'])
-    for key in permited_keys:
-        if key in request.POST:
-            setattr(obj, key, request.POST[key])
+    obj = get_post_object(request, Model)
+    update_object(request.POST, obj, *permitted_keys)
     obj.save()
+    return obj
 
 
 def json_encoder(obj):

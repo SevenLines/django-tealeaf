@@ -2,18 +2,15 @@ from django.db import models
 
 
 class StudentLab(models.Model):
-    class Meta:
-        managed = True
-
     title = models.CharField(max_length=100, default='')
     description = models.TextField(default='')
     discipline = models.ForeignKey('Discipline')
-    order = models.SmallIntegerField(default=0)
+
+    class Meta:
+        order_with_respect_to = 'discipline'
 
 
 class StudentTask(models.Model):
-    class Meta:
-        managed = True
 
     UNDEFINED = 0
     EASY = UNDEFINED + 1
@@ -36,3 +33,6 @@ class StudentTask(models.Model):
 
     description = models.TextField(default="")
     order = models.SmallIntegerField(default=0)
+
+    class Meta:
+        order_with_respect_to = 'lab'
