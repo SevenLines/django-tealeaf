@@ -44,12 +44,9 @@ define(['knockout',
 
                         self.group.subscribe(function () {
                             self.check_block(function () {
-                                if (self.group()) {
-                                    self.marksTable.setParams(self.group().id, self.discipline().id);
-                                    self.labsTable.setParams(self.group().id, self.discipline().id);
-                                } else {
-                                    self.students([]);
-                                }
+                                var group_id = self.group() ? self.group().id : null;
+                                self.marksTable.setParams(group_id, self.discipline().id);
+                                self.labsTable.setParams(group_id, self.discipline().id);
                             });
                         });
 
@@ -191,7 +188,7 @@ define(['knockout',
              */
             self.activeItems = ko.computed(function () {
                 return self.marksTable.is_active() +
-                        self.labsTable.is_active();
+                    self.labsTable.is_active();
             });
 
             Init();

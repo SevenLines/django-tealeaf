@@ -42,6 +42,10 @@ define(['knockout',
                 //if (self._block) return;
                 //self.block();
                 self.students.removeAll();
+
+                if (!self.group_id)
+                    return;
+
                 self.isStudentsLoading(true);
 
                 setTimeout(function () {

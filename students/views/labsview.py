@@ -14,7 +14,6 @@ def index(request):
     discipline_id = request.GET['discipline_id']
     group_id = request.GET['group_id']
 
-
     data = StudentLab.objects.filter(discipline_id=discipline_id)
     if not request.user.is_authenticated():
         data = data.filter(visible=True)
