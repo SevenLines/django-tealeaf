@@ -1020,13 +1020,8 @@
 .marsk-panel-heading {
   cursor: pointer; }
   .marsk-panel-heading.loading {
-    background-image: url("images/stripe_40px_45deg.png");
-    background-color: #ffffff;
-    background-size: 40px;
-    -webkit-animation: godAnimation 4s;
-    -moz-animation: godAnimation 4s;
-    -o-animation: godAnimation 4s;
-    animation: godAnimation 4s; }
+    box-shadow: 0 0 6px #f49900;
+    background-color: #ffe500; }
 
 @media (max-width: 768px) {
   .marks-editor .marks-students-list-header-button-group .btn-text {

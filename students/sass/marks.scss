@@ -627,8 +627,6 @@ $marks-size: 30px;
   }
 }
 
-
-
 @include keyframes(godAnimation) {
   0% {
     background-position: 0 0;
@@ -641,10 +639,11 @@ $marks-size: 30px;
 .marsk-panel-heading {
   cursor: pointer;
   &.loading {
-    background-image: url("images/stripe_40px_45deg.png");
-    background-color: #ffffff;
-    background-size: 40px;
-    @include animation(godAnimation 4s);
+//    background-image: url("images/stripe_40px_45deg.png");
+    box-shadow: 0 0 6px #f49900;
+    background-color: #ffe500;
+//    background-size: 40px;
+//    @include animation(godAnimation 4s);
   }
 }
 
