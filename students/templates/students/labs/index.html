@@ -1,7 +1,6 @@
-{% if not user.is_authenticated %}<!-- ko if: labsTable.labs().length --> {% endif %}
+{% if not user.is_authenticated %}<!-- ko if: labsTable.labs().length > 0 || labsTable.labsLoading() --> {% endif %}
 <div class="panel panel-default" style="display: none" data-bind="visible: labsTable, with: labsTable">
-    <div class="panel-heading" style="cursor: pointer" role="tab" id="headingOne" data-toggle="collapse"
-         data-target="#labs-editor">
+    <div class="panel-heading labs-panel-heading" style="cursor: pointer" role="tab" id="headingOne" data-toggle="collapse" data-target="#labs-editor" data-bind="css: { 'loading': labsLoading }">
         <h5 class="panel-title pull-left">Лабораторные</h5>
         {% if user.is_authenticated %}
             <div class="btn-group pull-right">

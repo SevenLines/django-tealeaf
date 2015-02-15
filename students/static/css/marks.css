@@ -1000,14 +1000,14 @@
   100% {
     background-position: 40px 0; } }
 
-.marsk-panel-heading {
+.labs-panel-heading, .marsk-panel-heading {
   cursor: pointer;
   -webkit-transition: all ease-in-out 0.1s;
   -moz-transition: all ease-in-out 0.1s;
   -ms-transition: all ease-in-out 0.1s;
   -o-transition: all ease-in-out 0.1s;
   transition: all ease-in-out 0.1s; }
-  .marsk-panel-heading.loading {
+  .labs-panel-heading.loading, .marsk-panel-heading.loading {
     box-shadow: 0 0 6px #f49900;
     background-color: #ffe500;
     color: #c16400; }
