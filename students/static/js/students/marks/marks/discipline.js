@@ -1,7 +1,7 @@
 /**
  * Created by m on 11.02.15.
  */
-define(['knockout'], function (ko) {
+define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
     return function (data, model) {
         var self = this;
 
@@ -31,7 +31,7 @@ define(['knockout'], function (ko) {
         };
 
         self.save = function (ondone, onfail) {
-            $.post(model.url.discipline_edit, model.csrfize({
+            $.post(urls.url.discipline_edit, utils.csrfize({
                 'id': self.id,
                 'title': self.title(),
                 'year': self.year(),
@@ -46,7 +46,7 @@ define(['knockout'], function (ko) {
         }
 
         self.add = function (ondone, onfail) {
-            $.post(model.url.discipline_add, model.csrfize({
+            $.post(urls.url.discipline_add, utils.csrfize({
                 'title': self.title(),
                 'year': self.year(),
                 'visible': self.visible()
@@ -65,7 +65,7 @@ define(['knockout'], function (ko) {
                 buttons: {'Да': true, 'Не сейчас': false},
                 submit: function (e, v, m, f) {
                     if (v) {
-                        $.post(model.url.discipline_remove, model.csrfize({
+                        $.post(urls.url.discipline_remove, utils.csrfize({
                             id: self.id
                         })).done(function (d) {
                             if (ondone) ondone(d);

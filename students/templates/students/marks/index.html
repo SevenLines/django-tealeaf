@@ -1,107 +1,28 @@
 {% load static sekizai_tags assets ex_tags %}
+<div class="panel panel-default" style="display: none" data-bind="visible: groups().length > 0">
+    <div class="panel-heading marsk-panel-heading" role="tab" id="headingOne" data-toggle="collapse" href="#marks-editor" data-bind="click: updateCookies, css: { 'loading': marksTable.isStudentsLoading }">
+        <h5 class="panel-title pull" data-bind="text: marksTable.isStudentsLoading()? 'Загружаю...' : 'Оценки'">Оценки</h5>
+        <div style="clear: both"></div>
+    </div>
 
-    {% if user.is_authenticated %}
-        {% include "students/marks/lesson-template.html" %}
-    {% endif %}
-    <div id="marks-editor">
-        <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none"
-             data-bind="visible: !disciplines().length">
-            <h1>Нету актуальных данных</h1>
+    <div class="panel-collapse collapse" id="marks-editor" style="display: none;"
+         data-bind="with: marksTable, visible: disciplines().length">
+        <div class="panel-body" style=" padding: 0; border: none">
+            {% if user.is_authenticated %}
+                {% include "students/marks/lesson-template.html" %}
+            {% endif %}
 
-            <h3>-=-=-=-=-=-=-</h3>
-        </div>
-
-        <div class="marks-editor nojs" style="display: none" data-bind="visible: disciplines().length">
-            <!-- СПИСОК ДИСЦИПЛИН -->
-            {% include "students/marks/discipline_list.html" %}
-            <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
-
-            <form class="form-inline" style="padding-bottom: 1em">
-                {% if user.is_authenticated %}
-                    <!-- СПИСОК ГОДОВ -->
-                    <div class="form-group">
-                        <select class="form-control" name="year"
-                                data-bind="value: year, options: years, optionsValue: 'year', optionsText: 'year'"></select>
-                    </div>
-                    <!-- КОНЕЦ СПИСОК ГОДОВ -->
-                {% endif %}
-                <!-- СПИСОК ГРУПП -->
-                <div class="form-group" style="margin-bottom: 0">
-                    <select class="form-control" name="group"
-                            data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
-                </div>
+            <div class="marks-editor nojs">
+                <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
+                {% include "students/marks/students_marks.html" %}
+                <!-- КОНЕЦ СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
 
                 {% if user.is_authenticated %}
-
-                    <!-- КНОПКА СОХРАНЕНИЯ -->
-                    <button class="btn btn-sm btn-success"
-                            data-bind="click: $root.saveMarks, visible: students && discipline">
-                        <i class="glyphicon glyphicon glyphicon-save"></i>
-                    </button>
-                    <button class="btn btn-info pull-right"
-                            data-bind="click: $root.loadStudentsControl, visible: students && discipline">
-                        <span class="glyphicon glyphicon glyphicon-file"> Аттестация</span>
-                    </button>
-                    <!-- КОНЕЦ КНОПКИ СОХРАНЕНИЯ -->
-                    <!-- КНОПКА ВЫГРУЗКИ В EXCEL -->
-                    <button class="btn btn-sm btn-success" data-bind="click: toExcel">
-                        <span>список в *.xls</span>
-                    </button>
-                    <!-- КОНЕЦ КНОПКА ВЫГРУЗКИ В EXCEL -->
-                    <!-- КНОПКА СБРОСА КЕША -->
-                    <button class="btn btn-sm btn-warning" data-bind="click: resetCache">
-                        <span>сбросить кеш</span>
-                    </button>
-                    <!-- КОНЕЦ КНОПКИ СБРОСА КЕША -->
+                    {% include "students/marks/mark_selector.html" %}
                 {% endif %}
-                <!-- КОНЕЦ СПИСОК ГРУПП -->
+            </div>
 
-                <div style="clear: both;"></div>
-            </form>
-
-
-            <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
-            {% include "students/marks/students_marks.html" %}
-            <!-- КОНЕЦ СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
-
-
-            {% addtoblock "js" %}
-                {% requirejs 'js/students/marks' 'marks' 'marks-built' 'model_config' %}
-            {% endaddtoblock %}
-
-            {% addtoblock "js" %}
-                <script>
-
-                    define('model_config',
-                            function () {
-                                return {
-                                    csrf: "{{ csrf_token }}",
-                                    url: {
-                                        years: "{% url "students.views.students.ajax.json.years" %}",
-                                        groups: "{% url "students.views.students.ajax.json.groups" %}",
-                                        students: "{% url "students.views.marks.students" %}",
-                                        disciplines: "{% url "students.views.marks.disciplines.index" %}",
-                                        to_excel: "{% url "students.views.marks.marks_to_excel" %}",
-                                        {% if user.is_authenticated %}
-                                            discipline_add: "{% url "students.views.marks.disciplines.add" %}",
-                                            discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
-                                            discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
-                                            students_control: "{% url "students.views.marks.students_control" %}",
-                                            lesson_add: "{% url "students.views.marks.lesson_add" %}",
-                                            lesson_remove: "{% url "students.views.marks.lesson_remove" %}",
-                                            lesson_save: "{% url "students.views.marks.lesson_save" %}",
-                                            marks_save: "{% url "students.views.marks.marks_save" %}",
-                                            reset_cache: "{% url "students.views.marks.reset_cache" %}"
-                                        {% endif %}
-                                    }
-                                }
-                            }
-                    );
-
-                    {% if user.is_authenticated %}
-
-                    {% endif %}
-                </script>
-            {% endaddtoblock "js" %}
         </div>
     </div>
+</div>
+

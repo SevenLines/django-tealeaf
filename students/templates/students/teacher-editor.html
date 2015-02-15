@@ -10,25 +10,45 @@
         </div>
     </noscript>
 
-    {% if user.is_authenticated %}
-        {% addtoblock "js" %}
-            <script src="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.min.js" %}"></script>
-        {% endaddtoblock %}
-        {% addtoblock "core_css" %}
-            <link rel="stylesheet"
-                  href="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.css" %}"/>
-        {% endaddtoblock %}
-    {% endif %}
+    <!-- СПИСОК ДИСЦИПЛИН -->
+    {% include "students/marks/discipline_list.html" %}
+    <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
+    <!-- ko if: years().length > 1 || groups().length > 1 -->
+    <form class="form-inline" style="padding-bottom: 1em; display: none" data-bind="visible: disciplines().length">
+        {% if user.is_authenticated %}
+            <!-- СПИСОК ГОДОВ -->
+            <div class="form-group">
+                <select class="form-control" name="year"
+                        data-bind="value: year, options: years, optionsValue: 'year', optionsText: 'year'"></select>
+            </div>
+            <!-- КОНЕЦ СПИСОК ГОДОВ -->
+        {% endif %}
+        <!-- СПИСОК ГРУПП -->
+        <div class="form-group" style="margin-bottom: 0">
+            <select class="form-control" name="group"
+                    data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
+        </div>
 
-    {% addtoblock "core_css" %}
-        <link rel="stylesheet" href="{% static "css/marks.css" %}"/>
-    {% endaddtoblock %}
+        {% if user.is_authenticated %}
+            {% include "students/marks/main-menu-buttons.html" %}
+        {% endif %}
+        <!-- КОНЕЦ СПИСОК ГРУПП -->
 
-    {% addtoblock "js" %}
-        <script src="{% static "bower_components/requirejs/require.js" %}"></script>
-    {% endaddtoblock %}
+        <div style="clear: both;"></div>
+    </form>
+    <!-- /ko -->
 
-    {% include "students/marks/index.html" %}
+    <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none" data-bind="visible: !hasData() && loadingComplete()">
+        <h1>Нет актуальных данных</h1>
 
+        <h3>-=-=-=-=-=-</h3>
+    </div>
+
+    <div class="panel-group" id="edit-tables" role="tablist" aria-multiselectable="true">
+        {% include "students/marks/index.html" %}
+        {% include "students/labs/index.html" %}
+    </div>
+
+    {% include "students/scripts.html" %}
 
 {% endblock %}

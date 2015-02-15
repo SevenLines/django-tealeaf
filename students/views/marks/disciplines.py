@@ -19,11 +19,13 @@ SELECT DISTINCT sd.*
 FROM students_discipline sd
   LEFT JOIN students_lesson sl ON sl.discipline_id = sd.id
   LEFT JOIN students_group sg ON sg.id = sl.group_id
-  WHERE sg.year = %(year)s AND sd.visible
+  LEFT JOIN students_studentlab sla ON sla.discipline_id = sd.id and sla.visible
+  WHERE (sg.year = %(year)s or sla.id is not NULL) AND sd.visible
   ORDER BY sd.title
     """, {
             'year': current_year()
         })
+#         disciplines = Discipline.objects.filter(visible=True)
     else:
         # иначе весь список
         disciplines = Discipline.objects.all().order_by("title")

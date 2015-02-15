@@ -3,6 +3,7 @@ from django.db import models
 from django.db.transaction import atomic
 from students.models.lesson import Lesson
 from students.models.mark import Mark
+from students.models.student import Student
 import students.utils
 
 
@@ -69,3 +70,26 @@ class Group(models.Model):
         """
         lst = Mark.objects.filter(student__group=self.pk).values('lesson').distinct()
         return Lesson.objects.filter(pk__in=lst).distinct()
+
+
+def active_years(r=2):
+    """
+    returns list of active years like current year +-r
+    :param r: range from current year [-r, r]
+    :return:
+    """
+    years = Group.objects.all().values_list('year').distinct()
+    if len(years) == 0:
+        years = [students.current_year(), ]
+    else:
+        years = list(zip(*years)[0])
+
+    _min = min(years)
+    _max = max(years)
+    for i in xrange(1, r + 1):
+        years.insert(0, _min - i)
+    for i in xrange(1, r + 1):
+        years.append(_max + i)
+    years.sort()
+    return years
+

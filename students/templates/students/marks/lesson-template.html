@@ -28,17 +28,17 @@
 
             <div class="form-group">
                 <select class="form-control"
-                        data-bind="value: lesson_type, options: $root.lesson_types, optionsValue: 'id', optionsText: 'title'">
+                        data-bind="value: lesson_type, options: $parents[0].lesson_types, optionsValue: 'id', optionsText: 'title'">
                 </select>
             </div>
             <div class="form-group">
                 <input type="checkbox" data-bind="checked: score_ignore"> не учитывать
             </div>
             <div class="form-group">
-                <button class="btn btn-primary save" data-bind="click: $root.saveLesson">
+                <button class="btn btn-primary save" data-bind="click: $parents[0].saveLesson">
                     <i class="glyphicon glyphicon-save"></i>
                 </button>
-                <button class="btn btn-danger pull-right delete" data-bind="click: $root.removeLesson">
+                <button class="btn btn-danger pull-right delete" data-bind="click: $parents[0].removeLesson">
                     <i class="glyphicon glyphicon-remove"></i>
                 </button>
             </div>

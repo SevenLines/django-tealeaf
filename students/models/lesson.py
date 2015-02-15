@@ -9,6 +9,7 @@ from filer.fields.image import FilerImageField
 from markupfield.fields import MarkupField
 
 from students.models.mark import Mark
+from students.models.discipline import Discipline
 
 
 class Lesson(models.Model):
@@ -65,6 +66,7 @@ class Lesson(models.Model):
         """
         from students.models.group import Group
         from students.models.discipline import Discipline
+
         assert isinstance(discipline, Discipline)
         assert isinstance(group, Group)
 
@@ -76,10 +78,9 @@ class Lesson(models.Model):
         return l
 
 
-
-
 @receiver(post_delete, sender=Lesson)
 @receiver(post_save, sender=Lesson)
 def update_cache_lesson(instance, **kwargs):
     from students.models.discipline import DisciplineMarksCache
+
     DisciplineMarksCache.update(instance.discipline_id, instance.group_id)
