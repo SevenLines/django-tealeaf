@@ -34,10 +34,17 @@
 </div>
 <div class="m-lab-info collapse" data-bind="attr: {id: 'lab'+id}">
     <div>
-        <div class="m-lab-description" data-bind="if: description">
-            <span data-bind="html: description"></span>
-            <hr>
-        </div>
+        {% if not user.is_authenticated %}
+            <div class="m-lab-description" data-bind="if: description">
+                <span data-bind="html: description"></span>
+                <hr>
+            </div>
+        {% else %}
+            <div class="m-lab-description">
+                <div style="background-color:#f8f8f8;min-width: 20px;min-height: 20px" contenteditable="true" data-bind="ckeditorInline: description"></div>
+                <hr>
+            </div>
+        {% endif %}
         <div class="row" data-bind="foreach: columns_with_tasks">
             <div data-bind="css: $parents[0].column_style, foreach: $data.items">
                 <div class="m-task" data-bind="css: complex">

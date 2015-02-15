@@ -23,7 +23,8 @@
   cursor: pointer;
   padding: 0.25em 0.5em;
   border-bottom: 1px solid #c0c0c0;
-  font-size: 1.75em; }
+  font-size: 1.75em;
+  background-color: #FDFDFD; }
 .m-lab .m-lab-info {
   border-bottom: 1px solid #c0c0c0; }
   .m-lab .m-lab-info > div {
@@ -50,7 +51,10 @@
       margin-top: 0; }
 
 .m-lab-description {
-  font-size: 1.2em; }
+  font-size: 1.1em; }
+  .m-lab-description hr {
+    margin: 0.5em 0;
+    margin-bottom: 0.75em; }
 
 .m-task-description {
   padding-left: 4px;

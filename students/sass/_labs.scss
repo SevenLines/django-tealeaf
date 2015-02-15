@@ -74,6 +74,7 @@ $m_task_label_width: 32px;
     //    color: #000000;
     //    text-decoration: none;
   }
+
   &:hover {
     .m-lab-title {
       background-color: #FAFAFA;
@@ -85,6 +86,7 @@ $m_task_label_width: 32px;
     padding: 0.25em 0.5em;
     border-bottom: 1px solid #c0c0c0;
     font-size: 1.75em;
+    background-color: #FDFDFD;
   }
   .m-lab-info {
     border-bottom: 1px solid #c0c0c0;
@@ -137,7 +139,11 @@ $m_task_label_width: 32px;
 }
 
 .m-lab-description {
-  font-size: 1.2em;
+  font-size: 1.1em;
+  hr {
+     margin: 0.5em 0;
+    margin-bottom: 0.75em;
+  }
 }
 
 .m-task-description {
