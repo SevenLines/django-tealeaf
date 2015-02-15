@@ -1,0 +1,22 @@
+<!-- ko with: marksTable -->
+<!-- КНОПКА СОХРАНЕНИЯ -->
+<button class="btn btn-sm btn-success"
+        data-bind="click: saveMarks, visible: students">
+    <i class="glyphicon glyphicon glyphicon-save"></i>
+</button>
+<button class="btn btn-info pull-right"
+        data-bind="click: loadStudentsControl, visible: students">
+    <span class="glyphicon glyphicon glyphicon-file"> Аттестация</span>
+</button>
+<!-- КОНЕЦ КНОПКИ СОХРАНЕНИЯ -->
+<!-- КНОПКА ВЫГРУЗКИ В EXCEL -->
+<button class="btn btn-sm btn-success" data-bind="click: toExcel">
+    <span>список в *.xls</span>
+</button>
+<!-- КОНЕЦ КНОПКА ВЫГРУЗКИ В EXCEL -->
+<!-- КНОПКА СБРОСА КЕША -->
+<button class="btn btn-sm btn-warning" data-bind="click: resetCache">
+    <span>сбросить кеш</span>
+</button>
+<!-- КОНЕЦ КНОПКИ СБРОСА КЕША -->
+<!-- /ko -->

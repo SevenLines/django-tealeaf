@@ -1,0 +1,28 @@
+{% load static sekizai_tags assets ex_tags %}
+<div class="panel panel-default" style="display: none" data-bind="visible: groups().length > 0">
+    <div class="panel-heading marsk-panel-heading" role="tab" id="headingOne" data-toggle="collapse" href="#marks-editor" data-bind="click: updateCookies, css: { 'loading': marksTable.isStudentsLoading }">
+        <h5 class="panel-title pull" data-bind="text: marksTable.isStudentsLoading()? 'Загружаю...' : 'Оценки'">Оценки</h5>
+        <div style="clear: both"></div>
+    </div>
+
+    <div class="panel-collapse collapse" id="marks-editor" style="display: none;"
+         data-bind="with: marksTable, visible: disciplines().length">
+        <div class="panel-body" style=" padding: 0; border: none">
+            {% if user.is_authenticated %}
+                {% include "students/marks/lesson-template.html" %}
+            {% endif %}
+
+            <div class="marks-editor nojs">
+                <!-- СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
+                {% include "students/marks/students_marks.html" %}
+                <!-- КОНЕЦ СПИСОК СТУДЕНТОВ С ОЦЕНКАМИ -->
+
+                {% if user.is_authenticated %}
+                    {% include "students/marks/mark_selector.html" %}
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+

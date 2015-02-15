@@ -6,7 +6,7 @@ from cms.plugin_pool import plugin_pool
 
 class StudentInfoPlugin(CMSPluginBase):
     name = u"Списки студентов"
-    render_template = "students/students_editor.html"
+    render_template = "students/student/index.html"
     text_enabled = False
     allow_children = False
 

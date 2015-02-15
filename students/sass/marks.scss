@@ -1,4 +1,5 @@
 @import "const";
+@import "labs";
 
 $quater: hsl(80, 77%, 74%);
 $half: hsl(70, 80%, 60%);
@@ -98,14 +99,13 @@ $marks-size: 30px;
     //      font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
 
     background-color: #ffe500;
-    box-shadow: 0 0 6px #f49900, 0 0 40px white inset;
+    box-shadow: 0 0 6px #f49900;
     border-radius: 0;
-    border: 1px solid #f4b500;
+    //    border: 1px solid #f4b500;
     color: darken(#f47e00, 10);
-    margin-bottom: 1em;
+    margin-bottom: 0;
     h1 {
       color: #f46400;
-      //        text-shadow: 0 0 4px white;
       font-weight: bold;
     }
     .loader {
@@ -257,6 +257,7 @@ $marks-size: 30px;
       width: 100%;
       table-layout: fixed;
       border: 1px solid $table-border-color;
+      border-left: none;
       .info {
         height: $marks-size;
         > table {
@@ -280,19 +281,17 @@ $marks-size: 30px;
   }
 
   .marks-list {
-    border-right: 1px solid $table-border-color;
+    //    border-right: 1px solid $table-border-color;
     > table {
       width: 100%;
-      border: 1px solid $table-border-color;
-      border-left: none;
-      border-right: none;
+      border-top: 1px solid $table-border-color;
       > thead {
         box-shadow: 0 2px 8px $table-border-color;
       }
     }
     margin-left: $students-list-width;
     overflow: scroll;
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: hidden;
     cursor: move;
     -webkit-user-select: none;
@@ -626,11 +625,23 @@ $marks-size: 30px;
   }
 }
 
-//.marks-legend {
-//  tr.marks td {
-//    width: auto;
-//  }
-//}
-//
+@include keyframes(godAnimation) {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 0;
+  }
+}
+
+.marsk-panel-heading {
+  cursor: pointer;
+  @include transition(0.1s);
+  &.loading {
+    box-shadow: 0 0 6px #f49900;
+    background-color: #ffe500;
+    color: darken(#f47e00, 10);
+  }
+}
 
 @import "xs-small";
