@@ -11,6 +11,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
         self.labs = ko.observableArray();
 
         var lastSortable = null;
+        self.labsLoading = ko.observable(false);
 
         function initSorting(data) {
             if (lastSortable) {
@@ -66,6 +67,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
 
         self.loadLabs = function () {
             self.labs.removeAll();
+            self.labsLoading(true);
             $.get(urls.url.labs, {
                 group_id: self.group_id,
                 discipline_id: self.discipline_id
@@ -79,6 +81,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                     return true;
                 });
                 initSorting();
+                self.labsLoading(false);
             }).fail(InterfaceAlerts.showFail);
         };
 

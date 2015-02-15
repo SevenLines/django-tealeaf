@@ -25,14 +25,34 @@ define(['knockout',
             self.group_id = 0;
             self.discipline_id = 0;
 
+            self.firstLoadingAfterParametersChanged = ko.observable(true);
+// >>> ЗАГРУЗКА ДАННЫХ
+            self.isStudentsLoading = ko.observable(true);
+            self.showLoading = ko.computed(function () {
+                return (self.isStudentsLoading() || (self.students && self.students().length == 0));
+            });
+
+            self.showPanel = ko.computed(function () {
+                return (self.students().length || self.isStudentsLoading())
+                    && !self.firstLoadingAfterParametersChanged();
+            });
+
+            /***
+             * флаг свидетельствующий что таблицы была загруженна первый раз
+             */
+                //self.onInit = ko.observable(true);
+
             self.setParams = function (group_id, discipline_id) {
                 self.group_id = group_id;
+                //self.firstLoadingAfterParametersChanged(true);
                 if (group_id == null) {
                     self.isStudentsLoading(false);
+                    //self.onInit(false);
                 }
                 self.discipline_id = discipline_id;
                 self.loadStudents();
             };
+
 
             // SERVICE VARIABLES
 
@@ -98,9 +118,10 @@ define(['knockout',
                                 $.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
                                 self.resetMarksInterface();
                                 self.isStudentsLoading(false);
+                                self.firstLoadingAfterParametersChanged(false);
 
+                                // open / close marksTable collapse according ot saved state
                                 var keep_mark_table_open = $.cookie(cookies.keep_mark_table_open);
-                                console.log(keep_mark_table_open);
                                 if (keep_mark_table_open == "false") {
                                     $("#marks-editor").removeClass("in");
                                 } else {
@@ -113,6 +134,7 @@ define(['knockout',
                             add_item();
                         }
                     }).always(function () {
+                        //self.onInit(false);
                     }).fail(function () {
                         self.resetMarksInterface();
                     });
@@ -246,12 +268,6 @@ define(['knockout',
 // --- конец синхронизация подсветки строк таблицы оценок
             };
 // КОНЕЦ РЕИНИЦИАЛИЗАЦИИ ИНТЕРФЕЙСА
-
-// >>> ЗАГРУЗКА ДАННЫХ
-            self.isStudentsLoading = ko.observable(true);
-            self.showLoading = ko.computed(function () {
-                return (self.isStudentsLoading() || (self.students && self.students().length == 0));
-            });
 
 
 // >>> СОРТИРОВКА

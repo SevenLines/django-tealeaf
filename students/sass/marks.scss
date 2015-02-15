@@ -638,6 +638,7 @@ $marks-size: 30px;
 
 .marsk-panel-heading {
   cursor: pointer;
+  @include transition(0.1s);
   &.loading {
 //    background-image: url("images/stripe_40px_45deg.png");
     box-shadow: 0 0 6px #f49900;

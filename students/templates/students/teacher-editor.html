@@ -38,7 +38,7 @@
     </form>
     <!-- /ko -->
 
-    <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none" data-bind="visible: !hasData()">
+    <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none" data-bind="visible: !hasData() && loadingComplete()">
         <h1>Нет актуальных данных</h1>
 
         <h3>-=-=-=-=-=-</h3>

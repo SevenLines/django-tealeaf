@@ -200,8 +200,13 @@ define(['knockout',
 
             self.hasData = ko.computed(function () {
                 return self.marksTable.students().length > 0 ||
-                    self.marksTable.isStudentsLoading() ||
-                    self.labsTable.labs().length > 0;
+                        self.labsTable.labs().length > 0;
+                        //self.marksTable.onInit());
+            });
+
+            self.loadingComplete = ko.computed(function () {
+                return !self.marksTable.isStudentsLoading() &&
+                    !self.labsTable.labsLoading();
             });
 
             Init();
