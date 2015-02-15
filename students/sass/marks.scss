@@ -634,7 +634,7 @@ $marks-size: 30px;
   }
 }
 
-.marsk-panel-heading {
+.labs-panel-heading, .marsk-panel-heading {
   cursor: pointer;
   @include transition(0.1s);
   &.loading {
