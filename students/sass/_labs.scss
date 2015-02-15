@@ -97,6 +97,7 @@ $m_task_label_width: 32px;
 .m-tasks {
   list-style: none;
   padding: 0;
+  overflow: hidden;
   &.columns2 {
     -webkit-column-count: 2; /* Chrome, Safari, Opera */
     -moz-column-count: 2; /* Firefox */
@@ -111,24 +112,28 @@ $m_task_label_width: 32px;
     }
   }
   &.columns3 {
-    -webkit-column-count: 3; /* Chrome, Safari, Opera */
-    -moz-column-count: 3; /* Firefox */
-    column-count: 3;
-    @media (max-width: $width-medium) {
-      -webkit-column-count: 2; /* Chrome, Safari, Opera */
-      -moz-column-count: 2; /* Firefox */
-      column-count: 2;
-    }
-    @media (max-width: $width-small) {
-      -webkit-column-count: 1; /* Chrome, Safari, Opera */
-      -moz-column-count: 1; /* Firefox */
-      column-count: 1;
-    }
 
-    .m-task {
-      margin-top: 0;
-    }
   }
+    //    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    //    -moz-column-count: 3; /* Firefox */
+    //    column-count: 3;
+    //    @media (max-width: $width-medium) {
+    //      -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    //      -moz-column-count: 2; /* Firefox */
+    //      column-count: 2;
+    //    }
+    //    @media (max-width: $width-small) {
+    //      -webkit-column-count: 1; /* Chrome, Safari, Opera */
+    //      -moz-column-count: 1; /* Firefox */
+    //      column-count: 1;
+    //    }
+
+    //    .m-task {
+    //      break-before: avoid;
+    //      -webkit-column-break-before: avoid;
+    //      break-after: avoid;
+    //      -webkit-column-break-after: avoid;
+    //    }
 }
 
 .m-lab-description {
@@ -136,17 +141,14 @@ $m_task_label_width: 32px;
 }
 
 .m-task-description {
-  margin-left: $m_task_label_width + 4;
+  padding-left: 4px;
+  padding: 0.5em;
 }
 
 .m-task-label {
-  padding: 0.5em;
-  float: left;
   width: $m_task_label_width;
-  position: absolute;
-  top: 0;
-  bottom: 0;
   text-align: center;
+  vertical-align: middle;
   background-color: #ffffff;
   border-right: 1px solid #c0c0c0;
 }
@@ -154,8 +156,8 @@ $m_task_label_width: 32px;
 .m-task {
   @include complex_style;
   margin: 0.5em 0;
-  padding: 0.5em;
-  padding-left: 0;
+  //  padding: 0.5em;
+  //  padding-left: 0;
   border-radius: 10px;
   position: relative;
   //      background: #EEEEEE;
@@ -164,11 +166,21 @@ $m_task_label_width: 32px;
     @include choices;
   }
   overflow: hidden;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  -o-column-break-inside: avoid;
+  -ms-column-break-inside: avoid;
+  column-break-inside: avoid;
+  margin-top: 0;
 }
 
 .m-task-menu {
-  margin-top: 4px;
-  margin-left: $m_task_label_width + 4;
+  //  margin-top: 4px;
+  padding: 0.25em;
+  padding-right: 1em;
+  height: 20px;
+  max-height: 20px;
+  //  margin-left: $m_task_label_width + 4;
   overflow: hidden;
   .menu-complexity {
     margin-right: 4px;

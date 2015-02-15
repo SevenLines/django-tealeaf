@@ -14,51 +14,37 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
         self.visible = ko.observable(data.visible);
         self.columns_count = ko.observable(data.columns_count);
 
+        self.columns_with_tasks = ko.computed(function () {
+            var out = [];
+            var lastCol = 0;
+            var columnItems = {
+                items: []
+            };
+            var value = Math.ceil(self.tasks().length / self.columns_count());
+            for (var i = 0; i < self.tasks().length; ++i) {
+                var col = ~~(i / value);
+                if (lastCol != col) {
+                    lastCol = col;
+                    out.push(columnItems);
+                    columnItems = {
+                        items: []
+                    };
+                }
+                columnItems.items.push(self.tasks()[i]);
+            }
+            out.push(columnItems);
+            return out;
+        });
 
-        //self.lastSortable = null;
-        //
-        //self.initSortable = function (data) {
-        //    if (self.lastSortable) {
-        //        return;
-        //    }
-        //    var mtasks = $("#labs-editor").find(".m-tasks")[0];
-        //    if (!mtasks) {
-        //        return;
-        //    }
-        //    self.lastSortable = new Sortable(mtasks, {
-        //        onUpdate: function (evt) {
-        //            var mainItem = self.tasks()[evt.oldIndex];
-        //            evt.item.remove();
-        //            self.tasks.remove(mainItem);
-        //            self.tasks.push(mainItem);
-        //            console.log(self.tasks());
-        //            self.tasks().every(function (item) {
-        //                if (evt.oldIndex > evt.newIndex) {
-        //                    if (evt.newIndex <= item.order() && item.order() <= evt.oldIndex) {
-        //                        if (item.order() == evt.oldIndex) {
-        //                            item.order(evt.newIndex);
-        //                        } else {
-        //                            item.order(item.order() + 1);
-        //                        }
-        //                    }
-        //                } else {
-        //                    if (evt.oldIndex <= item.order() && item.order() <= evt.newIndex) {
-        //                        if (item.order() == evt.oldIndex) {
-        //                            item.order(evt.newIndex);
-        //                        } else {
-        //                            item.order(item.order() - 1);
-        //                        }
-        //                    }
-        //                }
-        //                return true;
-        //            });
-        //        }
-        //    });
-        //};
+        self.column_style = ko.computed( function () {
+            return 'col-md-' + ~~(12 / self.columns_count());
+        });
 
         function init() {
+            var index = 1;
             data.tasks.every(function (item) {
                 item.complex_choices = data.complex_choices;
+                item.order = index++;
                 self.tasks.push(new Task(item));
                 return true;
             });
@@ -151,7 +137,7 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
             });
         };
 
-        self.sort = function() {
+        self.sort = function () {
             self.tasks.sort(function (left, right) {
                 return left.complexity() == right.complexity() ? 0 : left.complexity() < right.complexity() ? -1 : 1;
             })
