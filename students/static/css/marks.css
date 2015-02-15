@@ -327,9 +327,8 @@
 
 .jumbotron.loading {
   background-color: #ffe500;
-  box-shadow: 0 0 6px #f49900, 0 0 40px white inset;
+  box-shadow: 0 0 6px #f49900;
   border-radius: 0;
-  border: 1px solid #f4b500;
   color: #c16400;
   margin-bottom: 0; }
   .jumbotron.loading h1 {
@@ -487,7 +486,8 @@
   .marks-editor .students-list > table {
     width: 100%;
     table-layout: fixed;
-    border: 1px solid #cccccc; }
+    border: 1px solid #cccccc;
+    border-left: none; }
     .marks-editor .students-list > table .info {
       height: 30px; }
       .marks-editor .students-list > table .info > table {
@@ -500,7 +500,6 @@
         .marks-editor .students-list > table .info > table td.score {
           padding-right: 3px; }
 .marks-editor .marks-list {
-  border-right: 1px solid #cccccc;
   margin-left: 220px;
   overflow: scroll;
   overflow-x: hidden;
@@ -512,9 +511,7 @@
   user-select: none; }
   .marks-editor .marks-list > table {
     width: 100%;
-    border: 1px solid #cccccc;
-    border-left: none;
-    border-right: none; }
+    border-top: 1px solid #cccccc; }
     .marks-editor .marks-list > table > thead {
       box-shadow: 0 2px 8px #cccccc; }
 .marks-editor table.table-marks {
@@ -1026,7 +1023,8 @@
   transition: all ease-in-out 0.1s; }
   .marsk-panel-heading.loading {
     box-shadow: 0 0 6px #f49900;
-    background-color: #ffe500; }
+    background-color: #ffe500;
+    color: #c16400; }
 
 @media (max-width: 768px) {
   .marks-editor .marks-students-list-header-button-group .btn-text {

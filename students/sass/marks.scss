@@ -99,14 +99,13 @@ $marks-size: 30px;
     //      font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
 
     background-color: #ffe500;
-    box-shadow: 0 0 6px #f49900, 0 0 40px white inset;
+    box-shadow: 0 0 6px #f49900;
     border-radius: 0;
-    border: 1px solid #f4b500;
+    //    border: 1px solid #f4b500;
     color: darken(#f47e00, 10);
     margin-bottom: 0;
     h1 {
       color: #f46400;
-      //        text-shadow: 0 0 4px white;
       font-weight: bold;
     }
     .loader {
@@ -258,6 +257,7 @@ $marks-size: 30px;
       width: 100%;
       table-layout: fixed;
       border: 1px solid $table-border-color;
+      border-left: none;
       .info {
         height: $marks-size;
         > table {
@@ -281,12 +281,10 @@ $marks-size: 30px;
   }
 
   .marks-list {
-    border-right: 1px solid $table-border-color;
+    //    border-right: 1px solid $table-border-color;
     > table {
       width: 100%;
-      border: 1px solid $table-border-color;
-      border-left: none;
-      border-right: none;
+      border-top: 1px solid $table-border-color;
       > thead {
         box-shadow: 0 2px 8px $table-border-color;
       }
@@ -640,11 +638,9 @@ $marks-size: 30px;
   cursor: pointer;
   @include transition(0.1s);
   &.loading {
-//    background-image: url("images/stripe_40px_45deg.png");
     box-shadow: 0 0 6px #f49900;
     background-color: #ffe500;
-//    background-size: 40px;
-//    @include animation(godAnimation 4s);
+    color: darken(#f47e00, 10);
   }
 }
 
