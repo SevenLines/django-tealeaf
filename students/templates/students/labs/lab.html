@@ -8,7 +8,9 @@
         <input class="form-control" style="display: inline-block; max-width: 50%" type="text"
                data-bind="value: title, valueUpdate: 'input'"
                onclick="arguments[0].stopImmediatePropagation()"/>
-        <select class="form-control" style="display: inline-block; max-width: 4em" data-bind="options: [1,2,3], value: columns_count" onclick="arguments[0].stopImmediatePropagation()"></select>
+        <select class="form-control" style="display: inline-block; max-width: 4em"
+                data-bind="options: [1,2,3,4], value: columns_count"
+                onclick="arguments[0].stopImmediatePropagation()"></select>
     {% else %}
         <span data-bind="text: title"></span>
     {% endif %}
@@ -32,16 +34,24 @@
 </div>
 <div class="m-lab-info collapse" data-bind="attr: {id: 'lab'+id}">
     <div>
-        <div class="m-lab-description" data-bind="if: description">
-            <span data-bind="html: description"></span>
-            <hr>
-        </div>
-        <ul class="m-tasks" data-bind="foreach: { data:tasks }, css: style">
-            <li>
+        {% if not user.is_authenticated %}
+            <div class="m-lab-description" data-bind="if: description">
+                <span data-bind="html: description"></span>
+                <hr>
+            </div>
+        {% else %}
+            <div class="m-lab-description">
+                <div style="background-color:#f8f8f8;min-width: 20px;min-height: 20px" contenteditable="true" data-bind="ckeditorInline: description"></div>
+                <hr>
+            </div>
+        {% endif %}
+        <div class="row" data-bind="foreach: columns_with_tasks">
+            <div data-bind="css: $parents[0].column_style, foreach: $data.items">
                 <div class="m-task" data-bind="css: complex">
                     {% include "students/labs/task.html" %}
                 </div>
-            </li>
-        </ul>
+            </div>
+
+        </div>
     </div>
 </div>

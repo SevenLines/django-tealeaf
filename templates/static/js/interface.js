@@ -74,7 +74,7 @@ $(function () {
 
 
 // hack to resize main container according menu list
-$(function () {
+$(window).load(function () {
     var min_height = $(".menu>ul").height() + 30;
     $(".content").css("min-height", min_height);
 });

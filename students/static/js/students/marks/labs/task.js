@@ -8,6 +8,7 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
         self.id = data.id;
         self.complexity = ko.observable(data.complexity);
         self.description = ko.observable(data.description);
+        self.order = ko.observable(data.order);
         self._complex_choices = data.complex_choices;
 
         self.complex = ko.computed(function () {

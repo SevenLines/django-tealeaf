@@ -9,7 +9,8 @@ require.config({
         ckeditorbinding: './ckeditorbinding',
         sortbalelistbinding: './sortbalelistbinding',
         utils: './utils',
-        knockout: '/static/bower_components/knockout/dist/knockout'
+        knockout: '/static/bower_components/knockout/dist/knockout',
+        //underscore: '/static/bower_components/underscore/underscore'
     },
 });
 
