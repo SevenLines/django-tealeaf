@@ -9,7 +9,7 @@
                data-bind="value: title, valueUpdate: 'input'"
                onclick="arguments[0].stopImmediatePropagation()"/>
         <select class="form-control" style="display: inline-block; max-width: 4em"
-                data-bind="options: [1,2,3], value: columns_count"
+                data-bind="options: [1,2,3,4], value: columns_count"
                 onclick="arguments[0].stopImmediatePropagation()"></select>
     {% else %}
         <span data-bind="text: title"></span>
