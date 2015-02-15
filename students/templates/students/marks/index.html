@@ -1,7 +1,7 @@
 {% load static sekizai_tags assets ex_tags %}
 <div class="panel panel-default" style="display: none" data-bind="visible: groups().length > 0">
     <div class="panel-heading marsk-panel-heading" role="tab" id="headingOne" data-toggle="collapse" href="#marks-editor" data-bind="click: updateCookies, css: { 'loading': marksTable.isStudentsLoading }">
-        <h5 class="panel-title pull" data-bind="text: marksTable.isStudentsLoading()? 'Загружаю...' : 'Оценки'">Оценки</h5>
+        <h5 class="panel-title pull" data-bind="text: marksTable.isStudentsLoading()? 'Ожидайте...' : 'Оценки'">Оценки</h5>
         <div style="clear: both"></div>
     </div>
 
