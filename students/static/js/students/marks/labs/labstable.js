@@ -18,7 +18,10 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                 return;
             }
             var mlabs = $("#labs-editor").find(".m-labs")[0];
-            if (!mlabs)  {
+            if ($("#labs-editor").find(".drag-handler").size == 0) {
+                return;
+            }
+            if (!mlabs) {
                 return;
             }
             lastSortable = new Sortable(mlabs, {
@@ -68,21 +71,23 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
         self.loadLabs = function () {
             self.labs.removeAll();
             self.labsLoading(true);
-            $.get(urls.url.labs, {
-                group_id: self.group_id,
-                discipline_id: self.discipline_id
-            }).done(function (r) {
-                self.complex_choices = r.complex_choices;
-                var order = 0;
-                r.labs.every(function (item) {
-                    item.complex_choices = r.complex_choices;
-                    item.order = order++;
-                    self.labs.push(new Lab(item));
-                    return true;
-                });
-                initSorting();
-                self.labsLoading(false);
-            }).fail(InterfaceAlerts.showFail);
+            setTimeout(function () {
+                $.get(urls.url.labs, {
+                    group_id: self.group_id,
+                    discipline_id: self.discipline_id
+                }).done(function (r) {
+                    self.complex_choices = r.complex_choices;
+                    var order = 0;
+                    r.labs.every(function (item) {
+                        item.complex_choices = r.complex_choices;
+                        item.order = order++;
+                        self.labs.push(new Lab(item));
+                        return true;
+                    });
+                    initSorting();
+                    self.labsLoading(false);
+                }).fail(InterfaceAlerts.showFail);
+            }, 10);
         };
 
         self.addLab = function (data, e) {
@@ -108,7 +113,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
             e.stopImmediatePropagation();
             var order_array = [];
             self.sort();
-            self.labs().every(function(item) {
+            self.labs().every(function (item) {
                 order_array.push(item.id);
                 item.reset_order();
                 return true;
@@ -119,7 +124,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                 'id': self.discipline_id
             }, function () {
                 self.labs.notifySubscribers();
-                self.labs().every(function(lab) {
+                self.labs().every(function (lab) {
                     if (lab.changed()) {
                         lab.save();
                     }
@@ -145,7 +150,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
             return self.labs().length > 0;
         });
 
-        self.sort = function() {
+        self.sort = function () {
             self.labs.sort(function (left, right) {
                 return left.order() == right.order() ? 0 : left.order() < right.order() ? -1 : 1;
             })
