@@ -1,0 +1,47 @@
+<div class="m-lab-title" data-toggle="collapse" data-bind="attr: {href: '#lab'+id}">
+    {% if user.is_authenticated %}
+        <span class="drag-handler glyphicon glyphicon-align-justify"></span>
+    {% endif %}
+
+    #<span data-bind="text: order()+1" style="width: 10px;display: inline-block"></span> |
+    {% if user.is_authenticated %}
+        <input class="form-control" style="display: inline-block; max-width: 50%" type="text"
+               data-bind="value: title, valueUpdate: 'input'"
+               onclick="arguments[0].stopImmediatePropagation()"/>
+        <select class="form-control" style="display: inline-block; max-width: 4em" data-bind="options: [1,2,3], value: columns_count" onclick="arguments[0].stopImmediatePropagation()"></select>
+    {% else %}
+        <span data-bind="text: title"></span>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <div class="pull-right">
+            {#            <div class="label label-primary" data-bind="text: tasks().length"></div>#}
+            {#            <div class="label label-primary" data-bind="text: order"></div>#}
+            <button class="btn" data-bind="click: toggle, css: {'btn-success': visible, 'btn-default': !visible()}">
+                <span class="glyphicon glyphicon-eye-close"
+                      data-bind="css: {'glyphicon-eye-close': !visible(), 'glyphicon-eye-open': visible }"></span>
+            </button>
+            <button class="btn btn-default" data-bind="click: save, css: {'btn-success': changed }">
+                <span class="glyphicon glyphicon-save"></span>
+            </button>
+            <button class="btn btn-primary" data-bind="click: addTask"><span
+                    class="glyphicon glyphicon-plus"></span></button>
+            <button class="btn btn-danger" data-bind="click: $parents[0].removeLab"><span
+                    class="glyphicon glyphicon-remove"></span></button>
+        </div>
+    {% endif %}
+</div>
+<div class="m-lab-info collapse" data-bind="attr: {id: 'lab'+id}">
+    <div>
+        <div class="m-lab-description" data-bind="if: description">
+            <span data-bind="html: description"></span>
+            <hr>
+        </div>
+        <ul class="m-tasks" data-bind="foreach: { data:tasks }, css: style">
+            <li>
+                <div class="m-task" data-bind="css: complex">
+                    {% include "students/labs/task.html" %}
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

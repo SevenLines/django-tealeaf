@@ -1,0 +1,36 @@
+<form class="form-inline" style="padding-bottom: 1em; display: none;"
+      {% if user.is_authenticated %}data-bind="visible: true"
+      {% else %}data-bind="visible: disciplines().length>1"{% endif %}>
+    {% if user.is_authenticated %}
+        <div class="form-group">{% endif %}
+    <select class="form-control"
+            data-bind="visible: disciplines().length, value: discipline, options: disciplines, optionsText: 'title'">
+    </select>
+    {% if user.is_authenticated %}</div>{% endif %}
+    {% if user.is_authenticated %}
+        <!-- ko if: discipline -->
+        <button class="btn btn-default btn-sm" data-bind="visible: discipline, click: editDiscipline">
+            <span class="glyphicon glyphicon-edit"></span>
+        </button>
+        <button class="btn btn-sm"
+                data-bind="click: toggleDiscipline, css: {'btn-primary': discipline().visible(), 'btn-default': !discipline().visible() }">
+            <span class="glyphicon glyphicon-eye-open"
+                  data-bind="css: {'glyphicon-eye-open': discipline().visible(), 'glyphicon-eye-close': !discipline().visible() }"></span>
+        </button>
+        <button class="btn btn-default btn-sm" data-bind="click: addDiscipline">
+            <span class="glyphicon glyphicon-plus"> Добавить дисциплину</span>
+        </button>
+
+        <button class="btn btn-danger btn-sm pull-right" data-bind="visible: discipline, click: removeDiscipline">
+            <span class="glyphicon glyphicon-minus"></span>
+        </button>
+        <!-- /ko -->
+    {% endif %}
+</form>
+{% if not user.is_authenticated %}
+    <div style="display: none" data-bind="visible: disciplines().length==1">
+        <h1 style="margin: 0" data-bind="text: discipline() ? discipline().title(): ''"></h1>
+        <hr style="margin: 1em 0 ">
+    </div>
+{% endif %}
+<div style="clear: both"></div>

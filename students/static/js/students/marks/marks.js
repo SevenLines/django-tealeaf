@@ -3,10 +3,16 @@
  */
 require.config({
     paths: {
-        app: './app',
-        knockout: '/static/bower_components/knockout/dist/knockout',
+        marks: './marks',
+        labs: './labs',
+        cookies: './cookies',
+        ckeditorbinding: './ckeditorbinding',
+        sortbalelistbinding: './sortbalelistbinding',
+        utils: './utils',
+        knockout: '/static/bower_components/knockout/dist/knockout'
     },
 });
+
 
 // >>> DATE FORMATING
 Date.prototype.ddmmyyyy = function () {
@@ -29,7 +35,8 @@ function lessonIconSelectPopup(triggeringLink) {
     return false;
 }
 
-require(['model_config', 'app/main', 'knockout'], function (config, MarksViewModel, ko) {
-    var model = new MarksViewModel(config);
+require(['main', 'knockout', 'ckeditorbinding', 'sortbalelistbinding'], function (MarksViewModel, ko, ckeditorbinding, sortbalelistbinding) {
+    var model = new MarksViewModel();
     ko.applyBindings(model);
 });
+

@@ -28,6 +28,8 @@
     "select2": "~3.5.2",
     "jstree": "~3.0.8",
     "jquery-impromptu": "~6",
-    "requirejs": "~2.1.16"
+    "requirejs": "~2.1.16",
+    "Sortable": "~1.0.1",
+    "almond": "~0.3.0"
   }
 }

@@ -39,6 +39,7 @@ class Student(models.Model):
     @staticmethod
     def year_students(year):
         from students.models.group import Group
+
         groups = Group.year_groups(year)
         return Student.objects.filter(groups__in=groups)
 
@@ -62,4 +63,5 @@ class Student(models.Model):
 @receiver(post_save, sender=Student)
 def update_cache_student(instance, **kwargs):
     from students.models.discipline import DisciplineMarksCache
+
     DisciplineMarksCache.objects.filter(group=instance.group_id).delete()

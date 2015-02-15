@@ -1,0 +1,5 @@
+<div id="mark-selector" data-bind="with: markSelector">
+    <ul data-bind="foreach: mark_types">
+        <li class="mark" data-bind="css: v, click: $parents[0].setMark"></li>
+    </ul>
+</div>

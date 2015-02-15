@@ -1,0 +1,54 @@
+{% extends "base-page.html" %}
+{% load static sekizai_tags assets ex_tags %}
+
+{% block basecontent %}
+    <noscript>
+        <div class="jumbotron loading">
+            <h1>Javascript</h1>
+
+            <h3>Необходимо включить его, чтобы таблица отображалось корректно!</h3>
+        </div>
+    </noscript>
+
+    <!-- СПИСОК ДИСЦИПЛИН -->
+    {% include "students/marks/discipline_list.html" %}
+    <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
+    <!-- ko if: years().length > 1 || groups().length > 1 -->
+    <form class="form-inline" style="padding-bottom: 1em; display: none" data-bind="visible: disciplines().length">
+        {% if user.is_authenticated %}
+            <!-- СПИСОК ГОДОВ -->
+            <div class="form-group">
+                <select class="form-control" name="year"
+                        data-bind="value: year, options: years, optionsValue: 'year', optionsText: 'year'"></select>
+            </div>
+            <!-- КОНЕЦ СПИСОК ГОДОВ -->
+        {% endif %}
+        <!-- СПИСОК ГРУПП -->
+        <div class="form-group" style="margin-bottom: 0">
+            <select class="form-control" name="group"
+                    data-bind="visible: groups().length, value: group, options: groups, optionsText: 'title'"></select>
+        </div>
+
+        {% if user.is_authenticated %}
+            {% include "students/marks/main-menu-buttons.html" %}
+        {% endif %}
+        <!-- КОНЕЦ СПИСОК ГРУПП -->
+
+        <div style="clear: both;"></div>
+    </form>
+    <!-- /ko -->
+
+    <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none" data-bind="visible: !hasData() && loadingComplete()">
+        <h1>Нет актуальных данных</h1>
+
+        <h3>-=-=-=-=-=-</h3>
+    </div>
+
+    <div class="panel-group" id="edit-tables" role="tablist" aria-multiselectable="true">
+        {% include "students/marks/index.html" %}
+        {% include "students/labs/index.html" %}
+    </div>
+
+    {% include "students/scripts.html" %}
+
+{% endblock %}
