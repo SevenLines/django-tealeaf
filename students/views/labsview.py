@@ -1,11 +1,13 @@
 import json
+
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http.response import HttpResponse
-from tastypie.resources import ModelResource
+
 from app.utils import require_in_GET, update_object, require_in_POST, update_post_object, get_post_object
 from ..models.labs import StudentLab, StudentTask
 from ..models.discipline import Discipline
+
 
 permitted_keys = ['title', 'description', 'discipline_id', 'visible', 'columns_count']
 
