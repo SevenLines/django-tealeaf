@@ -21,7 +21,7 @@ INSTALLED_APPS = (
 
     'plugin_markdown',
     'page_extend',
-    # 'labs',
+    'labs',
     'toc',
     'wrapper',
     'django_ace',
