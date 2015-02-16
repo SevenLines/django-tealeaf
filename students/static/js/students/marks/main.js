@@ -9,7 +9,7 @@ define(['knockout',
         'marks/markstable',
         'labs/labstable',
         'urls',
-        'utils'
+        'helpers/utils'
     ],
     function (ko, cookies, Discipline, MarksTable, LabsTable, urls, utils) {
         return function () {
