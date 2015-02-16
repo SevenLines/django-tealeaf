@@ -9,7 +9,6 @@ admin.autodiscover()
 
 urlpatterns = i18n_patterns('',
     url(r'^page_settings/', include('page_extend.urls')),
-    url(r'^labs-control/', include('labs.urls.labs_control')),
     url(r'^students-url/marks/', include('students.urls.labs')),
     url(r'^students-url/', include('students.urls.students')),
     url(r'^marks-url/', include('students.urls.marks')),
@@ -22,7 +21,6 @@ urlpatterns = i18n_patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', "app.views.login_user"),
     url(r'^logout/$', "django.contrib.auth.views.logout"),
-    url(r'^labs/', include('labs.urls')),
     url(r'^', include('cms.urls')),
 )
 
