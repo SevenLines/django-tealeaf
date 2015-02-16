@@ -5,9 +5,6 @@ require.config({
     paths: {
         marks: './marks',
         labs: './labs',
-        helpers: './helpers',
-        cookies: './cookies',
-        utils: './helpers/utils',
         knockout: '/static/bower_components/knockout/dist/knockout',
         //underscore: '/static/bower_components/underscore/underscore'
     },
