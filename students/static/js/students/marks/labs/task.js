@@ -38,7 +38,7 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
                     out += " selected2";
                     break;
                 default:
-                    out += "selected";
+                    out += " selected3";
                     break;
             }
             //out += self.students().length > 0 ? " selected" : "";

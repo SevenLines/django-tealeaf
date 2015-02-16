@@ -6,15 +6,18 @@ $m_task_label_width: 32px;
   @include transition(0.3s);
   background-color: $bg;
   box-shadow: 0 0 3px $fg !important;
-  &.selected, &.selected2 {
+  &.selected, &.selected2, &.selected3 {
     &:hover {
       background-color: $bg;
     }
   }
   &.selected {
-    background-color: lighten($bg, 5);
+    background-color: lighten($bg, 4);
   }
   &.selected2 {
+    background-color: lighten($bg, 7);
+  }
+  &.selected3 {
     background-color: lighten($bg, 10);
   }
   .user-info {
