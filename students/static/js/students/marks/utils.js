@@ -1,7 +1,7 @@
 /**
  * Created by m on 13.02.15.
  */
-define('utils', ['urls'], function (urls) {
+define(['urls'], function (urls) {
     function csrfize(data) {
         data.csrfmiddlewaretoken = urls.csrf;
         return data;
