@@ -3,6 +3,7 @@
  */
 require.config({
     paths: {
+        knockout: '/static/bower_components/knockout/dist/knockout',
         ckeditorbinding: './bindings/ckeditorbinding',
         sortbalelistbinding: './bindings/sortbalelistbinding',
         select2binding: './bindings/select2binding',

@@ -1,7 +1,7 @@
 /**
  * Created by m on 11.02.15.
  */
-define(['knockout', 'urls', 'helpers/utils'], function (ko, urls, utils) {
+define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
     return function (data, model) {
         var self = this;
 
