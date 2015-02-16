@@ -157,7 +157,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
         };
 
 
-        self.refresh = function () {
+        self.refresh = function (data, e) {
             e.stopImmediatePropagation();
             self.loadLabs();
         };
