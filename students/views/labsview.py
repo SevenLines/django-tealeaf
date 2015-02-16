@@ -22,7 +22,7 @@ def index(request):
 
     data = list([model_to_dict(d) for d in data])
     for d in data:
-        tasks = list([model_to_dict(t) for t in StudentTask.objects.filter(lab=d['id']).order_by('complexity', 'id')])
+        tasks = list([t.as_dict for t in StudentTask.objects.filter(lab=d['id']).order_by('complexity', 'id')])
         d.update({
             'tasks': tasks
         })

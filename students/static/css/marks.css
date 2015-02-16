@@ -87,10 +87,14 @@
     transition: all ease-in-out 0.3s;
     background-color: #cafcb1;
     box-shadow: 0 0 3px #cafcb1 !important; }
+    .m-task.easy.selected:hover, .m-task.easy.selected2:hover, .m-task.easy.selected3:hover {
+      background-color: #cafcb1; }
     .m-task.easy.selected {
-      background-color: #dbfdca; }
-      .m-task.easy.selected:hover {
-        background-color: #cafcb1; }
+      background-color: #d7fdc5; }
+    .m-task.easy.selected2 {
+      background-color: #e1fdd3; }
+    .m-task.easy.selected3 {
+      background-color: #ebfee2; }
     .m-task.easy .user-info {
       box-shadow: 0 0 0 2px white;
       border-color: #b9fb98 !important; }
@@ -102,10 +106,14 @@
     transition: all ease-in-out 0.3s;
     background-color: #fcfcb1;
     box-shadow: 0 0 3px #fcfcb1 !important; }
+    .m-task.medium.selected:hover, .m-task.medium.selected2:hover, .m-task.medium.selected3:hover {
+      background-color: #fcfcb1; }
     .m-task.medium.selected {
-      background-color: #fdfdca; }
-      .m-task.medium.selected:hover {
-        background-color: #fcfcb1; }
+      background-color: #fdfdc5; }
+    .m-task.medium.selected2 {
+      background-color: #fdfdd3; }
+    .m-task.medium.selected3 {
+      background-color: #fefee2; }
     .m-task.medium .user-info {
       box-shadow: 0 0 0 2px white;
       border-color: #fbfb98 !important; }
@@ -117,10 +125,14 @@
     transition: all ease-in-out 0.3s;
     background-color: #fccab1;
     box-shadow: 0 0 3px #fccab1 !important; }
+    .m-task.hard.selected:hover, .m-task.hard.selected2:hover, .m-task.hard.selected3:hover {
+      background-color: #fccab1; }
     .m-task.hard.selected {
-      background-color: #fddbca; }
-      .m-task.hard.selected:hover {
-        background-color: #fccab1; }
+      background-color: #fdd7c5; }
+    .m-task.hard.selected2 {
+      background-color: #fde1d3; }
+    .m-task.hard.selected3 {
+      background-color: #feebe2; }
     .m-task.hard .user-info {
       box-shadow: 0 0 0 2px white;
       border-color: #fbb998 !important; }
@@ -132,10 +144,14 @@
     transition: all ease-in-out 0.3s;
     background-color: #fcb7b1;
     box-shadow: 0 0 3px #fcb7b1 !important; }
+    .m-task.nightmare.selected:hover, .m-task.nightmare.selected2:hover, .m-task.nightmare.selected3:hover {
+      background-color: #fcb7b1; }
     .m-task.nightmare.selected {
-      background-color: #fdceca; }
-      .m-task.nightmare.selected:hover {
-        background-color: #fcb7b1; }
+      background-color: #fdc9c5; }
+    .m-task.nightmare.selected2 {
+      background-color: #fdd7d3; }
+    .m-task.nightmare.selected3 {
+      background-color: #fee4e2; }
     .m-task.nightmare .user-info {
       box-shadow: 0 0 0 2px white;
       border-color: #fba198 !important; }
@@ -153,10 +169,14 @@
     transition: all ease-in-out 0.3s;
     background-color: #cafcb1;
     box-shadow: 0 0 3px #cafcb1 !important; }
+    .m-task:hover.easy.selected:hover, .m-task:hover.easy.selected2:hover, .m-task:hover.easy.selected3:hover {
+      background-color: #cafcb1; }
     .m-task:hover.easy.selected {
-      background-color: #dbfdca; }
-      .m-task:hover.easy.selected:hover {
-        background-color: #cafcb1; }
+      background-color: #d7fdc5; }
+    .m-task:hover.easy.selected2 {
+      background-color: #e1fdd3; }
+    .m-task:hover.easy.selected3 {
+      background-color: #ebfee2; }
     .m-task:hover.easy .user-info {
       box-shadow: 0 0 0 2px white;
       border-color: #b9fb98 !important; }
@@ -168,10 +188,14 @@
     transition: all ease-in-out 0.3s;
     background-color: #fcfcb1;
     box-shadow: 0 0 3px #fcfcb1 !important; }
+    .m-task:hover.medium.selected:hover, .m-task:hover.medium.selected2:hover, .m-task:hover.medium.selected3:hover {
+      background-color: #fcfcb1; }
     .m-task:hover.medium.selected {
-      background-color: #fdfdca; }
-      .m-task:hover.medium.selected:hover {
-        background-color: #fcfcb1; }
+      background-color: #fdfdc5; }
+    .m-task:hover.medium.selected2 {
+      background-color: #fdfdd3; }
+    .m-task:hover.medium.selected3 {
+      background-color: #fefee2; }
     .m-task:hover.medium .user-info {
       box-shadow: 0 0 0 2px white;
       border-color: #fbfb98 !important; }
@@ -183,10 +207,14 @@
     transition: all ease-in-out 0.3s;
     background-color: #fccab1;
     box-shadow: 0 0 3px #fccab1 !important; }
+    .m-task:hover.hard.selected:hover, .m-task:hover.hard.selected2:hover, .m-task:hover.hard.selected3:hover {
+      background-color: #fccab1; }
     .m-task:hover.hard.selected {
-      background-color: #fddbca; }
-      .m-task:hover.hard.selected:hover {
-        background-color: #fccab1; }
+      background-color: #fdd7c5; }
+    .m-task:hover.hard.selected2 {
+      background-color: #fde1d3; }
+    .m-task:hover.hard.selected3 {
+      background-color: #feebe2; }
     .m-task:hover.hard .user-info {
       box-shadow: 0 0 0 2px white;
       border-color: #fbb998 !important; }
@@ -198,13 +226,36 @@
     transition: all ease-in-out 0.3s;
     background-color: #fcb7b1;
     box-shadow: 0 0 3px #fcb7b1 !important; }
+    .m-task:hover.nightmare.selected:hover, .m-task:hover.nightmare.selected2:hover, .m-task:hover.nightmare.selected3:hover {
+      background-color: #fcb7b1; }
     .m-task:hover.nightmare.selected {
-      background-color: #fdceca; }
-      .m-task:hover.nightmare.selected:hover {
-        background-color: #fcb7b1; }
+      background-color: #fdc9c5; }
+    .m-task:hover.nightmare.selected2 {
+      background-color: #fdd7d3; }
+    .m-task:hover.nightmare.selected3 {
+      background-color: #fee4e2; }
     .m-task:hover.nightmare .user-info {
       box-shadow: 0 0 0 2px white;
       border-color: #fba198 !important; }
+
+.m-task-students {
+  float: right;
+  list-style: none;
+  font-size: 0.9em;
+  padding: 0.25em 0.5em;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: silver 1px solid;
+  box-shadow: 0 0 0 2px white;
+  text-align: center;
+  margin-right: 0.25em;
+  margin-left: 0.25em; }
+  @media (max-width: 768px) {
+    .m-task-students {
+      display: none; } }
+  .m-task-students .m-task-student {
+    float: right;
+    clear: right; }
 
 .m-task-menu {
   padding: 0.25em;
@@ -233,10 +284,14 @@
         transition: all ease-in-out 0.3s;
         background-color: #cafcb1;
         box-shadow: 0 0 3px #cafcb1 !important; }
+        .m-task-menu .menu-complexity .menu-complexity-item.easy.selected:hover, .m-task-menu .menu-complexity .menu-complexity-item.easy.selected2:hover, .m-task-menu .menu-complexity .menu-complexity-item.easy.selected3:hover {
+          background-color: #cafcb1; }
         .m-task-menu .menu-complexity .menu-complexity-item.easy.selected {
-          background-color: #dbfdca; }
-          .m-task-menu .menu-complexity .menu-complexity-item.easy.selected:hover {
-            background-color: #cafcb1; }
+          background-color: #d7fdc5; }
+        .m-task-menu .menu-complexity .menu-complexity-item.easy.selected2 {
+          background-color: #e1fdd3; }
+        .m-task-menu .menu-complexity .menu-complexity-item.easy.selected3 {
+          background-color: #ebfee2; }
         .m-task-menu .menu-complexity .menu-complexity-item.easy .user-info {
           box-shadow: 0 0 0 2px white;
           border-color: #b9fb98 !important; }
@@ -248,10 +303,14 @@
         transition: all ease-in-out 0.3s;
         background-color: #fcfcb1;
         box-shadow: 0 0 3px #fcfcb1 !important; }
+        .m-task-menu .menu-complexity .menu-complexity-item.medium.selected:hover, .m-task-menu .menu-complexity .menu-complexity-item.medium.selected2:hover, .m-task-menu .menu-complexity .menu-complexity-item.medium.selected3:hover {
+          background-color: #fcfcb1; }
         .m-task-menu .menu-complexity .menu-complexity-item.medium.selected {
-          background-color: #fdfdca; }
-          .m-task-menu .menu-complexity .menu-complexity-item.medium.selected:hover {
-            background-color: #fcfcb1; }
+          background-color: #fdfdc5; }
+        .m-task-menu .menu-complexity .menu-complexity-item.medium.selected2 {
+          background-color: #fdfdd3; }
+        .m-task-menu .menu-complexity .menu-complexity-item.medium.selected3 {
+          background-color: #fefee2; }
         .m-task-menu .menu-complexity .menu-complexity-item.medium .user-info {
           box-shadow: 0 0 0 2px white;
           border-color: #fbfb98 !important; }
@@ -263,10 +322,14 @@
         transition: all ease-in-out 0.3s;
         background-color: #fccab1;
         box-shadow: 0 0 3px #fccab1 !important; }
+        .m-task-menu .menu-complexity .menu-complexity-item.hard.selected:hover, .m-task-menu .menu-complexity .menu-complexity-item.hard.selected2:hover, .m-task-menu .menu-complexity .menu-complexity-item.hard.selected3:hover {
+          background-color: #fccab1; }
         .m-task-menu .menu-complexity .menu-complexity-item.hard.selected {
-          background-color: #fddbca; }
-          .m-task-menu .menu-complexity .menu-complexity-item.hard.selected:hover {
-            background-color: #fccab1; }
+          background-color: #fdd7c5; }
+        .m-task-menu .menu-complexity .menu-complexity-item.hard.selected2 {
+          background-color: #fde1d3; }
+        .m-task-menu .menu-complexity .menu-complexity-item.hard.selected3 {
+          background-color: #feebe2; }
         .m-task-menu .menu-complexity .menu-complexity-item.hard .user-info {
           box-shadow: 0 0 0 2px white;
           border-color: #fbb998 !important; }
@@ -278,10 +341,14 @@
         transition: all ease-in-out 0.3s;
         background-color: #fcb7b1;
         box-shadow: 0 0 3px #fcb7b1 !important; }
+        .m-task-menu .menu-complexity .menu-complexity-item.nightmare.selected:hover, .m-task-menu .menu-complexity .menu-complexity-item.nightmare.selected2:hover, .m-task-menu .menu-complexity .menu-complexity-item.nightmare.selected3:hover {
+          background-color: #fcb7b1; }
         .m-task-menu .menu-complexity .menu-complexity-item.nightmare.selected {
-          background-color: #fdceca; }
-          .m-task-menu .menu-complexity .menu-complexity-item.nightmare.selected:hover {
-            background-color: #fcb7b1; }
+          background-color: #fdc9c5; }
+        .m-task-menu .menu-complexity .menu-complexity-item.nightmare.selected2 {
+          background-color: #fdd7d3; }
+        .m-task-menu .menu-complexity .menu-complexity-item.nightmare.selected3 {
+          background-color: #fee4e2; }
         .m-task-menu .menu-complexity .menu-complexity-item.nightmare .user-info {
           box-shadow: 0 0 0 2px white;
           border-color: #fba198 !important; }
