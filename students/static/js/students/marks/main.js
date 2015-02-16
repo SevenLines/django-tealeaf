@@ -35,6 +35,7 @@ define(['knockout',
                             var disc = self.disciplines()[i];
                             if (disc.id == lastDisciplineId) {
                                 self.discipline(disc);
+                                self.labsTable.setParams(null, self.discipline().id);
                                 break;
                             }
                         }
@@ -61,8 +62,14 @@ define(['knockout',
                             self.check_block(function () {
                                 if (self.discipline()) {
                                     $.cookie(cookies.discipline_id, self.discipline().id, {expires: cookies.expires});
+                                    var group_id = self.group() ? self.group().id : null;
                                 }
-                                self.loadGroups();
+                                self.loadGroups(function () {
+                                    if(self.groups().length == 0) {
+                                        self.labsTable.setParams(group_id, self.discipline().id);
+                                        self.marksTable.setParams(group_id, self.discipline().id);
+                                    }
+                                });
                             });
                         });
 
@@ -112,7 +119,7 @@ define(['knockout',
                 });
             };
 
-            self.loadGroups = function () {
+            self.loadGroups = function (done) {
                 if (self._block) return;
                 self.block();
                 self.groups.removeAll();
@@ -139,6 +146,7 @@ define(['knockout',
                             self.group(null);
                         }
                     }
+                    if (done) done();
                 }).always(function () {
                     self.unblock();
                 })
@@ -200,13 +208,12 @@ define(['knockout',
 
             self.hasData = ko.computed(function () {
                 return self.marksTable.students().length > 0 ||
-                        self.labsTable.labs().length > 0;
-                        //self.marksTable.onInit());
+                    self.labsTable.labs().length > 0;
+                //self.marksTable.onInit());
             });
 
             self.loadingComplete = ko.computed(function () {
-                return !self.marksTable.isStudentsLoading() &&
-                    !self.labsTable.labsLoading();
+                return !self.marksTable.isStudentsLoading() && !self.labsTable.labsLoading();
             });
 
             Init();
