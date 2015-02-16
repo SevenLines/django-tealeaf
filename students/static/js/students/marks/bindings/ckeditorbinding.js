@@ -6,41 +6,42 @@ define(['knockout'], function (ko) {
         counter: 0,
         prefix: '__cked_',
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-            if (!element.id) {
-                element.id = ko.bindingHandlers.ckeditorInline.prefix + (++ko.bindingHandlers.ckeditorInline.counter);
-            }
-
-            var options = allBindingsAccessor.get("ckeditorOptions") || {};
-
-            options.floatSpaceDockedOffsetY = 0;
-            options.extraPlugins = 'sourcedialog';
-            options.removePlugins = 'sourcearea';
-
-            // handle disposal (if KO removes by the template binding)
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                if (CKEDITOR.instances[element.id]) {
-                    CKEDITOR.remove(CKEDITOR.instances[element.id]);
+            setTimeout(function () {
+                if (!element.id) {
+                    element.id = ko.bindingHandlers.ckeditorInline.prefix + (++ko.bindingHandlers.ckeditorInline.counter);
                 }
-            });
 
-            $(element).on("click", function () {
-                if (!CKEDITOR.instances[element.id]) {
-                    var editor = CKEDITOR.inline(element.id, options);
-                    editor.config.enterMode = CKEDITOR.ENTER_BR;
+                var options = allBindingsAccessor.get("ckeditorOptions") || {};
 
-                    // handle value changed
-                    editor.on('change', function () {
-                        valueAccessor()(editor.getData());
-                    });
+                options.floatSpaceDockedOffsetY = 0;
+                options.extraPlugins = 'sourcedialog';
+                options.removePlugins = 'sourcearea';
 
-                    $(element).trigger("blur");
+                // handle disposal (if KO removes by the template binding)
+                ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                    if (CKEDITOR.instances[element.id]) {
+                        CKEDITOR.remove(CKEDITOR.instances[element.id]);
+                    }
+                });
 
-                    ko.bindingHandlers.ckeditorInline.update(element, valueAccessor, allBindingsAccessor, viewModel);
-                    return false;
-                }
-            });
+                $(element).on("click", function () {
+                    if (!CKEDITOR.instances[element.id]) {
+                        var editor = CKEDITOR.inline(element.id, options);
+                        editor.config.enterMode = CKEDITOR.ENTER_BR;
 
+                        // handle value changed
+                        editor.on('change', function () {
+                            valueAccessor()(editor.getData());
+                        });
 
+                        $(element).trigger("blur");
+
+                        ko.bindingHandlers.ckeditorInline.update(element, valueAccessor, allBindingsAccessor, viewModel);
+                        return false;
+                    }
+                });
+
+            }, Math.random());
         },
         update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = ko.utils.unwrapObservable(valueAccessor());

@@ -148,7 +148,6 @@ LOGIN_URL = "/"
 CMS_TEMPLATES = (
     ('page.html', 'Page'),
     ('lesson_article.html', "Lesson article"),
-    ('labs_list.html', "Labs list"),
     ('articles_list.html', "Articles list"),
     # ('js_tests/test_page.html', "Js-Tests"),
 )
