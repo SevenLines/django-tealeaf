@@ -47,7 +47,7 @@
         {% endif %}
         <div class="row" data-bind="foreach: columns_with_tasks">
             <div data-bind="css: $parents[0].column_style, foreach: $data.items">
-                <div class="m-task" data-bind="css: complex">
+                <div class="m-task" data-bind="css: style">
                     {% include "students/labs/task.html" %}
                 </div>
             </div>

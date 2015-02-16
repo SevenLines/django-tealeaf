@@ -1,4 +1,6 @@
 from django.db import models
+from django.forms.models import model_to_dict
+from ..models.student import Student
 
 
 class StudentLab(models.Model):
@@ -14,6 +16,8 @@ class StudentLab(models.Model):
 
 
 class StudentTask(models.Model):
+
+    students = models.ManyToManyField("Student")
 
     UNDEFINED = 0
     EASY = UNDEFINED + 1
@@ -36,6 +40,19 @@ class StudentTask(models.Model):
 
     description = models.TextField(default="")
     order = models.SmallIntegerField(default=0)
+
+    @property
+    def as_dict(self):
+        out = model_to_dict(self, exclude='students')
+        out['students'] = []
+        for s in self.students.all():
+            assert isinstance(s, Student)
+            out['students'].append({
+                'id': s.id,
+                'text': str(s)
+            })
+        return out
+
 
     class Meta:
         order_with_respect_to = 'lab'
