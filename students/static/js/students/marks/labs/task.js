@@ -9,8 +9,22 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
         self.complexity = ko.observable(data.complexity);
         self.description = ko.observable(data.description);
         self.order = ko.observable(data.order);
-        self.users = ko.observableArray();
+        self.students = ko.observableArray(data.students);
         self._complex_choices = data.complex_choices;
+
+        function get_ids(massdata) {
+            var out = [];
+            self.students().every(function (item) {
+                out.push(item.id);
+                return true;
+            });
+            return out;
+        }
+
+        self.students_ids = ko.computed(function () {
+            return get_ids(self.students);
+        });
+        self.old_students = get_ids(data.students);
 
         self.complex = ko.computed(function () {
             return self._complex_choices[self.complexity()];
@@ -30,7 +44,8 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
 
         self.changed = ko.computed(function () {
             return self.complexity() != data.complexity ||
-                self.description() != data.description;
+                self.description() != data.description ||
+                !self.students_ids().equals(self.old_students);
         });
 
         self.setComplex = function ($data) {
@@ -40,6 +55,7 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
         self.reset = function () {
             data.complexity = self.complexity();
             data.description = self.description();
+            self.old_students = self.students_ids();
             self.complexity.notifySubscribers();
         };
 
@@ -48,7 +64,8 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
             utils.post(urls.url.task_save, utils.csrfize({
                 id: self.id,
                 complexity: self.complexity(),
-                description: self.description()
+                description: self.description(),
+                students: JSON.stringify(self.students_ids())
             }), self.reset);
         };
 

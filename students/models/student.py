@@ -30,7 +30,11 @@ class Student(models.Model):
     photo = models.ImageField(upload_to="students", max_length=255, default='')
 
     def __unicode__(self):
-        return "%s | %s" % (self.second_name, self.name)
+        return u'{second_name} {name} | {group}'.format(**{
+            'name': self.name,
+            'second_name': self.second_name,
+            'group': self.group.title,
+        })
 
     def to_dict(self, authenticated=False):
         excluded = ['phone', 'email', 'vk', 'photo'] if not authenticated else []

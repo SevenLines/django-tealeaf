@@ -14,7 +14,12 @@ permitted_keys = ['description', 'complexity']
 @login_required
 @require_in_POST('id')
 def save(request):
-    update_post_object(request, StudentTask, *permitted_keys)
+    task = get_post_object(request, StudentTask)
+    update_object(request.POST, task, *permitted_keys)
+    if 'students' in request.POST:
+        task.students.clear()
+        task.students.add(*json.loads(request.POST['students']))
+    task.save()
     return HttpResponse()
 
 
@@ -29,6 +34,7 @@ def delete(request):
     task = get_post_object(request, StudentTask)
     task.delete()
     return HttpResponse()
+
 
 def index(request):
     pass

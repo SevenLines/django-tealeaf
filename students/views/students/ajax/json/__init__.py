@@ -157,18 +157,12 @@ def students(request):
 @require_GET
 # @login_required
 def list_students(request):
-    task_id = request.GET.get("task_id", None)
-
-    # если передали task_id, то возвращаем список студентов
-    if task_id is not None:
-        pass
-    else:  # иначе отфильтрованный результат
-        f = request.GET.get("filter", None)
-        if f is None:
-            return HttpResponseBadRequest()
-        students = Student.objects.filter(Q(second_name__icontains=f) | Q(name__icontains=f),
-                                          group__year=current_year())[:10]
-    students = list([{"id": i.pk, "text": "%s %s | %s" % (i.name, i.second_name, i.group.title)} for i in students])
+    f = request.GET.get("filter", None)
+    if f is None:
+        return HttpResponse('[]')
+    students = Student.objects.filter(Q(second_name__icontains=f) | Q(name__icontains=f),
+                                      group__year=current_year())[:10]
+    students = list([{"id": i.pk, "text": str(i)} for i in students])
     return HttpResponse(json.dumps(students), content_type="application/json")
 
 
