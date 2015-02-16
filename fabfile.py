@@ -4,6 +4,7 @@ import fnmatch
 import glob
 from fabric.api import run, env, cd, prefix, settings
 from fabric.operations import local, os
+import os as OS
 
 # ## ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
@@ -59,15 +60,19 @@ def minify():
 def requirejs():
     # ищет файлы build.js и компилирует их спомощью build.js
     matches = []
-    for root, dirnames, filenames in os.walk('.'):
+    for root, dirnames, filenames in os.walk('students/'):
         if root.startswith('./node_modules'):
             continue
-        for filename in fnmatch.filter(filenames, 'build.js'):
-            matches.append(os.path.join(root, filename))
+        if root.endswith('buildconfig'):
+            for filename in fnmatch.filter(filenames, 'build*.js'):
+                matches.append(os.path.join(root, filename))
+    print matches
     for file in matches:
-        cd_path = os.path.dirname(os.path.abspath(file))
-        with lcd(cd_path):
-            local('r.js -o build.js')
+        cd_path = os.path.dirname(os.path.dirname(os.path.abspath(file)))
+        cd_path = OS.path.join(cd_path, 'dist')
+        if not OS.path.exists(cd_path):
+            OS.makedirs(cd_path)
+        local("r.js -o '%s'" % (OS.path.abspath(file)))
 
 
 def pip_sync(on_server=False):
