@@ -49,7 +49,7 @@ class TaskExPlugin(CMSPluginBase):
         return context
 
 
-plugin_pool.register_plugin(TaskExPlugin)
+# plugin_pool.register_plugin(TaskExPlugin)
 
 
 class LabsExPlugin(CMSPluginBase):
@@ -73,5 +73,5 @@ class LabsExPlugin(CMSPluginBase):
         return context
 
 
-plugin_pool.register_plugin(LabsExPlugin)
-plugin_pool.register_plugin(LabsListPlugin)
+# plugin_pool.register_plugin(LabsExPlugin)
+# plugin_pool.register_plugin(LabsListPlugin)
