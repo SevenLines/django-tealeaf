@@ -6,12 +6,16 @@ $m_task_label_width: 32px;
   @include transition(0.3s);
   background-color: $bg;
   box-shadow: 0 0 3px $fg !important;
-  &.selected {
-    //    border-color: $fg !important;
-    background-color: lighten($bg, 5);
+  &.selected, &.selected2 {
     &:hover {
       background-color: $bg;
     }
+  }
+  &.selected {
+    background-color: lighten($bg, 5);
+  }
+  &.selected2 {
+    background-color: lighten($bg, 10);
   }
   .user-info {
     box-shadow: 0 0 0 2px white;
@@ -178,6 +182,27 @@ $m_task_label_width: 32px;
   -ms-column-break-inside: avoid;
   column-break-inside: avoid;
   margin-top: 0;
+}
+
+.m-task-students {
+  float: right;
+  list-style: none;
+  font-size: 0.9em;
+  padding: 0.25em 0.5em;
+  background-color: #ffffff;
+  border-radius: 8px;
+  @media (max-width: $width-medium) {
+    display: none;
+  }
+  border: silver 1px solid;
+  box-shadow: 0 0 0 2px white;
+  text-align: center;
+  margin-right: 0.25em;
+  margin-left: 0.25em;
+  .m-task-student {
+    float: right;
+    clear: right;
+  }
 }
 
 .m-task-menu {

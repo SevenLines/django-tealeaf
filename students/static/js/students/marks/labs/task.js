@@ -26,8 +26,23 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
         });
         self.old_students = get_ids(data.students);
 
-        self.complex = ko.computed(function () {
-            return self._complex_choices[self.complexity()];
+        self.style = ko.computed(function () {
+            var out = "";
+            out += self._complex_choices[self.complexity()];
+            switch(self.students().length) {
+                case 0: break;
+                case 1:
+                    out += " selected";
+                    break;
+                case 2:
+                    out += " selected2";
+                    break;
+                default:
+                    out += "selected";
+                    break;
+            }
+            //out += self.students().length > 0 ? " selected" : "";
+            return out;
         });
 
         self.complex_choices = ko.computed(function () {
