@@ -116,32 +116,32 @@ $m_task_label_width: 32px;
   &.columns3 {
 
   }
-    //    -webkit-column-count: 3; /* Chrome, Safari, Opera */
-    //    -moz-column-count: 3; /* Firefox */
-    //    column-count: 3;
-    //    @media (max-width: $width-medium) {
-    //      -webkit-column-count: 2; /* Chrome, Safari, Opera */
-    //      -moz-column-count: 2; /* Firefox */
-    //      column-count: 2;
-    //    }
-    //    @media (max-width: $width-small) {
-    //      -webkit-column-count: 1; /* Chrome, Safari, Opera */
-    //      -moz-column-count: 1; /* Firefox */
-    //      column-count: 1;
-    //    }
+  //    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+  //    -moz-column-count: 3; /* Firefox */
+  //    column-count: 3;
+  //    @media (max-width: $width-medium) {
+  //      -webkit-column-count: 2; /* Chrome, Safari, Opera */
+  //      -moz-column-count: 2; /* Firefox */
+  //      column-count: 2;
+  //    }
+  //    @media (max-width: $width-small) {
+  //      -webkit-column-count: 1; /* Chrome, Safari, Opera */
+  //      -moz-column-count: 1; /* Firefox */
+  //      column-count: 1;
+  //    }
 
-    //    .m-task {
-    //      break-before: avoid;
-    //      -webkit-column-break-before: avoid;
-    //      break-after: avoid;
-    //      -webkit-column-break-after: avoid;
-    //    }
+  //    .m-task {
+  //      break-before: avoid;
+  //      -webkit-column-break-before: avoid;
+  //      break-after: avoid;
+  //      -webkit-column-break-after: avoid;
+  //    }
 }
 
 .m-lab-description {
   font-size: 1.1em;
   hr {
-     margin: 0.5em 0;
+    margin: 0.5em 0;
     margin-bottom: 0.75em;
   }
 }
@@ -188,6 +188,12 @@ $m_task_label_width: 32px;
   max-height: 20px;
   //  margin-left: $m_task_label_width + 4;
   overflow: hidden;
+
+  .m-task-user-selector {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
   .menu-complexity {
     margin-right: 4px;
     .menu-complexity-item {
@@ -206,3 +212,4 @@ $m_task_label_width: 32px;
     }
   }
 }
+

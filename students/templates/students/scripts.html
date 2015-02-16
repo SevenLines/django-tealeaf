@@ -5,8 +5,8 @@
         <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
     {% endaddtoblock %}
     {% addtoblock "core_css" %}
-        <link rel="stylesheet"
-              href="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.css" %}"/>
+        <link rel="stylesheet" href="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.css" %}"/>
+        <link rel="stylesheet" href="{% static "bower_components/select2/select2.css" %}"/>
     {% endaddtoblock %}
 {% endif %}
 
@@ -16,13 +16,17 @@
 
 {% addtoblock "js" %}
     <script src="{% static "bower_components/requirejs/require.js" %}"></script>
-{#    <script src="{% static "bower_components/almond/almond.js" %}"></script>#}
 {% endaddtoblock %}
 
 {% addtoblock "js" %}
-    {% requirejs 'js/students/marks' 'marks' 'marks-built' 'urls' %}
+    {% requirejs 'js/students/marks' 'marks' 'dist/marks' 'urls' %}
 {% endaddtoblock %}
 
+{% if user.is_authenticated %}
+    {% addtoblock "js" %}
+        {% requirejs 'js/students/marks' 'marksadmin' 'dist/marksadmin' 'urls' %}
+    {% endaddtoblock %}
+{% endif %}
 
 {% addtoblock "js" %}
     <script>

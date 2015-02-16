@@ -212,6 +212,9 @@
   height: 20px;
   max-height: 20px;
   overflow: hidden; }
+  .m-task-menu .m-task-user-selector {
+    width: 100%;
+    margin-bottom: 4px; }
   .m-task-menu .menu-complexity {
     margin-right: 4px; }
     .m-task-menu .menu-complexity .menu-complexity-item {
