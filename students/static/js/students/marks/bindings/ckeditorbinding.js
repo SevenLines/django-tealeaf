@@ -41,7 +41,7 @@ define(['knockout'], function (ko) {
                     }
                 });
 
-            }, 0);
+            }, Math.random());
         },
         update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = ko.utils.unwrapObservable(valueAccessor());
