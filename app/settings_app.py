@@ -18,8 +18,6 @@ INSTALLED_APPS = (
     'filer',
     'easy_thumbnails',
     'ex_tags',
-
-    'plugin_markdown',
     'page_extend',
     'toc',
     'wrapper',
