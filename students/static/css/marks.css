@@ -824,8 +824,8 @@
 
 .god {
   position: relative;
-  box-shadow: 0 0 6px #f49900;
-  background-color: #ffe500; }
+  box-shadow: 0 0 6px #f49900 !important;
+  background-color: #ffe500 !important; }
 
 .jumbotron.loading {
   background-color: #ffe500;
@@ -874,10 +874,24 @@
       width: auto;
       border-right: none; }
     #marks-editor .marks-table .s-table .info {
+      -webkit-transition: all ease-in-out 0.1s;
+      -moz-transition: all ease-in-out 0.1s;
+      -ms-transition: all ease-in-out 0.1s;
+      -o-transition: all ease-in-out 0.1s;
+      transition: all ease-in-out 0.1s;
       padding: 4px;
       max-height: 28px; }
-      #marks-editor .marks-table .s-table .info .score .badge {
-        background-color: #ffffff; }
+      #marks-editor .marks-table .s-table .info > table {
+        table-layout: fixed;
+        width: 100%; }
+      #marks-editor .marks-table .s-table .info .name {
+        white-space: nowrap; }
+      #marks-editor .marks-table .s-table .info .score {
+        padding-left: 8px; }
+        #marks-editor .marks-table .s-table .info .score .badge {
+          background-color: #ffffff; }
+    #marks-editor .marks-table .s-table .hover .info {
+      border-left: 6px solid #8cacae; }
   #marks-editor .marks-table .m-table-container {
     overflow: scroll;
     overflow-x: hidden;

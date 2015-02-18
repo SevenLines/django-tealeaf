@@ -30,8 +30,8 @@
 
 .god {
   position: relative;
-  box-shadow: 0 0 6px #f49900;
-  background-color: #ffe500;
+  box-shadow: 0 0 6px #f49900 !important;
+  background-color: #ffe500 !important;
 }
 
 .jumbotron {
@@ -81,23 +81,43 @@
 #marks-editor {
   .marks-table {
     border-top: 1px solid $table-border-color;
+    // таблица студентов
     .s-table {
       .t-cell {
         width: auto;
         border-right: none;
       }
+
       float: left;
       border-right: 1px solid $table-border-color;
       width: $students-list-width;
       .info {
+        > table {
+          table-layout: fixed;
+          width: 100%;
+        }
+        @include transition(0.1s);
         padding: 4px;
         max-height: $row-height;
-        .score .badge {
-          background-color: #ffffff;
+        .name {
+          white-space: nowrap
+        }
+        .score {
+          padding-left: 8px;
+          .badge {
+            background-color: #ffffff;
+          }
+        }
+      }
+
+      .hover {
+        .info  {
+          border-left: 6px solid $common_color;
         }
       }
     }
 
+    // скролл контейнер для таблицы оценок
     .m-table-container {
       overflow: scroll;
       overflow-x: hidden;
@@ -107,6 +127,7 @@
       white-space: nowrap;
     }
 
+    // таблица оценок
     .m-table {
       display: inline-block;
       table-layout: fixed;
@@ -138,16 +159,17 @@
       }
     }
 
+    // глобальные футеры и хидеры
     .t-header, .t-footer {
       .t-cell {
         height: $row-height * 1.3;
       }
     }
 
+    // глобальный стиль строки
     .t-row {
       border-bottom: 1px solid $table-border-color;
       &.hover {
-//        background-color: white;
         .t-cell.mark {
           -webkit-user-select: none;
           -moz-user-select: none;
@@ -191,6 +213,7 @@
       }
     }
 
+    // глобавльный стиль ячейки
     .t-cell {
       &:first-child {
         border-left: 1px solid $table-border-color;
