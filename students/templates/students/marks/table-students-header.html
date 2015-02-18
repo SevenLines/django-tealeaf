@@ -1,0 +1,15 @@
+<!-- ФОРМА УПРАВЛЕНИЯ СПИСКОМ СТУДЕНТОВ -->
+<button class="btn btn-sm btn-link" data-bind="click: toggleStudentsSorting">
+    <span class="glyphicon glyphicon-sort"></span>
+    <span class="btn-text" data-bind="text: sortMethod() ? sortMethod().title : ''"></span>
+</button>
+<button  class="btn btn-sm btn-link" data-bind="click: toggleScorePercents">
+    <span class="glyphicon glyphicon-star"></span>
+    <span class="btn-text" data-bind="text: scoreMethod"></span>
+</button>
+<button class="btn btn-sm btn-link pull-right"
+        data-bind="click: toggleBadStudentHiding">
+                    <span class="glyphicon"
+                          data-bind="css: {'glyphicon-eye-close': hideBadStudents(), 'glyphicon-eye-open': !hideBadStudents()} "></span>
+</button>
+<!-- КОНЕЦ ФОРМА УПРАВЛЕНИЯ СПИСКОМ СТУДЕНТОВ -->

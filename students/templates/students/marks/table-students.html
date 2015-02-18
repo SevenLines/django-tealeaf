@@ -3,12 +3,14 @@
     <thead class="t-header">
     <tr class="t-row">
         <td>
-            <div class="t-cell">
+            <div class="t-cell s-table-header">
+                {% include "students/marks/table-students-header.html" %}
             </div>
         </td>
     </tr>
     </thead>
     <tbody class="t-content" data-bind="foreach: students">
+    <!-- ko if: !$parents[0].hideBadStudents() || regularStudent() -->
     <tr class="t-row">
         <td>
             <div class="info" data-bind="css: { 'god': success_factor() >= 1 }, style: color">
@@ -22,8 +24,10 @@
                                 </span>
                         </td>
                         <td class="score">
-                            <div class="pull-right badge" style="color: green" data-bind="attr: { 'data-original-title': sum() }, style: { color: sum() < 0 ? 'red' : 'green' }">
-                                <span class="percents" data-bind="visible: $parents[0].showPercents(), text: ~~(success_factor() * 100) + '%'"></span>
+                            <div class="pull-right badge" style="color: green"
+                                 data-bind="attr: { 'data-original-title': sum() }, style: { color: sum() < 0 ? 'red' : 'green' }">
+                                <span class="percents"
+                                      data-bind="visible: $parents[0].showPercents(), text: ~~(success_factor() * 100) + '%'"></span>
                                 <span class="points" data-bind="visible: !$parents[0].showPercents(), text: sum"></span>
                             </div>
                         </td>
@@ -32,11 +36,14 @@
             </div>
         </td>
     </tr>
+    <!-- /ko -->
     </tbody>
     <tfoot class="t-footer">
     <tr class="t-row">
         <td>
-            <div class="t-cell"></div>
+            <div class="t-cell s-table-header">
+                {% include "students/marks/table-students-header.html" %}
+            </div>
         </td>
     </tr>
     </tfoot>
@@ -47,7 +54,7 @@
 {#        <thead>#}
 {#        <tr class="table-marks-row">#}
 {#            <th class="marks-table-header">#}
-{#                {% include "students/marks/students_control.html" %}#}
+{#                {% include "students/marks/table-students-header.html" %}#}
 {#            </th>#}
 {#        </tr>#}
 {#        </thead>#}
@@ -83,7 +90,7 @@
 {#        <tfoot>#}
 {#        <tr class="table-marks-row">#}
 {#            <th class="headcol marks-table-header">#}
-{#                {% include "students/marks/students_control.html" %}#}
+{#                {% include "students/marks/table-students-header.html" %}#}
 {#            </th>#}
 {#        </tr>#}
 {#        </tfoot>#}

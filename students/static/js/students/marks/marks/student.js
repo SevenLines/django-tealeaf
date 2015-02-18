@@ -83,6 +83,10 @@ define(['knockout', 'marks/mark'], function (ko, Mark) {
             });
         };
 
+        self.regularStudent = ko.computed(function () {
+            return self.success_factor() >= 0.25;
+        });
+
         self.reset = function () {
             self.marks.every(function (item) {
                 item.reset();

@@ -873,6 +873,12 @@
     #marks-editor .marks-table .s-table .t-cell {
       width: auto;
       border-right: none; }
+    #marks-editor .marks-table .s-table .s-table-header.t-cell {
+      text-align: left;
+      padding: 4px; }
+      #marks-editor .marks-table .s-table .s-table-header.t-cell button {
+        padding-left: 0.25em;
+        padding-right: 0.25em; }
     #marks-editor .marks-table .s-table .info {
       -webkit-transition: all ease-in-out 0.1s;
       -moz-transition: all ease-in-out 0.1s;
@@ -891,7 +897,11 @@
         #marks-editor .marks-table .s-table .info .score .badge {
           background-color: #ffffff; }
     #marks-editor .marks-table .s-table .hover .info {
+      opacity: 1 !important;
+      background-color: #ffffff !important;
       border-left: 6px solid #8cacae; }
+      #marks-editor .marks-table .s-table .hover .info.god {
+        background-color: #ffe500 !important; }
   #marks-editor .marks-table .m-table-container {
     overflow: scroll;
     overflow-x: hidden;

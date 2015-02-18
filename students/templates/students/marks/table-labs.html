@@ -4,6 +4,7 @@
     </thead>
 
     <tbody class="t-content" data-bind="foreach: $parents[0].students">
+    <!-- ko if: !$parents[1].hideBadStudents() || regularStudent() -->
     <tr class="t-row">
         <!-- ko foreach: $parent.tasks -->
         <td>
@@ -12,6 +13,7 @@
         </td>
         <!-- /ko -->
     </tr>
+    <!-- /ko -->
     </tbody>
 
     <tfoot class="t-footer">

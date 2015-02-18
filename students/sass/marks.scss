@@ -88,6 +88,17 @@
         border-right: none;
       }
 
+      .s-table-header {
+        &.t-cell {
+          text-align: left;
+          padding: 4px;
+          button {
+            padding-left: 0.25em;
+            padding-right: 0.25em;
+          }
+        }
+      }
+
       float: left;
       border-right: 1px solid $table-border-color;
       width: $students-list-width;
@@ -112,6 +123,11 @@
 
       .hover {
         .info  {
+          opacity: 1 !important;
+          background-color: #ffffff !important;
+          &.god {
+           background-color: #ffe500 !important;
+          }
           border-left: 6px solid $common_color;
         }
       }
