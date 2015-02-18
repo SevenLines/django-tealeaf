@@ -3,37 +3,48 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http.response import HttpResponse
+from tastypie.http import HttpBadRequest
 
 from app.utils import require_in_GET, update_object, require_in_POST, update_post_object, get_post_object
 from ..models.labs import StudentLab, StudentTask
 from ..models.discipline import Discipline
+from ..models import Group
 
 
-permitted_keys = ['title', 'description', 'discipline_id', 'visible', 'columns_count']
+permitted_keys = ['title', 'description', 'discipline_id', 'visible', 'columns_count', 'regular']
 
 @require_in_GET('discipline_id', 'group_id')
 def index(request):
     discipline_id = request.GET['discipline_id']
     group_id = request.GET['group_id']
 
-    data = StudentLab.objects.filter(discipline_id=discipline_id)
+    labs = StudentLab.objects.filter(discipline_id=discipline_id)
     if not request.user.is_authenticated():
-        data = data.filter(visible=True)
+        labs = labs.filter(visible=True)
 
-    data = list([model_to_dict(d) for d in data])
-    for d in data:
+    labs = list([model_to_dict(d) for d in labs])
+    for d in labs:
         tasks = list([t.as_dict for t in StudentTask.objects.filter(lab=d['id']).order_by('complexity', 'id')])
         d.update({
             'tasks': tasks
         })
 
     if not request.user.is_authenticated():
-        data = filter(lambda x: len(x['tasks']) > 0, data)
+        labs = filter(lambda x: len(x['tasks']) > 0, labs)
 
     return HttpResponse(json.dumps({
-        'labs': data,
+        'labs': labs,
         'complex_choices': dict(StudentTask.COMPLEX_CHOICES)
     }), content_type='json')
+
+
+@require_in_GET('discipline_id', 'group_id')
+def progress_table(request):
+    g = Group.objects.get(id=request.GET['group_id'])
+    assert isinstance(g, Group)
+    students = g.students
+    labs = StudentLab.objects.filter()
+    return HttpBadRequest()
 
 
 @login_required

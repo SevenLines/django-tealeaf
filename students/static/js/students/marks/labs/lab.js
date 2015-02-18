@@ -12,6 +12,7 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
         self.order = ko.observable(data.order);
         self.tasks = ko.observableArray();
         self.visible = ko.observable(data.visible);
+        self.regular = ko.observable(data.regular);
         self.columns_count = ko.observable(data.columns_count);
 
         self.columns_with_tasks = ko.computed(function () {
@@ -87,6 +88,7 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
                 description: self.description(),
                 discipline: self.discipline(),
                 visible: self.visible(),
+                regular: self.regular(),
                 columns_count: self.columns_count()
             }, self.reset);
         };
@@ -97,6 +99,7 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
             data.discipline = self.discipline();
             data.order = self.order();
             data.visible = self.visible();
+            data.regular = self.regular();
             data.columns_count = self.columns_count();
             self.title.notifySubscribers();
             self.order.notifySubscribers();
@@ -148,6 +151,13 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
             self.visible(!self.visible());
             self.save(data, e);
         };
+
+        self.toggle_regular = function (data, e) {
+            if (e) e.stopImmediatePropagation();
+            self.regular(!self.regular());
+            self.save(data, e);
+        };
+
         init();
     }
 });

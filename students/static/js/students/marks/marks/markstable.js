@@ -22,6 +22,8 @@ define(['knockout',
             self.lesson_types = ko.observableArray();
             self.lesson = ko.observable();
 
+            self.labs = ko.observableArray();
+
             self.group_id = 0;
             self.discipline_id = 0;
 
@@ -37,11 +39,6 @@ define(['knockout',
                     && !self.firstLoadingAfterParametersChanged();
             });
 
-            /***
-             * флаг свидетельствующий что таблицы была загруженна первый раз
-             */
-                //self.onInit = ko.observable(true);
-
             self.setParams = function (group_id, discipline_id) {
                 self.group_id = group_id;
                 //self.firstLoadingAfterParametersChanged(true);
@@ -53,6 +50,9 @@ define(['knockout',
                 self.loadStudents();
             };
 
+            self.setLabs = function (r, labsTable) {
+                self.labs = labsTable.labs
+            };
 
             // SERVICE VARIABLES
 
@@ -164,7 +164,7 @@ define(['knockout',
                 // ### скроллинг мышью таблицы оценок
                 var lastX = -1;
                 var leftButtonDown = false;
-                var scroll_container = $(".marks-list");
+                var scroll_container = $(".m-table-container");
                 var funcScroll = function (e) {
                     var left = e.clientX;
                     if (leftButtonDown) {

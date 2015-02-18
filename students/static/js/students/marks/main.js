@@ -18,6 +18,10 @@ define(['knockout',
             self.marksTable = new MarksTable();
             self.labsTable = new LabsTable();
 
+            self.labsTable.onLabsLoadingEvent = function (response, labsTable) {
+                self.marksTable.setLabs(response, labsTable);
+            };
+
             self.updateCookies = function (data, event) {
                 $.cookie(cookies.keep_mark_table_open, !$("#marks-editor").hasClass("in"), cookies.expires);
             };

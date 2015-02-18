@@ -13,6 +13,12 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
         var lastSortable = null;
         self.labsLoading = ko.observable(false);
 
+        /**
+         * done функция вызывается при успешной загрузке лабов; сигнатура: (response, labsTable)
+         * @type function
+         */
+        self.onLabsLoadingEvent = null;
+
         function initSorting(data) {
             if (lastSortable) {
                 return;
@@ -68,7 +74,8 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
             }
         };
 
-        self.loadLabs = function () {
+
+        self.loadLabs = function (done) {
             self.labs.removeAll();
             self.labsLoading(true);
             setTimeout(function () {
@@ -86,6 +93,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                     });
                     initSorting();
                     self.labsLoading(false);
+                    if (self.onLabsLoadingEvent) self.onLabsLoadingEvent(r, self);
                 }).fail(InterfaceAlerts.showFail);
             }, 10);
         };

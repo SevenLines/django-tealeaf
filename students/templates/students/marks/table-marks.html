@@ -1,0 +1,106 @@
+<table class="m-table">
+    <thead class="t-header">
+    <tr class="t-row">
+        <!-- ko foreach: lessons -->
+        <td>
+            <div class="t-cell" data-bind="text: day"></div>
+        </td>
+        <!-- /ko -->
+    </tr>
+    </thead>
+    <tbody class="t-content" data-bind="foreach: students">
+    <tr class="t-row" data-bind="foreach: marks">
+        <td>
+            <div class="t-cell mark"
+                 data-bind="text: $data.mark() < 10 && $data.mark() > 0 ? $data.mark() : '', css: mark_class{% if user.is_authenticated %},click: $parents[1].clickMark{% endif %}">
+
+            </div>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot class="t-footer">
+    <tr class="t-row">
+        <!-- ko foreach: lessons -->
+        <td>
+            <div class="t-cell" data-bind="text: day"></div>
+        </td>
+        <!-- /ko -->
+    </tr>
+    </tfoot>
+</table>
+{#<table class="table-marks marks-table-table">#}
+{#    <thead class="table-marks-inner">#}
+{#    <tr class="table-marks-row">#}
+{#        <!-- СТРОКА лабов -->#}
+{#        {% include "students/marks/header-labs.html" %}#}
+{#        <!-- КОНЕЦ строка лабов -->#}
+{##}
+{#        <!-- СТРОКА ЗАНЯТИЙ -->#}
+{#        <!-- ko foreach: lessons -->#}
+{#        <th class="mark header header-label marks-table-header table-marks-cell"#}
+{#            data-bind="css: style">#}
+{#            {% if user.is_authenticated %}#}
+{#                <div class="lesson-edit"#}
+{#                     data-bind="attr: { 'data-original-title': info, 'data-date': date }, event: { 'click': $parents[0].lessonHover } ">#}
+{#                    <div class="header-label-text"#}
+{#                         data-bind="text: day, visible: (!icon_has_loaded())"></div>#}
+{#                    <img class="lesson-icon" src=""#}
+{#                         data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">#}
+{#                </div>#}
+{#            {% else %}#}
+{#                <div rel="tooltip" data-html="true" data-toggle="tooltip"#}
+{#                     data-bind="attr: { 'data-original-title': info }">#}
+{#                    <div class="header-label-text"#}
+{#                         data-bind="text: day, visible: (!icon_has_loaded())"></div>#}
+{#                    <img class="lesson-icon" src=""#}
+{#                         data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">#}
+{#                </div>#}
+{#            {% endif %}#}
+{#        </th>#}
+{#        <!-- /ko -->#}
+{#        <th class="marks-table-header table-marks-cell">#}
+{#            <div class="header">#}
+{#                {% if user.is_authenticated %}#}
+{#                    <!-- КНОПКА ДОБАВЛНЕИЯ ЗАНЯТИЯ -->#}
+{#                    <button class="btn btn-sm btn-primary"#}
+{#                            data-bind="visible: $root.discipline, click: addLesson">#}
+{#                        <i class="glyphicon glyphicon glyphicon-plus"></i>#}
+{#                    </button>#}
+{#                    <!-- КОНЕЦ КНОПКИ ДОБАВЛНЕИЯ ЗАНЯТИЯ -->#}
+{#                {% endif %}#}
+{#            </div>#}
+{#        </th>#}
+{#        <!-- КОНЕЦ СТРОКА ЗАНЯТИЙ -->#}
+{#    </tr>#}
+{#    </thead>#}
+{#    <!-- ТАБЛИЦА ОЦЕНОК -->#}
+{#    <tbody class="table-marks-inner" data-bind="foreach: students">#}
+{#    <!-- ko if: !$parents[0].hideBadStudents() || (success_factor() >= 0.25) -->#}
+{#    <tr class="table-marks-row" style="text-align: center">#}
+{#        <!-- ko foreach: marks -->#}
+{#        <td class="mark table-marks-cell"#}
+{#            data-bind="text: $data.mark() < 10 && $data.mark() > 0 ? $data.mark() : '', css: mark_class{% if user.is_authenticated %},click: $parents[1].clickMark{% endif %}">#}
+{#        </td>#}
+{#        <!-- /ko -->#}
+{#        <td></td>#}
+{#    </tr>#}
+{#    <!-- /ko -->#}
+{#    </tbody>#}
+{#    <tfoot class="table-marks-inner">#}
+{#    <tr class="table-marks-row">#}
+{#        <!-- ko foreach: lessons -->#}
+{#        <th class="mark header header-label marks-table-header table-marks-cell"#}
+{#            data-bind="css: style">#}
+{#            <div class="" rel="tooltip" data-html="true" data-toggle="tooltip"#}
+{#                 data-bind="attr: { 'data-original-title': info }">#}
+{#                <div class="header-label-text"#}
+{#                     data-bind="text: day, visible: (!icon_has_loaded())"></div>#}
+{#                <img class="lesson-icon" src=""#}
+{#                     data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">#}
+{#            </div>#}
+{#        </th>#}
+{#        <!-- /ko -->#}
+{#        <th class="marks-table-header"></th>#}
+{#    </tr>#}
+{#    </tfoot>#}
+{#</table>#}
