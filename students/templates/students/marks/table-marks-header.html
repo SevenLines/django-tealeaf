@@ -18,3 +18,15 @@
     {% endif %}
 </td>
 <!-- /ko -->
+{% if user.is_authenticated %}
+    <td>
+        <div class="t-cell" style="padding-top: 3px">
+            <!-- КНОПКА ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
+            <button class="btn btn-sm btn-link"
+                    data-bind="visible: $root.discipline, click: addLesson">
+                <i class="glyphicon glyphicon glyphicon-plus"></i>
+            </button>
+            <!-- КОНЕЦ КНОПКИ ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
+        </div>
+    </td>
+{% endif %}
