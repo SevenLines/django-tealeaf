@@ -1,29 +1,13 @@
 <table class="m-table">
     <thead class="t-header">
-    <tr>
-        <td data-bind="attr: {'colspan': tasks().length }">
-            <div style="position: relative;">
-                <div class="lab-title" style="" data-bind="text: title">
-                </div>
-            </div>
-        </td>
-    </tr>
-    <tr class="t-row">
-        <!-- ko foreach: tasks -->
-        <td>
-            <div style="position: relative;">
-                <div class="t-cell task-title" data-bind="text: $index() + 1"></div>
-            </div>
-        </td>
-        <!-- /ko -->
-    </tr>
+    {% include "students/marks/table-marks-labs-header.html" %}
     </thead>
 
     <tbody class="t-content" data-bind="foreach: $parents[0].students">
     <tr class="t-row">
         <!-- ko foreach: $parent.tasks -->
         <td>
-            <div class="t-cell mark">
+            <div class="t-cell mark empty">
             </div>
         </td>
         <!-- /ko -->
@@ -31,22 +15,6 @@
     </tbody>
 
     <tfoot class="t-footer">
-    <tr>
-        <td data-bind="attr: {'colspan': tasks().length }">
-            <div style="position: relative;">
-                <div class="lab-title" style="" data-bind="text: title">
-                </div>
-            </div>
-        </td>
-    </tr>
-    <tr class="t-row">
-        <!-- ko foreach: tasks -->
-        <td>
-            <div style="position: relative;">
-                <div class="t-cell task-title" data-bind="text: $index() + 1"></div>
-            </div>
-        </td>
-        <!-- /ko -->
-    </tr>
+    {% include "students/marks/table-marks-labs-header.html" %}
     </tfoot>
 </table>

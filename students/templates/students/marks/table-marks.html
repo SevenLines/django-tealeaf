@@ -1,11 +1,7 @@
 <table class="m-table">
     <thead class="t-header">
     <tr class="t-row">
-        <!-- ko foreach: lessons -->
-        <td>
-            <div class="t-cell" data-bind="text: day"></div>
-        </td>
-        <!-- /ko -->
+        {% include "students/marks/table-marks-header.html" %}
     </tr>
     </thead>
     <tbody class="t-content" data-bind="foreach: students">
@@ -13,18 +9,13 @@
         <td>
             <div class="t-cell mark"
                  data-bind="text: $data.mark() < 10 && $data.mark() > 0 ? $data.mark() : '', css: mark_class{% if user.is_authenticated %},click: $parents[1].clickMark{% endif %}">
-
             </div>
         </td>
     </tr>
     </tbody>
     <tfoot class="t-footer">
     <tr class="t-row">
-        <!-- ko foreach: lessons -->
-        <td>
-            <div class="t-cell" data-bind="text: day"></div>
-        </td>
-        <!-- /ko -->
+        {% include "students/marks/table-marks-header.html" with position='bottom' %}
     </tr>
     </tfoot>
 </table>

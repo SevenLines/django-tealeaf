@@ -254,15 +254,17 @@ define(['knockout',
 // --- конец всплывающее меню редактирование занятия
 
 // ### синхронизация подсветки строк таблицы оценок
-                $("table.table-marks>tbody>tr").hover(function () {
+                $(".m-table>tbody>.t-row").hover(function () {
                     var index = $(this).index();
-                    $("table.table-marks>tbody").each(function (i, item) {
-                        $($(item).find(">tr")[index]).addClass("hover");
+                    $(this).addClass("hover");
+                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
+                        $($(item).find(">.t-row")[index]).addClass("hover");
                     });
                 }, function () {
+                    $(this).removeClass("hover");
                     var index = $(this).index();
-                    $("table.table-marks>tbody").each(function (i, item) {
-                        $($(item).find(">tr")[index]).removeClass("hover");
+                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
+                        $($(item).find(">.t-row")[index]).removeClass("hover");
                     });
                 });
 // --- конец синхронизация подсветки строк таблицы оценок

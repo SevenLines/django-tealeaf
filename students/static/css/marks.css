@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .panel .panel-heading {
   background-color: #FDFDFD;
   -webkit-transition: all ease-in-out 0.3s;
@@ -362,12 +363,7 @@
         cursor: pointer; }
 
 .mark {
-  color: transparent;
-  -webkit-transition: all ease-in-out 0.1s;
-  -moz-transition: all ease-in-out 0.1s;
-  -ms-transition: all ease-in-out 0.1s;
-  -o-transition: all ease-in-out 0.1s;
-  transition: all ease-in-out 0.1s; }
+  color: transparent; }
   .mark.exam {
     color: #ffffff; }
   .mark .tooltip > .tooltip-arrow {
@@ -377,38 +373,26 @@
     background-color: white;
     color: #9cb814;
     border: 1px solid #9cb814; }
-  .mark.header-label {
-    padding: 0;
+  .mark.t-cell-head {
     background-color: #f9fdf1;
     font-size: 0.9em;
     color: #4e5c0a;
     font-weight: normal; }
-    .mark.header-label .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle; }
-    .mark.header-label .lesson-icon {
+    .mark.t-cell-head .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .mark.header-label:hover {
+    .mark.t-cell-head:hover {
       cursor: pointer;
       background-color: #eaf9cd; }
-  .mark.test.header-label {
-    padding: 0;
+  .mark.test.t-cell-head {
     background-color: #fdf4f1;
     font-size: 0.9em;
     color: #5c110a;
     font-weight: normal; }
-    .mark.test.header-label .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle; }
-    .mark.test.header-label .lesson-icon {
+    .mark.test.t-cell-head .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .mark.test.header-label:hover {
+    .mark.test.t-cell-head:hover {
       cursor: pointer;
       background-color: #f9d8cd; }
   .mark.test .tooltip > .tooltip-arrow {
@@ -418,21 +402,15 @@
     background-color: white;
     color: #b82214;
     border: 1px solid #b82214; }
-  .mark.lect.header-label {
-    padding: 0;
+  .mark.lect.t-cell-head {
     background-color: #f1fdfd;
     font-size: 0.9em;
     color: #0a5c4e;
     font-weight: normal; }
-    .mark.lect.header-label .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle; }
-    .mark.lect.header-label .lesson-icon {
+    .mark.lect.t-cell-head .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .mark.lect.header-label:hover {
+    .mark.lect.t-cell-head:hover {
       cursor: pointer;
       background-color: #cdf9f9; }
   .mark.lect .tooltip > .tooltip-arrow {
@@ -442,21 +420,15 @@
     background-color: white;
     color: #14b89c;
     border: 1px solid #14b89c; }
-  .mark.laba.header-label {
-    padding: 0;
+  .mark.laba.t-cell-head {
     background-color: #fdf1f1;
     font-size: 0.9em;
     color: #5c0a18;
     font-weight: normal; }
-    .mark.laba.header-label .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle; }
-    .mark.laba.header-label .lesson-icon {
+    .mark.laba.t-cell-head .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .mark.laba.header-label:hover {
+    .mark.laba.t-cell-head:hover {
       cursor: pointer;
       background-color: #f9cdcd; }
   .mark.laba .tooltip > .tooltip-arrow {
@@ -466,21 +438,15 @@
     background-color: white;
     color: #b81430;
     border: 1px solid #b81430; }
-  .mark.exam.header-label {
-    padding: 0;
+  .mark.exam.t-cell-head {
     background-color: #fdf1f6;
     font-size: 0.9em;
     color: #5c0a3a;
     font-weight: normal; }
-    .mark.exam.header-label .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle; }
-    .mark.exam.header-label .lesson-icon {
+    .mark.exam.t-cell-head .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .mark.exam.header-label:hover {
+    .mark.exam.t-cell-head:hover {
       cursor: pointer;
       background-color: #f9cddf; }
   .mark.exam .tooltip > .tooltip-arrow {
@@ -503,6 +469,8 @@
       background-color: #fdf1f1; }
     .mark.absent.exam {
       background-color: #fdf1f6; }
+    .mark.absent:after {
+      content: "н"; }
   .mark.empty {
     background-color: #f0fadb; }
     .mark.empty.test {
@@ -933,12 +901,37 @@
       z-index: 100;
       background-color: white;
       border-bottom: 1px solid #cccccc; }
+    #marks-editor .marks-table .m-table .t-content .t-cell {
+      padding-top: 3px; }
     #marks-editor .marks-table .m-table .task-title {
       padding-top: 14px; }
   #marks-editor .marks-table .t-header .t-cell, #marks-editor .marks-table .t-footer .t-cell {
     height: 36.4px; }
   #marks-editor .marks-table .t-row {
     border-bottom: 1px solid #cccccc; }
+    #marks-editor .marks-table .t-row.hover .t-cell.mark {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      color: #000000; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.excellent, #marks-editor .marks-table .t-row.hover .t-cell.mark.awesome, #marks-editor .marks-table .t-row.hover .t-cell.mark.fantastic, #marks-editor .marks-table .t-row.hover .t-cell.mark.black-hole, #marks-editor .marks-table .t-row.hover .t-cell.mark.incredible {
+        color: white;
+        text-shadow: none; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.empty {
+        background-color: white;
+        box-shadow: none !important; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.shining:after {
+        content: "∞"; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.mercy:after {
+        content: "○"; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.black-hole:after {
+        content: '∅'; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.absent:after {
+        content: "-2";
+        color: red; }
+    #marks-editor .marks-table .t-row.hover noindex:-o-prefocus, #marks-editor .marks-table .t-row.hover > td.mark {
+      box-shadow: none !important; }
   #marks-editor .marks-table .t-cell {
     text-align: center;
     vertical-align: middle;

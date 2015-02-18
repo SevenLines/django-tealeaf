@@ -35,20 +35,10 @@ $marks-size: 30px;
   }
 }
 
-
-
 @mixin btn-default($hue-offset) {
 
-  &.header-label {
+  &.t-cell-head {
 
-    .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle
-    }
-
-    padding: 0;
     .lesson-icon {
       max-width: $marks-size !important;
       max-height: $marks-size !important;

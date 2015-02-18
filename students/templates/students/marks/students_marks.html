@@ -24,7 +24,9 @@
         <!-- ТАБЛИЦА ЛАБОВ -->
         <!-- ko foreach: labs -->
             <!-- ko if: regular -->
-                {% include "students/marks/table-labs.html" %}
+                <!-- ko if: visible -->
+                    {% include "students/marks/table-labs.html" %}
+                <!-- /ko -->
             <!-- /ko -->
         <!-- /ko -->
         <!-- конец ТАБЛИЦА ЛАБОВ -->

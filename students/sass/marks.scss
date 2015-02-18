@@ -127,6 +127,12 @@
         border-bottom: 1px solid $table-border-color;
       }
 
+      .t-content {
+        .t-cell {
+          padding-top: 3px;
+        }
+      }
+
       .task-title {
         padding-top: $row-height / 2;
       }
@@ -136,16 +142,53 @@
       .t-cell {
         height: $row-height * 1.3;
       }
-
-    }
-    .t-content {
-    }
-    .t-footer {
-
     }
 
     .t-row {
       border-bottom: 1px solid $table-border-color;
+      &.hover {
+//        background-color: white;
+        .t-cell.mark {
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          color: #000000;
+          //            box-shadow: 0 0 0 2px white inset/*, 0 0 6px grey inset !important*/;
+          &.excellent, &.awesome, &.fantastic, &.black-hole, &.incredible {
+            color: white;
+            text-shadow: none;
+          }
+          &.empty {
+            background-color: white;
+            box-shadow: none !important;
+          }
+          &.shining {
+            &:after {
+              content: "∞";
+            }
+          }
+          &.mercy {
+            &:after {
+              content: "○";
+            }
+          }
+          &.black-hole {
+            &:after {
+              content: '∅';
+            }
+          }
+          &.absent {
+            &:after {
+              content: "-2";
+              color: red;
+            }
+          }
+        }
+        noindex:-o-prefocus, > td.mark {
+          box-shadow: none !important;
+        }
+      }
     }
 
     .t-cell {
