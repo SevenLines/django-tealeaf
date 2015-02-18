@@ -886,12 +886,14 @@
       -o-transition: all ease-in-out 0.1s;
       transition: all ease-in-out 0.1s;
       padding: 4px;
-      max-height: 28px; }
+      height: 28px; }
       #marks-editor .marks-table .s-table .info > table {
         table-layout: fixed;
         width: 100%; }
       #marks-editor .marks-table .s-table .info .name {
         white-space: nowrap; }
+        #marks-editor .marks-table .s-table .info .name .name-n {
+          display: none; }
       #marks-editor .marks-table .s-table .info .score {
         padding-left: 8px; }
         #marks-editor .marks-table .s-table .info .score .badge {
@@ -910,6 +912,10 @@
     cursor: move;
     white-space: nowrap; }
   #marks-editor .marks-table .m-table {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     display: inline-block;
     table-layout: fixed;
     margin-left: -4px; }
@@ -934,10 +940,6 @@
   #marks-editor .marks-table .t-row {
     border-bottom: 1px solid #cccccc; }
     #marks-editor .marks-table .t-row.hover .t-cell.mark {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
       color: #000000; }
       #marks-editor .marks-table .t-row.hover .t-cell.mark.excellent, #marks-editor .marks-table .t-row.hover .t-cell.mark.awesome, #marks-editor .marks-table .t-row.hover .t-cell.mark.fantastic, #marks-editor .marks-table .t-row.hover .t-cell.mark.black-hole, #marks-editor .marks-table .t-row.hover .t-cell.mark.incredible {
         color: white;
@@ -963,20 +965,18 @@
     border-right: 1px solid #cccccc;
     width: 36.4px;
     height: 28px; }
-    #marks-editor .marks-table .t-cell:first-child {
-      border-left: 1px solid #cccccc; }
 
 @media (max-width: 768px) {
-  .marks-editor .marks-students-list-header-button-group .btn-text {
+  #marks-editor .marks-editor .marks-students-list-header-button-group .btn-text {
     display: none; }
-  .marks-editor .marks-students-list-header-button-group button {
+  #marks-editor .marks-editor .marks-students-list-header-button-group button {
     padding-right: 10px; }
-  .marks-editor .students-list {
+  #marks-editor .marks-editor .s-table {
     max-width: 154px;
     width: 154px; }
-    .marks-editor .students-list > table .info > table td.name .name-n {
+    #marks-editor .marks-editor .s-table .info .name .name-n {
       display: inline; }
-    .marks-editor .students-list > table .info > table td.name .name-name {
+    #marks-editor .marks-editor .s-table .info .name .name-name {
       display: none; }
-  .marks-editor .marks-list {
+  #marks-editor .marks-editor .m-table-container {
     margin-left: 154px; } }

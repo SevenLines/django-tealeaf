@@ -109,9 +109,12 @@
         }
         @include transition(0.1s);
         padding: 4px;
-        max-height: $row-height;
+        height: $row-height;
         .name {
-          white-space: nowrap
+          white-space: nowrap;
+          .name-n {
+            display: none;
+          }
         }
         .score {
           padding-left: 8px;
@@ -122,11 +125,11 @@
       }
 
       .hover {
-        .info  {
+        .info {
           opacity: 1 !important;
           background-color: #ffffff !important;
           &.god {
-           background-color: #ffe500 !important;
+            background-color: #ffe500 !important;
           }
           border-left: 6px solid $common_color;
         }
@@ -145,6 +148,10 @@
 
     // таблица оценок
     .m-table {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
       display: inline-block;
       table-layout: fixed;
       margin-left: -4px;
@@ -187,10 +194,6 @@
       border-bottom: 1px solid $table-border-color;
       &.hover {
         .t-cell.mark {
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
           color: #000000;
           //            box-shadow: 0 0 0 2px white inset/*, 0 0 6px grey inset !important*/;
           &.excellent, &.awesome, &.fantastic, &.black-hole, &.incredible {
@@ -231,9 +234,9 @@
 
     // глобавльный стиль ячейки
     .t-cell {
-      &:first-child {
-        border-left: 1px solid $table-border-color;
-      }
+      //      &:first-child {
+      //        border-left: 1px solid $table-border-color;
+      //      }
       $height: $row-height;
       text-align: center;
       vertical-align: middle;
