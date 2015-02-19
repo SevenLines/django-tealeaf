@@ -183,10 +183,10 @@
     .l-table {
 
       border-right: 1px solid $table-border-color;
-      background-color: #F4F4F4;
-      &:nth-child(odd) {
-        background-color: #F8F8F8;
-      }
+      //      background-color: #F4F4F4;
+      //      &:nth-child(odd) {
+      //        background-color: #F8F8F8;
+      //      }
       .t-cell-icon {
         //        @include transition(0.1s);
         display: none;
@@ -215,20 +215,56 @@
         }
       }
 
-      &:hover {
-        $color: #f49900;
-        .lab-title {
-          background-color: lighten(#ffe500, 25);
-          color: darken($color, 10);
-          text-shadow: 0 0 1px white;
+      @for $i from 0 through 5 {
+        &:nth-child(#{$i+1}) {
+          $color: adjust_hue(#f49900, 16 * $i);
+          $color2: adjust_hue(#ffe500, 16 * $i);
+          background-color: lighten($color2, 45);
+          &:hover {
+            .lab-title {
+              background-color: lighten($color2, 25);
+              color: darken($color, 10);
+              text-shadow: 0 0 1px white;
+            }
+          }
+          .task-title {
+            &:hover {
+              background-color: lighten($color2, 25);
+              color: darken($color, 10);
+              text-shadow: 0 0 1px white;
+            }
+
+          }
+
+          .done {
+            box-shadow: 0 0 3px darken($color, 20), 0 0 3px $color inset !important;
+            background-color: $color2 !important;
+            color: darken($color, 10);
+          }
+          .tooltip {
+            &.bottom {
+              .tooltip-arrow {
+                border-bottom-color: $color;
+              }
+            }
+            &.top {
+              .tooltip-arrow {
+                border-top-color: $color;
+              }
+            }
+            .tooltip-inner {
+              color: darken($color, 20);
+              border: 2px solid $color2;
+            }
+          }
         }
       }
 
       .lab-title {
         @include transition(0.3s);
         position: absolute;
-        left: 0px;
-        right: 0px;
+        left: 0;
+        right: 0;
         overflow: hidden;
         font-size: $row-height / 2.5;
         text-align: center;
@@ -237,46 +273,19 @@
         border-bottom: 1px solid $table-border-color;
         //        border-right: 1px solid $table-border-color;
       }
-
       .task-title {
         cursor: pointer;
-        &:hover {
-          $color: #f49900;
-          background-color: lighten(#ffe500, 25);
-          color: darken($color, 10);
-          text-shadow: 0 0 1px white;
-        }
         background-color: #ffffff;
         padding-top: $row-height / 2;
       }
 
       .tooltip {
-        $color: #f49900;
-        &.bottom {
-          .tooltip-arrow {
-            border-bottom-color: $color;
-          }
-        }
-        &.top {
-          .tooltip-arrow {
-            border-top-color: $color;
-          }
-        }
-
+        font-size: 1em;
         .tooltip-inner {
           background-color: white;
-          color: darken($color, 10);
-          border: 2px solid #ffe500;
         }
       }
 
-      .done {
-        $color: #f49900;
-        box-shadow: 0 0 3px darken($color, 20), 0 0 3px $color inset !important;
-        background-color: #ffe500 !important;
-        color: darken($color, 10);
-        text-shadow: 0 0 1px white;
-      }
     }
 
     // глобальные футеры и хидеры
@@ -345,7 +354,5 @@
     }
   }
 }
-
-
 
 @import "xs-small";
