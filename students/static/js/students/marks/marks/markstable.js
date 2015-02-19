@@ -254,7 +254,7 @@ define(['knockout',
 // --- конец всплывающее меню редактирование занятия
 
 // ### синхронизация подсветки строк таблицы оценок
-                $(".m-table>tbody>.t-row").hover(function () {
+                $(".m-table>tbody>.t-row,.s-table>tbody>.t-row").hover(function () {
                     var index = $(this).index();
                     $(this).addClass("hover");
                     $(".m-table>tbody, .s-table>tbody").each(function (i, item) {

@@ -883,6 +883,7 @@
     border-right: 1px solid #cccccc;
     width: 220px; }
     #marks-editor .marks-table .s-table .t-cell {
+      padding: 0;
       width: auto;
       border-right: none; }
     #marks-editor .marks-table .s-table .s-table-header.t-cell {
@@ -961,7 +962,7 @@
         color: #c17900;
         text-shadow: 0 0 1px white; }
       #marks-editor .marks-table .l-table:nth-child(1) .done {
-        box-shadow: 0 0 3px #8e5900, 0 0 3px #f49900 inset !important;
+        box-shadow: 0 0 3px #8e5900, 0 0 3px #f49900 inset;
         background-color: #ffe500 !important;
         color: #c17900; }
       #marks-editor .marks-table .l-table:nth-child(1) .tooltip.bottom .tooltip-arrow {
@@ -982,7 +983,7 @@
         color: #c1ac00;
         text-shadow: 0 0 1px white; }
       #marks-editor .marks-table .l-table:nth-child(2) .done {
-        box-shadow: 0 0 3px #8e7f00, 0 0 3px #f4da00 inset !important;
+        box-shadow: 0 0 3px #8e7f00, 0 0 3px #f4da00 inset;
         background-color: #d5ff00 !important;
         color: #c1ac00; }
       #marks-editor .marks-table .l-table:nth-child(2) .tooltip.bottom .tooltip-arrow {
@@ -1003,7 +1004,7 @@
         color: #a2c100;
         text-shadow: 0 0 1px white; }
       #marks-editor .marks-table .l-table:nth-child(3) .done {
-        box-shadow: 0 0 3px #778e00, 0 0 3px #cdf400 inset !important;
+        box-shadow: 0 0 3px #778e00, 0 0 3px #cdf400 inset;
         background-color: #91ff00 !important;
         color: #a2c100; }
       #marks-editor .marks-table .l-table:nth-child(3) .tooltip.bottom .tooltip-arrow {
@@ -1024,7 +1025,7 @@
         color: #6fc100;
         text-shadow: 0 0 1px white; }
       #marks-editor .marks-table .l-table:nth-child(4) .done {
-        box-shadow: 0 0 3px #518e00, 0 0 3px #8cf400 inset !important;
+        box-shadow: 0 0 3px #518e00, 0 0 3px #8cf400 inset;
         background-color: #4dff00 !important;
         color: #6fc100; }
       #marks-editor .marks-table .l-table:nth-child(4) .tooltip.bottom .tooltip-arrow {
@@ -1045,7 +1046,7 @@
         color: #3bc100;
         text-shadow: 0 0 1px white; }
       #marks-editor .marks-table .l-table:nth-child(5) .done {
-        box-shadow: 0 0 3px #2b8e00, 0 0 3px #4bf400 inset !important;
+        box-shadow: 0 0 3px #2b8e00, 0 0 3px #4bf400 inset;
         background-color: #09ff00 !important;
         color: #3bc100; }
       #marks-editor .marks-table .l-table:nth-child(5) .tooltip.bottom .tooltip-arrow {
@@ -1066,7 +1067,7 @@
         color: #08c100;
         text-shadow: 0 0 1px white; }
       #marks-editor .marks-table .l-table:nth-child(6) .done {
-        box-shadow: 0 0 3px #068e00, 0 0 3px #0af400 inset !important;
+        box-shadow: 0 0 3px #068e00, 0 0 3px #0af400 inset;
         background-color: #00ff3b !important;
         color: #08c100; }
       #marks-editor .marks-table .l-table:nth-child(6) .tooltip.bottom .tooltip-arrow {
@@ -1103,6 +1104,9 @@
     height: 36.4px; }
   #marks-editor .marks-table .t-row {
     border-bottom: 1px solid #cccccc; }
+    #marks-editor .marks-table .t-row.collapsed {
+      display: none;
+      border-bottom: none; }
     #marks-editor .marks-table .t-row.hover .t-cell.mark {
       color: #000000; }
       #marks-editor .marks-table .t-row.hover .t-cell.mark.excellent, #marks-editor .marks-table .t-row.hover .t-cell.mark.awesome, #marks-editor .marks-table .t-row.hover .t-cell.mark.fantastic, #marks-editor .marks-table .t-row.hover .t-cell.mark.black-hole, #marks-editor .marks-table .t-row.hover .t-cell.mark.incredible {
@@ -1123,12 +1127,14 @@
     #marks-editor .marks-table .t-row.hover noindex:-o-prefocus, #marks-editor .marks-table .t-row.hover > td.mark {
       box-shadow: none !important; }
   #marks-editor .marks-table .t-cell {
+    overflow: hidden;
     text-align: center;
     vertical-align: middle;
     padding-top: 7px;
     border-right: 1px solid #cccccc;
     width: 36.4px;
-    height: 28px; }
+    height: 28px;
+    max-height: 35px; }
 
 @media (max-width: 768px) {
   #marks-editor .marks-editor .marks-students-list-header-button-group .btn-text {
