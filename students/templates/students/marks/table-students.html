@@ -10,33 +10,36 @@
     </tr>
     </thead>
     <tbody class="t-content" data-bind="foreach: students">
-    <!-- ko if: $root.visibleStudent($data) -->
-    <tr class="t-row">
+{#    <!-- ko if:  -->#}
+    <tr class="t-row" data-bind="css: {'collapsed': !$root.visibleStudent($data)() }">
         <td>
-            <div class="info" data-bind="css: { 'god': success_factor() >= 1 }, style: color">
-                <table>
-                    <tr>
-                        <td class="name">
+            <div class="t-cell">
+                <div class="info" data-bind="css: { 'god': success_factor() >= 1 }, style: color">
+                    <table>
+                        <tr>
+                            <td class="name">
                                 <span class="pull-left">
                                     <span class="name-second-name" data-bind="text: second_name"></span>
                                     <span class="name-name" data-bind="text: name"></span>
                                     <span class="name-n" data-bind="text: short_name"></span>
                                 </span>
-                        </td>
-                        <td class="score" data-bind="if: sum">
-                            <div class="pull-right badge" style="color: green"
-                                 data-bind="attr: { 'data-original-title': sum() }, style: { color: sum() < 0 ? 'red' : 'green' }">
+                            </td>
+                            <td class="score" data-bind="if: sum">
+                                <div class="pull-right badge" style="color: green"
+                                     data-bind="attr: { 'data-original-title': sum() }, style: { color: sum() < 0 ? 'red' : 'green' }">
                                 <span class="percents"
                                       data-bind="visible: $parents[0].showPercents(), text: ~~(success_factor() * 100) + '%'"></span>
-                                <span class="points" data-bind="visible: !$parents[0].showPercents(), text: sum"></span>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                                    <span class="points"
+                                          data-bind="visible: !$parents[0].showPercents(), text: sum"></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </td>
     </tr>
-    <!-- /ko -->
+{#    <!-- /ko -->#}
     </tbody>
     <tfoot class="t-footer">
     <tr class="t-row">

@@ -6,8 +6,8 @@
     </tr>
     </thead>
     <tbody class="t-content" data-bind="foreach: students">
-    <!-- ko if: $root.visibleStudent($data) -->
-    <tr class="t-row" data-bind="">
+{#    <!-- ko if:  -->#}
+    <tr class="t-row" data-bind="css: {'collapsed': !$root.visibleStudent($data)() }">
         <!-- ko foreach: marks -->
         <td>
             <div class="t-cell mark"
@@ -20,7 +20,7 @@
                 <div class="t-cell"></div>
             </td>{% endif %}
     </tr>
-    <!-- /ko -->
+{#    <!-- /ko -->#}
     </tbody>
     <tfoot class="t-footer">
     <tr class="t-row">

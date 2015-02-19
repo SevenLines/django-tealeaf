@@ -4,8 +4,8 @@
     </thead>
 
     <tbody class="t-content" data-bind="foreach: $parent.students">
-    <!-- ko if: $root.visibleStudent($data) -->
-    <tr class="t-row">
+{#    <!-- ko if: $root.visibleStudent($data) -->#}
+    <tr class="t-row" data-bind="css: {'collapsed': !$root.visibleStudent($data)() }">
         <!-- ko foreach: $parent.tasks -->
         <td>
             <!-- ko with: $parents[1].mark($data, $parentContext.$data)() -->
@@ -18,7 +18,7 @@
         </td>
         <!-- /ko -->
     </tr>
-    <!-- /ko -->
+{#    <!-- /ko -->#}
     </tbody>
 
     <tfoot class="t-footer">
