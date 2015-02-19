@@ -54,6 +54,10 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
             self.setMarks(data.marks);
         }
 
+        self.hasTaskMarksForStudent = function (student) {
+            return self.marks[student.id] !== undefined;
+        };
+
         self.setMarks = function (marks) {
             self.marks = {};
             marks.every(function (item) {

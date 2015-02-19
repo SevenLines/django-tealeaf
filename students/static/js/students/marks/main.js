@@ -96,6 +96,16 @@ define(['knockout',
                 });
             };
 
+            self.visibleStudent = function(student) {
+                return ko.computed(function () {
+                    return !self.marksTable.hideBadStudents()
+                    || (student.regularStudent()
+                    &&  (self.labsTable.labs().length == 0 || self.labsTable.hasLabsForStudent(student)()));
+                });
+            };
+
+
+
 // subscribes blocking control
             self._block = false;
             self.block = function () {
