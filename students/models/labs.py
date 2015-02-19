@@ -2,6 +2,7 @@
 from django.db import models
 from django.forms.models import model_to_dict
 from ..models.student import Student
+from students.models import MarkBaseModel
 
 
 class StudentLab(models.Model):
@@ -63,7 +64,7 @@ class StudentTask(models.Model):
         ordering = ['complexity', '_order', 'id']
 
 
-class StudentTaskResult(models.Model):
+class StudentTaskResult(MarkBaseModel):
     student = models.ForeignKey("Student")
     task = models.ForeignKey("StudentTask")
     done = models.BooleanField(default=False)

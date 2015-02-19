@@ -23,6 +23,8 @@ define(['knockout', 'marks/mark'], function (ko, Mark) {
             return new Mark(item);
         });
 
+        self.tasks = ko.observableArray();
+
         self.full_name = ko.computed(function () {
             //var name = $(document).width() < 400 ? self.name[0] + '.' : self.name;
             return self.second_name + ' ' + self.name;

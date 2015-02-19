@@ -1,7 +1,7 @@
 /**
  * Created by m on 13.02.15.
  */
-define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Task) {
+define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko, urls, utils, Task, MarkTask) {
     return function (data) {
         var self = this;
         self.id = data.id;
@@ -14,6 +14,7 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
         self.visible = ko.observable(data.visible);
         self.regular = ko.observable(data.regular);
         self.columns_count = ko.observable(data.columns_count);
+        self.marks = {};
 
         self.columns_with_tasks = ko.computed(function () {
             var out = [];
@@ -37,7 +38,7 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
             return out;
         });
 
-        self.column_style = ko.computed( function () {
+        self.column_style = ko.computed(function () {
             return 'col-md-' + ~~(12 / self.columns_count());
         });
 
@@ -49,7 +50,59 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
                 self.tasks.push(new Task(item));
                 return true;
             });
+
+            self.setMarks(data.marks);
         }
+
+        self.setMarks = function (marks) {
+            self.marks = {};
+            marks.every(function (item) {
+                var m = self.marks[item.student];
+                if (!m) {
+                    self.marks[item.student] = {};
+                    m = self.marks[item.student];
+                }
+                m[item.task] = new MarkTask(item);
+                return true;
+            });
+        };
+
+
+        self.mark = function (task, student) {
+            return ko.computed(function () {
+                var out = self.marks[student.id];
+
+                if (!out) return new MarkTask({
+                    student: student.id,
+                    task: task.id
+                });
+
+                out = out[task.id];
+                if (!out) return new MarkTask({
+                    student: student.id,
+                    task: task.id
+                });
+
+                return out;
+            });
+        };
+
+        self.toggleTaskMark = function (mark) {
+            var item = {};
+            item[mark.student] = {};
+            item[mark.student][mark.task] = mark;
+
+            if (self.marks[mark.student] === undefined) {
+                self.marks[mark.student] = {};
+            }
+            item = self.marks[mark.student]
+
+            if (item[mark.task] === undefined) {
+                item[mark.task] = {};
+            }
+            item[mark.task] = mark;
+            mark.toggle();
+        };
 
         self.remove = function (done, fail) {
             $.prompt("Удалить \"" + self.title() + "\"?", {
@@ -91,6 +144,23 @@ define(["knockout", "urls", "utils", "labs/task"], function (ko, urls, utils, Ta
                 regular: self.regular(),
                 columns_count: self.columns_count()
             }, self.reset);
+        };
+
+        self.saveTaskMarks = function (data, e) {
+            var items = [];
+            for(var s in self.marks) {
+                for(var t in self.marks[s]) {
+                    var mark = self.marks[s][t];
+                    if (mark.changed()) {
+                        items.push(mark.post_data());
+                    }
+                }
+            }
+            utils.post(urls.url.lab_save_taskmarks, {
+                marks: JSON.stringify(items)
+            }, function () {
+                console.log("col");
+            });
         };
 
         self.reset = function () {

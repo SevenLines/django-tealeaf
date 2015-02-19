@@ -23,6 +23,7 @@ define(['knockout',
             self.lesson = ko.observable();
 
             self.labs = ko.observableArray();
+            self.tasksProgress = ko.observableArray();
 
             self.group_id = 0;
             self.discipline_id = 0;
@@ -383,6 +384,13 @@ define(['knockout',
                         return true;
                     })
                 }
+
+                if (self.labs()) {
+                    for (var i = 0, l = self.labs().length, labs=self.labs(); i< l;++i) {
+                        labs[i].saveTaskMarks();
+                    }
+                }
+
                 $.post(urls.url.marks_save, utils.csrfize({
                     marks: JSON.stringify(marks)
                 })).done(function () {
@@ -417,6 +425,11 @@ define(['knockout',
                     self.markSelector.show(data, e.target);
                 }, 10);
                 return false;
+            };
+
+            self.clickTask = function (student, task, e) {
+                //console.log(task());
+                //console.log(student());
             };
 
             self.increase = function (mark) {

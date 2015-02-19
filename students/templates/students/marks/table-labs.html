@@ -8,8 +8,11 @@
     <tr class="t-row">
         <!-- ko foreach: $parent.tasks -->
         <td>
-            <div class="t-cell mark empty">
+            <!-- ko with: $parents[1].mark($data, $parentContext.$data)() -->
+            <div class="t-cell mark"
+                 data-bind="click: $parents[2].toggleTaskMark.bind($data), css: {'excellent':  done }">
             </div>
+            <!-- /ko -->
         </td>
         <!-- /ko -->
     </tr>
