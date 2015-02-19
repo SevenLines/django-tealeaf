@@ -138,8 +138,12 @@
 
     // скролл контейнер для таблицы оценок
     .m-table-container {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
       overflow: scroll;
-      overflow-x: hidden;
+      overflow-x: auto;
       overflow-y: hidden;
       margin-left: $students-list-width;
       cursor: move;
@@ -148,10 +152,12 @@
 
     // таблица оценок
     .m-table {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
+
+      &:last-child {
+        .lab-title {
+          border-right: none;
+        }
+      }
       display: inline-block;
       table-layout: fixed;
       margin-left: -4px;
@@ -169,19 +175,36 @@
         z-index: 100;
         background-color: white;
         border-bottom: 1px solid $table-border-color;
+        border-right: 1px solid $table-border-color;
       }
 
       .t-content {
         .t-cell {
           padding-top: 3px;
-//          &.done {
-//            background-color: #008000;
-//          }
+          //          &.done {
+          //            background-color: #008000;
+          //          }
         }
       }
 
       .task-title {
         padding-top: $row-height / 2;
+      }
+    }
+
+    .l-table {
+      &:nth-child(odd) {
+        background-color: #F8F8F8;
+      }
+      .hover {
+        .t-cell {
+          background-color: #F4F4F4;
+        }
+      }
+      .done {
+        box-shadow: 0 0 6px #f49900 inset !important;
+        background-color: #ffe500 !important;
+        color: white;
       }
     }
 

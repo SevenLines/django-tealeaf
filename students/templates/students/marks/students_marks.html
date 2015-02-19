@@ -30,7 +30,9 @@
             <!-- /ko -->
         <!-- /ko -->
         <!-- конец ТАБЛИЦА ЛАБОВ -->
+        <!-- ko if: lessons().length -->
         {% include "students/marks/table-marks.html" %}
+        <!-- /ko -->
     </div>
 </div>
 

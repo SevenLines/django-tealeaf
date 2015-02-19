@@ -905,20 +905,22 @@
       #marks-editor .marks-table .s-table .hover .info.god {
         background-color: #ffe500 !important; }
   #marks-editor .marks-table .m-table-container {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     overflow: scroll;
-    overflow-x: hidden;
+    overflow-x: auto;
     overflow-y: hidden;
     margin-left: 220px;
     cursor: move;
     white-space: nowrap; }
   #marks-editor .marks-table .m-table {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     display: inline-block;
     table-layout: fixed;
     margin-left: -4px; }
+    #marks-editor .marks-table .m-table:last-child .lab-title {
+      border-right: none; }
     #marks-editor .marks-table .m-table:first-child {
       margin-left: 0; }
     #marks-editor .marks-table .m-table .lab-title {
@@ -930,11 +932,20 @@
       text-align: center;
       z-index: 100;
       background-color: white;
-      border-bottom: 1px solid #cccccc; }
+      border-bottom: 1px solid #cccccc;
+      border-right: 1px solid #cccccc; }
     #marks-editor .marks-table .m-table .t-content .t-cell {
       padding-top: 3px; }
     #marks-editor .marks-table .m-table .task-title {
       padding-top: 14px; }
+  #marks-editor .marks-table .l-table:nth-child(odd) {
+    background-color: #F8F8F8; }
+  #marks-editor .marks-table .l-table .hover .t-cell {
+    background-color: #F4F4F4; }
+  #marks-editor .marks-table .l-table .done {
+    box-shadow: 0 0 6px #f49900 inset !important;
+    background-color: #ffe500 !important;
+    color: white; }
   #marks-editor .marks-table .t-header .t-cell, #marks-editor .marks-table .t-footer .t-cell {
     height: 36.4px; }
   #marks-editor .marks-table .t-row {

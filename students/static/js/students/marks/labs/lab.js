@@ -62,6 +62,9 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
                     self.marks[item.student] = {};
                     m = self.marks[item.student];
                 }
+                item.student_inst = item.student;
+                item.task_inst = item.task;
+                item.lab = self;
                 m[item.task] = new MarkTask(item);
                 return true;
             });
@@ -74,13 +77,19 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
 
                 if (!out) return new MarkTask({
                     student: student.id,
-                    task: task.id
+                    task: task.id,
+                    student_inst: student,
+                    task_inst: student,
+                    lab: self
                 });
 
                 out = out[task.id];
                 if (!out) return new MarkTask({
                     student: student.id,
-                    task: task.id
+                    task: task.id,
+                    student_inst: student,
+                    task_inst: student,
+                    lab: self
                 });
 
                 return out;
@@ -148,19 +157,20 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
 
         self.saveTaskMarks = function (data, e) {
             var items = [];
-            for(var s in self.marks) {
-                for(var t in self.marks[s]) {
+            for (var s in self.marks) {
+                for (var t in self.marks[s]) {
                     var mark = self.marks[s][t];
                     if (mark.changed()) {
                         items.push(mark.post_data());
                     }
                 }
             }
-            utils.post(urls.url.lab_save_taskmarks, {
-                marks: JSON.stringify(items)
-            }, function () {
-                console.log("col");
-            });
+            if (items.length) {
+                utils.post(urls.url.lab_save_taskmarks, {
+                    marks: JSON.stringify(items)
+                }, function () {
+                });
+            }
         };
 
         self.reset = function () {

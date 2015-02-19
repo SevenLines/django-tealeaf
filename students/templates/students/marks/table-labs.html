@@ -1,4 +1,4 @@
-<table class="m-table">
+<table class="m-table l-table">
     <thead class="t-header">
     {% include "students/marks/table-marks-labs-header.html" %}
     </thead>
@@ -9,8 +9,9 @@
         <!-- ko foreach: $parent.tasks -->
         <td>
             <!-- ko with: $parents[1].mark($data, $parentContext.$data)() -->
-            <div class="t-cell mark"
-                 data-bind="click: $parents[2].toggleTaskMark.bind($data), css: {'excellent':  done }">
+            <div class="t-cell"
+                 data-bind="{% if user.is_authenticated %}click: $parents[2].toggleTaskMark.bind($data),{% endif %}css: css">
+            <span class="glyphicon" data-bind="css: {'glyphicon-ok': done }"></span>
             </div>
             <!-- /ko -->
         </td>
