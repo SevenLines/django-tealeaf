@@ -1,0 +1,32 @@
+<!-- ko foreach: lessons -->
+<td>
+    {% if user.is_authenticated and position != 'bottom' %}
+        <div class="mark t-cell t-cell-head lesson-edit"
+             data-bind="css: style, attr: { 'data-original-title': info, 'data-date': date }, event: { 'click': $parents[0].lessonHover }">
+            <span data-bind="text: day, visible: (!icon_has_loaded())"></span>
+            <img class="lesson-icon" src=""
+                 data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
+        </div>
+    {% else %}
+        <div rel="tooltip" data-html="true" data-toggle="tooltip" class="mark t-cell t-cell-head"
+             data-bind="css: style, attr: { 'data-original-title': info }">
+            <div class="header-label-text"
+                 data-bind="text: day, visible: (!icon_has_loaded())"></div>
+            <img class="lesson-icon" src=""
+                 data-bind="img: icon_url, visible: icon_has_loaded, image_loaded: icon_has_loaded">
+        </div>
+    {% endif %}
+</td>
+<!-- /ko -->
+{% if user.is_authenticated %}
+    <td>
+        <div class="t-cell" style="padding-top: 3px">
+            <!-- КНОПКА ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
+            <button class="btn btn-sm btn-link"
+                    data-bind="visible: $root.discipline, click: addLesson">
+                <i class="glyphicon glyphicon glyphicon-plus"></i>
+            </button>
+            <!-- КОНЕЦ КНОПКИ ДОБАВЛНЕИЯ ЗАНЯТИЯ -->
+        </div>
+    </td>
+{% endif %}

@@ -1,6 +1,8 @@
+# coding=utf-8
 from django.db import models
 from django.forms.models import model_to_dict
 from ..models.student import Student
+from students.models import MarkBaseModel
 
 
 class StudentLab(models.Model):
@@ -9,6 +11,9 @@ class StudentLab(models.Model):
     discipline = models.ForeignKey('Discipline')
     visible = models.BooleanField(default=False)
     columns_count = models.SmallIntegerField(default=1)
+
+    # лаба содержит список обязательный заданий для всех студентов
+    regular = models.BooleanField(default=False)
 
     class Meta:
         order_with_respect_to = 'discipline'
@@ -57,3 +62,9 @@ class StudentTask(models.Model):
     class Meta:
         order_with_respect_to = 'lab'
         ordering = ['complexity', '_order', 'id']
+
+
+class StudentTaskResult(MarkBaseModel):
+    student = models.ForeignKey("Student")
+    task = models.ForeignKey("StudentTask")
+    done = models.BooleanField(default=False)

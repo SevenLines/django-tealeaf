@@ -22,6 +22,9 @@ define(['knockout',
             self.lesson_types = ko.observableArray();
             self.lesson = ko.observable();
 
+            self.labs = ko.observableArray();
+            self.tasksProgress = ko.observableArray();
+
             self.group_id = 0;
             self.discipline_id = 0;
 
@@ -37,11 +40,6 @@ define(['knockout',
                     && !self.firstLoadingAfterParametersChanged();
             });
 
-            /***
-             * флаг свидетельствующий что таблицы была загруженна первый раз
-             */
-                //self.onInit = ko.observable(true);
-
             self.setParams = function (group_id, discipline_id) {
                 self.group_id = group_id;
                 //self.firstLoadingAfterParametersChanged(true);
@@ -53,6 +51,9 @@ define(['knockout',
                 self.loadStudents();
             };
 
+            self.setLabs = function (r, labsTable) {
+                self.labs = labsTable.labs;
+            };
 
             // SERVICE VARIABLES
 
@@ -164,7 +165,7 @@ define(['knockout',
                 // ### скроллинг мышью таблицы оценок
                 var lastX = -1;
                 var leftButtonDown = false;
-                var scroll_container = $(".marks-list");
+                var scroll_container = $(".m-table-container");
                 var funcScroll = function (e) {
                     var left = e.clientX;
                     if (leftButtonDown) {
@@ -254,15 +255,17 @@ define(['knockout',
 // --- конец всплывающее меню редактирование занятия
 
 // ### синхронизация подсветки строк таблицы оценок
-                $("table.table-marks>tbody>tr").hover(function () {
+                $(".m-table>tbody>.t-row").hover(function () {
                     var index = $(this).index();
-                    $("table.table-marks>tbody").each(function (i, item) {
-                        $($(item).find(">tr")[index]).addClass("hover");
+                    $(this).addClass("hover");
+                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
+                        $($(item).find(">.t-row")[index]).addClass("hover");
                     });
                 }, function () {
+                    $(this).removeClass("hover");
                     var index = $(this).index();
-                    $("table.table-marks>tbody").each(function (i, item) {
-                        $($(item).find(">tr")[index]).removeClass("hover");
+                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
+                        $($(item).find(">.t-row")[index]).removeClass("hover");
                     });
                 });
 // --- конец синхронизация подсветки строк таблицы оценок
@@ -381,6 +384,13 @@ define(['knockout',
                         return true;
                     })
                 }
+
+                if (self.labs()) {
+                    for (var i = 0, l = self.labs().length, labs=self.labs(); i< l;++i) {
+                        labs[i].saveTaskMarks();
+                    }
+                }
+
                 $.post(urls.url.marks_save, utils.csrfize({
                     marks: JSON.stringify(marks)
                 })).done(function () {
@@ -415,6 +425,11 @@ define(['knockout',
                     self.markSelector.show(data, e.target);
                 }, 10);
                 return false;
+            };
+
+            self.clickTask = function (student, task, e) {
+                //console.log(task());
+                //console.log(student());
             };
 
             self.increase = function (mark) {

@@ -1,0 +1,17 @@
+<tr>
+    <td data-bind="attr: {'colspan': tasks().length }">
+        <div style="position: relative;">
+            <div class="lab-title" style="" data-bind="text: title">
+            </div>
+        </div>
+    </td>
+</tr>
+<tr class="t-row">
+    <!-- ko foreach: tasks -->
+    <td>
+        <div style="position: relative;">
+            <div class="t-cell task-title" data-bind="text: $index() + 1"></div>
+        </div>
+    </td>
+    <!-- /ko -->
+</tr>

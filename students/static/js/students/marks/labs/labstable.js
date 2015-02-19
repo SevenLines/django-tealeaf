@@ -5,13 +5,18 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
     return function () {
         var self = this;
 
-        self.group_id = 0;
         self.discipline_id = 0;
         self.complex_choices = {};
         self.labs = ko.observableArray();
 
         var lastSortable = null;
         self.labsLoading = ko.observable(false);
+
+        /**
+         * done функция вызывается при успешной загрузке лабов; сигнатура: (response, labsTable)
+         * @type function
+         */
+        self.onLabsLoadingComplete = null;
 
         function initSorting(data) {
             if (lastSortable) {
@@ -60,34 +65,34 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
             });
         };
 
-        self.setParams = function (group_id, discipline_id) {
-            self.group_id = group_id;
+        self.setParams = function (discipline_id) {
             if (self.discipline_id != discipline_id) {
                 self.discipline_id = discipline_id;
                 self.loadLabs();
             }
         };
 
-        self.loadLabs = function () {
+
+        self.loadLabs = function (done) {
             self.labs.removeAll();
             self.labsLoading(true);
-            setTimeout(function () {
-                $.get(urls.url.labs, {
-                    group_id: self.group_id,
-                    discipline_id: self.discipline_id
-                }).done(function (r) {
-                    self.complex_choices = r.complex_choices;
-                    var order = 0;
-                    r.labs.every(function (item) {
-                        item.complex_choices = r.complex_choices;
-                        item.order = order++;
-                        self.labs.push(new Lab(item));
-                        return true;
-                    });
-                    initSorting();
-                    self.labsLoading(false);
-                }).fail(InterfaceAlerts.showFail);
-            }, 10);
+            //setTimeout(function () {
+            $.get(urls.url.labs, {
+                discipline_id: self.discipline_id
+            }).done(function (r) {
+                self.complex_choices = r.complex_choices;
+                var order = 0;
+                r.labs.every(function (item) {
+                    item.complex_choices = r.complex_choices;
+                    item.order = order++;
+                    self.labs.push(new Lab(item));
+                    return true;
+                });
+                initSorting();
+                self.labsLoading(false);
+                if (self.onLabsLoadingComplete) self.onLabsLoadingComplete(r, self);
+            }).fail(InterfaceAlerts.showFail);
+            //}, 10);
         };
 
         self.addLab = function (data, e) {

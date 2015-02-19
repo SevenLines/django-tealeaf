@@ -18,6 +18,16 @@ define(['knockout',
             self.marksTable = new MarksTable();
             self.labsTable = new LabsTable();
 
+            self.labs_loading_complete = true;
+            self.groups_loading_complete = true;
+            self.years_loading_complete = true;
+
+            self.labsTable.onLabsLoadingComplete = function (response, labsTable) {
+                self.labs_loading_complete = true;
+                self.marksTable.setLabs(response, labsTable);
+                self.loadGroups();
+            };
+
             self.updateCookies = function (data, event) {
                 $.cookie(cookies.keep_mark_table_open, !$("#marks-editor").hasClass("in"), cookies.expires);
             };
@@ -30,47 +40,47 @@ define(['knockout',
                         var lastDisciplineId = $.cookie(cookies.discipline_id);
                         var lastYear = $.cookie(cookies.year);
 
-                        // set year and discipline
-                        for (var i = 0; i < self.disciplines().length; ++i) {
-                            var disc = self.disciplines()[i];
-                            if (disc.id == lastDisciplineId) {
-                                self.discipline(disc);
-                                self.labsTable.setParams(null, self.discipline().id);
-                                break;
+                        if (self.disciplines().length > 0) {
+                            self.labs_loading_complete = false;
+                            self.discipline(self.disciplines()[0]);
+                            if (lastDisciplineId) {
+                                // set year and discipline
+                                for (var i = 0; i < self.disciplines().length; ++i) {
+                                    var disc = self.disciplines()[i];
+                                    if (disc.id == lastDisciplineId) {
+                                        self.discipline(disc);
+                                        break;
+                                    }
+                                }
                             }
+                            self.labsTable.setParams(self.discipline().id);
                         }
 
                         self.year.subscribe(function () {
-                            self.check_block(function () {
-                                if (self.year() && self.discipline()) {
-                                    self.loadGroups();
-                                } else {
-                                    self.marksTable.setParams(null, null);
-                                }
-                            });
+                            if (!self.labs_loading_complete) return;
+                            if (self.year() && self.discipline()) {
+                                self.loadGroups();
+                            } else {
+                                self.marksTable.setParams(null, null);
+                            }
                         });
 
                         self.group.subscribe(function () {
-                            self.check_block(function () {
-                                var group_id = self.group() ? self.group().id : null;
-                                self.marksTable.setParams(group_id, self.discipline().id);
-                                self.labsTable.setParams(group_id, self.discipline().id);
-                            });
+                            if (!self.groups_loading_complete) return;
+                            var group_id = self.group() ? self.group().id : null;
+                            self.marksTable.setParams(group_id, self.discipline().id);
                         });
 
                         self.discipline.subscribe(function () {
-                            self.check_block(function () {
-                                if (self.discipline()) {
-                                    $.cookie(cookies.discipline_id, self.discipline().id, {expires: cookies.expires});
-                                    var group_id = self.group() ? self.group().id : null;
-                                }
-                                self.loadGroups(function () {
-                                    if(self.groups().length == 0) {
-                                        self.labsTable.setParams(group_id, self.discipline().id);
-                                        self.marksTable.setParams(group_id, self.discipline().id);
-                                    }
-                                });
-                            });
+                            self.labs_loading_complete = false;
+
+                            self.marksTable.setParams(null, null);
+                            self.groups.removeAll();
+
+                            self.labsTable.setParams(self.discipline().id);
+                            if (self.discipline()) {
+                                $.cookie(cookies.discipline_id, self.discipline().id, {expires: cookies.expires});
+                            }
                         });
 
                         var contains_year = self.years().some(function (item) {
@@ -114,14 +124,17 @@ define(['knockout',
             self.loadYears = function () {
                 //if (self._block) return;
                 //self.block();
+                if (!self.years_loading_complete) return;
+                self.years_loading_complete = false;
                 self.years.length = 0;
-                return $.get(urls.url.years, {}, self.years).success(function (data) {
+                return $.get(urls.url.years, {}, self.years).done(function (data) {
+                    self.years_loading_complete = true;
                 });
             };
 
             self.loadGroups = function (done) {
-                if (self._block) return;
-                self.block();
+                if (!self.groups_loading_complete) return;
+                self.groups_loading_complete = false;
                 self.groups.removeAll();
                 $.get(urls.url.groups, {
                     'year': self.year() || 0,
@@ -132,7 +145,7 @@ define(['knockout',
                     self.groups.sort(function (left, right) {
                         return left.title == right.title ? 0 : left.title < right.title ? -1 : 1;
                     });
-                    self.unblock();
+                    self.groups_loading_complete = true;
                     if (self.groups().every(function (entry) {
                             if (group_id == entry.id) {
                                 self.group(entry);
@@ -148,8 +161,7 @@ define(['knockout',
                     }
                     if (done) done();
                 }).always(function () {
-                    self.unblock();
-                })
+                });
             };
 
 

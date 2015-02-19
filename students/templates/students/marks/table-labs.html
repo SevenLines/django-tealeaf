@@ -1,0 +1,27 @@
+<table class="m-table l-table">
+    <thead class="t-header">
+    {% include "students/marks/table-marks-labs-header.html" %}
+    </thead>
+
+    <tbody class="t-content" data-bind="foreach: $parents[0].students">
+    <!-- ko if: !$parents[1].hideBadStudents() || regularStudent() -->
+    <tr class="t-row">
+        <!-- ko foreach: $parent.tasks -->
+        <td>
+            <!-- ko with: $parents[1].mark($data, $parentContext.$data)() -->
+            <div class="t-cell"
+                 data-bind="{% if user.is_authenticated %}click: $parents[2].toggleTaskMark.bind($data),{% endif %}css: css">
+            <span class="t-cell-icon" data-bind="text: $parents[0].order"></span>
+{#            <span class="t-cell-icon glyphicon" data-bind="css: {'glyphicon-ok': done }"></span>#}
+            </div>
+            <!-- /ko -->
+        </td>
+        <!-- /ko -->
+    </tr>
+    <!-- /ko -->
+    </tbody>
+
+    <tfoot class="t-footer">
+    {% include "students/marks/table-marks-labs-header.html" %}
+    </tfoot>
+</table>
