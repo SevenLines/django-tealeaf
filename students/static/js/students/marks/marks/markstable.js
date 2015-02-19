@@ -152,7 +152,6 @@ define(['knockout',
 
             // ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
             self.resetMarksInterface = function () {
-
                 $('thead [data-toggle="tooltip"]').tooltip({placement: "bottom"});
                 $('tfoot [data-toggle="tooltip"]').tooltip({placement: "top"});
                 //$('.student [data-toggle="tooltip"]').tooltip({placement: "top"});

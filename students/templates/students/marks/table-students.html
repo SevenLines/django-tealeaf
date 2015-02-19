@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody class="t-content" data-bind="foreach: students">
-    <!-- ko if: !$parents[0].hideBadStudents() || regularStudent() -->
+    <!-- ko if: $root.visibleStudent($data) -->
     <tr class="t-row">
         <td>
             <div class="info" data-bind="css: { 'god': success_factor() >= 1 }, style: color">
@@ -23,7 +23,7 @@
                                     <span class="name-n" data-bind="text: short_name"></span>
                                 </span>
                         </td>
-                        <td class="score">
+                        <td class="score" data-bind="if: sum">
                             <div class="pull-right badge" style="color: green"
                                  data-bind="attr: { 'data-original-title': sum() }, style: { color: sum() < 0 ? 'red' : 'green' }">
                                 <span class="percents"

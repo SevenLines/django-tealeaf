@@ -829,6 +829,8 @@
 
 .tooltip {
   overflow: hidden; }
+  .tooltip .tooltip-arrow {
+    display: none; }
   .tooltip .tooltip-inner {
     white-space: normal; }
 

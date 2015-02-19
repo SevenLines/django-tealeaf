@@ -30,6 +30,9 @@
 
 .tooltip {
   overflow: hidden;
+  .tooltip-arrow {
+    display: none;
+  }
   .tooltip-inner {
     white-space: normal;
   }

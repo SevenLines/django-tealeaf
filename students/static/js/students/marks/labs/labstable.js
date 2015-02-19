@@ -7,7 +7,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
 
         self.discipline_id = 0;
         self.complex_choices = {};
-        self.labs = ko.observableArray();
+        self.labs = ko.observableArray([]);
 
         var lastSortable = null;
         self.labsLoading = ko.observable(false);
@@ -70,6 +70,15 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                 self.discipline_id = discipline_id;
                 self.loadLabs();
             }
+        };
+
+        self.hasLabsForStudent = function (student) {
+            return ko.computed(function () {
+                var result = self.labs().some(function(item) {
+                    return item.hasTaskMarksForStudent(student);
+                });
+                return result;
+            });
         };
 
 

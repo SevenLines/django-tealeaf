@@ -3,15 +3,15 @@
     {% include "students/marks/table-marks-labs-header.html" %}
     </thead>
 
-    <tbody class="t-content" data-bind="foreach: $parents[0].students">
-    <!-- ko if: !$parents[1].hideBadStudents() || regularStudent() -->
+    <tbody class="t-content" data-bind="foreach: $parent.students">
+    <!-- ko if: $root.visibleStudent($data) -->
     <tr class="t-row">
         <!-- ko foreach: $parent.tasks -->
         <td>
             <!-- ko with: $parents[1].mark($data, $parentContext.$data)() -->
             <div class="t-cell"
                  data-bind="{% if user.is_authenticated %}click: $parents[2].toggleTaskMark.bind($data),{% endif %}css: css">
-            <span class="t-cell-icon" data-bind="text: $parents[0].order"></span>
+            <span class="t-cell-icon" data-bind="text: $parent.order"></span>
 {#            <span class="t-cell-icon glyphicon" data-bind="css: {'glyphicon-ok': done }"></span>#}
             </div>
             <!-- /ko -->
