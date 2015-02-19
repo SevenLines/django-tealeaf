@@ -39,7 +39,7 @@ def groups(request):
     if not request.user.is_authenticated():
         grps = Group.objects.filter(
             Q(id__in=Lesson.objects.filter(discipline=discipline_id).values('group').distinct()) |
-            Q(id__in=StudentTaskResult.objects.values('student__group').distinct())
+            Q(id__in=StudentTaskResult.objects.filter(task__lab__discipline=discipline_id).values('student__group').distinct())
         )
     else:
         grps = Group.objects.all()

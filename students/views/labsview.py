@@ -15,10 +15,9 @@ from ..models.labs import StudentTaskResult
 permitted_keys = ['title', 'description', 'discipline_id', 'visible', 'columns_count', 'regular']
 
 
-@require_in_GET('discipline_id', 'group_id')
+@require_in_GET('discipline_id')
 def index(request):
     discipline_id = request.GET['discipline_id']
-    group_id = request.GET['group_id']
 
     labs = StudentLab.objects.filter(discipline_id=discipline_id)
     if not request.user.is_authenticated():

@@ -52,7 +52,7 @@ define(['knockout',
             };
 
             self.setLabs = function (r, labsTable) {
-                self.labs = labsTable.labs
+                self.labs = labsTable.labs;
             };
 
             // SERVICE VARIABLES
