@@ -9,7 +9,7 @@
 <tr class="t-row">
     <!-- ko foreach: tasks -->
     <td>
-        <div style="position: relative;">
+        <div style="position: relative;" rel="tooltip" data-html="true" data-toggle="tooltip" data-bind="attr: { 'data-original-title': description }">
             <div class="t-cell task-title" data-bind="text: $index() + 1"></div>
         </div>
     </td>
