@@ -11,6 +11,7 @@ from django.http.response import HttpResponseBadRequest
 from django.views.decorators.http import require_POST, require_GET
 from app.utils import require_in_POST, json_encoder
 from students.models.group import Group, active_years
+from students.models.labs import StudentTaskResult
 from students.models.lesson import Lesson
 from students.models.student import Student
 from students.utils import current_year
@@ -36,13 +37,15 @@ def groups(request):
         year = current_year()
 
     if not request.user.is_authenticated():
-        grps = Group.objects.filter(id__in=Lesson.objects.filter(discipline=discipline_id).values('group').distinct())
+        grps = Group.objects.filter(
+            Q(id__in=Lesson.objects.filter(discipline=discipline_id).values('group').distinct()) |
+            Q(id__in=StudentTaskResult.objects.values('student__group').distinct())
+        )
     else:
         grps = Group.objects.all()
 
     if year:
         grps = grps.filter(year=year)
-    # grps = list(grps.values())
 
     out = []
     for g in grps:

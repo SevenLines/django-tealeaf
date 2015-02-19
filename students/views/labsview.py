@@ -27,8 +27,6 @@ def index(request):
     labs = list([model_to_dict(l) for l in labs])
     for l in labs:
         marks = StudentTaskResult.objects.filter(task__lab=l['id'])
-        if group_id:
-            marks = marks.filter(student__group=group_id)
         marks = list([model_to_dict(t) for t in marks])
         tasks = list([t.as_dict for t in StudentTask.objects.filter(lab=l['id']).order_by('complexity', 'id')])
         l.update({
