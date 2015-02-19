@@ -12,6 +12,8 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
         self.students = ko.observableArray(data.students);
         self._complex_choices = data.complex_choices;
 
+        self.lab = data.lab;
+
         function get_ids(massdata) {
             var out = [];
             self.students().every(function (item) {

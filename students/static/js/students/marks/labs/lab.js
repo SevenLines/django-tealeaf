@@ -47,6 +47,7 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
             data.tasks.every(function (item) {
                 item.complex_choices = data.complex_choices;
                 item.order = index++;
+                item.lab = self;
                 self.tasks.push(new Task(item));
                 return true;
             });

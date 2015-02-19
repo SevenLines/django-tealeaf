@@ -68,3 +68,12 @@ class StudentTaskResult(MarkBaseModel):
     student = models.ForeignKey("Student")
     task = models.ForeignKey("StudentTask")
     done = models.BooleanField(default=False)
+
+    @property
+    def as_dict(self):
+        return {
+            'student': self.student_id,
+            'task': self.task_id,
+            'done': self.done,
+            'group': self.student.group_id,
+        }

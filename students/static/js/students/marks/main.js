@@ -104,6 +104,25 @@ define(['knockout',
                 });
             };
 
+            self.taskPercentsComplete = function(task) {
+                return ko.computed(function () {
+                    var students_count = self.marksTable.students().length;
+                    var counter = 0;
+                    for(var s in task.lab.marks) {
+                        for(var t in task.lab.marks[s]) {
+                            if (parseInt(t) == task.id) {
+                                var mark = task.lab.marks[s][t];
+                                if (mark.group == self.group().id) {
+                                    ++counter;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    return counter / students_count;
+                });
+            };
+
 
 
 // subscribes blocking control
