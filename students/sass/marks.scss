@@ -153,29 +153,19 @@
     // таблица оценок
     .m-table {
 
-      &:last-child {
-        .lab-title {
-          border-right: none;
-        }
-      }
+      //      &:last-child {
+      //        .lab-title {
+      //          border-right: none;
+      //        }
+      //      }
+      border-left: 1px solid $table-border-color;
+
       display: inline-block;
       table-layout: fixed;
-      margin-left: -4px;
+      //      margin-left: -4px;
       &:first-child {
         margin-left: 0;
-      }
-
-      .lab-title {
-        position: absolute;
-        left: 1px;
-        right: 1px;
-        overflow: hidden;
-        font-size: $row-height / 2.5;
-        text-align: center;
-        z-index: 100;
-        background-color: white;
-        border-bottom: 1px solid $table-border-color;
-        border-right: 1px solid $table-border-color;
+        border-left: 0;
       }
 
       .t-content {
@@ -187,24 +177,77 @@
         }
       }
 
-      .task-title {
-        padding-top: $row-height / 2;
-      }
     }
 
     .l-table {
+
+      border-right: 1px solid $table-border-color;
+      background-color: #F4F4F4;
       &:nth-child(odd) {
         background-color: #F8F8F8;
       }
+      .t-cell-icon {
+        //        @include transition(0.1s);
+        display: none;
+      }
       .hover {
         .t-cell {
-          background-color: #F4F4F4;
+          background-color: white;
+
+          .t-cell-icon {
+            display: inline;
+            color: lighten($table-border-color, 7);
+          }
+        }
+        .done {
+          .t-cell-icon {
+            display: inline;
+            color: inherit;
+          }
         }
       }
+      .t-row {
+        td:last-child {
+          .t-cell {
+            border-right: none;
+          }
+        }
+      }
+
+      &:hover {
+        $color: #f49900;
+        .lab-title {
+          background-color: lighten(#ffe500, 25);
+          color: darken($color, 10);
+          text-shadow: 0 0 1px white;
+        }
+      }
+
+      .lab-title {
+        @include transition(0.3s);
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        overflow: hidden;
+        font-size: $row-height / 2.5;
+        text-align: center;
+        z-index: 100;
+        background-color: white;
+        border-bottom: 1px solid $table-border-color;
+//        border-right: 1px solid $table-border-color;
+      }
+
+      .task-title {
+        background-color: #ffffff;
+        padding-top: $row-height / 2;
+      }
+
       .done {
-        box-shadow: 0 0 6px #f49900 inset !important;
+        $color: #f49900;
+        box-shadow: 0 0 3px darken($color, 20), 0 0 3px $color inset !important;
         background-color: #ffe500 !important;
-        color: white;
+        color: darken($color, 10);
+        text-shadow: 0 0 1px white;
       }
     }
 
