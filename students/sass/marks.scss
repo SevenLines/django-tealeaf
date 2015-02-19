@@ -28,6 +28,13 @@
   }
 }
 
+.tooltip {
+  overflow: hidden;
+  .tooltip-inner {
+    white-space: normal;
+  }
+}
+
 .god {
   position: relative;
   box-shadow: 0 0 6px #f49900 !important;
@@ -152,12 +159,6 @@
 
     // таблица оценок
     .m-table {
-
-      //      &:last-child {
-      //        .lab-title {
-      //          border-right: none;
-      //        }
-      //      }
       border-left: 1px solid $table-border-color;
 
       display: inline-block;
@@ -171,9 +172,6 @@
       .t-content {
         .t-cell {
           padding-top: 3px;
-          //          &.done {
-          //            background-color: #008000;
-          //          }
         }
       }
 
@@ -234,12 +232,39 @@
         z-index: 100;
         background-color: white;
         border-bottom: 1px solid $table-border-color;
-//        border-right: 1px solid $table-border-color;
+        //        border-right: 1px solid $table-border-color;
       }
 
       .task-title {
+        cursor: pointer;
+        &:hover {
+          $color: #f49900;
+          background-color: lighten(#ffe500, 25);
+          color: darken($color, 10);
+          text-shadow: 0 0 1px white;
+        }
         background-color: #ffffff;
         padding-top: $row-height / 2;
+      }
+
+      .tooltip {
+        $color: #f49900;
+        &.bottom {
+          .tooltip-arrow {
+            border-bottom-color: $color;
+          }
+        }
+        &.top {
+          .tooltip-arrow {
+            border-top-color: $color;
+          }
+        }
+
+        .tooltip-inner {
+          background-color: white;
+          color: darken($color, 10);
+          border: 2px solid #ffe500;
+        }
       }
 
       .done {
@@ -317,5 +342,7 @@
     }
   }
 }
+
+
 
 @import "xs-small";

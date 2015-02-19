@@ -369,6 +369,7 @@
   .mark .tooltip > .tooltip-arrow {
     display: none; }
   .mark .tooltip > .tooltip-inner {
+    overflow: hidden;
     font-weight: bold;
     background-color: white;
     color: #9cb814;
@@ -398,6 +399,7 @@
   .mark.test .tooltip > .tooltip-arrow {
     display: none; }
   .mark.test .tooltip > .tooltip-inner {
+    overflow: hidden;
     font-weight: bold;
     background-color: white;
     color: #b82214;
@@ -416,6 +418,7 @@
   .mark.lect .tooltip > .tooltip-arrow {
     display: none; }
   .mark.lect .tooltip > .tooltip-inner {
+    overflow: hidden;
     font-weight: bold;
     background-color: white;
     color: #14b89c;
@@ -434,6 +437,7 @@
   .mark.laba .tooltip > .tooltip-arrow {
     display: none; }
   .mark.laba .tooltip > .tooltip-inner {
+    overflow: hidden;
     font-weight: bold;
     background-color: white;
     color: #b81430;
@@ -452,6 +456,7 @@
   .mark.exam .tooltip > .tooltip-arrow {
     display: none; }
   .mark.exam .tooltip > .tooltip-inner {
+    overflow: hidden;
     font-weight: bold;
     background-color: white;
     color: #b81474;
@@ -822,6 +827,11 @@
   max-width: 100%;
   max-height: 100%; }
 
+.tooltip {
+  overflow: hidden; }
+  .tooltip .tooltip-inner {
+    white-space: normal; }
+
 .god {
   position: relative;
   box-shadow: 0 0 6px #f49900 !important;
@@ -961,8 +971,21 @@
       background-color: white;
       border-bottom: 1px solid #cccccc; }
     #marks-editor .marks-table .l-table .task-title {
+      cursor: pointer;
       background-color: #ffffff;
       padding-top: 14px; }
+      #marks-editor .marks-table .l-table .task-title:hover {
+        background-color: #fff280;
+        color: #c17900;
+        text-shadow: 0 0 1px white; }
+    #marks-editor .marks-table .l-table .tooltip.bottom .tooltip-arrow {
+      border-bottom-color: #f49900; }
+    #marks-editor .marks-table .l-table .tooltip.top .tooltip-arrow {
+      border-top-color: #f49900; }
+    #marks-editor .marks-table .l-table .tooltip .tooltip-inner {
+      background-color: white;
+      color: #c17900;
+      border: 2px solid #ffe500; }
     #marks-editor .marks-table .l-table .done {
       box-shadow: 0 0 3px #8e5900, 0 0 3px #f49900 inset !important;
       background-color: #ffe500 !important;
