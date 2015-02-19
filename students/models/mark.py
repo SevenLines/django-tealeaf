@@ -2,10 +2,13 @@
 from django.db import models
 
 
-class Mark(models.Model):
+class MarkBaseModel(models.Model):
     """
     оценка студента за пару
     """
+    class Meta:
+        abstract = True
+
     MARK_BASE = 0
     MARK_SPECIAL = 1000
 
@@ -41,11 +44,14 @@ class Mark(models.Model):
         # (MARK_NORMAL + 6, 'godlike'),
     ]
 
-    student = models.ForeignKey("Student")
-    lesson = models.ForeignKey("Lesson")
-    mark = models.SmallIntegerField(choices=MARKS, default=MARK_NORMAL)
     date_create = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
+    mark = models.SmallIntegerField(choices=MARKS, default=MARK_NORMAL)
+
+
+class Mark(MarkBaseModel):
+    student = models.ForeignKey("Student")
+    lesson = models.ForeignKey("Lesson")
 
     def __unicode__(self):
         return u"%s %s" % (self.student, self.mark)
@@ -58,4 +64,5 @@ class Mark(models.Model):
     def get_for_id(group_id, discipline_id):
         from students.models.group import Group
         from students.models.discipline import Discipline
+
         return Mark.get_for(Group.objects.get(pk=group_id), Discipline.objects.get(pk=discipline_id))

@@ -362,525 +362,229 @@
         border-width: 4px;
         cursor: pointer; }
 
-@-moz-document url-prefix() {
-  fieldset {
-    display: table-cell; } }
-
-.pickmeup-twitter-bootstrap {
-  z-index: 20000 !important; }
-
-#template-lesson-edit textarea {
-  max-width: 100%; }
-
-.lesson-icon-selector img {
-  max-width: 100%;
-  max-height: 100%; }
-
-.god {
-  position: relative;
-  box-shadow: 0 0 6px #f49900;
-  background-color: #ffe500; }
-
-.jumbotron.loading {
-  background-color: #ffe500;
-  box-shadow: 0 0 6px #f49900;
-  border-radius: 0;
-  color: #c16400;
-  margin-bottom: 0; }
-  .jumbotron.loading h1 {
-    color: #f46400;
-    font-weight: bold; }
-  .jumbotron.loading .loader {
-    margin: 0 auto;
-    font-size: 14px;
-    text-indent: -9999em;
-    border: 1.1em solid #ffc700;
-    border-left-color: #fff199;
-    -webkit-animation: loaderAnimation 1.1s infinite linear;
-    animation: loaderAnimation 1.1s infinite linear;
-    border-radius: 50%;
-    width: 10em;
-    height: 10em; }
-    .jumbotron.loading .loader:after {
-      border-radius: 50%;
-      width: 10em;
-      height: 10em; }
-
-.marks-editor .marks-legend {
-  padding-left: 1em;
-  font-size: 0.8em; }
-  .marks-editor .marks-legend tr {
-    padding: 0;
-    float: left;
-    clear: both;
-    list-style: none; }
-    .marks-editor .marks-legend tr td {
-      border: 1px solid #000000; }
-    .marks-editor .marks-legend tr.marks {
-      margin-bottom: 0; }
-      .marks-editor .marks-legend tr.marks td {
-        height: 2em;
-        border-bottom: none; }
-    .marks-editor .marks-legend tr.values td {
-      background-color: #EEE;
-      text-shadow: 0 0 1px white; }
-.marks-editor #mark-selector {
-  display: none;
-  position: absolute;
-  z-index: 1000;
-  padding: 0; }
-  .marks-editor #mark-selector > ul {
-    display: block;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid;
-    width: 70px;
-    height: 70px;
-    border-radius: 100px;
-    background-color: rgba(255, 255, 0, 0.55);
-    box-shadow: 0 0 6px black; }
-    .marks-editor #mark-selector > ul > li {
-      position: relative;
-      display: block;
-      width: 28px;
-      height: 28px;
-      border-radius: 16px;
-      border: 1px solid;
-      cursor: pointer; }
-      .marks-editor #mark-selector > ul > li:hover {
-        box-shadow: gray 0 0 6px inset; }
-      .marks-editor #mark-selector > ul > li.current {
-        -webkit-transition: all 0.1s;
-        -moz-transition: all 0.1s;
-        -ms-transition: all 0.1s;
-        -o-transition: all 0.1s;
-        transition: all 0.1s;
-        border: 6px solid black; }
-.marks-editor .marks-students-list-header-button-group button {
-  padding-right: 0;
-  font-size: 12px;
-  overflow: hidden; }
-.marks-editor .students-list {
-  max-width: 220px;
-  width: 220px;
-  overflow: hidden;
-  float: left;
-  clear: none; }
-  .marks-editor .students-list > table > tbody > tr:nth-child(1) .student .god:after {
-    -webkit-animation-delay: 0.1s;
-    -moz-animation-delay: 0.1s;
-    -o-animation-delay: 0.1s;
-    animation-delay: 0.1s; }
-  .marks-editor .students-list > table > tbody > tr:nth-child(2) .student .god:after {
-    -webkit-animation-delay: 0.2s;
-    -moz-animation-delay: 0.2s;
-    -o-animation-delay: 0.2s;
-    animation-delay: 0.2s; }
-  .marks-editor .students-list > table > tbody > tr:nth-child(3) .student .god:after {
-    -webkit-animation-delay: 0.3s;
-    -moz-animation-delay: 0.3s;
-    -o-animation-delay: 0.3s;
-    animation-delay: 0.3s; }
-  .marks-editor .students-list > table > tbody > tr:nth-child(4) .student .god:after {
-    -webkit-animation-delay: 0.4s;
-    -moz-animation-delay: 0.4s;
-    -o-animation-delay: 0.4s;
-    animation-delay: 0.4s; }
-  .marks-editor .students-list > table > tbody > tr:nth-child(5) .student .god:after {
-    -webkit-animation-delay: 0.5s;
-    -moz-animation-delay: 0.5s;
-    -o-animation-delay: 0.5s;
-    animation-delay: 0.5s; }
-  .marks-editor .students-list > table > tbody > tr:nth-child(6) .student .god:after {
-    -webkit-animation-delay: 0.6s;
-    -moz-animation-delay: 0.6s;
-    -o-animation-delay: 0.6s;
-    animation-delay: 0.6s; }
-  .marks-editor .students-list > table > tbody > tr:nth-child(7) .student .god:after {
-    -webkit-animation-delay: 0.7s;
-    -moz-animation-delay: 0.7s;
-    -o-animation-delay: 0.7s;
-    animation-delay: 0.7s; }
-  .marks-editor .students-list > table > tbody > tr:nth-child(8) .student .god:after {
-    -webkit-animation-delay: 0.8s;
-    -moz-animation-delay: 0.8s;
-    -o-animation-delay: 0.8s;
-    animation-delay: 0.8s; }
-  .marks-editor .students-list > table > tbody > tr:nth-child(9) .student .god:after {
-    -webkit-animation-delay: 0.9s;
-    -moz-animation-delay: 0.9s;
-    -o-animation-delay: 0.9s;
-    animation-delay: 0.9s; }
-  .marks-editor .students-list > table > tbody > tr:nth-child(10) .student .god:after {
-    -webkit-animation-delay: 1s;
-    -moz-animation-delay: 1s;
-    -o-animation-delay: 1s;
-    animation-delay: 1s; }
-  .marks-editor .students-list .hover .student {
-    -webkit-transition: all ease-in-out 0.2s;
-    -moz-transition: all ease-in-out 0.2s;
-    -ms-transition: all ease-in-out 0.2s;
-    -o-transition: all ease-in-out 0.2s;
-    transition: all ease-in-out 0.2s;
-    -webkit-transition: opacity 0s;
-    -moz-transition: opacity 0s;
-    -ms-transition: opacity 0s;
-    -o-transition: opacity 0s;
-    transition: opacity 0s;
-    opacity: 1 !important;
-    background-color: white !important; }
-    .marks-editor .students-list .hover .student .name {
-      -webkit-transition: all ease-in-out 0.1s;
-      -moz-transition: all ease-in-out 0.1s;
-      -ms-transition: all ease-in-out 0.1s;
-      -o-transition: all ease-in-out 0.1s;
-      transition: all ease-in-out 0.1s;
-      border-left: 8px solid #8cacae; }
-  .marks-editor .students-list .student .badge {
-    background-color: white; }
-  .marks-editor .students-list > table {
-    width: 100%;
-    table-layout: fixed;
-    border: 1px solid #cccccc;
-    border-left: none; }
-    .marks-editor .students-list > table .info {
-      height: 30px; }
-      .marks-editor .students-list > table .info > table {
-        height: 100%;
-        table-layout: fixed; }
-        .marks-editor .students-list > table .info > table td.name {
-          padding-left: 3px; }
-          .marks-editor .students-list > table .info > table td.name .name-n {
-            display: none; }
-        .marks-editor .students-list > table .info > table td.score {
-          padding-right: 3px; }
-.marks-editor .marks-list {
-  margin-left: 220px;
-  overflow: scroll;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  cursor: move;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
-  .marks-editor .marks-list > table {
-    width: 100%;
-    border-top: 1px solid #cccccc; }
-    .marks-editor .marks-list > table > thead {
-      box-shadow: 0 2px 8px #cccccc; }
-.marks-editor table.table-marks {
-  table-layout: fixed;
-  border-collapse: collapse; }
-  .marks-editor table.table-marks > tbody > tr, .marks-editor table.table-marks > thead > tr, .marks-editor table.table-marks > tfoot > tr {
-    border-bottom: 1px solid #c0c0c0;
-    -webkit-transition: all ease-in-out 0.1s;
-    -moz-transition: all ease-in-out 0.1s;
-    -ms-transition: all ease-in-out 0.1s;
-    -o-transition: all ease-in-out 0.1s;
-    transition: all ease-in-out 0.1s; }
-    .marks-editor table.table-marks > tbody > tr.hover, .marks-editor table.table-marks > thead > tr.hover, .marks-editor table.table-marks > tfoot > tr.hover {
-      background-color: white; }
-      .marks-editor table.table-marks > tbody > tr.hover > td.mark, .marks-editor table.table-marks > thead > tr.hover > td.mark, .marks-editor table.table-marks > tfoot > tr.hover > td.mark {
-        color: #000000; }
-        .marks-editor table.table-marks > tbody > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tbody > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tbody > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > tbody > tr.hover > td.mark.incredible, .marks-editor table.table-marks > thead > tr.hover > td.mark.excellent, .marks-editor table.table-marks > thead > tr.hover > td.mark.awesome, .marks-editor table.table-marks > thead > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > thead > tr.hover > td.mark.incredible, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.excellent, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.awesome, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.fantastic, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.incredible {
-          color: white;
-          text-shadow: none; }
-        .marks-editor table.table-marks > tbody > tr.hover > td.mark.empty, .marks-editor table.table-marks > thead > tr.hover > td.mark.empty, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.empty {
-          background-color: white;
-          box-shadow: none !important; }
-        .marks-editor table.table-marks > tbody > tr.hover > td.mark.shining:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.shining:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.shining:after {
-          content: "∞"; }
-        .marks-editor table.table-marks > tbody > tr.hover > td.mark.mercy:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.mercy:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.mercy:after {
-          content: "○"; }
-        .marks-editor table.table-marks > tbody > tr.hover > td.mark.black-hole:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.black-hole:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.black-hole:after {
-          content: '∅'; }
-        .marks-editor table.table-marks > tbody > tr.hover > td.mark.absent:after, .marks-editor table.table-marks > thead > tr.hover > td.mark.absent:after, .marks-editor table.table-marks > tfoot > tr.hover > td.mark.absent:after {
-          content: "-2";
-          color: red; }
-      .marks-editor table.table-marks > tbody > tr.hover noindex:-o-prefocus, .marks-editor table.table-marks > tbody > tr.hover > td.mark, .marks-editor table.table-marks > thead > tr.hover noindex:-o-prefocus, .marks-editor table.table-marks > thead > tr.hover > td.mark, .marks-editor table.table-marks > tfoot > tr.hover noindex:-o-prefocus, .marks-editor table.table-marks > tfoot > tr.hover > td.mark {
-        box-shadow: none !important; }
-    .marks-editor table.table-marks > tbody > tr > td, .marks-editor table.table-marks > tbody > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > tfoot > tr > td, .marks-editor table.table-marks > tfoot > tr > th {
-      height: 31px;
-      margin: 0px;
-      border-right: 1px solid #c0c0c0; }
-      .marks-editor table.table-marks > tbody > tr > td:first-child, .marks-editor table.table-marks > tbody > tr > th:first-child, .marks-editor table.table-marks > thead > tr > td:first-child, .marks-editor table.table-marks > thead > tr > th:first-child, .marks-editor table.table-marks > tfoot > tr > td:first-child, .marks-editor table.table-marks > tfoot > tr > th:first-child {
-        white-space: nowrap; }
-        .marks-editor table.table-marks > tbody > tr > td:first-child.active, .marks-editor table.table-marks > tbody > tr > th:first-child.active, .marks-editor table.table-marks > thead > tr > td:first-child.active, .marks-editor table.table-marks > thead > tr > th:first-child.active, .marks-editor table.table-marks > tfoot > tr > td:first-child.active, .marks-editor table.table-marks > tfoot > tr > th:first-child.active {
-          box-shadow: grey 0 0 4px inset; }
-      .marks-editor table.table-marks > tbody > tr > td:last-child, .marks-editor table.table-marks > tbody > tr > th:last-child, .marks-editor table.table-marks > thead > tr > td:last-child, .marks-editor table.table-marks > thead > tr > th:last-child, .marks-editor table.table-marks > tfoot > tr > td:last-child, .marks-editor table.table-marks > tfoot > tr > th:last-child {
-        border-right: none; }
-  .marks-editor table.table-marks > thead > tr > th, .marks-editor table.table-marks > thead > tr > td, .marks-editor table.table-marks > tfoot > tr > th, .marks-editor table.table-marks > tfoot > tr > td {
-    padding: 2px;
-    height: 38px;
-    max-height: 38px; }
-  .marks-editor table.table-marks > tfoot:last-child {
-    border-bottom: none; }
-  .marks-editor table.table-marks .header {
-    text-align: center; }
-.marks-editor .mark {
-  width: 39px;
-  vertical-align: middle;
-  text-align: center;
-  padding: 0;
-  color: transparent;
-  -webkit-transition: all ease-in-out 0.1s;
-  -moz-transition: all ease-in-out 0.1s;
-  -ms-transition: all ease-in-out 0.1s;
-  -o-transition: all ease-in-out 0.1s;
-  transition: all ease-in-out 0.1s; }
-  .marks-editor .mark.exam {
+.mark {
+  color: transparent; }
+  .mark.exam {
     color: #ffffff; }
-  .marks-editor .mark .tooltip > .tooltip-arrow {
+  .mark .tooltip > .tooltip-arrow {
     display: none; }
-  .marks-editor .mark .tooltip > .tooltip-inner {
+  .mark .tooltip > .tooltip-inner {
     font-weight: bold;
     background-color: white;
     color: #9cb814;
     border: 1px solid #9cb814; }
-  .marks-editor .mark.header-label {
-    padding: 0;
+  .mark.t-cell-head {
     background-color: #f9fdf1;
     font-size: 0.9em;
     color: #4e5c0a;
     font-weight: normal; }
-    .marks-editor .mark.header-label .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle; }
-    .marks-editor .mark.header-label .lesson-icon {
+    .mark.t-cell-head .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .marks-editor .mark.header-label:hover {
+    .mark.t-cell-head:hover {
       cursor: pointer;
       background-color: #eaf9cd; }
-  .marks-editor .mark.test.header-label {
-    padding: 0;
+  .mark.test.t-cell-head {
     background-color: #fdf4f1;
     font-size: 0.9em;
     color: #5c110a;
     font-weight: normal; }
-    .marks-editor .mark.test.header-label .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle; }
-    .marks-editor .mark.test.header-label .lesson-icon {
+    .mark.test.t-cell-head .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .marks-editor .mark.test.header-label:hover {
+    .mark.test.t-cell-head:hover {
       cursor: pointer;
       background-color: #f9d8cd; }
-  .marks-editor .mark.test .tooltip > .tooltip-arrow {
+  .mark.test .tooltip > .tooltip-arrow {
     display: none; }
-  .marks-editor .mark.test .tooltip > .tooltip-inner {
+  .mark.test .tooltip > .tooltip-inner {
     font-weight: bold;
     background-color: white;
     color: #b82214;
     border: 1px solid #b82214; }
-  .marks-editor .mark.lect.header-label {
-    padding: 0;
+  .mark.lect.t-cell-head {
     background-color: #f1fdfd;
     font-size: 0.9em;
     color: #0a5c4e;
     font-weight: normal; }
-    .marks-editor .mark.lect.header-label .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle; }
-    .marks-editor .mark.lect.header-label .lesson-icon {
+    .mark.lect.t-cell-head .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .marks-editor .mark.lect.header-label:hover {
+    .mark.lect.t-cell-head:hover {
       cursor: pointer;
       background-color: #cdf9f9; }
-  .marks-editor .mark.lect .tooltip > .tooltip-arrow {
+  .mark.lect .tooltip > .tooltip-arrow {
     display: none; }
-  .marks-editor .mark.lect .tooltip > .tooltip-inner {
+  .mark.lect .tooltip > .tooltip-inner {
     font-weight: bold;
     background-color: white;
     color: #14b89c;
     border: 1px solid #14b89c; }
-  .marks-editor .mark.laba.header-label {
-    padding: 0;
+  .mark.laba.t-cell-head {
     background-color: #fdf1f1;
     font-size: 0.9em;
     color: #5c0a18;
     font-weight: normal; }
-    .marks-editor .mark.laba.header-label .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle; }
-    .marks-editor .mark.laba.header-label .lesson-icon {
+    .mark.laba.t-cell-head .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .marks-editor .mark.laba.header-label:hover {
+    .mark.laba.t-cell-head:hover {
       cursor: pointer;
       background-color: #f9cdcd; }
-  .marks-editor .mark.laba .tooltip > .tooltip-arrow {
+  .mark.laba .tooltip > .tooltip-arrow {
     display: none; }
-  .marks-editor .mark.laba .tooltip > .tooltip-inner {
+  .mark.laba .tooltip > .tooltip-inner {
     font-weight: bold;
     background-color: white;
     color: #b81430;
     border: 1px solid #b81430; }
-  .marks-editor .mark.exam.header-label {
-    padding: 0;
+  .mark.exam.t-cell-head {
     background-color: #fdf1f6;
     font-size: 0.9em;
     color: #5c0a3a;
     font-weight: normal; }
-    .marks-editor .mark.exam.header-label .header-label-text {
-      height: 37px;
-      width: 37px;
-      display: table-cell;
-      vertical-align: middle; }
-    .marks-editor .mark.exam.header-label .lesson-icon {
+    .mark.exam.t-cell-head .lesson-icon {
       max-width: 30px !important;
       max-height: 30px !important; }
-    .marks-editor .mark.exam.header-label:hover {
+    .mark.exam.t-cell-head:hover {
       cursor: pointer;
       background-color: #f9cddf; }
-  .marks-editor .mark.exam .tooltip > .tooltip-arrow {
+  .mark.exam .tooltip > .tooltip-arrow {
     display: none; }
-  .marks-editor .mark.exam .tooltip > .tooltip-inner {
+  .mark.exam .tooltip > .tooltip-inner {
     font-weight: bold;
     background-color: white;
     color: #b81474;
     border: 1px solid #b81474; }
-  .marks-editor .mark.modified {
+  .mark.modified {
     box-shadow: #9ebdff 0px 0px 8px inset !important; }
-  .marks-editor .mark.absent {
+  .mark.absent {
     background-color: #f0fadb;
     color: grey; }
-    .marks-editor .mark.absent.test {
+    .mark.absent.test {
       background-color: #fee1d7; }
-    .marks-editor .mark.absent.lect {
+    .mark.absent.lect {
       background-color: #dbfafa; }
-    .marks-editor .mark.absent.laba {
+    .mark.absent.laba {
       background-color: #fdf1f1; }
-    .marks-editor .mark.absent.exam {
+    .mark.absent.exam {
       background-color: #fdf1f6; }
-    .marks-editor .mark.absent:after {
+    .mark.absent:after {
       content: "н"; }
-  .marks-editor .mark.empty {
+  .mark.empty {
     background-color: #f0fadb; }
-    .marks-editor .mark.empty.test {
+    .mark.empty.test {
       background-color: #fee1d7; }
-    .marks-editor .mark.empty.lect {
+    .mark.empty.lect {
       background-color: #dbfafa; }
-    .marks-editor .mark.empty.laba {
+    .mark.empty.laba {
       background-color: #fdf1f1; }
-    .marks-editor .mark.empty.exam {
+    .mark.empty.exam {
       background-color: #fdf1f6; }
-  .marks-editor .mark.normal {
+  .mark.normal {
     background-color: #cef08a; }
-    .marks-editor .mark.normal.test {
+    .mark.normal.test {
       background-color: #fd9d7c; }
-    .marks-editor .mark.normal.lect {
+    .mark.normal.lect {
       background-color: #8af0f0; }
-    .marks-editor .mark.normal.laba {
+    .mark.normal.laba {
       background-color: #f3a0a0; }
-    .marks-editor .mark.normal.exam {
+    .mark.normal.exam {
       background-color: #f3a0c3; }
-  .marks-editor .mark.good {
+  .mark.good {
     background-color: #cfeb47; }
-    .marks-editor .mark.good.test {
+    .mark.good.test {
       background-color: #ff4433; }
-    .marks-editor .mark.good.lect {
+    .mark.good.lect {
       background-color: #47ebcf; }
-    .marks-editor .mark.good.laba {
+    .mark.good.laba {
       background-color: #ed5e76; }
-    .marks-editor .mark.good.exam {
+    .mark.good.exam {
       background-color: #ed5eb2; }
-  .marks-editor .mark.excellent {
+  .mark.excellent {
     background-color: #9cb814;
     box-shadow: #758a0f 0 0 8px inset; }
-    .marks-editor .mark.excellent.test {
+    .mark.excellent.test {
       box-shadow: #990d00 0 0 8px inset;
       background-color: #cc1100; }
-    .marks-editor .mark.excellent.lect {
+    .mark.excellent.lect {
       box-shadow: #0f8a75 0 0 8px inset;
       background-color: #14b89c; }
-    .marks-editor .mark.excellent.laba {
+    .mark.excellent.laba {
       box-shadow: #a1122a 0 0 8px inset;
       background-color: #cf1736; }
-    .marks-editor .mark.excellent.exam {
+    .mark.excellent.exam {
       box-shadow: #a11265 0 0 2px inset;
       background-color: #cf1782; }
-  .marks-editor .mark.awesome {
+  .mark.awesome {
     background-color: #758a0f;
     box-shadow: #4e5c0a 0 0 8px inset; }
-    .marks-editor .mark.awesome.test {
+    .mark.awesome.test {
       box-shadow: #660900 0 0 8px inset;
       background-color: #990d00; }
-    .marks-editor .mark.awesome.lect {
+    .mark.awesome.lect {
       box-shadow: #0a5c4e 0 0 8px inset;
       background-color: #0f8a75; }
-    .marks-editor .mark.awesome.laba {
+    .mark.awesome.laba {
       box-shadow: #730d1e 0 0 8px inset;
       background-color: #a1122a; }
-    .marks-editor .mark.awesome.exam {
+    .mark.awesome.exam {
       box-shadow: #730d48 0 0 2px inset;
       background-color: #a11265; }
-  .marks-editor .mark.fantastic {
+  .mark.fantastic {
     background-color: #4e5b0b;
     box-shadow: #272d06 0 0 8px inset; }
-    .marks-editor .mark.fantastic.test {
+    .mark.fantastic.test {
       box-shadow: #320501 0 0 8px inset;
       background-color: #650901; }
-    .marks-editor .mark.fantastic.lect {
+    .mark.fantastic.lect {
       box-shadow: #062d27 0 0 8px inset;
       background-color: #0b5b4e; }
-    .marks-editor .mark.fantastic.laba {
+    .mark.fantastic.laba {
       box-shadow: #440812 0 0 8px inset;
       background-color: #710e1f; }
-    .marks-editor .mark.fantastic.exam {
+    .mark.fantastic.exam {
       box-shadow: #44082b 0 0 2px inset;
       background-color: #710e48; }
-  .marks-editor .mark.incredible {
+  .mark.incredible {
     background-color: #3a4408;
     box-shadow: #131703 0 0 8px inset; }
-    .marks-editor .mark.incredible.test {
+    .mark.incredible.test {
       box-shadow: #190200 0 0 8px inset;
       background-color: #4c0701; }
-    .marks-editor .mark.incredible.lect {
+    .mark.incredible.lect {
       box-shadow: #031713 0 0 8px inset;
       background-color: #08443a; }
-    .marks-editor .mark.incredible.laba {
+    .mark.incredible.laba {
       box-shadow: #2d060c 0 0 8px inset;
       background-color: #5b0b18; }
-    .marks-editor .mark.incredible.exam {
+    .mark.incredible.exam {
       box-shadow: #2d061d 0 0 2px inset;
       background-color: #5b0b3a; }
-  .marks-editor .mark.godlike {
+  .mark.godlike {
     background-color: #272e05;
     box-shadow: black 0 0 8px inset; }
-    .marks-editor .mark.godlike.test {
+    .mark.godlike.test {
       box-shadow: black 0 0 8px inset;
       background-color: #330400; }
-    .marks-editor .mark.godlike.lect {
+    .mark.godlike.lect {
       box-shadow: black 0 0 8px inset;
       background-color: #052e27; }
-    .marks-editor .mark.godlike.laba {
+    .mark.godlike.laba {
       box-shadow: #170306 0 0 8px inset;
       background-color: #450812; }
-    .marks-editor .mark.godlike.exam {
+    .mark.godlike.exam {
       box-shadow: #17030e 0 0 2px inset;
       background-color: #45082b; }
-  .marks-editor .mark.black-hole {
+  .mark.black-hole {
     background-color: black;
     z-index: 100;
     box-shadow: 0 0 12px #ff1800 inset; }
-  .marks-editor .mark.shining {
+  .mark.shining {
     background-color: #ffe20a;
     z-index: 100;
     box-shadow: 0 0 12px #ffb62c inset; }
-  .marks-editor .mark.mercy {
+  .mark.mercy {
     background-color: white;
     z-index: 100; }
 
@@ -1070,6 +774,84 @@
   100% {
     background-position: 40px 0; } }
 
+#mark-selector {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  padding: 0; }
+  #mark-selector > ul {
+    display: block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid;
+    width: 70px;
+    height: 70px;
+    border-radius: 100px;
+    background-color: rgba(255, 255, 0, 0.55);
+    box-shadow: 0 0 6px black; }
+    #mark-selector > ul > li {
+      position: relative;
+      display: block;
+      width: 28px;
+      height: 28px;
+      border-radius: 16px;
+      border: 1px solid;
+      cursor: pointer; }
+      #mark-selector > ul > li:hover {
+        box-shadow: gray 0 0 6px inset; }
+      #mark-selector > ul > li.current {
+        -webkit-transition: all 0.1s;
+        -moz-transition: all 0.1s;
+        -ms-transition: all 0.1s;
+        -o-transition: all 0.1s;
+        transition: all 0.1s;
+        border: 6px solid black; }
+
+@-moz-document url-prefix() {
+  fieldset {
+    display: table-cell; } }
+
+.pickmeup-twitter-bootstrap {
+  z-index: 20000 !important; }
+
+#template-lesson-edit textarea {
+  max-width: 100%; }
+
+.lesson-icon-selector img {
+  max-width: 100%;
+  max-height: 100%; }
+
+.god {
+  position: relative;
+  box-shadow: 0 0 6px #f49900 !important;
+  background-color: #ffe500 !important; }
+
+.jumbotron.loading {
+  background-color: #ffe500;
+  box-shadow: 0 0 6px #f49900;
+  border-radius: 0;
+  color: #c16400;
+  margin-bottom: 0; }
+  .jumbotron.loading h1 {
+    color: #f46400;
+    font-weight: bold; }
+  .jumbotron.loading .loader {
+    margin: 0 auto;
+    font-size: 14px;
+    text-indent: -9999em;
+    border: 1.1em solid #ffc700;
+    border-left-color: #fff199;
+    -webkit-animation: loaderAnimation 1.1s infinite linear;
+    animation: loaderAnimation 1.1s infinite linear;
+    border-radius: 50%;
+    width: 10em;
+    height: 10em; }
+    .jumbotron.loading .loader:after {
+      border-radius: 50%;
+      width: 10em;
+      height: 10em; }
+
 .labs-panel-heading, .marsk-panel-heading {
   cursor: pointer;
   -webkit-transition: all ease-in-out 0.1s;
@@ -1082,17 +864,152 @@
     background-color: #ffe500;
     color: #c16400; }
 
+#marks-editor .marks-table {
+  border-top: 1px solid #cccccc; }
+  #marks-editor .marks-table .s-table {
+    float: left;
+    border-right: 1px solid #cccccc;
+    width: 220px; }
+    #marks-editor .marks-table .s-table .t-cell {
+      width: auto;
+      border-right: none; }
+    #marks-editor .marks-table .s-table .s-table-header.t-cell {
+      text-align: left;
+      padding: 4px; }
+      #marks-editor .marks-table .s-table .s-table-header.t-cell button {
+        padding-left: 0.25em;
+        padding-right: 0.25em; }
+    #marks-editor .marks-table .s-table .info {
+      -webkit-transition: all ease-in-out 0.1s;
+      -moz-transition: all ease-in-out 0.1s;
+      -ms-transition: all ease-in-out 0.1s;
+      -o-transition: all ease-in-out 0.1s;
+      transition: all ease-in-out 0.1s;
+      padding: 4px;
+      height: 28px; }
+      #marks-editor .marks-table .s-table .info > table {
+        table-layout: fixed;
+        width: 100%; }
+      #marks-editor .marks-table .s-table .info .name {
+        white-space: nowrap; }
+        #marks-editor .marks-table .s-table .info .name .name-n {
+          display: none; }
+      #marks-editor .marks-table .s-table .info .score {
+        padding-left: 8px; }
+        #marks-editor .marks-table .s-table .info .score .badge {
+          background-color: #ffffff; }
+    #marks-editor .marks-table .s-table .hover .info {
+      opacity: 1 !important;
+      background-color: #ffffff !important;
+      border-left: 6px solid #8cacae; }
+      #marks-editor .marks-table .s-table .hover .info.god {
+        background-color: #ffe500 !important; }
+  #marks-editor .marks-table .m-table-container {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow: scroll;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-left: 220px;
+    cursor: move;
+    white-space: nowrap; }
+  #marks-editor .marks-table .m-table {
+    border-left: 1px solid #cccccc;
+    display: inline-block;
+    table-layout: fixed; }
+    #marks-editor .marks-table .m-table:first-child {
+      margin-left: 0;
+      border-left: 0; }
+    #marks-editor .marks-table .m-table .t-content .t-cell {
+      padding-top: 3px; }
+  #marks-editor .marks-table .l-table {
+    border-right: 1px solid #cccccc;
+    background-color: #F4F4F4; }
+    #marks-editor .marks-table .l-table:nth-child(odd) {
+      background-color: #F8F8F8; }
+    #marks-editor .marks-table .l-table .t-cell-icon {
+      display: none; }
+    #marks-editor .marks-table .l-table .hover .t-cell {
+      background-color: white; }
+      #marks-editor .marks-table .l-table .hover .t-cell .t-cell-icon {
+        display: inline;
+        color: #dedede; }
+    #marks-editor .marks-table .l-table .hover .done .t-cell-icon {
+      display: inline;
+      color: inherit; }
+    #marks-editor .marks-table .l-table .t-row td:last-child .t-cell {
+      border-right: none; }
+    #marks-editor .marks-table .l-table:hover .lab-title {
+      background-color: #fff280;
+      color: #c17900;
+      text-shadow: 0 0 1px white; }
+    #marks-editor .marks-table .l-table .lab-title {
+      -webkit-transition: all ease-in-out 0.3s;
+      -moz-transition: all ease-in-out 0.3s;
+      -ms-transition: all ease-in-out 0.3s;
+      -o-transition: all ease-in-out 0.3s;
+      transition: all ease-in-out 0.3s;
+      position: absolute;
+      left: 0px;
+      right: 0px;
+      overflow: hidden;
+      font-size: 11.2px;
+      text-align: center;
+      z-index: 100;
+      background-color: white;
+      border-bottom: 1px solid #cccccc; }
+    #marks-editor .marks-table .l-table .task-title {
+      background-color: #ffffff;
+      padding-top: 14px; }
+    #marks-editor .marks-table .l-table .done {
+      box-shadow: 0 0 3px #8e5900, 0 0 3px #f49900 inset !important;
+      background-color: #ffe500 !important;
+      color: #c17900;
+      text-shadow: 0 0 1px white; }
+  #marks-editor .marks-table .t-header .t-cell, #marks-editor .marks-table .t-footer .t-cell {
+    height: 36.4px; }
+  #marks-editor .marks-table .t-row {
+    border-bottom: 1px solid #cccccc; }
+    #marks-editor .marks-table .t-row.hover .t-cell.mark {
+      color: #000000; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.excellent, #marks-editor .marks-table .t-row.hover .t-cell.mark.awesome, #marks-editor .marks-table .t-row.hover .t-cell.mark.fantastic, #marks-editor .marks-table .t-row.hover .t-cell.mark.black-hole, #marks-editor .marks-table .t-row.hover .t-cell.mark.incredible {
+        color: white;
+        text-shadow: none; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.empty {
+        background-color: white;
+        box-shadow: none !important; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.shining:after {
+        content: "∞"; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.mercy:after {
+        content: "○"; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.black-hole:after {
+        content: '∅'; }
+      #marks-editor .marks-table .t-row.hover .t-cell.mark.absent:after {
+        content: "-2";
+        color: red; }
+    #marks-editor .marks-table .t-row.hover noindex:-o-prefocus, #marks-editor .marks-table .t-row.hover > td.mark {
+      box-shadow: none !important; }
+  #marks-editor .marks-table .t-cell {
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 7px;
+    border-right: 1px solid #cccccc;
+    width: 36.4px;
+    height: 28px; }
+
 @media (max-width: 768px) {
-  .marks-editor .marks-students-list-header-button-group .btn-text {
+  #marks-editor .marks-editor .marks-students-list-header-button-group .btn-text {
     display: none; }
-  .marks-editor .marks-students-list-header-button-group button {
+  #marks-editor .marks-editor .marks-students-list-header-button-group button {
     padding-right: 10px; }
-  .marks-editor .students-list {
+  #marks-editor .marks-editor .s-table {
     max-width: 154px;
     width: 154px; }
-    .marks-editor .students-list > table .info > table td.name .name-n {
+    #marks-editor .marks-editor .s-table .info .name .name-n {
       display: inline; }
-    .marks-editor .students-list > table .info > table td.name .name-name {
+    #marks-editor .marks-editor .s-table .info .name .name-name {
       display: none; }
-  .marks-editor .marks-list {
+  #marks-editor .marks-editor .m-table-container {
     margin-left: 154px; } }
