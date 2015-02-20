@@ -4,21 +4,18 @@
     </thead>
 
     <tbody class="t-content" data-bind="foreach: $parent.students">
-{#    <!-- ko if: $root.visibleStudent($data) -->#}
     <tr class="t-row" data-bind="css: {'collapsed': !$root.visibleStudent($data)() }">
         <!-- ko foreach: $parent.tasks -->
         <td>
             <!-- ko with: $parents[1].mark($data, $parentContext.$data)() -->
             <div class="t-cell"
                  data-bind="{% if user.is_authenticated %}click: $parents[2].toggleTaskMark.bind($data),{% endif %}css: css">
-            <span class="t-cell-icon" data-bind="text: $parent.order"></span>
-{#            <span class="t-cell-icon glyphicon" data-bind="css: {'glyphicon-ok': done }"></span>#}
+                <span class="t-cell-icon" data-bind="text: $parent.order"></span>
             </div>
             <!-- /ko -->
         </td>
         <!-- /ko -->
     </tr>
-{#    <!-- /ko -->#}
     </tbody>
 
     <tfoot class="t-footer">

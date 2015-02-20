@@ -59,11 +59,11 @@ define(['knockout'], function (ko) {
             }
         });
 
-        self.mark_text = ko.computed(function () { // надпись оценки
+        self.mark_text = ko.pureComputed(function () { // надпись оценки
             return ""
         }, self.mark);
 
-        self.mark_class = ko.computed(function () {
+        self.mark_class = ko.pureComputed(function () {
             var cls = marksTypes[self.mark()];
             cls += self.mark() != self.mark_old() ? " modified" : "";
             cls += self.lesson.style() ? (" " + self.lesson.style()) : "";
@@ -74,7 +74,7 @@ define(['knockout'], function (ko) {
             self.mark_old(self.mark());
         };
 
-        self.modified = ko.computed(function () {
+        self.modified = ko.pureComputed(function () {
             return self.mark() != self.mark_old()
         }, self.mark, self.mark_old);
 

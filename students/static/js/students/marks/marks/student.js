@@ -23,16 +23,16 @@ define(['knockout', 'marks/mark'], function (ko, Mark) {
             return new Mark(item);
         });
 
-        self.full_name = ko.computed(function () {
+        self.full_name = ko.pureComputed(function () {
             //var name = $(document).width() < 400 ? self.name[0] + '.' : self.name;
             return self.second_name + ' ' + self.name;
         });
 
-        self.short_name = ko.computed(function () {
+        self.short_name = ko.pureComputed(function () {
             return self.name && self.name.slice(-1) != '.' ? self.name[0] + '.' : '';
         });
 
-        self.success_factor = ko.computed(function () {
+        self.success_factor = ko.pureComputed(function () {
             var lessons_count = self.marks.filter(function (m) {
                 return !m.ignore_lesson();
             }).length;
@@ -48,7 +48,7 @@ define(['knockout', 'marks/mark'], function (ko, Mark) {
             }
         });
 
-        self.color = ko.computed(function () {
+        self.color = ko.pureComputed(function () {
             if (self.sum() != 0) {
                 var max = self.marks.length * 3;
                 var min = self.marks.length * -2;
@@ -71,7 +71,7 @@ define(['knockout', 'marks/mark'], function (ko, Mark) {
             __active(active);
         };
 
-        self.style = ko.computed(function () {
+        self.style = ko.pureComputed(function () {
             return __active() ? "active" : "";
         }, __active);
 
@@ -82,7 +82,7 @@ define(['knockout', 'marks/mark'], function (ko, Mark) {
             });
         };
 
-        self.regularStudent = ko.computed(function () {
+        self.regularStudent = ko.pureComputed(function () {
             return self.success_factor() >= 0.25;
         });
 

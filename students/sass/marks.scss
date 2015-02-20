@@ -29,11 +29,11 @@
 }
 
 .tooltip {
-  overflow: hidden;
   .tooltip-arrow {
-    display: none;
+//    display: none;
   }
   .tooltip-inner {
+    overflow: hidden;
     white-space: normal;
   }
 }
@@ -203,7 +203,7 @@
         }
         .done {
           .t-cell-icon {
-            display: inline;
+            display: none;
             color: inherit;
           }
         }
@@ -216,32 +216,39 @@
         }
       }
 
-      @for $i from 0 through 5 {
+      // разукрашиваю таблицы в разные цвета
+      $max_tables: 5;
+      @for $i from 0 through $max_tables {
         &:nth-child(#{$i+1}) {
-          $color: adjust_hue(#f49900, 16 * $i);
-          $color2: adjust_hue(#ffe500, 16 * $i);
-          background-color: lighten($color2, 45);
+          $color: adjust_hue(#f49900, 80 / $max_tables * $i);
+          $color2: adjust_hue(#ffe500, 80 / $max_tables * $i);
+          background-color: lighten($color2, 47);
           &:hover {
             .lab-title {
-              background-color: lighten($color2, 25);
-              color: darken($color, 10);
-              text-shadow: 0 0 1px white;
+              background-color: lighten($color2, 0);
             }
+          }
+
+          .lab-title {
+            background-color: lighten($color2, 25);
+            color: darken($color, 20);
+            text-shadow: 0 0 1px white;
           }
           .task-title {
             &:hover {
               background-color: lighten($color2, 25);
-              color: darken($color, 10);
+              color: darken($color, 20);
               text-shadow: 0 0 1px white;
             }
 
           }
 
           .done {
-            box-shadow: 0 0 3px darken($color, 20), 0 0 3px $color inset;
+            box-shadow: 0 0 3px darken($color, 20), 0 0 4px $color inset;
             background-color: $color2 !important;
-            color: darken($color, 10);
+            color: darken($color, 30);
           }
+
           .tooltip {
             &.bottom {
               .tooltip-arrow {
@@ -254,8 +261,9 @@
               }
             }
             .tooltip-inner {
-              color: darken($color, 20);
-              border: 2px solid $color2;
+              color: darken($color, 40);
+              box-shadow: 0 0 4px darken($color, 20);
+              background-color: lighten($color2, 20);
             }
           }
         }
@@ -277,13 +285,16 @@
       .task-title {
         cursor: pointer;
         background-color: #ffffff;
-        padding-top: $row-height / 2;
+        padding-top: $row-height / 2 + 2px;
+        font-size: $row-height / 2 - 3px;
+        padding-bottom: 2px;
       }
 
       .tooltip {
         font-size: 1em;
         .tooltip-inner {
-          background-color: white;
+//          border-radius: 0;
+          //          background-color: white;
         }
       }
 
@@ -301,14 +312,6 @@
     .t-row {
       &.collapsed {
         display: none;
-//        .t-cell {
-//          padding-top: 0 !important;
-//          max-height: 0 !important;
-//          //          border: none;
-//          &.mark {
-//            padding: 0;
-//          }
-//        }
         border-bottom: none;
       }
 
@@ -356,7 +359,7 @@
     // глобавльный стиль ячейки
     .t-cell {
       overflow: hidden;
-//      @include transition(0.2s);
+      //      @include transition(0.2s);
       $height: $row-height;
       text-align: center;
       vertical-align: middle;

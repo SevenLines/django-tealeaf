@@ -1,4 +1,4 @@
-CKEDITOR.disableAutoInline = true;
+//CKEDITOR.disableAutoInline = true;
 ko.bindingHandlers.ckeditorInline = {
     counter: 0,
     prefix: '__cked_',

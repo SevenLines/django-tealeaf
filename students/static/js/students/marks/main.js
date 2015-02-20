@@ -97,10 +97,29 @@ define(['knockout',
             };
 
             self.visibleStudent = function(student) {
-                return ko.computed(function () {
+                return ko.pureComputed(function () {
                     return !self.marksTable.hideBadStudents()
                     || (student.regularStudent()
                     &&  (self.labsTable.labs().length == 0 || self.labsTable.hasLabsForStudent(student)()));
+                });
+            };
+
+            self.taskPercentsComplete = function(task) {
+                return ko.pureComputed(function () {
+                    var students_count = self.marksTable.students().length;
+                    var counter = 0;
+                    for(var s in task.lab.marks) {
+                        for(var t in task.lab.marks[s]) {
+                            if (parseInt(t) == task.id) {
+                                var mark = task.lab.marks[s][t];
+                                if (mark.group == self.group().id) {
+                                    ++counter;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    return counter / students_count;
                 });
             };
 
@@ -223,18 +242,18 @@ define(['knockout',
             /**
              * Возврщает количество активных объектов
              */
-            self.activeItems = ko.computed(function () {
+            self.activeItems = ko.pureComputed(function () {
                 return self.marksTable.is_active() +
                     self.labsTable.is_active();
             });
 
-            self.hasData = ko.computed(function () {
+            self.hasData = ko.pureComputed(function () {
                 return self.marksTable.students().length > 0 ||
                     self.labsTable.labs().length > 0;
                 //self.marksTable.onInit());
             });
 
-            self.loadingComplete = ko.computed(function () {
+            self.loadingComplete = ko.pureComputed(function () {
                 return !self.marksTable.isStudentsLoading() && !self.labsTable.labsLoading();
             });
 
