@@ -13,7 +13,7 @@ define(['knockout', 'urls'], function (ko, urls) {
         self.lab_inst = ko.observable(data.lab_inst);
         self.task_inst = ko.observable(data.task_inst);
 
-        self.changed = ko.computed(function (){
+        self.changed = ko.pureComputed(function (){
             return data.done != self.done();
         });
 
@@ -26,7 +26,7 @@ define(['knockout', 'urls'], function (ko, urls) {
             }
         };
 
-        self.css = ko.computed(function () {
+        self.css = ko.pureComputed(function () {
             return [
                 self.done() ? 'done' : '',
             ].join(" ");

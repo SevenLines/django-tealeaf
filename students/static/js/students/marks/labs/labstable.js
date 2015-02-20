@@ -73,7 +73,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
         };
 
         self.hasLabsForStudent = function (student) {
-            return ko.computed(function () {
+            return ko.pureComputed(function () {
                 var result = self.labs().some(function(item) {
                     return item.hasTaskMarksForStudent(student);
                 });
@@ -154,13 +154,13 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
             });
         };
 
-        self.changed = ko.computed(function () {
+        self.changed = ko.pureComputed(function () {
             return self.labs().some(function (item) {
                 return item.order_changed();
             });
         });
 
-        self.is_active = ko.computed(function () {
+        self.is_active = ko.pureComputed(function () {
             return self.labs().length > 0;
         });
 

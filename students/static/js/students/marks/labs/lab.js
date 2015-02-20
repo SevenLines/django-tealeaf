@@ -16,7 +16,7 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
         self.columns_count = ko.observable(data.columns_count);
         self.marks = {};
 
-        self.columns_with_tasks = ko.computed(function () {
+        self.columns_with_tasks = ko.pureComputed(function () {
             var out = [];
             var lastCol = 0;
             var columnItems = {
@@ -38,7 +38,7 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
             return out;
         });
 
-        self.column_style = ko.computed(function () {
+        self.column_style = ko.pureComputed(function () {
             return 'col-md-' + ~~(12 / self.columns_count());
         });
 
@@ -77,7 +77,7 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
 
 
         self.mark = function (task, student) {
-            return ko.computed(function () {
+            return ko.pureComputed(function () {
                 var out = self.marks[student.id];
 
                 if (!out) return new MarkTask({
@@ -132,18 +132,18 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
             });
         };
 
-        self.changed = ko.computed(function () {
+        self.changed = ko.pureComputed(function () {
             return data.title != self.title() ||
                 data.description != self.description() ||
                 data.columns_count != self.columns_count() ||
                 data.discipline != self.discipline();
         });
 
-        self.style = ko.computed(function () {
+        self.style = ko.pureComputed(function () {
             return "columns" + self.columns_count();
         });
 
-        self.order_changed = ko.computed(function () {
+        self.order_changed = ko.pureComputed(function () {
             return data.order != self.order();
         });
 

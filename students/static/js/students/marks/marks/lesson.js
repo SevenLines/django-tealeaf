@@ -22,7 +22,7 @@ define(['knockout', 'utils', 'urls'], function (ko, utils, urls) {
         self.icn_fld_id = ko.observable(data.icn_fld_id);
         self.icon_url = ko.observable(data.icn_url);
 
-        self.icon_edit_url = ko.computed(function () {
+        self.icon_edit_url = ko.pureComputed(function () {
             var folder_id = self.icn_fld_id();
             if (folder_id == '' || folder_id == null) {
                 folder_id = '';
@@ -31,15 +31,15 @@ define(['knockout', 'utils', 'urls'], function (ko, utils, urls) {
             return "/admin/filer/folder/" + ( folder_id == '' ? '' : folder_id + '/list/');
         });
 
-        self.day = ko.computed(function () {
+        self.day = ko.pureComputed(function () {
             return self.date().split('/')[0];
         }, self.date);
 
-        self.info = ko.computed(function () {
+        self.info = ko.pureComputed(function () {
             return "<p><p align=left>" + self.date() + "<p>" + self.description();
         }, self.description);
 
-        self.style = ko.computed(function () {
+        self.style = ko.pureComputed(function () {
             switch (self.lesson_type()) {
                 case 2:
                     return "test";
@@ -54,7 +54,7 @@ define(['knockout', 'utils', 'urls'], function (ko, utils, urls) {
 
         }, self.lesson_type);
 
-        self.isodate = ko.computed(function () {
+        self.isodate = ko.pureComputed(function () {
             var date = new Date(self.isodate_old);
             var items = self.date().split('/');
             return items[2] + "-" + items[1] + "-" + items[0];

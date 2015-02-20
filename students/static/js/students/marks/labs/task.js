@@ -23,12 +23,12 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
             return out;
         }
 
-        self.students_ids = ko.computed(function () {
+        self.students_ids = ko.pureComputed(function () {
             return get_ids(self.students);
         });
         self.old_students = get_ids(data.students);
 
-        self.style = ko.computed(function () {
+        self.style = ko.pureComputed(function () {
             var out = "";
             out += self._complex_choices[self.complexity()];
             switch(self.students().length) {
@@ -47,7 +47,7 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
             return out;
         });
 
-        self.complex_choices = ko.computed(function () {
+        self.complex_choices = ko.pureComputed(function () {
             var out = [];
             Object.keys(self._complex_choices).every(function (key) {
                 out.push({
@@ -59,7 +59,7 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
             return out;
         });
 
-        self.changed = ko.computed(function () {
+        self.changed = ko.pureComputed(function () {
             return self.complexity() != data.complexity ||
                 self.description() != data.description ||
                 !self.students_ids().equals(self.old_students);

@@ -8,11 +8,18 @@ define(['knockout',
         'marks/lesson',
         'marks/mark',
         'marks/student',
-        'marks/markselector'
+        'marks/markselector',
+        'marks/qtipsettings'
     ],
-    function (ko, urls, cookies, utils, Lesson, Mark, Student, MarkSelector) {
+    function (ko, urls, cookies, utils, Lesson, Mark, Student, MarkSelector, qtipsettings) {
         return function () {
             var self = this;
+
+            var selectors = {
+                marks_editor: '#marks-editor',
+                marks_selector: '#mark-selector',
+                scroll_container: '.m-table-container'
+            };
 
             self.students = ko.observableArray();
             self.students_control = ko.observableArray();
@@ -31,11 +38,11 @@ define(['knockout',
             self.firstLoadingAfterParametersChanged = ko.observable(true);
 // >>> ЗАГРУЗКА ДАННЫХ
             self.isStudentsLoading = ko.observable(true);
-            self.showLoading = ko.computed(function () {
+            self.showLoading = ko.pureComputed(function () {
                 return (self.isStudentsLoading() || (self.students && self.students().length == 0));
             });
 
-            self.showPanel = ko.computed(function () {
+            self.showPanel = ko.pureComputed(function () {
                 return (self.students().length || self.isStudentsLoading())
                     && !self.firstLoadingAfterParametersChanged();
             });
@@ -55,13 +62,67 @@ define(['knockout',
                 self.labs = labsTable.labs;
             };
 
-            // SERVICE VARIABLES
+            // ### синхронизация подсветки строк таблицы оценок
+            var $markseditor = $(selectors.marks_editor);
+            $markseditor.on({
+                mouseenter: function () {
+                    var index = $(this).index();
+                    $(this).addClass("hover");
+                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
+                        $($(item).find(">.t-row")[index]).addClass("hover");
+                    });
+                },
+                mouseleave: function () {
+                    $(this).removeClass("hover");
+                    var index = $(this).index();
+                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
+                        $($(item).find(">.t-row")[index]).removeClass("hover");
+                    });
+                }
+            }, ".m-table>tbody>.t-row,.s-table>tbody>.t-row");
+            // --- конец синхронизация подсветки строк таблицы оценок
 
+            // подключаем события, чтобы не закрывалась менюшка
+            $markseditor.on("click", '.modal-lesson-editor .dropdown-menu', function (e) {
+                e.stopPropagation()
+            });
+
+            // ### скроллинг мышью таблицы оценок
+            (function () {
+                var lastX = -1;
+                var leftButtonDown = false;
+                //var scroll_container = $(".m-table-container");
+                var funcScroll = function (e) {
+                    var left = e.clientX;
+                    if (leftButtonDown) {
+                        if (lastX != -1 && Math.abs(lastX - left) > 2) {
+                            this.scrollLeft += lastX - left;
+                            $.cookie("lastScroll", this.scrollLeft);
+                        }
+                    }
+                    lastX = left;
+                };
+                $markseditor.on({
+                    mousedown: function (e) {
+                        if (e.which === 1) leftButtonDown = true;
+                    },
+                    touchmove: funcScroll,
+                    mousemove: funcScroll
+                }, selectors.scroll_container);
+
+                $(document).mouseup(function (e) {
+                    leftButtonDown = false;
+                });
+            })();
+            // --- конец скроллинг мышью таблицы оценок
+
+
+            // SERVICE VARIABLES
             self.marksTypes = ko.observableArray();
             self.hideBadStudents = ko.observable(true);
+            self.markSelector = new MarkSelector(selectors.marks_selector, self.marksTypes);
 
-            self.markSelector = new MarkSelector("#mark-selector", self.marksTypes);
-
+// >>> ЗАГРУЗКИ
             self.loadStudents = function () {
                 //if (self._block) return;
                 //self.block();
@@ -124,9 +185,9 @@ define(['knockout',
                                 // open / close marksTable collapse according ot saved state
                                 var keep_mark_table_open = $.cookie(cookies.keep_mark_table_open);
                                 if (keep_mark_table_open == "false") {
-                                    $("#marks-editor").removeClass("in");
+                                    $markseditor.removeClass("in");
                                 } else {
-                                    $("#marks-editor").addClass("in");
+                                    $markseditor.addClass("in");
                                 }
                             }
                         }
@@ -154,120 +215,15 @@ define(['knockout',
             self.resetMarksInterface = function () {
                 $('thead [data-toggle="tooltip"]').tooltip({placement: "bottom"});
                 $('tfoot [data-toggle="tooltip"]').tooltip({placement: "top"});
-                //$('.student [data-toggle="tooltip"]').tooltip({placement: "top"});
-
-// подключаем события, чтобы не закрывалась менюшка
-                $('.modal-lesson-editor .dropdown-menu').bind('click', function (e) {
-                    e.stopPropagation()
-                });
-
-                // ### скроллинг мышью таблицы оценок
-                var lastX = -1;
-                var leftButtonDown = false;
-                var scroll_container = $(".m-table-container");
-                var funcScroll = function (e) {
-                    var left = e.clientX;
-                    if (leftButtonDown) {
-                        if (lastX != -1 && Math.abs(lastX - left) > 2) {
-                            this.scrollLeft += lastX - left;
-                            $.cookie("lastScroll", this.scrollLeft);
-                        }
-                    }
-                    lastX = left;
-                };
-                scroll_container.mousedown(function (e) {
-                    if (e.which === 1) leftButtonDown = true;
-                });
-                $(document).mouseup(function (e) {
-                    leftButtonDown = false;
-                });
-                scroll_container.on("touchmove, mousemove", funcScroll);
 
                 // восстановления последнего скролла значения из куков
+                var scroll_container = $(selectors.scroll_container);
                 if (scroll_container.size() && $.cookie("lastScroll")) {
                     scroll_container[0].scrollLeft = $.cookie("lastScroll");
                 }
-// --- конец скроллинг мышью таблицы оценок
 
-
-// ### всплывающее меню редактирование занятия
-//            console.log($(".lesson-edit").qtip());
-                $(".lesson-edit").qtip({
-                    content: {
-                        text: "",
-                        title: function () {
-                            return 'Занятие';
-                        }
-                    },
-                    position: {
-                        my: 'top center',
-                    },
-                    show: {
-                        solo: true,
-                        event: "click",
-                        effect: function () {
-                            $(this).fadeIn(120); // "this" refers to the tooltip
-                        }
-                    },
-                    hide: {
-                        fixed: true,
-                        event: null,
-                        effect: function () {
-                            $(this).fadeOut(120); // "this" refers to the tooltip
-                        }
-                    },
-                    style: {
-                        classes: 'qtip-bootstrap'
-                    },
-                    events: {
-                        show: function (event, api) {
-                            // подключаем форму к тултипу
-                            var tag = $("#template-lesson-edit");
-                            api.set('content.text', tag);
-
-                            // событие внутри формы не закрывает окно
-                            var that = this;
-                            $(that).on("click", function (event) {
-                                event.stopPropagation();
-                            });
-
-                            // инициализируем календарь
-                            $(that).find(".lesson-date").pickmeup_twitter_bootstrap({
-                                hide_on_select: true,
-                                format: 'd/m/Y',
-                                hide: function (e) {
-                                    $(this).trigger('change');
-                                }
-                            });
-
-                            var clickEvent = function () {
-                                $(that).unbind("click");
-                                $(that).qtip("hide");
-                            };
-                            // события клика по кнопки сохранить
-                            $(that).find(".delete, .save").on("click", clickEvent);
-                            // событие клика вне формы
-                            $(document).one("click", clickEvent);
-                        }
-                    }
-                });
-// --- конец всплывающее меню редактирование занятия
-
-// ### синхронизация подсветки строк таблицы оценок
-                $(".m-table>tbody>.t-row,.s-table>tbody>.t-row").hover(function () {
-                    var index = $(this).index();
-                    $(this).addClass("hover");
-                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
-                        $($(item).find(">.t-row")[index]).addClass("hover");
-                    });
-                }, function () {
-                    $(this).removeClass("hover");
-                    var index = $(this).index();
-                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
-                        $($(item).find(">.t-row")[index]).removeClass("hover");
-                    });
-                });
-// --- конец синхронизация подсветки строк таблицы оценок
+                // всплывающее меню редактирование занятия
+                $(".lesson-edit").qtip(qtipsettings);
             };
 // КОНЕЦ РЕИНИЦИАЛИЗАЦИИ ИНТЕРФЕЙСА
 
@@ -312,7 +268,7 @@ define(['knockout',
 
 /// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
             self.showPercents = ko.observable($.cookie(cookies.score_method) !== 'false');
-            self.scoreMethod = ko.computed(function () {
+            self.scoreMethod = ko.pureComputed(function () {
                 return self.showPercents() ? "в процентах" : "в баллах"
             }, self.showPercents);
             self.toggleScorePercents = function () {
@@ -385,7 +341,7 @@ define(['knockout',
                 }
 
                 if (self.labs()) {
-                    for (var i = 0, l = self.labs().length, labs=self.labs(); i< l;++i) {
+                    for (var i = 0, l = self.labs().length, labs = self.labs(); i < l; ++i) {
                         labs[i].saveTaskMarks();
                     }
                 }
@@ -439,7 +395,7 @@ define(['knockout',
                 mark.decrease();
             };
 
-            self.is_active = ko.computed(function () {
+            self.is_active = ko.pureComputed(function () {
                 return self.students().length > 0;
             });
         }

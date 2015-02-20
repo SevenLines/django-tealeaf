@@ -12,7 +12,7 @@
         <div style="position: relative;" rel="tooltip" data-html="true" data-toggle="tooltip"
              data-bind="attr: { 'data-original-title': description }">
             {#            <div class="t-cell task-title" data-bind="text: $index() + 1"></div>#}
-            <div class="t-cell task-title" data-bind="style:{'opacity':  0.25 + $root.taskPercentsComplete($data)() }">
+            <div class="t-cell task-title">
                 <span data-bind="text: $index() + 1"></span>
             </div>
 
