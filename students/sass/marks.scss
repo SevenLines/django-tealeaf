@@ -312,7 +312,9 @@
     .t-row {
       &.collapsed {
         display: none;
-        border-bottom: none;
+        .t-cell {
+          display: none;
+        }
       }
 
       border-bottom: 1px solid $table-border-color;

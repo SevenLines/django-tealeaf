@@ -278,6 +278,19 @@ define(['knockout',
 
             self.toggleBadStudentHiding = function () {
                 self.hideBadStudents(!self.hideBadStudents());
+                var $selrow = $(selectors.marks_editor).find(".collapsed");
+                var $sel = $selrow.find(".t-cell");
+                var options = {
+                    duration: 300,
+                    easing: 'swing'
+                };
+                if (self.hideBadStudents()) {
+                    $sel.slideUp(options);
+                    $selrow.fadeOut(options);
+                } else {
+                    $sel.slideDown(options);
+                    $selrow.fadeIn(options);
+                }
             };
 
             // LESSONS CONTROL
