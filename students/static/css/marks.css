@@ -827,12 +827,9 @@
   max-width: 100%;
   max-height: 100%; }
 
-.tooltip {
-  overflow: hidden; }
-  .tooltip .tooltip-arrow {
-    display: none; }
-  .tooltip .tooltip-inner {
-    white-space: normal; }
+.tooltip .tooltip-inner {
+  overflow: hidden;
+  white-space: normal; }
 
 .god {
   position: relative;
@@ -973,7 +970,8 @@
         border-top-color: #f49900; }
       #marks-editor .marks-table .l-table:nth-child(1) .tooltip .tooltip-inner {
         color: #281900;
-        border: 2px solid #ffe500; }
+        box-shadow: 0 0 4px #8e5900;
+        background-color: #ffef66; }
     #marks-editor .marks-table .l-table:nth-child(2) {
       background-color: #fcfff0; }
       #marks-editor .marks-table .l-table:nth-child(2):hover .lab-title {
@@ -996,7 +994,8 @@
         border-top-color: #f4da00; }
       #marks-editor .marks-table .l-table:nth-child(2) .tooltip .tooltip-inner {
         color: #282400;
-        border: 2px solid #d5ff00; }
+        box-shadow: 0 0 4px #8e7f00;
+        background-color: #e6ff66; }
     #marks-editor .marks-table .l-table:nth-child(3) {
       background-color: #f8fff0; }
       #marks-editor .marks-table .l-table:nth-child(3):hover .lab-title {
@@ -1019,7 +1018,8 @@
         border-top-color: #cdf400; }
       #marks-editor .marks-table .l-table:nth-child(3) .tooltip .tooltip-inner {
         color: #222800;
-        border: 2px solid #91ff00; }
+        box-shadow: 0 0 4px #778e00;
+        background-color: #bdff66; }
     #marks-editor .marks-table .l-table:nth-child(4) {
       background-color: #f4fff0; }
       #marks-editor .marks-table .l-table:nth-child(4):hover .lab-title {
@@ -1042,7 +1042,8 @@
         border-top-color: #8cf400; }
       #marks-editor .marks-table .l-table:nth-child(4) .tooltip .tooltip-inner {
         color: #172800;
-        border: 2px solid #4dff00; }
+        box-shadow: 0 0 4px #518e00;
+        background-color: #94ff66; }
     #marks-editor .marks-table .l-table:nth-child(5) {
       background-color: honeydew; }
       #marks-editor .marks-table .l-table:nth-child(5):hover .lab-title {
@@ -1065,7 +1066,8 @@
         border-top-color: #4bf400; }
       #marks-editor .marks-table .l-table:nth-child(5) .tooltip .tooltip-inner {
         color: #0c2800;
-        border: 2px solid #09ff00; }
+        box-shadow: 0 0 4px #2b8e00;
+        background-color: #6bff66; }
     #marks-editor .marks-table .l-table:nth-child(6) {
       background-color: #f0fff3; }
       #marks-editor .marks-table .l-table:nth-child(6):hover .lab-title {
@@ -1088,7 +1090,8 @@
         border-top-color: #0af400; }
       #marks-editor .marks-table .l-table:nth-child(6) .tooltip .tooltip-inner {
         color: #022800;
-        border: 2px solid #00ff3b; }
+        box-shadow: 0 0 4px #068e00;
+        background-color: #66ff89; }
     #marks-editor .marks-table .l-table .lab-title {
       -webkit-transition: all ease-in-out 0.3s;
       -moz-transition: all ease-in-out 0.3s;
@@ -1112,8 +1115,6 @@
       padding-bottom: 2px; }
     #marks-editor .marks-table .l-table .tooltip {
       font-size: 1em; }
-      #marks-editor .marks-table .l-table .tooltip .tooltip-inner {
-        background-color: white; }
   #marks-editor .marks-table .t-header .t-cell, #marks-editor .marks-table .t-footer .t-cell {
     height: 36.4px; }
   #marks-editor .marks-table .t-row {

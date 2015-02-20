@@ -29,11 +29,11 @@
 }
 
 .tooltip {
-  overflow: hidden;
   .tooltip-arrow {
-    display: none;
+//    display: none;
   }
   .tooltip-inner {
+    overflow: hidden;
     white-space: normal;
   }
 }
@@ -262,7 +262,8 @@
             }
             .tooltip-inner {
               color: darken($color, 40);
-              border: 2px solid $color2;
+              box-shadow: 0 0 4px darken($color, 20);
+              background-color: lighten($color2, 20);
             }
           }
         }
@@ -292,7 +293,8 @@
       .tooltip {
         font-size: 1em;
         .tooltip-inner {
-          background-color: white;
+//          border-radius: 0;
+          //          background-color: white;
         }
       }
 
