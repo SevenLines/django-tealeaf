@@ -203,7 +203,7 @@
         }
         .done {
           .t-cell-icon {
-            display: inline;
+            display: none;
             color: inherit;
           }
         }
@@ -225,10 +225,14 @@
           background-color: lighten($color2, 47);
           &:hover {
             .lab-title {
-              background-color: lighten($color2, 25);
-              color: darken($color, 20);
-              text-shadow: 0 0 1px white;
+              background-color: lighten($color2, 0);
             }
+          }
+
+          .lab-title {
+            background-color: lighten($color2, 25);
+            color: darken($color, 20);
+            text-shadow: 0 0 1px white;
           }
           .task-title {
             &:hover {
@@ -280,7 +284,9 @@
       .task-title {
         cursor: pointer;
         background-color: #ffffff;
-        padding-top: $row-height / 2;
+        padding-top: $row-height / 2 + 2px;
+        font-size: $row-height / 2 - 3px;
+        padding-bottom: 2px;
       }
 
       .tooltip {
@@ -304,14 +310,6 @@
     .t-row {
       &.collapsed {
         display: none;
-        //        .t-cell {
-        //          padding-top: 0 !important;
-        //          max-height: 0 !important;
-        //          //          border: none;
-        //          &.mark {
-        //            padding: 0;
-        //          }
-        //        }
         border-bottom: none;
       }
 
