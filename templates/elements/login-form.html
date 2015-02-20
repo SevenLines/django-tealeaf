@@ -36,23 +36,3 @@
         </a>
     {% endif %}
 </div>
-
-
-<script>
-
-    {% if user.is_authenticated %}
-        $("#enter-button").click(function () {
-            $.post("{% url "django.contrib.auth.views.logout" %}", {
-                csrfmiddlewaretoken: "{{ csrf_token }}"
-            }).success(function () {
-                location.reload();
-            });
-        });
-    {% else %}
-        $("body").click(function (evt) {
-            if (evt.altKey && evt.ctrlKey && evt.shiftKey) {
-                $("#login-modal").modal('show');
-            }
-        });
-    {% endif %}
-</script>

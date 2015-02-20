@@ -1,7 +1,11 @@
 {% extends "base-page.html" %}
-{% load static cms_tags sekizai_tags file_upload_form_tags menu_tags %}
+{% load static cms_tags sekizai_tags file_upload_form_tags menu_tags ex_tags %}
 
 {% block basecontent %}
+
+    {% addtoblock "core_js" %}
+        {% requirejs 'js' 'main' 'dist/main' %}
+    {% endaddtoblock %}
 
     {% if user.is_authenticated %}
         {% file_upload_form current_page.pk %}

@@ -2,16 +2,20 @@
  * Created by m on 13.02.15.
  */
 define(['knockout',
+        'jquery',
+        'jquery.cookie',
+        'qtip',
         'urls',
         'cookies',
-        'utils',
+        'helpers',
         'marks/lesson',
         'marks/mark',
         'marks/student',
         'marks/markselector',
-        'marks/qtipsettings'
+        'marks/qtipsettings',
+        'bootstrap'
     ],
-    function (ko, urls, cookies, utils, Lesson, Mark, Student, MarkSelector, qtipsettings) {
+    function (ko, $, cookie, qtip, urls, cookies, helpers, Lesson, Mark, Student, MarkSelector, qtipsettings) {
         return function () {
             var self = this;
 
@@ -316,13 +320,13 @@ define(['knockout',
             };
 
             self.addLesson = function () {
-                $.post(urls.url.lesson_add, utils.csrfize({
+                $.post(urls.url.lesson_add, helpers.csrfize({
                     discipline_id: self.discipline_id,
                     group_id: self.group_id
                 })).done(function () {
                     self.loadStudents()
                 }).fail(function () {
-                    InterfaceAlerts.showFail();
+                    helpers.showFail();
                 });
             };
 
@@ -334,7 +338,7 @@ define(['knockout',
             };
 
             self.saveLesson = function (data) {
-                $.post(urls.url.lesson_save, utils.csrfize({
+                $.post(urls.url.lesson_save, helpers.csrfize({
                     lesson_id: data.id,
                     lesson_type: data.lesson_type(),
                     date: data.isodate(),
@@ -349,9 +353,9 @@ define(['knockout',
                         data.description(response.description);
                         data.description_raw(response.description_raw);
                     }
-                    InterfaceAlerts.showSuccess();
+                    helpers.showSuccess();
                 }).fail(function () {
-                    InterfaceAlerts.showFail();
+                    helpers.showFail();
                 })
             };
 
@@ -376,15 +380,15 @@ define(['knockout',
                     }
                 }
 
-                $.post(urls.url.marks_save, utils.csrfize({
+                $.post(urls.url.marks_save, helpers.csrfize({
                     marks: JSON.stringify(marks)
                 })).done(function () {
                     for (var i = 0; i < self.students().length; ++i) {
                         self.students()[i].reset();
                     }
-                    InterfaceAlerts.showSuccess()
+                    helpers.showSuccess()
                 }).fail(function () {
-                    InterfaceAlerts.showFail()
+                    helpers.showFail()
                 })
 
             };

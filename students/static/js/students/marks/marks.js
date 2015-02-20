@@ -2,12 +2,24 @@
  * Created by m on 11.02.15.
  */
 require.config({
-    paths: {
-        marks: './marks',
-        labs: './labs',
-        knockout: '/static/bower_components/knockout/dist/knockout',
-        //underscore: '/static/bower_components/underscore/underscore'
+    shim: {
+        bootstrap: {"deps": ['jquery']},
+        qtip: {"deps": ['jquery']},
+        color: {"deps": ['jquery']}
     },
+    paths: {
+        'marks': './marks',
+        'labs': './labs',
+        'qtip': '/static/bower_components/qtip2/jquery.qtip',
+        'knockout': '/static/bower_components/knockout/dist/knockout',
+        'jquery': '/static/bower_components/jquery/dist/jquery',
+        'jquery.cookie': '/static/bower_components/jquery.cookie/jquery.cookie',
+        'color': '/static/lib/color',
+        'bootstrap': '/static/lib/bootstrap/bootstrap.min',
+        'helpers': '/static/js/helpers',
+        'interface': '/static/js/interface'
+        //underscore: '/static/bower_components/underscore/underscore'
+    }
 });
 
 
@@ -32,7 +44,7 @@ function lessonIconSelectPopup(triggeringLink) {
     return false;
 }
 
-require(['main', 'knockout'], function (MarksViewModel, ko) {
+require(['main', 'knockout', 'interface'], function (MarksViewModel, ko) {
     var model = new MarksViewModel();
     ko.applyBindings(model);
 });

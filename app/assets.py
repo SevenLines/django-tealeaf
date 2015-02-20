@@ -14,7 +14,7 @@ main_js = Bundle('bower_components/jquery/dist/jquery.min.js',
                  'lib/bootstrap/bootstrap.min.js',
                  'lib/logger.js',
                  'js/interface.js',
-                 'lib/color.js',
+                 'lib/_color.js',
                  filters="yui_js",
                  output="js/main.min.js")
 

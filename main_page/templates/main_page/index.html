@@ -1,7 +1,11 @@
 {% extends "base-page.html" %}
-{% load static sekizai_tags %}
+{% load static sekizai_tags ex_tags %}
 
 {% block basecontent %}
+
+    {% addtoblock "core_js" %}
+        {% requirejs 'js' 'main' 'dist/main' %}
+    {% endaddtoblock %}
 
     <div id="main-banner">
         {% if user.is_authenticated %}

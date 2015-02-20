@@ -1,0 +1,29 @@
+{
+  "name": "color",
+  "main": "color.js",
+  "version": "0.7.3",
+  "ignore": [],
+  "authors": [
+    "Heather Arthur <fayearthur@gmail.com>"
+  ],
+  "description": "Color conversion and manipulation with CSS string support",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "color",
+    "colour",
+    "css"
+  ],
+  "homepage": "https://github.com/harthur/color",
+  "_release": "0.7.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.7.3",
+    "commit": "05b73c2824d5697b0a363c04d89ec88f15d772b3"
+  },
+  "_source": "git://github.com/harthur/color.git",
+  "_target": "~0.7.3",
+  "_originalSource": "harthur-color",
+  "_direct": true
+}

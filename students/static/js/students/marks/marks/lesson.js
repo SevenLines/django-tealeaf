@@ -1,5 +1,5 @@
 // >>> LESSON CLASS
-define(['knockout', 'utils', 'urls'], function (ko, utils, urls) {
+define(['knockout', 'helpers', 'urls'], function (ko, helpers, urls) {
     return function (data, model) {
         var self = this;
         self.convert_date = function (isodate) {
@@ -73,14 +73,14 @@ define(['knockout', 'utils', 'urls'], function (ko, utils, urls) {
                 buttons: {'Да': true, 'Не сейчас': false},
                 submit: function (e, v, m, f) {
                     if (v) {
-                        $.post(urls.url.lesson_remove, utils.csrfize({
+                        $.post(urls.url.lesson_remove, helpers.csrfize({
                             lesson_id: self.id
                         })).done(function (d) {
                             if (ondone) ondone(d);
-                            InterfaceAlerts.showSuccess();
+                            helpers.showSuccess();
                         }).fail(function () {
                             if (onfail) onfail(d);
-                            InterfaceAlerts.showFail();
+                            helpers.showFail();
                         });
                     }
                 }

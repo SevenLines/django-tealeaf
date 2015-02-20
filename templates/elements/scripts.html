@@ -1,19 +1,29 @@
-{% load static sekizai_tags assets %}
-
-
+{% load static sekizai_tags assets ex_tags %}
 
 {% addtoblock "core_js" %}
-    {% assets "main_js" %}
-        <script type="text/javascript" src="{% static ASSET_URL %}"></script>
-    {% endassets %}
+    {#    {% assets "main_js" %}#}
+    {#        <script type="text/javascript" src="{% static ASSET_URL %}"></script>#}
+    {#    {% endassets %}#}
+
+    <script src="{% static "bower_components/requirejs/require.js" %}"></script>
+    {#    {% requirejs 'js' 'main' 'dist/main' %}#}
+
     <!--[if lt IE 9]>
-      <script type="text/javascript" src="{% static "lib/html5shiv.js" %}"></script>
-    <![endif]-->
+          <script type="text/javascript" src="{% static "lib/html5shiv.js" %}"></script>
+        <![endif]-->
     <!--[if lt IE 9]>
-      <script type="text/javascript" src="{% static "lib/respond.min.js" %}"></script>
-    <![endif]-->
+          <script type="text/javascript" src="{% static "lib/respond.min.js" %}"></script>
+        <![endif]-->
 
     {% include "elements/back-to-top-button.html" %}
     {% include "elements/login-form.html" %}
     {% include "elements/messages.html" %}
+    <script>
+        define("common-settings", {
+            csrf: "{{ csrf_token }}",
+            url: {
+                {% if user.is_authenticated %}'logout': '{% url "django.contrib.auth.views.logout" %}'{% endif %}
+            }
+        });
+    </script>
 {% endaddtoblock %}
