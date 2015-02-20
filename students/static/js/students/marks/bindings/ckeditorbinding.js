@@ -34,7 +34,7 @@ define(['knockout'], function (ko) {
                             valueAccessor()(editor.getData());
                         });
 
-                        $(element).trigger("blur");
+                        //$(element).trigger("blur");
 
                         ko.bindingHandlers.ckeditorInline.update(element, valueAccessor, allBindingsAccessor, viewModel);
                         return false;
