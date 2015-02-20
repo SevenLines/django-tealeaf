@@ -38,6 +38,7 @@ define(['knockout',
             self.firstLoadingAfterParametersChanged = ko.observable(true);
 // >>> ЗАГРУЗКА ДАННЫХ
             self.isStudentsLoading = ko.observable(true);
+            self.isStudentsAboutToLoading = ko.observable(false);
             self.showLoading = ko.pureComputed(function () {
                 return (self.isStudentsLoading() || (self.students && self.students().length == 0));
             });
@@ -64,6 +65,9 @@ define(['knockout',
 
             // ### синхронизация подсветки строк таблицы оценок
             var $markseditor = $(selectors.marks_editor);
+            $markseditor.collapse({
+                toggle: false
+            });
             $markseditor.on({
                 mouseenter: function () {
                     var index = $(this).index();
@@ -124,83 +128,96 @@ define(['knockout',
 
 // >>> ЗАГРУЗКИ
             self.loadStudents = function () {
-                //if (self._block) return;
-                //self.block();
-                self.students.removeAll();
+                if (self.isStudentsAboutToLoading()) return;
 
-                if (!self.group_id)
-                    return;
+                self.isStudentsAboutToLoading(true);
 
-                self.isStudentsLoading(true);
+                var exec = function () {
+                    self.students.removeAll();
 
-                setTimeout(function () {
-                    $.get(urls.url.students, {
-                        'group_id': self.group_id,
-                        'discipline_id': self.discipline_id
-                    }).done(function (data) {
-                        // fill lesson_types list
-                        self.lesson_types(data.lesson_types);
+                    if (!self.group_id) {
+                        self.isStudentsAboutToLoading(false);
+                        self.isStudentsLoading(false);
+                        return;
+                    }
+                    self.isStudentsLoading(true);
 
-                        // fill mark types, and find max and min value at the same time
-                        marksTypes = {};
-                        self.marksTypes(data.mark_types);
-                        data.mark_types.every(function (item) {
-                            marksTypes[item['k']] = item['v'];
-                            if (!marksTypes.max < parseInt(item['k'])) {
-                                marksTypes.max = parseInt(item['k']);
-                            }
-                            if (!marksTypes.min > parseInt(item['k'])) {
-                                marksTypes.min = parseInt(item['k']);
-                            }
-                            return true
-                        });
+                    setTimeout(function () {
+                        $.get(urls.url.students, {
+                            'group_id': self.group_id,
+                            'discipline_id': self.discipline_id
+                        }).done(function (data) {
+                            // fill lesson_types list
+                            self.lesson_types(data.lesson_types);
 
-                        // fill lessons list
-                        var map_lessons = $.map(data.lessons, function (item) {
-                            return new Lesson(item, self);
-                        });
-                        self.lessons(map_lessons);
+                            // fill mark types, and find max and min value at the same time
+                            marksTypes = {};
+                            self.marksTypes(data.mark_types);
+                            data.mark_types.every(function (item) {
+                                marksTypes[item['k']] = item['v'];
+                                if (!marksTypes.max < parseInt(item['k'])) {
+                                    marksTypes.max = parseInt(item['k']);
+                                }
+                                if (!marksTypes.min > parseInt(item['k'])) {
+                                    marksTypes.min = parseInt(item['k']);
+                                }
+                                return true
+                            });
 
-                        var i = -1;
+                            // fill lessons list
+                            var map_lessons = $.map(data.lessons, function (item) {
+                                return new Lesson(item, self);
+                            });
+                            self.lessons(map_lessons);
 
-                        function add_item() {
-                            if (i == -1) {
-                                self.students.removeAll();
-                                setTimeout(add_item, 0);
-                                ++i;
-                            }
-                            if (i < data.students.length) {
-                                var item = data.students[i];
-                                ++i;
-                                item.lessons = self.lessons;
-                                self.students.push(new Student(item));
-                                setTimeout(add_item, 0);
-                            } else {
-                                self.sortMethod(self.sortMethods[$.cookie(cookies.sorting)]);
-                                $.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
-                                self.resetMarksInterface();
-                                self.isStudentsLoading(false);
-                                self.firstLoadingAfterParametersChanged(false);
+                            var i = -1;
 
-                                // open / close marksTable collapse according ot saved state
-                                var keep_mark_table_open = $.cookie(cookies.keep_mark_table_open);
-                                if (keep_mark_table_open == "false") {
-                                    $markseditor.removeClass("in");
+                            function add_item() {
+                                if (i == -1) {
+                                    self.students.removeAll();
+                                    setTimeout(add_item, 0);
+                                    ++i;
+                                }
+                                if (i < data.students.length) {
+                                    var item = data.students[i];
+                                    ++i;
+                                    item.lessons = self.lessons;
+                                    self.students.push(new Student(item));
+                                    setTimeout(add_item, 0);
                                 } else {
-                                    $markseditor.addClass("in");
+                                    self.sortMethod(self.sortMethods[$.cookie(cookies.sorting)]);
+                                    $.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
+                                    self.resetMarksInterface();
+                                    self.isStudentsLoading(false);
+                                    self.isStudentsAboutToLoading(false);
+                                    self.firstLoadingAfterParametersChanged(false);
+
+                                    // open / close marksTable collapse according ot saved state
+                                    var keep_mark_table_open = $.cookie(cookies.keep_mark_table_open);
+                                    if (keep_mark_table_open == "false") {
+                                        $markseditor.collapse("hide");
+                                    } else {
+                                        $markseditor.collapse("show");
+                                    }
                                 }
                             }
-                        }
 
-                        if (data.students.length > 0) {
-                            add_item();
-                        }
-                    }).always(function () {
-                        //self.onInit(false);
-                    }).fail(function () {
-                        self.resetMarksInterface();
-                    });
-                }, 60);
+                            if (data.students.length > 0) {
+                                add_item();
+                            }
+                        }).always(function () {
+                            //self.onInit(false);
+                        }).fail(function () {
+                            self.resetMarksInterface();
+                        });
+                    }, 60);
+                };
+                if ($markseditor.hasClass("in")) {
+                    $markseditor.one("hidden.bs.collapse", exec);
+                    $markseditor.collapse("hide");
+                } else {
+                    exec();
+                }
             };
 
             self.loadStudentsControl = function () {

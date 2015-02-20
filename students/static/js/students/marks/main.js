@@ -163,6 +163,9 @@ define(['knockout',
             self.loadGroups = function (done) {
                 if (!self.groups_loading_complete) return;
                 self.groups_loading_complete = false;
+
+                //return;
+
                 self.groups.removeAll();
                 $.get(urls.url.groups, {
                     'year': self.year() || 0,
