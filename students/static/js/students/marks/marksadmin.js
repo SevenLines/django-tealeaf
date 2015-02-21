@@ -17,7 +17,7 @@ require.config({
         'qtip': '/static/bower_components/qtip2/jquery.qtip',
         'jquery.cookie': '/static/bower_components/jquery.cookie/jquery.cookie',
         'color': '/static/lib/color',
-        'bootstrap': '/static/lib/bootstrap/bootstrap.min',
+        'bootstrap': '../../../lib/bootstrap/bootstrap.min',
         'helpers': '../../../js/helpers',
         'interface': '../../../js/interface',
         'knockout': '/static/bower_components/knockout/dist/knockout',
@@ -33,16 +33,18 @@ require.config({
 define('jquery', [], function () {
     return jQuery;
 });
+require(['jquery']);
 
 
 require(['main',
         'knockout',
+        'jquery',
         'interface',
         'ckeditorinlinebinding',
         'select2binding',
         'jquery-impromptu',
-        'pickmeup',
-        'jquery'],
+        'pickmeup'
+        ],
     function (MarksViewModel, ko) {
         var model = new MarksViewModel();
         ko.applyBindings(model);

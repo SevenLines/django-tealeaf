@@ -2995,1141 +2995,6 @@ define('marks/qtipsettings',['pickmeup'],function () {
         }
     }
 });
-/**
- * Created by m on 13.02.15.
- */
-define('marks/markstable',['knockout',
-        //'jquery',
-        //'jquery.cookie',
-        //'qtip',
-        'urls',
-        'cookies',
-        'helpers',
-        'marks/lesson',
-        'marks/mark',
-        'marks/student',
-        'marks/markselector',
-        'marks/qtipsettings'
-        //'bootstrap'
-    ],
-    function (ko, urls, cookies, helpers, Lesson, Mark, Student, MarkSelector, qtipsettings) {
-        return function () {
-            var self = this;
-
-            var selectors = {
-                marks_editor: '#marks-editor',
-                marks_selector: '#mark-selector',
-                scroll_container: '.m-table-container'
-            };
-
-            self.students = ko.observableArray();
-            self.students_control = ko.observableArray();
-            self.student = ko.observable();
-
-            self.lessons = ko.observableArray();
-            self.lesson_types = ko.observableArray();
-            self.lesson = ko.observable();
-
-            self.labs = ko.observableArray();
-            self.tasksProgress = ko.observableArray();
-
-            self.group_id = 0;
-            self.discipline_id = 0;
-
-            self.firstLoadingAfterParametersChanged = ko.observable(true);
-// >>> ЗАГРУЗКА ДАННЫХ
-            self.isStudentsLoading = ko.observable(true);
-            self.isStudentsAboutToLoading = ko.observable(false);
-            self.showLoading = ko.pureComputed(function () {
-                return (self.isStudentsLoading() || (self.students && self.students().length == 0));
-            });
-
-            self.showPanel = ko.pureComputed(function () {
-                return (self.students().length || self.isStudentsLoading())
-                    && !self.firstLoadingAfterParametersChanged();
-            });
-
-            self.setParams = function (group_id, discipline_id) {
-                self.group_id = group_id;
-                //self.firstLoadingAfterParametersChanged(true);
-                if (group_id == null) {
-                    self.isStudentsLoading(false);
-                    //self.onInit(false);
-                }
-                self.discipline_id = discipline_id;
-                self.loadStudents();
-            };
-
-            self.setLabs = function (r, labsTable) {
-                self.labs = labsTable.labs;
-            };
-
-            // ### синхронизация подсветки строк таблицы оценок
-            var $markseditor = $(selectors.marks_editor);
-            $markseditor.collapse({
-                toggle: false
-            });
-            $markseditor.on({
-                mouseenter: function () {
-                    var index = $(this).index();
-                    $(this).addClass("hover");
-                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
-                        $($(item).find(">.t-row")[index]).addClass("hover");
-                    });
-                },
-                mouseleave: function () {
-                    $(this).removeClass("hover");
-                    var index = $(this).index();
-                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
-                        $($(item).find(">.t-row")[index]).removeClass("hover");
-                    });
-                }
-            }, ".m-table>tbody>.t-row,.s-table>tbody>.t-row");
-            // --- конец синхронизация подсветки строк таблицы оценок
-
-            // подключаем события, чтобы не закрывалась менюшка
-            $markseditor.on("click", '.modal-lesson-editor .dropdown-menu', function (e) {
-                e.stopPropagation()
-            });
-
-            // ### скроллинг мышью таблицы оценок
-            (function () {
-                var lastX = -1;
-                var leftButtonDown = false;
-                //var scroll_container = $(".m-table-container");
-                var funcScroll = function (e) {
-                    var left = e.clientX;
-                    if (leftButtonDown) {
-                        if (lastX != -1 && Math.abs(lastX - left) > 2) {
-                            this.scrollLeft += lastX - left;
-                            $.cookie("lastScroll", this.scrollLeft);
-                        }
-                    }
-                    lastX = left;
-                };
-                $markseditor.on({
-                    mousedown: function (e) {
-                        if (e.which === 1) leftButtonDown = true;
-                    },
-                    touchmove: funcScroll,
-                    mousemove: funcScroll
-                }, selectors.scroll_container);
-
-                $(document).mouseup(function (e) {
-                    leftButtonDown = false;
-                });
-            })();
-            // --- конец скроллинг мышью таблицы оценок
-
-
-            // SERVICE VARIABLES
-            self.marksTypes = ko.observableArray();
-            self.hideBadStudents = ko.observable(true);
-            self.markSelector = new MarkSelector(selectors.marks_selector, self.marksTypes);
-
-// >>> ЗАГРУЗКИ
-            self.loadStudents = function () {
-                if (self.isStudentsAboutToLoading()) return;
-
-                self.isStudentsAboutToLoading(true);
-
-                var exec = function () {
-                    self.students.removeAll();
-
-                    if (!self.group_id) {
-                        self.isStudentsAboutToLoading(false);
-                        self.isStudentsLoading(false);
-                        return;
-                    }
-                    self.isStudentsLoading(true);
-
-                    setTimeout(function () {
-                        $.get(urls.url.students, {
-                            'group_id': self.group_id,
-                            'discipline_id': self.discipline_id
-                        }).done(function (data) {
-                            // fill lesson_types list
-                            self.lesson_types(data.lesson_types);
-
-                            // fill mark types, and find max and min value at the same time
-                            marksTypes = {};
-                            self.marksTypes(data.mark_types);
-                            data.mark_types.every(function (item) {
-                                marksTypes[item['k']] = item['v'];
-                                if (!marksTypes.max < parseInt(item['k'])) {
-                                    marksTypes.max = parseInt(item['k']);
-                                }
-                                if (!marksTypes.min > parseInt(item['k'])) {
-                                    marksTypes.min = parseInt(item['k']);
-                                }
-                                return true
-                            });
-
-                            // fill lessons list
-                            var map_lessons = $.map(data.lessons, function (item) {
-                                return new Lesson(item, self);
-                            });
-                            self.lessons(map_lessons);
-
-                            var i = -1;
-
-                            function add_item() {
-                                if (i == -1) {
-                                    self.students.removeAll();
-                                    setTimeout(add_item, 0);
-                                    ++i;
-                                }
-                                if (i < data.students.length) {
-                                    var item = data.students[i];
-                                    ++i;
-                                    item.lessons = self.lessons;
-                                    self.students.push(new Student(item));
-                                    setTimeout(add_item, 0);
-                                } else {
-                                    self.sortMethod(self.sortMethods[$.cookie(cookies.sorting)]);
-                                    $.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
-                                    self.resetMarksInterface();
-                                    self.isStudentsLoading(false);
-                                    self.isStudentsAboutToLoading(false);
-                                    self.firstLoadingAfterParametersChanged(false);
-
-                                    // open / close marksTable collapse according ot saved state
-                                    var keep_mark_table_open = $.cookie(cookies.keep_mark_table_open);
-                                    if (keep_mark_table_open == "false") {
-                                        $markseditor.collapse("hide");
-                                    } else {
-                                        $markseditor.collapse("show");
-                                    }
-                                }
-                            }
-
-                            if (data.students.length > 0) {
-                                add_item();
-                            }
-                        }).always(function () {
-                            //self.onInit(false);
-                        }).fail(function () {
-                            self.resetMarksInterface();
-                        });
-                    }, 60);
-                };
-                if ($markseditor.hasClass("in")) {
-                    $markseditor.one("hidden.bs.collapse", exec);
-                    $markseditor.collapse("hide");
-                } else {
-                    exec();
-                }
-            };
-
-            self.loadStudentsControl = function () {
-                window.location = urls.url.students_control + '?' + $.param([
-                    {name: 'year', value: self.year()},
-                    {name: 'discipline_id', value: self.discipline_id},
-                    {name: 'k', value: 0.5}
-                ])
-            };
-
-            // ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
-            self.resetMarksInterface = function () {
-                $('thead [data-toggle="tooltip"]').tooltip({placement: "bottom"});
-                $('tfoot [data-toggle="tooltip"]').tooltip({placement: "top"});
-
-                // восстановления последнего скролла значения из куков
-                var scroll_container = $(selectors.scroll_container);
-                if (scroll_container.size() && $.cookie("lastScroll")) {
-                    scroll_container[0].scrollLeft = $.cookie("lastScroll");
-                }
-
-                // всплывающее меню редактирование занятия
-                $(".lesson-edit").qtip(qtipsettings);
-            };
-// КОНЕЦ РЕИНИЦИАЛИЗАЦИИ ИНТЕРФЕЙСА
-
-
-// >>> СОРТИРОВКА
-            self.sortByStudentsMark = function (left, right) {
-                return left.sum() == right.sum() ? 0 : left.sum() < right.sum() ? 1 : -1;
-            };
-            self.sortByStudentsMark.title = "По цвету";
-
-            self.sortByStudentsName = function (left, right) {
-                var s1 = left.sum() >= 0 ? 1 : -1;
-                var s2 = right.sum() >= 0 ? 1 : -1;
-
-                // студенты с отрицательными оценками идут в конце
-                if (left.second_name < right.second_name) {
-                    return s1 == s2 ? -1 : s1 < s2 ? 1 : -1;
-                } else if (left.second_name > right.second_name) {
-                    return s1 == s2 ? 1 : s1 < s2 ? 1 : -1;
-                } else {
-                    return 0;
-                }
-            };
-            self.sortByStudentsName.title = "По имени";
-
-            self.sortMethods = {};
-            self.sortMethods[self.sortByStudentsMark.title] = self.sortByStudentsMark;
-            self.sortMethods[self.sortByStudentsName.title] = self.sortByStudentsName;
-            self.sortMethods['undefined'] = self.sortByStudentsName;
-
-            self.sortMethod = ko.observable();
-            self.sortMethod.subscribe(function () {
-                if (self.sortMethod()) {
-                    self.students.sort(self.sortMethod());
-                }
-            });
-            self.toggleStudentsSorting = function () {
-                self.sortMethod(self.sortMethod() == self.sortByStudentsMark ?
-                    self.sortByStudentsName : self.sortByStudentsMark);
-                $.cookie(cookies.sorting, self.sortMethod().title, {expires: cookies.expires});
-            };
-
-/// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
-            self.showPercents = ko.observable($.cookie(cookies.score_method) !== 'false');
-            self.scoreMethod = ko.pureComputed(function () {
-                return self.showPercents() ? "в процентах" : "в баллах"
-            }, self.showPercents);
-            self.toggleScorePercents = function () {
-                self.showPercents(!self.showPercents());
-                $.cookie(cookies.score_method, self.showPercents(), {expires: cookies.expires});
-            };
-
-            self.toggleBadStudentHiding = function () {
-                self.hideBadStudents(!self.hideBadStudents());
-                var $selrow = $(selectors.marks_editor).find(".collapsed");
-                var $sel = $selrow.find(".t-cell");
-                var options = {
-                    duration: 300,
-                    easing: 'swing'
-                };
-                if (self.hideBadStudents()) {
-                    $sel.slideUp(options);
-                    $selrow.fadeOut(options);
-                } else {
-                    $sel.slideDown(options);
-                    $selrow.fadeIn(options);
-                }
-            };
-
-            // LESSONS CONTROL
-            self.lessonHover = function (data) {
-                self.lesson(data);
-            };
-
-            self.addLesson = function () {
-                $.post(urls.url.lesson_add, helpers.csrfize({
-                    discipline_id: self.discipline_id,
-                    group_id: self.group_id
-                })).done(function () {
-                    self.loadStudents()
-                }).fail(function () {
-                    helpers.showFail();
-                });
-            };
-
-            self.removeLesson = function (data) {
-                data.remove(function () {
-                    //self.lessons.remove(data);
-                    self.loadStudents();
-                });
-            };
-
-            self.saveLesson = function (data) {
-                $.post(urls.url.lesson_save, helpers.csrfize({
-                    lesson_id: data.id,
-                    lesson_type: data.lesson_type(),
-                    date: data.isodate(),
-                    multiplier: data.multiplier(),
-                    description_raw: data.description_raw(),
-                    score_ignore: data.score_ignore(),
-                    icon_id: data.icon_id() == null ? -1 : data.icon_id()
-                })).done(function (response) {
-                    if (data.isodate() != data.isodate_old) {
-                        self.loadStudents();
-                    } else {
-                        data.description(response.description);
-                        data.description_raw(response.description_raw);
-                    }
-                    helpers.showSuccess();
-                }).fail(function () {
-                    helpers.showFail();
-                })
-            };
-
-// MARKS CONTROL
-            self.saveMarks = function () {
-                var marks = [];
-                for (var i = 0; i < self.students().length; ++i) {
-                    var mrks = self.students()[i].modified_marks();
-                    mrks.every(function (item) {
-                        marks.push({
-                            lesson_id: item.lesson_id,
-                            student_id: item.student_id,
-                            mark: item.mark()
-                        });
-                        return true;
-                    })
-                }
-
-                if (self.labs()) {
-                    for (var i = 0, l = self.labs().length, labs = self.labs(); i < l; ++i) {
-                        labs[i].saveTaskMarks();
-                    }
-                }
-
-                $.post(urls.url.marks_save, helpers.csrfize({
-                    marks: JSON.stringify(marks)
-                })).done(function () {
-                    for (var i = 0; i < self.students().length; ++i) {
-                        self.students()[i].reset();
-                    }
-                    helpers.showSuccess()
-                }).fail(function () {
-                    helpers.showFail()
-                })
-
-            };
-
-            self.toExcel = function (data, e) {
-                window.location = urls.url.to_excel + '?' + $.param([
-                    {name: 'group_id', value: self.group_id},
-                    {name: 'discipline_id', value: self.discipline_id},
-                ]);
-            };
-
-            self.resetCache = function (date, e) {
-                $.get(urls.url.reset_cache).done(function () {
-                    window.location.reload();
-                })
-            };
-
-            self.clickMark = function (data, e) {
-                if ($.clickMouseMoved()) {
-                    return false;
-                }
-                setTimeout(function () {
-                    self.markSelector.show(data, e.target);
-                }, 10);
-                return false;
-            };
-
-            self.clickTask = function (student, task, e) {
-                //console.log(task());
-                //console.log(student());
-            };
-
-            self.increase = function (mark) {
-                mark.increase();
-            };
-
-            self.decrease = function (mark) {
-                mark.decrease();
-            };
-
-            self.is_active = ko.pureComputed(function () {
-                return self.students().length > 0;
-            });
-        }
-    })
-;
-/**
- * Created by m on 13.02.15.
- */
-define('labs/task',['knockout', 'urls', 'helpers'], function (ko, urls, helpers) {
-    return function (data) {
-        var self = this;
-
-        self.id = data.id;
-        self.complexity = ko.observable(data.complexity);
-        self.description = ko.observable(data.description);
-        self.order = ko.observable(data.order);
-        self.students = ko.observableArray(data.students);
-        self._complex_choices = data.complex_choices;
-
-        self.lab = data.lab;
-
-        function get_ids(massdata) {
-            var out = [];
-            self.students().every(function (item) {
-                out.push(item.id);
-                return true;
-            });
-            return out;
-        }
-
-        self.students_ids = ko.pureComputed(function () {
-            return get_ids(self.students);
-        });
-        self.old_students = get_ids(data.students);
-
-        self.style = ko.pureComputed(function () {
-            var out = "";
-            out += self._complex_choices[self.complexity()];
-            switch(self.students().length) {
-                case 0: break;
-                case 1:
-                    out += " selected";
-                    break;
-                case 2:
-                    out += " selected2";
-                    break;
-                default:
-                    out += " selected3";
-                    break;
-            }
-            //out += self.students().length > 0 ? " selected" : "";
-            return out;
-        });
-
-        self.complex_choices = ko.pureComputed(function () {
-            var out = [];
-            Object.keys(self._complex_choices).every(function (key) {
-                out.push({
-                    value: key,
-                    class: self._complex_choices[key]
-                });
-                return true;
-            });
-            return out;
-        });
-
-        self.changed = ko.pureComputed(function () {
-            return self.complexity() != data.complexity ||
-                self.description() != data.description ||
-                !self.students_ids().equals(self.old_students);
-        });
-
-        self.setComplex = function ($data) {
-            self.complexity($data.value);
-        };
-
-        self.reset = function () {
-            data.complexity = self.complexity();
-            data.description = self.description();
-            self.old_students = self.students_ids();
-            self.complexity.notifySubscribers();
-        };
-
-        self.save = function () {
-            console.log('saved');
-            helpers.post(urls.url.task_save, helpers.csrfize({
-                id: self.id,
-                complexity: self.complexity(),
-                description: self.description(),
-                students: JSON.stringify(self.students_ids())
-            }), self.reset);
-        };
-
-        self.remove = function (done, fail) {
-            $.prompt("Удалить \"" + self.description() + "\"?", {
-                persistent: false,
-                buttons: {"Да": true, 'Не сейчас': false},
-                submit: function (e, v) {
-                    if (v) {
-                        helpers.post(urls.url.task_delete, {
-                            id: self.id
-                        }, done, fail);
-                    }
-                }
-            });
-        };
-
-    }
-});
-/**
- * Created by m on 19.02.15.
- */
-define('labs/marktask',['knockout', 'urls'], function (ko, urls) {
-    return function(data) {
-        var self = this;
-        self.id = data.id === undefined ? -1 : data.id;
-        self.student = data.student;
-        self.task = data.task;
-        self.group = data.group;
-        self.done = ko.observable(data.done === undefined ? false : data.done);
-
-        self.lab_inst = ko.observable(data.lab_inst);
-        self.task_inst = ko.observable(data.task_inst);
-
-        self.changed = ko.pureComputed(function (){
-            return data.done != self.done();
-        });
-
-        self.post_data = function () {
-            return {
-                id: self.id,
-                student: self.student,
-                task: self.task,
-                done: self.done()
-            }
-        };
-
-        self.css = ko.pureComputed(function () {
-            return [
-                self.done() ? 'done' : '',
-            ].join(" ");
-        });
-
-        self.reset = function () {
-            data.done = self.done();
-        };
-
-        self.toggle = function () {
-            self.done(!self.done());
-        }
-    }
-
-});
-
-/**
- * Created by m on 13.02.15.
- */
-define('labs/lab',["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function (ko, urls, helpers, Task, MarkTask) {
-    return function (data) {
-        var self = this;
-        self.id = data.id;
-        self.complex_choices = data.complex_choices;
-        self.title = ko.observable(data.title);
-        self.description = ko.observable(data.description);
-        self.discipline = ko.observable(data.discipline);
-        self.order = ko.observable(data.order);
-        self.tasks = ko.observableArray();
-        self.visible = ko.observable(data.visible);
-        self.regular = ko.observable(data.regular);
-        self.columns_count = ko.observable(data.columns_count);
-        self.marks = {};
-
-        self.columns_with_tasks = ko.pureComputed(function () {
-            var out = [];
-            var lastCol = 0;
-            var columnItems = {
-                items: []
-            };
-            var value = Math.ceil(self.tasks().length / self.columns_count());
-            for (var i = 0; i < self.tasks().length; ++i) {
-                var col = ~~(i / value);
-                if (lastCol != col) {
-                    lastCol = col;
-                    out.push(columnItems);
-                    columnItems = {
-                        items: []
-                    };
-                }
-                columnItems.items.push(self.tasks()[i]);
-            }
-            out.push(columnItems);
-            return out;
-        });
-
-        self.column_style = ko.pureComputed(function () {
-            return 'col-md-' + ~~(12 / self.columns_count());
-        });
-
-        function init() {
-            var index = 1;
-            data.tasks.every(function (item) {
-                item.complex_choices = data.complex_choices;
-                item.order = index++;
-                item.lab = self;
-                self.tasks.push(new Task(item));
-                return true;
-            });
-
-            self.setMarks(data.marks);
-        }
-
-        self.hasTaskMarksForStudent = function (student) {
-            return self.marks[student.id] !== undefined;
-        };
-
-        self.setMarks = function (marks) {
-            self.marks = {};
-            marks.every(function (item) {
-                var m = self.marks[item.student];
-                if (!m) {
-                    self.marks[item.student] = {};
-                    m = self.marks[item.student];
-                }
-                item.student_inst = item.student;
-                item.task_inst = item.task;
-                item.lab = self;
-                m[item.task] = new MarkTask(item);
-                return true;
-            });
-        };
-
-
-        self.mark = function (task, student) {
-            return ko.pureComputed(function () {
-                var out = self.marks[student.id];
-
-                if (!out) return new MarkTask({
-                    student: student.id,
-                    task: task.id,
-                    student_inst: student,
-                    task_inst: student,
-                    lab: self
-                });
-
-                out = out[task.id];
-                if (!out) return new MarkTask({
-                    student: student.id,
-                    task: task.id,
-                    student_inst: student,
-                    task_inst: student,
-                    lab: self
-                });
-
-                return out;
-            });
-        };
-
-        self.toggleTaskMark = function (mark) {
-            var item = {};
-            item[mark.student] = {};
-            item[mark.student][mark.task] = mark;
-
-            if (self.marks[mark.student] === undefined) {
-                self.marks[mark.student] = {};
-            }
-            item = self.marks[mark.student]
-
-            if (item[mark.task] === undefined) {
-                item[mark.task] = {};
-            }
-            item[mark.task] = mark;
-            mark.toggle();
-        };
-
-        self.remove = function (done, fail) {
-            $.prompt("Удалить \"" + self.title() + "\"?", {
-                persistent: false,
-                buttons: {"Да": true, 'Не сейчас': false},
-                submit: function (e, v) {
-                    if (v) {
-                        helpers.post(urls.url.lab_delete, {
-                            id: self.id
-                        }, done, fail);
-                    }
-                }
-            });
-        };
-
-        self.changed = ko.pureComputed(function () {
-            return data.title != self.title() ||
-                data.description != self.description() ||
-                data.columns_count != self.columns_count() ||
-                data.discipline != self.discipline();
-        });
-
-        self.style = ko.pureComputed(function () {
-            return "columns" + self.columns_count();
-        });
-
-        self.order_changed = ko.pureComputed(function () {
-            return data.order != self.order();
-        });
-
-        self.save = function (data, e) {
-            if (e) e.stopImmediatePropagation();
-            helpers.post(urls.url.lab_save, {
-                id: self.id,
-                title: self.title(),
-                description: self.description(),
-                discipline: self.discipline(),
-                visible: self.visible(),
-                regular: self.regular(),
-                columns_count: self.columns_count()
-            }, self.reset);
-        };
-
-        self.saveTaskMarks = function (data, e) {
-            var items = [];
-            for (var s in self.marks) {
-                for (var t in self.marks[s]) {
-                    var mark = self.marks[s][t];
-                    if (mark.changed()) {
-                        items.push(mark.post_data());
-                    }
-                }
-            }
-            if (items.length) {
-                helpers.post(urls.url.lab_save_taskmarks, {
-                    marks: JSON.stringify(items)
-                }, function () {
-                });
-            }
-        };
-
-        self.reset = function () {
-            data.title = self.title();
-            data.description = self.description();
-            data.discipline = self.discipline();
-            data.order = self.order();
-            data.visible = self.visible();
-            data.regular = self.regular();
-            data.columns_count = self.columns_count();
-            self.title.notifySubscribers();
-            self.order.notifySubscribers();
-        };
-
-        self.reset_order = function () {
-            data.order = self.order();
-            self.order.notifySubscribers();
-        };
-
-        self.addTask = function (data, e) {
-            if (e) e.stopImmediatePropagation();
-            $.prompt({
-                state: {
-                    title: "Заполните",
-                    html: '<textarea class="form-control" name="description" placeholder="описание" value="..."></textarea>',
-                    buttons: {'Добавить': true, 'Отмена': false},
-                    submit: function (e, v, m, f) {
-                        if (v) {
-                            helpers.post(urls.url.task_add, {
-                                lab_id: self.id,
-                                description: f.description
-                            }, function (r) {
-                                r.complex_choices = self.complex_choices;
-                                self.tasks.push(new Task(r))
-                                self.sort();
-                            });
-                        }
-                    }
-                }
-            });
-        };
-
-        self.removeTask = function (data, e) {
-            if (e) e.stopImmediatePropagation();
-            data.remove(function () {
-                self.tasks.remove(data);
-            });
-        };
-
-        self.sort = function () {
-            self.tasks.sort(function (left, right) {
-                return left.complexity() == right.complexity() ? 0 : left.complexity() < right.complexity() ? -1 : 1;
-            })
-        };
-
-        self.toggle = function (data, e) {
-            if (e) e.stopImmediatePropagation();
-            self.visible(!self.visible());
-            self.save(data, e);
-        };
-
-        self.toggle_regular = function (data, e) {
-            if (e) e.stopImmediatePropagation();
-            self.regular(!self.regular());
-            self.save(data, e);
-        };
-
-        init();
-    }
-});
-/**
- * Created by m on 13.02.15.
- */
-define('labs/labstable',['knockout', 'urls', 'helpers', 'labs/lab'], function (ko, urls, helpers, Lab) {
-    return function () {
-        var self = this;
-
-        self.discipline_id = 0;
-        self.complex_choices = {};
-        self.labs = ko.observableArray([]);
-
-        var lastSortable = null;
-        self.labsLoading = ko.observable(false);
-
-        /**
-         * done функция вызывается при успешной загрузке лабов; сигнатура: (response, labsTable)
-         * @type function
-         */
-        self.onLabsLoadingComplete = null;
-
-        function initSorting(data) {
-            //if (lastSortable) {
-            //    return;
-            //}
-            //var mlabs = $("#labs-editor").find(".m-labs")[0];
-            //if ($("#labs-editor").find(".drag-handler").size == 0) {
-            //    return;
-            //}
-            //if (!mlabs) {
-            //    return;
-            //}
-            //lastSortable = new Sortable(mlabs, {
-            //    handle: '.drag-handler',
-            //    onUpdate: function (evt) {
-            //        var mainItem = self.labs()[evt.oldIndex];
-            //        evt.item.remove();
-            //        self.labs.remove(mainItem);
-            //        self.labs.push(mainItem);
-            //        console.log(self.labs());
-            //        self.labs().every(function (item) {
-            //            if (evt.oldIndex > evt.newIndex) {
-            //                if (evt.newIndex <= item.order() && item.order() <= evt.oldIndex) {
-            //                    if (item.order() == evt.oldIndex) {
-            //                        item.order(evt.newIndex);
-            //                    } else {
-            //                        item.order(item.order() + 1);
-            //                    }
-            //                }
-            //            } else {
-            //                if (evt.oldIndex <= item.order() && item.order() <= evt.newIndex) {
-            //                    if (item.order() == evt.oldIndex) {
-            //                        item.order(evt.newIndex);
-            //                    } else {
-            //                        item.order(item.order() - 1);
-            //                    }
-            //                }
-            //            }
-            //            return true;
-            //        });
-            //    },
-            //    //onEnd: function (evt) {
-            //    //    //self.sort();
-            //    //    return false;
-            //    //}
-            //});
-        };
-
-        self.setParams = function (discipline_id) {
-            if (self.discipline_id != discipline_id) {
-                self.discipline_id = discipline_id;
-                self.loadLabs();
-            }
-        };
-
-        self.hasLabsForStudent = function (student) {
-            return ko.pureComputed(function () {
-                var result = self.labs().some(function(item) {
-                    return item.hasTaskMarksForStudent(student);
-                });
-                return result;
-            });
-        };
-
-
-        self.loadLabs = function (done) {
-            self.labs.removeAll();
-            self.labsLoading(true);
-            //setTimeout(function () {
-            $.get(urls.url.labs, {
-                discipline_id: self.discipline_id
-            }).done(function (r) {
-                self.complex_choices = r.complex_choices;
-                var order = 0;
-                r.labs.every(function (item) {
-                    item.complex_choices = r.complex_choices;
-                    item.order = order++;
-                    self.labs.push(new Lab(item));
-                    return true;
-                });
-                initSorting();
-                self.labsLoading(false);
-                if (self.onLabsLoadingComplete) self.onLabsLoadingComplete(r, self);
-            }).fail(helpers.showFail);
-            //}, 10);
-        };
-
-        self.addLab = function (data, e) {
-            e.stopImmediatePropagation();
-            $.prompt({
-                state: {
-                    title: "Заполните",
-                    html: '<input class="form-control" type="text" name="title" placeholder="название" value="без названия">',
-                    buttons: {'Добавить': true, 'Отмена': false},
-                    submit: function (e, v, m, f) {
-                        if (v) {
-                            helpers.post(urls.url.lab_add, {
-                                discipline_id: self.discipline_id,
-                                title: f.title
-                            }, self.loadLabs);
-                        }
-                    }
-                }
-            });
-        };
-
-        self.saveAll = function (data, e) {
-            e.stopImmediatePropagation();
-            var order_array = [];
-            self.sort();
-            self.labs().every(function (item) {
-                order_array.push(item.id);
-                item.reset_order();
-                return true;
-            });
-
-            helpers.post(urls.url.lab_save_order, {
-                'order_array': JSON.stringify(order_array),
-                'id': self.discipline_id
-            }, function () {
-                self.labs.notifySubscribers();
-                self.labs().every(function (lab) {
-                    if (lab.changed()) {
-                        lab.save();
-                    }
-                    return true;
-                });
-            })
-        };
-
-        self.removeLab = function (data, e) {
-            e.stopImmediatePropagation();
-            data.remove(function () {
-                self.labs.remove(data);
-            });
-        };
-
-        self.changed = ko.pureComputed(function () {
-            return self.labs().some(function (item) {
-                return item.order_changed();
-            });
-        });
-
-        self.is_active = ko.pureComputed(function () {
-            return self.labs().length > 0;
-        });
-
-        self.sort = function () {
-            self.labs.sort(function (left, right) {
-                return left.order() == right.order() ? 0 : left.order() < right.order() ? -1 : 1;
-            })
-        };
-
-
-        self.refresh = function (data, e) {
-            e.stopImmediatePropagation();
-            self.loadLabs();
-        };
-
-
-        //init();
-    }
-});
-
-/*!
- * jQuery Cookie Plugin v1.4.1
- * https://github.com/carhartl/jquery-cookie
- *
- * Copyright 2013 Klaus Hartl
- * Released under the MIT license
- */
-(function (factory) {
-	if (typeof define === 'function' && define.amd) {
-		// AMD
-		define('jquery.cookie',['jquery'], factory);
-	} else if (typeof exports === 'object') {
-		// CommonJS
-		factory(require('jquery'));
-	} else {
-		// Browser globals
-		factory(jQuery);
-	}
-}(function ($) {
-
-	var pluses = /\+/g;
-
-	function encode(s) {
-		return config.raw ? s : encodeURIComponent(s);
-	}
-
-	function decode(s) {
-		return config.raw ? s : decodeURIComponent(s);
-	}
-
-	function stringifyCookieValue(value) {
-		return encode(config.json ? JSON.stringify(value) : String(value));
-	}
-
-	function parseCookieValue(s) {
-		if (s.indexOf('"') === 0) {
-			// This is a quoted cookie as according to RFC2068, unescape...
-			s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
-		}
-
-		try {
-			// Replace server-side written pluses with spaces.
-			// If we can't decode the cookie, ignore it, it's unusable.
-			// If we can't parse the cookie, ignore it, it's unusable.
-			s = decodeURIComponent(s.replace(pluses, ' '));
-			return config.json ? JSON.parse(s) : s;
-		} catch(e) {}
-	}
-
-	function read(s, converter) {
-		var value = config.raw ? s : parseCookieValue(s);
-		return $.isFunction(converter) ? converter(value) : value;
-	}
-
-	var config = $.cookie = function (key, value, options) {
-
-		// Write
-
-		if (value !== undefined && !$.isFunction(value)) {
-			options = $.extend({}, config.defaults, options);
-
-			if (typeof options.expires === 'number') {
-				var days = options.expires, t = options.expires = new Date();
-				t.setTime(+t + days * 864e+5);
-			}
-
-			return (document.cookie = [
-				encode(key), '=', stringifyCookieValue(value),
-				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-				options.path    ? '; path=' + options.path : '',
-				options.domain  ? '; domain=' + options.domain : '',
-				options.secure  ? '; secure' : ''
-			].join(''));
-		}
-
-		// Read
-
-		var result = key ? undefined : {};
-
-		// To prevent the for loop in the first place assign an empty array
-		// in case there are no cookies at all. Also prevents odd result when
-		// calling $.cookie().
-		var cookies = document.cookie ? document.cookie.split('; ') : [];
-
-		for (var i = 0, l = cookies.length; i < l; i++) {
-			var parts = cookies[i].split('=');
-			var name = decode(parts.shift());
-			var cookie = parts.join('=');
-
-			if (key && key === name) {
-				// If second argument (value) is a function it's a converter...
-				result = read(cookie, value);
-				break;
-			}
-
-			// Prevent storing a cookie that we couldn't decode.
-			if (!key && (cookie = read(cookie)) !== undefined) {
-				result[name] = cookie;
-			}
-		}
-
-		return result;
-	};
-
-	config.defaults = {};
-
-	$.removeCookie = function (key, options) {
-		if ($.cookie(key) === undefined) {
-			return false;
-		}
-
-		// Must not alter options, thus extending a fresh object...
-		$.cookie(key, '', $.extend({}, options, { expires: -1 }));
-		return !$.cookie(key);
-	};
-
-}));
-
 /*
  * qTip2 - Pretty powerful tooltips - v2.2.1
  * http://qtip2.com
@@ -7582,17 +6447,1159 @@ CHECKS.ie6 = {
 ;}));
 }( window, document ));
 
+/*!
+ * jQuery Cookie Plugin v1.4.1
+ * https://github.com/carhartl/jquery-cookie
+ *
+ * Copyright 2013 Klaus Hartl
+ * Released under the MIT license
+ */
+(function (factory) {
+	if (typeof define === 'function' && define.amd) {
+		// AMD
+		define('jquery.cookie',['jquery'], factory);
+	} else if (typeof exports === 'object') {
+		// CommonJS
+		factory(require('jquery'));
+	} else {
+		// Browser globals
+		factory(jQuery);
+	}
+}(function ($) {
+
+	var pluses = /\+/g;
+
+	function encode(s) {
+		return config.raw ? s : encodeURIComponent(s);
+	}
+
+	function decode(s) {
+		return config.raw ? s : decodeURIComponent(s);
+	}
+
+	function stringifyCookieValue(value) {
+		return encode(config.json ? JSON.stringify(value) : String(value));
+	}
+
+	function parseCookieValue(s) {
+		if (s.indexOf('"') === 0) {
+			// This is a quoted cookie as according to RFC2068, unescape...
+			s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+		}
+
+		try {
+			// Replace server-side written pluses with spaces.
+			// If we can't decode the cookie, ignore it, it's unusable.
+			// If we can't parse the cookie, ignore it, it's unusable.
+			s = decodeURIComponent(s.replace(pluses, ' '));
+			return config.json ? JSON.parse(s) : s;
+		} catch(e) {}
+	}
+
+	function read(s, converter) {
+		var value = config.raw ? s : parseCookieValue(s);
+		return $.isFunction(converter) ? converter(value) : value;
+	}
+
+	var config = $.cookie = function (key, value, options) {
+
+		// Write
+
+		if (value !== undefined && !$.isFunction(value)) {
+			options = $.extend({}, config.defaults, options);
+
+			if (typeof options.expires === 'number') {
+				var days = options.expires, t = options.expires = new Date();
+				t.setTime(+t + days * 864e+5);
+			}
+
+			return (document.cookie = [
+				encode(key), '=', stringifyCookieValue(value),
+				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+				options.path    ? '; path=' + options.path : '',
+				options.domain  ? '; domain=' + options.domain : '',
+				options.secure  ? '; secure' : ''
+			].join(''));
+		}
+
+		// Read
+
+		var result = key ? undefined : {};
+
+		// To prevent the for loop in the first place assign an empty array
+		// in case there are no cookies at all. Also prevents odd result when
+		// calling $.cookie().
+		var cookies = document.cookie ? document.cookie.split('; ') : [];
+
+		for (var i = 0, l = cookies.length; i < l; i++) {
+			var parts = cookies[i].split('=');
+			var name = decode(parts.shift());
+			var cookie = parts.join('=');
+
+			if (key && key === name) {
+				// If second argument (value) is a function it's a converter...
+				result = read(cookie, value);
+				break;
+			}
+
+			// Prevent storing a cookie that we couldn't decode.
+			if (!key && (cookie = read(cookie)) !== undefined) {
+				result[name] = cookie;
+			}
+		}
+
+		return result;
+	};
+
+	config.defaults = {};
+
+	$.removeCookie = function (key, options) {
+		if ($.cookie(key) === undefined) {
+			return false;
+		}
+
+		// Must not alter options, thus extending a fresh object...
+		$.cookie(key, '', $.extend({}, options, { expires: -1 }));
+		return !$.cookie(key);
+	};
+
+}));
+
+/*!
+ * Bootstrap v3.2.0 (http://getbootstrap.com)
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires jQuery");+function(a){function b(){var a=document.createElement("bootstrap"),b={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var c in b)if(void 0!==a.style[c])return{end:b[c]};return!1}a.fn.emulateTransitionEnd=function(b){var c=!1,d=this;a(this).one("bsTransitionEnd",function(){c=!0});var e=function(){c||a(d).trigger(a.support.transition.end)};return setTimeout(e,b),this},a(function(){a.support.transition=b(),a.support.transition&&(a.event.special.bsTransitionEnd={bindType:a.support.transition.end,delegateType:a.support.transition.end,handle:function(b){return a(b.target).is(this)?b.handleObj.handler.apply(this,arguments):void 0}})})}(jQuery),+function(a){function b(b){return this.each(function(){var c=a(this),e=c.data("bs.alert");e||c.data("bs.alert",e=new d(this)),"string"==typeof b&&e[b].call(c)})}var c='[data-dismiss="alert"]',d=function(b){a(b).on("click",c,this.close)};d.VERSION="3.2.0",d.prototype.close=function(b){function c(){f.detach().trigger("closed.bs.alert").remove()}var d=a(this),e=d.attr("data-target");e||(e=d.attr("href"),e=e&&e.replace(/.*(?=#[^\s]*$)/,""));var f=a(e);b&&b.preventDefault(),f.length||(f=d.hasClass("alert")?d:d.parent()),f.trigger(b=a.Event("close.bs.alert")),b.isDefaultPrevented()||(f.removeClass("in"),a.support.transition&&f.hasClass("fade")?f.one("bsTransitionEnd",c).emulateTransitionEnd(150):c())};var e=a.fn.alert;a.fn.alert=b,a.fn.alert.Constructor=d,a.fn.alert.noConflict=function(){return a.fn.alert=e,this},a(document).on("click.bs.alert.data-api",c,d.prototype.close)}(jQuery),+function(a){function b(b){return this.each(function(){var d=a(this),e=d.data("bs.button"),f="object"==typeof b&&b;e||d.data("bs.button",e=new c(this,f)),"toggle"==b?e.toggle():b&&e.setState(b)})}var c=function(b,d){this.$element=a(b),this.options=a.extend({},c.DEFAULTS,d),this.isLoading=!1};c.VERSION="3.2.0",c.DEFAULTS={loadingText:"loading..."},c.prototype.setState=function(b){var c="disabled",d=this.$element,e=d.is("input")?"val":"html",f=d.data();b+="Text",null==f.resetText&&d.data("resetText",d[e]()),d[e](null==f[b]?this.options[b]:f[b]),setTimeout(a.proxy(function(){"loadingText"==b?(this.isLoading=!0,d.addClass(c).attr(c,c)):this.isLoading&&(this.isLoading=!1,d.removeClass(c).removeAttr(c))},this),0)},c.prototype.toggle=function(){var a=!0,b=this.$element.closest('[data-toggle="buttons"]');if(b.length){var c=this.$element.find("input");"radio"==c.prop("type")&&(c.prop("checked")&&this.$element.hasClass("active")?a=!1:b.find(".active").removeClass("active")),a&&c.prop("checked",!this.$element.hasClass("active")).trigger("change")}a&&this.$element.toggleClass("active")};var d=a.fn.button;a.fn.button=b,a.fn.button.Constructor=c,a.fn.button.noConflict=function(){return a.fn.button=d,this},a(document).on("click.bs.button.data-api",'[data-toggle^="button"]',function(c){var d=a(c.target);d.hasClass("btn")||(d=d.closest(".btn")),b.call(d,"toggle"),c.preventDefault()})}(jQuery),+function(a){function b(b){return this.each(function(){var d=a(this),e=d.data("bs.carousel"),f=a.extend({},c.DEFAULTS,d.data(),"object"==typeof b&&b),g="string"==typeof b?b:f.slide;e||d.data("bs.carousel",e=new c(this,f)),"number"==typeof b?e.to(b):g?e[g]():f.interval&&e.pause().cycle()})}var c=function(b,c){this.$element=a(b).on("keydown.bs.carousel",a.proxy(this.keydown,this)),this.$indicators=this.$element.find(".carousel-indicators"),this.options=c,this.paused=this.sliding=this.interval=this.$active=this.$items=null,"hover"==this.options.pause&&this.$element.on("mouseenter.bs.carousel",a.proxy(this.pause,this)).on("mouseleave.bs.carousel",a.proxy(this.cycle,this))};c.VERSION="3.2.0",c.DEFAULTS={interval:5e3,pause:"hover",wrap:!0},c.prototype.keydown=function(a){switch(a.which){case 37:this.prev();break;case 39:this.next();break;default:return}a.preventDefault()},c.prototype.cycle=function(b){return b||(this.paused=!1),this.interval&&clearInterval(this.interval),this.options.interval&&!this.paused&&(this.interval=setInterval(a.proxy(this.next,this),this.options.interval)),this},c.prototype.getItemIndex=function(a){return this.$items=a.parent().children(".item"),this.$items.index(a||this.$active)},c.prototype.to=function(b){var c=this,d=this.getItemIndex(this.$active=this.$element.find(".item.active"));return b>this.$items.length-1||0>b?void 0:this.sliding?this.$element.one("slid.bs.carousel",function(){c.to(b)}):d==b?this.pause().cycle():this.slide(b>d?"next":"prev",a(this.$items[b]))},c.prototype.pause=function(b){return b||(this.paused=!0),this.$element.find(".next, .prev").length&&a.support.transition&&(this.$element.trigger(a.support.transition.end),this.cycle(!0)),this.interval=clearInterval(this.interval),this},c.prototype.next=function(){return this.sliding?void 0:this.slide("next")},c.prototype.prev=function(){return this.sliding?void 0:this.slide("prev")},c.prototype.slide=function(b,c){var d=this.$element.find(".item.active"),e=c||d[b](),f=this.interval,g="next"==b?"left":"right",h="next"==b?"first":"last",i=this;if(!e.length){if(!this.options.wrap)return;e=this.$element.find(".item")[h]()}if(e.hasClass("active"))return this.sliding=!1;var j=e[0],k=a.Event("slide.bs.carousel",{relatedTarget:j,direction:g});if(this.$element.trigger(k),!k.isDefaultPrevented()){if(this.sliding=!0,f&&this.pause(),this.$indicators.length){this.$indicators.find(".active").removeClass("active");var l=a(this.$indicators.children()[this.getItemIndex(e)]);l&&l.addClass("active")}var m=a.Event("slid.bs.carousel",{relatedTarget:j,direction:g});return a.support.transition&&this.$element.hasClass("slide")?(e.addClass(b),e[0].offsetWidth,d.addClass(g),e.addClass(g),d.one("bsTransitionEnd",function(){e.removeClass([b,g].join(" ")).addClass("active"),d.removeClass(["active",g].join(" ")),i.sliding=!1,setTimeout(function(){i.$element.trigger(m)},0)}).emulateTransitionEnd(1e3*d.css("transition-duration").slice(0,-1))):(d.removeClass("active"),e.addClass("active"),this.sliding=!1,this.$element.trigger(m)),f&&this.cycle(),this}};var d=a.fn.carousel;a.fn.carousel=b,a.fn.carousel.Constructor=c,a.fn.carousel.noConflict=function(){return a.fn.carousel=d,this},a(document).on("click.bs.carousel.data-api","[data-slide], [data-slide-to]",function(c){var d,e=a(this),f=a(e.attr("data-target")||(d=e.attr("href"))&&d.replace(/.*(?=#[^\s]+$)/,""));if(f.hasClass("carousel")){var g=a.extend({},f.data(),e.data()),h=e.attr("data-slide-to");h&&(g.interval=!1),b.call(f,g),h&&f.data("bs.carousel").to(h),c.preventDefault()}}),a(window).on("load",function(){a('[data-ride="carousel"]').each(function(){var c=a(this);b.call(c,c.data())})})}(jQuery),+function(a){function b(b){return this.each(function(){var d=a(this),e=d.data("bs.collapse"),f=a.extend({},c.DEFAULTS,d.data(),"object"==typeof b&&b);!e&&f.toggle&&"show"==b&&(b=!b),e||d.data("bs.collapse",e=new c(this,f)),"string"==typeof b&&e[b]()})}var c=function(b,d){this.$element=a(b),this.options=a.extend({},c.DEFAULTS,d),this.transitioning=null,this.options.parent&&(this.$parent=a(this.options.parent)),this.options.toggle&&this.toggle()};c.VERSION="3.2.0",c.DEFAULTS={toggle:!0},c.prototype.dimension=function(){var a=this.$element.hasClass("width");return a?"width":"height"},c.prototype.show=function(){if(!this.transitioning&&!this.$element.hasClass("in")){var c=a.Event("show.bs.collapse");if(this.$element.trigger(c),!c.isDefaultPrevented()){var d=this.$parent&&this.$parent.find("> .panel > .in");if(d&&d.length){var e=d.data("bs.collapse");if(e&&e.transitioning)return;b.call(d,"hide"),e||d.data("bs.collapse",null)}var f=this.dimension();this.$element.removeClass("collapse").addClass("collapsing")[f](0),this.transitioning=1;var g=function(){this.$element.removeClass("collapsing").addClass("collapse in")[f](""),this.transitioning=0,this.$element.trigger("shown.bs.collapse")};if(!a.support.transition)return g.call(this);var h=a.camelCase(["scroll",f].join("-"));this.$element.one("bsTransitionEnd",a.proxy(g,this)).emulateTransitionEnd(350)[f](this.$element[0][h])}}},c.prototype.hide=function(){if(!this.transitioning&&this.$element.hasClass("in")){var b=a.Event("hide.bs.collapse");if(this.$element.trigger(b),!b.isDefaultPrevented()){var c=this.dimension();this.$element[c](this.$element[c]())[0].offsetHeight,this.$element.addClass("collapsing").removeClass("collapse").removeClass("in"),this.transitioning=1;var d=function(){this.transitioning=0,this.$element.trigger("hidden.bs.collapse").removeClass("collapsing").addClass("collapse")};return a.support.transition?void this.$element[c](0).one("bsTransitionEnd",a.proxy(d,this)).emulateTransitionEnd(350):d.call(this)}}},c.prototype.toggle=function(){this[this.$element.hasClass("in")?"hide":"show"]()};var d=a.fn.collapse;a.fn.collapse=b,a.fn.collapse.Constructor=c,a.fn.collapse.noConflict=function(){return a.fn.collapse=d,this},a(document).on("click.bs.collapse.data-api",'[data-toggle="collapse"]',function(c){var d,e=a(this),f=e.attr("data-target")||c.preventDefault()||(d=e.attr("href"))&&d.replace(/.*(?=#[^\s]+$)/,""),g=a(f),h=g.data("bs.collapse"),i=h?"toggle":e.data(),j=e.attr("data-parent"),k=j&&a(j);h&&h.transitioning||(k&&k.find('[data-toggle="collapse"][data-parent="'+j+'"]').not(e).addClass("collapsed"),e[g.hasClass("in")?"addClass":"removeClass"]("collapsed")),b.call(g,i)})}(jQuery),+function(a){function b(b){b&&3===b.which||(a(e).remove(),a(f).each(function(){var d=c(a(this)),e={relatedTarget:this};d.hasClass("open")&&(d.trigger(b=a.Event("hide.bs.dropdown",e)),b.isDefaultPrevented()||d.removeClass("open").trigger("hidden.bs.dropdown",e))}))}function c(b){var c=b.attr("data-target");c||(c=b.attr("href"),c=c&&/#[A-Za-z]/.test(c)&&c.replace(/.*(?=#[^\s]*$)/,""));var d=c&&a(c);return d&&d.length?d:b.parent()}function d(b){return this.each(function(){var c=a(this),d=c.data("bs.dropdown");d||c.data("bs.dropdown",d=new g(this)),"string"==typeof b&&d[b].call(c)})}var e=".dropdown-backdrop",f='[data-toggle="dropdown"]',g=function(b){a(b).on("click.bs.dropdown",this.toggle)};g.VERSION="3.2.0",g.prototype.toggle=function(d){var e=a(this);if(!e.is(".disabled, :disabled")){var f=c(e),g=f.hasClass("open");if(b(),!g){"ontouchstart"in document.documentElement&&!f.closest(".navbar-nav").length&&a('<div class="dropdown-backdrop"/>').insertAfter(a(this)).on("click",b);var h={relatedTarget:this};if(f.trigger(d=a.Event("show.bs.dropdown",h)),d.isDefaultPrevented())return;e.trigger("focus"),f.toggleClass("open").trigger("shown.bs.dropdown",h)}return!1}},g.prototype.keydown=function(b){if(/(38|40|27)/.test(b.keyCode)){var d=a(this);if(b.preventDefault(),b.stopPropagation(),!d.is(".disabled, :disabled")){var e=c(d),g=e.hasClass("open");if(!g||g&&27==b.keyCode)return 27==b.which&&e.find(f).trigger("focus"),d.trigger("click");var h=" li:not(.divider):visible a",i=e.find('[role="menu"]'+h+', [role="listbox"]'+h);if(i.length){var j=i.index(i.filter(":focus"));38==b.keyCode&&j>0&&j--,40==b.keyCode&&j<i.length-1&&j++,~j||(j=0),i.eq(j).trigger("focus")}}}};var h=a.fn.dropdown;a.fn.dropdown=d,a.fn.dropdown.Constructor=g,a.fn.dropdown.noConflict=function(){return a.fn.dropdown=h,this},a(document).on("click.bs.dropdown.data-api",b).on("click.bs.dropdown.data-api",".dropdown form",function(a){a.stopPropagation()}).on("click.bs.dropdown.data-api",f,g.prototype.toggle).on("keydown.bs.dropdown.data-api",f+', [role="menu"], [role="listbox"]',g.prototype.keydown)}(jQuery),+function(a){function b(b,d){return this.each(function(){var e=a(this),f=e.data("bs.modal"),g=a.extend({},c.DEFAULTS,e.data(),"object"==typeof b&&b);f||e.data("bs.modal",f=new c(this,g)),"string"==typeof b?f[b](d):g.show&&f.show(d)})}var c=function(b,c){this.options=c,this.$body=a(document.body),this.$element=a(b),this.$backdrop=this.isShown=null,this.scrollbarWidth=0,this.options.remote&&this.$element.find(".modal-content").load(this.options.remote,a.proxy(function(){this.$element.trigger("loaded.bs.modal")},this))};c.VERSION="3.2.0",c.DEFAULTS={backdrop:!0,keyboard:!0,show:!0},c.prototype.toggle=function(a){return this.isShown?this.hide():this.show(a)},c.prototype.show=function(b){var c=this,d=a.Event("show.bs.modal",{relatedTarget:b});this.$element.trigger(d),this.isShown||d.isDefaultPrevented()||(this.isShown=!0,this.checkScrollbar(),this.$body.addClass("modal-open"),this.setScrollbar(),this.escape(),this.$element.on("click.dismiss.bs.modal",'[data-dismiss="modal"]',a.proxy(this.hide,this)),this.backdrop(function(){var d=a.support.transition&&c.$element.hasClass("fade");c.$element.parent().length||c.$element.appendTo(c.$body),c.$element.show().scrollTop(0),d&&c.$element[0].offsetWidth,c.$element.addClass("in").attr("aria-hidden",!1),c.enforceFocus();var e=a.Event("shown.bs.modal",{relatedTarget:b});d?c.$element.find(".modal-dialog").one("bsTransitionEnd",function(){c.$element.trigger("focus").trigger(e)}).emulateTransitionEnd(300):c.$element.trigger("focus").trigger(e)}))},c.prototype.hide=function(b){b&&b.preventDefault(),b=a.Event("hide.bs.modal"),this.$element.trigger(b),this.isShown&&!b.isDefaultPrevented()&&(this.isShown=!1,this.$body.removeClass("modal-open"),this.resetScrollbar(),this.escape(),a(document).off("focusin.bs.modal"),this.$element.removeClass("in").attr("aria-hidden",!0).off("click.dismiss.bs.modal"),a.support.transition&&this.$element.hasClass("fade")?this.$element.one("bsTransitionEnd",a.proxy(this.hideModal,this)).emulateTransitionEnd(300):this.hideModal())},c.prototype.enforceFocus=function(){a(document).off("focusin.bs.modal").on("focusin.bs.modal",a.proxy(function(a){this.$element[0]===a.target||this.$element.has(a.target).length||this.$element.trigger("focus")},this))},c.prototype.escape=function(){this.isShown&&this.options.keyboard?this.$element.on("keyup.dismiss.bs.modal",a.proxy(function(a){27==a.which&&this.hide()},this)):this.isShown||this.$element.off("keyup.dismiss.bs.modal")},c.prototype.hideModal=function(){var a=this;this.$element.hide(),this.backdrop(function(){a.$element.trigger("hidden.bs.modal")})},c.prototype.removeBackdrop=function(){this.$backdrop&&this.$backdrop.remove(),this.$backdrop=null},c.prototype.backdrop=function(b){var c=this,d=this.$element.hasClass("fade")?"fade":"";if(this.isShown&&this.options.backdrop){var e=a.support.transition&&d;if(this.$backdrop=a('<div class="modal-backdrop '+d+'" />').appendTo(this.$body),this.$element.on("click.dismiss.bs.modal",a.proxy(function(a){a.target===a.currentTarget&&("static"==this.options.backdrop?this.$element[0].focus.call(this.$element[0]):this.hide.call(this))},this)),e&&this.$backdrop[0].offsetWidth,this.$backdrop.addClass("in"),!b)return;e?this.$backdrop.one("bsTransitionEnd",b).emulateTransitionEnd(150):b()}else if(!this.isShown&&this.$backdrop){this.$backdrop.removeClass("in");var f=function(){c.removeBackdrop(),b&&b()};a.support.transition&&this.$element.hasClass("fade")?this.$backdrop.one("bsTransitionEnd",f).emulateTransitionEnd(150):f()}else b&&b()},c.prototype.checkScrollbar=function(){document.body.clientWidth>=window.innerWidth||(this.scrollbarWidth=this.scrollbarWidth||this.measureScrollbar())},c.prototype.setScrollbar=function(){var a=parseInt(this.$body.css("padding-right")||0,10);this.scrollbarWidth&&this.$body.css("padding-right",a+this.scrollbarWidth)},c.prototype.resetScrollbar=function(){this.$body.css("padding-right","")},c.prototype.measureScrollbar=function(){var a=document.createElement("div");a.className="modal-scrollbar-measure",this.$body.append(a);var b=a.offsetWidth-a.clientWidth;return this.$body[0].removeChild(a),b};var d=a.fn.modal;a.fn.modal=b,a.fn.modal.Constructor=c,a.fn.modal.noConflict=function(){return a.fn.modal=d,this},a(document).on("click.bs.modal.data-api",'[data-toggle="modal"]',function(c){var d=a(this),e=d.attr("href"),f=a(d.attr("data-target")||e&&e.replace(/.*(?=#[^\s]+$)/,"")),g=f.data("bs.modal")?"toggle":a.extend({remote:!/#/.test(e)&&e},f.data(),d.data());d.is("a")&&c.preventDefault(),f.one("show.bs.modal",function(a){a.isDefaultPrevented()||f.one("hidden.bs.modal",function(){d.is(":visible")&&d.trigger("focus")})}),b.call(f,g,this)})}(jQuery),+function(a){function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tooltip"),f="object"==typeof b&&b;(e||"destroy"!=b)&&(e||d.data("bs.tooltip",e=new c(this,f)),"string"==typeof b&&e[b]())})}var c=function(a,b){this.type=this.options=this.enabled=this.timeout=this.hoverState=this.$element=null,this.init("tooltip",a,b)};c.VERSION="3.2.0",c.DEFAULTS={animation:!0,placement:"top",selector:!1,template:'<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',trigger:"hover focus",title:"",delay:0,html:!1,container:!1,viewport:{selector:"body",padding:0}},c.prototype.init=function(b,c,d){this.enabled=!0,this.type=b,this.$element=a(c),this.options=this.getOptions(d),this.$viewport=this.options.viewport&&a(this.options.viewport.selector||this.options.viewport);for(var e=this.options.trigger.split(" "),f=e.length;f--;){var g=e[f];if("click"==g)this.$element.on("click."+this.type,this.options.selector,a.proxy(this.toggle,this));else if("manual"!=g){var h="hover"==g?"mouseenter":"focusin",i="hover"==g?"mouseleave":"focusout";this.$element.on(h+"."+this.type,this.options.selector,a.proxy(this.enter,this)),this.$element.on(i+"."+this.type,this.options.selector,a.proxy(this.leave,this))}}this.options.selector?this._options=a.extend({},this.options,{trigger:"manual",selector:""}):this.fixTitle()},c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.getOptions=function(b){return b=a.extend({},this.getDefaults(),this.$element.data(),b),b.delay&&"number"==typeof b.delay&&(b.delay={show:b.delay,hide:b.delay}),b},c.prototype.getDelegateOptions=function(){var b={},c=this.getDefaults();return this._options&&a.each(this._options,function(a,d){c[a]!=d&&(b[a]=d)}),b},c.prototype.enter=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget).data("bs."+this.type);return c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c)),clearTimeout(c.timeout),c.hoverState="in",c.options.delay&&c.options.delay.show?void(c.timeout=setTimeout(function(){"in"==c.hoverState&&c.show()},c.options.delay.show)):c.show()},c.prototype.leave=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget).data("bs."+this.type);return c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c)),clearTimeout(c.timeout),c.hoverState="out",c.options.delay&&c.options.delay.hide?void(c.timeout=setTimeout(function(){"out"==c.hoverState&&c.hide()},c.options.delay.hide)):c.hide()},c.prototype.show=function(){var b=a.Event("show.bs."+this.type);if(this.hasContent()&&this.enabled){this.$element.trigger(b);var c=a.contains(document.documentElement,this.$element[0]);if(b.isDefaultPrevented()||!c)return;var d=this,e=this.tip(),f=this.getUID(this.type);this.setContent(),e.attr("id",f),this.$element.attr("aria-describedby",f),this.options.animation&&e.addClass("fade");var g="function"==typeof this.options.placement?this.options.placement.call(this,e[0],this.$element[0]):this.options.placement,h=/\s?auto?\s?/i,i=h.test(g);i&&(g=g.replace(h,"")||"top"),e.detach().css({top:0,left:0,display:"block"}).addClass(g).data("bs."+this.type,this),this.options.container?e.appendTo(this.options.container):e.insertAfter(this.$element);var j=this.getPosition(),k=e[0].offsetWidth,l=e[0].offsetHeight;if(i){var m=g,n=this.$element.parent(),o=this.getPosition(n);g="bottom"==g&&j.top+j.height+l-o.scroll>o.height?"top":"top"==g&&j.top-o.scroll-l<0?"bottom":"right"==g&&j.right+k>o.width?"left":"left"==g&&j.left-k<o.left?"right":g,e.removeClass(m).addClass(g)}var p=this.getCalculatedOffset(g,j,k,l);this.applyPlacement(p,g);var q=function(){d.$element.trigger("shown.bs."+d.type),d.hoverState=null};a.support.transition&&this.$tip.hasClass("fade")?e.one("bsTransitionEnd",q).emulateTransitionEnd(150):q()}},c.prototype.applyPlacement=function(b,c){var d=this.tip(),e=d[0].offsetWidth,f=d[0].offsetHeight,g=parseInt(d.css("margin-top"),10),h=parseInt(d.css("margin-left"),10);isNaN(g)&&(g=0),isNaN(h)&&(h=0),b.top=b.top+g,b.left=b.left+h,a.offset.setOffset(d[0],a.extend({using:function(a){d.css({top:Math.round(a.top),left:Math.round(a.left)})}},b),0),d.addClass("in");var i=d[0].offsetWidth,j=d[0].offsetHeight;"top"==c&&j!=f&&(b.top=b.top+f-j);var k=this.getViewportAdjustedDelta(c,b,i,j);k.left?b.left+=k.left:b.top+=k.top;var l=k.left?2*k.left-e+i:2*k.top-f+j,m=k.left?"left":"top",n=k.left?"offsetWidth":"offsetHeight";d.offset(b),this.replaceArrow(l,d[0][n],m)},c.prototype.replaceArrow=function(a,b,c){this.arrow().css(c,a?50*(1-a/b)+"%":"")},c.prototype.setContent=function(){var a=this.tip(),b=this.getTitle();a.find(".tooltip-inner")[this.options.html?"html":"text"](b),a.removeClass("fade in top bottom left right")},c.prototype.hide=function(){function b(){"in"!=c.hoverState&&d.detach(),c.$element.trigger("hidden.bs."+c.type)}var c=this,d=this.tip(),e=a.Event("hide.bs."+this.type);return this.$element.removeAttr("aria-describedby"),this.$element.trigger(e),e.isDefaultPrevented()?void 0:(d.removeClass("in"),a.support.transition&&this.$tip.hasClass("fade")?d.one("bsTransitionEnd",b).emulateTransitionEnd(150):b(),this.hoverState=null,this)},c.prototype.fixTitle=function(){var a=this.$element;(a.attr("title")||"string"!=typeof a.attr("data-original-title"))&&a.attr("data-original-title",a.attr("title")||"").attr("title","")},c.prototype.hasContent=function(){return this.getTitle()},c.prototype.getPosition=function(b){b=b||this.$element;var c=b[0],d="BODY"==c.tagName;return a.extend({},"function"==typeof c.getBoundingClientRect?c.getBoundingClientRect():null,{scroll:d?document.documentElement.scrollTop||document.body.scrollTop:b.scrollTop(),width:d?a(window).width():b.outerWidth(),height:d?a(window).height():b.outerHeight()},d?{top:0,left:0}:b.offset())},c.prototype.getCalculatedOffset=function(a,b,c,d){return"bottom"==a?{top:b.top+b.height,left:b.left+b.width/2-c/2}:"top"==a?{top:b.top-d,left:b.left+b.width/2-c/2}:"left"==a?{top:b.top+b.height/2-d/2,left:b.left-c}:{top:b.top+b.height/2-d/2,left:b.left+b.width}},c.prototype.getViewportAdjustedDelta=function(a,b,c,d){var e={top:0,left:0};if(!this.$viewport)return e;var f=this.options.viewport&&this.options.viewport.padding||0,g=this.getPosition(this.$viewport);if(/right|left/.test(a)){var h=b.top-f-g.scroll,i=b.top+f-g.scroll+d;h<g.top?e.top=g.top-h:i>g.top+g.height&&(e.top=g.top+g.height-i)}else{var j=b.left-f,k=b.left+f+c;j<g.left?e.left=g.left-j:k>g.width&&(e.left=g.left+g.width-k)}return e},c.prototype.getTitle=function(){var a,b=this.$element,c=this.options;return a=b.attr("data-original-title")||("function"==typeof c.title?c.title.call(b[0]):c.title)},c.prototype.getUID=function(a){do a+=~~(1e6*Math.random());while(document.getElementById(a));return a},c.prototype.tip=function(){return this.$tip=this.$tip||a(this.options.template)},c.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".tooltip-arrow")},c.prototype.validate=function(){this.$element[0].parentNode||(this.hide(),this.$element=null,this.options=null)},c.prototype.enable=function(){this.enabled=!0},c.prototype.disable=function(){this.enabled=!1},c.prototype.toggleEnabled=function(){this.enabled=!this.enabled},c.prototype.toggle=function(b){var c=this;b&&(c=a(b.currentTarget).data("bs."+this.type),c||(c=new this.constructor(b.currentTarget,this.getDelegateOptions()),a(b.currentTarget).data("bs."+this.type,c))),c.tip().hasClass("in")?c.leave(c):c.enter(c)},c.prototype.destroy=function(){clearTimeout(this.timeout),this.hide().$element.off("."+this.type).removeData("bs."+this.type)};var d=a.fn.tooltip;a.fn.tooltip=b,a.fn.tooltip.Constructor=c,a.fn.tooltip.noConflict=function(){return a.fn.tooltip=d,this}}(jQuery),+function(a){function b(b){return this.each(function(){var d=a(this),e=d.data("bs.popover"),f="object"==typeof b&&b;(e||"destroy"!=b)&&(e||d.data("bs.popover",e=new c(this,f)),"string"==typeof b&&e[b]())})}var c=function(a,b){this.init("popover",a,b)};if(!a.fn.tooltip)throw new Error("Popover requires tooltip.js");c.VERSION="3.2.0",c.DEFAULTS=a.extend({},a.fn.tooltip.Constructor.DEFAULTS,{placement:"right",trigger:"click",content:"",template:'<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'}),c.prototype=a.extend({},a.fn.tooltip.Constructor.prototype),c.prototype.constructor=c,c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.setContent=function(){var a=this.tip(),b=this.getTitle(),c=this.getContent();a.find(".popover-title")[this.options.html?"html":"text"](b),a.find(".popover-content").empty()[this.options.html?"string"==typeof c?"html":"append":"text"](c),a.removeClass("fade top bottom left right in"),a.find(".popover-title").html()||a.find(".popover-title").hide()},c.prototype.hasContent=function(){return this.getTitle()||this.getContent()},c.prototype.getContent=function(){var a=this.$element,b=this.options;return a.attr("data-content")||("function"==typeof b.content?b.content.call(a[0]):b.content)},c.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".arrow")},c.prototype.tip=function(){return this.$tip||(this.$tip=a(this.options.template)),this.$tip};var d=a.fn.popover;a.fn.popover=b,a.fn.popover.Constructor=c,a.fn.popover.noConflict=function(){return a.fn.popover=d,this}}(jQuery),+function(a){function b(c,d){var e=a.proxy(this.process,this);this.$body=a("body"),this.$scrollElement=a(a(c).is("body")?window:c),this.options=a.extend({},b.DEFAULTS,d),this.selector=(this.options.target||"")+" .nav li > a",this.offsets=[],this.targets=[],this.activeTarget=null,this.scrollHeight=0,this.$scrollElement.on("scroll.bs.scrollspy",e),this.refresh(),this.process()}function c(c){return this.each(function(){var d=a(this),e=d.data("bs.scrollspy"),f="object"==typeof c&&c;e||d.data("bs.scrollspy",e=new b(this,f)),"string"==typeof c&&e[c]()})}b.VERSION="3.2.0",b.DEFAULTS={offset:10},b.prototype.getScrollHeight=function(){return this.$scrollElement[0].scrollHeight||Math.max(this.$body[0].scrollHeight,document.documentElement.scrollHeight)},b.prototype.refresh=function(){var b="offset",c=0;a.isWindow(this.$scrollElement[0])||(b="position",c=this.$scrollElement.scrollTop()),this.offsets=[],this.targets=[],this.scrollHeight=this.getScrollHeight();var d=this;this.$body.find(this.selector).map(function(){var d=a(this),e=d.data("target")||d.attr("href"),f=/^#./.test(e)&&a(e);return f&&f.length&&f.is(":visible")&&[[f[b]().top+c,e]]||null}).sort(function(a,b){return a[0]-b[0]}).each(function(){d.offsets.push(this[0]),d.targets.push(this[1])})},b.prototype.process=function(){var a,b=this.$scrollElement.scrollTop()+this.options.offset,c=this.getScrollHeight(),d=this.options.offset+c-this.$scrollElement.height(),e=this.offsets,f=this.targets,g=this.activeTarget;if(this.scrollHeight!=c&&this.refresh(),b>=d)return g!=(a=f[f.length-1])&&this.activate(a);if(g&&b<=e[0])return g!=(a=f[0])&&this.activate(a);for(a=e.length;a--;)g!=f[a]&&b>=e[a]&&(!e[a+1]||b<=e[a+1])&&this.activate(f[a])},b.prototype.activate=function(b){this.activeTarget=b,a(this.selector).parentsUntil(this.options.target,".active").removeClass("active");var c=this.selector+'[data-target="'+b+'"],'+this.selector+'[href="'+b+'"]',d=a(c).parents("li").addClass("active");d.parent(".dropdown-menu").length&&(d=d.closest("li.dropdown").addClass("active")),d.trigger("activate.bs.scrollspy")};var d=a.fn.scrollspy;a.fn.scrollspy=c,a.fn.scrollspy.Constructor=b,a.fn.scrollspy.noConflict=function(){return a.fn.scrollspy=d,this},a(window).on("load.bs.scrollspy.data-api",function(){a('[data-spy="scroll"]').each(function(){var b=a(this);c.call(b,b.data())})})}(jQuery),+function(a){function b(b){return this.each(function(){var d=a(this),e=d.data("bs.tab");e||d.data("bs.tab",e=new c(this)),"string"==typeof b&&e[b]()})}var c=function(b){this.element=a(b)};c.VERSION="3.2.0",c.prototype.show=function(){var b=this.element,c=b.closest("ul:not(.dropdown-menu)"),d=b.data("target");if(d||(d=b.attr("href"),d=d&&d.replace(/.*(?=#[^\s]*$)/,"")),!b.parent("li").hasClass("active")){var e=c.find(".active:last a")[0],f=a.Event("show.bs.tab",{relatedTarget:e});if(b.trigger(f),!f.isDefaultPrevented()){var g=a(d);this.activate(b.closest("li"),c),this.activate(g,g.parent(),function(){b.trigger({type:"shown.bs.tab",relatedTarget:e})})}}},c.prototype.activate=function(b,c,d){function e(){f.removeClass("active").find("> .dropdown-menu > .active").removeClass("active"),b.addClass("active"),g?(b[0].offsetWidth,b.addClass("in")):b.removeClass("fade"),b.parent(".dropdown-menu")&&b.closest("li.dropdown").addClass("active"),d&&d()}var f=c.find("> .active"),g=d&&a.support.transition&&f.hasClass("fade");g?f.one("bsTransitionEnd",e).emulateTransitionEnd(150):e(),f.removeClass("in")};var d=a.fn.tab;a.fn.tab=b,a.fn.tab.Constructor=c,a.fn.tab.noConflict=function(){return a.fn.tab=d,this},a(document).on("click.bs.tab.data-api",'[data-toggle="tab"], [data-toggle="pill"]',function(c){c.preventDefault(),b.call(a(this),"show")})}(jQuery),+function(a){function b(b){return this.each(function(){var d=a(this),e=d.data("bs.affix"),f="object"==typeof b&&b;e||d.data("bs.affix",e=new c(this,f)),"string"==typeof b&&e[b]()})}var c=function(b,d){this.options=a.extend({},c.DEFAULTS,d),this.$target=a(this.options.target).on("scroll.bs.affix.data-api",a.proxy(this.checkPosition,this)).on("click.bs.affix.data-api",a.proxy(this.checkPositionWithEventLoop,this)),this.$element=a(b),this.affixed=this.unpin=this.pinnedOffset=null,this.checkPosition()};c.VERSION="3.2.0",c.RESET="affix affix-top affix-bottom",c.DEFAULTS={offset:0,target:window},c.prototype.getPinnedOffset=function(){if(this.pinnedOffset)return this.pinnedOffset;this.$element.removeClass(c.RESET).addClass("affix");var a=this.$target.scrollTop(),b=this.$element.offset();return this.pinnedOffset=b.top-a},c.prototype.checkPositionWithEventLoop=function(){setTimeout(a.proxy(this.checkPosition,this),1)},c.prototype.checkPosition=function(){if(this.$element.is(":visible")){var b=a(document).height(),d=this.$target.scrollTop(),e=this.$element.offset(),f=this.options.offset,g=f.top,h=f.bottom;"object"!=typeof f&&(h=g=f),"function"==typeof g&&(g=f.top(this.$element)),"function"==typeof h&&(h=f.bottom(this.$element));var i=null!=this.unpin&&d+this.unpin<=e.top?!1:null!=h&&e.top+this.$element.height()>=b-h?"bottom":null!=g&&g>=d?"top":!1;if(this.affixed!==i){null!=this.unpin&&this.$element.css("top","");var j="affix"+(i?"-"+i:""),k=a.Event(j+".bs.affix");this.$element.trigger(k),k.isDefaultPrevented()||(this.affixed=i,this.unpin="bottom"==i?this.getPinnedOffset():null,this.$element.removeClass(c.RESET).addClass(j).trigger(a.Event(j.replace("affix","affixed"))),"bottom"==i&&this.$element.offset({top:b-this.$element.height()-h}))}}};var d=a.fn.affix;a.fn.affix=b,a.fn.affix.Constructor=c,a.fn.affix.noConflict=function(){return a.fn.affix=d,this},a(window).on("load",function(){a('[data-spy="affix"]').each(function(){var c=a(this),d=c.data();d.offset=d.offset||{},d.offsetBottom&&(d.offset.bottom=d.offsetBottom),d.offsetTop&&(d.offset.top=d.offsetTop),b.call(c,d)})})}(jQuery);
+define("bootstrap", function(){});
+
+/**
+ * Created by m on 13.02.15.
+ */
+define('marks/markstable',['knockout',
+        'urls',
+        'cookies',
+        'helpers',
+        'marks/lesson',
+        'marks/mark',
+        'marks/student',
+        'marks/markselector',
+        'marks/qtipsettings',
+        'jquery',
+        'qtip',
+        'jquery.cookie',
+        'bootstrap'
+    ],
+    function (ko, urls, cookies, helpers, Lesson, Mark, Student, MarkSelector, qtipsettings) {
+        return function () {
+            var self = this;
+
+            var selectors = {
+                marks_editor: '#marks-editor',
+                marks_selector: '#mark-selector',
+                scroll_container: '.m-table-container'
+            };
+
+            self.students = ko.observableArray();
+            self.students_control = ko.observableArray();
+            self.student = ko.observable();
+
+            self.lessons = ko.observableArray();
+            self.lesson_types = ko.observableArray();
+            self.lesson = ko.observable();
+
+            self.labs = ko.observableArray();
+            self.tasksProgress = ko.observableArray();
+
+            self.group_id = 0;
+            self.discipline_id = 0;
+
+            self.firstLoadingAfterParametersChanged = ko.observable(true);
+// >>> ЗАГРУЗКА ДАННЫХ
+            self.isStudentsLoading = ko.observable(true);
+            self.isStudentsAboutToLoading = ko.observable(false);
+            self.showLoading = ko.pureComputed(function () {
+                return (self.isStudentsLoading() || (self.students && self.students().length == 0));
+            });
+
+            self.showPanel = ko.pureComputed(function () {
+                return (self.students().length || self.isStudentsLoading())
+                    && !self.firstLoadingAfterParametersChanged();
+            });
+
+            self.setParams = function (group_id, discipline_id) {
+                self.group_id = group_id;
+                //self.firstLoadingAfterParametersChanged(true);
+                if (group_id == null) {
+                    self.isStudentsLoading(false);
+                    //self.onInit(false);
+                }
+                self.discipline_id = discipline_id;
+                self.loadStudents();
+            };
+
+            self.setLabs = function (r, labsTable) {
+                self.labs = labsTable.labs;
+            };
+
+            // ### синхронизация подсветки строк таблицы оценок
+            var $markseditor = $(selectors.marks_editor);
+            $markseditor.collapse({
+                toggle: false
+            });
+            $markseditor.on({
+                mouseenter: function () {
+                    var index = $(this).index();
+                    $(this).addClass("hover");
+                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
+                        $($(item).find(">.t-row")[index]).addClass("hover");
+                    });
+                },
+                mouseleave: function () {
+                    $(this).removeClass("hover");
+                    var index = $(this).index();
+                    $(".m-table>tbody, .s-table>tbody").each(function (i, item) {
+                        $($(item).find(">.t-row")[index]).removeClass("hover");
+                    });
+                }
+            }, ".m-table>tbody>.t-row,.s-table>tbody>.t-row");
+            // --- конец синхронизация подсветки строк таблицы оценок
+
+            // подключаем события, чтобы не закрывалась менюшка
+            $markseditor.on("click", '.modal-lesson-editor .dropdown-menu', function (e) {
+                e.stopPropagation()
+            });
+
+            // ### скроллинг мышью таблицы оценок
+            (function () {
+                var lastX = -1;
+                var leftButtonDown = false;
+                //var scroll_container = $(".m-table-container");
+                var funcScroll = function (e) {
+                    var left = e.clientX;
+                    if (leftButtonDown) {
+                        if (lastX != -1 && Math.abs(lastX - left) > 2) {
+                            this.scrollLeft += lastX - left;
+                            $.cookie("lastScroll", this.scrollLeft);
+                        }
+                    }
+                    lastX = left;
+                };
+                $markseditor.on({
+                    mousedown: function (e) {
+                        if (e.which === 1) leftButtonDown = true;
+                    },
+                    touchmove: funcScroll,
+                    mousemove: funcScroll
+                }, selectors.scroll_container);
+
+                $(document).mouseup(function (e) {
+                    leftButtonDown = false;
+                });
+            })();
+            // --- конец скроллинг мышью таблицы оценок
+
+
+            // SERVICE VARIABLES
+            self.marksTypes = ko.observableArray();
+            self.hideBadStudents = ko.observable(true);
+            self.markSelector = new MarkSelector(selectors.marks_selector, self.marksTypes);
+
+// >>> ЗАГРУЗКИ
+            self.loadStudents = function () {
+                if (self.isStudentsAboutToLoading()) return;
+
+                self.isStudentsAboutToLoading(true);
+
+                var exec = function () {
+                    self.students.removeAll();
+
+                    if (!self.group_id) {
+                        self.isStudentsAboutToLoading(false);
+                        self.isStudentsLoading(false);
+                        return;
+                    }
+                    self.isStudentsLoading(true);
+
+                    setTimeout(function () {
+                        $.get(urls.url.students, {
+                            'group_id': self.group_id,
+                            'discipline_id': self.discipline_id
+                        }).done(function (data) {
+                            // fill lesson_types list
+                            self.lesson_types(data.lesson_types);
+
+                            // fill mark types, and find max and min value at the same time
+                            marksTypes = {};
+                            self.marksTypes(data.mark_types);
+                            data.mark_types.every(function (item) {
+                                marksTypes[item['k']] = item['v'];
+                                if (!marksTypes.max < parseInt(item['k'])) {
+                                    marksTypes.max = parseInt(item['k']);
+                                }
+                                if (!marksTypes.min > parseInt(item['k'])) {
+                                    marksTypes.min = parseInt(item['k']);
+                                }
+                                return true
+                            });
+
+                            // fill lessons list
+                            var map_lessons = $.map(data.lessons, function (item) {
+                                return new Lesson(item, self);
+                            });
+                            self.lessons(map_lessons);
+
+                            var i = -1;
+
+                            function add_item() {
+                                if (i == -1) {
+                                    self.students.removeAll();
+                                    setTimeout(add_item, 0);
+                                    ++i;
+                                }
+                                if (i < data.students.length) {
+                                    var item = data.students[i];
+                                    ++i;
+                                    item.lessons = self.lessons;
+                                    self.students.push(new Student(item));
+                                    setTimeout(add_item, 0);
+                                } else {
+                                    self.sortMethod(self.sortMethods[$.cookie(cookies.sorting)]);
+                                    $.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
+                                    self.resetMarksInterface();
+                                    self.isStudentsLoading(false);
+                                    self.isStudentsAboutToLoading(false);
+                                    self.firstLoadingAfterParametersChanged(false);
+
+                                    // open / close marksTable collapse according ot saved state
+                                    var keep_mark_table_open = $.cookie(cookies.keep_mark_table_open);
+                                    if (keep_mark_table_open == "false") {
+                                        $markseditor.collapse("hide");
+                                    } else {
+                                        $markseditor.collapse("show");
+                                    }
+                                }
+                            }
+
+                            if (data.students.length > 0) {
+                                add_item();
+                            }
+                        }).always(function () {
+                            //self.onInit(false);
+                        }).fail(function () {
+                            self.resetMarksInterface();
+                        });
+                    }, 60);
+                };
+                if ($markseditor.hasClass("in")) {
+                    $markseditor.one("hidden.bs.collapse", exec);
+                    $markseditor.collapse("hide");
+                } else {
+                    exec();
+                }
+            };
+
+            self.loadStudentsControl = function () {
+                window.location = urls.url.students_control + '?' + $.param([
+                    {name: 'year', value: self.year()},
+                    {name: 'discipline_id', value: self.discipline_id},
+                    {name: 'k', value: 0.5}
+                ])
+            };
+
+            // ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
+            self.resetMarksInterface = function () {
+                $('thead [data-toggle="tooltip"]').tooltip({placement: "bottom"});
+                $('tfoot [data-toggle="tooltip"]').tooltip({placement: "top"});
+
+                // восстановления последнего скролла значения из куков
+                var scroll_container = $(selectors.scroll_container);
+                if (scroll_container.size() && $.cookie("lastScroll")) {
+                    scroll_container[0].scrollLeft = $.cookie("lastScroll");
+                }
+
+                // всплывающее меню редактирование занятия
+                $(".lesson-edit").qtip(qtipsettings);
+            };
+// КОНЕЦ РЕИНИЦИАЛИЗАЦИИ ИНТЕРФЕЙСА
+
+
+// >>> СОРТИРОВКА
+            self.sortByStudentsMark = function (left, right) {
+                return left.sum() == right.sum() ? 0 : left.sum() < right.sum() ? 1 : -1;
+            };
+            self.sortByStudentsMark.title = "По цвету";
+
+            self.sortByStudentsName = function (left, right) {
+                var s1 = left.sum() >= 0 ? 1 : -1;
+                var s2 = right.sum() >= 0 ? 1 : -1;
+
+                // студенты с отрицательными оценками идут в конце
+                if (left.second_name < right.second_name) {
+                    return s1 == s2 ? -1 : s1 < s2 ? 1 : -1;
+                } else if (left.second_name > right.second_name) {
+                    return s1 == s2 ? 1 : s1 < s2 ? 1 : -1;
+                } else {
+                    return 0;
+                }
+            };
+            self.sortByStudentsName.title = "По имени";
+
+            self.sortMethods = {};
+            self.sortMethods[self.sortByStudentsMark.title] = self.sortByStudentsMark;
+            self.sortMethods[self.sortByStudentsName.title] = self.sortByStudentsName;
+            self.sortMethods['undefined'] = self.sortByStudentsName;
+
+            self.sortMethod = ko.observable();
+            self.sortMethod.subscribe(function () {
+                if (self.sortMethod()) {
+                    self.students.sort(self.sortMethod());
+                }
+            });
+            self.toggleStudentsSorting = function () {
+                self.sortMethod(self.sortMethod() == self.sortByStudentsMark ?
+                    self.sortByStudentsName : self.sortByStudentsMark);
+                $.cookie(cookies.sorting, self.sortMethod().title, {expires: cookies.expires});
+            };
+
+/// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
+            self.showPercents = ko.observable($.cookie(cookies.score_method) !== 'false');
+            self.scoreMethod = ko.pureComputed(function () {
+                return self.showPercents() ? "в процентах" : "в баллах"
+            }, self.showPercents);
+            self.toggleScorePercents = function () {
+                self.showPercents(!self.showPercents());
+                $.cookie(cookies.score_method, self.showPercents(), {expires: cookies.expires});
+            };
+
+            self.toggleBadStudentHiding = function () {
+                self.hideBadStudents(!self.hideBadStudents());
+                var $selrow = $(selectors.marks_editor).find(".collapsed");
+                var $sel = $selrow.find(".t-cell");
+                var options = {
+                    duration: 300,
+                    easing: 'swing'
+                };
+                if (self.hideBadStudents()) {
+                    $sel.slideUp(options);
+                    $selrow.fadeOut(options);
+                } else {
+                    $sel.slideDown(options);
+                    $selrow.fadeIn(options);
+                }
+            };
+
+            // LESSONS CONTROL
+            self.lessonHover = function (data) {
+                self.lesson(data);
+            };
+
+            self.addLesson = function () {
+                $.post(urls.url.lesson_add, helpers.csrfize({
+                    discipline_id: self.discipline_id,
+                    group_id: self.group_id
+                })).done(function () {
+                    self.loadStudents()
+                }).fail(function () {
+                    helpers.showFail();
+                });
+            };
+
+            self.removeLesson = function (data) {
+                data.remove(function () {
+                    //self.lessons.remove(data);
+                    self.loadStudents();
+                });
+            };
+
+            self.saveLesson = function (data) {
+                $.post(urls.url.lesson_save, helpers.csrfize({
+                    lesson_id: data.id,
+                    lesson_type: data.lesson_type(),
+                    date: data.isodate(),
+                    multiplier: data.multiplier(),
+                    description_raw: data.description_raw(),
+                    score_ignore: data.score_ignore(),
+                    icon_id: data.icon_id() == null ? -1 : data.icon_id()
+                })).done(function (response) {
+                    if (data.isodate() != data.isodate_old) {
+                        self.loadStudents();
+                    } else {
+                        data.description(response.description);
+                        data.description_raw(response.description_raw);
+                    }
+                    helpers.showSuccess();
+                }).fail(function () {
+                    helpers.showFail();
+                })
+            };
+
+// MARKS CONTROL
+            self.saveMarks = function () {
+                var marks = [];
+                for (var i = 0; i < self.students().length; ++i) {
+                    var mrks = self.students()[i].modified_marks();
+                    mrks.every(function (item) {
+                        marks.push({
+                            lesson_id: item.lesson_id,
+                            student_id: item.student_id,
+                            mark: item.mark()
+                        });
+                        return true;
+                    })
+                }
+
+                if (self.labs()) {
+                    for (var i = 0, l = self.labs().length, labs = self.labs(); i < l; ++i) {
+                        labs[i].saveTaskMarks();
+                    }
+                }
+
+                $.post(urls.url.marks_save, helpers.csrfize({
+                    marks: JSON.stringify(marks)
+                })).done(function () {
+                    for (var i = 0; i < self.students().length; ++i) {
+                        self.students()[i].reset();
+                    }
+                    helpers.showSuccess()
+                }).fail(function () {
+                    helpers.showFail()
+                })
+
+            };
+
+            self.toExcel = function (data, e) {
+                window.location = urls.url.to_excel + '?' + $.param([
+                    {name: 'group_id', value: self.group_id},
+                    {name: 'discipline_id', value: self.discipline_id},
+                ]);
+            };
+
+            self.resetCache = function (date, e) {
+                $.get(urls.url.reset_cache).done(function () {
+                    window.location.reload();
+                })
+            };
+
+            self.clickMark = function (data, e) {
+                if ($.clickMouseMoved()) {
+                    return false;
+                }
+                setTimeout(function () {
+                    self.markSelector.show(data, e.target);
+                }, 10);
+                return false;
+            };
+
+            self.clickTask = function (student, task, e) {
+                //console.log(task());
+                //console.log(student());
+            };
+
+            self.increase = function (mark) {
+                mark.increase();
+            };
+
+            self.decrease = function (mark) {
+                mark.decrease();
+            };
+
+            self.is_active = ko.pureComputed(function () {
+                return self.students().length > 0;
+            });
+        }
+    })
+;
+/**
+ * Created by m on 13.02.15.
+ */
+define('labs/task',['knockout', 'urls', 'helpers'], function (ko, urls, helpers) {
+    return function (data) {
+        var self = this;
+
+        self.id = data.id;
+        self.complexity = ko.observable(data.complexity);
+        self.description = ko.observable(data.description);
+        self.order = ko.observable(data.order);
+        self.students = ko.observableArray(data.students);
+        self._complex_choices = data.complex_choices;
+
+        self.lab = data.lab;
+
+        function get_ids(massdata) {
+            var out = [];
+            self.students().every(function (item) {
+                out.push(item.id);
+                return true;
+            });
+            return out;
+        }
+
+        self.students_ids = ko.pureComputed(function () {
+            return get_ids(self.students);
+        });
+        self.old_students = get_ids(data.students);
+
+        self.style = ko.pureComputed(function () {
+            var out = "";
+            out += self._complex_choices[self.complexity()];
+            switch(self.students().length) {
+                case 0: break;
+                case 1:
+                    out += " selected";
+                    break;
+                case 2:
+                    out += " selected2";
+                    break;
+                default:
+                    out += " selected3";
+                    break;
+            }
+            //out += self.students().length > 0 ? " selected" : "";
+            return out;
+        });
+
+        self.complex_choices = ko.pureComputed(function () {
+            var out = [];
+            Object.keys(self._complex_choices).every(function (key) {
+                out.push({
+                    value: key,
+                    class: self._complex_choices[key]
+                });
+                return true;
+            });
+            return out;
+        });
+
+        self.changed = ko.pureComputed(function () {
+            return self.complexity() != data.complexity ||
+                self.description() != data.description ||
+                !self.students_ids().equals(self.old_students);
+        });
+
+        self.setComplex = function ($data) {
+            self.complexity($data.value);
+        };
+
+        self.reset = function () {
+            data.complexity = self.complexity();
+            data.description = self.description();
+            self.old_students = self.students_ids();
+            self.complexity.notifySubscribers();
+        };
+
+        self.save = function () {
+            console.log('saved');
+            helpers.post(urls.url.task_save, helpers.csrfize({
+                id: self.id,
+                complexity: self.complexity(),
+                description: self.description(),
+                students: JSON.stringify(self.students_ids())
+            }), self.reset);
+        };
+
+        self.remove = function (done, fail) {
+            $.prompt("Удалить \"" + self.description() + "\"?", {
+                persistent: false,
+                buttons: {"Да": true, 'Не сейчас': false},
+                submit: function (e, v) {
+                    if (v) {
+                        helpers.post(urls.url.task_delete, {
+                            id: self.id
+                        }, done, fail);
+                    }
+                }
+            });
+        };
+
+    }
+});
+/**
+ * Created by m on 19.02.15.
+ */
+define('labs/marktask',['knockout', 'urls'], function (ko, urls) {
+    return function(data) {
+        var self = this;
+        self.id = data.id === undefined ? -1 : data.id;
+        self.student = data.student;
+        self.task = data.task;
+        self.group = data.group;
+        self.done = ko.observable(data.done === undefined ? false : data.done);
+
+        self.lab_inst = ko.observable(data.lab_inst);
+        self.task_inst = ko.observable(data.task_inst);
+
+        self.changed = ko.pureComputed(function (){
+            return data.done != self.done();
+        });
+
+        self.post_data = function () {
+            return {
+                id: self.id,
+                student: self.student,
+                task: self.task,
+                done: self.done()
+            }
+        };
+
+        self.css = ko.pureComputed(function () {
+            return [
+                self.done() ? 'done' : '',
+            ].join(" ");
+        });
+
+        self.reset = function () {
+            data.done = self.done();
+        };
+
+        self.toggle = function () {
+            self.done(!self.done());
+        }
+    }
+
+});
+
+/**
+ * Created by m on 13.02.15.
+ */
+define('labs/lab',["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function (ko, urls, helpers, Task, MarkTask) {
+    return function (data) {
+        var self = this;
+        self.id = data.id;
+        self.complex_choices = data.complex_choices;
+        self.title = ko.observable(data.title);
+        self.description = ko.observable(data.description);
+        self.discipline = ko.observable(data.discipline);
+        self.order = ko.observable(data.order);
+        self.tasks = ko.observableArray();
+        self.visible = ko.observable(data.visible);
+        self.regular = ko.observable(data.regular);
+        self.columns_count = ko.observable(data.columns_count);
+        self.marks = {};
+
+        self.columns_with_tasks = ko.pureComputed(function () {
+            var out = [];
+            var lastCol = 0;
+            var columnItems = {
+                items: []
+            };
+            var value = Math.ceil(self.tasks().length / self.columns_count());
+            for (var i = 0; i < self.tasks().length; ++i) {
+                var col = ~~(i / value);
+                if (lastCol != col) {
+                    lastCol = col;
+                    out.push(columnItems);
+                    columnItems = {
+                        items: []
+                    };
+                }
+                columnItems.items.push(self.tasks()[i]);
+            }
+            out.push(columnItems);
+            return out;
+        });
+
+        self.column_style = ko.pureComputed(function () {
+            return 'col-md-' + ~~(12 / self.columns_count());
+        });
+
+        function init() {
+            var index = 1;
+            data.tasks.every(function (item) {
+                item.complex_choices = data.complex_choices;
+                item.order = index++;
+                item.lab = self;
+                self.tasks.push(new Task(item));
+                return true;
+            });
+
+            self.setMarks(data.marks);
+        }
+
+        self.hasTaskMarksForStudent = function (student) {
+            return self.marks[student.id] !== undefined;
+        };
+
+        self.setMarks = function (marks) {
+            self.marks = {};
+            marks.every(function (item) {
+                var m = self.marks[item.student];
+                if (!m) {
+                    self.marks[item.student] = {};
+                    m = self.marks[item.student];
+                }
+                item.student_inst = item.student;
+                item.task_inst = item.task;
+                item.lab = self;
+                m[item.task] = new MarkTask(item);
+                return true;
+            });
+        };
+
+
+        self.mark = function (task, student) {
+            return ko.pureComputed(function () {
+                var out = self.marks[student.id];
+
+                if (!out) return new MarkTask({
+                    student: student.id,
+                    task: task.id,
+                    student_inst: student,
+                    task_inst: student,
+                    lab: self
+                });
+
+                out = out[task.id];
+                if (!out) return new MarkTask({
+                    student: student.id,
+                    task: task.id,
+                    student_inst: student,
+                    task_inst: student,
+                    lab: self
+                });
+
+                return out;
+            });
+        };
+
+        self.toggleTaskMark = function (mark) {
+            var item = {};
+            item[mark.student] = {};
+            item[mark.student][mark.task] = mark;
+
+            if (self.marks[mark.student] === undefined) {
+                self.marks[mark.student] = {};
+            }
+            item = self.marks[mark.student]
+
+            if (item[mark.task] === undefined) {
+                item[mark.task] = {};
+            }
+            item[mark.task] = mark;
+            mark.toggle();
+        };
+
+        self.remove = function (done, fail) {
+            $.prompt("Удалить \"" + self.title() + "\"?", {
+                persistent: false,
+                buttons: {"Да": true, 'Не сейчас': false},
+                submit: function (e, v) {
+                    if (v) {
+                        helpers.post(urls.url.lab_delete, {
+                            id: self.id
+                        }, done, fail);
+                    }
+                }
+            });
+        };
+
+        self.changed = ko.pureComputed(function () {
+            return data.title != self.title() ||
+                data.description != self.description() ||
+                data.columns_count != self.columns_count() ||
+                data.discipline != self.discipline();
+        });
+
+        self.style = ko.pureComputed(function () {
+            return "columns" + self.columns_count();
+        });
+
+        self.order_changed = ko.pureComputed(function () {
+            return data.order != self.order();
+        });
+
+        self.save = function (data, e) {
+            if (e) e.stopImmediatePropagation();
+            helpers.post(urls.url.lab_save, {
+                id: self.id,
+                title: self.title(),
+                description: self.description(),
+                discipline: self.discipline(),
+                visible: self.visible(),
+                regular: self.regular(),
+                columns_count: self.columns_count()
+            }, self.reset);
+        };
+
+        self.saveTaskMarks = function (data, e) {
+            var items = [];
+            for (var s in self.marks) {
+                for (var t in self.marks[s]) {
+                    var mark = self.marks[s][t];
+                    if (mark.changed()) {
+                        items.push(mark.post_data());
+                    }
+                }
+            }
+            if (items.length) {
+                helpers.post(urls.url.lab_save_taskmarks, {
+                    marks: JSON.stringify(items)
+                }, function () {
+                });
+            }
+        };
+
+        self.reset = function () {
+            data.title = self.title();
+            data.description = self.description();
+            data.discipline = self.discipline();
+            data.order = self.order();
+            data.visible = self.visible();
+            data.regular = self.regular();
+            data.columns_count = self.columns_count();
+            self.title.notifySubscribers();
+            self.order.notifySubscribers();
+        };
+
+        self.reset_order = function () {
+            data.order = self.order();
+            self.order.notifySubscribers();
+        };
+
+        self.addTask = function (data, e) {
+            if (e) e.stopImmediatePropagation();
+            $.prompt({
+                state: {
+                    title: "Заполните",
+                    html: '<textarea class="form-control" name="description" placeholder="описание" value="..."></textarea>',
+                    buttons: {'Добавить': true, 'Отмена': false},
+                    submit: function (e, v, m, f) {
+                        if (v) {
+                            helpers.post(urls.url.task_add, {
+                                lab_id: self.id,
+                                description: f.description
+                            }, function (r) {
+                                r.complex_choices = self.complex_choices;
+                                self.tasks.push(new Task(r))
+                                self.sort();
+                            });
+                        }
+                    }
+                }
+            });
+        };
+
+        self.removeTask = function (data, e) {
+            if (e) e.stopImmediatePropagation();
+            data.remove(function () {
+                self.tasks.remove(data);
+            });
+        };
+
+        self.sort = function () {
+            self.tasks.sort(function (left, right) {
+                return left.complexity() == right.complexity() ? 0 : left.complexity() < right.complexity() ? -1 : 1;
+            })
+        };
+
+        self.toggle = function (data, e) {
+            if (e) e.stopImmediatePropagation();
+            self.visible(!self.visible());
+            self.save(data, e);
+        };
+
+        self.toggle_regular = function (data, e) {
+            if (e) e.stopImmediatePropagation();
+            self.regular(!self.regular());
+            self.save(data, e);
+        };
+
+        init();
+    }
+});
+/**
+ * Created by m on 13.02.15.
+ */
+define('labs/labstable',['knockout', 'urls', 'helpers', 'labs/lab'], function (ko, urls, helpers, Lab) {
+    return function () {
+        var self = this;
+
+        self.discipline_id = 0;
+        self.complex_choices = {};
+        self.labs = ko.observableArray([]);
+
+        var lastSortable = null;
+        self.labsLoading = ko.observable(false);
+
+        /**
+         * done функция вызывается при успешной загрузке лабов; сигнатура: (response, labsTable)
+         * @type function
+         */
+        self.onLabsLoadingComplete = null;
+
+        function initSorting(data) {
+            //if (lastSortable) {
+            //    return;
+            //}
+            //var mlabs = $("#labs-editor").find(".m-labs")[0];
+            //if ($("#labs-editor").find(".drag-handler").size == 0) {
+            //    return;
+            //}
+            //if (!mlabs) {
+            //    return;
+            //}
+            //lastSortable = new Sortable(mlabs, {
+            //    handle: '.drag-handler',
+            //    onUpdate: function (evt) {
+            //        var mainItem = self.labs()[evt.oldIndex];
+            //        evt.item.remove();
+            //        self.labs.remove(mainItem);
+            //        self.labs.push(mainItem);
+            //        console.log(self.labs());
+            //        self.labs().every(function (item) {
+            //            if (evt.oldIndex > evt.newIndex) {
+            //                if (evt.newIndex <= item.order() && item.order() <= evt.oldIndex) {
+            //                    if (item.order() == evt.oldIndex) {
+            //                        item.order(evt.newIndex);
+            //                    } else {
+            //                        item.order(item.order() + 1);
+            //                    }
+            //                }
+            //            } else {
+            //                if (evt.oldIndex <= item.order() && item.order() <= evt.newIndex) {
+            //                    if (item.order() == evt.oldIndex) {
+            //                        item.order(evt.newIndex);
+            //                    } else {
+            //                        item.order(item.order() - 1);
+            //                    }
+            //                }
+            //            }
+            //            return true;
+            //        });
+            //    },
+            //    //onEnd: function (evt) {
+            //    //    //self.sort();
+            //    //    return false;
+            //    //}
+            //});
+        };
+
+        self.setParams = function (discipline_id) {
+            if (self.discipline_id != discipline_id) {
+                self.discipline_id = discipline_id;
+                self.loadLabs();
+            }
+        };
+
+        self.hasLabsForStudent = function (student) {
+            return ko.pureComputed(function () {
+                var result = self.labs().some(function(item) {
+                    return item.hasTaskMarksForStudent(student);
+                });
+                return result;
+            });
+        };
+
+
+        self.loadLabs = function (done) {
+            self.labs.removeAll();
+            self.labsLoading(true);
+            //setTimeout(function () {
+            $.get(urls.url.labs, {
+                discipline_id: self.discipline_id
+            }).done(function (r) {
+                self.complex_choices = r.complex_choices;
+                var order = 0;
+                r.labs.every(function (item) {
+                    item.complex_choices = r.complex_choices;
+                    item.order = order++;
+                    self.labs.push(new Lab(item));
+                    return true;
+                });
+                initSorting();
+                self.labsLoading(false);
+                if (self.onLabsLoadingComplete) self.onLabsLoadingComplete(r, self);
+            }).fail(helpers.showFail);
+            //}, 10);
+        };
+
+        self.addLab = function (data, e) {
+            e.stopImmediatePropagation();
+            $.prompt({
+                state: {
+                    title: "Заполните",
+                    html: '<input class="form-control" type="text" name="title" placeholder="название" value="без названия">',
+                    buttons: {'Добавить': true, 'Отмена': false},
+                    submit: function (e, v, m, f) {
+                        if (v) {
+                            helpers.post(urls.url.lab_add, {
+                                discipline_id: self.discipline_id,
+                                title: f.title
+                            }, self.loadLabs);
+                        }
+                    }
+                }
+            });
+        };
+
+        self.saveAll = function (data, e) {
+            e.stopImmediatePropagation();
+            var order_array = [];
+            self.sort();
+            self.labs().every(function (item) {
+                order_array.push(item.id);
+                item.reset_order();
+                return true;
+            });
+
+            helpers.post(urls.url.lab_save_order, {
+                'order_array': JSON.stringify(order_array),
+                'id': self.discipline_id
+            }, function () {
+                self.labs.notifySubscribers();
+                self.labs().every(function (lab) {
+                    if (lab.changed()) {
+                        lab.save();
+                    }
+                    return true;
+                });
+            })
+        };
+
+        self.removeLab = function (data, e) {
+            e.stopImmediatePropagation();
+            data.remove(function () {
+                self.labs.remove(data);
+            });
+        };
+
+        self.changed = ko.pureComputed(function () {
+            return self.labs().some(function (item) {
+                return item.order_changed();
+            });
+        });
+
+        self.is_active = ko.pureComputed(function () {
+            return self.labs().length > 0;
+        });
+
+        self.sort = function () {
+            self.labs.sort(function (left, right) {
+                return left.order() == right.order() ? 0 : left.order() < right.order() ? -1 : 1;
+            })
+        };
+
+
+        self.refresh = function (data, e) {
+            e.stopImmediatePropagation();
+            self.loadLabs();
+        };
+
+
+        //init();
+    }
+});
+
 // create modal discipline for adding purposes
 define('main',['knockout',
-        //'jquery',
         'cookies',
         'marks/discipline',
         'marks/markstable',
         'labs/labstable',
         'urls',
         'helpers',
-        'jquery.cookie',
-        'qtip'
+        'jquery.cookie'
+        //'qtip'
     ],
     function (ko, cookies, Discipline, MarksTable, LabsTable, urls, helpers) {
 
@@ -7853,7 +7860,7 @@ define('main',['knockout',
  * Created by m on 24.08.14.
  */
 
-define('interface',['common-settings'], function (settings) {
+define('interface',['common-settings', 'bootstrap'], function (settings) {
     var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
 
     window.jQuery = $;
@@ -8012,7 +8019,14 @@ define('interface',['common-settings'], function (settings) {
 /**
  * Created by m on 11.02.15.
  */
+define('jquery', [], function () {
+    return jQuery;
+});
+
 require.config({
+    shim: {
+        'jquery.cookie': {deps: ['jquery']}
+    },
     paths: {
         'marks': './marks',
         'labs': './labs',
@@ -8021,20 +8035,19 @@ require.config({
         //'jquery': '/static/bower_components/jquery/dist/jquery',
         'jquery.cookie': '/static/bower_components/jquery.cookie/jquery.cookie',
         'color': '/static/lib/color',
-        //'bootstrap': '/static/lib/bootstrap/bootstrap.min',
+        'bootstrap': '../../../lib/bootstrap/bootstrap.min',
         'helpers': '../../../js/helpers',
         'interface': '../../../js/interface'
         //underscore: '/static/bower_components/underscore/underscore'
     }
 });
 
-define('pickmeup', [],function() {
+define('pickmeup', [],function () {
     return undefined;
 });
 
-define('jquery', [], function() {
-    return jQuery;
-});
+
+require(['jquery']);
 
 
 function lessonIconSelectPopup(triggeringLink) {

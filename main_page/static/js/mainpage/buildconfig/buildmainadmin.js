@@ -9,7 +9,7 @@
         'knockout': '../../../../templates/static/bower_components/knockout/dist/knockout',
         //'jquery': '../../../../templates/static/bower_components/jquery/dist/jquery',
         'ckeditorinlinebinding': '../../../../templates/static/js/bindings/ckeditorinlinebinding',
-        //'bootstrap': '../../../../templates/static/lib/bootstrap/bootstrap.min',
+        'bootstrap': '../../../../templates/static/lib/bootstrap/bootstrap.min',
         'interface': '../../../../templates/static/js/interface',
         'helpers': '../../../../templates/static/js/helpers',
         'mainpage-settings': 'empty:',

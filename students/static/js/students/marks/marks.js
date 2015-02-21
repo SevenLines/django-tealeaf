@@ -1,7 +1,14 @@
 /**
  * Created by m on 11.02.15.
  */
+define('jquery', [], function () {
+    return jQuery;
+});
+
 require.config({
+    shim: {
+        'jquery.cookie': {deps: ['jquery']}
+    },
     paths: {
         'marks': './marks',
         'labs': './labs',
@@ -10,20 +17,19 @@ require.config({
         //'jquery': '/static/bower_components/jquery/dist/jquery',
         'jquery.cookie': '/static/bower_components/jquery.cookie/jquery.cookie',
         'color': '/static/lib/color',
-        //'bootstrap': '/static/lib/bootstrap/bootstrap.min',
+        'bootstrap': '../../../lib/bootstrap/bootstrap.min',
         'helpers': '../../../js/helpers',
         'interface': '../../../js/interface'
         //underscore: '/static/bower_components/underscore/underscore'
     }
 });
 
-define('pickmeup', function() {
+define('pickmeup', function () {
     return undefined;
 });
 
-define('jquery', [], function() {
-    return jQuery;
-});
+
+require(['jquery']);
 
 
 function lessonIconSelectPopup(triggeringLink) {

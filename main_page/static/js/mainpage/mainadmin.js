@@ -8,6 +8,7 @@ require.config({
     paths: {
         'knockout': '../../bower_components/knockout/dist/knockout',
         'ckeditorinlinebinding': '../bindings/ckeditorinlinebinding',
+        'bootstrap': '../../lib/bootstrap/bootstrap.min',
         'interface': '../interface',
         'helpers': '../helpers'
     }

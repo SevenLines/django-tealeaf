@@ -2,9 +2,6 @@
  * Created by m on 13.02.15.
  */
 define(['knockout',
-        //'jquery',
-        //'jquery.cookie',
-        //'qtip',
         'urls',
         'cookies',
         'helpers',
@@ -12,8 +9,11 @@ define(['knockout',
         'marks/mark',
         'marks/student',
         'marks/markselector',
-        'marks/qtipsettings'
-        //'bootstrap'
+        'marks/qtipsettings',
+        'jquery',
+        'qtip',
+        'jquery.cookie',
+        'bootstrap'
     ],
     function (ko, urls, cookies, helpers, Lesson, Mark, Student, MarkSelector, qtipsettings) {
         return function () {
