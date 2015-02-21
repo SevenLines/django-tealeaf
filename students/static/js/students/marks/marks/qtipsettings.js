@@ -42,13 +42,16 @@ define(function () {
                 });
 
                 // инициализируем календарь
-                $(that).find(".lesson-date").pickmeup_twitter_bootstrap({
-                    hide_on_select: true,
-                    format: 'd/m/Y',
-                    hide: function (e) {
-                        $(this).trigger('change');
-                    }
-                });
+                if (require('pickmeup')) {
+                    $(that).find(".lesson-date").pickmeup_twitter_bootstrap({
+                        hide_on_select: true,
+                        format: 'd/m/Y',
+                        hide: function (e) {
+                            $(this).trigger('change');
+                        }
+                    });
+                }
+
 
                 var clickEvent = function () {
                     $(that).unbind("click");

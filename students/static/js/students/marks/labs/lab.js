@@ -1,7 +1,7 @@
 /**
  * Created by m on 13.02.15.
  */
-define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (ko, urls, helpers, Task, MarkTask) {
+define(["knockout", "jquery", "urls",  "helpers", "labs/task", "labs/marktask"], function (ko, $, urls, helpers, Task, MarkTask) {
     return function (data) {
         var self = this;
         self.id = data.id;

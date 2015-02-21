@@ -1,5 +1,5 @@
 // >>> LESSON CLASS
-define(['knockout', 'helpers', 'urls'], function (ko, helpers, urls) {
+define(['knockout', "jquery", 'helpers', 'urls'], function (ko, $, helpers, urls) {
     return function (data, model) {
         var self = this;
         self.convert_date = function (isodate) {

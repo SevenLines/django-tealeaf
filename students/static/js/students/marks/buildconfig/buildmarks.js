@@ -12,6 +12,7 @@
         'color': '../../../../../templates/static/lib/color',
         'bootstrap': '../../../../../templates/static/lib/bootstrap/bootstrap.min',
         "urls": 'empty:',
+        "pickmeup": 'empty:',
         "common-settings": 'empty:'
     }
 })

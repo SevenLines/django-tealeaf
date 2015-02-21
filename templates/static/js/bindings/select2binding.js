@@ -1,4 +1,4 @@
-define(['knockout', 'select2'], function (ko, select2) {
+define(['knockout', 'select2', 'jquery'], function (ko, select2) {
     ko.bindingHandlers.select2 = {
         init: function (element, valueAccessor, allBindingsAccessor) {
             setTimeout(function () {

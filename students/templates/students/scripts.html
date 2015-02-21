@@ -1,7 +1,7 @@
 {% load static sekizai_tags assets ex_tags %}
 {% if user.is_authenticated %}
     {% addtoblock "js" %}
-{#        <script src="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.min.js" %}"></script>#}
+        {#        <script src="{% static "bower_components/jquery-impromptu/dist/jquery-impromptu.min.js" %}"></script>#}
         <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
     {% endaddtoblock %}
     {% addtoblock "core_css" %}
@@ -18,15 +18,14 @@
 {#    <script src="{% static "bower_components/requirejs/require.js" %}"></script>#}
 {#{% endaddtoblock %}#}
 
-{% addtoblock "js" %}
-    {% requirejs 'js/students/marks' 'marks' 'dist/marks' 'urls' %}
-{% endaddtoblock %}
 
-{% if user.is_authenticated %}
-    {% addtoblock "js" %}
+{% addtoblock "js" %}
+    {% if user.is_authenticated %}
         {% requirejs 'js/students/marks' 'marksadmin' 'dist/marksadmin' 'urls' %}
-    {% endaddtoblock %}
-{% endif %}
+    {% else %}
+        {% requirejs 'js/students/marks' 'marks' 'dist/marks' 'urls' %}
+    {% endif %}
+{% endaddtoblock %}
 
 {% addtoblock "js" %}
     <script>

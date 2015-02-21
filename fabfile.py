@@ -58,12 +58,11 @@ def minify():
 
 
 def requirejs(dontoptimize=False):
-    # ищет файлы build.js и компилирует их спомощью build.js
+    # ищет файлы build*.js и компилирует их спомощью build.js
     matches = []
     for root, dirnames, filenames in os.walk('.'):
         if root.startswith('./node_modules') or root.startswith('./static'):
             continue
-        print root
         if root.endswith('buildconfig'):
             for filename in fnmatch.filter(filenames, 'build*.js'):
                 matches.append(os.path.join(root, filename))

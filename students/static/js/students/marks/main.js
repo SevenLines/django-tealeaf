@@ -1,13 +1,15 @@
 // create modal discipline for adding purposes
 define(['knockout',
+        'jquery',
         'cookies',
         'marks/discipline',
         'marks/markstable',
         'labs/labstable',
         'urls',
-        'helpers'
+        'helpers',
+        'jquery.cookie'
     ],
-    function (ko, cookies, Discipline, MarksTable, LabsTable, urls, helpers) {
+    function (ko, $, cookies, Discipline, MarksTable, LabsTable, urls, helpers) {
 
         return function () {
             var self = this;
