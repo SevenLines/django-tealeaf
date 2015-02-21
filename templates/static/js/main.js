@@ -3,13 +3,17 @@
  */
 
 require.config({
+    shim: {
+        'bootstrap': {deps: ['jquery']}
+    },
     paths: {
-        bootstrap: '../lib/bootstrap/bootstrap.min'
+        'bootstrap': '../lib/bootstrap/bootstrap.min',
+        'jquery': '../bower_components/jquery/dist/jquery'
     }
 });
-
-define('jquery', [], function () {
-    return jQuery;
-});
+//
+//define('jquery', [], function () {
+//    return jQuery;
+//});
 
 require(["interface"]);

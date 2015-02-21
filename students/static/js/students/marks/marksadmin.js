@@ -6,7 +6,7 @@ require.config({
         'ckeditorinlinebinding': {deps: ['knockout']},
         'select2binding': {deps: ['select2']},
         'select2': {deps: ['jquery']},
-        //'bootstrap': {"deps": ['jquery']},
+        'bootstrap': {"deps": ['jquery']},
         'qtip': {"deps": ['jquery']},
         'color': {"deps": ['jquery']},
         'pickmeup': {"deps": ['jquery']}
@@ -21,7 +21,7 @@ require.config({
         'helpers': '../../../js/helpers',
         'interface': '../../../js/interface',
         'knockout': '/static/bower_components/knockout/dist/knockout',
-        //'jquery': '/static/bower_components/jquery/dist/jquery',
+        'jquery': '/static/bower_components/jquery/dist/jquery',
         'ckeditorinlinebinding': '/static/js/bindings/ckeditorinlinebinding',
         'select2binding': '/static/js/bindings/select2binding',
         'select2': '/static/bower_components/select2/select2',
@@ -29,11 +29,10 @@ require.config({
         'pickmeup': '/static/bower_components/pickmeup/js/jquery.pickmeup'
     }
 });
-
-define('jquery', [], function () {
-    return jQuery;
-});
-require(['jquery']);
+//
+//define('jquery', [], function () {
+//    return jQuery;
+//});
 
 
 require(['main',
