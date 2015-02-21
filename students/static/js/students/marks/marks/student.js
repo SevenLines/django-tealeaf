@@ -2,7 +2,7 @@
  * Created by m on 11.02.15.
  */
 // >>> STUDENT CLASS
-define(['knockout', "jquery", 'marks/mark', 'color'], function (ko, $, Mark) {
+define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
     return function (data) {
         var marksTypes = [];
         var studentColorMin = Color("#FDD").lighten(0.03);

@@ -2,9 +2,9 @@
  * Created by m on 13.02.15.
  */
 define(['knockout',
-        'jquery',
-        'jquery.cookie',
-        'qtip',
+        //'jquery',
+        //'jquery.cookie',
+        //'qtip',
         'urls',
         'cookies',
         'helpers',
@@ -12,10 +12,10 @@ define(['knockout',
         'marks/mark',
         'marks/student',
         'marks/markselector',
-        'marks/qtipsettings',
-        'bootstrap'
+        'marks/qtipsettings'
+        //'bootstrap'
     ],
-    function (ko, $, cookie, qtip, urls, cookies, helpers, Lesson, Mark, Student, MarkSelector, qtipsettings) {
+    function (ko, urls, cookies, helpers, Lesson, Mark, Student, MarkSelector, qtipsettings) {
         return function () {
             var self = this;
 

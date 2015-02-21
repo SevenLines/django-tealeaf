@@ -1,6 +1,6 @@
 // >>> селектор оценки
 
-define(['knockout', "jquery"], function (ko, $) {
+define(['knockout'], function (ko) {
     return function (selector, markTypes) {
         var self = this;
         self.mark_selector = $(selector);

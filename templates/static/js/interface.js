@@ -2,7 +2,7 @@
  * Created by m on 24.08.14.
  */
 
-define(['jquery', 'common-settings', 'bootstrap'], function ($, settings) {
+define(['common-settings'], function (settings) {
     var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
 
     window.jQuery = $;

@@ -2,20 +2,15 @@
  * Created by m on 11.02.15.
  */
 require.config({
-    shim: {
-        bootstrap: {"deps": ['jquery']},
-        qtip: {"deps": ['jquery']},
-        color: {"deps": ['jquery']}
-    },
     paths: {
         'marks': './marks',
         'labs': './labs',
         'qtip': '/static/bower_components/qtip2/jquery.qtip',
         'knockout': '/static/bower_components/knockout/dist/knockout',
-        'jquery': '/static/bower_components/jquery/dist/jquery',
+        //'jquery': '/static/bower_components/jquery/dist/jquery',
         'jquery.cookie': '/static/bower_components/jquery.cookie/jquery.cookie',
         'color': '/static/lib/color',
-        'bootstrap': '/static/lib/bootstrap/bootstrap.min',
+        //'bootstrap': '/static/lib/bootstrap/bootstrap.min',
         'helpers': '../../../js/helpers',
         'interface': '../../../js/interface'
         //underscore: '/static/bower_components/underscore/underscore'
@@ -24,6 +19,10 @@ require.config({
 
 define('pickmeup', function() {
     return undefined;
+});
+
+define('jquery', [], function() {
+    return jQuery;
 });
 
 
