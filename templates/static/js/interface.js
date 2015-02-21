@@ -5,6 +5,8 @@
 define(['jquery', 'common-settings', 'bootstrap'], function ($, settings) {
     var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
 
+    window.jQuery = $;
+
     // кнопка входа / выхода
     if (settings.url.logout) {
         $("#enter-button").click(function () {
