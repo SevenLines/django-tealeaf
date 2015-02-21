@@ -16,8 +16,8 @@ require.config({
         'jquery.cookie': '/static/bower_components/jquery.cookie/jquery.cookie',
         'color': '/static/lib/color',
         'bootstrap': '/static/lib/bootstrap/bootstrap.min',
-        'helpers': '/static/js/helpers',
-        'interface': '/static/js/interface'
+        'helpers': '../../../js/helpers',
+        'interface': '../../../js/interface'
         //underscore: '/static/bower_components/underscore/underscore'
     }
 });

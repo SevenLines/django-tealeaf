@@ -31,11 +31,14 @@
 
     {% addtoblock "js" %}
         <script type="text/javascript">
-            !function ($) {
+            define('lesson-settings', ['jquery'], function ($) {
                 $(function () {
                     window.prettyPrint && prettyPrint()
-                })
-            }(window.jQuery)
+                });
+            });
+            require(['main'], function (){
+                require(['lesson-settings']);
+            })
         </script>
     {% endaddtoblock %}
     {# SCRIPTS END #}

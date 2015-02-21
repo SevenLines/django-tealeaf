@@ -1,7 +1,5 @@
-var Editor;
-
-Editor = (function () {
-    function Editor(ckEditor, id_controller, data) {
+define('article', ['jquery'], function($) {
+   return function Editor(ckEditor, id_controller, data) {
 
         ckEditor.setKeystroke([[CKEDITOR.CTRL + CKEDITOR.ALT + 83, "saveme"]]);
 
@@ -54,9 +52,4 @@ Editor = (function () {
             });
         });
     }
-
-    return Editor;
-
-})();
-
-window.Editor = Editor;
+});

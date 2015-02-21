@@ -7,8 +7,8 @@ require.config({
         bootstrap: {"deps": ['jquery']}
     },
     paths: {
-        jquery: '../bower_components/jquery/dist/jquery',
-        bootstrap: '../lib/bootstrap/bootstrap.min'
+        bootstrap: '../lib/bootstrap/bootstrap.min',
+        jquery: '../bower_components/jquery/dist/jquery'
     }
 });
 

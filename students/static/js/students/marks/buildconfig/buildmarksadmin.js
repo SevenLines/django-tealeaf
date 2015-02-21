@@ -8,7 +8,10 @@
     paths: {
         'knockout': '../../../../../templates/static/bower_components/knockout/dist/knockout',
         'select2': '../../../../../templates/static/bower_components/select2/select2',
-        'ckeditor': '../../../../../templates/static/bower_components/ckeditor/ckeditor',
-        "urls": 'empty:'
+        'jquery-impromptu': '../../../../../templates/static/bower_components/jquery-impromptu/dist/jquery-impromptu',
+        'ckeditorinlinebinding': '../../../../../templates/static/js/bindings/ckeditorinlinebinding',
+        'select2binding': '../../../../../templates/static/js/bindings/select2binding',
+        "urls": 'empty:',
+        'jquery': 'empty:'
     }
 })
