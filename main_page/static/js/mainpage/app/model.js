@@ -175,11 +175,11 @@ define(['knockout', 'app/item', 'app/modal_confirm', 'helpers'],
             self.update_view = function () {
                 if (self.current_item === 'undefined')
                     return;
-                helpers.post(self.url.item, {
+                $.get(self.url.item, {
                     item_id: self.current_item().id
-                }, function (data) {
+                }).done( function (data) {
                     $(self.selector.view).html(data.html);
-                }, function () {
+                }).fail( function () {
                     $(self.selector.view).html("");
                 });
             };

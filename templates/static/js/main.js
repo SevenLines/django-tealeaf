@@ -9,7 +9,7 @@ require.config({
     paths: {
         'bootstrap': '../lib/bootstrap/bootstrap.min',
         'jquery': '../bower_components/jquery/dist/jquery',
-        'prettify': '../bower_components/google-code-prettify/bin/prettify.min.js'
+        'prettify': '../bower_components/google-code-prettify/bin/prettify.min'
     }
 });
 
