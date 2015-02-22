@@ -9,7 +9,8 @@
         <td>
             <!-- ko with: $parents[1].mark($data, $parentContext.$data)() -->
             <div class="t-cell"
-                 data-bind="{% if user.is_authenticated %}click: $parents[2].toggleTaskMark.bind($data),{% endif %}css: css">
+                 data-bind="{% if user.is_authenticated %}click: $parents[2].toggleTaskMark.bind($data),{% endif %}
+                 css: {'done': done, 'changed': changed }">
                 <span class="t-cell-icon" data-bind="text: $parent.order"></span>
             </div>
             <!-- /ko -->

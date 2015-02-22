@@ -167,6 +167,7 @@ define(["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function 
                     var mark = self.marks[s][t];
                     if (mark.changed()) {
                         items.push(mark.post_data());
+                        mark.reset();
                     }
                 }
             }
@@ -174,6 +175,7 @@ define(["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function 
                 helpers.post(urls.url.lab_save_taskmarks, {
                     marks: JSON.stringify(items)
                 }, function () {
+                    location.reload();
                 });
             }
         };
