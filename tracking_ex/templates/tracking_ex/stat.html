@@ -1,5 +1,5 @@
 {% extends "base-page.html" %}
-{% load sekizai_tags static %}
+{% load sekizai_tags static ex_tags %}
 {% block basecontent %}
     <table id="visitors" class="table table-hover">
         <thead>
@@ -46,18 +46,11 @@
         <link rel="stylesheet" href="{% static "css/tracking_ex.css" %}"/>
     {% endaddtoblock %}
     {% addtoblock "js" %}
-        <script src="{% static "bower_components/knockout/dist/knockout.js" %}"></script>
-    {% endaddtoblock %}
-    {% addtoblock "js" %}
-        <script src="{% static "js/tracking_ex/tracking.js" %}"></script>
-    {% endaddtoblock %}
-    {% addtoblock "js" %}
+        {% requirejs 'js/tracking_ex' 'tracking' 'dist/tracking' 'urls' %}
         <script>
-            ko.applyBindings(new AppTracking({
-                url: {
-                    visitors: '{% url "tracking_ex.views.visitors_list" %}'
-                }
-            }));
+            define('urls', {
+                visitors: '{% url "tracking_ex.views.visitors_list" %}'
+            });
         </script>
     {% endaddtoblock %}
 {% endblock %}

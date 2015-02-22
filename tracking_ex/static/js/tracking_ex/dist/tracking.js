@@ -111,506 +111,107 @@ function(){if(!w||!w.tmpl)return 0;try{if(0<=w.tmpl.tag.tmpl.open.toString().ind
 b,e);e.appendTo(v.createElement("div"));w.fragments={};return e};this.createJavaScriptEvaluatorBlock=function(a){return"{{ko_code ((function() { return "+a+" })()) }}"};this.addTemplate=function(a,b){v.write("<script type='text/html' id='"+a+"'>"+b+"\x3c/script>")};0<a&&(w.tmpl.tag.ko_code={open:"__.push($1 || '');"},w.tmpl.tag.ko_with={open:"with($1) {",close:"} "})};a.Sa.prototype=new a.H;var b=new a.Sa;0<b.kc&&a.ab(b);a.b("jqueryTmplTemplateEngine",a.Sa)})()})})();})();
 
 /**
- * Created by m on 21.02.15.
+ * Created by m on 22.02.15.
  */
-define('app/item',['knockout'], function (ko) {
+define('app/helpers',[], function () {
+    return {
+        toLocString: function (isodate) {
+            if (!isodate)
+                return "-";
+            var d = new Date(isodate);
+            return d.toLocaleString("en-GB");
+        }
+    }
+});
+
+/**
+ * Created by m on 22.02.15.
+ */
+define('app/visitor',['app/helpers'], function (helpers) {
     return function (data) {
         var self = this;
+        self.ip_address = data.ip_address;
+        self.start_time = helpers.toLocString(data.start_time);
+        self.end_time = helpers.toLocString(data.end_time);
+        self.user_agent = data.user_agent;
+        self.last_of_day = data.last_of_day;
+        self.visits = data.visits;
 
-        self.id = data.id;
-        self.title = ko.observable(data.title);
-        self.description = ko.observable(data.description);
-        self.item_url = ko.observable(data.item_url);
-        self.item_thumb_url = ko.observable(data.item_thumb_url);
-        self.active = ko.observable(data.active);
+        self.style = self.last_of_day ? "last_of_day" : "";
     }
 });
 
-define('app/modal_confirm',["knockout"], function (ko) {
+
+/**
+ * Created by m on 22.02.15.
+ */
+define('app/apptracking',['knockout', 'app/visitor', 'app/helpers', 'urls'], function (ko, Visitor, helpers, urls) {
     return function(data) {
-        /**
-         Modal form should be bind to the bootstrap modal html:
-
-         <div id="main-modal-form" class="modal fade" role="dialog" data-bind="with: modalConfirm">
-         <div class="modal-dialog">
-         <div class="modal-content">
-         <div class="modal-header" data-bind="text: header"></div>
-         <div class="modal-body" data-bind="text: value"> </div>
-         <div class="modal-footer">
-         <button type="button" class="btn btn-danger" data-confirm data-dismiss="modal">Yes</button>
-         <button type="button" class="btn btn-default" data-decline data-dismiss="modal">No</button>
-         </div>
-         <div>
-         </div>
-         </div>
-         </div>
-         </div>
-
-         create new field in model:
-
-         self.modalConfirm = new ModalConfirm({ modal_selector: "#main-modal-form" })
-
-         auto generated modal (require variable_name to be passed and modal_selector should be omitted):
-
-         self.modalConfirm = new ModalConfirm({ variable_name: "modalConfirm" })
-
-         call to show dialog:
-         as
-         self.modalConfirm.show(function() { console.log("Yes") }, function() { console.log("No") })
-
-         You can omit second argument and implement only confirm event.
-         click on button with "data-confirm" attribute bind to confirm event (first param in show function)
-         click on button with "data-decline" attribute bind to decline event (second param in show function)
-         */
-
-        data = data ? data : {};
-
-        if (data.prototype) {
-            return;
-        }
-
         var self = this;
 
-        self.modal_selector = data.modal_selector;
-        self.message = ko.observable(data.message);
-        self.header = ko.observable(data.header);
-        self.variable_name = data.variable_name;
+        var page = 1;
+        self.no_more_visitors = ko.observable(false);
+        self.visitors = ko.observableArray();
+        self.visitors_loading = ko.observable(false);
 
-        self.label = { // labels text
-            yes: 'Да',
-            no: 'Нет'
+        function resetInterface() {
+            $("#visitors .visitor .agent").tooltip();
+        }
+
+        function fetchVisitors() {
+            self.visitors_loading(true);
+            $.get(urls.visitors, {
+                page: page
+            }).done(function (response) {
+                var lastD = null;
+                var i = 0;
+
+                function add_item() {
+                    if (i < response.visitors.length) {
+                        var item = response.visitors[i];
+                        var curD = helpers.toLocString(item.start_time).substring(0, 10);
+                        if (lastD && curD != lastD) {
+                            item.last_of_day = true;
+                            console.log(lastD + " " + curD);
+                        }
+                        lastD = curD;
+                        ++i;
+                        self.visitors.push(new Visitor(item));
+                        setTimeout(add_item, 0);
+                    } else {
+                        self.no_more_visitors(response.no_more);
+                        page++;
+                        resetInterface();
+                    }
+                }
+
+                add_item();
+            }).always(function () {
+                self.visitors_loading(false);
+            });
+        }
+
+
+        function init() {
+            fetchVisitors();
+        }
+
+        self.resetList = function () {
+            page = 1;
+            self.visitors.removeAll();
+            self.no_more_visitors(false);
+            self.fetchMore();
         };
 
-        self.custom_modal_body = data.custom_modal_body ? data.custom_modal_body : ''; // for extending purposes
-
-        self.callback_confirm = null;
-        self.callback_decline = null;
-
-        self._generate_modal = function () {
-
-            if (self.variable_name == null) {
-                console.error("One should pass variable_name to use autogenerate modal:\n" +
-                "var modalForm = new ModalConfirm({variable_name: 'modalForm'})");
+        self.fetchMore = function () {
+            if (self.no_more_visitors())
                 return;
-            }
-
-            var id = 'modal-' + self.variable_name;
-
-            $("#" + id).remove();
-
-            var html = '<div id="' + id + '" class="modal fade" role="dialog" ' +
-                'data-bind="with: ' + self.variable_name + '">' + // change knockout context with 'with'
-                '<div class="modal-dialog">' +
-                '<div class="modal-content">' +
-                '<div class="modal-header" data-bind="text: header"></div>' + // header variable
-                '<div class="modal-body">' +
-                '<span data-bind="html: message"></span>' // message variable
-                + self.custom_modal_body + // some custom content for extending purposes
-                '</div>' +
-                '<div class="modal-footer">' +
-                '<button type="button" class="btn btn-default" data-decline data-dismiss="modal">'
-                + self.label.no + // label for decline button
-                '</button>' +
-                '<button type="button" class="btn btn-danger" data-confirm data-dismiss="modal">'
-                + self.label.yes + // label for confirm button
-                '</button>' +
-                '</div></div></div></div>';
-            $('body').prepend(html); // add content
-
-            return "#" + id;
+            fetchVisitors();
         };
 
-        self.init = function () {
-            if (self.modal_selector == null) {
-                self.modal_selector = self._generate_modal();
-            }
-
-            $(self.modal_selector).find("[data-confirm]").unbind("click");
-            $(self.modal_selector).find("[data-confirm]").click(function () {
-                if (self.callback_confirm)
-                    self.callback_confirm();
-            });
-
-            $(self.modal_selector).find("[data-decline]").unbind("click");
-            $(self.modal_selector).find("[data-decline]").click(function () {
-                if (self.callback_decline)
-                    self.callback_decline();
-            })
-        };
-
-        self.show = function (callback_confirm, callback_decline) {
-            self.callback_confirm = callback_confirm === undefined ? null : callback_confirm;
-            self.callback_decline = callback_decline === undefined ? null : callback_decline;
-            $(self.modal_selector).modal("show");
-        };
-
-        self.init();
-    }
+        init();
+    };
 });
-
-/**
- * Created by m on 21.02.15.
- */
-define('helpers',['common-settings'], function (settings) {
-
-        Date.prototype.ddmmyyyy = function () {
-            var yyyy = this.getFullYear().toString();
-            var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
-            var dd = this.getDate().toString();
-
-            return (dd[1] ? dd : "0" + dd[0]) + '/' + (mm[1] ? mm : "0" + mm[0]) + '/' + yyyy;
-        };
-
-        Array.prototype.equals = function (array) {
-            // if the other array is a falsy value, return
-            if (!array)
-                return false;
-
-            // compare lengths - can save a lot of time
-            if (this.length != array.length)
-                return false;
-
-            for (var i = 0, l = this.length; i < l; i++) {
-                // Check if we have nested arrays
-                if (this[i] instanceof Array && array[i] instanceof Array) {
-                    // recurse into the nested arrays
-                    if (!this[i].equals(array[i]))
-                        return false;
-                }
-                else if (this[i] != array[i]) {
-                    // Warning - two different object instances will never be equal: {x:20} != {x:20}
-                    return false;
-                }
-            }
-            return true;
-        };
-
-        return {
-            blink: function (color, delay) {
-                var bg = $('body');
-                var bg_css = bg.css("background");
-                bg.css("background-color", color);
-                setTimeout(function () {
-                    $("body").css("background", bg_css);
-                }, delay);
-            },
-            showSuccess: function () {
-                this.blink("#AAFF88", 1000);
-            },
-            showFail: function () {
-                this.blink("#FFAA88", 1000);
-            },
-            csrfize: function csrfize(data) {
-                data.csrfmiddlewaretoken = settings.csrf;
-                return data;
-            },
-            post: function (url, data, success, fail) {
-                var that = this;
-                $.post(url, this.csrfize(data)).done(function (d) {
-                    if (success) success(d);
-                    that.showSuccess();
-                }).fail(function (d) {
-                    if (fail) fail(d);
-                    that.showFail();
-                })
-            },
-            get: function (url, data, success, fail) {
-                var that = this;
-                $.get(url, data).done(function (d) {
-                    if (success) success(d);
-                    that.showSuccess();
-                }).fail(function (d) {
-                    if (fail) fail(d);
-                    that.showFail();
-                });
-            },
-            input2base64f: function (input_element, callback) {
-                var file = input_element.files[0];
-                var fileReader = new FileReader();
-                fileReader.onload = function (e) {
-                    if (callback) callback(e);
-                };
-                fileReader.readAsDataURL(file);
-            },
-            input2base64: function (input_element, output_image) {
-                this.input2base64f(input_element, function (e) {
-                    output_image.src = e.target.result;
-                })
-            }
-        }
-    }
-);
-/**
- * Created by m on 21.02.15.
- */
-define('app/model',['knockout', 'app/item', 'app/modal_confirm', 'helpers'],
-    function (ko, MainPageItem, ModalConfirm, helpers) {
-        return function (data) {
-            var self = this;
-
-            self.reset_item = function () {
-                return new MainPageItem({
-                    id: -1,
-                    title: '',
-                    description: '',
-                    item_url: '',
-                    item_thumb_url: '',
-                    active: false
-                });
-            };
-
-            self.url = {
-                items: data.url.items,                  // list of items
-                item: data.url.item,                    // item with specific item_id
-                activate_item: data.url.activate_item,  // activate currently selected item
-                save_item: data.url.save_item,          // save item with specific item_id
-                add_item: data.url.add_item,            // add new item
-                remove_item: data.url.remove_item,      // remove item with id
-                toggle_border: data.url.toggle_border,  // toggle main image border
-                toggle_img_bootstrap_cols: data.url.toggle_img_bootstrap_cols,
-                update_description: data.url.update_description,
-
-                themes: data.url.themes,
-                set_theme: data.url.set_theme
-            };
-
-            self.description = ko.observable(data.description);
-            self.show_border = ko.observable(data.show_border);
-
-            self.selector = {
-                view: data.selector.view
-            };
-
-            self.cols = $.map($(Array(14)), function (val, i) {
-                return i - 1;
-            });
-            self.img_bootstrap_cols = ko.observable(data.img_bootstrap_cols);
-
-            self.modalSave = new ModalConfirm({modal_selector: "#modalSave"});
-            self.modalDelete = new ModalConfirm({
-                variable_name: "modalDelete",
-                message: "Удалить?"
-            });
-            self.new_item = ko.observable(self.reset_item());
-
-            self.csrf = data.csrf;
-            function csrfize(data) {
-                data.csrfmiddlewaretoken = self.csrf;
-                return data;
-            }
-
-            self.items = ko.observableArray();
-            self.current_item = ko.observable(self.reset_item());
-
-            self.themes = ko.observableArray();
-            self.current_theme = ko.observable();
-            self.init_current_theme = ko.observable();
-
-            self.img_bootstrap_cols.subscribe(function (value) {
-                //console.log(value);
-                self.toggleImgBootstrapCols();
-            });
-
-            self.current_theme.subscribe(function (value) {
-                if (self.current_theme() && self.init_current_theme() && self.current_theme().path != self.init_current_theme().path) {
-                    helpers.post(self.url.set_theme, {
-                        'css_path': value.path
-                    }, function () {
-                        self.init_current_theme(self.current_theme());
-                        location.reload();
-                    });
-                }
-            });
-
-            self.style = ko.computed(function () {
-                var s = self.show_border() ? 'glyphicon-eye-open' : 'glyphicon-eye-close';
-                return s;
-            }, self.show_border);
-
-            /*// binding ckeditor with description content
-            ko.bindingHandlers.ckeditor = {
-                init: function (element) {
-                    var editor = $(element).ckeditor({
-                        extraPlugins: 'sourcedialog,divarea,bootstrap-collapse,insertpre,div,image,' +
-                        'bootstrap-collapse,bootstrap-message,showblocks,justify,divarea,colordialog,colorbutton,liststyle,eqneditor'
-                    }).editor;
-                    self.description(editor.getData());
-                    editor.on('change', function (data) {
-                        self.description(editor.getData());
-                    });
-
-                    // create save button
-                    editor.addCommand("SaveCommand", {
-                        exec: function () {
-                            self.update_description();
-                        }
-                    });
-                    editor.ui.addButton("Save", {
-                        command: "SaveCommand",
-                        label: "Save",
-                        icon: element.dataset.icon,
-                        toolbar: "editing"
-                    });
-                    // <<<
-                },
-            };*/
-            // <<<
-            self.loadThemes = function () {
-                $.get(self.url.themes).success(function (response) {
-                    self.themes(response);
-                    self.themes().every(function (item) {
-                        if (item.current) {
-                            self.init_current_theme(item);
-                            return false;
-                        }
-                        return true;
-                    });
-                    if (self.init_current_theme()) {
-                        self.current_theme(self.init_current_theme());
-                    }
-                });
-            };
-
-            self.loadItems = function (select_newest_item) {
-                $.get(self.url.items, {}, function (data) {
-                    self.current_item(self.reset_item());
-                    //self.items($.map(data, function (item) {
-                    //    return new MainPageItem(item);
-                    //}));
-                    self.items.removeAll();
-                    var j = 0;
-
-                    function add_item() {
-                        if (j < data.length) {
-                            self.items.push(new MainPageItem(data[j]));
-                            ++j;
-                            setTimeout(add_item, 0);
-                        } else {
-                            for (var i = 0; i < self.items().length; ++i) {
-                                if (select_newest_item) {
-                                    self.current_item(self.items()[i]);
-                                    break;
-                                }
-                                if (self.items()[i].active()) {
-                                    self.current_item(self.items()[i]);
-                                    break;
-                                }
-                            }
-                            self.update_view();
-                        }
-                    }
-
-                    add_item();
-                })
-            };
-
-            self.activateItem = function (data) {
-                self.current_item(data);
-                helpers.post(self.url.activate_item, {
-                    item_id: data.id
-                }, function () {
-                    self.update_view();
-                    self.loadItems();
-                });
-            };
-
-            self.update_view = function () {
-                if (self.current_item === 'undefined')
-                    return;
-                helpers.post(self.url.item, {
-                    item_id: self.current_item().id
-                }, function (data) {
-                    $(self.selector.view).html(data.html);
-                }, function () {
-                    $(self.selector.view).html("");
-                });
-            };
-
-            self.selectItem = function (data) {
-                self.current_item(data);
-                self.update_view()
-            };
-
-            self.saveItem = function () {
-                helpers.post(self.url.save_item, {
-                    item_id: self.current_item().id,
-                    description: self.current_item().description(),
-                    title: self.current_item().title(),
-                    item_url: self.current_item().item_url
-                }, self.update_view);
-            };
-
-            self.update_description = function () {
-                //console.log(self.description());
-                helpers.post(self.url.update_description, {
-                    description: self.description()
-                }, self.update_view);
-            };
-
-            self.removeItem = function (data) {
-                self.modalDelete.show(function () {
-                    helpers.post(self.url.remove_item, {
-                        item_id: data.id
-                    }, function () {
-                        self.items.remove(data)
-                    });
-                });
-            };
-
-            self.toggleBorder = function () {
-                helpers.post(self.url.toggle_border, {
-                    show_border: self.show_border()
-                }, function () {
-                    self.show_border(!self.show_border());
-                    self.update_view();
-                });
-            };
-
-            self.toggleImgBootstrapCols = function () {
-                helpers.post(self.url.toggle_img_bootstrap_cols, {
-                    img_bootstrap_cols: self.img_bootstrap_cols()
-                }, self.update_view);
-            };
-
-            self.addItem = function (form) {
-                var file_dialog = $(form).find("[name='file']").first();
-
-                // unbind onchange event to avoid overbinding
-                file_dialog.unbind("change");
-                file_dialog.on("change", function () {
-                    // create preview of uploaded file
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $("img#preview").attr('src', e.target.result)
-                    };
-                    reader.readAsDataURL(file_dialog[0].files[0]);
-
-                    // show modal form
-                    self.modalSave.message("Создать новый вид");
-                    self.modalSave.show(function () {
-                        var formData = new FormData(form);
-                        $.ajax({
-                            url: self.url.add_item,
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            type: 'POST',
-                            success: function () {
-                                self.loadItems(true);
-                            }
-                        });
-                    });
-                });
-
-                // open file selection dialog
-                file_dialog.click();
-            };
-
-
-            self.loadItems();
-            self.loadThemes();
-        }
-    });
 /*!
  * Bootstrap v3.2.0 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
@@ -779,86 +380,16 @@ define('interface',['common-settings', 'bootstrap'], function (settings) {
         win.close();
     };
 });
-/**
- * Created by m on 14.02.15.
- */
-define('ckeditorinlinebinding',['knockout'], function (ko) {
-    ko.bindingHandlers.ckeditorInline = {
-        counter: 0,
-        prefix: '__cked_',
-        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-            setTimeout(function () {
-                if (!element.id) {
-                    element.id = ko.bindingHandlers.ckeditorInline.prefix + (++ko.bindingHandlers.ckeditorInline.counter);
-                }
-
-                var options = allBindingsAccessor.get("ckeditorOptions") || {};
-
-                options.floatSpaceDockedOffsetY = 0;
-                options.extraPlugins = options.extraPlugins == "" ? 'sourcedialog' : options.extraPlugins + ",sourcedialog";
-                options.removePlugins = 'sourcearea';
-
-                // handle disposal (if KO removes by the template binding)
-                ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                    if (CKEDITOR.instances[element.id]) {
-                        CKEDITOR.remove(CKEDITOR.instances[element.id]);
-                    }
-                });
-
-                $(element).on("click", function () {
-                    if (!CKEDITOR.instances[element.id]) {
-                        var editor = CKEDITOR.inline(element.id, options);
-                        editor.config.enterMode = CKEDITOR.ENTER_BR;
-
-                        // handle value changed
-                        editor.on('change', function () {
-                            valueAccessor()(editor.getData());
-                        });
-
-                        //$(element).trigger("blur");
-
-                        ko.bindingHandlers.ckeditorInline.update(element, valueAccessor, allBindingsAccessor, viewModel);
-                        return false;
-                    }
-                });
-
-            }, Math.random());
-        },
-        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-            var value = ko.utils.unwrapObservable(valueAccessor());
-            var existingEditor = CKEDITOR.instances && CKEDITOR.instances[element.id];
-
-            if (existingEditor) {
-                if (value !== existingEditor.getData()) {
-                    existingEditor.setData(value, function () {
-                        this.checkDirty(); // true
-                    });
-                }
-            } else {
-                $(element).html(value);
-            }
-        }
-    };
-});
-/**
- * Created by m on 21.02.15.
- */
 require.config({
-    shim: {
-        bootstrap: {"deps": ['jquery']}
-    },
     paths: {
         'knockout': '../../bower_components/knockout/dist/knockout',
-        'ckeditorinlinebinding': '../bindings/ckeditorinlinebinding',
+        'interface': '../../js/interface',
         'bootstrap': '../../lib/bootstrap/bootstrap.min',
-        'interface': '../interface',
-        'helpers': '../helpers'
     }
 });
 
-require(["knockout", "mainpage-settings", "app/model", "interface", 'ckeditorinlinebinding'],
-    function (ko, settings, MainPageModel) {
-        ko.applyBindings(new MainPageModel(settings));
-    });
-define("mainadmin", function(){});
+require(['knockout', 'app/apptracking', 'interface'], function (ko, AppTracking) {
+    ko.applyBindings(new AppTracking());
+});
+define("tracking", function(){});
 

@@ -80,5 +80,5 @@ def requirejs(baseUrl, main, main_built, *args):
         'main': main,
         'main_built': main_built,
         'add_modules': add_modules,
-        'debug': False,
+        'debug': settings.REQUIRE_JS_DEBUG,
     })

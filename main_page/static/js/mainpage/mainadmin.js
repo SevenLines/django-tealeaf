@@ -14,6 +14,10 @@ require.config({
     }
 });
 
+define('jquery', [], function () {
+    return jQuery;
+});
+
 require(["knockout", "mainpage-settings", "app/model", "interface", 'ckeditorinlinebinding'],
     function (ko, settings, MainPageModel) {
         ko.applyBindings(new MainPageModel(settings));

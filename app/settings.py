@@ -56,6 +56,8 @@ try:
 except ImportError:
     pass
 
+REQUIRE_JS_DEBUG = credentials.get('REQUIRE_JS_DEBUG', False) == "true"
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -184,13 +186,13 @@ SOUTH_MIGRATION_MODULES = {
 FILER_PAGINATE_BY = 50
 
 CUSTOM_MENU_ITEMS = ({
-     'img': 'img/profle.png',
-     'href': 'tracking_ex.views.stat',
-     'reverse': True,
-     # 'href': reverse("tracking_ex.views.stat"),
-     'title': 'кто тут',
-     'touchable': True
-},)
+                         'img': 'img/profle.png',
+                         'href': 'tracking_ex.views.stat',
+                         'reverse': True,
+                         # 'href': reverse("tracking_ex.views.stat"),
+                         'title': 'кто тут',
+                         'touchable': True
+                     },)
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
