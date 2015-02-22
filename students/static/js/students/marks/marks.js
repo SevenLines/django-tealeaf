@@ -1,9 +1,9 @@
 /**
  * Created by m on 11.02.15.
  */
-//define('jquery', [], function () {
-//    return jQuery;
-//});
+define('jquery', [], function () {
+    return jQuery;
+});
 
 require.config({
     shim: {
@@ -15,7 +15,7 @@ require.config({
         'labs': './labs',
         'qtip': '/static/bower_components/qtip2/jquery.qtip',
         'knockout': '/static/bower_components/knockout/dist/knockout',
-        'jquery': '/static/bower_components/jquery/dist/jquery',
+        //'jquery': '/static/bower_components/jquery/dist/jquery',
         'jquery.cookie': '/static/bower_components/jquery.cookie/jquery.cookie',
         'color': '/static/lib/color',
         'bootstrap': '../../../lib/bootstrap/bootstrap.min',

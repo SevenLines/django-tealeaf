@@ -21,7 +21,7 @@ require.config({
         'helpers': '../../../js/helpers',
         'interface': '../../../js/interface',
         'knockout': '/static/bower_components/knockout/dist/knockout',
-        'jquery': '/static/bower_components/jquery/dist/jquery',
+        //'jquery': '/static/bower_components/jquery/dist/jquery',
         'ckeditorinlinebinding': '/static/js/bindings/ckeditorinlinebinding',
         'select2binding': '/static/js/bindings/select2binding',
         'select2': '/static/bower_components/select2/select2',
@@ -30,9 +30,9 @@ require.config({
     }
 });
 //
-//define('jquery', [], function () {
-//    return jQuery;
-//});
+define('jquery', [], function () {
+    return jQuery;
+});
 
 
 require(['main',
