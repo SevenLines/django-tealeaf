@@ -1,5 +1,5 @@
-define('article', ['jquery'], function($) {
-   return function Editor(ckEditor, id_controller, data) {
+define(['helpers'], function(helpers) {
+   return function (ckEditor, id_controller, data) {
 
         ckEditor.setKeystroke([[CKEDITOR.CTRL + CKEDITOR.ALT + 83, "saveme"]]);
 
@@ -12,7 +12,7 @@ define('article', ['jquery'], function($) {
                         raw: ev.editor.getData(),
                         csrfmiddlewaretoken: data.csrf
                     }).done(function () {
-                        InterfaceAlerts.showSuccess();
+                        helpers.showSuccess();
                     })
                 }
             });
@@ -44,8 +44,8 @@ define('article', ['jquery'], function($) {
                             if (element) {
                                 ev.editor.insertElement(element);
                             }
-                            InterfaceAlerts.showSuccess();
-                        }).fail(InterfaceAlerts.showFail)
+                            helpers.showSuccess();
+                        }).fail(helpers.showFail)
                     });
                     input.click();
                 }

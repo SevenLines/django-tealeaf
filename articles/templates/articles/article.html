@@ -1,27 +1,24 @@
 {% load static file_upload_form_tags sekizai_tags %}
 
 <div id="content_{{ instance.pk }}" class="article_content"
-     {% if user.is_authenticated %}contenteditable="true"{% endif %}>{{ article|safe }}</div>
+     {% if user.is_authenticated %}contenteditable{% endif %}>{{ article|safe }}</div>
 
 {% if user.is_authenticated %}
     {% addtoblock "js" %}
-        <script src="{% static "js/articles.js" %}"></script>
         {# активация встроенного редактирования статьи #}
         <script type="text/javascript">
-            define('articlesettings', ['article'], function () {
+            require(['articles/editor'], function (Editor) {
                 var ckEditor = CKEDITOR.inline("content_{{ instance.pk }}", {
                     customConfig: "{% static "bower_components/ckeditor/articles_ckeditor_config.js" %}"
                 });
-                var editor = new Editor(ckEditor, "#instance_{{ instance.pk }}",
-                        {
-                            id: {{ instance.pk }},
-                            csrf: "{{ csrf_token }}",
-                            url: {
-                                save: '{% url "articles.views.ajax.article.save" %}',
-                                upload: '{% url "my_file_browser.views.ajax.file.upload" %}'
-                            }
-                        });
-
+                var editor = new Editor(ckEditor, "#instance_{{ instance.pk }}", {
+                    id: {{ instance.pk }},
+                    csrf: "{{ csrf_token }}",
+                    url: {
+                        save: '{% url "articles.views.ajax.article.save" %}',
+                        upload: '{% url "my_file_browser.views.ajax.file.upload" %}'
+                    }
+                });
                 {% file_upload_form_bind_ckeditor "ckEditor" %}
             });
         </script>
