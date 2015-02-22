@@ -86,7 +86,7 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
         };
 
         self.regularStudent = ko.pureComputed(function () {
-            return self.success_factor() >= 0.25;
+            return self.success_factor() >= 0.25 && self.marks.length > 0;
         });
 
         self.reset = function () {

@@ -97,8 +97,9 @@ define(['knockout',
 
             self.visibleStudent = function (student) {
                 return ko.pureComputed(function () {
-                    return (student.regularStudent()
-                    && (self.labsTable.labs().length == 0 || self.labsTable.hasLabsForStudent(student)()));
+                    return student.regularStudent()
+                    //|| self.labsTable.labs().length == 0
+                    || self.labsTable.hasLabsForStudent(student)()
                 });
             };
 

@@ -74,10 +74,9 @@ define(['knockout', 'urls', 'helpers', 'labs/lab'], function (ko, urls, helpers,
 
         self.hasLabsForStudent = function (student) {
             return ko.pureComputed(function () {
-                var result = self.labs().some(function(item) {
+                return self.labs().some(function (item) {
                     return item.hasTaskMarksForStudent(student);
                 });
-                return result;
             });
         };
 
