@@ -380,16 +380,14 @@ define(['knockout',
                     }
                 }
 
-                $.post(urls.url.marks_save, helpers.csrfize({
+                helpers.post(urls.url.marks_save, {
                     marks: JSON.stringify(marks)
-                })).done(function () {
+                }, function () {
                     for (var i = 0; i < self.students().length; ++i) {
                         self.students()[i].reset();
                     }
-                    helpers.showSuccess()
-                }).fail(function () {
-                    helpers.showFail()
-                })
+                    self.loadStudents();
+                });
 
             };
 

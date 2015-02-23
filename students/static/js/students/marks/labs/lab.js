@@ -175,7 +175,7 @@ define(["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function 
                 helpers.post(urls.url.lab_save_taskmarks, {
                     marks: JSON.stringify(items)
                 }, function () {
-                    location.reload();
+                    //location.reload();
                 });
             }
         };
