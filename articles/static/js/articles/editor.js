@@ -1,7 +1,5 @@
-var Editor;
-
-Editor = (function () {
-    function Editor(ckEditor, id_controller, data) {
+define(['helpers'], function(helpers) {
+   return function (ckEditor, id_controller, data) {
 
         ckEditor.setKeystroke([[CKEDITOR.CTRL + CKEDITOR.ALT + 83, "saveme"]]);
 
@@ -14,7 +12,7 @@ Editor = (function () {
                         raw: ev.editor.getData(),
                         csrfmiddlewaretoken: data.csrf
                     }).done(function () {
-                        InterfaceAlerts.showSuccess();
+                        helpers.showSuccess();
                     })
                 }
             });
@@ -46,17 +44,12 @@ Editor = (function () {
                             if (element) {
                                 ev.editor.insertElement(element);
                             }
-                            InterfaceAlerts.showSuccess();
-                        }).fail(InterfaceAlerts.showFail)
+                            helpers.showSuccess();
+                        }).fail(helpers.showFail)
                     });
                     input.click();
                 }
             });
         });
     }
-
-    return Editor;
-
-})();
-
-window.Editor = Editor;
+});

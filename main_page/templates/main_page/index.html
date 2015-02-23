@@ -1,7 +1,16 @@
 {% extends "base-page.html" %}
-{% load static sekizai_tags %}
+{% load static sekizai_tags ex_tags %}
 
 {% block basecontent %}
+
+    {% addtoblock "js" %}
+        {% if user.is_authenticated %}
+            {% requirejs 'js/mainpage' 'mainadmin' 'dist/mainadmin' 'mainpage-settings' %}
+        {% else %}
+            {% requirejs 'js' 'main' 'dist/main' %}
+        {% endif %}
+    {% endaddtoblock %}
+
 
     <div id="main-banner">
         {% if user.is_authenticated %}
@@ -14,22 +23,15 @@
             {% if user.is_authenticated %}
                 <!--  РЕДАКТИРОВАНИЕ СООБЩЕНИЯ  -->
                 <div style="clear:left;"></div>
-                <div id="editor-panel" class="panel panel-default hidden-xs" style="margin-top: 1em">
-                    <div class="panel-heading" data-toggle="collapse" href="#editor">
-                        <span class="glyphicon glyphicon-chevron-down"></span>
-                    </div>
-                    <div class="panel-collapse collapse" id="editor">
-                        <div class="panel-body">
-                            <form data-bind="submit: $root.saveItem">
-                            <textarea data-icon="{% static "img/main_page/saveme.png" %}" id="description-edit"
-                                      style="resize: vertical" class="form-control" name="description"
-                                      data-bind="ckeditor: description">
-                                {{ description|safe }}
-                            </textarea>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                <hr style="margin: 0.5em 0"/>
+                <div style="background-color: #EFEFEF" contenteditable=""
+                     data-bind="ckeditorOptions: {
+                        extraPlugins:  'sourcedialog,divarea,insertpre,div,image,bootstrap-message,showblocks,justify,divarea,colordialog,colorbutton,liststyle,eqneditor'
+                     }, ckeditorInline: description"></div>
+                <hr style="margin: 0.5em 0"/>
+                <button class="btn btn-success pull-right" data-bind="click: update_description">
+                    <span class="glyphicon glyphicon-save"></span>
+                </button>
                 <!--  КОНЕЦ РЕДАКТИРОВАНИЯ СООБЩЕНИЯ  -->
             {% endif %}
         </div>

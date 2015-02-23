@@ -2,8 +2,11 @@
  * Created by m on 11.02.15.
  */
 // >>> STUDENT CLASS
-define(['knockout', 'marks/mark'], function (ko, Mark) {
+define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
     return function (data) {
+        var marksTypes = [];
+        var studentColorMin = Color("#FDD").lighten(0.03);
+        var studentColorMax = Color("#89EB04").lighten(0.5);
         var self = this;
         self.id = data.id;
         self.name = data.name;
@@ -83,7 +86,7 @@ define(['knockout', 'marks/mark'], function (ko, Mark) {
         };
 
         self.regularStudent = ko.pureComputed(function () {
-            return self.success_factor() >= 0.25;
+            return self.success_factor() >= 0.25 && self.marks.length > 0;
         });
 
         self.reset = function () {

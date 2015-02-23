@@ -1,7 +1,7 @@
 /**
  * Created by m on 13.02.15.
  */
-define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
+define(['knockout', 'urls', 'helpers'], function (ko, urls, helpers) {
     return function (data) {
         var self = this;
 
@@ -78,7 +78,7 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
 
         self.save = function () {
             console.log('saved');
-            utils.post(urls.url.task_save, utils.csrfize({
+            helpers.post(urls.url.task_save, helpers.csrfize({
                 id: self.id,
                 complexity: self.complexity(),
                 description: self.description(),
@@ -92,7 +92,7 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
                 buttons: {"Да": true, 'Не сейчас': false},
                 submit: function (e, v) {
                     if (v) {
-                        utils.post(urls.url.task_delete, {
+                        helpers.post(urls.url.task_delete, {
                             id: self.id
                         }, done, fail);
                     }

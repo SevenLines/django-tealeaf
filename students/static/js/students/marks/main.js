@@ -1,7 +1,3 @@
-var marksTypes = [];
-var studentColorMin = Color("#FDD").lighten(0.03);
-var studentColorMax = Color("#89EB04").lighten(0.5);
-
 // create modal discipline for adding purposes
 define(['knockout',
         'cookies',
@@ -9,9 +5,12 @@ define(['knockout',
         'marks/markstable',
         'labs/labstable',
         'urls',
-        'utils'
+        'helpers',
+        'jquery.cookie'
+        //'qtip'
     ],
-    function (ko, cookies, Discipline, MarksTable, LabsTable, urls, utils) {
+    function (ko, cookies, Discipline, MarksTable, LabsTable, urls, helpers) {
+
         return function () {
             var self = this;
 
@@ -96,19 +95,20 @@ define(['knockout',
                 });
             };
 
-            self.visibleStudent = function(student) {
+            self.visibleStudent = function (student) {
                 return ko.pureComputed(function () {
-                    return (student.regularStudent()
-                    &&  (self.labsTable.labs().length == 0 || self.labsTable.hasLabsForStudent(student)()));
+                    return student.regularStudent()
+                    //|| self.labsTable.labs().length == 0
+                    || self.labsTable.hasLabsForStudent(student)()
                 });
             };
 
-            self.taskPercentsComplete = function(task) {
+            self.taskPercentsComplete = function (task) {
                 return ko.pureComputed(function () {
                     var students_count = self.marksTable.students().length;
                     var counter = 0;
-                    for(var s in task.lab.marks) {
-                        for(var t in task.lab.marks[s]) {
+                    for (var s in task.lab.marks) {
+                        for (var t in task.lab.marks[s]) {
                             if (parseInt(t) == task.id) {
                                 var mark = task.lab.marks[s][t];
                                 if (mark.group == self.group().id) {
@@ -121,7 +121,6 @@ define(['knockout',
                     return counter / students_count;
                 });
             };
-
 
 
 // subscribes blocking control
@@ -205,7 +204,7 @@ define(['knockout',
                     }
 
                 }).fail(function () {
-                    InterfaceAlerts.showFail();
+                    helpers.showFail();
                 });
             };
 

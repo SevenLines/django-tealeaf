@@ -22,7 +22,7 @@ module.exports = function (grunt) {
                     'templates/static/lib/bootstrap/bootstrap.min.js',
                     'templates/static/lib/logger.js',
                     'templates/static/js/interface.js',
-                    'templates/static/lib/color.js',
+                    'templates/static/lib/_color.js',
                 ],
                 dest: 'templates/static/js/main.js'
             }

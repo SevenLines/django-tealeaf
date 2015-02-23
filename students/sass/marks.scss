@@ -30,7 +30,7 @@
 
 .tooltip {
   .tooltip-arrow {
-//    display: none;
+    //    display: none;
   }
   .tooltip-inner {
     overflow: hidden;
@@ -195,7 +195,6 @@
       .hover {
         .t-cell {
           background-color: white;
-
           .t-cell-icon {
             display: inline;
             color: lighten($table-border-color, 7);
@@ -269,6 +268,12 @@
         }
       }
 
+      .t-cell {
+        &.changed {
+          box-shadow: 0 0 0 4px #008000 inset;
+        }
+      }
+
       .lab-title {
         @include transition(0.3s);
         position: absolute;
@@ -293,7 +298,7 @@
       .tooltip {
         font-size: 1em;
         .tooltip-inner {
-//          border-radius: 0;
+          //          border-radius: 0;
           //          background-color: white;
         }
       }

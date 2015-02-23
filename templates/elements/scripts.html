@@ -1,19 +1,41 @@
-{% load static sekizai_tags assets %}
-
-
+{% load static sekizai_tags assets ex_tags %}
 
 {% addtoblock "core_js" %}
-    {% assets "main_js" %}
-        <script type="text/javascript" src="{% static ASSET_URL %}"></script>
-    {% endassets %}
+    <script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
+    <script src="{% static "lib/require.js" %}"></script>
+
     <!--[if lt IE 9]>
-      <script type="text/javascript" src="{% static "lib/html5shiv.js" %}"></script>
-    <![endif]-->
+          <script type="text/javascript" src="{% static "lib/html5shiv.js" %}"></script>
+        <![endif]-->
     <!--[if lt IE 9]>
-      <script type="text/javascript" src="{% static "lib/respond.min.js" %}"></script>
-    <![endif]-->
+          <script type="text/javascript" src="{% static "lib/respond.min.js" %}"></script>
+        <![endif]-->
+
+{#    {% if user.is_authenticated %}#}
+{#    <script>#}
+{#        function lessonIconSelectPopup(triggeringLink) {#}
+{#            var win, href;#}
+{#            href = triggeringLink.href + '?_popup=1';#}
+{#            win = window.open(href, '', 'height=500,width=800,resizable=yes,scrollbars=yes');#}
+{#            window.RelatedImageLookupPopupBeforeClose = function (win, chosenId, chosenThumbnailUrl) {#}
+{#                model.lesson().icon_id(chosenId);#}
+{#                model.lesson().icon_url(chosenThumbnailUrl);#}
+{#            };#}
+{#            win.focus();#}
+{#            return false;#}
+{#        }#}
+{#    </script>#}
+{#    {% endif %}#}
 
     {% include "elements/back-to-top-button.html" %}
     {% include "elements/login-form.html" %}
     {% include "elements/messages.html" %}
+    <script>
+        define("common-settings", {
+            csrf: "{{ csrf_token }}",
+            url: {
+                {% if user.is_authenticated %}'logout': '{% url "django.contrib.auth.views.logout" %}'{% endif %}
+            }
+        });
+    </script>
 {% endaddtoblock %}

@@ -1,7 +1,11 @@
 {% extends "base-page.html" %}
-{% load static cms_tags sekizai_tags file_upload_form_tags menu_tags %}
+{% load static cms_tags sekizai_tags file_upload_form_tags menu_tags ex_tags %}
 
 {% block basecontent %}
+
+    {% addtoblock "core_js" %}
+        {% requirejs 'js' 'main' 'dist/main' %}
+    {% endaddtoblock %}
 
     {% if user.is_authenticated %}
         {% file_upload_form current_page.pk %}
@@ -21,17 +25,20 @@
     {% endblock %}
 
     {# SCRIPTS #}
-    {% addtoblock "js" %}
-        <script src="{% static "bower_components/google-code-prettify/bin/prettify.min.js" %}"></script>
-    {% endaddtoblock %}
 
     {% addtoblock "js" %}
         <script type="text/javascript">
-            !function ($) {
-                $(function () {
-                    window.prettyPrint && prettyPrint()
-                })
-            }(window.jQuery)
+            define('lesson-settings', ['jquery'], function ($) {
+                {% if not user.is_authenticated %}
+                    $(function () {
+                        $(".prettyprint").addClass("linenums");
+                        window.prettyPrint && prettyPrint()
+                    });
+                {% endif %}
+            });
+            require(['main'], function () {
+                require(['lesson-settings']);
+            })
         </script>
     {% endaddtoblock %}
     {# SCRIPTS END #}

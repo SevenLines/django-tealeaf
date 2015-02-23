@@ -1,7 +1,7 @@
 /**
  * Created by m on 13.02.15.
  */
-define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko, urls, utils, Task, MarkTask) {
+define(["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function (ko, urls, helpers, Task, MarkTask) {
     return function (data) {
         var self = this;
         self.id = data.id;
@@ -124,7 +124,7 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
                 buttons: {"Да": true, 'Не сейчас': false},
                 submit: function (e, v) {
                     if (v) {
-                        utils.post(urls.url.lab_delete, {
+                        helpers.post(urls.url.lab_delete, {
                             id: self.id
                         }, done, fail);
                     }
@@ -149,7 +149,7 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
 
         self.save = function (data, e) {
             if (e) e.stopImmediatePropagation();
-            utils.post(urls.url.lab_save, {
+            helpers.post(urls.url.lab_save, {
                 id: self.id,
                 title: self.title(),
                 description: self.description(),
@@ -167,13 +167,15 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
                     var mark = self.marks[s][t];
                     if (mark.changed()) {
                         items.push(mark.post_data());
+                        mark.reset();
                     }
                 }
             }
             if (items.length) {
-                utils.post(urls.url.lab_save_taskmarks, {
+                helpers.post(urls.url.lab_save_taskmarks, {
                     marks: JSON.stringify(items)
                 }, function () {
+                    //location.reload();
                 });
             }
         };
@@ -204,7 +206,7 @@ define(["knockout", "urls", "utils", "labs/task", "labs/marktask"], function (ko
                     buttons: {'Добавить': true, 'Отмена': false},
                     submit: function (e, v, m, f) {
                         if (v) {
-                            utils.post(urls.url.task_add, {
+                            helpers.post(urls.url.task_add, {
                                 lab_id: self.id,
                                 description: f.description
                             }, function (r) {

@@ -3,11 +3,11 @@
         <div class="form-group">
             <img src="{{ request.current_page.pageextend.image.url }}" id="lookup_page_image_image_url">
             <a id="lookup_page_image" onclick="return imageSelectPopup(this);"
-               {% if request.current_page.pageextend.image.folder_id %}
+                    {% if request.current_page.pageextend.image.folder_id %}
                href="/admin/filer/folder/{{ request.current_page.pageextend.image.folder_id }}/list/"
-               {% else %}
+                    {% else %}
                href="/admin/filer/folder/"
-               {% endif %}
+                    {% endif %}
                     >
                 <img height="16" width="16" alt="Lookup" src="/static/admin/img/icon_searchbox.png">
             </a>
@@ -16,11 +16,13 @@
             </a>
         </div>
 
-        <form method="post"  action="{% url "page_extend.views.update_page" %}">
+        <form method="post" action="{% url "page_extend.views.update_page" %}">
             {% csrf_token %}
             <input name="page_id" value="{{ request.current_page.pk }}" hidden="">
+
             <div class="form-group">
-                <input id="lookup_page_image_image_id" name="image_id" value="{{ request.current_page.pageextend.image.id }}" hidden=""/>
+                <input id="lookup_page_image_image_id" name="image_id"
+                       value="{{ request.current_page.pageextend.image.id }}" hidden=""/>
                 <label>Login required</label>
                 <input id="pe_image_authenticated" type="checkbox" name="authentication_required"
                        {% if request.current_page.pageextend.authentication_required %}checked=""{% endif %}/>
@@ -31,17 +33,20 @@
                        {% if request.current_page.pageextend.touchable %}checked=""{% endif %}/>
             </div>
             <div class="form-group">
-                <button id="pe-update-page" class="btn btn-success" type="submit">Сохранить</button >
+                <button id="pe-update-page" class="btn btn-success" type="submit">Сохранить</button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
-    $("#lookup_page_image_clear").click(function () {
-        $("#lookup_page_image_image_id")[0].value = "";
-        $("#lookup_page_image_image_url")[0].src = "";
+    define('lookup_image', ['jquery'], function ($) {
+        $("#lookup_page_image_clear").click(function () {
+            $("#lookup_page_image_image_id")[0].value = "";
+            $("#lookup_page_image_image_url")[0].src = "";
+        });
     });
+
 
     function imageSelectPopup(triggeringLink) {
         var name = triggeringLink.id;
