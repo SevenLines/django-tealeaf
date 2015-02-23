@@ -145,6 +145,7 @@ define(['knockout',
                         return;
                     }
                     self.isStudentsLoading(true);
+                    self.hideBadStudents(true);
 
                     setTimeout(function () {
                         $.get(urls.url.students, {
