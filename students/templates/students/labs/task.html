@@ -7,14 +7,24 @@
                 <ul class="m-task-students" data-bind="visible: students().length, foreach: students">
                     <li class="m-task-student" data-bind="text: text"></li>
                 </ul>
-                <span  data-bind="html: description"></span>
+                <span data-bind="html: description"></span>
             </td>
         </tr>
     </table>
 {% else %}
     <table style="table-layout: fixed; width: 100%">
         <tr>
-            <td class="m-task-label" rowspan=2 data-bind="text: order"></td>
+            <td class="m-task-label" rowspan=2>
+                <div class="btn-group btn-group-vertical btn-group-sm">
+                    <button class="btn btn-link" data-bind="click: $parents[1].moveTaskUp">
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </button>
+                    <span  data-bind="text: order"></span>
+                    <button class="btn btn-link" data-bind="click: $parents[1].moveTaskDown">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+                </div>
+            </td>
             <td class="m-task-description">
                 <div contenteditable data-bind="ckeditorInline: description"></div>
             </td>
@@ -40,9 +50,11 @@
                 <!-- / СЛОЖНОСТЬ ЗАДАЧИ -->
 
                 <!-- КНОПКИ УПРАВЛЕНИЯ ЗАДАЧЕЙ -->
-                <a href="#" class="save" style="margin-left: 8px"
-                   data-bind="visible: changed, click: save">сохранить</a>
-                <a href="#" class="text-danger pull-right" data-bind="click: $parents[1].removeTask">удалить</a>
+                <div>
+                    <a href="#" class="save pull-left" style="margin-left: 8px"
+                       data-bind="visible: changed, click: save">сохранить</a>
+                    <a href="#" class="text-danger pull-right" data-bind="click: $parents[1].removeTask">удалить</a>
+                </div>
                 <!-- / КНОПКИ УПРАВЛЕНИЯ ЗАДАЧЕЙ -->
             </td>
         </tr>
