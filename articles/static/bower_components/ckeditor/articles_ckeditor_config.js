@@ -6,11 +6,6 @@ CKEDITOR.editorConfig = function (config) {
     config.extraPlugins = 'insertpre,saveme,div,image,sourcedialog,bootstrap-collapse,bootstrap-message,showblocks,justify,' +
     'divarea,colordialog,colorbutton,liststyle,eqneditor';
     config.floatSpaceDockedOffsetY = 10;
-    config.allowedContent = {
-      pre: {
-          classes: ['linenums', 'prettyprint']
-      }
-    };
 
     config.toolbarGroups = [
         {name: 'clipboard', groups: ['clipboard', 'undo']},
