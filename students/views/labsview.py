@@ -26,7 +26,7 @@ def index(request):
     for l in labs:
         marks = StudentTaskResult.objects.filter(task__lab=l['id'])
         marks = list([t.as_dict for t in marks])
-        tasks = list([t.as_dict for t in StudentTask.objects.filter(lab=l['id']).order_by('complexity', 'id')])
+        tasks = list([t.as_dict for t in StudentTask.objects.filter(lab=l['id'])])
         l.update({
             'tasks': tasks,
             'marks': marks
@@ -75,7 +75,14 @@ def delete(request):
 @login_required
 @require_in_POST('id')
 def save(request):
-    update_post_object(request, StudentLab, *permitted_keys)
+    lab = get_post_object(request, StudentLab)
+
+    order_array = json.loads(request.POST['order_array'])
+    order_array = list([int(i) for i in order_array])
+
+    lab.set_studenttask_order(order_array)
+    update_object(request.POST, lab, *permitted_keys)
+    lab.save()
     return HttpResponse()
 
 

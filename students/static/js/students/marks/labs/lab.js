@@ -1,7 +1,7 @@
 /**
  * Created by m on 13.02.15.
  */
-define(["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function (ko, urls, helpers, Task, MarkTask) {
+define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (ko, urls, helpers, Task, MarkTask) {
     return function (data) {
         var self = this;
         self.id = data.id;
@@ -149,6 +149,13 @@ define(["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function 
 
         self.save = function (data, e) {
             if (e) e.stopImmediatePropagation();
+
+            var order_array = [];
+            for(var i=0, l=self.tasks().length; i<l;++i) {
+                var task = self.tasks()[i];
+                order_array.push(task.id);
+            }
+
             helpers.post(urls.url.lab_save, {
                 id: self.id,
                 title: self.title(),
@@ -156,7 +163,8 @@ define(["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function 
                 discipline: self.discipline(),
                 visible: self.visible(),
                 regular: self.regular(),
-                columns_count: self.columns_count()
+                columns_count: self.columns_count(),
+                order_array: JSON.stringify(order_array)
             }, self.reset);
         };
 
@@ -229,7 +237,9 @@ define(["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function 
 
         self.sort = function () {
             self.tasks.sort(function (left, right) {
-                return left.complexity() == right.complexity() ? 0 : left.complexity() < right.complexity() ? -1 : 1;
+                return left.complexity() == right.complexity()
+                    ? left.order() == right.order() ? 0 : left.order() < right.order() ? -1 : 1
+                    : left.complexity() < right.complexity() ? -1 : 1;
             })
         };
 
@@ -243,6 +253,50 @@ define(["knockout", "urls",  "helpers", "labs/task", "labs/marktask"], function 
             if (e) e.stopImmediatePropagation();
             self.regular(!self.regular());
             self.save(data, e);
+        };
+
+        self.moveTaskUp = function (task, e) {
+            if (e) e.stopImmediatePropagation();
+            var index = self.tasks.indexOf(task);
+            if (index == 0) {
+                return;
+            }
+            var another_task = self.tasks()[index - 1];
+
+            if (task.complexity() != another_task.complexity()) {
+                return;
+            }
+
+            var order = task.order();
+            task.order(another_task.order());
+            another_task.order(order);
+
+            //self.tasks()[index - 1] = task;
+            //self.tasks()[index] = another_task;
+            //self.tasks.valueHasMutated();
+            self.sort();
+        };
+
+        self.moveTaskDown = function (task, e) {
+            if (e) e.stopImmediatePropagation();
+            var index = self.tasks.indexOf(task);
+            if (index == self.tasks().length - 1) {
+                return;
+            }
+            var another_task = self.tasks()[index + 1];
+
+            if (task.complexity() != another_task.complexity()) {
+                return;
+            }
+
+            var order = task.order();
+            task.order(another_task.order());
+            another_task.order(order);
+
+            //self.tasks()[index + 1] = task;
+            //self.tasks()[index] = another_task;
+            //self.tasks.valueHasMutated();
+            self.sort();
         };
 
         init();

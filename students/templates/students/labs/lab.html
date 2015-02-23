@@ -1,38 +1,60 @@
 <div class="m-lab-title" data-toggle="collapse" data-bind="attr: {href: '#lab'+id}">
-    {% if user.is_authenticated %}
-        <span class="drag-handler glyphicon glyphicon-align-justify"></span>
-    {% endif %}
+    <table style="width: 100%">
+        <tr>
+            {% if user.is_authenticated %}
+                <td style="width: 1%;white-space: nowrap">
+                    <div class="btn-group btn-group-sm btn-group-vertical">
+                        <button class="btn btn-default" data-bind="click: $parent.moveLabUp, visible: $index() > 0">
+                            <span class="glyphicon glyphicon-chevron-up"></span>
+                        </button>
+                        <button class="btn btn-default"
+                                data-bind="click: $parent.moveLabDown, visible: $index() < $parent.labs().length - 1">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                    </div>
+                </td>
+            {% endif %}
+            <td>
 
-    #<span data-bind="text: order()+1" style="width: 10px;display: inline-block"></span> |
-    {% if user.is_authenticated %}
-        <input class="form-control" style="display: inline-block; max-width: 50%" type="text"
-               data-bind="value: title, valueUpdate: 'input'"
-               onclick="arguments[0].stopImmediatePropagation()"/>
-        <select class="form-control" style="display: inline-block; max-width: 4em"
-                data-bind="options: [1,2,3,4], value: columns_count"
-                onclick="arguments[0].stopImmediatePropagation()"></select>
-    {% else %}
-        <span data-bind="text: title"></span>
-    {% endif %}
-    {% if user.is_authenticated %}
-        <div class="pull-right">
-            <button class="btn" data-bind="click: toggle, css: {'btn-success': visible, 'btn-default': !visible()}">
+                #<span data-bind="text: order()+1" style="width: 10px;display: inline-block"></span> |
+                {% if user.is_authenticated %}
+                    <input class="form-control" style="display: inline-block; max-width: 65%" type="text"
+                           data-bind="value: title, valueUpdate: 'input'"
+                           onclick="arguments[0].stopImmediatePropagation()"/>
+                    <select class="form-control" style="display: inline-block; max-width: 4em"
+                            data-bind="options: [1,2,3,4], value: columns_count"
+                            onclick="arguments[0].stopImmediatePropagation()"></select>
+                {% else %}
+                    <span data-bind="text: title"></span>
+                {% endif %}
+            </td>
+            <td>
+                {% if user.is_authenticated %}
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button class="btn"
+                                    data-bind="click: toggle, css: {'btn-success': visible, 'btn-default': !visible()}">
                 <span class="glyphicon glyphicon-eye-close"
                       data-bind="css: {'glyphicon-eye-close': !visible(), 'glyphicon-eye-open': visible }"></span>
-            </button>
-            <button data-tooltip="лабораторная содержит список занятий обязательный для всех стдуентов" class="btn"
-                    data-bind="click: toggle_regular, css: {'btn-success': regular, 'btn-default': !regular()}">
-                <span class="glyphicon glyphicon-user"></span>
-            </button>
-            <button class="btn btn-default" data-bind="click: save, css: {'btn-success': changed }">
-                <span class="glyphicon glyphicon-save"></span>
-            </button>
-            <button class="btn btn-primary" data-bind="click: addTask"><span
-                    class="glyphicon glyphicon-plus"></span></button>
-            <button class="btn btn-danger" data-bind="click: $parents[0].removeLab"><span
-                    class="glyphicon glyphicon-remove"></span></button>
-        </div>
-    {% endif %}
+                            </button>
+                            <button data-tooltip="лабораторная содержит список занятий обязательный для всех стдуентов"
+                                    class="btn"
+                                    data-bind="click: toggle_regular, css: {'btn-success': regular, 'btn-default': !regular()}">
+                                <span class="glyphicon glyphicon-user"></span>
+                            </button>
+                            <button class="btn btn-default" data-bind="click: save, css: {'btn-success': changed }">
+                                <span class="glyphicon glyphicon-save"></span>
+                            </button>
+                            <button class="btn btn-primary" data-bind="click: addTask"><span
+                                    class="glyphicon glyphicon-plus"></span></button>
+                            <button class="btn btn-danger" data-bind="click: $parents[0].removeLab"><span
+                                    class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
 </div>
 <div class="m-lab-info collapse" data-bind="attr: {id: 'lab'+id}">
     <div>
@@ -43,7 +65,8 @@
             </div>
         {% else %}
             <div class="m-lab-description">
-                <div style="background-color:#f8f8f8;min-width: 20px;min-height: 20px" contenteditable data-bind="ckeditorInline: description"></div>
+                <div style="background-color:#f8f8f8;min-width: 20px;min-height: 20px" contenteditable
+                     data-bind="ckeditorInline: description"></div>
                 <hr>
             </div>
         {% endif %}

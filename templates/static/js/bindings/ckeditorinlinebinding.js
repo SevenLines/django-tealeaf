@@ -14,7 +14,7 @@ define(['knockout'], function (ko) {
                 var options = allBindingsAccessor.get("ckeditorOptions") || {};
 
                 options.floatSpaceDockedOffsetY = 0;
-                options.extraPlugins = options.extraPlugins == "" ? 'sourcedialog' : options.extraPlugins + ",sourcedialog";
+                options.extraPlugins = options.extraPlugins === undefined ? 'sourcedialog' : options.extraPlugins + ",sourcedialog";
                 options.removePlugins = 'sourcearea';
 
                 // handle disposal (if KO removes by the template binding)
