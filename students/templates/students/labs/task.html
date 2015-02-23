@@ -31,6 +31,7 @@
         </tr>
         <tr>
             <td class="m-task-menu">
+                <!-- ko ifnot: $parents[1].regular -->
                 <!-- СТУДЕНТЫ ВЫБРАВШИЕ ЗАДАЧУ -->
                 <div class="m-task-user-selector"
                      data-ajax-url="{% url "students.views.students.ajax.json.list_students" %}"
@@ -40,6 +41,7 @@
 
                 </div>
                 <!-- / СТУДЕНТЫ ВЫБРАВШИЕ ЗАДАЧУ -->
+                <!-- /ko -->
 
                 <!-- СЛОЖНОСТЬ ЗАДАЧИ -->
                 <div class="menu-complexity" data-bind="foreach: complex_choices">
