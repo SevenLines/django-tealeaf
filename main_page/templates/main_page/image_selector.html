@@ -1,4 +1,4 @@
-{% load sekizai_tags static thumbnail %}
+{% load sekizai_tags static thumbnail ex_tags %}
 
 {% include "main_page/modalSave.html" %}
 
@@ -66,25 +66,12 @@
 {% addtoblock "js" %}
     <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
 {% endaddtoblock "js" %}
-{% addtoblock "js" %}
-    <script src="{% static "bower_components/ckeditor/adapters/jquery.js" %}"></script>
-{% endaddtoblock "js" %}
 
-{% addtoblock "js" %}
-    <script src="{% static "bower_components/knockout/dist/knockout.js" %}"></script>
-{% endaddtoblock "js" %}
-
-{% addtoblock "js" %}
-    <script src="{% static "js/ko.main_page.js" %}"></script>
-{% endaddtoblock "js" %}
-
-{% addtoblock "js" %}
-    <script src="{% static "js/ko.modal_confirm.js" %}"></script>
-{% endaddtoblock "js" %}
+<div id="description" style="display: none">{{ description|safe }}</div>
 
 {% addtoblock "js" %}
     <script>
-        ko.applyBindings(new MainPageModel({
+        define('mainpage-settings', {
             url: {
                 items: "{% url "main_page.views.list_items" %}",
                 item: "{% url "main_page.views.item" %}",
@@ -102,10 +89,10 @@
             selector: {
                 view: "#main-banner .left .view"
             },
-{#            description: "{{ description|safe }}",#}
+            description: document.getElementById("description").innerHTML,
             show_border: {% if show_border %}true{% else %}false{% endif %},
             img_bootstrap_cols: {{ img_bootstrap_cols }},
             csrf: "{{ csrf_token }}"
-        }));
+        });
     </script>
 {% endaddtoblock "js" %}

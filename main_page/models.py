@@ -1,3 +1,4 @@
+import logging
 import os
 
 from django.db import models
@@ -6,6 +7,7 @@ from django.dispatch import receiver
 from easy_thumbnails.alias import aliases
 from easy_thumbnails.fields import ThumbnailerImageField
 
+logger = logging.getLogger(__name__)
 
 class MainPageItem(Model):
     # create thumbnailer alias
@@ -23,12 +25,18 @@ class MainPageItem(Model):
         :return:
         """
         exists = os.path.exists(self.img.path)
+        try:
+            thumb_url = self.img['main_page_thumb'].url
+        except Exception as e:
+            thumb_url = ""
+            logger.warning(e.message)
+
         return {
             'id': self.pk,
             'title': self.title,
             # 'description': self.description,
             'item_url': self.img.url if self.img.name and exists else "",
-            'item_thumb_url': self.img['main_page_thumb'].url if self.img.name and exists else ""
+            'item_thumb_url': thumb_url
         }
 
 

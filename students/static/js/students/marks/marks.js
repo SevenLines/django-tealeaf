@@ -1,24 +1,34 @@
 /**
  * Created by m on 11.02.15.
  */
-require.config({
-    paths: {
-        marks: './marks',
-        labs: './labs',
-        knockout: '/static/bower_components/knockout/dist/knockout',
-        //underscore: '/static/bower_components/underscore/underscore'
-    },
+define('jquery', [], function () {
+    return jQuery;
 });
 
+require.config({
+    shim: {
+        'jquery.cookie': {deps: ['jquery']},
+        'bootstrap': {deps: ['jquery']}
+    },
+    paths: {
+        'marks': './marks',
+        'labs': './labs',
+        'qtip': '/static/bower_components/qtip2/jquery.qtip',
+        'knockout': '/static/bower_components/knockout/dist/knockout',
+        //'jquery': '/static/bower_components/jquery/dist/jquery',
+        'jquery.cookie': '/static/bower_components/jquery.cookie/jquery.cookie',
+        'color': '/static/lib/color',
+        'bootstrap': '../../../lib/bootstrap/bootstrap.min',
+        'helpers': '../../../js/helpers',
+        'interface': '../../../js/interface'
+        //underscore: '/static/bower_components/underscore/underscore'
+    }
+});
 
-// >>> DATE FORMATING
-Date.prototype.ddmmyyyy = function () {
-    var yyyy = this.getFullYear().toString();
-    var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
-    var dd = this.getDate().toString();
+define('pickmeup', function () {
+    return undefined;
+});
 
-    return (dd[1] ? dd : "0" + dd[0]) + '/' + (mm[1] ? mm : "0" + mm[0]) + '/' + yyyy;
-};
 
 function lessonIconSelectPopup(triggeringLink) {
     var win, href;
@@ -32,7 +42,7 @@ function lessonIconSelectPopup(triggeringLink) {
     return false;
 }
 
-require(['main', 'knockout'], function (MarksViewModel, ko) {
+require(['main', 'knockout', 'interface'], function (MarksViewModel, ko) {
     var model = new MarksViewModel();
     ko.applyBindings(model);
 });

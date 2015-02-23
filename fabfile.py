@@ -57,14 +57,17 @@ def minify():
     # compile_js()
 
 
-def requirejs():
-    # ищет файлы build.js и компилирует их спомощью build.js
+def requirejs(dontoptimize=False, app=''):
+    # ищет файлы build*.js и компилирует их спомощью build.js
     matches = []
-    for root, dirnames, filenames in os.walk('students/'):
-        if root.startswith('./node_modules'):
+    for root, dirnames, filenames in os.walk('.'):
+        if root.startswith('./node_modules') or root.startswith('./static'):
             continue
         if root.endswith('buildconfig'):
             for filename in fnmatch.filter(filenames, 'build*.js'):
+                assert isinstance(filename, str)
+                if app and filename[5:-3] != app:
+                    continue
                 matches.append(os.path.join(root, filename))
     print matches
     for file in matches:
@@ -72,7 +75,10 @@ def requirejs():
         cd_path = OS.path.join(cd_path, 'dist')
         if not OS.path.exists(cd_path):
             OS.makedirs(cd_path)
-        local("r.js -o '%s'" % (OS.path.abspath(file)))
+        rjs = "r.js -o '%s'" % (OS.path.abspath(file))
+        if dontoptimize:
+            rjs += " optimize='none'"
+        local(rjs)
 
 
 def pip_sync(on_server=False):

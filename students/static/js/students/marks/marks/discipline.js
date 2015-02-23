@@ -1,7 +1,7 @@
 /**
  * Created by m on 11.02.15.
  */
-define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
+define(['knockout', 'urls', 'helpers'], function (ko, urls, helpers) {
     return function (data, model) {
         var self = this;
 
@@ -31,31 +31,31 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
         };
 
         self.save = function (ondone, onfail) {
-            $.post(urls.url.discipline_edit, utils.csrfize({
+            $.post(urls.url.discipline_edit, helpers.csrfize({
                 'id': self.id,
                 'title': self.title(),
                 'year': self.year(),
                 'visible': self.visible()
             })).done(function (d) {
                 if (ondone) ondone(d);
-                InterfaceAlerts.showSuccess();
+                helpers.showSuccess();
             }).fail(function () {
                 if (onfail) onfail(d);
-                InterfaceAlerts.showFail();
+                helpers.showFail();
             });
         }
 
         self.add = function (ondone, onfail) {
-            $.post(urls.url.discipline_add, utils.csrfize({
+            $.post(urls.url.discipline_add, helpers.csrfize({
                 'title': self.title(),
                 'year': self.year(),
                 'visible': self.visible()
             })).done(function (d) {
                 if (ondone) ondone(d);
-                InterfaceAlerts.showSuccess();
+                helpers.showSuccess();
             }).fail(function () {
                 if (onfail) onfail(d);
-                InterfaceAlerts.showFail();
+                helpers.showFail();
             });
         }
 
@@ -65,14 +65,14 @@ define(['knockout', 'urls', 'utils'], function (ko, urls, utils) {
                 buttons: {'Да': true, 'Не сейчас': false},
                 submit: function (e, v, m, f) {
                     if (v) {
-                        $.post(urls.url.discipline_remove, utils.csrfize({
+                        $.post(urls.url.discipline_remove, helpers.csrfize({
                             id: self.id
                         })).done(function (d) {
                             if (ondone) ondone(d);
-                            InterfaceAlerts.showSuccess();
+                            helpers.showSuccess();
                         }).fail(function () {
                             if (onfail) onfail(d);
-                            InterfaceAlerts.showFail();
+                            helpers.showFail();
                         });
                     }
                 }

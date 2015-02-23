@@ -1,7 +1,7 @@
 /**
  * Created by m on 13.02.15.
  */
-define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab) {
+define(['knockout', 'urls', 'helpers', 'labs/lab'], function (ko, urls, helpers, Lab) {
     return function () {
         var self = this;
 
@@ -19,50 +19,50 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
         self.onLabsLoadingComplete = null;
 
         function initSorting(data) {
-            if (lastSortable) {
-                return;
-            }
-            var mlabs = $("#labs-editor").find(".m-labs")[0];
-            if ($("#labs-editor").find(".drag-handler").size == 0) {
-                return;
-            }
-            if (!mlabs) {
-                return;
-            }
-            lastSortable = new Sortable(mlabs, {
-                handle: '.drag-handler',
-                onUpdate: function (evt) {
-                    var mainItem = self.labs()[evt.oldIndex];
-                    evt.item.remove();
-                    self.labs.remove(mainItem);
-                    self.labs.push(mainItem);
-                    console.log(self.labs());
-                    self.labs().every(function (item) {
-                        if (evt.oldIndex > evt.newIndex) {
-                            if (evt.newIndex <= item.order() && item.order() <= evt.oldIndex) {
-                                if (item.order() == evt.oldIndex) {
-                                    item.order(evt.newIndex);
-                                } else {
-                                    item.order(item.order() + 1);
-                                }
-                            }
-                        } else {
-                            if (evt.oldIndex <= item.order() && item.order() <= evt.newIndex) {
-                                if (item.order() == evt.oldIndex) {
-                                    item.order(evt.newIndex);
-                                } else {
-                                    item.order(item.order() - 1);
-                                }
-                            }
-                        }
-                        return true;
-                    });
-                },
-                //onEnd: function (evt) {
-                //    //self.sort();
-                //    return false;
-                //}
-            });
+            //if (lastSortable) {
+            //    return;
+            //}
+            //var mlabs = $("#labs-editor").find(".m-labs")[0];
+            //if ($("#labs-editor").find(".drag-handler").size == 0) {
+            //    return;
+            //}
+            //if (!mlabs) {
+            //    return;
+            //}
+            //lastSortable = new Sortable(mlabs, {
+            //    handle: '.drag-handler',
+            //    onUpdate: function (evt) {
+            //        var mainItem = self.labs()[evt.oldIndex];
+            //        evt.item.remove();
+            //        self.labs.remove(mainItem);
+            //        self.labs.push(mainItem);
+            //        console.log(self.labs());
+            //        self.labs().every(function (item) {
+            //            if (evt.oldIndex > evt.newIndex) {
+            //                if (evt.newIndex <= item.order() && item.order() <= evt.oldIndex) {
+            //                    if (item.order() == evt.oldIndex) {
+            //                        item.order(evt.newIndex);
+            //                    } else {
+            //                        item.order(item.order() + 1);
+            //                    }
+            //                }
+            //            } else {
+            //                if (evt.oldIndex <= item.order() && item.order() <= evt.newIndex) {
+            //                    if (item.order() == evt.oldIndex) {
+            //                        item.order(evt.newIndex);
+            //                    } else {
+            //                        item.order(item.order() - 1);
+            //                    }
+            //                }
+            //            }
+            //            return true;
+            //        });
+            //    },
+            //    //onEnd: function (evt) {
+            //    //    //self.sort();
+            //    //    return false;
+            //    //}
+            //});
         };
 
         self.setParams = function (discipline_id) {
@@ -74,10 +74,9 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
 
         self.hasLabsForStudent = function (student) {
             return ko.pureComputed(function () {
-                var result = self.labs().some(function(item) {
+                return self.labs().some(function (item) {
                     return item.hasTaskMarksForStudent(student);
                 });
-                return result;
             });
         };
 
@@ -100,7 +99,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                 initSorting();
                 self.labsLoading(false);
                 if (self.onLabsLoadingComplete) self.onLabsLoadingComplete(r, self);
-            }).fail(InterfaceAlerts.showFail);
+            }).fail(helpers.showFail);
             //}, 10);
         };
 
@@ -113,7 +112,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                     buttons: {'Добавить': true, 'Отмена': false},
                     submit: function (e, v, m, f) {
                         if (v) {
-                            utils.post(urls.url.lab_add, {
+                            helpers.post(urls.url.lab_add, {
                                 discipline_id: self.discipline_id,
                                 title: f.title
                             }, self.loadLabs);
@@ -133,7 +132,7 @@ define(['knockout', 'urls', 'utils', 'labs/lab'], function (ko, urls, utils, Lab
                 return true;
             });
 
-            utils.post(urls.url.lab_save_order, {
+            helpers.post(urls.url.lab_save_order, {
                 'order_array': JSON.stringify(order_array),
                 'id': self.discipline_id
             }, function () {

@@ -1092,6 +1092,8 @@
         color: #022800;
         box-shadow: 0 0 4px #068e00;
         background-color: #66ff89; }
+    #marks-editor .marks-table .l-table .t-cell.changed {
+      box-shadow: 0 0 0 4px #008000 inset; }
     #marks-editor .marks-table .l-table .lab-title {
       -webkit-transition: all ease-in-out 0.3s;
       -moz-transition: all ease-in-out 0.3s;

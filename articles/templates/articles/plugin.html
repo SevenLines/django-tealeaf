@@ -1,10 +1,5 @@
 {% load static sekizai_tags %}
 
-{#<link rel="stylesheet" href="{% static "css/articles.css" %}"/>#}
-{% addtoblock "js" %}
-<script src="{% static "js/articles.js" %}"></script>
-{% endaddtoblock %}
-
 {# скрипты ckeditor #}
 <div id="instance_{{ instance.pk }}">
     {% if user.is_authenticated and is_draft %}
