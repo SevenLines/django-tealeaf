@@ -151,8 +151,8 @@ define(['common-settings', 'bootstrap'], function (settings) {
             }
         }
 
-        if (RelatedImageLookupPopupBeforeClose) {
-            RelatedImageLookupPopupBeforeClose(win, chosenId, chosenThumbnailUrl, chosenDescriptionTxt);
+        if (window.RelatedImageLookupPopupBeforeClose) {
+            window.RelatedImageLookupPopupBeforeClose(win, chosenId, chosenThumbnailUrl, chosenDescriptionTxt);
         }
 
         win.close();
