@@ -8,7 +8,7 @@
         'ckeditorinlinebinding': '../../../../../templates/static/js/bindings/ckeditorinlinebinding',
         'select2binding': '../../../../../templates/static/js/bindings/select2binding',
         'knockout': '../../../../../templates/static/bower_components/knockout/dist/knockout',
-        'jquery': '../../../../../templates/static/bower_components/jquery/dist/jquery',
+        'jquery': 'empty:',
         'jquery.cookie': '../../../../../templates/static/bower_components/jquery.cookie/jquery.cookie',
         'qtip': '../../../../../templates/static/bower_components/qtip2/jquery.qtip',
         'helpers': '../../../../../templates/static/js/helpers',

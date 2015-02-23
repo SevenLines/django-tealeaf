@@ -25,18 +25,18 @@
     {% endblock %}
 
     {# SCRIPTS #}
-{#    {% addtoblock "js" %}#}
-{#        <script src="{% static "bower_components/google-code-prettify/bin/prettify.min.js" %}"></script>#}
-{#    {% endaddtoblock %}#}
 
     {% addtoblock "js" %}
         <script type="text/javascript">
             define('lesson-settings', ['jquery'], function ($) {
-                $(function () {
-                    window.prettyPrint && prettyPrint()
-                });
+                {% if not user.is_authenticated %}
+                    $(function () {
+                        $(".prettyprint").addClass("linenums");
+                        window.prettyPrint && prettyPrint()
+                    });
+                {% endif %}
             });
-            require(['main'], function (){
+            require(['main'], function () {
                 require(['lesson-settings']);
             })
         </script>
