@@ -13,6 +13,10 @@ urlpatterns = patterns('students.views.students',
    url(r'ajax/json/students$', 'ajax.json.students'),
    url(r'ajax/json/set-captain$', 'ajax.json.set_captain'),
    url(r'ajax/json/change-photo$', 'ajax.json.change_photo'),
+   url(r'ajax/json/remove-photo$', 'ajax.json.remove_photo'),
+   url(r'ajax/json/add-file$', 'ajax.json.add_file'),
+   url(r'ajax/json/get-file$', 'ajax.json.get_student_file'),
+   url(r'ajax/json/remove-file$', 'ajax.json.remove_file'),
 
    url(r'ajax/students/xlsx$', 'ajax.xlsx'),
 

@@ -1,7 +1,7 @@
 /**
  * Created by m on 24.02.15.
  */
-define(['knockout', 'helpers'], function (ko, helpers) {
+define(['knockout', 'helpers', 'student-urls'], function (ko, helpers, urls) {
     return function (data) {
         var self = this;
         self.id = data.id;
@@ -13,34 +13,36 @@ define(['knockout', 'helpers'], function (ko, helpers) {
         self.email = ko.observable(data.email);
         self.group_id = data.group_id;
         self.photo = ko.observable(data.photo);
+        self.files = ko.observableArray(data.files);
 
-        self.old_name = ko.observable(data.name);
-        self.old_second_name = ko.observable(data.second_name);
-        self.old_sex = ko.observable(data.sex);
-        self.old_phone = ko.observable(data.phone);
-        self.old_vk = ko.observable(data.vk);
-        self.old_email = ko.observable(data.email);
-        self.old_group_id = data.group_id;
+        //
+        //self.old_name = ko.observable(data.name);
+        //self.old_second_name = ko.observable(data.second_name);
+        //self.old_sex = ko.observable(data.sex);
+        //self.old_phone = ko.observable(data.phone);
+        //self.old_vk = ko.observable(data.vk);
+        //self.old_email = ko.observable(data.email);
+        //self.old_group_id = data.group_id;
 
 
         self.modified = ko.computed(function () {
-            return self.old_name() != self.name()
-                || self.old_second_name() != self.second_name()
-                || self.old_vk() != self.vk()
-                || self.old_email() != self.email()
-                || self.old_phone() != self.phone()
-                || self.old_sex() != self.sex()
-                || self.old_group_id != self.group_id
+            return data.name != self.name()
+                || data.second_name != self.second_name()
+                || data.vk != self.vk()
+                || data.email != self.email()
+                || data.phone != self.phone()
+                || data.sex != self.sex()
+                || data.group_id != self.group_id
         });
 
         self.reset = function () {
-            self.old_name(self.name());
-            self.old_second_name(self.second_name());
-            self.old_phone(self.phone());
-            self.old_vk(self.vk());
-            self.old_email(self.email());
-            self.old_sex(self.sex());
-            self.old_group_id = self.group_id;
+            data.name = self.name();
+            data.second_name = self.second_name();
+            data.phone = self.phone();
+            data.vk = self.vk();
+            data.email = self.email();
+            data.sex = self.sex();
+            data.group_id = self.group_id;
         };
 
         self.setSex = function (sexEnum) {
@@ -55,7 +57,7 @@ define(['knockout', 'helpers'], function (ko, helpers) {
             input_file.change(function () {
                 var formData = new FormData(form);
                 $.ajax({
-                    url: form.action,
+                    url: urls.url.change_photo,
                     type: "POST",
                     data: formData,
                     async: false,
@@ -68,6 +70,59 @@ define(['knockout', 'helpers'], function (ko, helpers) {
                 });
             });
             input_file.click();
-        }
+        };
+
+
+        self.removePhoto = function () {
+            helpers.post(urls.url.remove_photo, {
+                student_id: self.id
+            }, function () {
+                self.photo("");
+            })
+        };
+
+        self.addFile = function (data, e) {
+            var parent = $(e.target).parent();
+            var form = parent.find("form");
+            if (form.size() == 0) {
+                return;
+            }
+            form = form[0];
+            var $input = $(form.file);
+
+            $input.unbind();
+            $input.one("change", function () {
+                var formData = new FormData(form);
+                $.ajax({
+                    url: urls.url.add_student_file,
+                    type: "POST",
+                    data: formData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                }).done(function (d) {
+                    self.files.push(d);
+                    helpers.showSuccess();
+                });
+            });
+
+            $input.click();
+        };
+
+        self.removeStudentFile = function (data, e) {
+            $.get(urls.url.remove_student_file, {
+                'student_file_id': data.id
+            }).done(function () {
+                self.files.remove(data);
+            });
+        };
+
+        self.getStudentFile = function (data, e) {
+            var params = $.param({
+                'student_file_id': data.id
+            });
+            window.location = urls.url.get_student_file + "?" + params;
+        };
     }
 });
