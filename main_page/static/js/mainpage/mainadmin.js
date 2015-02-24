@@ -10,6 +10,7 @@ require.config({
         'ckeditorinlinebinding': '../bindings/ckeditorinlinebinding',
         'bootstrap': '../../lib/bootstrap/bootstrap.min',
         'interface': '../interface',
+        'modal_confirm': '../bindings/modal_confirm',
         'helpers': '../helpers'
     }
 });

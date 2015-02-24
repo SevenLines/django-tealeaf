@@ -1,5 +1,5 @@
 {% extends "base-page.html" %}
-{% load static sekizai_tags %}
+{% load static sekizai_tags ex_tags %}
 
 {% block basecontent %}
 
@@ -169,31 +169,32 @@
         <!-- END СПИСОК СТУДЕНТОВ -->
     </div>
 
-    {% addtoblock "js" %}
-        <script src="{% static 'bower_components/knockout/dist/knockout.js' %}"></script>
-    {% endaddtoblock %}
+{#    {% addtoblock "js" %}#}
+{#        <script src="{% static 'bower_components/knockout/dist/knockout.js' %}"></script>#}
+{#    {% endaddtoblock %}#}
+{##}
+{#    {% addtoblock "js" %}#}
+{#        <script src="{% static 'js/ko.modal_confirm.js' %}"></script>#}
+{#    {% endaddtoblock %}#}
+{##}
+{#    {% addtoblock "js" %}#}
+{#        <script src="{% static 'js/students/ko.students.js' %}"></script>#}
+{#    {% endaddtoblock %}#}
+
 
     {% addtoblock "js" %}
-        <script src="{% static 'js/ko.modal_confirm.js' %}"></script>
-    {% endaddtoblock %}
-
-    {% addtoblock "js" %}
-        <script src="{% static 'js/students/ko.students.js' %}"></script>
-    {% endaddtoblock %}
-
-    {% addtoblock "js" %}
+        {% requirejs 'js/students/students' 'studentsadmin' 'dist/studentsadmin' 'student-urls' %}
         <script>
-            ko.applyBindings(new StudentViewModel({
-                        url: {
-                            years: "{% url "students.views.students.ajax.json.years" %}",
-                            groups: "{% url "students.views.students.ajax.json.groups" %}",
-                            students: "{% url "students.views.students.ajax.json.students" %}",
-                            save_groups: "{% url "students.views.students.ajax.json.save_groups" %}",
-                            save_students: "{% url "students.views.students.ajax.json.save_students" %}",
-                            set_captain: "{% url "students.views.students.ajax.json.set_captain" %}"
-                        }
-                    },
-                    "#main-modal-form"));
+            define('student-urls', {
+                url: {
+                    years: "{% url "students.views.students.ajax.json.years" %}",
+                    groups: "{% url "students.views.students.ajax.json.groups" %}",
+                    students: "{% url "students.views.students.ajax.json.students" %}",
+                    save_groups: "{% url "students.views.students.ajax.json.save_groups" %}",
+                    save_students: "{% url "students.views.students.ajax.json.save_students" %}",
+                    set_captain: "{% url "students.views.students.ajax.json.set_captain" %}"
+                }
+            });
         </script>
     {% endaddtoblock %}
 
