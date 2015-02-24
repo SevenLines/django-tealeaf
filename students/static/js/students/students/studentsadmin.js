@@ -18,6 +18,7 @@ define('jquery', [], function () {
 });
 
 
-require(["knockout", "app/student_view_model", "student-urls", "bootstrap"], function (ko, StudentViewModel, urls) {
-    ko.applyBindings(new StudentViewModel(urls, "#main-modal-form"));
-});
+require(["knockout", "app/student_view_model", "student-urls", "bootstrap"],
+    function (ko, StudentViewModel, urls) {
+        ko.applyBindings(new StudentViewModel(urls, "#main-modal-form"));
+    });

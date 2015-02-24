@@ -122,65 +122,7 @@
             </div>
         </div>
         {% include "students/student/add.html" %}
-        {% comment %}<div class="panel-body" data-bind="visible: $root.group()">
-            <div class="group-students">
-                <div class="content">
-                    <table class="students table table-bordered table-hover"
-                           data-bind="visible: $root.studentsList().length > 0">
-                        <thead>
-                        <tr>
-                            <th class="counter">#</th>
-                            {#                            <th class="counter"><span class="glyphicon glyphicon-ok"></span></th>#}
-                            <th><span class="glyphicon glyphicon-user"></span></th>
-                            <th class="counter"></th>
-                        </tr>
-                        </thead>
-                        <tbody data-bind="foreach: studentsList">
-                        <tr data-bind="css: { 'success' : $data.modified() }">
-                            <td class="counter" data-bind="text: ($index() + 1)"></td>
-
-                            <!-- РЕДАКТИРОВАТЬ СТУДЕНТА -->
-                            <td>
-                                {% include "students/student_edit.html" %}
-                            </td>
-                            <!-- END РЕДАКТИРОВАТЬ СТУДЕНТА -->
-
-                            <!-- УДАЛИТЬ СТУДЕНТА -->
-                            <td>
-                                <form>
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                            data-bind="click: $root.removeStudent">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </button>
-                                </form>
-                            </td>
-                            <!-- END УДАЛИТЬ СТУДЕНТА -->
-                        </tr>
-                        </tbody>
-                    </table>
-
-                    <!-- ДОБАВИТЬ СТУДЕНТА -->
-
-                    <!-- END ДОБАВИТЬ СТУДЕНТА -->
-
-                </div>
-            </div>
-        </div>{% endcomment %}
-        <!-- END СПИСОК СТУДЕНТОВ -->
     </div>
-
-{#    {% addtoblock "js" %}#}
-{#        <script src="{% static 'bower_components/knockout/dist/knockout.js' %}"></script>#}
-{#    {% endaddtoblock %}#}
-{##}
-{#    {% addtoblock "js" %}#}
-{#        <script src="{% static 'js/ko.modal_confirm.js' %}"></script>#}
-{#    {% endaddtoblock %}#}
-{##}
-{#    {% addtoblock "js" %}#}
-{#        <script src="{% static 'js/students/ko.students.js' %}"></script>#}
-{#    {% endaddtoblock %}#}
-
 
     {% addtoblock "js" %}
         {% requirejs 'js/students/students' 'studentsadmin' 'dist/studentsadmin' 'student-urls' %}
@@ -192,7 +134,12 @@
                     students: "{% url "students.views.students.ajax.json.students" %}",
                     save_groups: "{% url "students.views.students.ajax.json.save_groups" %}",
                     save_students: "{% url "students.views.students.ajax.json.save_students" %}",
-                    set_captain: "{% url "students.views.students.ajax.json.set_captain" %}"
+                    set_captain: "{% url "students.views.students.ajax.json.set_captain" %}",
+                    change_photo: "{% url "students.views.students.ajax.json.change_photo" %}",
+                    remove_photo: "{% url "students.views.students.ajax.json.remove_photo" %}",
+                    get_student_file: "{% url "students.views.students.ajax.json.get_student_file" %}",
+                    add_student_file: "{% url "students.views.students.ajax.json.add_file" %}",
+                    remove_student_file: "{% url "students.views.students.ajax.json.remove_file" %}"
                 }
             });
         </script>
