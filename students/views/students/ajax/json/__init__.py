@@ -9,6 +9,7 @@ from django.db.transaction import atomic
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
+from django.utils.encoding import iri_to_uri
 from django.views.decorators.http import require_POST, require_GET
 from app.utils import require_in_POST, json_encoder, require_in_GET
 from students.models.group import Group, active_years
@@ -229,6 +230,6 @@ def remove_file(request):
 def get_student_file(request):
     file = StudentFile.objects.get(pk=request.GET['student_file_id'])
     response = HttpResponse(file.blob, content_type=file.content_type)
-    response['Content-Disposition'] = "attachment; filename=\"%s\"" % file.title
+    response['Content-Disposition'] = u"attachment; filename*=\"utf8''%s\"" % iri_to_uri(file.title)
     return response
 

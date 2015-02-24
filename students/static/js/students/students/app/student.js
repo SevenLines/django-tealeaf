@@ -74,11 +74,13 @@ define(['knockout', 'helpers', 'student-urls'], function (ko, helpers, urls) {
 
 
         self.removePhoto = function () {
-            helpers.post(urls.url.remove_photo, {
-                student_id: self.id
-            }, function () {
-                self.photo("");
-            })
+            if (confirm("Удалить изображение?")) {
+                helpers.post(urls.url.remove_photo, {
+                    student_id: self.id
+                }, function () {
+                    self.photo("");
+                })
+            }
         };
 
         self.addFile = function (data, e) {
@@ -111,11 +113,13 @@ define(['knockout', 'helpers', 'student-urls'], function (ko, helpers, urls) {
         };
 
         self.removeStudentFile = function (data, e) {
-            $.get(urls.url.remove_student_file, {
-                'student_file_id': data.id
-            }).done(function () {
-                self.files.remove(data);
-            });
+            if (confirm("Удалить файл?")) {
+                $.get(urls.url.remove_student_file, {
+                    'student_file_id': data.id
+                }).done(function () {
+                    self.files.remove(data);
+                });
+            }
         };
 
         self.getStudentFile = function (data, e) {
