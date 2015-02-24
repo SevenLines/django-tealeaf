@@ -63,6 +63,14 @@ class Student(models.Model):
         return Mark.objects.filter(lesson__discipline=discipline, student=self)
 
 
+class StudentFiles(models.Model):
+    student = models.ForeignKey("Student")
+    title = models.CharField(max_length=128, default="")
+    description = models.TextField(default="")
+    content_type = models.CharField(max_length=48, default="")
+    blob = models.BinaryField(null=True)
+
+
 @receiver(post_delete, sender=Student)
 @receiver(post_save, sender=Student)
 def update_cache_student(instance, **kwargs):
