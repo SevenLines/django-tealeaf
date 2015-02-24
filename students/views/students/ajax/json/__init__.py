@@ -4,21 +4,23 @@ import os
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.db.models.fields import BinaryField
 from django.db.transaction import atomic
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
 from django.views.decorators.http import require_POST, require_GET
-from app.utils import require_in_POST, json_encoder
+from app.utils import require_in_POST, json_encoder, require_in_GET
 from students.models.group import Group, active_years
 from students.models.labs import StudentTaskResult
 from students.models.lesson import Lesson
-from students.models.student import Student
+from students.models.student import Student, StudentFile
 from students.utils import current_year
 
 
 def blank(request):
     return HttpResponse()
+
 
 def years(request):
     if request.user.is_authenticated():
@@ -39,7 +41,8 @@ def groups(request):
     if not request.user.is_authenticated():
         grps = Group.objects.filter(
             Q(id__in=Lesson.objects.filter(discipline=discipline_id).values('group').distinct()) |
-            Q(id__in=StudentTaskResult.objects.filter(task__lab__discipline=discipline_id).values('student__group').distinct())
+            Q(id__in=StudentTaskResult.objects.filter(task__lab__discipline=discipline_id).values(
+                'student__group').distinct())
         )
     else:
         grps = Group.objects.all()
@@ -181,14 +184,51 @@ def set_captain(request):
 
     return HttpResponse()
 
+
 @login_required
 @require_in_POST("student_id")
 def change_photo(request):
     photo = request.FILES['photo']
     s = Student.objects.get(pk=request.POST['student_id'])
     ext = photo.name.split(os.path.extsep)[-1]
-    filename = "%s.%s" % (str(s.id), ext)
+    filename = "%s_%s.%s" % (s.second_name, s.name, ext)
     s.photo.save(filename, photo)
     s.save()
     return HttpResponse(s.photo.url)
+
+
+@login_required
+@require_in_POST("student_id")
+def remove_photo(request):
+    s = Student.objects.get(pk=request.POST['student_id'])
+    s.photo.delete()
+    return HttpResponse()
+
+
+@login_required
+@require_in_POST("student_id")
+def add_file(request):
+    file = request.FILES['file']
+    student_file = StudentFile()
+    student_file.content_type = file.content_type
+    student_file.title = file.name
+    student_file.student_id = request.POST['student_id']
+    student_file.blob = file.file.read()
+    student_file.save()
+    return HttpResponse(json.dumps(model_to_dict(student_file)), content_type='json')
+
+
+@login_required
+@require_in_GET("student_file_id")
+def remove_file(request):
+    StudentFile.objects.get(pk=request.GET['student_file_id']).delete()
+    return HttpResponse()
+
+
+@require_in_GET("student_file_id")
+def get_student_file(request):
+    file = StudentFile.objects.get(pk=request.GET['student_file_id'])
+    response = HttpResponse(file.blob, content_type=file.content_type)
+    response['Content-Disposition'] = "attachment; filename=\"%s\"" % file.title
+    return response
 

@@ -10,10 +10,8 @@
         <button class="btn btn-sm btn-default"
                 data-bind="click: function() { setSex(1); }, , css: { 'btn-primary': sex() == 1 }"><b>♂</b></button>
     </div>
-    <input class="form-control" data-bind="value: second_name,
-                                        valueUpdate: 'input'"/>
-    <input class="form-control" data-bind="value: name,
-                                        valueUpdate: 'input'"/>
+    <input class="form-control" data-bind="value: second_name, valueUpdate: 'input'"/>
+    <input class="form-control" data-bind="value: name, valueUpdate: 'input'"/>
     <button type="submit" class="btn btn-sm"
             data-bind="enable: $data.modified(), css: { 'btn-success': $data.modified() }">
         <span class="glyphicon glyphicon-save"></span>

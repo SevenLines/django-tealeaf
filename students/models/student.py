@@ -38,7 +38,12 @@ class Student(models.Model):
 
     def to_dict(self, authenticated=False):
         excluded = ['phone', 'email', 'vk', 'photo'] if not authenticated else []
-        return model_to_dict(self, exclude=excluded)
+        d = model_to_dict(self, exclude=excluded)
+        if authenticated:
+            d.update({
+                'files': list([model_to_dict(i) for i in StudentFile.objects.filter(student=self)])
+            })
+        return d
 
     @staticmethod
     def year_students(year):
@@ -63,7 +68,7 @@ class Student(models.Model):
         return Mark.objects.filter(lesson__discipline=discipline, student=self)
 
 
-class StudentFiles(models.Model):
+class StudentFile(models.Model):
     student = models.ForeignKey("Student")
     title = models.CharField(max_length=128, default="")
     description = models.TextField(default="")
@@ -71,9 +76,18 @@ class StudentFiles(models.Model):
     blob = models.BinaryField(null=True)
 
 
-@receiver(post_delete, sender=Student)
-@receiver(post_save, sender=Student)
-def update_cache_student(instance, **kwargs):
+def update_cache_student(instance):
     from students.models.discipline import DisciplineMarksCache
 
     DisciplineMarksCache.objects.filter(group=instance.group_id).delete()
+
+
+@receiver(post_delete, sender=Student)
+def student_delete_event(instance, **kwargs):
+    instance.photo.delete(False)
+    update_cache_student(instance)
+
+
+@receiver(post_save, sender=Student)
+def student_save_event(instance, **kwargs):
+    update_cache_student(instance)
