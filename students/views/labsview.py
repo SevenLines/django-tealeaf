@@ -2,8 +2,7 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
-from django.http.response import HttpResponse
-from tastypie.http import HttpBadRequest
+from django.http.response import HttpResponse, HttpResponseBadRequest
 
 from app.utils import require_in_GET, update_object, require_in_POST, update_post_object, get_post_object
 from ..models.labs import StudentLab, StudentTask
@@ -48,7 +47,7 @@ def progress_table(request):
     assert isinstance(g, Group)
     students = g.students
     labs = StudentLab.objects.filter()
-    return HttpBadRequest()
+    return HttpResponseBadRequest()
 
 
 @login_required
