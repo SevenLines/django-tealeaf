@@ -1,7 +1,7 @@
 /**
  * Created by m on 21.02.15.
  */
-define(['knockout', 'app/item', 'app/modal_confirm', 'helpers'],
+define(['knockout', 'app/item', 'modal_confirm', 'helpers'],
     function (ko, MainPageItem, ModalConfirm, helpers) {
         return function (data) {
             var self = this;
