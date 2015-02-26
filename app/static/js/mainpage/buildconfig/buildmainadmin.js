@@ -1,18 +1,22 @@
-/**
- * Created by m on 21.02.15.
- */
 ({
     baseUrl: '../',
-    out: '../dist/mainadmin.js',
+    out: '../dist/mainpageadmin.js',
     name: 'mainadmin',
     paths: {
-        'knockout': '../../../../templates/static/bower_components/knockout/dist/knockout',
-        //'jquery': '../../../../templates/static/bower_components/jquery/dist/jquery',
-        'ckeditorinlinebinding': '../../../../templates/static/js/bindings/ckeditorinlinebinding',
-        'modal_confirm': '../../../../templates/static/js/bindings/modal_confirm',
-        'bootstrap': '../../../../templates/static/lib/bootstrap/bootstrap.min',
-        'interface': '../../../../templates/static/js/interface',
-        'helpers': '../../../../templates/static/js/helpers',
+        'knockout': '../../bower_components/knockout/dist/knockout',
+        'bootstrap': '../../lib/bootstrap/bootstrap.min',
+        'prettify': '../../bower_components/google-code-prettify/bin/prettify.min',
+
+        'ckeditorinlinebinding': '../bindings/ckeditorinlinebinding',
+        'modal_confirm': '../bindings/modal_confirm',
+
+        'interface': '../interface',
+        'helpers': '../helpers',
+        'common': '../common',
+        'jquery.toc': '../jquery.toc',
+
+
+
         'mainpage-settings': 'empty:',
         'common-settings': 'empty:'
     }

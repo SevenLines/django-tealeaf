@@ -2,20 +2,31 @@
     baseUrl: '../../marks',
     out: '../dist/marksadmin.js',
     name: 'marksadmin',
+    findNestedDependencies: true,
     paths: {
-        'select2': '../../../../../templates/static/bower_components/select2/select2',
-        'jquery-impromptu': '../../../../../templates/static/bower_components/jquery-impromptu/dist/jquery-impromptu',
-        'ckeditorinlinebinding': '../../../../../templates/static/js/bindings/ckeditorinlinebinding',
-        'select2binding': '../../../../../templates/static/js/bindings/select2binding',
-        'knockout': '../../../../../templates/static/bower_components/knockout/dist/knockout',
+        'qtip': '../../../bower_components/qtip2/jquery.qtip',
+        'knockout': '../../../bower_components/knockout/dist/knockout',
+        'prettify': '../../../bower_components/google-code-prettify/bin/prettify.min',
+        'jquery.cookie': '../../../bower_components/jquery.cookie/jquery.cookie',
+        'select2': '../../../bower_components/select2/select2',
+        'jquery-impromptu': '../../../bower_components/jquery-impromptu/dist/jquery-impromptu',
+        'pickmeup': '../../../bower_components/pickmeup/js/jquery.pickmeup',
+
+        'color': '../../../lib/color',
+        'bootstrap': '../../../lib/bootstrap/bootstrap.min',
+
+        'marks': './marks',
+        'labs': './labs',
+
+        'helpers': '../../helpers',
+        'interface': '../../interface',
+        'common': '../../common',
+        'jquery.toc': '../../jquery.toc',
+
+        'ckeditorinlinebinding': '../../bindings/ckeditorinlinebinding',
+        'select2binding': '../../bindings/select2binding',
+
         'jquery': 'empty:',
-        'jquery.cookie': '../../../../../templates/static/bower_components/jquery.cookie/jquery.cookie',
-        'qtip': '../../../../../templates/static/bower_components/qtip2/jquery.qtip',
-        'helpers': '../../../../../templates/static/js/helpers',
-        'interface': '../../../../../templates/static/js/interface',
-        'color': '../../../../../templates/static/lib/color',
-        'bootstrap': '../../../../../templates/static/lib/bootstrap/bootstrap.min',
-        'pickmeup': '../../../../../templates/static/bower_components/pickmeup/js/jquery.pickmeup',
         "urls": 'empty:',
         "common-settings": 'empty:'
         //"urls": 'empty:',

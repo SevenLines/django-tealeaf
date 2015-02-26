@@ -8,8 +8,8 @@ require.config({
     },
     paths: {
         'bootstrap': '../lib/bootstrap/bootstrap.min',
-        'jquery': '../bower_components/jquery/dist/jquery',
-        'prettify': '../bower_components/google-code-prettify/bin/prettify.min'
+        'prettify': '../bower_components/google-code-prettify/bin/prettify.min',
+        'common-settings': 'empty:'
     }
 });
 
@@ -17,4 +17,4 @@ define('jquery', [], function () {
     return jQuery;
 });
 
-require(["interface", 'prettify', 'jquery.toc']);
+require(['common']);

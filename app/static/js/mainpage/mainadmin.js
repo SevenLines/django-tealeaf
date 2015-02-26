@@ -7,11 +7,17 @@ require.config({
     },
     paths: {
         'knockout': '../../bower_components/knockout/dist/knockout',
-        'ckeditorinlinebinding': '../bindings/ckeditorinlinebinding',
+        'prettify': '../../bower_components/google-code-prettify/bin/prettify.min',
+
         'bootstrap': '../../lib/bootstrap/bootstrap.min',
-        'interface': '../interface',
+
+        'ckeditorinlinebinding': '../bindings/ckeditorinlinebinding',
         'modal_confirm': '../bindings/modal_confirm',
-        'helpers': '../helpers'
+
+        'interface': '../interface',
+        'helpers': '../helpers',
+        'jquery.toc': '../jquery.toc',
+        'common': '../common'
     }
 });
 
@@ -19,7 +25,10 @@ define('jquery', [], function () {
     return jQuery;
 });
 
-require(["knockout", "mainpage-settings", "app/model", "interface", 'ckeditorinlinebinding'],
-    function (ko, settings, MainPageModel) {
-        ko.applyBindings(new MainPageModel(settings));
-    });
+
+require(["common"], function () {
+    require(["knockout", "mainpage-settings", "app/model", 'ckeditorinlinebinding'],
+        function (ko, settings, MainPageModel) {
+            ko.applyBindings(new MainPageModel(settings));
+        });
+});
