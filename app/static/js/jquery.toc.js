@@ -5,7 +5,7 @@
  * copyright Greg Allen 2013
  * MIT License
  */
-define(['jquery'], function (jQuery) {
+define( function () {
     (function (t) {
         t.fn.toc = function (e) {
             var n, i = this, r = t.extend({}, jQuery.fn.toc.defaults, e), o = t(r.container), a = t(r.selectors, o), l = [], h = r.prefix + "-active", s = function (e) {
