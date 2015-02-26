@@ -1,7 +1,7 @@
 from django_assets import Bundle, register
 from django_assets.env import get_env
 
-get_env().append_path("templates/static")
+get_env().append_path("app/static")
 
 # # main_js = Bundle('bower_components/jquery/dist/jquery.min.js',
 # #                  'bower_components/jquery.cookie/jquery.cookie.js',

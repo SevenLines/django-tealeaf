@@ -129,12 +129,12 @@ USE_TZ = True
 
 SITE_ID = 1
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'app/static')
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "templates/static"),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, "app/static"),
+# )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -142,7 +142,7 @@ MEDIA_URL = '/media/'
 THUMBNAIL_BASEDIR = 'thumbs'
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, "templates"),
+    os.path.join(BASE_DIR, "app/templates"),
 )
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -214,4 +214,4 @@ ASSETS_MANIFEST = False
 if not DEBUG:
     ASSETS_AUTO_BUILD = False
 
-ASSETS_ROOT = os.path.join(BASE_DIR, 'templates/static')
+ASSETS_ROOT = os.path.join(BASE_DIR, 'app/static')
