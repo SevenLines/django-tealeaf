@@ -92,3 +92,16 @@ def dictfetchall(cursor):
         dict(zip([col[0] for col in desc], row))
         for row in cursor.fetchall()
     ]
+
+
+def add_cross_domain(http_response):
+    """
+    Adds cross domain access support to current response
+    :param http_response:
+    :return:
+    """
+    http_response["Access-Control-Allow-Origin"] = "*"
+    http_response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    http_response["Access-Control-Max-Age"] = "1000"
+    http_response["Access-Control-Allow-Headers"] = "*"
+    return http_response
