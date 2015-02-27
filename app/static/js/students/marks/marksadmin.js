@@ -1,7 +1,3 @@
-define('jquery', [], function () {
-    return jQuery;
-});
-
 require(['config'], function () {
 
     function lessonIconSelectPopup(triggeringLink) {

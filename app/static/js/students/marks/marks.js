@@ -1,7 +1,3 @@
-define('jquery', [], function () {
-    return jQuery;
-});
-
 require(['config'], function () {
     define('pickmeup', {});
 
