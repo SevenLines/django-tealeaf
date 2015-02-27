@@ -1,0 +1,54 @@
+{% extends "base-page.html" %}
+{% load static cms_tags sekizai_tags file_upload_form_tags menu_tags ex_tags %}
+
+{% block basecontent %}
+
+    {% addtoblock "core_js" %}
+        {% requirejs 'js' 'main' 'dist/main' %}
+    {% endaddtoblock %}
+
+    {% if user.is_authenticated %}
+        {% file_upload_form current_page.pk %}
+        {% addtoblock "top_js" %}
+            <script src="{% static "bower_components/ckeditor/ckeditor.js" %}"></script>
+        {% endaddtoblock %}
+    {% endif %}
+
+    <div class="lesson">
+        {% include "elements/breadcrumb.html" %}
+        <h1>{% page_attribute "title" %}</h1>
+        <hr>
+        {% placeholder "content" %}
+    </div>
+
+    {% block lesson_content %}
+    {% endblock %}
+
+    {# SCRIPTS #}
+
+    {% addtoblock "js" %}
+        <script type="text/javascript">
+            define('lesson-settings', ['jquery'], function ($) {
+                {% if not user.is_authenticated %}
+                    $(function () {
+                        $(".prettyprint").addClass("linenums");
+                        window.prettyPrint && prettyPrint();
+
+
+                    });
+                {% endif %}
+            });
+            require(['main'], function () {
+                require(['lesson-settings']);
+            })
+        </script>
+    {% endaddtoblock %}
+    {# SCRIPTS END #}
+
+    {#  STYLES  #}
+    {% addtoblock "css" %}
+        <link rel="stylesheet" type="text/css" href="{% static "lib/google-code-prettify/prettify-bootstrap.css" %}">
+    {% endaddtoblock %}
+    {#  STYLES END #}
+
+{% endblock %}

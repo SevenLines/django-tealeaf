@@ -1,0 +1,47 @@
+@import "common/theme_grey_base";
+
+//@include theme_color(#4d473c);
+
+$glow-color: white;
+$dark-color: #4d473c;
+
+body {
+  background: linear-gradient(to bottom, rgba($glow-color, 1) 10%, rgba(black, 0.85) 100%);
+  background-attachment: fixed;
+  background-position: 0 0;
+  padding-top: 1;
+}
+
+.container {
+  box-shadow: none;
+
+  .left-board {
+    background-color: grey;
+  }
+}
+
+//.menu > ul > li {
+//  > ul > li {
+//    &:hover {
+//      a {
+//        color: black;
+//      }
+//    }
+//    a {
+//      color: white;
+//      border-left-color: #4b4b4b;
+//    }
+//  }
+//}
+
+.collapsable .collapsable-body {
+  > ol, > ul {
+    > li {
+      &:hover {
+        background-color: lighten($glow-color, 10);
+      }
+      background-color: white;
+    }
+  }
+}
+
