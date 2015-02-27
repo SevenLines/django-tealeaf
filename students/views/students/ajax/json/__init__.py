@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
 from django.utils.encoding import iri_to_uri
 from django.views.decorators.http import require_POST, require_GET
-from app.utils import require_in_POST, json_encoder, require_in_GET
+from app.utils import require_in_POST, json_encoder, require_in_GET, add_cross_domain
 from students.models.group import Group, active_years
 from students.models.labs import StudentTaskResult
 from students.models.lesson import Lesson
@@ -158,7 +158,9 @@ def students(request):
 
     _students = list([s.to_dict(request.user.is_authenticated) for s in grp.students.all()])
 
-    return HttpResponse(json.dumps(_students, default=json_encoder), content_type='application/json')
+    response = HttpResponse(json.dumps(_students, default=json_encoder), content_type='application/json')
+
+    return response
 
 
 @require_GET
@@ -170,7 +172,9 @@ def list_students(request):
     students = Student.objects.filter(Q(second_name__icontains=f) | Q(name__icontains=f),
                                       group__year=current_year())[:10]
     students = list([{"id": i.pk, "text": str(i)} for i in students])
-    return HttpResponse(json.dumps(students), content_type="application/json")
+    response = HttpResponse(json.dumps(students), content_type="application/json")
+    add_cross_domain(response)
+    return
 
 
 @login_required

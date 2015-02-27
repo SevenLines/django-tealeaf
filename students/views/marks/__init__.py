@@ -15,7 +15,7 @@ from students.models.lesson import Lesson
 from students.models.mark import Mark
 import students.utils
 
-from app.utils import require_in_POST, require_in_GET, json_encoder
+from app.utils import require_in_POST, require_in_GET, json_encoder, add_cross_domain
 import logging
 
 logger = logging.getLogger(__name__)
@@ -33,8 +33,11 @@ def students_cached(discipline_id, group_id):
 
 @require_in_GET('discipline_id', 'group_id')
 def students(request):
-    return HttpResponse(students_cached(request.GET['discipline_id'], request.GET['group_id']),
+    response = HttpResponse(students_cached(request.GET['discipline_id'], request.GET['group_id']),
                         content_type="json")
+    response.__setitem__("Access-Control-Allow-Origin", "*")
+    add_cross_domain(response)
+    return response
 
 
 @login_required
