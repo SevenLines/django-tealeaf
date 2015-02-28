@@ -34,7 +34,7 @@
     {% include "elements/login-form.html" %}
     {% include "elements/messages.html" %}
 {% endaddtoblock %}
-{% addtoblock "js" %}
+{% addtoblock "core_js" %}
     <script>
         InitInterface({
             csrf: "{{ csrf_token }}",

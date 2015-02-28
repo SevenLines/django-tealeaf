@@ -12,8 +12,6 @@ define(['knockout',
         'marks/qtipsettings',
         'jquery',
         'qtip',
-        'jquery.cookie',
-        'bootstrap'
     ],
     function (ko, urls, cookies, helpers, Lesson, Mark, Student, MarkSelector, qtipsettings) {
         return function () {

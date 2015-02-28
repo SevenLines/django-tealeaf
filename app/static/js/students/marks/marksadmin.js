@@ -15,7 +15,6 @@ require(['config'], function () {
     require(['main',
             'knockout',
             'jquery',
-            'interface',
             'ckeditorinlinebinding',
             'select2binding',
             'jquery-impromptu',
