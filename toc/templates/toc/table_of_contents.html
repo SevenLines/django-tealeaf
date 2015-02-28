@@ -1,18 +1,13 @@
 {% load static cms_tags sekizai_tags %}
 {% addtoblock "js" %}
     <script>
-        define('tocplugin', ['jquery.toc'], function () {
-            $('#toc').toc({
-                'selectors': 'h2',
-                'container': '.lesson',
-                'itemClass': function (i, heading, $heading, prefix) { // custom function for item class
-                    return "list-group-item";
-                }
-            });
+        $('#toc').toc({
+            'selectors': 'h2',
+            'container': '.lesson',
+            'itemClass': function (i, heading, $heading, prefix) { // custom function for item class
+                return "list-group-item";
+            }
         });
-        require(["main"], function () {
-            require(["tocplugin"])
-        })
     </script>
 {% endaddtoblock %}
 <p id="toc" class="list-group">

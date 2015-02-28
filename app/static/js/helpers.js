@@ -1,8 +1,7 @@
 /**
  * Created by m on 21.02.15.
  */
-define(['common-settings'], function (settings) {
-
+define(function () {
         Date.prototype.ddmmyyyy = function () {
             var yyyy = this.getFullYear().toString();
             var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
@@ -51,7 +50,7 @@ define(['common-settings'], function (settings) {
                 this.blink("#FFAA88", 1000);
             },
             csrfize: function csrfize(data) {
-                data.csrfmiddlewaretoken = settings.csrf;
+                data.csrfmiddlewaretoken =  $.cookie('csrftoken');
                 return data;
             },
             post: function (url, data, success, fail) {

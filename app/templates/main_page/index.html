@@ -6,8 +6,6 @@
     {% addtoblock "js" %}
         {% if user.is_authenticated %}
             {% requirejs 'js/mainpage' 'mainadmin' 'dist/mainadmin' 'mainpage-settings' %}
-        {% else %}
-            {% requirejs 'js' 'main' 'dist/main' %}
         {% endif %}
     {% endaddtoblock %}
 

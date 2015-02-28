@@ -29,6 +29,5 @@
         'jquery': 'empty:',
         "urls": 'empty:',
         "pickmeup": 'empty:',
-        "common-settings": 'empty:'
     }
 })

@@ -28,7 +28,6 @@
 
         'jquery': 'empty:',
         "urls": 'empty:',
-        "common-settings": 'empty:'
         //"urls": 'empty:',
     }
 })

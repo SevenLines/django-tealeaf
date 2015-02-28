@@ -3,146 +3,182 @@
 
 {% block basecontent %}
 
-    {% addtoblock "css" %}
-        <link rel="stylesheet" href="{% static 'css/students.css' %}"/>
-    {% endaddtoblock %}
-
-    <div class="students_plugin years">
-
-        <div class="students-selector-top">
-            <!-- СПИСОК ГОДОВ -->
-            <form class="year_selector form-inline">
-                <div class="form-group">
-                    <select class="form-control"
-                            data-bind="options: yearsList, optionsValue: 'year', optionsText: 'year', value: year"></select>
-                    {# кнопка закачки списка студентов #}
-                    <button class="btn btn-success"
-                            data-bind="visible: groupsList().length, click: function() { $root.downloadStudentsList('{% url "students.views.students.ajax.xlsx" %}') }">
-                        <i class="glyphicon glyphicon-download" data-bind="text: (' ' + year() + '.xlsx')"> </i>
-                    </button>
-                </div>
-            </form>
-            <!-- END СПИСОК ГОДОВ -->
-
-            <div style="clear: both"></div>
-
-            <!-- СПИСОК ГРУПП -->
-            <div class="groups-content">
-                <ul class="groups-nav" data-bind="foreach: groupsList">
-                    <li>
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-default submit-link" data-bind="
-                            click: $root.listStudents,
-                            css: { 'btn-primary': $data == $root.group() }">
-                                <span class="glyphicon glyphicon-user" data-bind="text: $data.title"></span>
-                            </a>
-                            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" data-bind="css: { 'success' : $data.modified() }">
-                                <!-- УДАЛЕНИЕ ГРУППЫ -->
-                                <li>
-                                    <form>
-                                        <button type="submit" class="btn btn-danger"
-                                                data-bind="click: $root.removeGroup">
-                                            удалить
-                                        </button>
-                                    </form>
-                                </li>
-                                <!-- КОНЕЦ УДАЛЕНИЕ ГРУППЫ -->
-
-                                <!-- РЕДАКТИРОВАНИЕ ГРУППЫ -->
-                                <li>
-                                    <form class="update" data-bind="submit: $root.saveGroups">
-                                        <div class="form-group">
-                                            <input name="title" class="form-control" data-bind="value: title"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <select class="form-control"
-                                                    data-bind="options: $root.yearsList, optionsValue: 'year',
-                                             optionsText: 'year', value: year"></select>
-                                        </div>
-                                        <button type="submit" class="btn btn-default pull-right">
-                                            <span class="glyphicon glyphicon-ok"></span>
-                                        </button>
-                                    </form>
-                                </li>
-                                <!-- КОНЕЦ РЕДАКТИРОВАНИЕ ГРУППЫ -->
-
-                                <!-- КОПИРОВАНИЕ ГРУППЫ В СЛЕДУЮЩИЙ КОД -->
-                                <li data-bind="visible: !has_ancestor">
-                                    <form class="copy_to_next_year"
-                                          data-bind="submit: function(form) { $root.copyGroupToNextYear(form, $data) }"
-                                          action="{% url "students.views.students.ajax.json.copy_to_next_year" %}"
-                                          method="post">
-                                        <button type="submit" class="btn btn-default pull-right">
-                                            <span class="glyphicon glyphicon-play">copy to next year</span>
-                                        </button>
-                                    </form>
-                                </li>
-                                <!-- КОНЕЦ КОПИРОВАНИЕ ГРУППЫ В СЛЕДУЮЩИЙ КОД -->
-
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-                <!-- ДОБАВЛЕНИЕ ГРУППЫ -->
-                <ul class="groups-nav">
-                    <li>
-                        <form class="add form-inline" data-bind="submit: $root.addGroup">
-                            <input class="form-control" data-bind="value: $root.newGroup.title"/>
-                            <button type="submit" class="btn btn-success btn-sm">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-                <!-- КОНЕЦ ДОБАВЛЕНИЕ ГРУППЫ -->
-            </div>
-            <!-- END СПИСОК ГРУПП -->
-            <div style="clear: both"></div>
-            {% include "students/student/add.html" %}
+    {% verbatim %}
+    <div ng-app="myApp">
+        <div ng-controller="YearsController">
+            <ul>
+                <li ng-repeat="year in years">
+                    {{ year }}
+                </li>
+            </ul>
         </div>
-
-        <div style="clear: both"></div>
-
-        <!-- СПИСОК СТУДЕНТОВ -->
-
-        <div class="panel-group" id="accordion" data-bind="foreach: studentsList">
-            <div class="panel"
-                 data-bind="css: { 'panel-success' : $data.modified(), 'panel-default' : !$data.modified() }">
-                <div class="panel-heading">
-                    {% include "students/student/main_edit.html" %}
-                </div>
-                <div class="panel-collapse collapse" data-bind="attr: {'id': 'student_' + $data.id }">
-                    <div class="panel-body">
-                        {% include "students/student/edit.html" %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% include "students/student/add.html" %}
     </div>
+    {% endverbatim %}
 
     {% addtoblock "js" %}
-        {% requirejs 'js/students/students' 'studentsadmin' 'dist/studentsadmin' 'student-urls' %}
+        {% requirejs 'js/students/manager' 'app' 'dist/app' 'urls' %}
         <script>
-            define('student-urls', {
-                url: {
-                    years: "{% url "students.views.students.ajax.json.years" %}",
-                    groups: "{% url "students.views.students.ajax.json.groups" %}",
-                    students: "{% url "students.views.students.ajax.json.students" %}",
-                    save_groups: "{% url "students.views.students.ajax.json.save_groups" %}",
-                    save_students: "{% url "students.views.students.ajax.json.save_students" %}",
-                    set_captain: "{% url "students.views.students.ajax.json.set_captain" %}",
-                    change_photo: "{% url "students.views.students.ajax.json.change_photo" %}",
-                    remove_photo: "{% url "students.views.students.ajax.json.remove_photo" %}",
-                    get_student_file: "{% url "students.views.students.ajax.json.get_student_file" %}",
-                    add_student_file: "{% url "students.views.students.ajax.json.add_file" %}",
-                    remove_student_file: "{% url "students.views.students.ajax.json.remove_file" %}"
-                }
+            define('urls', {
+                base: "{% static "js/students/manager" %}",
+                years: "{% url "students.views.students.ajax.json.years" %}",
+                groups: "{% url "students.views.students.ajax.json.groups" %}",
+                students: "{% url "students.views.students.ajax.json.students" %}",
+                save_groups: "{% url "students.views.students.ajax.json.save_groups" %}",
+                save_students: "{% url "students.views.students.ajax.json.save_students" %}",
+                set_captain: "{% url "students.views.students.ajax.json.set_captain" %}",
+                change_photo: "{% url "students.views.students.ajax.json.change_photo" %}",
+                remove_photo: "{% url "students.views.students.ajax.json.remove_photo" %}",
+                get_student_file: "{% url "students.views.students.ajax.json.get_student_file" %}",
+                add_student_file: "{% url "students.views.students.ajax.json.add_file" %}",
+                remove_student_file: "{% url "students.views.students.ajax.json.remove_file" %}"
             });
         </script>
     {% endaddtoblock %}
 
 {% endblock %}
+{##}
+{#{% block basecontent %}#}
+{##}
+{#    {% addtoblock "css" %}#}
+{#        <link rel="stylesheet" href="{% static 'css/students.css' %}"/>#}
+{#    {% endaddtoblock %}#}
+{##}
+{#    <div class="students_plugin years">#}
+{##}
+{#        <div class="students-selector-top">#}
+{#            <!-- СПИСОК ГОДОВ -->#}
+{#            <form class="year_selector form-inline">#}
+{#                <div class="form-group">#}
+{#                    <select class="form-control"#}
+{#                            data-bind="options: yearsList, optionsValue: 'year', optionsText: 'year', value: year"></select>#}
+{# кнопка закачки списка студентов #}
+{#                    <button class="btn btn-success"#}
+{#                            data-bind="visible: groupsList().length, click: function() { $root.downloadStudentsList('{% url "students.views.students.ajax.xlsx" %}') }">#}
+{#                        <i class="glyphicon glyphicon-download" data-bind="text: (' ' + year() + '.xlsx')"> </i>#}
+{#                    </button>#}
+{#                </div>#}
+{#            </form>#}
+{#            <!-- END СПИСОК ГОДОВ -->#}
+{##}
+{#            <div style="clear: both"></div>#}
+{##}
+{#            <!-- СПИСОК ГРУПП -->#}
+{#            <div class="groups-content">#}
+{#                <ul class="groups-nav" data-bind="foreach: groupsList">#}
+{#                    <li>#}
+{#                        <div class="btn-group">#}
+{#                            <a href="#" class="btn btn-default submit-link" data-bind="#}
+{#                            click: $root.listStudents,#}
+{#                            css: { 'btn-primary': $data == $root.group() }">#}
+{#                                <span class="glyphicon glyphicon-user" data-bind="text: $data.title"></span>#}
+{#                            </a>#}
+{#                            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">#}
+{#                                <span class="caret"></span>#}
+{#                            </a>#}
+{#                            <ul class="dropdown-menu" data-bind="css: { 'success' : $data.modified() }">#}
+{#                                <!-- УДАЛЕНИЕ ГРУППЫ -->#}
+{#                                <li>#}
+{#                                    <form>#}
+{#                                        <button type="submit" class="btn btn-danger"#}
+{#                                                data-bind="click: $root.removeGroup">#}
+{#                                            удалить#}
+{#                                        </button>#}
+{#                                    </form>#}
+{#                                </li>#}
+{#                                <!-- КОНЕЦ УДАЛЕНИЕ ГРУППЫ -->#}
+{##}
+{#                                <!-- РЕДАКТИРОВАНИЕ ГРУППЫ -->#}
+{#                                <li>#}
+{#                                    <form class="update" data-bind="submit: $root.saveGroups">#}
+{#                                        <div class="form-group">#}
+{#                                            <input name="title" class="form-control" data-bind="value: title"/>#}
+{#                                        </div>#}
+{#                                        <div class="form-group">#}
+{#                                            <select class="form-control"#}
+{#                                                    data-bind="options: $root.yearsList, optionsValue: 'year',#}
+{#                                             optionsText: 'year', value: year"></select>#}
+{#                                        </div>#}
+{#                                        <button type="submit" class="btn btn-default pull-right">#}
+{#                                            <span class="glyphicon glyphicon-ok"></span>#}
+{#                                        </button>#}
+{#                                    </form>#}
+{#                                </li>#}
+{#                                <!-- КОНЕЦ РЕДАКТИРОВАНИЕ ГРУППЫ -->#}
+{##}
+{#                                <!-- КОПИРОВАНИЕ ГРУППЫ В СЛЕДУЮЩИЙ КОД -->#}
+{#                                <li data-bind="visible: !has_ancestor">#}
+{#                                    <form class="copy_to_next_year"#}
+{#                                          data-bind="submit: function(form) { $root.copyGroupToNextYear(form, $data) }"#}
+{#                                          action="{% url "students.views.students.ajax.json.copy_to_next_year" %}"#}
+{#                                          method="post">#}
+{#                                        <button type="submit" class="btn btn-default pull-right">#}
+{#                                            <span class="glyphicon glyphicon-play">copy to next year</span>#}
+{#                                        </button>#}
+{#                                    </form>#}
+{#                                </li>#}
+{#                                <!-- КОНЕЦ КОПИРОВАНИЕ ГРУППЫ В СЛЕДУЮЩИЙ КОД -->#}
+{##}
+{#                            </ul>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                </ul>#}
+{#                <!-- ДОБАВЛЕНИЕ ГРУППЫ -->#}
+{#                <ul class="groups-nav">#}
+{#                    <li>#}
+{#                        <form class="add form-inline" data-bind="submit: $root.addGroup">#}
+{#                            <input class="form-control" data-bind="value: $root.newGroup.title"/>#}
+{#                            <button type="submit" class="btn btn-success btn-sm">#}
+{#                                <span class="glyphicon glyphicon-plus"></span>#}
+{#                            </button>#}
+{#                        </form>#}
+{#                    </li>#}
+{#                </ul>#}
+{#                <!-- КОНЕЦ ДОБАВЛЕНИЕ ГРУППЫ -->#}
+{#            </div>#}
+{#            <!-- END СПИСОК ГРУПП -->#}
+{#            <div style="clear: both"></div>#}
+{#            {% include "students/student/add.html" %}#}
+{#        </div>#}
+{##}
+{#        <div style="clear: both"></div>#}
+{##}
+{#        <!-- СПИСОК СТУДЕНТОВ -->#}
+{##}
+{#        <div class="panel-group" id="accordion" data-bind="foreach: studentsList">#}
+{#            <div class="panel"#}
+{#                 data-bind="css: { 'panel-success' : $data.modified(), 'panel-default' : !$data.modified() }">#}
+{#                <div class="panel-heading">#}
+{#                    {% include "students/student/main_edit.html" %}#}
+{#                </div>#}
+{#                <div class="panel-collapse collapse" data-bind="attr: {'id': 'student_' + $data.id }">#}
+{#                    <div class="panel-body">#}
+{#                        {% include "students/student/edit.html" %}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#        {% include "students/student/add.html" %}#}
+{#    </div>#}
+{##}
+{#    {% addtoblock "js" %}#}
+{#        {% requirejs 'js/students/students' 'studentsadmin' 'dist/studentsadmin' 'student-urls' %}#}
+{#        <script>#}
+{#            define('student-urls', {#}
+{#                url: {#}
+{#                    years: "{% url "students.views.students.ajax.json.years" %}",#}
+{#                    groups: "{% url "students.views.students.ajax.json.groups" %}",#}
+{#                    students: "{% url "students.views.students.ajax.json.students" %}",#}
+{#                    save_groups: "{% url "students.views.students.ajax.json.save_groups" %}",#}
+{#                    save_students: "{% url "students.views.students.ajax.json.save_students" %}",#}
+{#                    set_captain: "{% url "students.views.students.ajax.json.set_captain" %}",#}
+{#                    change_photo: "{% url "students.views.students.ajax.json.change_photo" %}",#}
+{#                    remove_photo: "{% url "students.views.students.ajax.json.remove_photo" %}",#}
+{#                    get_student_file: "{% url "students.views.students.ajax.json.get_student_file" %}",#}
+{#                    add_student_file: "{% url "students.views.students.ajax.json.add_file" %}",#}
+{#                    remove_student_file: "{% url "students.views.students.ajax.json.remove_file" %}"#}
+{#                }#}
+{#            });#}
+{#        </script>#}
+{#    {% endaddtoblock %}#}
+{##}
+{#{% endblock %}#}

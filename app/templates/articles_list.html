@@ -4,10 +4,6 @@
 
 
 {% block basecontent %}
-    {% addtoblock "core_js" %}
-        {% requirejs 'js' 'main' 'dist/main' %}
-    {% endaddtoblock %}
-
     <div class="lesson">
         {% include "elements/breadcrumb.html" %}
         <h1>{% page_attribute "title" %}</h1>
