@@ -65,6 +65,11 @@ body {
       .container .left-board {
         border-radius: 0 0 12px 12px; } }
     .container .left-board .content {
+      -webkit-transition: all ease-in-out 0.3s;
+      -moz-transition: all ease-in-out 0.3s;
+      -ms-transition: all ease-in-out 0.3s;
+      -o-transition: all ease-in-out 0.3s;
+      transition: all ease-in-out 0.3s;
       background-color: white;
       min-height: 500px;
       padding: 1em; }

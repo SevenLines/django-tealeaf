@@ -60,7 +60,6 @@ function InitInterface(settings) {
 // hack to resize main container according menu list
     $(window).load(function () {
         var min_height = $(".menu>ul").height() + 30;
-        console.log(min_height);
         $(".content").css("min-height", min_height);
     });
 

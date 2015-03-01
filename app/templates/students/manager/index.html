@@ -1,25 +1,47 @@
 {% extends "base-page.html" %}
-{% load static sekizai_tags ex_tags %}
+{% load static sekizai_tags ex_tags assets %}
 
 {% block basecontent %}
 
     {% verbatim %}
-    <div ng-app="myApp">
-        <div ng-controller="YearsController">
-            <ul>
-                <li ng-repeat="year in years">
-                    {{ year }}
-                </li>
-            </ul>
+    <div ng-app="studentsApp">
+        <div class="row">
+            <div class="col-md-1">
+                <div ng-controller="YearsCtrl">
+                    <ul class="list-group years">
+                        <a href="#" class="list-group-item"
+                           ng-class="{'active': item.year == $root.year }"
+                           ng-click="setYear(item.year)"
+                           ng-repeat="item in years">
+                            {{ item.year }}
+                        </a>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div ng-controller="GroupsCtrl">
+                    <div class="list-group groups">
+                        <a href="#/year/{{ year }}/group/{{ item.id }}"
+                           class="list-group-item"
+                           ng-class="{'active': item.id == $root.group_id }"
+                           ng-repeat="item in groups">
+                            {{ item.title }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 students-manager">
+                <div ng-view class="students-view"></div>
+            </div>
         </div>
     </div>
     {% endverbatim %}
 
+
     {% addtoblock "js" %}
-        {% requirejs 'js/students/manager' 'app' 'dist/app' 'urls' %}
         <script>
-            define('urls', {
-                base: "{% static "js/students/manager" %}",
+            window.commonUrls = {
+                base: "{% static "js/students/manager" %}/",
                 years: "{% url "students.views.students.ajax.json.years" %}",
                 groups: "{% url "students.views.students.ajax.json.groups" %}",
                 students: "{% url "students.views.students.ajax.json.students" %}",
@@ -31,8 +53,15 @@
                 get_student_file: "{% url "students.views.students.ajax.json.get_student_file" %}",
                 add_student_file: "{% url "students.views.students.ajax.json.add_file" %}",
                 remove_student_file: "{% url "students.views.students.ajax.json.remove_file" %}"
-            });
+            };
         </script>
+        {% assets filters="jsmin", output="js/students/manager/dist/app.js", "js/helpers.js" "bower_components/lodash/lodash.min.js", "bower_components/angular/angular.js", "bower_components/angular-route/angular-route.js", "bower_components/angular-animate/angular-animate.js" "js/students/manager/app.js" "js/students/manager/controllers/group.js" "js/students/manager/controllers/groups.js" "js/students/manager/controllers/years.js" "js/students/manager/models/student.js" %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+    {% endaddtoblock %}
+
+    {% addtoblock "css" %}
+        <link rel="stylesheet" href="{% static 'css/students_manager.css' %}"/>
     {% endaddtoblock %}
 
 {% endblock %}

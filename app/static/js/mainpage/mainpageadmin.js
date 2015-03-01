@@ -3,7 +3,7 @@
  */
 require.config({
     shim: {
-        bootstrap: {"deps": ['jquery']}
+        bootstrap: {"deps": ['jquery']},
     },
     paths: {
         'knockout': '../../bower_components/knockout/dist/knockout',

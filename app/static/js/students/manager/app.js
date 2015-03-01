@@ -1,29 +1,36 @@
 'use strict';
 
-require.config({
-    paths: {
-        'angular': "../../../bower_components/angular/angular",
-        'domready': "../../../lib/require-domReady"
-    },
-    shim: {
-        'angular': {
-            exports: 'angular'
-        }
-    }
-});
+function HeaderController($scope, $location) {
+    $scope.isActive = function (viewLocation) {
+        return viewLocation === $location.path();
+    };
+}
 
+var app = angular.module("studentsApp", [
+    'ngRoute',
+    'ngAnimate'
+]);
 
-require(['urls', "angular", 'domready!'], function (urls, ng) {
-    var app = ng.module("myApp", []);
+app.config(['$routeProvider',
+    function ($routeProvider) {
+        $routeProvider.
+            when('/year/:year/group/:group_id', {
+                templateUrl: commonUrls.base + 'views/group.html',
+                controller: 'GroupCtrl'
+            })
+    }]).run(['$rootScope', '$location',
+    function ($rootScope, $location) {
+        $rootScope.year = $.cookie('year');
+        $rootScope.group_id = $.cookie('group_id');
 
-    app.controller("YearsController" ['$scope', '$http', function ($scope, $http) {
-        $scope.years = [];
-        $http.get(urls.years).success(function (data) {
-            $scope.years = data;
-        });
+        $rootScope.$on('$routeChangeSuccess', function (event, next, current) {
+            $rootScope.group_id = next.params.group_id;
+            $rootScope.year = next.params.year;
+        })
     }]);
 
-    app.controller("GroupsController", ['$scope', '$http', function ($scope, $http) {
-        $scope.name = "GroupList";
-    }]);
-});
+
+
+
+
+

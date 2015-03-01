@@ -65,18 +65,15 @@ def groups(request):
 @atomic
 def update_students_data(students_list):
     for s in students_list:
-
         if '_destroy' in s and s['id'] != -1:  # destroyed items
             Student.objects.filter(pk=s['id']).delete()
-
-        if s['modified'] and s['id'] != -1:  # modifieded items
+        elif s['id'] != -1:  # modifieded items
             student = Student.objects.filter(pk=s['id']).first()
             for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk', 'sex']:
                 if prop in s:
                     setattr(student, prop, s[prop])
             student.save()
-
-        if s['id'] == -1:  # new items
+        elif s['id'] == -1:  # new items
             student = Student()
             for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk', 'sex']:
                 if prop in s:
@@ -86,16 +83,10 @@ def update_students_data(students_list):
 
 @require_POST
 @login_required
+@require_in_POST('students')
 def save_students(request):
-    try:
-        stdnts = json.loads(request.POST['students'])
-    except Exception as e:
-        return HttpResponseBadRequest(e.message)
-
-    try:
-        update_students_data(stdnts)
-    except Exception as e:
-        return HttpResponseBadRequest(e.message)
+    stdnts = json.loads(request.POST['students'])
+    update_students_data(stdnts)
 
     return HttpResponse()
 
