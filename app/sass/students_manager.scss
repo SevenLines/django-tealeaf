@@ -46,7 +46,19 @@
   border: 1px solid #c0c0c0;
   border-radius: 8px;
   float: left;
+  overflow: hidden;
   .student {
+
+    &.ng-enter,
+    &.ng-leave.ng-leave-active {
+      opacity: 0;
+    }
+
+    &.ng-leave,
+    &.ng-enter.ng-leave-active {
+      opacity: 1;
+    }
+
     @include transition(0.3s);
     padding: 0.5em;
     border-bottom: 1px solid #c0c0c0;

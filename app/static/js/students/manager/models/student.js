@@ -18,6 +18,9 @@ app.factory('Student', function () {
 
     Student.prototype = {
         changed: function () {
+            if (this.id <= -1) {
+                return true;
+            }
             for (var key in this.init_data) {
                 if (this.init_data[key] !== this[key]) {
                     return true;

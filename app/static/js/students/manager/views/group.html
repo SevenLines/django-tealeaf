@@ -1,19 +1,26 @@
 <div class="student-list">
+    <div class="form-inline student changed">
+        <input class="form-control" type="text" ng-model="newStudentSecondName" placeholder="фамилия"/>
+        <input class="form-control" type="text" ng-model="newStudentName" placeholder="имя"/>
+        <button class="btn btn-primary" ng-click="addStudent(newStudentSecondName, newStudentName)">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </div>
     <div ng-repeat="student in students | orderBy:'second_name'"
          class="student"
          ng-class="student.class()">
-        <form action="" class="form-inline">
+        <div class="form-inline">
             <input class="form-control" type="text" ng-model="student.second_name"/>
             <input class="form-control" type="text" ng-model="student.name"/>
             <button class="btn btn-default" ng-click="saveStudents()"
                     ng-class="{'btn-success': student.changed(), 'btn-default': !student.changed() }">
                 <span class="glyphicon glyphicon-save"></span>
             </button>
-            <button class="btn" ng-click="student.toggleDestroy()"
+            <button class="btn" ng-click="toggleStudent(student)"
                     ng-class="{'btn-default': student._destroy, 'btn-danger': !student._destroy }">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
-        </form>
+        </div>
     </div>
 </div>
 </div>

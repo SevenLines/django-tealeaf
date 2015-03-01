@@ -64,7 +64,8 @@
 .student-list {
   border: 1px solid #c0c0c0;
   border-radius: 8px;
-  float: left; }
+  float: left;
+  overflow: hidden; }
   .student-list .student {
     -webkit-transition: all ease-in-out 0.3s;
     -moz-transition: all ease-in-out 0.3s;
@@ -73,6 +74,10 @@
     transition: all ease-in-out 0.3s;
     padding: 0.5em;
     border-bottom: 1px solid #c0c0c0; }
+    .student-list .student.ng-enter, .student-list .student.ng-leave.ng-leave-active {
+      opacity: 0; }
+    .student-list .student.ng-leave, .student-list .student.ng-enter.ng-leave-active {
+      opacity: 1; }
     .student-list .student:last-child {
       border-bottom: none; }
     .student-list .student.changed {

@@ -64,31 +64,35 @@ def groups(request):
 
 @atomic
 def update_students_data(students_list):
+    new_students_index = {}
     for s in students_list:
-        if '_destroy' in s and s['id'] != -1:  # destroyed items
+        if '_destroy' in s and s['id'] > -1:  # destroyed items
             Student.objects.filter(pk=s['id']).delete()
-        elif s['id'] != -1:  # modifieded items
+        elif s['id'] > -1:  # modifieded items
             student = Student.objects.filter(pk=s['id']).first()
             for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk', 'sex']:
                 if prop in s:
                     setattr(student, prop, s[prop])
             student.save()
-        elif s['id'] == -1:  # new items
+        elif s['id'] <= -1:  # new items
             student = Student()
-            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk', 'sex']:
+            student.group_id = int(s['group'])
+            for prop in ['name', 'second_name', 'phone', 'email', 'vk', 'sex']:
                 if prop in s:
                     setattr(student, prop, s[prop])
+            id = s['id']
             student.save()
+            new_students_index[id] = student.id
+    return new_students_index
 
 
 @require_POST
 @login_required
 @require_in_POST('students')
 def save_students(request):
-    stdnts = json.loads(request.POST['students'])
-    update_students_data(stdnts)
-
-    return HttpResponse()
+    students = json.loads(request.POST['students'])
+    new_students_index = update_students_data(students)
+    return HttpResponse(json.dumps(new_students_index), content_type='json')
 
 
 @atomic
