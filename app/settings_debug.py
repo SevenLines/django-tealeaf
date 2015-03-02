@@ -1,4 +1,4 @@
-
+4
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -15,7 +15,3 @@ DEBUG = int(credentials['DEBUG'])
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = credentials['ALLOWED_HOSTS']
-
-import sys
-if 'test' in sys.argv:
-    SOUTH_TESTS_MIGRATE = False

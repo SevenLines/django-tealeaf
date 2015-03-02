@@ -1,3 +1,4 @@
+# coding=utf-8
 import json
 
 from django.contrib.auth.decorators import login_required
@@ -16,6 +17,11 @@ permitted_keys = ['title', 'description', 'discipline_id', 'visible', 'columns_c
 
 @require_in_GET('discipline_id')
 def index(request):
+    '''
+    Возвращает лабы для дисциплины
+    :param request:
+    :return:
+    '''
     discipline_id = request.GET['discipline_id']
 
     labs = StudentLab.objects.filter(discipline_id=discipline_id)
@@ -40,28 +46,28 @@ def index(request):
         'complex_choices': dict(StudentTask.COMPLEX_CHOICES)
     }), content_type='json')
 
-
-@require_in_GET('discipline_id', 'group_id')
-def progress_table(request):
-    g = Group.objects.get(id=request.GET['group_id'])
-    assert isinstance(g, Group)
-    students = g.students
-    labs = StudentLab.objects.filter()
-    return HttpResponseBadRequest()
+#
+# @require_in_GET('discipline_id', 'group_id')
+# def progress_table(request):
+#     g = Group.objects.get(id=request.GET['group_id'])
+#     assert isinstance(g, Group)
+#     students = g.students
+#     labs = StudentLab.objects.filter()
+#     return HttpResponseBadRequest()
 
 
 @login_required
 @require_in_POST('discipline_id')
 def new(request):
+    '''
+    add new lab to discipline
+    :param request:
+    :return:
+    '''
     lab = StudentLab()
     update_object(request.POST, lab, *permitted_keys)
     lab.save()
     return HttpResponse(json.dumps(model_to_dict(lab)), content_type='json')
-
-
-@require_in_GET('id')
-def show(request):
-    pass
 
 
 @login_required
@@ -77,10 +83,11 @@ def delete(request):
 def save(request):
     lab = get_post_object(request, StudentLab)
 
-    order_array = json.loads(request.POST['order_array'])
-    order_array = list([int(i) for i in order_array])
+    if 'order_array' in request.POST:
+        order_array = json.loads(request.POST['order_array'])
+        order_array = list([int(i) for i in order_array])
+        lab.set_studenttask_order(order_array)
 
-    lab.set_studenttask_order(order_array)
     update_object(request.POST, lab, *permitted_keys)
     lab.save()
     return HttpResponse()
@@ -93,7 +100,7 @@ def save_task_marks(request):
 
     for m in marks:
         tr = StudentTaskResult.objects.filter(student=m['student'], task=m['task']).first()
-        if not m['done']:
+        if m['done'] == 'false':
             if tr:
                 tr.delete()
         else:
