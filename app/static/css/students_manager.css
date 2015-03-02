@@ -70,19 +70,11 @@
     -moz-transition: all ease-in-out 0.1s;
     -ms-transition: all ease-in-out 0.1s;
     -o-transition: all ease-in-out 0.1s;
-    transition: all ease-in-out 0.1s;
-    padding: 0.5em;
-    border-bottom: 1px solid #c0c0c0; }
+    transition: all ease-in-out 0.1s; }
     .student-list .student.ng-enter, .student-list .student.ng-leave.ng-leave-active {
       opacity: 0; }
     .student-list .student.ng-leave, .student-list .student.ng-enter.ng-leave-active {
       opacity: 1; }
-    .student-list .student:last-child {
-      border-bottom: none; }
-    .student-list .student.changed {
-      background-color: #e4ffbf; }
-    .student-list .student.destroyed {
-      background-color: #ffe6e6; }
 
 .students-view.ng-enter {
   position: absolute;
