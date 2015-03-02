@@ -167,7 +167,7 @@ def list_students(request):
     students = list([{"id": i.pk, "text": str(i)} for i in students])
     response = HttpResponse(json.dumps(students), content_type="application/json")
     add_cross_domain(response)
-    return
+    return response
 
 
 @login_required
