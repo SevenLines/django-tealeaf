@@ -1,7 +1,9 @@
 # coding=utf-8
 import datetime
+from django.contrib.auth.models import User
 from django.db.models.fields.files import ImageFieldFile
 from django.http import HttpResponseBadRequest
+from django.test import TestCase
 
 
 def require_in_POST(*items):
@@ -105,3 +107,21 @@ def add_cross_domain(http_response):
     http_response["Access-Control-Max-Age"] = "1000"
     http_response["Access-Control-Allow-Headers"] = "*"
     return http_response
+
+
+class MyTestCase(TestCase):
+    password = '12345'
+
+    def setUp(self):
+        self.root = User.objects.create_superuser('root', 'mailm@mail.ru', self.password)
+
+    @staticmethod
+    def login(fn):
+        def _wrapper(self=None):
+            self.client.login(username=self.root.username, password=self.password)
+            fn(self)
+            self.client.logout()
+
+        return _wrapper
+
+

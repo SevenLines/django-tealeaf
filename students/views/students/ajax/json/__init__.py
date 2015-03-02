@@ -4,20 +4,20 @@ import os
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.db.models.fields import BinaryField
 from django.db.transaction import atomic
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
 from django.utils.encoding import iri_to_uri
 from django.views.decorators.http import require_POST, require_GET
-from app.utils import require_in_POST, json_encoder, require_in_GET, add_cross_domain
+from app.utils import require_in_POST, json_encoder, require_in_GET, add_cross_domain, update_object
 from students.models.group import Group, active_years
 from students.models.labs import StudentTaskResult
 from students.models.lesson import Lesson
 from students.models.student import Student, StudentFile
 from students.utils import current_year
 
+groups_permited_keys = ['title', 'ancestor', 'year', 'captain']
 
 def blank(request):
     return HttpResponse()
@@ -36,7 +36,7 @@ def groups(request):
     year = request.GET.get('year', None)
     discipline_id = request.GET.get('discipline_id', -1)
 
-    if not year.isdigit():
+    if not year or not year.isdigit():
         year = current_year()
 
     if not request.user.is_authenticated():
@@ -58,7 +58,7 @@ def groups(request):
         out.append(g_dict)
 
     r = HttpResponse(json.dumps(out), content_type='application/json')
-    r.cookies['year'] = year
+    # r.cookies['year'] = year
     return r
 
 
@@ -74,7 +74,7 @@ def update_students_data(students_list):
                 if prop in s:
                     setattr(student, prop, s[prop])
             student.save()
-        elif s['id'] <= -1:  # new items
+        elif s['id'] <= -1 and 'group' in s:  # new items
             student = Student()
             student.group_id = int(s['group'])
             for prop in ['name', 'second_name', 'phone', 'email', 'vk', 'sex']:
@@ -104,14 +104,28 @@ def update_groups(groups_list):
         elif g['id'] > -1:  # modifieded items
             group = Group.objects.filter(pk=g['id']).first()
             if group is not None:
-                group.year = g['year']
-                group.title = g['title']
+                if 'year' in g:
+                    group.year = g['year']
+                if 'title' in g:
+                    group.title = g['title']
+                if 'ancestor' in g:
+                    group.ancestor_id = g['ancestor']
+                if 'captain' in g:
+                    group.captain_id = g['captain']
                 group.save()
         elif g['id'] <= -1:  # new items
             old_id = g['id']
             group = Group()
-            group.year = g['year']
-            group.title = g['title']
+
+            if 'year' in g:
+                group.year = g['year']
+            if 'title' in g:
+                group.title = g['title']
+            if 'ancestor' in g:
+                group.ancestor_id = g['ancestor']
+            if 'captain' in g:
+                group.captain_id = g['captain']
+
             group.save()
             new_groups_index[old_id] = group.id
     return new_groups_index
@@ -128,6 +142,7 @@ def save_groups(request):
 
 
 @require_POST
+@require_in_POST('group_id')
 @login_required
 def copy_to_next_year(request):
     group_id = request.POST['group_id']

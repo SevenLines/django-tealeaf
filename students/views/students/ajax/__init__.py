@@ -3,11 +3,13 @@ import StringIO
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_GET
 import xlsxwriter
+from app.utils import require_in_GET
 
 from students.models.group import Group
 
 
 @require_GET
+@require_in_GET('year')
 def xlsx(request):
     if 'year' in request.GET:
         year = request.GET['year']
@@ -30,8 +32,8 @@ def xlsx(request):
     max_width = 0
     cols = 24
 
-    for g in groups.all().order_by("title"):
-        worksheet = workbook.add_worksheet(g.title)
+    for i, g in enumerate(groups.all().order_by("title")):
+        worksheet = workbook.add_worksheet(g.title + str(i))
         row = 0
         worksheet.write(row, 0, '', frmt)
 
