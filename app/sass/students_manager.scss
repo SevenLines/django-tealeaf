@@ -59,17 +59,6 @@
     }
 
     @include transition(0.1s);
-    padding: 0.5em;
-    border-bottom: 1px solid #c0c0c0;
-    &:last-child {
-      border-bottom: none;
-    }
-    &.changed {
-      background-color: #e4ffbf;
-    }
-    &.destroyed {
-      background-color: #ffe6e6;
-    }
   }
 }
 

@@ -27,12 +27,10 @@ app.factory('Student', ['_Base', function (_Base) {
         return out;
     };
     Student.prototype.class = function () {
-        if (this._destroy) {
-            return "destroyed";
-        }
-        if (this.changed()) {
-            return "changed";
-        }
+        return {
+            'list-group-item-danger': this._destroy,
+            'list-group-item-success': !this._destroy && this.changed()
+        };
     };
 
     return Student;

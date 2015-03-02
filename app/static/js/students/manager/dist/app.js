@@ -1477,8 +1477,7 @@ for(var key in this.init_data){if(this.init_data[key]!=this[key]){return true;}}
 return this._destroy;},reset:function(){for(var key in this.init_data){this.init_data[key]=this[key];}},toggleDestroy:function(){this._destroy=!this._destroy;}};return _Base;});app.factory('Student',['_Base',function(_Base){function Student(data){this.name=data.name;this.second_name=data.second_name;this.group=data.group;this.photo=data.photo;this.vk=data.vk;this.sex=data.sex;this.phone=data.phone;this.email=data.email;this.id=data.id;this.files=data.files;this.init_data=data;}
 helpers.extend(Student,_Base);Student.prototype.data=function(){var out={};for(var key in this.init_data){out[key]=this[key];}
 if(this._destroy){out['_destroy']=true;}
-return out;};Student.prototype.class=function(){if(this._destroy){return"destroyed";}
-if(this.changed()){return"changed";}};return Student;}]);app.factory("Group",['_Base','$rootScope',function(_Base,$rootScope){function Group(data){this.id=data.id;this.year=data.year;this.title=data.title;this.ancestor=data.ancestor;this.captain=data.captain;this.has_ancestor=data.has_ancestor;this.init_data=data;}
+return out;};Student.prototype.class=function(){return{'list-group-item-danger':this._destroy,'list-group-item-success':!this._destroy&&this.changed()};};return Student;}]);app.factory("Group",['_Base','$rootScope',function(_Base,$rootScope){function Group(data){this.id=data.id;this.year=data.year;this.title=data.title;this.ancestor=data.ancestor;this.captain=data.captain;this.has_ancestor=data.has_ancestor;this.init_data=data;}
 helpers.extend(Group,_Base);Group.prototype.class=function(){return{'list-group-item-danger':this._destroy,'list-group-item-success':!this._destroy&&this.changed(),'active':this.id==$rootScope.group_id};};Group.prototype.data=function(){var out={};for(var key in this.init_data){out[key]=this[key];}
 if(this._destroy){out['_destroy']=true;}
 return out;};return Group;}]);
