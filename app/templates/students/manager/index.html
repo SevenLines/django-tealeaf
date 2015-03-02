@@ -84,7 +84,7 @@
                 remove_student_file: "{% url "students.views.students.ajax.json.remove_file" %}"
             };
         </script>
-        {% assets filters="jsmin" output="js/students/manager/dist/app.js" "js/helpers.js" "bower_components/lodash/lodash.min.js" "bower_components/angular/angular.js" "bower_components/angular-route/angular-route.js" "bower_components/angular-animate/angular-animate.js" "js/students/manager/app.js" "js/students/manager/controllers/group.js" "js/students/manager/controllers/groups.js" "js/students/manager/controllers/years.js" "js/students/manager/models/_base.js" "js/students/manager/models/student.js" "js/students/manager/models/group.js" %}
+        {% assets 'students_manager_js' %}
             <script type="text/javascript" src="{{ ASSET_URL }}"></script>
         {% endassets %}
     {% endaddtoblock %}
