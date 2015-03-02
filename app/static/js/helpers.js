@@ -6,10 +6,10 @@
     if (typeof define === 'function' && define.amd) {
         define(factory)
     } else if (typeof exports === 'object') {
-		factory();
-	} else {
-		window.helpers = factory();
-	}
+        factory();
+    } else {
+        window.helpers = factory();
+    }
 }(function () {
     Date.prototype.ddmmyyyy = function () {
         var yyyy = this.getFullYear().toString();
@@ -44,6 +44,11 @@
     };
 
     return {
+        extend: function (Child, Parent) {
+            Child.prototype = Object.create(Parent.prototype);
+            Child.prototype.constructor = Child;
+            Child.superclass = Parent.prototype;
+        },
         blink: function (color, delay) {
             var bg = $('body');
             var bg_css = bg.css("background");

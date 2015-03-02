@@ -41,7 +41,7 @@ app.controller('GroupCtrl', ['$scope', '$http', '$routeParams', 'Student',
         };
 
         $scope.toggleStudent = function (student) {
-            if (student.id == -1) {
+            if (student.id <= -1) {
                 var index = $scope.students.indexOf(student);
                 $scope.students.splice(index, 1);
             } else {

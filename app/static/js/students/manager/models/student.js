@@ -1,5 +1,4 @@
-
-app.factory('Student', function () {
+app.factory('Student', ['_Base', function (_Base) {
     function Student(data) {
         this.name = data.name;
         this.second_name = data.second_name;
@@ -13,48 +12,28 @@ app.factory('Student', function () {
         this.files = data.files;
 
         this.init_data = data;
-        this._destroy = false;
     }
 
-    Student.prototype = {
-        changed: function () {
-            if (this.id <= -1) {
-                return true;
-            }
-            for (var key in this.init_data) {
-                if (this.init_data[key] !== this[key]) {
-                    return true;
-                }
-            }
-            return this._destroy;
-        },
-        reset: function () {
-            for (var key in this.init_data) {
-                this.init_data[key] = this[key];
-            }
-        },
-        data: function () {
-            var out = {};
-            for (var key in this.init_data) {
-                out[key] = this[key];
-            }
-            if (this._destroy) {
-                out['_destroy'] = true;
-            }
-            return out;
-        },
-        toggleDestroy: function () {
-            this._destroy = !this._destroy;
-        },
-        class: function () {
-            if (this._destroy) {
-                return "destroyed";
-            }
-            if (this.changed()) {
-                return "changed";
-            }
+    helpers.extend(Student, _Base);
+
+    Student.prototype.data = function () {
+        var out = {};
+        for (var key in this.init_data) {
+            out[key] = this[key];
+        }
+        if (this._destroy) {
+            out['_destroy'] = true;
+        }
+        return out;
+    };
+    Student.prototype.class = function () {
+        if (this._destroy) {
+            return "destroyed";
+        }
+        if (this.changed()) {
+            return "changed";
         }
     };
 
     return Student;
-});
+}]);

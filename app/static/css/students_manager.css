@@ -64,14 +64,13 @@
 .student-list {
   border: 1px solid #c0c0c0;
   border-radius: 8px;
-  float: left;
   overflow: hidden; }
   .student-list .student {
-    -webkit-transition: all ease-in-out 0.3s;
-    -moz-transition: all ease-in-out 0.3s;
-    -ms-transition: all ease-in-out 0.3s;
-    -o-transition: all ease-in-out 0.3s;
-    transition: all ease-in-out 0.3s;
+    -webkit-transition: all ease-in-out 0.1s;
+    -moz-transition: all ease-in-out 0.1s;
+    -ms-transition: all ease-in-out 0.1s;
+    -o-transition: all ease-in-out 0.1s;
+    transition: all ease-in-out 0.1s;
     padding: 0.5em;
     border-bottom: 1px solid #c0c0c0; }
     .student-list .student.ng-enter, .student-list .student.ng-leave.ng-leave-active {
@@ -87,6 +86,7 @@
 
 .students-view.ng-enter {
   position: absolute;
+  width: 100%;
   top: 0;
   -webkit-animation: slideInLeft 0.4s;
   -moz-animation: slideInLeft 0.4s;

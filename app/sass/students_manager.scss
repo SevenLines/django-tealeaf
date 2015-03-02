@@ -45,7 +45,6 @@
 .student-list {
   border: 1px solid #c0c0c0;
   border-radius: 8px;
-  float: left;
   overflow: hidden;
   .student {
 
@@ -59,7 +58,7 @@
       opacity: 1;
     }
 
-    @include transition(0.3s);
+    @include transition(0.1s);
     padding: 0.5em;
     border-bottom: 1px solid #c0c0c0;
     &:last-child {
@@ -76,6 +75,7 @@
 
 .students-view.ng-enter {
   position: absolute;
+  width: 100%;
   top: 0;
   @include animation(slideInLeft 0.4s);
   //  z-index: 9999;

@@ -97,36 +97,34 @@ def save_students(request):
 
 @atomic
 def update_groups(groups_list):
+    new_groups_index = {}
     for g in groups_list:
-        if '_destroy' in g and g['id'] != -1:  # destroyed items
+        if '_destroy' in g and g['id'] > -1:  # destroyed items
             Group.objects.filter(pk=g['id']).delete()
-        elif 'modified' in g and g['modified'] and g['id'] != -1:  # modifieded items
+        elif g['id'] > -1:  # modifieded items
             group = Group.objects.filter(pk=g['id']).first()
             if group is not None:
                 group.year = g['year']
                 group.title = g['title']
                 group.save()
-        elif g['id'] == -1:  # new items
+        elif g['id'] <= -1:  # new items
+            old_id = g['id']
             group = Group()
             group.year = g['year']
             group.title = g['title']
             group.save()
+            new_groups_index[old_id] = group.id
+    return new_groups_index
 
 
 @require_POST
+@require_in_POST('groups')
 @login_required
 def save_groups(request):
-    try:
-        grps = json.loads(request.POST['groups'])
-    except Exception as e:
-        return HttpResponseBadRequest(e.message)
+    groups = json.loads(request.POST['groups'])
+    new_groups_index = update_groups(groups)
 
-    try:
-        update_groups(grps)
-    except BaseException as e:
-        HttpResponseBadRequest(e.message)
-
-    return HttpResponse()
+    return HttpResponse(json.dumps(new_groups_index), content_type='json')
 
 
 @require_POST
