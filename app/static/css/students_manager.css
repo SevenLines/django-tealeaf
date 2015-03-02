@@ -1,0 +1,101 @@
+.groups {
+  list-style: none;
+  padding-left: 0; }
+  .groups .group-item {
+    float: left;
+    padding-right: 8px;
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s; }
+
+/* ANIMATIONS
+============================================================================= */
+@-webkit-keyframes slideInLeft {
+  from {
+    left: -100%; }
+
+  to {
+    left: 0; } }
+
+@-moz-keyframes slideInLeft {
+  from {
+    left: -100%; }
+
+  to {
+    left: 0; } }
+
+@keyframes slideInLeft {
+  from {
+    left: -100%; }
+
+  to {
+    left: 0; } }
+
+/* slide in from the bottom */
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+
+.students-manager {
+  overflow: hidden;
+  min-height: 500px;
+  -webkit-transition: all ease-in-out 0.3s;
+  -moz-transition: all ease-in-out 0.3s;
+  -ms-transition: all ease-in-out 0.3s;
+  -o-transition: all ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s; }
+
+.student-list {
+  border: 1px solid #c0c0c0;
+  border-radius: 8px;
+  overflow: hidden; }
+  .student-list .student {
+    -webkit-transition: all ease-in-out 0.1s;
+    -moz-transition: all ease-in-out 0.1s;
+    -ms-transition: all ease-in-out 0.1s;
+    -o-transition: all ease-in-out 0.1s;
+    transition: all ease-in-out 0.1s;
+    padding: 0.5em;
+    border-bottom: 1px solid #c0c0c0; }
+    .student-list .student.ng-enter, .student-list .student.ng-leave.ng-leave-active {
+      opacity: 0; }
+    .student-list .student.ng-leave, .student-list .student.ng-enter.ng-leave-active {
+      opacity: 1; }
+    .student-list .student:last-child {
+      border-bottom: none; }
+    .student-list .student.changed {
+      background-color: #e4ffbf; }
+    .student-list .student.destroyed {
+      background-color: #ffe6e6; }
+
+.students-view.ng-enter {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  -webkit-animation: slideInLeft 0.4s;
+  -moz-animation: slideInLeft 0.4s;
+  -o-animation: slideInLeft 0.4s;
+  animation: slideInLeft 0.4s; }
+
+.students-view.ng-leave {
+  -webkit-animation: fadeIn 0.4s;
+  -moz-animation: fadeIn 0.4s;
+  -o-animation: fadeIn 0.4s;
+  animation: fadeIn 0.4s;
+  z-index: 8888; }

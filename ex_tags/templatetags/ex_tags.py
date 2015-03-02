@@ -1,10 +1,13 @@
 # coding=utf-8
+from classytags.helpers import InclusionTag
 from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response
 from django.template.defaultfilters import stringfilter
 from django.template.loader import render_to_string
 from django import template
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from sekizai.context import SekizaiContext
 from main_page.models import MainPage
 
 register = template.Library()
@@ -71,14 +74,21 @@ def get_item(dictionary, key):
     return dictionary.get(key)
 
 
-@register.simple_tag
-def requirejs(baseUrl, main, main_built, *args):
+@register.simple_tag(takes_context=True)
+def requirejs(context, baseUrl="", main="", main_built="", *args):
     add_modules = ",".join(["'" + arg+ "'" for arg in args])
 
-    return render_to_string('ex_tags/requirejs.html', {
+    if main and not main_built:
+        main_built = main
+    elif main_built and not main:
+        main = main_built
+
+    response = render_to_string('ex_tags/requirejs.html', {
         'baseUrl': baseUrl,
         'main': main,
         'main_built': main_built,
         'add_modules': add_modules,
         'debug': settings.REQUIRE_JS_DEBUG,
-    })
+    }, context_instance=context)
+
+    return response

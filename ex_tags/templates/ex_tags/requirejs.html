@@ -1,9 +1,11 @@
-{% load static %}
+{% load static sekizai_tags %}
+{% addtoblock 'core_js' %}<script src="{% static "lib/require.js" %}"></script>{% endaddtoblock %}
+{% if baseUrl or main %}
 <script>
     require.config({
-        baseUrl: '{% static baseUrl %}',
-        {% if not debug %}paths: {'{{ main }}': '{{ main_built }}'},{% endif %}
-{#        {% if debug %}urlArgs: "v=" + new Date().getTime(),{% endif %}#}
+        {% if baseUrl %}baseUrl: '{% static baseUrl %}',{% endif %}
+        {% if main %}{% if not debug %}paths: {'{{ main }}': '{{ main_built }}'}, {% endif %}{% endif %}
     });
-    require(['{{ main }}'{% if add_modules %}, {{ add_modules|safe }}{% endif %}]);
+    {% if main %}require(['{{ main }}'{% if add_modules %}, {{ add_modules|safe }}{% endif %}]);{% endif %}
 </script>
+{% endif %}

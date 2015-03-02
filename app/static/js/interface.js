@@ -2,10 +2,8 @@
  * Created by m on 24.08.14.
  */
 
-define(['common-settings', 'bootstrap'], function (settings) {
+function InitInterface(settings) {
     var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
-
-    window.jQuery = $;
 
     // кнопка входа / выхода
     if (settings.url.logout) {
@@ -60,7 +58,7 @@ define(['common-settings', 'bootstrap'], function (settings) {
 
 
 // hack to resize main container according menu list
-    $(document).ready(function () {
+    $(window).load(function () {
         var min_height = $(".menu>ul").height() + 30;
         $(".content").css("min-height", min_height);
     });
@@ -156,5 +154,5 @@ define(['common-settings', 'bootstrap'], function (settings) {
         }
 
         win.close();
-    };
-});
+    }
+}

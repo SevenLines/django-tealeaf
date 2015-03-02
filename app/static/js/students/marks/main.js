@@ -6,7 +6,6 @@ define(['knockout',
         'labs/labstable',
         'urls',
         'helpers',
-        'jquery.cookie'
         //'qtip'
     ],
     function (ko, cookies, Discipline, MarksTable, LabsTable, urls, helpers) {

@@ -64,74 +64,67 @@ def groups(request):
 
 @atomic
 def update_students_data(students_list):
+    new_students_index = {}
     for s in students_list:
-
-        if '_destroy' in s and s['id'] != -1:  # destroyed items
+        if '_destroy' in s and s['id'] > -1:  # destroyed items
             Student.objects.filter(pk=s['id']).delete()
-
-        if s['modified'] and s['id'] != -1:  # modifieded items
+        elif s['id'] > -1:  # modifieded items
             student = Student.objects.filter(pk=s['id']).first()
             for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk', 'sex']:
                 if prop in s:
                     setattr(student, prop, s[prop])
             student.save()
-
-        if s['id'] == -1:  # new items
+        elif s['id'] <= -1:  # new items
             student = Student()
-            for prop in ['group_id', 'name', 'second_name', 'phone', 'email', 'vk', 'sex']:
+            student.group_id = int(s['group'])
+            for prop in ['name', 'second_name', 'phone', 'email', 'vk', 'sex']:
                 if prop in s:
                     setattr(student, prop, s[prop])
+            id = s['id']
             student.save()
+            new_students_index[id] = student.id
+    return new_students_index
 
 
 @require_POST
 @login_required
+@require_in_POST('students')
 def save_students(request):
-    try:
-        stdnts = json.loads(request.POST['students'])
-    except Exception as e:
-        return HttpResponseBadRequest(e.message)
-
-    try:
-        update_students_data(stdnts)
-    except Exception as e:
-        return HttpResponseBadRequest(e.message)
-
-    return HttpResponse()
+    students = json.loads(request.POST['students'])
+    new_students_index = update_students_data(students)
+    return HttpResponse(json.dumps(new_students_index), content_type='json')
 
 
 @atomic
 def update_groups(groups_list):
+    new_groups_index = {}
     for g in groups_list:
-        if '_destroy' in g and g['id'] != -1:  # destroyed items
+        if '_destroy' in g and g['id'] > -1:  # destroyed items
             Group.objects.filter(pk=g['id']).delete()
-        elif 'modified' in g and g['modified'] and g['id'] != -1:  # modifieded items
+        elif g['id'] > -1:  # modifieded items
             group = Group.objects.filter(pk=g['id']).first()
             if group is not None:
                 group.year = g['year']
                 group.title = g['title']
                 group.save()
-        elif g['id'] == -1:  # new items
+        elif g['id'] <= -1:  # new items
+            old_id = g['id']
             group = Group()
             group.year = g['year']
             group.title = g['title']
             group.save()
+            new_groups_index[old_id] = group.id
+    return new_groups_index
 
 
 @require_POST
+@require_in_POST('groups')
 @login_required
 def save_groups(request):
-    try:
-        grps = json.loads(request.POST['groups'])
-    except Exception as e:
-        return HttpResponseBadRequest(e.message)
+    groups = json.loads(request.POST['groups'])
+    new_groups_index = update_groups(groups)
 
-    try:
-        update_groups(grps)
-    except BaseException as e:
-        HttpResponseBadRequest(e.message)
-
-    return HttpResponse()
+    return HttpResponse(json.dumps(new_groups_index), content_type='json')
 
 
 @require_POST
