@@ -7,15 +7,17 @@ app.controller("GroupsCtrl", ['$rootScope', '$scope', '$http', '$routeParams', '
         $scope.$watch(function () {
             return $rootScope.year;
         }, function () {
-            $http.get(commonUrls.groups, {
-                params: {
-                    year: $rootScope.year
-                }
-            }).success(function (data) {
-                $scope.groups = data.map(function (item) {
-                    return new Group(item);
+            if ($rootScope.year) {
+                $http.get(commonUrls.groups, {
+                    params: {
+                        year: $rootScope.year
+                    }
+                }).success(function (data) {
+                    $scope.groups = data.map(function (item) {
+                        return new Group(item);
+                    });
                 });
-            });
+            }
         });
 
         $scope.addGroup = function (title) {

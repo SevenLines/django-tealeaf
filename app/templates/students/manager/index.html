@@ -6,53 +6,60 @@
     {% verbatim %}
     <div ng-app="studentsApp">
         <div class="row">
-            <div class="col-md-1">
-                <div ng-controller="YearsCtrl">
-                    <div class="list-group years">
-                        <a href="#" class="list-group-item"
-                           ng-class="{'active': item.year == $root.year }"
-                           ng-click="setYear(item.year)"
-                           ng-repeat="item in years">
-                            {{ item.year }}
-                        </a>
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div ng-controller="YearsCtrl">
+                            <div class="list-group years">
+                                <a href="#" class="list-group-item"
+                                   ng-class="{'active': item.year == $root.year }"
+                                   ng-click="setYear(item.year)"
+                                   ng-repeat="item in years">
+                                    {{ item.year }}
+                                </a>
 
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div ng-controller="GroupsCtrl">
-                    <div class="list-group groups">
-                        <a href="#/year/{{ year }}/group/{{ item.id }}"
-                           class="list-group-item"
-                           ng-class="item.class()"
-                           ng-repeat="item in groups | orderBy:'title'">
-                            <div class="input-group">
-                                <input type="text" ng-model="item.title" class="form-control"/>
+                    <div class="col-xs-8">
+                        <div ng-controller="GroupsCtrl">
+                            <div class="list-group groups">
+                                <a href="#/year/{{ year }}/group/{{ item.id }}"
+                                   class="list-group-item"
+                                   ng-class="item.class()"
+                                   ng-repeat="item in groups | orderBy:'title'">
+                                    <div class="input-group">
+                                        <input type="text" ng-model="item.title" class="form-control"/>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" ng-class="{'btn-success': item.changed(), 'btn-default': !item.changed() }" ng-click="saveGroups()">
+                                    <button class="btn btn-default"
+                                            ng-class="{'btn-success': item.changed(), 'btn-default': !item.changed() }"
+                                            ng-click="saveGroups()">
                                         <span class="glyphicon glyphicon-save"></span>
                                     </button>
-                                    <button class="btn" ng-click="toggleGroup(item);" ng-class="{'btn-default': item._destroy, 'btn-danger': !item._destroy }">
+                                    <button class="btn" ng-click="toggleGroup(item);"
+                                            ng-class="{'btn-default': item._destroy, 'btn-danger': !item._destroy }">
                                         <span class="glyphicon glyphicon-remove-circle"></span>
                                     </button>
                                 </span>
-                            </div>
-                        </a>
+                                    </div>
+                                </a>
 
-                        <div class="list-group-item" style="padding: 0.25em">
-                            <div class="input-group">
-                                <input type="text" class="form-control" ng-model="newGroupTitle"/>
+                                <div class="list-group-item" style="padding: 0.25em">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-model="newGroupTitle"/>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-info" ng-click="addGroup(newGroupTitle)" >
+                                    <button class="btn btn-info" ng-click="addGroup(newGroupTitle)">
                                         <span class="glyphicon glyphicon-plus-sign"></span>
                                     </button>
                                 </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 students-manager">
+            <div class="col-md-7 students-manager">
                 <div ng-view class="students-view"></div>
             </div>
         </div>
@@ -77,7 +84,7 @@
                 remove_student_file: "{% url "students.views.students.ajax.json.remove_file" %}"
             };
         </script>
-        {% assets filters="jsmin", output="js/students/manager/dist/app.js", "js/helpers.js" "bower_components/lodash/lodash.min.js", "bower_components/angular/angular.js", "bower_components/angular-route/angular-route.js", "bower_components/angular-animate/angular-animate.js" "js/students/manager/app.js" "js/students/manager/controllers/group.js" "js/students/manager/controllers/groups.js" "js/students/manager/controllers/years.js" "js/students/manager/models/_base.js" "js/students/manager/models/student.js" "js/students/manager/models/group.js" %}
+        {% assets filters="jsmin" output="js/students/manager/dist/app.js" "js/helpers.js" "bower_components/lodash/lodash.min.js" "bower_components/angular/angular.js" "bower_components/angular-route/angular-route.js" "bower_components/angular-animate/angular-animate.js" "js/students/manager/app.js" "js/students/manager/controllers/group.js" "js/students/manager/controllers/groups.js" "js/students/manager/controllers/years.js" "js/students/manager/models/_base.js" "js/students/manager/models/student.js" "js/students/manager/models/group.js" %}
             <script type="text/javascript" src="{{ ASSET_URL }}"></script>
         {% endassets %}
     {% endaddtoblock %}
