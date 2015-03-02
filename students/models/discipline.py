@@ -8,6 +8,7 @@ from app.utils import json_encoder
 from students.models.mark import Mark
 import students.utils
 
+
 class Discipline(models.Model):
     """
     дисциплина
@@ -20,11 +21,13 @@ class Discipline(models.Model):
     @staticmethod
     def ignore_lesson(lesson):
         from students.models.lesson import Lesson
+
         return lesson['si'] or lesson['lt'] == Lesson.LESSON_TYPE_EXAM
 
     @staticmethod
     def compute_marks(student_marks, lessons=None):
         from students.models.lesson import Lesson
+
         s = 0
 
         if lessons is None:
@@ -33,11 +36,11 @@ class Discipline(models.Model):
         lessons_count = 0
         for i, m in enumerate(student_marks, 1):
             mark = m['m']
-            if not Discipline.ignore_lesson(lessons[i-1]):
+            if not Discipline.ignore_lesson(lessons[i - 1]):
                 lessons_count += 1
 
             # оценка за экзамен не влияет на общий бал
-            if lessons[i-1]['lt'] == Lesson.LESSON_TYPE_EXAM:
+            if lessons[i - 1]['lt'] == Lesson.LESSON_TYPE_EXAM:
                 continue
 
             if mark is not None:
@@ -47,7 +50,8 @@ class Discipline(models.Model):
                 elif mark == Mark.MARK_SHINING:  # сияние дарует 100% достижнения
                     if s < lessons_count * 3:
                         s = lessons_count * 3
-                    elif i == len(student_marks):  # а если в самом конце и у студента не меньше 100 дарует 1000 балов :D
+                    elif i == len(
+                            student_marks):  # а если в самом конце и у студента не меньше 100 дарует 1000 балов :D
                         s = lessons_count * 30 + float(lessons_count * 30) / 70 * 27
                 elif mark == Mark.MARK_MERCY:
                     if s < 0:
@@ -61,7 +65,8 @@ class Discipline(models.Model):
     @staticmethod
     def compute_percents(student_marks, lessons=None):
         _sum = Discipline.compute_marks(student_marks, lessons)
-        lessons_count = len(filter(lambda x: not Discipline.ignore_lesson(x), lessons)) if lessons else len(student_marks)
+        lessons_count = len(filter(lambda x: not Discipline.ignore_lesson(x), lessons)) if lessons else len(
+            student_marks)
         max = lessons_count * 3
         min = lessons_count * -2
         base = 0.3
@@ -81,19 +86,21 @@ class Discipline(models.Model):
         from students.models.group import Group
         from students.models.lesson import Lesson
 
-        marks = list(Mark.objects.raw("""
+        query = """
 SELECT s.id as student_id, l.lesson_id, date, sm.id as id, mark
 FROM students_student s
   LEFT JOIN (SELECT id as lesson_id, date, multiplier
         FROM students_lesson sl
-        WHERE group_id = %(group_id)s and discipline_id = %(discipline_id)s) l ON true
+        WHERE group_id = %(group_id)d and discipline_id = %(discipline_id)d) l ON 1 = 1
   LEFT JOIN students_mark sm ON l.lesson_id = sm.lesson_id and s.id = sm.student_id
-WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
+WHERE s.group_id = %(group_id)d and l.lesson_id is not NULL
   ORDER BY s.id, l.date, l.lesson_id
-      """, {
-            'group_id': group_id,
-            'discipline_id': self.id
-        }))
+      """ % {
+            'group_id': int(group_id),
+            'discipline_id': int(self.id)
+        }
+
+        marks = list(Mark.objects.raw(query))
 
         marks = list([{"sid": m.student_id,
                        "mid": m.id,
@@ -113,7 +120,7 @@ WHERE s.group_id = %(group_id)s and l.lesson_id is not NULL
                          'icn_id': l.icon.id if l.icon else '',
                          'icn_url': l.icon.url if l.icon else '',
                          'icn_fld_id': l.icon.folder.id if l.icon else '',
-                        } for l in lessons])
+                         } for l in lessons])
 
         # студенты группы
         stdnts = Group.objects.get(pk=group_id).students.all().order_by("second_name")
@@ -188,7 +195,7 @@ class DisciplineMarksCache(models.Model):
 
         excel = val._marks_to_excel(json.loads(json.loads(val.marks_json)))
 
-        val.marks_excel = excel.getvalue()
+        val.marks_excel = '' if isinstance(excel, str) else excel.getvalue()
 
         val.save()
 

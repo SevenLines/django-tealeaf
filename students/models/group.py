@@ -1,16 +1,16 @@
 # coding=utf-8
 from django.db import models
 from django.db.transaction import atomic
-from students.models.lesson import Lesson
-from students.models.mark import Mark
-from students.models.student import Student
-import students.utils
+from ..models.lesson import Lesson
+from ..models.mark import Mark
+from ..models.student import Student
+from ..utils import *
 
 
 class Group(models.Model):
     title = models.CharField(max_length=10, default='')
     ancestor = models.ForeignKey('self', null=True, default=None, blank=True, on_delete=models.SET_NULL)
-    year = models.IntegerField(default=students.utils.current_year())
+    year = models.IntegerField(default=current_year())
     captain = models.ForeignKey("Student", default=None, null=True,
                                 on_delete=models.SET_NULL, related_name="%(class)s_captain")
 
@@ -35,7 +35,7 @@ class Group(models.Model):
         groups of current learning year
         :return:
         """
-        return Group.year_groups(year=students.utils.current_year())
+        return Group.year_groups(year=current_year())
 
     @property
     def students(self):
@@ -51,6 +51,7 @@ class Group(models.Model):
         g = Group.objects.get(pk=self.pk)
         g.pk = None
         g.year += 1
+        g.title = self.title
         g.ancestor = self
         g.save()
         for s in self.students.all():
@@ -80,7 +81,7 @@ def active_years(r=2):
     """
     years = Group.objects.all().values_list('year').distinct()
     if len(years) == 0:
-        years = [students.current_year(), ]
+        years = [current_year(), ]
     else:
         years = list(zip(*years)[0])
 
