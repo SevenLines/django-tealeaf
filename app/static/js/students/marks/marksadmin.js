@@ -12,19 +12,16 @@ require(['config'], function () {
         return false;
     }
 
-    require(["common"], function () {
-        require(['main',
-                'knockout',
-                'jquery',
-                'interface',
-                'ckeditorinlinebinding',
-                'select2binding',
-                'jquery-impromptu',
-                'pickmeup'
-            ],
-            function (MarksViewModel, ko) {
-                var model = new MarksViewModel();
-                ko.applyBindings(model);
-            });
-    });
+    require(['main',
+            'knockout',
+            'jquery',
+            'ckeditorinlinebinding',
+            'select2binding',
+            'jquery-impromptu',
+            'pickmeup'
+        ],
+        function (MarksViewModel, ko) {
+            var model = new MarksViewModel();
+            ko.applyBindings(model);
+        });
 });

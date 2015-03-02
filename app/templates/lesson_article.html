@@ -3,10 +3,6 @@
 
 {% block basecontent %}
 
-    {% addtoblock "core_js" %}
-        {% requirejs 'js' 'main' 'dist/main' %}
-    {% endaddtoblock %}
-
     {% if user.is_authenticated %}
         {% file_upload_form current_page.pk %}
         {% addtoblock "top_js" %}
@@ -28,19 +24,12 @@
 
     {% addtoblock "js" %}
         <script type="text/javascript">
-            define('lesson-settings', ['jquery'], function ($) {
-                {% if not user.is_authenticated %}
-                    $(function () {
-                        $(".prettyprint").addClass("linenums");
-                        window.prettyPrint && prettyPrint();
-
-
-                    });
-                {% endif %}
-            });
-            require(['main'], function () {
-                require(['lesson-settings']);
-            })
+            {% if not user.is_authenticated %}
+                $(function () {
+                    $(".prettyprint").addClass("linenums");
+                    window.prettyPrint && prettyPrint();
+                });
+            {% endif %}
         </script>
     {% endaddtoblock %}
     {# SCRIPTS END #}

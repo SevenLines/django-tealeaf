@@ -1,9 +1,12 @@
-{% load static file_upload_form_tags sekizai_tags %}
+{% load static file_upload_form_tags sekizai_tags ex_tags %}
 
 <div id="content_{{ instance.pk }}" class="article_content"
      {% if user.is_authenticated %}contenteditable{% endif %}>{{ article|safe }}</div>
 
 {% if user.is_authenticated %}
+    {% addtoblock "js" %}
+        {% requirejs "js" %}
+    {% endaddtoblock %}
     {% addtoblock "js" %}
         {# активация встроенного редактирования статьи #}
         <script type="text/javascript">

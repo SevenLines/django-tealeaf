@@ -86,6 +86,7 @@ body {
       border-radius: 0 0 $container_radius $container_radius;
     }
     .content {
+      @include transition(0.3s);
 
       @media (max-width: $min_screen_width) {
         font-size: 0.9em;

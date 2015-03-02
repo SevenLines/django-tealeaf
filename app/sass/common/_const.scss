@@ -51,6 +51,14 @@ $width-big: 990px;
   }
 }
 
+@mixin transform($value) {
+  -webkit-transform: $value;
+  -moz-transform: $value;
+  -ms-transform: $value;
+  -o-transform: $value;
+  transform: $value;;
+}
+
 @mixin background_size($size) {
   -webkit-background-size: $size;
   -moz-background-size: $size;
