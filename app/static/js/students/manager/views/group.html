@@ -1,25 +1,31 @@
 <ul class="list-group">
-    <li class="form-inline student changed list-group-item">
+    <li class="form-inline student list-group-item active">
         <input class="form-control" type="text" ng-model="newStudentSecondName" placeholder="фамилия"/>
         <input class="form-control" type="text" ng-model="newStudentName" placeholder="имя"/>
-        <button class="btn btn-primary" ng-click="addStudent(newStudentSecondName, newStudentName)">
+        <button class="btn btn-info" ng-click="addStudent(newStudentSecondName, newStudentName)">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
     </li>
     <li ng-repeat="student in students | orderBy:'second_name'"
-         class="student list-group-item"
-         ng-class="student.class()">
+        class="student list-group-item"
+        ng-class="student.class()">
         <div class="form-inline">
             <input class="form-control" type="text" ng-model="student.second_name"/>
             <input class="form-control" type="text" ng-model="student.name"/>
-            <button class="btn btn-default" ng-click="saveStudents()"
-                    ng-class="{'btn-success': student.changed(), 'btn-default': !student.changed() }">
-                <span class="glyphicon glyphicon-save"></span>
-            </button>
-            <button class="btn" ng-click="toggleStudent(student, $event)"
-                    ng-class="{'btn-default': student._destroy, 'btn-danger': !student._destroy }">
-                <span class="glyphicon glyphicon-remove"></span>
-            </button>
+
+            <div class="form-group pull-right">
+                <div class="btn-group">
+                    <button class="btn btn-default" ng-click="saveStudents()"
+                            ng-class="{'disabled': !student.changed(),'btn-success': student.changed(), 'btn-default': !student.changed() }">
+                        <span class="glyphicon glyphicon-save"></span>
+                    </button>
+                    <button class="btn" ng-click="toggleStudent(student, $event)"
+                            ng-class="{'btn-default': student._destroy, 'btn-danger': !student._destroy }">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
         </div>
     </li>
 </ul>

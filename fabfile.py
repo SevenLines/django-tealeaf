@@ -51,8 +51,9 @@ def compile_css():
 
 def minify():
     # with prefix("activate"):
+    local("gulp sass")
     local("python manage.py assets build")  # build assets
-    requirejs();
+    requirejs()
     # compile_css()
     # compile_js()
 
