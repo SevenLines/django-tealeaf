@@ -23,21 +23,12 @@ def save(request):
     return HttpResponse()
 
 
-@require_in_POST('id')
-def show(request):
-    pass
-
-
 @login_required
 @require_in_POST('id')
 def delete(request):
     task = get_post_object(request, StudentTask)
     task.delete()
     return HttpResponse()
-
-
-def index(request):
-    pass
 
 
 @login_required
