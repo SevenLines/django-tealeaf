@@ -152,13 +152,10 @@ def copy_to_next_year(request):
     return HttpResponse()
 
 
-@login_required
+@require_in_GET('group_id')
 def students(request):
-    group_id = request.POST.get('group_id', None)
-    group_id = request.GET.get('group_id', None) if group_id is None else group_id
+    group_id = request.GET['group_id']
 
-    if group_id is None:
-        return HttpResponseBadRequest("'group_id' parameter is not defined")
     try:
         grp = Group.objects.get(pk=group_id)
     except Exception as e:
@@ -172,14 +169,24 @@ def students(request):
 
 
 @require_GET
-# @login_required
 def list_students(request):
+    """
+    возвращает первые 10 студентов для select2
+    и фильтрует их по параметру filter
+    для гостей возвращает только студентов текущего года
+    :param request:
+    :return:
+    """
     f = request.GET.get("filter", None)
     if f is None:
         return HttpResponse('[]')
+
+    year = request.GET.get('year', current_year()) if request.user.is_authenticated() else current_year()
+
     students = Student.objects.filter(Q(second_name__icontains=f) | Q(name__icontains=f),
-                                      group__year=current_year())[:10]
+                                      group__year=year)[:10]
     students = list([{"id": i.pk, "text": str(i)} for i in students])
+
     response = HttpResponse(json.dumps(students), content_type="application/json")
     add_cross_domain(response)
     return response
@@ -191,7 +198,12 @@ def set_captain(request):
     group_id = request.POST['group_id']
     student_id = request.POST['student_id']
 
+    s = Student.objects.get(pk=student_id)
     g = Group.objects.get(pk=group_id)
+
+    if s.group != g:
+        return HttpResponseBadRequest()
+
     g.captain_id = student_id
     g.save()
 

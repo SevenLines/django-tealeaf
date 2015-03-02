@@ -1,5 +1,7 @@
 # coding=utf-8
 import json
+import os
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from app.utils import MyTestCase
 from students.models import Mark
@@ -213,6 +215,185 @@ class TestStudentsManager(MyTestCase):
 
         self.assertEqual(Group.objects.filter(title=self.groupActive.title).count(), 2)
         self.assertEqual(Student.objects.filter(name=student.name).count(), 2)
+
+    def test_anyone_can_get_students(self):
+        response = self.client.get(reverse('students.views.students.ajax.json.students'), {
+            'group_id': self.groupActive.id
+        })
+        self.assertEqual(response.status_code, 200)
+
+        students = json.loads(response.content)
+        self.assertEqual(len(students), Student.objects.filter(group_id=self.groupActive.id).count())
+
+
+    def test_anyone_can_get_first_10_list_students(self):
+        g = Group.objects.create(year='100')
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+        Student.objects.create(group=g)
+
+        Student.objects.create(group=self.groupActive)
+
+        response = self.client.get(reverse('students.views.students.ajax.json.list_students'), {
+            'group_id': self.groupActive.id,
+            'year': current_year(),
+            'filter': ''
+        })
+
+        self.assertEqual(response.status_code, 200)
+        students = json.loads(response.content)
+        self.assertEqual(len(students), Student.objects.filter(group__year=current_year()).count())
+
+        response = self.client.get(reverse('students.views.students.ajax.json.list_students'), {
+            'group_id': self.groupActive.id,
+            'year': 100,
+            'filter': ''
+        })
+
+        self.assertEqual(response.status_code, 200)
+        students = json.loads(response.content)
+        self.assertEqual(len(students), Student.objects.filter(group__year=current_year()).count())
+
+        self.client.login(username=self.root.username, password=self.password)
+
+        response = self.client.get(reverse('students.views.students.ajax.json.list_students'), {
+            'group_id': self.groupActive.id,
+            'year': 100,
+            'filter': ''
+        })
+        self.assertEqual(response.status_code, 200)
+        students = json.loads(response.content)
+        self.assertEqual(len(students), min(Student.objects.filter(group__year=100).count(), 10))
+        self.client.logout()
+
+    def test_anyone_can_filter_list_students(self):
+        Student.objects.create(name="123",second_name='678', group=self.groupActive)
+        Student.objects.create(name="234",second_name='789', group=self.groupActive)
+        Student.objects.create(name="345",second_name='890', group=self.groupActive)
+
+        response = self.client.get(reverse('students.views.students.ajax.json.list_students'), {
+            'group_id': self.groupActive.id,
+            'year': current_year(),
+            'filter': '4'
+        })
+        self.assertEqual(response.status_code, 200)
+        students = json.loads(response.content)
+        self.assertEqual(len(students), 2)
+
+        response = self.client.get(reverse('students.views.students.ajax.json.list_students'), {
+            'group_id': self.groupActive.id,
+            'year': current_year(),
+            'filter': '7'
+        })
+        self.assertEqual(response.status_code, 200)
+        students = json.loads(response.content)
+        self.assertEqual(len(students), 2)
+
+    def test_guest_cant_set_captain(self):
+        s = Student.objects.create(group=self.groupActive)
+
+        response = self.client.get(reverse('students.views.students.ajax.json.set_captain'), {
+            'group_id': self.groupActive.id,
+            'student_id': s.id
+        })
+        self.assertEqual(response.status_code, 302)
+
+    @MyTestCase.login
+    def test_logged_can_set_captain(self):
+        s = Student.objects.create(group=self.groupActive)
+
+        response = self.client.post(reverse('students.views.students.ajax.json.set_captain'), {
+            'group_id': self.groupActive.id,
+            'student_id': s.id
+        })
+        self.assertEqual(response.status_code, 200)
+
+        self.groupActive = Group.objects.get(id=self.groupActive.id)
+        self.assertEqual(self.groupActive.captain_id, s.id)
+
+    @MyTestCase.login
+    def test_logged_cant_set_captain_from_another_group(self):
+        g = Group.objects.create(year=100)
+        s = Student.objects.create(group=g)
+
+        response = self.client.post(reverse('students.views.students.ajax.json.set_captain'), {
+            'group_id': self.groupActive.id,
+            'student_id': s.id
+        })
+        self.assertEqual(response.status_code, 400)
+
+        self.groupActive = Group.objects.get(id=self.groupActive.id)
+        self.assertNotEqual(self.groupActive.captain_id, s.id)
+
+    def test_guest_cant_set_student_photo(self):
+        with open('test_image.png') as fp:
+            response = self.client.post(reverse('students.views.students.ajax.json.change_photo'), {
+                'student_id': self.student.id,
+                'photo': fp
+            })
+
+            self.assertEqual(response.status_code, 302)
+
+    @MyTestCase.login
+    def test_logged_can_upload_student_photo(self):
+        with open('test_image.png') as fp:
+            s = Student.objects.create(group=self.groupActive)
+
+            response = self.client.post(reverse('students.views.students.ajax.json.change_photo'), {
+                'student_id': s.id,
+                'photo': fp
+            })
+
+            self.assertEqual(response.status_code, 200)
+
+            s = Student.objects.get(id=s.id)
+            self.assertIsNotNone(s.photo)
+
+    def test_guest_cant_delete_photo(self):
+        response = self.client.post(reverse('students.views.students.ajax.json.remove_photo'), {
+            'student_id': self.student.id,
+        })
+
+        self.assertEqual(response.status_code, 302)
+
+    @MyTestCase.login
+    def test_logged_can_delete_photo(self):
+        s = Student.objects.create(group=self.groupActive)
+        with open('test_image.png') as fp:
+            response = self.client.post(reverse('students.views.students.ajax.json.change_photo'), {
+                'student_id': s.id,
+                'photo': fp
+            })
+
+            self.assertEqual(response.status_code, 200)
+
+            s = Student.objects.get(id=s.id)
+            self.assertTrue(s.photo)
+
+        image_path = s.photo.path
+        self.assertTrue(os.path.exists(image_path))
+
+        response = self.client.post(reverse('students.views.students.ajax.json.remove_photo'), {
+            'student_id': s.id,
+        })
+
+        self.assertEqual(response.status_code, 200)
+        s = Student.objects.get(id=s.id)
+        self.assertFalse(s.photo)
+        self.assertFalse(os.path.exists(image_path))
+
+
 
 
 
