@@ -1,8 +1,9 @@
 # coding=utf-8
 import datetime
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db.models.fields.files import ImageFieldFile
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse
 from django.test import TestCase
 
 
@@ -124,4 +125,35 @@ class MyTestCase(TestCase):
 
         return _wrapper
 
+    def cant_post(self, view_name, params):
+        """
+        :rtype: django.http.HttpResponse
+        """
+        response = self.client.post(reverse(view_name), params)
+        self.assertEqual(response.status_code, 302)
+        return response
+
+    def cant_get(self, view_name, params):
+        """
+        :rtype: django.http.HttpResponse
+        """
+        response = self.client.get(reverse(view_name), params)
+        self.assertEqual(response.status_code, 302)
+        return response
+
+    def can_post(self, view_name, params):
+        """
+        :rtype: django.http.HttpResponse
+        """
+        response = self.client.post(reverse(view_name), params)
+        self.assertEqual(response.status_code, 200)
+        return response
+
+    def can_get(self, view_name, params):
+        """
+        :rtype: django.http.HttpResponse
+        """
+        response = self.client.get(reverse(view_name), params)
+        self.assertEqual(response.status_code, 200)
+        return response
 
