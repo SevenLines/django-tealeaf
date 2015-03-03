@@ -15,7 +15,7 @@ class MainPageItem(Model):
         aliases.set('main_page_thumb', {'size': (160, 100)})
 
     title = models.CharField(max_length=50)
-    img = ThumbnailerImageField(upload_to='main_page_items')
+    img = ThumbnailerImageField(upload_to='main_page_items', default=None, null=True)
     description = models.TextField(blank=True, null=True)
 
     @property
@@ -24,18 +24,22 @@ class MainPageItem(Model):
         return dictionary copy of object suitable for json response
         :return:
         """
-        exists = os.path.exists(self.img.path)
-        try:
-            thumb_url = self.img['main_page_thumb'].url
-        except Exception as e:
+        if self.img:
+            exists = os.path.exists(self.img.path)
+            try:
+                thumb_url = self.img['main_page_thumb'].url
+            except Exception as e:
+                thumb_url = ""
+                logger.warning(e.message)
+        else:
             thumb_url = ""
-            logger.warning(e.message)
+            exists = False
 
         return {
             'id': self.pk,
             'title': self.title,
             # 'description': self.description,
-            'item_url': self.img.url if self.img.name and exists else "",
+            'item_url': self.img.url if exists and self.img.name else "",
             'item_thumb_url': thumb_url
         }
 
@@ -87,6 +91,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
         return False
 
     new_file = instance.img
-    if not old_file.path == new_file.path:
-        if os.path.isfile(old_file.path):
-            old_file.delete()
+    if old_file:
+        if not old_file.path == new_file.path:
+            if os.path.isfile(old_file.path):
+                old_file.delete()

@@ -109,6 +109,7 @@ ROOT_URLCONF = 'app.urls'
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
+
 try:
     from settings_db import *
 except ImportError:
