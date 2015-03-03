@@ -61,6 +61,7 @@ class MainPage(Model):
         """
         returns singleton MainPage object, create it in db if necessary
         :return: MainPage
+        :rtype: MainPage
         """
         if MainPage.objects.count() == 0:
             mp = MainPage()

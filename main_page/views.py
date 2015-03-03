@@ -200,7 +200,7 @@ def toggle_border(request):
     f = request.POST['show_border']
 
     obj = MainPage.solo()
-    obj.show_border = f != u"true"
+    obj.show_border = f == "true"
     obj.save()
 
     return HttpResponse()

@@ -1,5 +1,6 @@
 # coding=utf-8
 import json
+import os
 from django.core.urlresolvers import reverse
 from app.utils import MyTestCase
 from main_page.models import MainPageItem, MainPage
@@ -175,3 +176,107 @@ class TestMainPage(MyTestCase):
         item = MainPageItem.objects.get(id=item.id)
         self.assertEqual(item.description, new_values['description'])
         self.assertEqual(item.title, new_values['title'])
+
+    def test_guest_cant_add_item(self):
+        self.cant_post('main_page.views.add_item', {
+            'title': 'new_title',
+            'description': 'new_description',
+        })
+
+    @MyTestCase.login
+    def test_add_item_should_add_new_item(self):
+        with open('test_image.png') as fp:
+            new_values = {
+                'title': 'new_title2312',
+                'description': 'new_description12312',
+                'file': fp
+            }
+            response = self.can_post('main_page.views.add_item', new_values)
+
+            item = MainPageItem.objects.filter(title=new_values['title'], description=new_values['description'])
+            self.assertEqual(item.count(), 1)
+            item = item.first()
+            assert isinstance(item, MainPageItem)
+            self.assertEqual(item.title, new_values['title'])
+            self.assertEqual(item.description, new_values['description'])
+            self.assertTrue(os.path.exists(item.img.path))
+
+    def test_user_cant_remove_item(self):
+        item = MainPageItem.objects.create()
+        self.cant_post('main_page.views.remove_item', {
+            'item_id': item.id
+        })
+
+    @MyTestCase.login
+    def test_remove_item_should_remove_item(self):
+        with open('test_image.png') as fp:
+            new_values = {
+                'title': 'new_title2312',
+                'description': 'new_description12312',
+                'file': fp
+            }
+            response = self.can_post('main_page.views.add_item', new_values)
+            item = MainPageItem.objects.order_by('-pk')[0]
+            self.assertTrue(os.path.exists(item.img.path))
+        path = item.img.path
+        self.can_post('main_page.views.remove_item', {
+            'item_id': item.id
+        })
+        self.assertFalse(os.path.exists(path))
+        self.assertEqual(MainPageItem.objects.filter(id=item.id).count(), 0)
+
+    def test_guest_cant_toggle_border(self):
+        self.cant_post('main_page.views.toggle_border', {
+            'show_border': 'false'
+        })
+
+    @MyTestCase.login
+    def test_toggle_border_should_set_border(self):
+        obj = MainPage.solo()
+        obj.show_border = False
+        obj.save()
+
+        self.can_post('main_page.views.toggle_border', {
+            'show_border': 'true'
+        })
+        self.assertEqual(MainPage.solo().show_border, True)
+
+        self.can_post('main_page.views.toggle_border', {
+            'show_border': 'false'
+        })
+        self.assertEqual(MainPage.solo().show_border, False)
+
+    def test_guest_cant_change_img_bootstrap_cols(self):
+        self.cant_post('main_page.views.toggle_img_bootstrap_cols', {
+            'img_bootstrap_cols': 8
+        })
+
+
+    @MyTestCase.login
+    def test_change_img_bootstrap_cols_should_change_img_bootstrap_cols(self):
+        obj = MainPage.solo()
+        obj._img_bootstrap_cols = 0
+        obj.save()
+
+        self.can_post('main_page.views.toggle_img_bootstrap_cols', {
+            'img_bootstrap_cols': 7
+        })
+
+        self.assertEqual( MainPage.solo()._img_bootstrap_cols, 7)
+
+    def test_guest_cant_update_description(self):
+        self.cant_post('main_page.views.update_description', {
+            'description': 'ultra_description'
+        })
+
+    @MyTestCase.login
+    def test_update_description_should_update(self):
+        obj = MainPage.solo()
+        obj.description = ''
+        obj.save()
+
+        self.can_post('main_page.views.update_description', {
+            'description': u'ЗДРАВСТВУЙ!'
+        })
+
+        self.assertEqual(MainPage.solo().description, u'ЗДРАВСТВУЙ!')
