@@ -31,7 +31,7 @@ class Discipline(models.Model):
         s = 0
 
         if lessons is None:
-            raise BaseException("lessons is not defined")
+            raise Exception("lessons is not defined")
 
         lessons_count = 0
         for i, m in enumerate(student_marks, 1):

@@ -89,6 +89,8 @@ def lesson_save(request):
         l.lesson_type = request.POST['lesson_type']
     if 'description_raw' in request.POST:
         l.description = request.POST['description_raw']
+    if 'discipline' in request.POST:
+        l.discipline_id = int(request.POST['discipline'])
     if 'date' in request.POST:
         l.date = request.POST['date']
     if 'multiplier' in request.POST:
