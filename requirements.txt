@@ -1,4 +1,4 @@
-Django==1.7.4
+Django==1.7.5
 Fabric==1.9.0
 Markdown==2.6
 Pillow==2.4.0
@@ -14,9 +14,9 @@ distlib==0.1.2
 django-ace==1.0.1
 django-admin-bootstrapped==2.1.0
 django-appconf==0.6
-django-assets==0.10
+django-assets==0.10t
 django-classy-tags==0.5.1
-django-cms==3.0.9
+django-cms==3.0.10
 django-email-obfuscator==0.1.2
 django-filebrowser==3.5.7
 django-filer==0.9.8

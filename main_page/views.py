@@ -40,24 +40,23 @@ def main_page_context(data=None):
 
 
 def index(request):
-    # context = RequestContext(request, main_page_context())
     return render(request, 'main_page/index.html', main_page_context())
 
 
 @login_required
 def item(request):
     try:
-        if 'item_id' in request.POST:
-            i = MainPageItem.objects.get(pk=request.POST['item_id'])
-        elif 'item_id' in request.GET:
+        if 'item_id' in request.GET:
             i = MainPageItem.objects.get(pk=request.GET['item_id'])
         else:
             i = MainPage.solo().current_item
     except ObjectDoesNotExist as e:
         return HttpResponseBadRequest("can't get item with the item_id")
+
     context = main_page_context({
         'item': i.dictionary if i else None,
     })
+
     html = render_to_string('main_page/image.html', RequestContext(request, context))
 
     return HttpResponse(json.dumps(main_page_context({
@@ -66,6 +65,7 @@ def item(request):
     })), content_type='json')
 
 
+@login_required
 def list_items(request):
     main_page = MainPage.solo()
     main_item = main_page.current_item
@@ -88,13 +88,11 @@ def list_items(request):
 def list_themes(request):
     current_theme = MainPage.solo().current_theme_css
 
-    out = []
-
-    out.append({
+    out = [{
         'name': 'без темы',
         'path': '',
         'current': current_theme == ''
-    })
+    }]
 
     _, files = storage.StaticFilesStorage().listdir("css")
     for f in files:
