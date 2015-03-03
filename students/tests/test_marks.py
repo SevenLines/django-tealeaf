@@ -216,4 +216,3 @@ class TestMarks(MyTestCase):
         })
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['content-type'], 'application/xlsx')
-
