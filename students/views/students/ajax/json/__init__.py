@@ -244,9 +244,9 @@ def add_file(request):
 
 
 @login_required
-@require_in_GET("student_file_id")
+@require_in_POST("student_file_id")
 def remove_file(request):
-    StudentFile.objects.get(pk=request.GET['student_file_id']).delete()
+    StudentFile.objects.get(pk=request.POST['student_file_id']).delete()
     return HttpResponse()
 
 

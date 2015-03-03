@@ -8,7 +8,7 @@ from students.models import Mark
 from students.models.discipline import Discipline
 from students.models.group import Group
 from students.models.lesson import Lesson
-from students.models.student import Student
+from students.models.student import Student, StudentFile
 from students.utils import current_year
 
 
@@ -392,6 +392,58 @@ class TestStudentsManager(MyTestCase):
         s = Student.objects.get(id=s.id)
         self.assertFalse(s.photo)
         self.assertFalse(os.path.exists(image_path))
+
+    def test_guest_cant_add_file(self):
+        s = Student.objects.create(group=self.groupActive)
+        with open('test_image.png') as fp:
+            response = self.client.post(reverse('students.views.students.ajax.json.add_file'), {
+                'student_id': s.id,
+                'file': fp
+            })
+
+            self.assertEqual(response.status_code, 302)
+
+    @MyTestCase.login
+    def test_logged_can_add_file(self):
+        s = Student.objects.create(group=self.groupActive)
+        with open('test_image.png') as fp:
+            response = self.client.post(reverse('students.views.students.ajax.json.add_file'), {
+                'student_id': s.id,
+                'file': fp
+            })
+
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(StudentFile.objects.filter(student_id=s.id).count(), 1)
+            file = StudentFile.objects.filter(student_id=s.id).first()
+            self.assertIsNotNone(file.blob)
+
+    def test_guest_cant_delete_file(self):
+        file = StudentFile.objects.create(student_id=self.student.id)
+        response = self.client.post(reverse('students.views.students.ajax.json.remove_file'), {
+            'student_file_id': file.id,
+        })
+
+        self.assertEqual(response.status_code, 302)
+
+    @MyTestCase.login
+    def test_logged_can_delete_file(self):
+        file = StudentFile.objects.create(student_id=self.student.id)
+        self.assertEqual(StudentFile.objects.filter(id=file.id).count(), 1)
+        response = self.client.post(reverse('students.views.students.ajax.json.remove_file'), {
+            'student_file_id': file.id,
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(StudentFile.objects.filter(id=file.id).count(), 0)
+
+    def test_anyone_can_get_student_file(self):
+        file = StudentFile.objects.create(student_id=self.student.id)
+        self.assertEqual(StudentFile.objects.filter(id=file.id).count(), 1)
+        response = self.client.get(reverse('students.views.students.ajax.json.get_student_file'), {
+            'student_file_id': file.id,
+        })
+        self.assertEqual(response.status_code, 200)
+
 
 
 
