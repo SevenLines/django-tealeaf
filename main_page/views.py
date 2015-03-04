@@ -168,7 +168,11 @@ def add_item(request):
 
     f = request.FILES['file']
     ext = f.name.split('.')[-1]
-    it.img.save('%s.%s' % (uuid4(), ext), ContentFile(f.read()))
+    if ext in ['webm', 'flv', 'mp4']:
+        path = uuid4()
+        it.video.save('%s.%s' % (path, ext), ContentFile(f.read()))
+    else:
+        it.img.save('%s.%s' % (uuid4(), ext), ContentFile(f.read()))
     it.save()
 
     if "activate" in request.POST:

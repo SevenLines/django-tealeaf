@@ -22,7 +22,7 @@
             <i class="glyphicon glyphicon-plus"><span> Добавить</span></i>
         </button>
         {% csrf_token %}
-        <input style="display: none" type="file" name="file" accept="image/*" hidden="">
+        <input style="display: none" type="file" name="file" accept="image/*, video/mp4, video/flv, video/webm" hidden="">
         <input name="title" placeholder="title" data-bind="value: $root.new_item.title" hidden="">
         <textarea name="description" style="resize:none"
                   data-bind="value: $root.new_item.description" hidden=""></textarea>
