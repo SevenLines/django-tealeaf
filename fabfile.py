@@ -173,3 +173,9 @@ def deploy(without_build=False):
             run("python manage.py migrate")
             run("python manage.py collectstatic --noinput")
             run("touch django.wsgi")
+
+
+def copy(path):
+    local("scp -C {user}@{host}:{app_dir}/{path} {filename}".format(
+            user=env.user, host=env.hosts[0], app_dir=app_dir,path=path, filename=path.split('/')[-1])
+        )

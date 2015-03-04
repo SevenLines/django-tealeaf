@@ -21,7 +21,8 @@ body {
 
   }
 
-  img#view {
+  img#view, video#view {
+    max-width: 100%;
     max-height: 500px;
     border-radius: 16px;
     border: 6px solid darken($common_color, 40);

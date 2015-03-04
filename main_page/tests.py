@@ -201,6 +201,29 @@ class TestMainPage(MyTestCase):
             self.assertEqual(item.description, new_values['description'])
             self.assertTrue(os.path.exists(item.img.path))
 
+    @MyTestCase.login
+    def test_add_item_should_save_webm(self):
+        with open('test_output.webm') as fp:
+            new_values = {
+                'title': 'new_title2312123',
+                'description': 'new_description12312123',
+                'file': fp
+            }
+            response = self.can_post('main_page.views.add_item', new_values)
+
+            item = MainPageItem.objects.filter(title=new_values['title'], description=new_values['description'])
+            self.assertEqual(item.count(), 1)
+            item = item.first()
+
+            assert isinstance(item, MainPageItem)
+
+            self.assertEqual(item.title, new_values['title'])
+            self.assertEqual(item.description, new_values['description'])
+            print item.video.path
+            print item.video.thumbnail_path
+            self.assertTrue(os.path.exists(item.video.path))
+            self.assertTrue(os.path.exists(item.video.thumbnail_path))
+
     def test_user_cant_remove_item(self):
         item = MainPageItem.objects.create()
         self.cant_post('main_page.views.remove_item', {
@@ -217,12 +240,34 @@ class TestMainPage(MyTestCase):
             }
             response = self.can_post('main_page.views.add_item', new_values)
             item = MainPageItem.objects.order_by('-pk')[0]
+
             self.assertTrue(os.path.exists(item.img.path))
         path = item.img.path
         self.can_post('main_page.views.remove_item', {
             'item_id': item.id
         })
         self.assertFalse(os.path.exists(path))
+        self.assertEqual(MainPageItem.objects.filter(id=item.id).count(), 0)
+
+        # check for webm format
+        with open('test_output.webm') as fp:
+            new_values = {
+                'title': 'new_title2312g',
+                'description': 'new_description12312g',
+                'file': fp
+            }
+            response = self.can_post('main_page.views.add_item', new_values)
+            item = MainPageItem.objects.order_by('-pk')[0]
+            self.assertTrue(os.path.exists(item.video.path))
+            self.assertTrue(os.path.exists(item.video.thumbnail_path))
+
+        path = item.video.path
+        self.can_post('main_page.views.remove_item', {
+            'item_id': item.id
+        })
+
+        self.assertFalse(os.path.exists(path))
+        self.assertFalse(os.path.exists(item.video.thumbnail_path))
         self.assertEqual(MainPageItem.objects.filter(id=item.id).count(), 0)
 
     def test_guest_cant_toggle_border(self):
