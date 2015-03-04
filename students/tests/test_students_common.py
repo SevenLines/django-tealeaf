@@ -337,7 +337,7 @@ class TestStudentsManager(MyTestCase):
         self.assertNotEqual(self.groupActive.captain_id, s.id)
 
     def test_guest_cant_set_student_photo(self):
-        with open('test_image.png') as fp:
+        with open('tests/test_image.png') as fp:
             response = self.client.post(reverse('students.views.students.ajax.json.change_photo'), {
                 'student_id': self.student.id,
                 'photo': fp
@@ -347,7 +347,7 @@ class TestStudentsManager(MyTestCase):
 
     @MyTestCase.login
     def test_logged_can_upload_student_photo(self):
-        with open('test_image.png') as fp:
+        with open('tests/test_image.png') as fp:
             s = Student.objects.create(group=self.groupActive)
 
             response = self.client.post(reverse('students.views.students.ajax.json.change_photo'), {
@@ -370,7 +370,7 @@ class TestStudentsManager(MyTestCase):
     @MyTestCase.login
     def test_logged_can_delete_photo(self):
         s = Student.objects.create(group=self.groupActive)
-        with open('test_image.png') as fp:
+        with open('tests/test_image.png') as fp:
             response = self.client.post(reverse('students.views.students.ajax.json.change_photo'), {
                 'student_id': s.id,
                 'photo': fp
@@ -395,7 +395,7 @@ class TestStudentsManager(MyTestCase):
 
     def test_guest_cant_add_file(self):
         s = Student.objects.create(group=self.groupActive)
-        with open('test_image.png') as fp:
+        with open('tests/test_image.png') as fp:
             response = self.client.post(reverse('students.views.students.ajax.json.add_file'), {
                 'student_id': s.id,
                 'file': fp
@@ -406,7 +406,7 @@ class TestStudentsManager(MyTestCase):
     @MyTestCase.login
     def test_logged_can_add_file(self):
         s = Student.objects.create(group=self.groupActive)
-        with open('test_image.png') as fp:
+        with open('tests/test_image.png') as fp:
             response = self.client.post(reverse('students.views.students.ajax.json.add_file'), {
                 'student_id': s.id,
                 'file': fp
