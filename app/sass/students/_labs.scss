@@ -123,26 +123,6 @@ $m_task_label_width: 32px;
   &.columns3 {
 
   }
-  //    -webkit-column-count: 3; /* Chrome, Safari, Opera */
-  //    -moz-column-count: 3; /* Firefox */
-  //    column-count: 3;
-  //    @media (max-width: $width-medium) {
-  //      -webkit-column-count: 2; /* Chrome, Safari, Opera */
-  //      -moz-column-count: 2; /* Firefox */
-  //      column-count: 2;
-  //    }
-  //    @media (max-width: $width-small) {
-  //      -webkit-column-count: 1; /* Chrome, Safari, Opera */
-  //      -moz-column-count: 1; /* Firefox */
-  //      column-count: 1;
-  //    }
-
-  //    .m-task {
-  //      break-before: avoid;
-  //      -webkit-column-break-before: avoid;
-  //      break-after: avoid;
-  //      -webkit-column-break-after: avoid;
-  //    }
 }
 
 .m-lab-description {
@@ -154,7 +134,6 @@ $m_task_label_width: 32px;
 }
 
 .m-task-description {
-  padding-left: 4px;
   padding: 0.5em;
 }
 
@@ -169,8 +148,6 @@ $m_task_label_width: 32px;
 .m-task {
   @include complex_style;
   margin: 0.5em 0;
-  //  padding: 0.5em;
-  //  padding-left: 0;
   border-radius: 10px;
   position: relative;
   //      background: #EEEEEE;

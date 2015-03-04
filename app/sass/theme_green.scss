@@ -1,0 +1,138 @@
+@import "common/theme_color.scss";
+
+@include theme_color(#577155);
+
+body {
+  background: linear-gradient(to bottom, rgba(black, 0), darken($common_color, 25));
+  background-color: $common_color;
+  background-attachment: fixed;
+  background-position: 0 0;
+  background-repeat: repeat, repeat;
+}
+
+.container {
+  //  box-shadow: 0 0 16px lighten($common_color, 10);
+  .left-board {
+    background-color: desaturate(lighten($common_color, 5), 15);
+  }
+}
+
+.menu {
+  > ul > li {
+    > ul > li {
+      background-color: rgba(lighten($common_color, 35), 0.95);
+      > a {
+        text-shadow: none;
+        color: black;
+      }
+    }
+  }
+}
+
+.collapsable {
+  &:hover {
+    .collapsable-header {
+      background-color: lighten($common_color, 50);
+    }
+  }
+  .collapsable-body {
+    > ul, > ol {
+      &:last-child:first-child {
+        > li {
+          &:hover {
+            background-color: lighten($common_color, 67);
+          }
+        }
+      }
+      > li {
+        background-color: lighten($common_color, 62);
+      }
+    }
+  }
+  .collapsable-header {
+    &:hover {
+      background-color: lighten($common_color, 55);
+    }
+  }
+}
+
+.labs-panel-heading, .marsk-panel-heading {
+  cursor: pointer;
+  @include transition(0.1s);
+  &.loading {
+    box-shadow: 0 0 2px lighten($common_color, 10);
+    background-color: lighten($common_color, 10);
+    color: lighten($common_color, 50);
+  }
+}
+//
+//@mixin table_color($color) {
+//  $color: $color;
+//  $color2: lighten($color, 15);
+//  background-color: lighten($color2, 60);
+//  &:hover {
+//    .lab-title {
+//      background-color: lighten($color2, 60);
+//    }
+//  }
+//
+//  .lab-title {
+//    background-color: lighten($color2, 60);
+//    color: darken($color, 20);
+//    //            text-shadow: 0 0 1px white;
+//  }
+//  .task-title {
+//    &:hover {
+//      background-color: lighten($color2, 60);
+//      color: darken($color, 20);
+//      //              text-shadow: 0 0 1px white;
+//    }
+//
+//  }
+//
+//  .done {
+//    box-shadow: 0 0 4px darken($color, 20), 0 0 4px $color inset;
+//    background-color: $color2 !important;
+//    color: darken($color, 30);
+//  }
+//
+//  .tooltip {
+//    &.bottom {
+//      .tooltip-arrow {
+//        border-bottom-color: $color;
+//      }
+//    }
+//    &.top {
+//      .tooltip-arrow {
+//        border-top-color: $color;
+//      }
+//    }
+//    .tooltip-inner {
+//      color: darken($color, 40);
+//      box-shadow: 0 0 4px darken($color, 20);
+//      background-color: lighten($color2, 60);
+//    }
+//  }
+//}
+//
+//#marks-editor {
+//  .marks-table {
+//    .l-table {
+//      &:nth-child(1) {
+//        @include table_color(#ee5f00);
+//      }
+//      &:nth-child(2) {
+//        @include table_color(#fce701);
+//      }
+//      &:nth-child(3) {
+//        @include table_color(#8fc1e2);
+//      }
+//      &:nth-child(4) {
+//        @include table_color(#002bae);
+//      }
+//      &:nth-child(5) {
+//        @include table_color(#002bae);
+//      }
+//    }
+//  }
+//}
