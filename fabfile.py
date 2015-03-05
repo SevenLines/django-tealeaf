@@ -158,11 +158,11 @@ def backup(only_base=False):
 
 def deploy(without_build=False):
     local("python manage.py test")
-    # local("grunt deploy")  # generate scripts
     if not without_build:
         build_production()
     local("ssh-add ~/.ssh/locum.ru")
     local("git push --all -u")
+
     with cd(app_dir):
         with prefix(env.activate):
             run("git stash")

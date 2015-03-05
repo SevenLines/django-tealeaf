@@ -39,6 +39,48 @@ class TestMainPage(MyTestCase):
         self.assertEqual(data['item']['id'], self.activeItem.id)
 
     @MyTestCase.login
+    def test_item_with_web_should_have_video_tag_on_page(self):
+         with open('tests/test_output.webm') as fp:
+            new_values = {
+                'title': 'new_title2312123',
+                'description': 'new_description12312123',
+                'file': fp
+            }
+            response = self.can_post('main_page.views.add_item', new_values)
+
+            item = MainPageItem.objects.filter(title=new_values['title'], description=new_values['description'])
+            self.assertEqual(item.count(), 1)
+            item = item.first()
+
+            response = self.can_get('main_page.views.item', {
+                'item_id': item.id
+            })
+            data = json.loads(response.content)
+            self.assertTrue(data['html'].find('video'))
+            self.assertTrue(data['html'].find('src="%s"' % item.video.path))
+
+    @MyTestCase.login
+    def test_item_with_image_should_have_image_tag_on_page(self):
+         with open('tests/test_image.png') as fp:
+            new_values = {
+                'title': 'new_title2312123',
+                'description': 'new_description12312123',
+                'file': fp
+            }
+            response = self.can_post('main_page.views.add_item', new_values)
+
+            item = MainPageItem.objects.filter(title=new_values['title'], description=new_values['description'])
+            self.assertEqual(item.count(), 1)
+            item = item.first()
+
+            response = self.can_get('main_page.views.item', {
+                'item_id': item.id
+            })
+            data = json.loads(response.content)
+            self.assertTrue(data['html'].find('img'))
+            self.assertTrue(data['html'].find('src="%s"' % item.img.path))
+
+    @MyTestCase.login
     def test_item_with_parameters_return_requested_item(self):
         response = self.client.get(reverse('main_page.views.item'), {
             'item_id': self.item2.id
@@ -185,7 +227,7 @@ class TestMainPage(MyTestCase):
 
     @MyTestCase.login
     def test_add_item_should_add_new_item(self):
-        with open('test_image.png') as fp:
+        with open('tests/test_image.png') as fp:
             new_values = {
                 'title': 'new_title2312',
                 'description': 'new_description12312',
@@ -203,7 +245,7 @@ class TestMainPage(MyTestCase):
 
     @MyTestCase.login
     def test_add_item_should_save_webm(self):
-        with open('test_output.webm') as fp:
+        with open('tests/test_output.webm') as fp:
             new_values = {
                 'title': 'new_title2312123',
                 'description': 'new_description12312123',
@@ -232,7 +274,7 @@ class TestMainPage(MyTestCase):
 
     @MyTestCase.login
     def test_remove_item_should_remove_item(self):
-        with open('test_image.png') as fp:
+        with open('tests/test_image.png') as fp:
             new_values = {
                 'title': 'new_title2312',
                 'description': 'new_description12312',
@@ -250,7 +292,7 @@ class TestMainPage(MyTestCase):
         self.assertEqual(MainPageItem.objects.filter(id=item.id).count(), 0)
 
         # check for webm format
-        with open('test_output.webm') as fp:
+        with open('tests/test_output.webm') as fp:
             new_values = {
                 'title': 'new_title2312g',
                 'description': 'new_description12312g',

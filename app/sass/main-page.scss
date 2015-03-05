@@ -24,7 +24,7 @@ body {
   img#view, video#view {
     max-width: 100%;
     max-height: 500px;
-    border-radius: 16px;
+    border-radius: 8px;
     border: 6px solid darken($common_color, 40);
     &.borderless {
       box-shadow: none;
