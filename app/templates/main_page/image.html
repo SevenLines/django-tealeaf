@@ -7,8 +7,11 @@
             <img src="{{ item.item_url }}" id="view"
                  class="main-page-image{% if not show_border %} borderless{% endif %}"/>
         {% elif item.video_url %}
-            <video autoplay loop id="view" class="main-page-image{% if not show_border %} borderless{% endif %}">
-                <source src="{{ item.video_url }}">
+            <video autoplay loop id="view"
+                   poster='{{ item.item_thumb_url }}'
+                   class="main-page-image{% if not show_border %} borderless{% endif %}"
+                   src="{{ item.video_url }}"
+                    >
             </video>
         {% endif %}
     {% endif %}
