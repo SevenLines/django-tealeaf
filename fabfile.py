@@ -178,7 +178,7 @@ def deploy(without_build=False):
     build = int(BUILD)
 
     local("python manage.py test")  # запускаем тесты
-    local("git commit -a -m 'сборка v%d'" % build)
+    local("git commit -a -m 'сборка v%d'" % (build + 1))
     if not without_build:
         build_production()
     local("ssh-add ~/.ssh/locum.ru")
