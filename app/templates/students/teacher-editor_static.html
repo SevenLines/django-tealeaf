@@ -1,0 +1,75 @@
+{% extends "base-page.html" %}
+{% load static sekizai_tags assets ex_tags %}
+
+{% block basecontent %}
+    <!-- СПИСОК ДИСЦИПЛИН -->
+    <form name="marks" action="{% url "students.views.students.ajax.json.groups" %}" class="form-inline">
+        <select class="form-control" name="discipline_id">
+            {% for d in disciplines %}
+                <option class="" value="{{ d.pk }}">{{ d.title }}</option>
+            {% endfor %}
+        </select>
+        {#        <input type="hidden" name="discipline" value="{{ d.pk }}"/>#}
+        <select class="form-control" name="group_id"></select>
+    </form>
+    <hr/>
+
+    <div class="panel-group" id="edit-tables" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading marsk-panel-heading" role="tab" id="headingOne" data-toggle="collapse"
+                 href="#marks-editor">
+                <h5 class="panel-title pull">Оценки</h5>
+
+                <div style="clear: both"></div>
+            </div>
+
+            <div class="panel-collapse collapse" id="marks-editor">
+                <div class="panel-body" style=" padding: 0; border: none">
+                    <div class="marks-editor nojs">
+                        <div class="marks-table" id="marks-table">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% addtoblock "js" %}
+        <script>
+            var discipline = document.forms['marks']['discipline_id'];
+            var group = document.forms['marks']['group_id'];
+
+            var urls = {
+                groups: '{% url "students.views.students.ajax.json.groups" %}'
+            };
+
+            function getGroups() {
+                $.get(urls.groups, {
+                    discipline_id: discipline.value
+                }).success(function (data) {
+                    var $group = $(group);
+                    $group.empty();
+                    $.each(data, function (key, item) {
+                        $group.append($("<option></option>").attr("value", item.id).text(item.title));
+                    });
+                });
+            }
+
+            function getMarks() {
+
+            }
+
+            $(discipline).on('change', function (e) {
+                getGroups();
+            });
+            $(group).on('change', function (e) {
+                getMarks();
+            });
+
+            getGroups();
+        </script>
+    {% endaddtoblock %}
+
+{% endblock %}

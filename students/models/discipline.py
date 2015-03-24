@@ -6,7 +6,7 @@ import json
 import xlsxwriter
 from app.utils import json_encoder
 from students.models.mark import Mark
-import students.utils
+from students.utils import current_year, current_semestr
 
 
 class Discipline(models.Model):
@@ -14,9 +14,32 @@ class Discipline(models.Model):
     дисциплина
     """
     title = models.CharField(max_length=50, default='')
-    year = models.IntegerField(default=students.utils.current_year())
-    semestr = models.SmallIntegerField(default=students.utils.current_semestr())
+    year = models.IntegerField(default=current_year())
+    semestr = models.SmallIntegerField(default=current_semestr())
     visible = models.BooleanField(default=False)
+
+    @staticmethod
+    def list(request):
+        if not request.user.is_authenticated():
+            # если неатутентифицирован
+
+            query = """
+    SELECT DISTINCT sd.*
+    FROM students_discipline sd
+      LEFT JOIN students_lesson sl ON sl.discipline_id = sd.id
+      LEFT JOIN students_group sg ON sg.id = sl.group_id
+      LEFT JOIN students_studentlab sla ON sla.discipline_id = sd.id and sla.visible
+      WHERE (sg.year = %(year)d or sla.id is not NULL) AND sd.visible
+      ORDER BY sd.title
+        """ % {'year': current_year()}
+
+            return Discipline.objects.raw(query)
+
+    #         disciplines = Discipline.objects.filter(visible=True)
+        else:
+            # иначе весь список
+            return Discipline.objects.all().order_by("title")
+
 
     @staticmethod
     def ignore_lesson(lesson):

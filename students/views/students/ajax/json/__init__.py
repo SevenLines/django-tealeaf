@@ -39,14 +39,7 @@ def groups(request):
     if not year or not year.isdigit():
         year = current_year()
 
-    if not request.user.is_authenticated():
-        grps = Group.objects.filter(
-            Q(id__in=Lesson.objects.filter(discipline=discipline_id).values('group').distinct()) |
-            Q(id__in=StudentTaskResult.objects.filter(task__lab__discipline=discipline_id).values(
-                'student__group').distinct())
-        )
-    else:
-        grps = Group.objects.all()
+    grps = Group.list(request, discipline_id)
 
     if year:
         grps = grps.filter(year=year)

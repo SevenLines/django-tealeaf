@@ -2,7 +2,7 @@
 from django.db import models
 from django.forms.models import model_to_dict
 from ..models.student import Student
-from students.models import MarkBaseModel
+from ..models.mark import MarkBaseModel
 
 
 class StudentLab(models.Model):

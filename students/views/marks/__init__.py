@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.transaction import atomic
 from django.forms.models import model_to_dict
 from django.http.response import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import xlsxwriter
 import xlsxwriter.worksheet
 from students.models.group import Group
@@ -22,8 +22,21 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-    return render(request, "students/teacher-editor.html")
+    if request.user.is_authenticated():
+        return render(request, "students/teacher-editor.html")
+    else:
+        context = {
+            'disciplines': Discipline.list(request),
+        }
+        return render(request, "students/teacher-editor_static.html", context)
 
+
+def show(request, discipline_id, group_id):
+    context = {
+        "students": get_object_or_404(Group, id=group_id).students
+        "marks": get_object_or_404(Mark, id=group_id).students
+    }
+    return render(request, "students/marks/show-partial.html", context)
 
 def students_cached(discipline_id, group_id):
     # таблица оценок для всех студентов группы загружается из кэша

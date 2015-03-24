@@ -12,26 +12,7 @@ from students.utils import current_year
 
 def index(request):
     # список дисциплин
-    if not request.user.is_authenticated():
-        # если неатутентифицирован
-
-        query = """
-SELECT DISTINCT sd.*
-FROM students_discipline sd
-  LEFT JOIN students_lesson sl ON sl.discipline_id = sd.id
-  LEFT JOIN students_group sg ON sg.id = sl.group_id
-  LEFT JOIN students_studentlab sla ON sla.discipline_id = sd.id and sla.visible
-  WHERE (sg.year = %(year)d or sla.id is not NULL) AND sd.visible
-  ORDER BY sd.title
-    """ % {'year': current_year()}
-
-        disciplines = Discipline.objects.raw(query)
-
-#         disciplines = Discipline.objects.filter(visible=True)
-    else:
-        # иначе весь список
-        disciplines = Discipline.objects.all().order_by("title")
-
+    disciplines = Discipline.list(request)
     disciplines = list([model_to_dict(d) for d in disciplines])
 
     return HttpResponse(json.dumps(disciplines), content_type="json")

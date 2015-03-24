@@ -1,9 +1,11 @@
 # coding=utf-8
 from django.db import models
+from django.db.models.query_utils import Q
 from django.db.transaction import atomic
 from ..models.lesson import Lesson
 from ..models.mark import Mark
 from ..models.student import Student
+from ..models.labs import StudentTaskResult
 from ..utils import *
 
 
@@ -19,6 +21,25 @@ class Group(models.Model):
 
     def __unicode__(self):
         return "%s | %s" % (self.year, self.title)
+
+
+    @staticmethod
+    def list(request, discipline_id):
+        """
+        list all groups, and filter active groups for guests
+        :param request:
+        :param discipline_id:
+        :return:
+        :rtype: django.db.models.query.QuerySet
+        """
+        if not request.user.is_authenticated():
+            return Group.objects.filter(
+                Q(id__in=Lesson.objects.filter(discipline=discipline_id).values('group').distinct()) |
+                Q(id__in=StudentTaskResult.objects.filter(task__lab__discipline=discipline_id).values(
+                    'student__group').distinct())
+            )
+        else:
+            return Group.objects.all()
 
     @staticmethod
     def year_groups(year):
