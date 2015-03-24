@@ -49,7 +49,6 @@ def increment_build():
     build = 0
     try:
         from app.settings.version import BUILD
-
         build = int(BUILD)
     except BaseException as e:
         print e
@@ -130,7 +129,6 @@ def build_production():
     local("git merge -X theirs dev")
     local("git merge --no-ff dev")
     minify()
-    increment_build()  # обновляем версию
     with settings(warn_only=True):
         local("git commit -a -m 'minify scripts and css'")
     local("git checkout production")
@@ -175,7 +173,16 @@ def backup(only_base=False):
 
 
 def deploy(without_build=False):
+    build = 0
+    try:
+        from app.settings.version import BUILD
+        build = int(BUILD)
+    except BaseException as e:
+        print e
+
+    increment_build()  # обновляем версию
     local("python manage.py test")  # запускаем тесты
+    local("git commit -a -m 'сборка v%d'" % build)
     if not without_build:
         build_production()
     local("ssh-add ~/.ssh/locum.ru")
