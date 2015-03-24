@@ -130,6 +130,7 @@ def build_production():
     local("git merge -X theirs dev")
     local("git merge --no-ff dev")
     minify()
+    increment_build()  # обновляем версию
     with settings(warn_only=True):
         local("git commit -a -m 'minify scripts and css'")
     local("git checkout production")
@@ -174,7 +175,6 @@ def backup(only_base=False):
 
 
 def deploy(without_build=False):
-    increment_build()  # обновляем версию
     local("python manage.py test")  # запускаем тесты
     if not without_build:
         build_production()
