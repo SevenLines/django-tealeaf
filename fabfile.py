@@ -173,14 +173,10 @@ def backup(only_base=False):
 
 
 def deploy(without_build=False):
-    build = 0
-    try:
-        from app.settings.version import BUILD
-        build = int(BUILD)
-    except BaseException as e:
-        print e
-
     increment_build()  # обновляем версию
+    from app.settings.version import BUILD
+    build = int(BUILD)
+
     local("python manage.py test")  # запускаем тесты
     local("git commit -a -m 'сборка v%d'" % build)
     if not without_build:
