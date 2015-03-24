@@ -74,6 +74,7 @@ class StudentTaskResult(MarkBaseModel):
         return {
             'student': self.student_id,
             'task': self.task_id,
+            'created': self.date_update,
             'done': self.done,
             'group': self.student.group_id,
         }

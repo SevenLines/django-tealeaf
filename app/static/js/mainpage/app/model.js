@@ -236,7 +236,6 @@ define(['knockout', 'app/item', 'modal_confirm', 'helpers'],
                 file_dialog.click();
             };
 
-
             self.loadItems();
             self.loadThemes();
         }

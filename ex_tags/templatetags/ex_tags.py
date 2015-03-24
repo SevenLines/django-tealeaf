@@ -88,6 +88,7 @@ def requirejs(context, baseUrl="", main="", main_built="", *args):
         'main': main,
         'main_built': main_built,
         'add_modules': add_modules,
+        'urlArgs': "build=v%d" % settings.BUILD if hasattr(settings, 'BUILD') else 0,
         'debug': settings.REQUIRE_JS_DEBUG,
     }, context_instance=context)
 

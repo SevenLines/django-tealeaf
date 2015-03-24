@@ -23,4 +23,5 @@ define('jquery', [], function () {
 require(["knockout", "mainpage-settings", "app/model", 'ckeditorinlinebinding'],
     function (ko, settings, MainPageModel) {
         ko.applyBindings(new MainPageModel(settings));
+
     });
