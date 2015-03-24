@@ -124,3 +124,4 @@ from app.settings.tests import *
 from app.settings.assets import *
 from app.settings.dirs import *
 from app.settings.middleware import *
+from app.settings.version import *

@@ -5,6 +5,7 @@
     require.config({
         {% if baseUrl %}baseUrl: '{% static baseUrl %}',{% endif %}
         {% if main %}{% if not debug %}paths: {'{{ main }}': '{{ main_built }}'}, {% endif %}{% endif %}
+        urlArgs: '{{ urlArgs }}'
     });
     {% if main %}require(['{{ main }}'{% if add_modules %}, {{ add_modules|safe }}{% endif %}]);{% endif %}
 </script>

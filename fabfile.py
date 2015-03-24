@@ -1,10 +1,9 @@
 # coding:utf8
-from fabric.context_managers import lcd
 import fnmatch
-import glob
+import os as OS
+
 from fabric.api import run, env, cd, prefix, settings
 from fabric.operations import local, os
-import os as OS
 
 # ## ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
@@ -39,6 +38,24 @@ env.user = 'hosting_mmailm'
 env.activate = 'source /home/hosting_mmailm/projects/env/bin/activate'
 
 app_dir = "/home/hosting_mmailm/projects/django-tealeaf"
+
+import app.settings.version
+
+
+def increment_build():
+    """
+    увеличивает на единицу значение BUILD в app.settings.version
+    """
+    build = 0
+    try:
+        from app.settings.version import BUILD
+
+        build = int(BUILD)
+    except BaseException as e:
+        print e
+    print build
+    with open("app/settings/version.py", 'w') as f:
+        f.write("BUILD = %d" % (build + 1))
 
 
 def compile_js(minify='-m'):
@@ -157,7 +174,8 @@ def backup(only_base=False):
 
 
 def deploy(without_build=False):
-    local("python manage.py test")
+    increment_build()  # обновляем версию
+    local("python manage.py test")  # запускаем тесты
     if not without_build:
         build_production()
     local("ssh-add ~/.ssh/locum.ru")
@@ -177,5 +195,5 @@ def deploy(without_build=False):
 
 def copy(path):
     local("scp -C {user}@{host}:{app_dir}/{path} {filename}".format(
-            user=env.user, host=env.hosts[0], app_dir=app_dir,path=path, filename=path.split('/')[-1])
-        )
+        user=env.user, host=env.hosts[0], app_dir=app_dir, path=path, filename=path.split('/')[-1])
+    )
