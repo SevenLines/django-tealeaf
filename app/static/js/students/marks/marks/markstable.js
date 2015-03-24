@@ -107,6 +107,7 @@ define(['knockout',
                         }
                     }
                     lastX = left;
+	                e.stopImmediatePropagation();
                 };
                 $markseditor.on({
                     mousedown: function (e) {
