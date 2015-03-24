@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http.response import HttpResponse, HttpResponseBadRequest
 
-from app.utils import require_in_GET, update_object, require_in_POST, update_post_object, get_post_object
+from app.utils import require_in_GET, update_object, require_in_POST, update_post_object, get_post_object, json_encoder
 from ..models.labs import StudentLab, StudentTask
 from ..models.discipline import Discipline
 from ..models import Group
@@ -44,7 +44,7 @@ def index(request):
     return HttpResponse(json.dumps({
         'labs': labs,
         'complex_choices': dict(StudentTask.COMPLEX_CHOICES)
-    }), content_type='json')
+    }, default=json_encoder), content_type='json')
 
 #
 # @require_in_GET('discipline_id', 'group_id')

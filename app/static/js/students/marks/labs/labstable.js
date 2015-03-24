@@ -153,5 +153,9 @@ define(['knockout', 'urls', 'helpers', 'labs/lab'], function (ko, urls, helpers,
             e.stopImmediatePropagation();
             self.loadLabs();
         };
+
+	    self.toggleTaskMark = function (lab, data) {
+		    lab.toggleTaskMark(data);
+	    }
     }
 });
