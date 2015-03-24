@@ -1,5 +1,5 @@
 import os
-from settings import BASE_DIR, DEBUG
+from app.settings import BASE_DIR, DEBUG
 
 if not DEBUG:
     log_path = os.path.join(BASE_DIR, 'logs/log.log')
