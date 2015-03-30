@@ -19,8 +19,6 @@ permitted_keys = ['title', 'description', 'discipline_id', 'visible', 'columns_c
 def index(request):
     '''
     Возвращает лабы для дисциплины
-    :param request:
-    :return:
     '''
     discipline_id = request.GET['discipline_id']
 

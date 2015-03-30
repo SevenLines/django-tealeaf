@@ -32,3 +32,5 @@ dump.sql
 credentials.json
 .webassets-cache
 /.project
+
+db.json
