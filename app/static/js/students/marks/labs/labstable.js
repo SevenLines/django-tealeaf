@@ -41,7 +41,7 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 		 * и в случвае нобходимости обновляет
 		 */
 		var updateBlock = false;
-		var updateTimeout = 30000;
+		var updateTimeout = 60000;
 		self.updateLabs = function () {
 
 			if (urls.url.logged || updateBlock)
