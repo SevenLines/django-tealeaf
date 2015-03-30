@@ -56,7 +56,14 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 		}
 
 		self.hasTaskMarksForStudent = function (student) {
-			return self.marks[student.id] !== undefined;
+			var marks = self.marks[student.id];
+			for (var mark in marks) {
+				if (marks[mark].done()) {
+					return true;
+				}
+			}
+			return false;
+			//return self.marks[student.id] !== undefined;
 		};
 
 		self.setMarks = function (marks) {
@@ -80,26 +87,21 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 
 		self.mark = function (task, student) {
 			return ko.pureComputed(function () {
-				var out = self.marks[student.id];
+				if (!self.marks[student.id]) {
+					self.marks[student.id] = {};
+				}
 
-				if (!out) return new MarkTask({
-					student     : student.id,
-					task        : task.id,
-					student_inst: student,
-					task_inst   : student,
-					lab         : self
-				});
+				if (!self.marks[student.id][task.id]) {
+					self.marks[student.id][task.id] = new MarkTask({
+						student     : student.id,
+						task        : task.id,
+						student_inst: student,
+						task_inst   : student,
+						lab         : self
+					});
+				}
 
-				out = out[task.id];
-				if (!out) return new MarkTask({
-					student     : student.id,
-					task        : task.id,
-					student_inst: student,
-					task_inst   : student,
-					lab         : self
-				});
-
-				return out;
+				return self.marks[student.id][task.id];
 			});
 		};
 
@@ -111,7 +113,7 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 			if (self.marks[mark.student] === undefined) {
 				self.marks[mark.student] = {};
 			}
-			item = self.marks[mark.student]
+			item = self.marks[mark.student];
 
 			if (item[mark.task] === undefined) {
 				item[mark.task] = {};

@@ -39,6 +39,7 @@
                         labs: "{% url "students.views.labsview.index" %}",
                         to_excel: "{% url "students.views.marks.marks_to_excel" %}",
                         {% if user.is_authenticated %}
+                            logged: true, // чтобы определять залогинен ли пользователь
                             discipline_add: "{% url "students.views.marks.disciplines.add" %}",
                             discipline_remove: "{% url "students.views.marks.disciplines.remove" %}",
                             discipline_edit: "{% url "students.views.marks.disciplines.edit" %}",
