@@ -92,9 +92,9 @@ PLUGIN_WRAPPER_ITEM_CLASSES = (
     ('list-group-item', 'list-group-item'),
 )
 
-SOUTH_MIGRATION_MODULES = {
-    'easy_thumbnails': 'easy_thumbnails.south_migrations',
-}
+# SOUTH_MIGRATION_MODULES = {
+#     'easy_thumbnails': 'easy_thumbnails.south_migrations',
+# }
 
 FILER_PAGINATE_BY = 50
 
@@ -109,11 +109,6 @@ CUSTOM_MENU_ITEMS = ({
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
-}
-
-MIGRATION_MODULES = {
-    'cms': 'cms.migrations_django',
-    'menus': 'menus.migrations_django',
 }
 
 from app.settings.debug import *

@@ -32,4 +32,5 @@ INSTALLED_APPS = (
     'tracking_ex',
     'django_assets',
     'textpage',
+    'treebeard',
 )
