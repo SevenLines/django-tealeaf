@@ -8,6 +8,6 @@ from cms.plugin_pool import plugin_pool
 class TocPlugin(CMSPluginBase):
     model = CMSPlugin
     render_template = "toc/table_of_contents.html"
-    name = "Содержание"
+    name = u"Содержание"
 
 plugin_pool.register_plugin(TocPlugin)

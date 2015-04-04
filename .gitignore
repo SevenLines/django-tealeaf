@@ -34,3 +34,4 @@ credentials.json
 /.project
 
 db.json
+env
