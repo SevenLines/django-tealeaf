@@ -14,7 +14,7 @@ django-markupfield==1.3.0
 django-tracking2==0.2.0
 django_assets==0.10
 django_ace==1.0.2
-git+https://github.com/ojii/django-sekizai.git #django-sekizai
+django-sekizai
 
 cssmin==0.2.0
 jsmin==2.0.11
