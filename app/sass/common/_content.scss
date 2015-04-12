@@ -228,6 +228,12 @@ a {
     padding-left: 20px;
     line-height: 20px;
   }
+  &[href$='.pptx'], &[href$='.ppt'] {
+    background: transparent url(../css/images/icons/ppt.png) center left no-repeat;
+    display: inline-block;
+    padding-left: 20px;
+    line-height: 20px;
+  }
 }
 
 /* Style for immitating console in DIV block*/
