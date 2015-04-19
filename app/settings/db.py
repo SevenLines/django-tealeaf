@@ -10,7 +10,7 @@ if 'test' in sys.argv:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'tealeaf.dbs',
+            'NAME': 'tealeaf_test.dbs',
         }
     }
 else:
@@ -22,5 +22,9 @@ else:
             'USER': credentials["database"]['USER'],
             'HOST': credentials["database"]['HOST'],
             'PORT': credentials["database"]['PORT'],
+        },
+        'sqlite': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'tealeaf.dbs',
         }
     }
