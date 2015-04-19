@@ -141,17 +141,18 @@ def backup(only_base=False):
 
     # create backip_archive on server
     with cd(app_dir):
-        run("./dump_db.sh")  # create database dump
+        with prefix(env.activate):
+            run("python manage.py dumpdata > dump.json")
         if not only_base:
             run("tar -czf media.tgz media")  # create media dump
 
     # remove local old backup
-    local("rm -f dump.sql")
+    local("rm -f dump.json")
     if not only_base:
         local("rm -f media.tgz")
 
     # download database backup from server
-    local("scp -C {user}@{host}:{app_dir}/dump.sql dump.sql".format(
+    local("scp -C {user}@{host}:{app_dir}/dump.json dump.json".format(
         user=env.user, host=env.hosts[0], app_dir=app_dir)
     )
     if not only_base:
@@ -163,7 +164,7 @@ def backup(only_base=False):
     # restore database
     # local("dropdb -U postgres tealeaf")
     # local("createdb -U postgres tealeaf")
-    local("psql -U postgres -d tealeaf -f dump.sql")
+    local("python manage.py loaddata dump.json")
 
     if not only_base:
         # restore media
