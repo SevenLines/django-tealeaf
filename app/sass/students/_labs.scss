@@ -6,6 +6,12 @@ $m_task_label_width: 32px;
   @include transition(0.3s);
   background-color: $bg;
   box-shadow: 0 0 3px $fg !important;
+
+  pre {
+    border: 2px solid darken($fg, 10);
+    background-color: lighten($bg, 12);
+  }
+
   &.selected, &.selected2, &.selected3 {
     &:hover {
       background-color: $bg;
@@ -220,4 +226,5 @@ $m_task_label_width: 32px;
 
 pre {
   margin: 0.5em 0;
+  background-color: white;
 }
