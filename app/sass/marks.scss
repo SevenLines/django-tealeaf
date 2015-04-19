@@ -216,12 +216,21 @@
       }
 
       // разукрашиваю таблицы в разные цвета
-      $max_tables: 5;
+
+      $bgcolors: #d6a503, #5da200, #58ae8e, #0084b2, #b25e78, #d18869;
+      $fgcolors: #ffe500, #c1f400, #7ff0cb, #00c4ff, #ff8cab, #ffbf85;
+
+      $color: #f49900;
+      $color2: #ffe500;
+      $step: 35;
+      $max_tables: length($bgcolors) - 1;
       @for $i from 0 through $max_tables {
         &:nth-child(#{$i+1}) {
-          $color: adjust_hue(#f49900, 80 / $max_tables * $i);
-          $color2: adjust_hue(#ffe500, 80 / $max_tables * $i);
-          background-color: lighten($color2, 47);
+
+          $color: nth($bgcolors, $i + 1);
+          $color2: nth($fgcolors, $i + 1);
+
+          background-color: hsl(hue($color2), saturation($color2), 97);
           &:hover {
             .lab-title {
               background-color: lighten($color2, 0);
@@ -229,8 +238,8 @@
           }
 
           .lab-title {
-            background-color: lighten($color2, 25);
-            color: darken($color, 20);
+            //background-color: lighten($color2, 25);
+            color: darken($color, 40);
             text-shadow: 0 0 1px white;
           }
           .task-title {
@@ -243,8 +252,9 @@
           }
 
           .done {
-            box-shadow: 0 0 3px darken($color, 20), 0 0 4px $color inset;
+            //box-shadow: 0 0 3px darken($color, 20), 0 0 4px $color inset;
             background-color: $color2 !important;
+            box-shadow: 0 0 0 2px $color inset;
             color: darken($color, 30);
           }
 
@@ -265,8 +275,16 @@
               background-color: lighten($color2, 20);
             }
           }
+
+          //@if $i == 2 or $i == 3 or $i == 3 {
+          //  $color: adjust_hue($color, $step*2);
+          //  $color2: adjust_hue($color2, $step*2);
+          //} @else {
+          //  $color: adjust_hue($color, $step);
+          //  $color2: adjust_hue($color2, $step);
+          //}
         }
-      }
+      } // конец цикла разукрашивания таблиц
 
       .t-cell {
         -webkit-transition: background-color 0.3s;
