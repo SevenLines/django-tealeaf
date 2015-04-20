@@ -15,6 +15,7 @@ def login_user(request):
     if user is not None:
         if user.is_active:
             login(request, user)
+            return redirect(request.META['HTTP_REFERER'] if not 'next' in request.GET else request.GET['next'])
         else:
             messages.error(request, u"Пользователь %s не активен" % username)
     else:

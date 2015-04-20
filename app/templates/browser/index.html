@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    {#    {% include "elements/scripts.html" %}#}
+    {#    {% include "elements/styles.html" %}#}
+    <script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
+    <link rel="stylesheet" href="{% static "lib/bootstrap/bootstrap.min.css" %}"/>
+</head>
+<body>
+
+<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <div class="list-group">
+        <a class="list-group-item" href="{% url 'browser:index' previous %}">
+            ..
+        </a>
+        {% for dir in dirs %}
+            <a class="list-group-item" href="{% url 'browser:index' dir.path %}">
+                {{ dir.name }}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    {% for file in files %}
+        <a class="list-group-item file" href="{{ file.url }}">
+            {{ file.name }}
+        </a>
+    {% endfor %}
+</div>
+<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <iframe id="preview" src="" frameborder="0" style="width: 100%;height: 100%;">
+
+    </iframe>
+</div>
+
+<script>
+    $('.file').click(function () {
+        $("#preview").attr('src', this.href);
+        return false;
+    })
+</script>
+
+</body>
+</html>

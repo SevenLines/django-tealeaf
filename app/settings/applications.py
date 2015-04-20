@@ -33,4 +33,7 @@ INSTALLED_APPS = (
     'django_assets',
     'textpage',
     'treebeard',
+
+    'grappelli',
+    'filebrowser',
 )
