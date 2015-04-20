@@ -122,8 +122,12 @@ WHERE s.group_id = %(group_id)d and l.lesson_id is not NULL
                          'icn_fld_id': l.icon.folder.id if l.icon else '',
                          } for l in lessons])
 
+        group = Group.objects.filter(pk=group_id).first()
+        if not group:
+            return None
+
         # студенты группы
-        stdnts = Group.objects.get(pk=group_id).students.all().order_by("second_name")
+        stdnts = group.students.all().order_by("second_name")
         stdnts = list([s.to_dict() for s in stdnts])
         for s in stdnts:
             # формируем оценки для студентов
@@ -183,6 +187,10 @@ class DisciplineMarksCache(models.Model):
         :param discipline_id:
         :param group_id:
         """
+        from students.models.group import Group
+
+        if not Group.objects.filter(pk=group_id).exists():
+            return None
 
         val = DisciplineMarksCache.objects.filter(discipline_id=discipline_id, group_id=group_id).first()
         if val is None:
@@ -191,8 +199,8 @@ class DisciplineMarksCache(models.Model):
             val.group_id = group_id
         d = Discipline.objects.get(pk=discipline_id)
         marks = d.marks(group_id)
-        val.marks_json = json.dumps(marks)
 
+        val.marks_json = json.dumps(marks)
         excel = val._marks_to_excel(json.loads(json.loads(val.marks_json)))
 
         val.marks_excel = '' if isinstance(excel, str) else excel.getvalue()

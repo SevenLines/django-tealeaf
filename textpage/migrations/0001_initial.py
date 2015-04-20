@@ -5,6 +5,9 @@ from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
+    dependencies = [
+        ('cms', '__first__'),
+    ]
 
     operations = [
         migrations.CreateModel(

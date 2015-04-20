@@ -92,9 +92,10 @@ PLUGIN_WRAPPER_ITEM_CLASSES = (
     ('list-group-item', 'list-group-item'),
 )
 
-# SOUTH_MIGRATION_MODULES = {
+MIGRATION_MODULES = {
+    'filer': 'filer.migrations_django',
 #     'easy_thumbnails': 'easy_thumbnails.south_migrations',
-# }
+}
 
 FILER_PAGINATE_BY = 50
 

@@ -143,6 +143,7 @@ def backup(only_base=False):
     with cd(app_dir):
         with prefix(env.activate):
             run("python manage.py dumpdata > dump.json")
+            run("tar cvzf dump.tgz dump.json")
         if not only_base:
             run("tar -czf media.tgz media")  # create media dump
 
@@ -152,7 +153,7 @@ def backup(only_base=False):
         local("rm -f media.tgz")
 
     # download database backup from server
-    local("scp -C {user}@{host}:{app_dir}/dump.json dump.json".format(
+    local("scp -C {user}@{host}:{app_dir}/dump.tgz dump.tgz".format(
         user=env.user, host=env.hosts[0], app_dir=app_dir)
     )
     if not only_base:
@@ -162,9 +163,9 @@ def backup(only_base=False):
         )
 
     # restore database
-    # local("dropdb -U postgres tealeaf")
-    # local("createdb -U postgres tealeaf")
-    local("python manage.py loaddata dump.json")
+    local("tar xvzf dump.tgz")  # unpack archive
+    local("python manage.py sqlflush | python manage.py dbshell")  # clear old data
+    local("python manage.py loaddata dump.json")  # load new data
 
     if not only_base:
         # restore media
