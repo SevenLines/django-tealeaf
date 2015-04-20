@@ -11,7 +11,7 @@
 //  @include transition(0.1s);
 
   @mixin shadow($color) {
-    box-shadow: $color 0 0 8px inset;
+    box-shadow: darken($color, 2) 0 0 0 4px inset;
   }
 
   @mixin mark-stripes($stripe-color) {
@@ -63,7 +63,8 @@
     &.exam {
       $clr: lighten(adjust_hue($color, $exam-hue-offset), 5);
       @if ($use-shadow) {
-        box-shadow: darken($clr, 10) 0 0 2px inset;
+        @include shadow(darken($clr, $lighten));
+        //box-shadow: darken($clr, 10) 0 0 2px inset;
       }
       background-color: $clr;
       //        color: white;
@@ -101,7 +102,7 @@
 
   // ОЦЕНКИ ЗА ПАРУ
   &.absent {
-    @include test_exam(lighten($quater, 18));
+    @include test_exam(lighten($quater, 18), true);
     color: grey;
     &:after {
       content: "н";
@@ -113,10 +114,10 @@
   }
 
   &.normal {
-    @include test_exam($quater);
+    @include test_exam($quater, true);
   }
   &.good {
-    @include test_exam($half);
+    @include test_exam($half, true);
   }
   &.excellent {
     @include test_exam($full, true);
@@ -142,7 +143,7 @@
   &.shining {
     background-color: #ffe20a;
     z-index: 100;
-    box-shadow: 0 0 12px rgb(255, 182, 44) inset;
+    box-shadow: 0 0 0 3px rgb(255, 182, 44) inset;
     //      @include animation(shinig-glow 4s infinite);
   }
   &.mercy {
