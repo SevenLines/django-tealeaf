@@ -222,7 +222,7 @@
 
       $color: #f49900;
       $color2: #ffe500;
-      $step: 35;
+      //$step: 35;
       $max_tables: length($bgcolors) - 1;
       @for $i from 0 through $max_tables {
         &:nth-child(#{$i+1}) {
@@ -276,6 +276,13 @@
             }
           }
 
+          .t-cell {
+            &.changed {
+              box-shadow: 0 0 0 4px darken($color, 10) inset;
+              //border-color: ;
+            }
+          }
+
           //@if $i == 2 or $i == 3 or $i == 3 {
           //  $color: adjust_hue($color, $step*2);
           //  $color2: adjust_hue($color2, $step*2);
@@ -284,7 +291,8 @@
           //  $color2: adjust_hue($color2, $step);
           //}
         }
-      } // конец цикла разукрашивания таблиц
+      }
+      // конец цикла разукрашивания таблиц
 
       .t-cell {
         -webkit-transition: background-color 0.3s;
@@ -293,7 +301,8 @@
         -o-transition: background-color 0.3s;
         transition: background-color 0.3s;
         &.changed {
-          box-shadow: 0 0 0 4px #008000 inset;
+          //box-shadow: 0 0 0 4px #008000 inset;
+          //border-color: ;
         }
       }
 
