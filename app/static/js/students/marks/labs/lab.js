@@ -16,6 +16,10 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 		self.columns_count = ko.observable(data.columns_count);
 		self.marks = {};
 
+		self.leftMarksDate = "";
+		self.rightMarksDate = "";
+		self.diffMarksDate = "";
+
 		self.columns_with_tasks = ko.pureComputed(function () {
 			var out = [];
 			var lastCol = 0;
@@ -44,6 +48,10 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 
 		function init() {
 			var index = 1;
+
+			// формируем список оценок
+
+
 			data.tasks.every(function (item) {
 				item.complex_choices = data.complex_choices;
 				item.order = index++;
@@ -68,18 +76,42 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 
 		self.setMarks = function (marks) {
 			self.marks = {};
+
+			// определяем минимальную и максимальную дату когда сдавали эту лабу
+			if (marks.length && marks[0].created) {
+				self.leftMarksDate = new Date(marks[0].created);
+				self.rightMarksDate = new Date(marks[0].created);
+			}
+
 			marks.every(function (item) {
-				setTimeout(function () {
-					var m = self.marks[item.student];
-					if (!m) {
-						self.marks[item.student] = {};
-						m = self.marks[item.student];
+				if (item.created) {
+					var date = new Date(item.created);
+					if (date < self.leftMarksDate) {
+						self.leftMarksDate = date;
 					}
-					item.student_inst = item.student;
-					item.task_inst = item.task;
-					item.lab = self;
-					m[item.task] = new MarkTask(item);
-				}, 0);
+					if (date > self.rightMarksDate) {
+						self.rightMarksDate = date;
+					}
+				}
+
+
+				return true;
+			});
+
+			self.diffMarksDate = self.rightMarksDate - self.leftMarksDate;
+
+			marks.every(function (item) {
+				//setTimeout(function () {
+				var m = self.marks[item.student];
+				if (!m) {
+					self.marks[item.student] = {};
+					m = self.marks[item.student];
+				}
+				item.student_inst = item.student;
+				item.task_inst = item.task;
+				item.lab = self;
+				m[item.task] = new MarkTask(item);
+				//}, 0);
 				return true;
 			});
 		};
@@ -93,11 +125,11 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 
 				if (!self.marks[student.id][task.id]) {
 					self.marks[student.id][task.id] = new MarkTask({
-						student     : student.id,
-						task        : task.id,
+						student: student.id,
+						task: task.id,
 						student_inst: student,
-						task_inst   : student,
-						lab         : self
+						task_inst: student,
+						lab: self
 					});
 				}
 
@@ -125,8 +157,8 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 		self.remove = function (done, fail) {
 			$.prompt("Удалить \"" + self.title() + "\"?", {
 				persistent: false,
-				buttons   : {"Да": true, 'Не сейчас': false},
-				submit    : function (e, v) {
+				buttons: {"Да": true, 'Не сейчас': false},
+				submit: function (e, v) {
 					if (v) {
 						helpers.post(urls.url.lab_delete, {
 							id: self.id
@@ -161,14 +193,14 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 			}
 
 			helpers.post(urls.url.lab_save, {
-				id           : self.id,
-				title        : self.title(),
-				description  : self.description(),
-				discipline   : self.discipline(),
-				visible      : self.visible(),
-				regular      : self.regular(),
+				id: self.id,
+				title: self.title(),
+				description: self.description(),
+				discipline: self.discipline(),
+				visible: self.visible(),
+				regular: self.regular(),
 				columns_count: self.columns_count(),
-				order_array  : JSON.stringify(order_array)
+				order_array: JSON.stringify(order_array)
 			}, self.reset);
 		};
 
@@ -213,13 +245,13 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 			if (e) e.stopImmediatePropagation();
 			$.prompt({
 				state: {
-					title  : "Заполните",
-					html   : '<textarea class="form-control" name="description" placeholder="описание" value="..."></textarea>',
+					title: "Заполните",
+					html: '<textarea class="form-control" name="description" placeholder="описание" value="..."></textarea>',
 					buttons: {'Добавить': true, 'Отмена': false},
-					submit : function (e, v, m, f) {
+					submit: function (e, v, m, f) {
 						if (v) {
 							helpers.post(urls.url.task_add, {
-								lab_id     : self.id,
+								lab_id: self.id,
 								description: f.description
 							}, function (r) {
 								r.complex_choices = self.complex_choices;
