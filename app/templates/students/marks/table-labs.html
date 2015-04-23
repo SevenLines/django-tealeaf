@@ -12,7 +12,7 @@
                  data-bind="{% if user.is_authenticated %}
                  click: function () { if (!$root.containerMoved) $root.labsTable.toggleTaskMark($parents[2], $data) },
                  {% endif %}
-                 css: {'done': done, 'changed': changed }">
+                 css: css">
                 <span class="t-cell-icon" data-bind="text: $parent.order"></span>
             </div>
             <!-- /ko -->

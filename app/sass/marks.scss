@@ -252,10 +252,17 @@
           }
 
           .done {
+            $doneclass: fast-normal, normal, normal-slow, slow, slow-veryslow, veryslow;
             //box-shadow: 0 0 3px darken($color, 20), 0 0 4px $color inset;
-            background-color: $color2 !important;
-            box-shadow: 0 0 0 2px $color inset;
+            background-color: $color2;
+            box-shadow: 0 0 0 4px $color inset;
             color: darken($color, 30);
+
+            @for $j from 1 to length($doneclass) + 1 {
+              &.#{nth($doneclass, $j)} {
+                background-color: lighten($color2, 5 + $j*4);
+              }
+            }
           }
 
           .tooltip {
@@ -314,7 +321,7 @@
         overflow: hidden;
         font-size: $row-height / 2.5;
         text-align: center;
-        z-index: 100;
+        z-index: 99;
         background-color: white;
         border-bottom: 1px solid $table-border-color;
         //        border-right: 1px solid $table-border-color;
