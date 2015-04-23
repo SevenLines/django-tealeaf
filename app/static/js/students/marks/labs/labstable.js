@@ -18,6 +18,13 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 		 */
 		self.onLabsLoadingComplete = null;
 
+		/***
+		 * для запоминаия последней открытой лабораторной
+		 */
+		//$(".left-board").on("click", ".m-lab-title", function () {
+		//	var match = /#lab(\d+)/i.exec($(this).attr('href'));
+		//});
+
 
 		self.setParams = function (discipline_id) {
 			if (self.discipline_id != discipline_id) {
@@ -72,8 +79,8 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 									if (!mark) {
 										lab.toggleTaskMark(new MarkTask({
 											student: nmark.student,
-											task   : nmark.task,
-											lab    : self
+											task: nmark.task,
+											lab: self
 										}));
 									} else if (mark.done() != nmark.done) {
 										mark.toggle();
@@ -127,8 +134,13 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 					}, lastTimeout);
 				});
 
-				if (self.onLabsLoadingComplete)
-					self.onLabsLoadingComplete(r, self);
+
+				if (self.onLabsLoadingComplete) {
+					setTimeout(function () {
+						self.onLabsLoadingComplete(r, self);
+					}, 100);
+				}
+
 			}).fail(helpers.showFail);
 			//}, 10);
 		};
@@ -142,14 +154,14 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 			e.stopImmediatePropagation();
 			$.prompt({
 				state: {
-					title  : "Заполните",
-					html   : '<input class="form-control" type="text" name="title" placeholder="название" value="без названия">',
+					title: "Заполните",
+					html: '<input class="form-control" type="text" name="title" placeholder="название" value="без названия">',
 					buttons: {'Добавить': true, 'Отмена': false},
-					submit : function (e, v, m, f) {
+					submit: function (e, v, m, f) {
 						if (v) {
 							helpers.post(urls.url.lab_add, {
 								discipline_id: self.discipline_id,
-								title        : f.title
+								title: f.title
 							}, self.loadLabs);
 						}
 					}
@@ -175,7 +187,7 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 
 			helpers.post(urls.url.lab_save_order, {
 				'order_array': JSON.stringify(order_array),
-				'id'         : self.discipline_id
+				'id': self.discipline_id
 			}, function () {
 				self.labs.notifySubscribers();
 				self.labs().every(function (lab) {
