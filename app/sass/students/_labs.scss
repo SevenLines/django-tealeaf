@@ -83,6 +83,15 @@ $m_task_label_width: 32px;
 }
 
 .m-lab {
+  // для создания эффекта плавной загрузки
+  //display: none;
+  //&.showable {
+  //  .m-lab-title {
+  //    opacity: 1;
+  //  }
+  //  display: block;
+  //}
+
   a {
     //    color: #000000;
     //    text-decoration: none;
@@ -94,6 +103,7 @@ $m_task_label_width: 32px;
     }
   }
   .m-lab-title {
+    //opacity: 0;
     @include transition(0.1s);
     cursor: pointer;
     padding: 0.25em 0.5em;

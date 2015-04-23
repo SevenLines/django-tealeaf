@@ -19,6 +19,8 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 		self.leftMarksDate = "";
 		self.rightMarksDate = "";
 		self.diffMarksDate = "";
+		self.show = ko.observable(false); // видно ли лабу на экране, используется для создания илююзии более плавной загрузки
+
 
 		self.columns_with_tasks = ko.pureComputed(function () {
 			var out = [];

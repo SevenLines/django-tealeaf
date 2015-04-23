@@ -38,7 +38,7 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 		 * Обновление оценок по всем лабам
 		 * Функция запрашивает у сервера данные по оценкам
 		 * и ищет разницу между текущими оценками и запрошенными
-		 * и в случвае нобходимости обновляет
+		 * и в случае нобходимости обновляет
 		 */
 		var updateBlock = false;
 		var updateTimeout = 60000;
@@ -95,6 +95,9 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 			});
 		};
 
+		/***
+		 * загрузка всех лабов
+		 */
 		self.loadLabs = function (done) {
 			self.labs.removeAll();
 			self.labsLoading(true);
@@ -111,12 +114,30 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 					return true;
 				});
 				self.labsLoading(false);
+				// запускаем таймер обновления лабов,
+				// это нужно для синхронизации оценок без перезагрузки
 				setTimeout(self.updateLabs, updateTimeout);
-				if (self.onLabsLoadingComplete) self.onLabsLoadingComplete(r, self);
+
+				var timeout = 100;
+				var lastTimeout = 300;
+				self.labs().forEach(function (item) {
+					lastTimeout += timeout;
+					setTimeout(function () {
+						item.show(true)
+					}, lastTimeout);
+				});
+
+				if (self.onLabsLoadingComplete)
+					self.onLabsLoadingComplete(r, self);
 			}).fail(helpers.showFail);
 			//}, 10);
 		};
 
+		/***
+		 * добавление новой лабы
+		 * @param data
+		 * @param e
+		 */
 		self.addLab = function (data, e) {
 			e.stopImmediatePropagation();
 			$.prompt({
@@ -136,6 +157,12 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 			});
 		};
 
+		/***
+		 * сохраняет все связанное с лабами, включая задачи
+		 * оценки не сохраняет
+		 * @param data
+		 * @param e
+		 */
 		self.saveAll = function (data, e) {
 			e.stopImmediatePropagation();
 			var order_array = [];
