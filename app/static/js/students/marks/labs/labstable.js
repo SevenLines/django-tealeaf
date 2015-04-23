@@ -121,6 +121,7 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 					return true;
 				});
 				self.labsLoading(false);
+
 				// запускаем таймер обновления лабов,
 				// это нужно для синхронизации оценок без перезагрузки
 				setTimeout(self.updateLabs, updateTimeout);
@@ -147,8 +148,6 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 
 		/***
 		 * добавление новой лабы
-		 * @param data
-		 * @param e
 		 */
 		self.addLab = function (data, e) {
 			e.stopImmediatePropagation();
