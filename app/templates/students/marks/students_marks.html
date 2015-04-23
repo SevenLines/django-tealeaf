@@ -23,12 +23,12 @@
     <div class="m-table-container">
         <!-- ТАБЛИЦА ЛАБОВ -->
         <!-- ko foreach: labs -->
-        <!-- ko if: regular -->
-        <!-- ko if: visible -->
-        {% include "students/marks/table-labs.html" %}
-        <!-- /ko -->
-        <!-- /ko -->
-        <!-- /ko -->
+            <!-- ko if: regular -->
+                <!-- ko if: visible -->
+                    {% include "students/marks/table-labs.html" %}
+                <!-- /ko -->
+            <!-- /ko -->
+            <!-- /ko -->
         <!-- конец ТАБЛИЦА ЛАБОВ -->
         {% if not  user.is_authenticated %}
             <!-- ko if: lessons().length -->

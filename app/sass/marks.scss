@@ -182,16 +182,23 @@
     }
 
     .l-table {
-
       border-right: 1px solid $table-border-color;
-      //      background-color: #F4F4F4;
-      //      &:nth-child(odd) {
-      //        background-color: #F8F8F8;
-      //      }
       .t-cell-icon {
-        //        @include transition(0.1s);
         display: none;
       }
+
+      // для создания эффекта плавной загрузки
+      opacity: 0;
+      -webkit-transition: opacity 0.2s;
+      -moz-transition: opacity 0.2s;
+      -ms-transition: opacity 0.2s;
+      -o-transition: opacity 0.2s;
+      transition: opacity 0.2s;
+      &.showable {
+        opacity: 1;
+      }
+
+
       .hover {
         .t-cell {
           background-color: white;
