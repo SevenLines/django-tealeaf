@@ -187,7 +187,7 @@ $m_task_label_width: 32px;
   padding: 0.25em 0.5em;
   background-color: #ffffff;
   border-radius: 8px;
-  @media (max-width: $width-medium) {
+  @media (max-width: $width-small) {
     display: none;
   }
   border: silver 1px solid;
