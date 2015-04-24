@@ -137,19 +137,20 @@
   &.black-hole {
     background-color: black;
     z-index: 100;
-    box-shadow: 0 0 12px rgb(255, 24, 0) inset;
+    box-shadow: 0 0 0 4px rgb(200, 0, 0) inset;
     //      @include animation(black-hole-glow 2s infinite);
   }
   &.shining {
     background-color: #ffe20a;
     z-index: 100;
-    box-shadow: 0 0 0 3px rgb(255, 182, 44) inset;
+    box-shadow: 0 0 0 4px rgb(255, 182, 44) inset;
     //      @include animation(shinig-glow 4s infinite);
   }
   &.mercy {
+    @include test_exam(lighten($quater, 20), true);
     background-color: white;
-    z-index: 100;
-    //      box-shadow: 0 0 4px white inset;
+    //z-index: 100;
+    //box-shadow: 0 0 4px white inset;
     //      @include animation(mercy-glow 6s infinite);
   }
   // КОНЕЦ ОЦЕНКИ ЗА ПАРУ

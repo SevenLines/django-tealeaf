@@ -41,9 +41,10 @@
 
 .god {
   position: relative;
-  box-shadow: 0 0 6px #f49900 !important;
+  box-shadow: 0 0 4px #f49900;
   background-color: #ffe500 !important;
 }
+@import "students/_god_animated";
 
 .jumbotron {
   &.loading {
@@ -95,6 +96,7 @@
     // таблица студентов
     .s-table {
       .t-cell {
+        overflow: visible;
         padding: 0;
         width: auto;
         border-right: none;
@@ -115,6 +117,7 @@
       border-right: 1px solid $table-border-color;
       width: $students-list-width;
       .info {
+        overflow: hidden;
         > table {
           table-layout: fixed;
           width: 100%;
