@@ -38,7 +38,9 @@ SELECT ip_address
   , max(end_time) as end_time
   , count(session_key) as visits
 FROM tracking_visitor
+WHERE user_agent NOT ILIKE '%%bot%%'
   GROUP BY ip_address, user_agent, start_time::date
+
 ORDER BY start_time DESC
 LIMIT %(items_per_page)s
 OFFSET %(offset)s
