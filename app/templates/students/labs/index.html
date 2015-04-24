@@ -1,12 +1,17 @@
 {% if not user.is_authenticated %}<!-- ko if: labsTable.labs().length > 0 || labsTable.labsLoading() --> {% endif %}
 <div class="panel panel-default" style="display: none" data-bind="visible: labsTable, with: labsTable">
-    <div class="panel-heading labs-panel-heading" style="cursor: pointer" role="tab" id="headingOne" data-toggle="collapse" data-target="#labs-editor" data-bind="css: { 'loading': labsLoading }">
-        <h5 class="panel-title pull-left" data-bind="text: labsLoading() ? 'Придумываю лабы ... ' : 'Лабораторные'">Лабораторные</h5>
+    <div class="panel-heading labs-panel-heading" style="cursor: pointer" role="tab" id="headingOne"
+         data-toggle="collapse" data-target="#labs-editor" data-bind="css: { 'loading': labsLoading }">
+        <h5 class="panel-title pull-left">
+            <span data-bind="text: labsLoading() ? 'Придумываю лабы ... ' : 'Лабораторные'">Лабораторные</span>
+        </h5>
+        <div class="pull-right" data-bind="visible: labsLoading()"><span
+                class="fa fa-cog fa-spin"></span></div>
         {% if user.is_authenticated %}
             <div class="btn-group pull-right">
                 <button class="btn btn-primary btn-sm" data-bind="click: addLab"><span
                         class="glyphicon glyphicon-plus"></span></button>
-                 <button class="btn btn-warning btn-sm" data-bind="click: refresh"><span
+                <button class="btn btn-warning btn-sm" data-bind="click: refresh"><span
                         class="glyphicon glyphicon-refresh"></span></button>
                 <button class="btn btn-default btn-sm" data-bind="click: saveAll, css: {'btn-success': changed}"><span
                         class="glyphicon glyphicon-sort"> Сохранить порядок</span></button>
