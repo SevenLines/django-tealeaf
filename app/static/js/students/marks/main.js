@@ -13,12 +13,9 @@ define(['knockout',
 		return function () {
 			var self = this;
 
-			self.marksTable = new MarksTable();
+			self.marksTable = new MarksTable(self);
 			self.labsTable = new LabsTable();
 
-			self.labs_loading_complete = true;
-			self.groups_loading_complete = true;
-			self.years_loading_complete = true;
 
 			self.labsTable.onLabsLoadingComplete = function (response, labsTable) {
 				self.labs_loading_complete = true;
@@ -30,29 +27,78 @@ define(['knockout',
 				$.cookie(cookies.keep_mark_table_open, !$("#marks-editor").hasClass("in"), cookies.expires);
 			};
 
+			/***
+			 * восстановление последней дисциплины из куков
+			 */
+			self.labs_loading_complete = true;
+			self.restoreLastDiscipline = function () {
+				var lastDisciplineId = $.cookie(cookies.discipline_id);
+				// если есть дисциплины
+				if (self.disciplines().length > 0) {
+					// то выбираем прошлую дисциплину
+					self.labs_loading_complete = false;
+					self.discipline(self.disciplines()[0]);
+					if (lastDisciplineId) {
+						// set year and discipline
+						for (var i = 0; i < self.disciplines().length; ++i) {
+							var disc = self.disciplines()[i];
+							if (disc.id == lastDisciplineId) {
+								self.discipline(disc);
+								break;
+							}
+						}
+					}
+					self.labsTable.setParams(self.discipline().id);
+				}
+			};
+
+			/***
+			 * восстановление года из куков
+			 */
+			self.restoreLastYear = function () {
+				var lastYear = $.cookie(cookies.year);
+				var contains_year = self.years().some(function (item) {
+					return item.year == lastYear;
+				});
+				if (contains_year) {
+					self.year(lastYear);
+				} else if (self.years().length > 0) {
+					self.year(self.years()[0].year);
+				}
+			};
+
+			/***
+			 * восстановление группы из куков
+			 */
+			self.restoreLastGroup = function () {
+				var group_id = $.cookie(cookies.group_id);
+				if (self.groups().every(function (entry) {
+						if (group_id == entry.id) {
+							self.group(entry);
+							return false;
+						}
+						return true;
+					})) {
+					if (self.groups().length) {
+						self.group(self.groups()[0]);
+					} else {
+						self.group(null);
+					}
+				}
+			};
+
+
+			/***
+			 * функция инициализация
+			 */
 			function Init() {
 				// подключение байдингов после загрузки дисциплин и годов
+				// сначала грузим список дисциплин
 				self.loadDisciplines().done(function () {
+					// затем список годов
 					self.loadYears().done(function () {
-
-						var lastDisciplineId = $.cookie(cookies.discipline_id);
-						var lastYear = $.cookie(cookies.year);
-
-						if (self.disciplines().length > 0) {
-							self.labs_loading_complete = false;
-							self.discipline(self.disciplines()[0]);
-							if (lastDisciplineId) {
-								// set year and discipline
-								for (var i = 0; i < self.disciplines().length; ++i) {
-									var disc = self.disciplines()[i];
-									if (disc.id == lastDisciplineId) {
-										self.discipline(disc);
-										break;
-									}
-								}
-							}
-							self.labsTable.setParams(self.discipline().id);
-						}
+						// востанавливаем прошлые значениея из куков
+						self.restoreLastDiscipline();
 
 						self.year.subscribe(function () {
 							if (!self.labs_loading_complete) return;
@@ -81,19 +127,14 @@ define(['knockout',
 							}
 						});
 
-						var contains_year = self.years().some(function (item) {
-							return item.year == lastYear;
-						});
-						if (contains_year) {
-							self.year(lastYear);
-						} else if (self.years().length > 0) {
-							self.year(self.years()[0].year);
-						}
-
+						self.restoreLastYear();
 					})
 				});
 			};
 
+			/***
+			 * возвращает pureComputed которое возвращает true если студент student видимый
+			 */
 			self.visibleStudent = function (student) {
 				return ko.pureComputed(function () {
 					return student.regularStudent()
@@ -147,9 +188,8 @@ define(['knockout',
 			self.discipline = ko.observable();
 
 // >>> LOADING FUNCTIONS
+			self.years_loading_complete = true;
 			self.loadYears = function () {
-				//if (self._block) return;
-				//self.block();
 				if (!self.years_loading_complete) return;
 				self.years_loading_complete = false;
 				self.years.length = 0;
@@ -158,38 +198,24 @@ define(['knockout',
 				});
 			};
 
+			self.groups_loading_complete = true;
 			self.loadGroups = function (done) {
 				if (!self.groups_loading_complete) return;
 				self.groups_loading_complete = false;
 
-				//return;
-
 				self.groups.removeAll();
 				$.get(urls.url.groups, {
-					'year'         : self.year() || 0,
+					'year': self.year() || 0,
 					'discipline_id': self.discipline().id
 				}, self.groups).done(function (data) {
 					$.cookie(cookies.year, self.year(), {expires: cookies.expires});
-					var group_id = $.cookie(cookies.group_id);
+
 					self.groups.sort(function (left, right) {
 						return left.title == right.title ? 0 : left.title < right.title ? -1 : 1;
 					});
 					self.groups_loading_complete = true;
-					if (self.groups().every(function (entry) {
-							if (group_id == entry.id) {
-								self.group(entry);
-								return false;
-							}
-							return true;
-						})) {
-						if (self.groups().length) {
-							self.group(self.groups()[0]);
-						} else {
-							self.group(null);
-						}
-					}
+					self.restoreLastGroup();
 					if (done) done();
-				}).always(function () {
 				});
 			};
 
@@ -211,7 +237,7 @@ define(['knockout',
 // >>> DISCIPLINES CONTROL
 			self.addDiscipline = function () {
 				var d = new Discipline({
-					id   : '-1',
+					id: '-1',
 					title: 'без названия'
 				}, self);
 				d.add(function () {
@@ -270,6 +296,7 @@ define(['knockout',
 							this.scrollLeft += lastX - left;
 							$.cookie("lastScroll", this.scrollLeft);
 							self.containerMoved = true;
+							self.marksTable.markSelector.close();
 						}
 					}
 					lastX = left;

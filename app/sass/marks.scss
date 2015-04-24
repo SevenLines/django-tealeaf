@@ -4,6 +4,7 @@
 @import "students/animations";
 @import "students/local_const";
 @import "students/mark_selector";
+@import "../static/bower_components/fontawesome/scss/font-awesome";
 
 @-moz-document url-prefix() {
   fieldset {
@@ -292,7 +293,7 @@
 
           .t-cell {
             &.changed {
-              box-shadow: 0 0 0 4px darken($color, 10) inset;
+              box-shadow: 0 0 0 4px darken($color, 25) inset;
               //border-color: ;
             }
           }

@@ -6,12 +6,11 @@
     </tr>
     </thead>
     <tbody class="t-content" data-bind="foreach: students">
-{#    <!-- ko if:  -->#}
     <tr class="t-row" data-bind="css: {'collapsed': !$root.visibleStudent($data)() }">
         <!-- ko foreach: marks -->
         <td>
             <div class="t-cell mark"
-                 data-bind="text: $data.mark() < 10 && $data.mark() > 0 ? $data.mark() : '', css: mark_class{% if user.is_authenticated %},click: $parents[1].clickMark{% endif %}">
+                 data-bind="text: $data.mark() < 10 && $data.mark() > 0 ? $data.mark() : '', css: mark_class{% if user.is_authenticated %},click: $root.marksTable.clickMark{% endif %}">
             </div>
         </td>
         <!-- /ko -->
@@ -20,7 +19,6 @@
                 <div class="t-cell"></div>
             </td>{% endif %}
     </tr>
-{#    <!-- /ko -->#}
     </tbody>
     <tfoot class="t-footer">
     <tr class="t-row">

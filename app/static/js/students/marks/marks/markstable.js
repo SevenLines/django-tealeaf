@@ -14,12 +14,12 @@ define(['knockout',
 		'qtip',
 	],
 	function (ko, urls, cookies, helpers, Lesson, Mark, Student, MarkSelector, qtipsettings) {
-		return function () {
+		return function (model) {
 			var self = this;
 
 			var selectors = {
-				marks_editor    : '#marks-editor',
-				marks_selector  : '#mark-selector',
+				marks_editor: '#marks-editor',
+				marks_selector: '#mark-selector',
 				scroll_container: '.m-table-container'
 			};
 			self.selectors = selectors;
@@ -27,6 +27,7 @@ define(['knockout',
 			self.students = ko.observableArray();
 			self.students_control = ko.observableArray();
 			self.student = ko.observable();
+			self.students_cache = {};
 
 			self.lessons = ko.observableArray();
 			self.lesson_types = ko.observableArray();
@@ -51,6 +52,11 @@ define(['knockout',
 					&& !self.firstLoadingAfterParametersChanged();
 			});
 
+			/***
+			 * устанавливет группу и дисциплину для таблицы оценок, и загружает соответствующих студентов
+			 * @param group_id
+			 * @param discipline_id
+			 */
 			self.setParams = function (group_id, discipline_id) {
 				self.group_id = group_id;
 				//self.firstLoadingAfterParametersChanged(true);
@@ -100,10 +106,78 @@ define(['knockout',
 			self.hideBadStudents = ko.observable(true);
 			self.markSelector = new MarkSelector(selectors.marks_selector, self.marksTypes);
 
-// >>> ЗАГРУЗКИ
-			self.loadStudents = function () {
-				if (self.isStudentsAboutToLoading()) return;
 
+			self.processData = function (data) {
+				// fill lesson_types list
+				self.lesson_types(data.lesson_types);
+
+				// fill mark types, and find max and min value at the same time
+				marksTypes = {};
+				self.marksTypes(data.mark_types);
+				data.mark_types.every(function (item) {
+					marksTypes[item['k']] = item['v'];
+					if (!marksTypes.max < parseInt(item['k'])) {
+						marksTypes.max = parseInt(item['k']);
+					}
+					if (!marksTypes.min > parseInt(item['k'])) {
+						marksTypes.min = parseInt(item['k']);
+					}
+					return true
+				});
+
+				// fill lessons list
+				var map_lessons = $.map(data.lessons, function (item) {
+					return new Lesson(item, self);
+				});
+				self.lessons(map_lessons);
+
+				var i = -1;
+
+				function add_item() {
+					if (i == -1) {
+						self.students.removeAll();
+						setTimeout(add_item, 10);
+						++i;
+					}
+					if (i < data.students.length) {
+						var item = data.students[i];
+						++i;
+						item.lessons = self.lessons;
+						self.students.push(new Student(item));
+						setTimeout(add_item, 10);
+					} else {
+						self.sortMethod(self.sortMethods[$.cookie(cookies.sorting)]);
+						$.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
+						self.resetMarksInterface();
+						self.isStudentsLoading(false);
+						self.isStudentsAboutToLoading(false);
+						self.firstLoadingAfterParametersChanged(false);
+
+						// open / close marksTable collapse according ot saved state
+						var keep_mark_table_open = $.cookie(cookies.keep_mark_table_open);
+						if (keep_mark_table_open == "false") {
+							self.$markseditor.collapse("hide");
+						} else {
+							self.$markseditor.collapse("show");
+						}
+
+
+						if (!self.students_cache[self.discipline_id]) {
+							self.students_cache[self.discipline_id] = {};
+						}
+						self.students_cache[self.discipline_id][self.group_id] = data;
+					}
+				}
+
+				if (data.students.length > 0) {
+					add_item();
+				}
+			};
+
+
+// >>> ЗАГРУЗКИ
+			self.loadStudents = function (force) {
+				if (self.isStudentsAboutToLoading()) return;
 				self.isStudentsAboutToLoading(true);
 
 				var exec = function () {
@@ -117,75 +191,22 @@ define(['knockout',
 					self.isStudentsLoading(true);
 					self.hideBadStudents(true);
 
-					setTimeout(function () {
-						$.get(urls.url.students, {
-							'group_id'     : self.group_id,
-							'discipline_id': self.discipline_id
-						}).done(function (data) {
-							// fill lesson_types list
-							self.lesson_types(data.lesson_types);
-
-							// fill mark types, and find max and min value at the same time
-							marksTypes = {};
-							self.marksTypes(data.mark_types);
-							data.mark_types.every(function (item) {
-								marksTypes[item['k']] = item['v'];
-								if (!marksTypes.max < parseInt(item['k'])) {
-									marksTypes.max = parseInt(item['k']);
-								}
-								if (!marksTypes.min > parseInt(item['k'])) {
-									marksTypes.min = parseInt(item['k']);
-								}
-								return true
+					if (!force && self.students_cache[self.discipline_id] && self.students_cache[self.discipline_id][self.group_id]) {
+						self.processData(self.students_cache[self.discipline_id][self.group_id]);
+					} else {
+						setTimeout(function () {
+							$.get(urls.url.students, {
+								'group_id': self.group_id,
+								'discipline_id': self.discipline_id
+							}).done(function (data) {
+								self.processData(data);
+							}).always(function () {
+								//self.onInit(false);
+							}).fail(function () {
+								self.resetMarksInterface();
 							});
-
-							// fill lessons list
-							var map_lessons = $.map(data.lessons, function (item) {
-								return new Lesson(item, self);
-							});
-							self.lessons(map_lessons);
-
-							var i = -1;
-
-							function add_item() {
-								if (i == -1) {
-									self.students.removeAll();
-									setTimeout(add_item, 0);
-									++i;
-								}
-								if (i < data.students.length) {
-									var item = data.students[i];
-									++i;
-									item.lessons = self.lessons;
-									self.students.push(new Student(item));
-									setTimeout(add_item, 0);
-								} else {
-									self.sortMethod(self.sortMethods[$.cookie(cookies.sorting)]);
-									$.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
-									self.resetMarksInterface();
-									self.isStudentsLoading(false);
-									self.isStudentsAboutToLoading(false);
-									self.firstLoadingAfterParametersChanged(false);
-
-									// open / close marksTable collapse according ot saved state
-									var keep_mark_table_open = $.cookie(cookies.keep_mark_table_open);
-									if (keep_mark_table_open == "false") {
-										self.$markseditor.collapse("hide");
-									} else {
-										self.$markseditor.collapse("show");
-									}
-								}
-							}
-
-							if (data.students.length > 0) {
-								add_item();
-							}
-						}).always(function () {
-							//self.onInit(false);
-						}).fail(function () {
-							self.resetMarksInterface();
-						});
-					}, 60);
+						}, 60);
+					}
 				};
 				if (self.$markseditor.hasClass("in")) {
 					self.$markseditor.one("hidden.bs.collapse", exec);
@@ -274,7 +295,7 @@ define(['knockout',
 				var $sel = $selrow.find(".t-cell");
 				var options = {
 					duration: 300,
-					easing  : 'swing'
+					easing: 'swing'
 				};
 				if (self.hideBadStudents()) {
 					$sel.slideUp(options);
@@ -293,9 +314,9 @@ define(['knockout',
 			self.addLesson = function () {
 				$.post(urls.url.lesson_add, helpers.csrfize({
 					discipline_id: self.discipline_id,
-					group_id     : self.group_id
+					group_id: self.group_id
 				})).done(function () {
-					self.loadStudents()
+					self.loadStudents(true)
 				}).fail(function () {
 					helpers.showFail();
 				});
@@ -304,22 +325,22 @@ define(['knockout',
 			self.removeLesson = function (data) {
 				data.remove(function () {
 					//self.lessons.remove(data);
-					self.loadStudents();
+					self.loadStudents(true);
 				});
 			};
 
 			self.saveLesson = function (data) {
 				$.post(urls.url.lesson_save, helpers.csrfize({
-					lesson_id      : data.id,
-					lesson_type    : data.lesson_type(),
-					date           : data.isodate(),
-					multiplier     : data.multiplier(),
+					lesson_id: data.id,
+					lesson_type: data.lesson_type(),
+					date: data.isodate(),
+					multiplier: data.multiplier(),
 					description_raw: data.description_raw(),
-					score_ignore   : data.score_ignore(),
-					icon_id        : data.icon_id() == null ? -1 : data.icon_id()
+					score_ignore: data.score_ignore(),
+					icon_id: data.icon_id() == null ? -1 : data.icon_id()
 				})).done(function (response) {
 					if (data.isodate() != data.isodate_old) {
-						self.loadStudents();
+						self.loadStudents(true);
 					} else {
 						data.description(response.description);
 						data.description_raw(response.description_raw);
@@ -337,9 +358,9 @@ define(['knockout',
 					var mrks = self.students()[i].modified_marks();
 					mrks.every(function (item) {
 						marks.push({
-							lesson_id : item.lesson_id,
+							lesson_id: item.lesson_id,
 							student_id: item.student_id,
-							mark      : item.mark()
+							mark: item.mark()
 						});
 						return true;
 					})
@@ -376,13 +397,12 @@ define(['knockout',
 			};
 
 			self.clickMark = function (data, e) {
-				if ($.clickMouseMoved()) {
+				if (model.containerMoved) {
 					return false;
 				}
 				setTimeout(function () {
 					self.markSelector.show(data, e.target);
 				}, 10);
-				return false;
 			};
 
 			self.clickTask = function (student, task, e) {
