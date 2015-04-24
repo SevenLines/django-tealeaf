@@ -124,7 +124,7 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 
 				// запускаем таймер обновления лабов,
 				// это нужно для синхронизации оценок без перезагрузки
-				if (self.labs.length) {
+				if (self.labs().length) {
 					setTimeout(self.updateLabs, updateTimeout);
 				}
 

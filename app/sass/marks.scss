@@ -293,7 +293,7 @@
 
           .t-cell {
             &.changed {
-              box-shadow: 0 0 0 4px darken($color, 10) inset;
+              box-shadow: 0 0 0 4px darken($color, 25) inset;
               //border-color: ;
             }
           }
