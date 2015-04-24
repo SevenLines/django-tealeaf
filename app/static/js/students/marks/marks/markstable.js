@@ -14,7 +14,7 @@ define(['knockout',
 		'qtip',
 	],
 	function (ko, urls, cookies, helpers, Lesson, Mark, Student, MarkSelector, qtipsettings) {
-		return function () {
+		return function (model) {
 			var self = this;
 
 			var selectors = {
@@ -397,13 +397,12 @@ define(['knockout',
 			};
 
 			self.clickMark = function (data, e) {
-				if ($.clickMouseMoved()) {
+				if (model.containerMoved) {
 					return false;
 				}
 				setTimeout(function () {
 					self.markSelector.show(data, e.target);
 				}, 10);
-				return false;
 			};
 
 			self.clickTask = function (student, task, e) {

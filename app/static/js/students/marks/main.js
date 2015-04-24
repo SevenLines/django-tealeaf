@@ -13,7 +13,7 @@ define(['knockout',
 		return function () {
 			var self = this;
 
-			self.marksTable = new MarksTable();
+			self.marksTable = new MarksTable(self);
 			self.labsTable = new LabsTable();
 
 
@@ -296,6 +296,7 @@ define(['knockout',
 							this.scrollLeft += lastX - left;
 							$.cookie("lastScroll", this.scrollLeft);
 							self.containerMoved = true;
+							self.marksTable.markSelector.close();
 						}
 					}
 					lastX = left;
