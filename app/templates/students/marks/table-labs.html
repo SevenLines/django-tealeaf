@@ -7,7 +7,7 @@
     <tr class="t-row" data-bind="css: {'collapsed': !$root.visibleStudent($data)() }">
         <!-- ko foreach: $parent.tasks -->
         <td>
-            <!-- ko with: $parents[1].mark($data, $parentContext.$data)() -->
+            <!-- ko with: $parents[1].mark($data, $parentContext.$data) -->
             <div class="t-cell"
                  data-bind="{% if user.is_authenticated %}
                  click: function () { if (!$root.containerMoved) $root.labsTable.toggleTaskMark($parents[2], $data) },

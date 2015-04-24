@@ -145,6 +145,7 @@ define(['knockout',
 						item.lessons = self.lessons;
 						self.students.push(new Student(item));
 						setTimeout(add_item, 10);
+						return true;
 					} else {
 						self.sortMethod(self.sortMethods[$.cookie(cookies.sorting)]);
 						$.cookie(cookies.group_id, self.group_id, {expires: cookies.expires});
@@ -166,9 +167,14 @@ define(['knockout',
 							self.students_cache[self.discipline_id] = {};
 						}
 						self.students_cache[self.discipline_id][self.group_id] = data;
+						return false;
 					}
 				}
 
+
+				//setTimeout(function () {
+				//	while(add_item());
+				//}, 0);
 				if (data.students.length > 0) {
 					add_item();
 				}
@@ -181,7 +187,7 @@ define(['knockout',
 				self.isStudentsAboutToLoading(true);
 
 				var exec = function () {
-					self.students.removeAll();
+					//self.students.removeAll();
 
 					if (!self.group_id) {
 						self.isStudentsAboutToLoading(false);
@@ -210,7 +216,7 @@ define(['knockout',
 				};
 				if (self.$markseditor.hasClass("in")) {
 					self.$markseditor.one("hidden.bs.collapse", exec);
-					self.$markseditor.collapse("hide");
+					self.$markseditor.collapse("hide", 'fast');
 				} else {
 					exec();
 				}

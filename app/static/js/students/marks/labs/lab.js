@@ -120,7 +120,7 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 
 
 		self.mark = function (task, student) {
-			return ko.pureComputed(function () {
+			//return ko.pureComputed(function () {
 				if (!self.marks[student.id]) {
 					self.marks[student.id] = {};
 				}
@@ -136,7 +136,7 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 				}
 
 				return self.marks[student.id][task.id];
-			});
+			//});
 		};
 
 		self.toggleTaskMark = function (mark) {
