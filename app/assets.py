@@ -31,6 +31,7 @@ students_manager_js = Bundle("js/helpers.js",
 main_css = Bundle('lib/bootstrap/bootstrap.min.css',
                   'bower_components/qtip2/jquery.qtip.min.css',
                   'bower_components/pickmeup/css/pickmeup.min.css',
+                  'bower_components/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.css',
                   'css/style.css',
                   filters="cssmin",
                   output="css/main.min.css")

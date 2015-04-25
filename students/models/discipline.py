@@ -117,6 +117,7 @@ WHERE s.group_id = %(group_id)d and l.lesson_id is not NULL
                          "dn": l.description.rendered,
                          "dn_raw": l.description.raw,
                          'si': l.score_ignore,
+                         'fi': l.fa_icon,
                          'icn_id': l.icon.id if l.icon else '',
                          'icn_url': l.icon.url if l.icon else '',
                          'icn_fld_id': l.icon.folder.id if l.icon else '',

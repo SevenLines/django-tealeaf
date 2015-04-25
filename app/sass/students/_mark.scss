@@ -8,7 +8,8 @@
   &.exam {
     color: #ffffff;
   }
-//  @include transition(0.1s);
+
+  //  @include transition(0.1s);
 
   @mixin shadow($color) {
     box-shadow: darken($color, 2) 0 0 0 4px inset;
@@ -17,8 +18,10 @@
   @mixin mark-stripes($stripe-color) {
   }
 
-  @mixin test_exam($color, $use-shadow: false, $stripes: false) {
-    background-color: $color;
+  @mixin test_exam($color, $use-shadow: false, $stripes: false, $without_bg: false) {
+    @if (not $without_bg) {
+      background-color: $color;
+    }
     $lighten: 10;
     @if ($use-shadow) {
       @include shadow(darken($color, $lighten));
@@ -32,7 +35,9 @@
       @if ($use-shadow) {
         @include shadow(darken($clr, $lighten));
       }
-      background-color: $clr;
+      @if (not $without_bg) {
+        background-color: $clr;
+      }
       @if ($stripes) {
         @include mark-stripes($clr)
       }
@@ -43,7 +48,9 @@
       @if ($use-shadow) {
         @include shadow(darken($clr, $lighten));
       }
-      background-color: $clr;
+      @if (not $without_bg) {
+        background-color: $clr;
+      }
       @if ($stripes) {
         @include mark-stripes($clr)
       }
@@ -54,7 +61,9 @@
       @if ($use-shadow) {
         @include shadow(darken($clr, $lighten));
       }
-      background-color: $clr;
+      @if (not $without_bg) {
+        background-color: $clr;
+      }
       @if ($stripes) {
         @include mark-stripes($clr)
       }
@@ -66,7 +75,9 @@
         @include shadow(darken($clr, $lighten));
         //box-shadow: darken($clr, 10) 0 0 2px inset;
       }
-      background-color: $clr;
+      @if (not $without_bg) {
+        background-color: $clr;
+      }
       //        color: white;
     }
 
@@ -154,4 +165,10 @@
     //      @include animation(mercy-glow 6s infinite);
   }
   // КОНЕЦ ОЦЕНКИ ЗА ПАРУ
+
+  &#lesson-editor {
+    color: black;
+    @include test_exam($quater, true, false, true);
+    background-color: white;
+  }
 }

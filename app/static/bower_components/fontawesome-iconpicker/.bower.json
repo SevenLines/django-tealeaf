@@ -1,0 +1,26 @@
+{
+  "name": "fontawesome-iconpicker",
+  "version": "1.1.1",
+  "dependencies": {
+    "jquery": "^1.10",
+    "bootstrap": "^3"
+  },
+  "ignore": [
+    "\\.*",
+    "/src",
+    "index.html",
+    "/package.json",
+    "/Gruntfile.js"
+  ],
+  "homepage": "https://github.com/mjolnic/fontawesome-iconpicker",
+  "_release": "1.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.1.1",
+    "commit": "d21921b72c76511b13539b99a64bd8c508ec1361"
+  },
+  "_source": "https://github.com/mjolnic/fontawesome-iconpicker.git",
+  "_target": "~1.1.1",
+  "_originalSource": "https://github.com/mjolnic/fontawesome-iconpicker.git",
+  "_direct": true
+}

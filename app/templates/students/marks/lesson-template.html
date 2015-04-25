@@ -1,52 +1,63 @@
 {% if user.is_authenticated %}
-    <!-- lesson template -->
-    <div style="display: none" data-bind="with: lesson">
-        <form id="template-lesson-edit" class="form">
-            <div class="form-group">
-                <input class="form-control lesson-date" data-bind="value: date">
-            </div>
+    <form id="lesson-editor" class="form mark" data-bind="css: $root.marksTable.lesson() ? $root.marksTable.lesson().style : ''">
+        <!-- ko with: $root.marksTable.lesson -->
+        <div class="form-group">
+            <input class="form-control lesson-date" data-bind="value: date">
+        </div>
 
-            <input hidden="" id="lesson_icon_selector_image_id" name="image_id" type="text" value=""
-                   data-bind="input: icon_id"/>
+{#        <input hidden="" id="lesson_icon_selector_image_id" name="image_id" type="text" value=""#}
+{#               data-bind="input: icon_id"/>#}
 
-            <div class="form-group">
-                <div class="lesson-icon-selector">
-                    <img src="" data-bind="img: icon_url">
-                    <a onclick="return lessonIconSelectPopup(this);" data-bind="attr: {href: icon_edit_url}">
-                        <img height="16" width="16" alt="Lookup" src="/static/admin/img/icon_searchbox.png">
-                    </a>
-                    <a id="lesson_image_clear" data-bind="click: clearIcon">
-                        <img height="10" width="10" title="Clear" alt="Clear"
-                             src="/static/admin/img/icon_deletelink.gif">
-                    </a>
-                </div>
-            </div>
-            <div class="form-group">
-                    <textarea id="lesson-description" class="form-control"
-                              data-bind="value: description_raw"></textarea>
-            </div>
+{#        <div class="form-group">#}
+{#            <div class="lesson-icon-selector">#}
+{#                <img src="" data-bind="img: icon_url">#}
+{#                <a onclick="return lessonIconSelectPopup(this);" data-bind="attr: {href: icon_edit_url}">#}
+{#                    <img height="16" width="16" alt="Lookup" src="/static/admin/img/icon_searchbox.png">#}
+{#                </a>#}
+{#                <a id="lesson_image_clear" data-bind="click: clearIcon">#}
+{#                    <img height="10" width="10" title="Clear" alt="Clear"#}
+{#                         src="/static/admin/img/icon_deletelink.gif">#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
+        <div class="form-group">
+            <textarea id="lesson-description" class="form-control"
+                      data-bind="value: description_raw"></textarea>
+        </div>
 
-            <div class="form-group">
-                <select class="form-control"
-                        data-bind="value: lesson_type, options: $parents[0].lesson_types, optionsValue: 'id', optionsText: 'title'">
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="checkbox" data-bind="checked: score_ignore"> не учитывать
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary save" data-bind="click: $parents[0].saveLesson">
-                    <i class="glyphicon glyphicon-save"></i>
-                </button>
-                <button class="btn btn-danger pull-right delete" data-bind="click: $parents[0].removeLesson">
-                    <i class="glyphicon glyphicon-remove"></i>
-                </button>
-            </div>
-        </form>
-    </div>
-    <!-- END lesson template -->
+        <div class="form-group">
+            <select class="form-control"
+                    data-bind="value: lesson_type, options: $root.marksTable.lesson_types, optionsValue: 'id', optionsText: 'title'">
+            </select>
+        </div>
 
-    <script>
+        <div class="form-group">
+            <div class="input-group">
+                <input name="fa_icon" class="form-control icp" data-input-search="true" data-bind="textInput: fa_icon" />
+                <span class="input-group-addon"></span>
+            </div>
+        </div>
 
-    </script>
+{#        <div class="btn-group">#}
+{#            <button data-selected="graduation-cap" type="button"#}
+{#                    class="icp icp-dd btn btn-default dropdown-toggle iconpicker-component" data-toggle="dropdown">#}
+{#                Dropdown <i class="fa fa-fw"></i>#}
+{#                <span class="caret"></span>#}
+{#            </button>#}
+{#            <div class="dropdown-menu"></div>#}
+{#        </div>#}
+
+        <div class="form-group">
+            <input type="checkbox" data-bind="checked: score_ignore"> не учитывать
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary save" data-bind="click: $root.marksTable.saveLesson">
+                <i class="glyphicon glyphicon-save"></i>
+            </button>
+            <button class="btn btn-danger pull-right delete" data-bind="click: $root.marksTable.removeLesson">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+        </div>
+        <!-- /ko -->
+    </form>
 {% endif %}

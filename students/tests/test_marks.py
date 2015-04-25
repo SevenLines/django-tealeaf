@@ -119,6 +119,7 @@ class TestMarks(MyTestCase):
             'lesson_type': self.lesson.lesson_type + 1,
             'score_ignore': 'false' if not self.lesson.score_ignore else 'true',
             'multiplier': self.lesson.multiplier + 1,
+            'fa_icon': 'fa-super-icon'
         }
 
         response = self.client.post(reverse('students.views.marks.lesson_save'), new_values)

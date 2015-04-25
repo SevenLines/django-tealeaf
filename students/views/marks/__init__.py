@@ -95,6 +95,8 @@ def lesson_save(request):
         l.date = request.POST['date']
     if 'multiplier' in request.POST:
         l.multiplier = float(request.POST['multiplier'])
+    if 'fa_icon' in request.POST:
+        l.fa_icon = request.POST['fa_icon']
     if 'score_ignore' in request.POST:
         l.score_ignore = request.POST['score_ignore'] == 'true'
     l.save()

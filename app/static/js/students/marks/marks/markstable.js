@@ -96,9 +96,9 @@ define(['knockout',
 			// --- конец синхронизация подсветки строк таблицы оценок
 
 			// подключаем события, чтобы не закрывалась менюшка
-			self.$markseditor.on("click", '.modal-lesson-editor .dropdown-menu', function (e) {
-				e.stopPropagation()
-			});
+			//self.$markseditor.on("click", '.modal-lesson-editor .dropdown-menu', function (e) {
+			//e.stopPropagation()
+			//});
 
 
 			// SERVICE VARIABLES
@@ -242,7 +242,7 @@ define(['knockout',
 				}
 
 				// всплывающее меню редактирование занятия
-				$(".lesson-edit").qtip(qtipsettings);
+				//$(".lesson-edit").qtip(qtipsettings);
 			};
 // КОНЕЦ РЕИНИЦИАЛИЗАЦИИ ИНТЕРФЕЙСА
 
@@ -312,9 +312,35 @@ define(['knockout',
 				}
 			};
 
-			// LESSONS CONTROL
-			self.lessonHover = function (data) {
+
+			var $lessonEditor = $("#lesson-editor");
+			var blockHiding = false;
+			$(window).on("click", function (e) {
+				if (blockHiding) {
+					return;
+				}
+				var $target = $(e.target);
+				if (e.target != $lessonEditor[0] && !$target.hasClass("lesson-edit") && !$target.parents().filter("#lesson-editor").length) {
+					$lessonEditor.fadeOut('fast');
+					blockHiding = true;
+				}
+			});
+			self.lessonHover = function (data, event) {
+				// LESSONS CONTROL
+				blockHiding = true;
+				var offset = $(event.currentTarget).offset();
 				self.lesson(data);
+				$lessonEditor.fadeIn('fast').offset({
+					top: offset.top + $(event.currentTarget).height(),
+					left: offset.left - $lessonEditor.width() / 2
+				});
+				setTimeout(function () {
+					var icp = $(".icp").iconpicker();
+					icp.on("iconpickerUpdated", function () {
+						$(this).trigger("change");
+					});
+					blockHiding = false;
+				}, 60);
 			};
 
 			self.addLesson = function () {
@@ -343,7 +369,8 @@ define(['knockout',
 					multiplier: data.multiplier(),
 					description_raw: data.description_raw(),
 					score_ignore: data.score_ignore(),
-					icon_id: data.icon_id() == null ? -1 : data.icon_id()
+					icon_id: data.icon_id() == null ? -1 : data.icon_id(),
+					fa_icon: data.fa_icon
 				})).done(function (response) {
 					if (data.isodate() != data.isodate_old) {
 						self.loadStudents(true);

@@ -38,6 +38,7 @@
     "lodash": "~3.3.1",
     "angular-cookies": "~1.3.14",
     "jquery-lazy": "~0.3.8",
-    "fontawesome": "~4.3.0"
+    "fontawesome": "~4.3.0",
+    "fontawesome-iconpicker": "https://github.com/mjolnic/fontawesome-iconpicker.git#~1.1.1"
   }
 }
