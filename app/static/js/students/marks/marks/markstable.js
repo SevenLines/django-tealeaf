@@ -96,9 +96,9 @@ define(['knockout',
 			// --- конец синхронизация подсветки строк таблицы оценок
 
 			// подключаем события, чтобы не закрывалась менюшка
-			self.$markseditor.on("click", '.modal-lesson-editor .dropdown-menu', function (e) {
-				e.stopPropagation()
-			});
+			//self.$markseditor.on("click", '.modal-lesson-editor .dropdown-menu', function (e) {
+			//e.stopPropagation()
+			//});
 
 
 			// SERVICE VARIABLES
@@ -240,9 +240,6 @@ define(['knockout',
 				if (scroll_container.size() && $.cookie("lastScroll")) {
 					scroll_container[0].scrollLeft = $.cookie("lastScroll");
 				}
-
-				// всплывающее меню редактирование занятия
-				$(".lesson-edit").qtip(qtipsettings);
 			};
 // КОНЕЦ РЕИНИЦИАЛИЗАЦИИ ИНТЕРФЕЙСА
 
@@ -313,9 +310,52 @@ define(['knockout',
 			};
 
 			// LESSONS CONTROL
-			self.lessonHover = function (data) {
+			//region lesson editor
+			var $lessonEditor = $("#lesson-editor");
+			var blockHiding = false;
+			$(window).on("click", function (e) {
+				if (blockHiding) {
+					return;
+				}
+				var $target = $(e.target);
+				if (e.target != $lessonEditor[0] && !$target.hasClass("lesson-edit") && !$target.parents().filter("#lesson-editor").length) {
+					$lessonEditor.fadeOut('fast');
+					blockHiding = true;
+				}
+			});
+			self.lessonHover = function (data, event) {
+				blockHiding = true;
+				var $target = $(event.currentTarget);
+				if ($target.parent("td").length) {
+					$target = $($target.parent("td")[0]);
+				}
+
+				var offset = $target.offset();
+
 				self.lesson(data);
+				$lessonEditor.fadeIn('fast').offset({
+					top: offset.top + $target.height() -2,
+					left: offset.left - $lessonEditor.width() / 2
+				});
+				setTimeout(function () {
+					var icp = $(".icp").iconpicker();
+					// init iconpicker
+					icp.on("iconpickerUpdated", function () {
+						$(this).trigger("change");
+					});
+					// init data selector
+					$lessonEditor.find(".lesson-date").pickmeup({
+                        hide_on_select: true,
+                        format: 'd/m/Y',
+                        hide: function (e) {
+                            $(this).trigger('change');
+                        }
+                    });
+
+					blockHiding = false;
+				}, 60);
 			};
+			//endregion lesson editor
 
 			self.addLesson = function () {
 				$.post(urls.url.lesson_add, helpers.csrfize({
@@ -343,7 +383,8 @@ define(['knockout',
 					multiplier: data.multiplier(),
 					description_raw: data.description_raw(),
 					score_ignore: data.score_ignore(),
-					icon_id: data.icon_id() == null ? -1 : data.icon_id()
+					icon_id: data.icon_id() == null ? -1 : data.icon_id(),
+					fa_icon: data.fa_icon
 				})).done(function (response) {
 					if (data.isodate() != data.isodate_old) {
 						self.loadStudents(true);

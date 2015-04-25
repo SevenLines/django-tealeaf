@@ -14,6 +14,7 @@ define(['knockout', 'helpers', 'urls'], function (ko, helpers, urls) {
         self.multiplier = ko.observable(data.k);
         self.score_ignore = ko.observable(data.si);
         self.isodate_old = data.dt;
+        self.fa_icon = ko.observable(data.fi ? data.fi : '');
         self.id = data.id;
 
         self.icon_has_loaded = ko.observable(false);
@@ -31,7 +32,7 @@ define(['knockout', 'helpers', 'urls'], function (ko, helpers, urls) {
             return "/admin/filer/folder/" + ( folder_id == '' ? '' : folder_id + '/list/');
         });
 
-        self.day = ko.pureComputed(function () {
+        self.label = ko.pureComputed(function () {
             return self.date().split('/')[0];
         }, self.date);
 

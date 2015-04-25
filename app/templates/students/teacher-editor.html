@@ -10,6 +10,8 @@
         </div>
     </noscript>
 
+
+
     <!-- СПИСОК ДИСЦИПЛИН -->
     {% include "students/marks/discipline_list.html" %}
     <!-- КОНЕЦ СПИСОК ДИСЦИПЛИН -->
@@ -38,11 +40,16 @@
     </form>
     <!-- /ko -->
 
-    <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none" data-bind="visible: !hasData() && loadingComplete()">
+
+    <div class="jumbotron loading" style="background-color:inherit; box-shadow: none; border: none; display: none"
+         data-bind="visible: !hasData() && loadingComplete()">
         <h1>Нет актуальных данных</h1>
 
         <h3>-=-=-=-=-=-</h3>
     </div>
+    {% if user.is_authenticated %}
+        {% include "students/marks/lesson-template.html" %}
+    {% endif %}
 
     <div class="panel-group" id="edit-tables" role="tablist" aria-multiselectable="true">
         {% include "students/marks/index.html" %}

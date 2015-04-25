@@ -38,6 +38,8 @@ class Lesson(models.Model):
     date = models.DateField(auto_now_add=True)
     lesson_type = models.IntegerField(verbose_name="type", default=1, choices=LESSON_TYPES)
     icon = FilerImageField(null=True, blank=True, default=None)
+    fa_icon = models.CharField(max_length=32, default='')
+
     multiplier = models.FloatField(default=1)
 
     score_ignore = models.BooleanField(default=False)
