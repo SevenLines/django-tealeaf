@@ -23,6 +23,7 @@ define(['knockout',
 				scroll_container: '.m-table-container'
 			};
 			self.selectors = selectors;
+			self.model = model;
 
 			self.students = ko.observableArray();
 			self.students_control = ko.observableArray();
@@ -143,6 +144,7 @@ define(['knockout',
 						var item = data.students[i];
 						++i;
 						item.lessons = self.lessons;
+						item.marksTable = self;
 						self.students.push(new Student(item));
 						setTimeout(add_item, 10);
 						return true;
@@ -246,13 +248,13 @@ define(['knockout',
 
 // >>> СОРТИРОВКА
 			self.sortByStudentsMark = function (left, right) {
-				return left.sum() == right.sum() ? 0 : left.sum() < right.sum() ? 1 : -1;
+				return left.full_sum() == right.full_sum() ? 0 : left.full_sum() < right.full_sum() ? 1 : -1;
 			};
 			self.sortByStudentsMark.title = "По цвету";
 
 			self.sortByStudentsName = function (left, right) {
-				var s1 = left.sum() >= 0 ? 1 : -1;
-				var s2 = right.sum() >= 0 ? 1 : -1;
+				var s1 = left.full_sum() >= 0 ? 1 : -1;
+				var s2 = right.full_sum() >= 0 ? 1 : -1;
 
 				// студенты с отрицательными оценками идут в конце
 				if (left.second_name < right.second_name) {

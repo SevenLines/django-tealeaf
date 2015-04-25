@@ -10,7 +10,6 @@
     </tr>
     </thead>
     <tbody class="t-content" data-bind="foreach: students">
-{#    <!-- ko if:  -->#}
     <tr class="t-row" data-bind="css: {'collapsed': !$root.visibleStudent($data)() }">
         <td>
             <div class="t-cell">
@@ -24,22 +23,28 @@
                                     <span class="name-n" data-bind="text: short_name"></span>
                                 </span>
                             </td>
-                            <td class="score" data-bind="if: sum">
+                            <td class="score" data-bind="if: full_sum">
                                 <div class="pull-right badge" style="color: green"
-                                     data-bind="attr: { 'data-original-title': sum() }, style: { color: sum() < 0 ? 'red' : 'green' }">
+                                     data-bind="attr: { 'data-original-title': full_sum() }, style: { color: full_sum() < 0 ? 'red' : 'green' }">
                                 <span class="percents"
                                       data-bind="visible: $parents[0].showPercents(), text: ~~(success_factor() * 100) + '%'"></span>
                                     <span class="points"
-                                          data-bind="visible: !$parents[0].showPercents(), text: sum"></span>
+                                          data-bind="visible: !$parents[0].showPercents(), text: full_sum"></span>
                                 </div>
                             </td>
+{#                            <td class="score">#}
+{#                                <div class="pull-right badge" style="color: green">#}
+{#                                <span class="percents"></span>#}
+{#                                    <span class="points"#}
+{#                                          data-bind="text: labsDone"></span>#}
+{#                                </div>#}
+{#                            </td>#}
                         </tr>
                     </table>
                 </div>
             </div>
         </td>
     </tr>
-{#    <!-- /ko -->#}
     </tbody>
     <tfoot class="t-footer">
     <tr class="t-row">
