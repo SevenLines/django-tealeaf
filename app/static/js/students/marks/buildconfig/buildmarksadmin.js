@@ -9,6 +9,7 @@
         'select2': '../../../bower_components/select2/select2',
         'jquery-impromptu': '../../../bower_components/jquery-impromptu/dist/jquery-impromptu',
         'pickmeup': '../../../bower_components/pickmeup/js/jquery.pickmeup',
+        'iconpicker': '../../../bower_components/fontawesome-iconpicker/dist/js/fontawesome-iconpicker',
 
         'color': '../../../lib/color',
 
