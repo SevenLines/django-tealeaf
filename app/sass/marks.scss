@@ -78,12 +78,12 @@
   }
 }
 
+// стиль для отличных студентов
 .god {
   position: relative;
-  box-shadow: 0 0 4px #f49900;
+  box-shadow: 0 0 4px #f49900 !important;
   background-color: #ffe500 !important;
 }
-
 @import "students/_god_animated";
 
 .jumbotron {
@@ -171,6 +171,7 @@
             display: none;
           }
         }
+        //box-shadow: 0 0 4px silver;
         .score {
           padding-left: 8px;
           .badge {
