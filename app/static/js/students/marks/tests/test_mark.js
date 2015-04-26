@@ -1,7 +1,7 @@
 /**
  * Created by m on 26.04.15.
  */
-define(['marks/mark','marks/markstable','marks_fixtures'], function (Mark, MarksTable, Fixtures) {
+define(['marks/mark','marks/markstable','marks_fixtures', "jquery.cookie"], function (Mark, MarksTable, Fixtures) {
 	var marksTable = new MarksTable();
 
 	describe("Mark", function () {

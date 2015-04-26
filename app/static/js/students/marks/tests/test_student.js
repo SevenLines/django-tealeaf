@@ -7,7 +7,8 @@ define(['marks/student',
 		'labs/lab',
 		'marksmain',
 		'marks_fixtures',
-		'knockout'],
+		'knockout',
+		"jquery.cookie"],
 	function (Student, Lesson, MarksTable, Lab, Model, Fixtures, ko) {
 
 	var marksTable = new MarksTable();

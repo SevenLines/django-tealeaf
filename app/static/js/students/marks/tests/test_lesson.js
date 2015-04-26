@@ -1,7 +1,7 @@
 /**
  * Created by m on 26.04.15.
  */
-define(['marks/lesson', 'marks_fixtures', "jquery-impromptu"], function (Lesson, Fixtures) {
+define(['marks/lesson', 'marks_fixtures', "jquery-impromptu", "jquery.cookie"], function (Lesson, Fixtures) {
 	describe("Lesson", function () {
 		var lesson = Fixtures.lessons[0];
 		lesson = new Lesson(lesson);
