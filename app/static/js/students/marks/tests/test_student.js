@@ -91,6 +91,18 @@ define(['marks/student',
 			student = new Student(obj);
 		});
 
+		it("tasks should return computed observable array", function () {
+			for(var first_lab in student.labs()) {
+				break;
+			}
+			first_lab = student.labs()[first_lab];
+			for(var first_task in first_lab.tasks()) {
+				break;
+			}
+			first_task = first_lab.tasks()[first_task];
+			var mark = student.task(first_task);
+		});
+
 		it("full sum should return full sum", function () {
 			expect(student.full_sum()).toEqual(31);
 		});
@@ -99,9 +111,20 @@ define(['marks/student',
 			expect(student.success_factor()).toBeCloseTo(0.69);
 		});
 
-		//it("should be regular student", function () {
-		//	expect(student.regularStudent()).toBeTruthy();
-		//})
+		it("sum should be update on done task changed", function () {
+			var sum_before = student.full_sum();
+
+			for(var first_lab in student.labs()) {
+				break;
+			}
+			first_lab = student.labs()[first_lab];
+
+			for(var mark_id in first_lab.marks[student.id]) {
+				break;
+			}
+			first_lab.marks[student.id][mark_id].toggle();
+			expect(Math.abs(sum_before - student.full_sum())).toEqual(1);
+		});
 	})
 
 });

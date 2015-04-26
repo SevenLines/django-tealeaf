@@ -2,7 +2,7 @@
  * Created by m on 11.02.15.
  */
 // >>> STUDENT CLASS
-define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
+define(['knockout', 'marks/mark', 'labs/marktask', 'color'], function (ko, Mark, MarkTask) {
 	return function (data) {
 		var marksTypes = [];
 		var studentColorMin = Color("#FDD").lighten(0.03);
@@ -18,6 +18,55 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 
 		self.marks = [];
 
+		self.labs = ko.pureComputed(function () {
+			var out = {};
+			if (data.labs) {
+				var labs = ko.utils.unwrapObservable(data.labs);
+				labs.map(function (item) {
+					out[item.id] = item;
+				});
+			}
+			return out;
+		});
+
+		/***
+		 * возвращает оценку за сданную/несданную задачу
+		 */
+		self.task = function (task) {
+			//return ko.pureComputed(function () {
+			var lab = self.labs()[task.lab.id];
+			if (!lab) {
+				throw new Error("task without existing lab, check the code!");
+			}
+
+			var marks = lab.marks;
+
+			if (!marks) {
+				throw new Error("lab without marks, something wrong, check the code!");
+			}
+
+			if (!lab.marks[self.id]) {
+				lab.marks[self.id] = {};
+			}
+
+			if (!lab.marks[self.id][task.id]) {
+				var mark = lab.marks[self.id][task.id] = new MarkTask({
+					student: self.id,
+					task: task.id,
+					student_inst: self,
+					task_inst: task,
+					lab: lab
+				});
+				mark.done.subscribe(function () {
+					self.sum.notifySubscribers();
+				});
+			}
+			return lab.marks[self.id][task.id];
+		};
+
+		/***
+		 * функция обновляет сумму студента
+		 */
 		self.updateSum = function () {
 			var sum = 0;
 			var lessons_count = 0;
@@ -93,24 +142,22 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 			var done = 0;
 			var count = 0;
 
-			if (data.labs) {
-				var labs = ko.utils.unwrapObservable(data.labs);
-				for (var i = 0, l = labs.length; i < l; ++i) {
-					var lab = labs[i];
-					if (lab.visible()) {
-						if (lab.regular()) {
-							count += lab.tasks().length;
-						}
-						var marks = lab.marks[self.id];
-						for (var task_id in marks) {
-							if (marks[task_id].done()) {
-								done++;
-							}
+			var labs = ko.utils.unwrapObservable(self.labs);
+			for (var lab_id in labs) {
+				var lab = labs[lab_id];
+				if (lab.visible()) {
+					if (lab.regular()) {
+						count += lab.tasks().length;
+					}
+					var marks = lab.marks[self.id];
+					for (var task_id in marks) {
+						if (marks[task_id].done()) {
+							done++;
 						}
 					}
 				}
-				self.labsCount = count;
 			}
+			self.labsCount = count;
 
 			return {
 				done: done,
@@ -122,13 +169,12 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		 * возвращает полную сумму оценок
 		 * sum + баллы за сданные  задачи
 		 */
-		self.full_sum = ko.computed(function () {
+		self.full_sum = ko.pureComputed(function () {
 			var labsTasksDone = self.labsDone();
 			return self.sum() ? self.sum() : 0 + labsTasksDone.done;
 		});
 
 		self.full_name = ko.pureComputed(function () {
-			//var name = $(document).width() < 400 ? self.name[0] + '.' : self.name;
 			return self.second_name + ' ' + self.name;
 		});
 
