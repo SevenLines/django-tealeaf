@@ -21,11 +21,13 @@ define(['knockout'], function (ko) {
         }, self.mark);
 
         self.mark_class = ko.pureComputed(function () {
-            var cls = self.marksTypes()[self.mark()];
-            cls += self.mark() != self.mark_old() ? " modified" : "";
-            cls += self.lesson.style() ? (" " + self.lesson.style()) : "";
-            return cls
-        }, self.mark, self.mark_old);
+	        var marksTypes = ko.utils.unwrapObservable(self.marksTypes);
+	        return [
+	            marksTypes[self.mark()],
+	            self.mark() != self.mark_old() ? " modified" : "",
+	            self.lesson ? self.lesson.style() ? (" " + self.lesson.style()) : "" : ""
+            ].join(' ').trim()
+        });
 
         self.reset = function () {
             self.mark_old(self.mark());
@@ -33,18 +35,18 @@ define(['knockout'], function (ko) {
 
         self.modified = ko.pureComputed(function () {
             return self.mark() != self.mark_old()
-        }, self.mark, self.mark_old);
-
-        self.increase = function () {
-            var m = self.mark();
-            m = Math.min(m + 1, self.marksTypes().max);
-            self.mark(m);
-        };
-
-        self.decrease = function () {
-            var m = self.mark();
-            m = Math.max(m - 1, self.marksTypes().min);
-            self.mark(m);
-        };
+        });
+        //
+        //self.increase = function () {
+        //    var m = self.mark();
+        //    m = Math.min(m + 1, self.marksTypes().max);
+        //    self.mark(m);
+        //};
+        //
+        //self.decrease = function () {
+        //    var m = self.mark();
+        //    m = Math.max(m - 1, self.marksTypes().min);
+        //    self.mark(m);
+        //};
     }
 });

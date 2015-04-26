@@ -20,9 +20,6 @@ define(['knockout'], function (ko) {
 			var offset = $(target).offset();
 			var width = target.clientWidth * 1.1;
 			var height = target.clientHeight;
-			var index = $.map(self.mark_types(), function (item) {
-				return item.k;
-			}).indexOf(mark.mark());
 
 			var item_width = 28;
 			var ul_width = self.mark_selector.find("ul").first().width();
@@ -40,7 +37,7 @@ define(['knockout'], function (ko) {
 				var radius = 35;
 				var angle = 2 * Math.PI / (items.size());
 				items.each(function (i, item) {
-					if (i != index) {
+					if (!$(item).hasClass(self.mark_types()[mark.mark()])) {
 						$(item).offset({
 							left: last_offset.left + radius * Math.cos(i * angle),
 							top: last_offset.top + radius * Math.sin(i * angle)

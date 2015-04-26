@@ -10,7 +10,6 @@ define(['marks/student',
 		'knockout'],
 	function (Student, Lesson, MarksTable, Lab, Model, Fixtures, ko) {
 
-	var model = new Model();
 	var marksTable = new MarksTable();
 
 	describe("Student only with name", function () {
