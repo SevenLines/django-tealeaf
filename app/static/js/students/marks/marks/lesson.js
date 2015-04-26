@@ -53,20 +53,20 @@ define(['knockout', 'helpers', 'urls'], function (ko, helpers, urls) {
             }
             return "";
 
-        }, self.lesson_type);
+        });
 
         self.isodate = ko.pureComputed(function () {
             var date = new Date(self.isodate_old);
             var items = self.date().split('/');
             return items[2] + "-" + items[1] + "-" + items[0];
 
-        }, self.date);
+        });
 
         self.clearIcon = function () {
             self.icon_id(null);
             self.icn_fld_id('');
             self.icon_url('');
-        }
+        };
 
         self.remove = function (ondone, onfail) {
             $.prompt("Удалить занятие?", {
