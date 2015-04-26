@@ -15,19 +15,20 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 
 		self.marksTable = data.marksTable;
 
-		self.marks = $.map(data.marks, function (item) {
-			data.lessons().every(function (lesson) {
-				if (lesson.id == item.lid) {
-					item.lesson = lesson;
-					return false;
-				}
-				return true;
+		if (data.marks) {
+			self.marks = $.map(data.marks, function (item) {
+				data.lessons().every(function (lesson) {
+					if (lesson.id == item.lid) {
+						item.lesson = lesson;
+						return false;
+					}
+					return true;
+				});
+				item.student = self;
+				item.m = item.m ? item.m : 0; // значение
+				return new Mark(item);
 			});
-			item.student = self;
-			item.m = item.m ? item.m : 0; // значение
-			return new Mark(item);
-		});
-
+		}
 
 
 		/***
@@ -35,27 +36,30 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		 */
 		self.labsCount = 0;
 		self.labsDone = function () {
-			var model = self.marksTable.model;
-			var labsTable = model.labsTable;
-
 			var done = 0;
 			var count = 0;
 
-			for (var i = 0, l = labsTable.labs().length; i < l; ++i) {
-				var lab = labsTable.labs()[i];
-				if (lab.visible()) {
-					if (lab.regular()) {
-						count += lab.tasks().length;
-					}
-					var marks = lab.marks[self.id];
-					for (var task_id in marks) {
-						if (marks[task_id].done()) {
-							done++;
+			if (self.marksTable && self.marksTable.model && self.marksTable.model.labsTable) {
+				var model = self.marksTable.model;
+				var labsTable = model.labsTable;
+
+				for (var i = 0, l = labsTable.labs().length; i < l; ++i) {
+					var lab = labsTable.labs()[i];
+					if (lab.visible()) {
+						if (lab.regular()) {
+							count += lab.tasks().length;
+						}
+						var marks = lab.marks[self.id];
+						for (var task_id in marks) {
+							if (marks[task_id].done()) {
+								done++;
+							}
 						}
 					}
 				}
+				self.labsCount = count;
 			}
-			self.labsCount = count;
+
 			return {
 				done: done,
 				count: count
