@@ -12,9 +12,57 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		self.name = data.name;
 		self.sum = ko.observable(data.sum);
 		self.second_name = data.second_name;
-		//self.labs = data.labs;
+		self.marksTypes = data.marksTypes;
 
 		self.marksTable = data.marksTable;
+
+		self.marks = [];
+
+		self.updateSum = function () {
+			var sum = 0;
+			var lessons_count = 0;
+
+			for (var i = 0; i < self.marks.length; ++i) {
+				// считаеп количество оценок
+				if (!self.marks[i].ignore_lesson()) {
+					++lessons_count;
+				}
+				// пропускаем экзамены, они не влияют на оценку
+				if (self.marks[i].lesson.lesson_type() == 5) {
+					continue;
+				}
+
+				var item = self.marks[i];
+				var marksTypes = ko.utils.unwrapObservable(self.marksTypes);
+
+				var cls = marksTypes[item.mark()];
+
+
+				switch (cls) {
+					case 'black-hole':
+						if (sum > 0) {
+							sum = 0;
+						}
+						break;
+					case 'shining':
+						if (sum < (lessons_count) * 3) {
+							sum = (lessons_count) * 3;
+						} else if (i + 1 == self.marks.length) {
+							sum = (lessons_count) * 30 + ((lessons_count) * 30) / 70 * 27;
+						}
+						break;
+					case 'mercy':
+						if (sum < 0) {
+							sum = 0;
+						}
+						break;
+					default :
+						sum += item.mark();
+				}
+			}
+			//last_mark = self.mark();
+			self.sum(sum);
+		};
 
 		if (data.marks) {
 			self.marks = $.map(data.marks, function (item) {
@@ -30,10 +78,12 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 				}
 				item.student = self;
 				item.m = item.m ? item.m : 0; // значение
-				return new Mark(item);
+				item.marksTypes = self.marksTypes;
+				var mark = new Mark(item);
+				mark.mark.subscribe(self.updateSum);
+				return mark;
 			});
 		}
-
 
 		/***
 		 * возвращает пару (количество сданных задач студентом, общее количество задач)
