@@ -75,9 +75,11 @@ define(['knockout',
 
 			// ### синхронизация подсветки строк таблицы оценок
 			self.$markseditor = $(selectors.marks_editor);
-			self.$markseditor.collapse({
-				toggle: false
-			});
+			if (self.$markseditor.collapse) {
+				self.$markseditor.collapse({
+					toggle: false
+				});
+			}
 			self.$markseditor.on({
 				mouseenter: function () {
 					var index = $(this).index();
@@ -144,6 +146,7 @@ define(['knockout',
 						var item = data.students[i];
 						++i;
 						item.lessons = self.lessons;
+						item.labs = self.model.labsTable.labs;
 						item.marksTable = self;
 						self.students.push(new Student(item));
 						setTimeout(add_item, 10);
@@ -285,7 +288,12 @@ define(['knockout',
 			};
 
 /// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
-			self.showPercents = ko.observable($.cookie(cookies.score_method) !== 'false');
+			if ($.cookie) {
+				self.showPercents = ko.observable($.cookie(cookies.score_method) !== 'false');
+			} else {
+				console.log("функция $.cookie не определна");
+			}
+
 			self.scoreMethod = ko.pureComputed(function () {
 				return self.showPercents() ? "в процентах" : "в баллах"
 			}, self.showPercents);

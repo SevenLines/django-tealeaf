@@ -11,7 +11,7 @@ define(['knockout'], function (ko) {
         self.lesson = data.lesson;
 
         self.ignore_lesson = function () {
-            return self.lesson.score_ignore() || self.lesson.lesson_type() == 5;
+            return self.lesson && (self.lesson.score_ignore() || self.lesson.lesson_type() == 5);
         };
 
         var last_mark = data.m;

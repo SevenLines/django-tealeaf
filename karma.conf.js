@@ -19,7 +19,7 @@ module.exports = function(config) {
       {pattern: 'bower_components/**/*.js', included: false},
       {pattern: 'js/*.js', included: false},
       {pattern: 'lib/*.js', included: false},
-      {pattern: 'js/students/marks/**/*.js', included: false},
+      {pattern: 'js/**/*.js', included: false},
       {pattern: 'js/**/tests/*.js', included: false}
     ],
 

@@ -47,16 +47,30 @@ require.config({
 		'bootstrap': 'lib/bootstrap/bootstrap.min',
 
 		'marks': 'js/students/marks/marks',
+		'marksmain': 'js/students/marks/main',
+		'cookies': 'js/students/marks/cookies',
+		'labs': 'js/students/marks/labs',
 
 		'helpers': 'js/helpers',
 		'interface': 'js/interface',
 		'common': 'js/common',
 		'jquery.toc': 'js/jquery.toc',
 
-		'ckeditorinlinebinding': '../../bindings/ckeditorinlinebinding',
-		'select2binding': '../../bindings/select2binding',
+		//'ckeditorinlinebinding': '../../bindings/ckeditorinlinebinding',
+		//'select2binding': '../../bindings/select2binding',
+
+		'marks_fixtures': 'js/students/marks/tests/fixtures',
 	},
 
 	// we have to kickoff jasmine, as it is asynchronous
 	callback: window.__karma__.start
+});
+
+
+define("urls", function () {
+	return {
+		url: {
+
+		}
+	}
 });

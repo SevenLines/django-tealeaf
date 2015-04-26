@@ -12,18 +12,22 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		self.name = data.name;
 		self.sum = ko.observable(data.sum);
 		self.second_name = data.second_name;
+		//self.labs = data.labs;
 
 		self.marksTable = data.marksTable;
 
 		if (data.marks) {
 			self.marks = $.map(data.marks, function (item) {
-				data.lessons().every(function (lesson) {
-					if (lesson.id == item.lid) {
-						item.lesson = lesson;
-						return false;
-					}
-					return true;
-				});
+				if (data.lessons) {
+					var lessons = ko.utils.unwrapObservable(data.lessons);
+					lessons.every(function (lesson) {
+						if (lesson.id == item.lid) {
+							item.lesson = lesson;
+							return false;
+						}
+						return true;
+					});
+				}
 				item.student = self;
 				item.m = item.m ? item.m : 0; // значение
 				return new Mark(item);
@@ -39,12 +43,10 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 			var done = 0;
 			var count = 0;
 
-			if (self.marksTable && self.marksTable.model && self.marksTable.model.labsTable) {
-				var model = self.marksTable.model;
-				var labsTable = model.labsTable;
-
-				for (var i = 0, l = labsTable.labs().length; i < l; ++i) {
-					var lab = labsTable.labs()[i];
+			if (data.labs) {
+				var labs = ko.utils.unwrapObservable(data.labs);
+				for (var i = 0, l = labs.length; i < l; ++i) {
+					var lab = labs[i];
 					if (lab.visible()) {
 						if (lab.regular()) {
 							count += lab.tasks().length;
@@ -72,7 +74,7 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		 */
 		self.full_sum = ko.computed(function () {
 			var labsTasksDone = self.labsDone();
-			return self.sum() + labsTasksDone.done;
+			return self.sum() ? self.sum() : 0 + labsTasksDone.done;
 		});
 
 		self.full_name = ko.pureComputed(function () {
@@ -85,14 +87,21 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		});
 
 		self.success_factor = ko.pureComputed(function () {
-			var lessons_count = self.marks.filter(function (m) {
-				return !m.ignore_lesson();
-			}).length;
+			var lessons_count = 0;
+			if (self.marks) {
+				lessons_count = self.marks.filter(function (m) {
+					return !m.ignore_lesson();
+				}).length;
+			}
 
 			var max = lessons_count * 3 + self.labsCount;
-			var min = lessons_count * -2;
 			var base = 0.3;
+			var min = lessons_count * -2;
 			var fullSum = self.full_sum();
+
+			if (max == 0) {
+				return base;
+			}
 
 			if (fullSum == 0) {
 				return base;
@@ -138,7 +147,7 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		};
 
 		self.regularStudent = ko.pureComputed(function () {
-			return self.success_factor() >= 0.25 && self.marks.length > 0;
+			return self.success_factor() >= 0.25 && ( self.marks ? self.marks.length > 0 : false);
 		});
 
 		self.reset = function () {

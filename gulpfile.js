@@ -12,15 +12,10 @@ gulp.task('sass', function () {
 
 
 gulp.task('karma', function () {
-	var config_array = [
-		'/home/m/_WEB/Django/tealeaf/application/app/static/js/students/marks'
-	];
-	for (var i = 0; i < config_array.length; ++i) {
-		karma.start({
-			configFile: config_array[i] + '/karma.conf.js',
-			singleRun: true
-		});
-	}
+	karma.start({
+		configFile: __dirname + '/karma.conf.js',
+		singleRun: true
+	});
 });
 
 gulp.task('default', [
