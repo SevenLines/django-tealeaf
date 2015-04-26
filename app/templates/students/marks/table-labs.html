@@ -10,7 +10,7 @@
             <!-- ko with: $parent.task($data) -->
             <div class="t-cell"
                  data-bind="{% if user.is_authenticated %}
-                      click: $data.toggle,
+                      click: function () { if (!$root.containerMoved) $data.toggle() },
                      {% endif %}
                      css: css">
                 <span class="t-cell-icon" data-bind="text: $parent.order"></span>
