@@ -36,13 +36,14 @@ define(['knockout', 'marks/mark', 'labs/marktask', 'color'], function (ko, Mark,
 			//return ko.pureComputed(function () {
 			var lab = self.labs()[task.lab.id];
 			if (!lab) {
-				throw new Error("task without existing lab, check the code!");
+				return;
+				//throw new Error("task without existing lab, check the code!");
 			}
 
 			var marks = lab.marks;
 
 			if (!marks) {
-				throw new Error("lab without marks, something wrong, check the code!");
+				return;
 			}
 
 			if (!lab.marks[self.id]) {
