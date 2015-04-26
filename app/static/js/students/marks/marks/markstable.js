@@ -75,9 +75,11 @@ define(['knockout',
 
 			// ### синхронизация подсветки строк таблицы оценок
 			self.$markseditor = $(selectors.marks_editor);
-			self.$markseditor.collapse({
-				toggle: false
-			});
+			if (self.$markseditor.collapse) {
+				self.$markseditor.collapse({
+					toggle: false
+				});
+			}
 			self.$markseditor.on({
 				mouseenter: function () {
 					var index = $(this).index();
@@ -108,14 +110,9 @@ define(['knockout',
 			self.markSelector = new MarkSelector(selectors.marks_selector, self.marksTypes);
 
 
-			self.processData = function (data) {
-				// fill lesson_types list
-				self.lesson_types(data.lesson_types);
-
-				// fill mark types, and find max and min value at the same time
-				marksTypes = {};
-				self.marksTypes(data.mark_types);
-				data.mark_types.every(function (item) {
+			self.convertMarksTypes = function (data_mark_types) {
+				var marksTypes = {};
+				data_mark_types.every(function (item) {
 					marksTypes[item['k']] = item['v'];
 					if (!marksTypes.max < parseInt(item['k'])) {
 						marksTypes.max = parseInt(item['k']);
@@ -125,6 +122,15 @@ define(['knockout',
 					}
 					return true
 				});
+				return marksTypes;
+			};
+
+			self.processData = function (data) {
+				// fill lesson_types list
+				self.lesson_types(data.lesson_types);
+
+				// fill mark types, and find max and min value at the same time
+				self.marksTypes(self.convertMarksTypes(data.mark_types));
 
 				// fill lessons list
 				var map_lessons = $.map(data.lessons, function (item) {
@@ -144,7 +150,9 @@ define(['knockout',
 						var item = data.students[i];
 						++i;
 						item.lessons = self.lessons;
+						item.labs = self.model.labsTable.labs;
 						item.marksTable = self;
+						item.marksTypes = self.marksTypes;
 						self.students.push(new Student(item));
 						setTimeout(add_item, 10);
 						return true;
@@ -173,10 +181,6 @@ define(['knockout',
 					}
 				}
 
-
-				//setTimeout(function () {
-				//	while(add_item());
-				//}, 0);
 				if (data.students.length > 0) {
 					add_item();
 				}
@@ -226,10 +230,10 @@ define(['knockout',
 
 			self.loadStudentsControl = function () {
 				window.location = urls.url.students_control + '?' + $.param([
-					{name: 'year', value: self.year()},
-					{name: 'discipline_id', value: self.discipline_id},
-					{name: 'k', value: 0.5}
-				])
+						{name: 'year', value: self.year()},
+						{name: 'discipline_id', value: self.discipline_id},
+						{name: 'k', value: 0.5}
+					])
 			};
 
 			// ### РЕИНИЦИЛИЗАЦИЯ ИНТЕРФЕЙСА
@@ -285,7 +289,12 @@ define(['knockout',
 			};
 
 /// >>> ОТОБРАЖЕНИЕ ОЦЕНОК
-			self.showPercents = ko.observable($.cookie(cookies.score_method) !== 'false');
+			if ($.cookie) {
+				self.showPercents = ko.observable($.cookie(cookies.score_method) !== 'false');
+			} else {
+				console.log("функция $.cookie не определна");
+			}
+
 			self.scoreMethod = ko.pureComputed(function () {
 				return self.showPercents() ? "в процентах" : "в баллах"
 			}, self.showPercents);
@@ -336,7 +345,7 @@ define(['knockout',
 
 				self.lesson(data);
 				$lessonEditor.fadeIn('fast').offset({
-					top: offset.top + $target.height() -2,
+					top: offset.top + $target.height() - 2,
 					left: offset.left - $lessonEditor.width() / 2
 				});
 				setTimeout(function () {
@@ -347,12 +356,12 @@ define(['knockout',
 					});
 					// init data selector
 					$lessonEditor.find(".lesson-date").pickmeup({
-                        hide_on_select: true,
-                        format: 'd/m/Y',
-                        hide: function (e) {
-                            $(this).trigger('change');
-                        }
-                    });
+						hide_on_select: true,
+						format: 'd/m/Y',
+						hide: function (e) {
+							$(this).trigger('change');
+						}
+					});
 
 					blockHiding = false;
 				}, 60);
@@ -427,16 +436,16 @@ define(['knockout',
 					for (var i = 0; i < self.students().length; ++i) {
 						self.students()[i].reset();
 					}
-					self.loadStudents();
+					self.loadStudents(true);
 				});
 
 			};
 
 			self.toExcel = function (data, e) {
 				window.location = urls.url.to_excel + '?' + $.param([
-					{name: 'group_id', value: self.group_id},
-					{name: 'discipline_id', value: self.discipline_id},
-				]);
+						{name: 'group_id', value: self.group_id},
+						{name: 'discipline_id', value: self.discipline_id},
+					]);
 			};
 
 			self.resetCache = function (date, e) {

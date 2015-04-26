@@ -52,8 +52,6 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 			var index = 1;
 
 			// формируем список оценок
-
-
 			data.tasks.every(function (item) {
 				item.complex_choices = data.complex_choices;
 				item.order = index++;
@@ -75,7 +73,7 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 			return false;
 			//return self.marks[student.id] !== undefined;
 		};
-
+		//
 		self.setMarks = function (marks) {
 			self.marks = {};
 
@@ -95,8 +93,6 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 						self.rightMarksDate = date;
 					}
 				}
-
-
 				return true;
 			});
 
@@ -118,43 +114,45 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 			});
 		};
 
-
-		self.mark = function (task, student) {
-			//return ko.pureComputed(function () {
-				if (!self.marks[student.id]) {
-					self.marks[student.id] = {};
-				}
-
-				if (!self.marks[student.id][task.id]) {
-					self.marks[student.id][task.id] = new MarkTask({
-						student: student.id,
-						task: task.id,
-						student_inst: student,
-						task_inst: student,
-						lab: self
-					});
-				}
-
-				return self.marks[student.id][task.id];
-			//});
-		};
-
-		self.toggleTaskMark = function (mark) {
-			var item = {};
-			item[mark.student] = {};
-			item[mark.student][mark.task] = mark;
-
-			if (self.marks[mark.student] === undefined) {
-				self.marks[mark.student] = {};
-			}
-			item = self.marks[mark.student];
-
-			if (item[mark.task] === undefined) {
-				item[mark.task] = {};
-			}
-			item[mark.task] = mark;
-			mark.toggle();
-		};
+		//
+		//self.mark = function (task, student) {
+		//	return ko.pureComputed(function () {
+		//		if (!self.marks[student.id]) {
+		//			self.marks[student.id] = {};
+		//		}
+		//
+		//		if (!self.marks[student.id][task.id]) {
+		//			var mark = new MarkTask({
+		//				student: student.id,
+		//				task: task.id,
+		//				student_inst: student,
+		//				task_inst: student,
+		//				lab: self
+		//			});
+		//			mark.done.subscribe(student.updateSum);
+		//			self.marks[student.id][task.id] = mark;
+		//		}
+		//
+		//		return self.marks[student.id][task.id];
+		//	});
+		//};
+		//
+		//self.toggleTaskMark = function (mark) {
+		//	var item = {};
+		//	item[mark.student] = {};
+		//	item[mark.student][mark.task] = mark;
+		//
+		//	if (self.marks[mark.student] === undefined) {
+		//		self.marks[mark.student] = {};
+		//	}
+		//	item = self.marks[mark.student];
+		//
+		//	if (item[mark.task] === undefined) {
+		//		item[mark.task] = {};
+		//	}
+		//	item[mark.task] = mark;
+		//	mark.toggle();
+		//};
 
 		self.remove = function (done, fail) {
 			$.prompt("Удалить \"" + self.title() + "\"?", {

@@ -54,7 +54,7 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 			if (urls.url.logged || updateBlock)
 				return;
 
-			updateBlock = true;
+			updateBlock = true; // для блокировки до окончания процесса
 			$.get(urls.url.labs, {
 				discipline_id: self.discipline_id
 			}).done(function (r) {
@@ -256,7 +256,8 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 		};
 
 		self.toggleTaskMark = function (lab, data) {
-			lab.toggleTaskMark(data);
+			//lab.toggleTaskMark(data);
+			data.toggle();
 		}
 	}
 });

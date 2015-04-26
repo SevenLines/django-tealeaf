@@ -2,7 +2,7 @@
  * Created by m on 11.02.15.
  */
 // >>> STUDENT CLASS
-define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
+define(['knockout', 'marks/mark', 'labs/marktask', 'color'], function (ko, Mark, MarkTask) {
 	return function (data) {
 		var marksTypes = [];
 		var studentColorMin = Color("#FDD").lighten(0.03);
@@ -12,37 +12,139 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		self.name = data.name;
 		self.sum = ko.observable(data.sum);
 		self.second_name = data.second_name;
+		self.marksTypes = data.marksTypes;
 
 		self.marksTable = data.marksTable;
 
-		self.marks = $.map(data.marks, function (item) {
-			data.lessons().every(function (lesson) {
-				if (lesson.id == item.lid) {
-					item.lesson = lesson;
-					return false;
-				}
-				return true;
-			});
-			item.student = self;
-			item.m = item.m ? item.m : 0; // значение
-			return new Mark(item);
+		self.marks = [];
+
+		self.labs = ko.pureComputed(function () {
+			var out = {};
+			if (data.labs) {
+				var labs = ko.utils.unwrapObservable(data.labs);
+				labs.map(function (item) {
+					out[item.id] = item;
+				});
+			}
+			return out;
 		});
 
+		/***
+		 * возвращает оценку за сданную/несданную задачу
+		 */
+		self.task = function (task) {
+			//return ko.pureComputed(function () {
+			var lab = self.labs()[task.lab.id];
+			if (!lab) {
+				throw new Error("task without existing lab, check the code!");
+			}
 
+			var marks = lab.marks;
+
+			if (!marks) {
+				throw new Error("lab without marks, something wrong, check the code!");
+			}
+
+			if (!lab.marks[self.id]) {
+				lab.marks[self.id] = {};
+			}
+
+			if (!lab.marks[self.id][task.id]) {
+				var mark = lab.marks[self.id][task.id] = new MarkTask({
+					student: self.id,
+					task: task.id,
+					student_inst: self,
+					task_inst: task,
+					lab: lab
+				});
+				mark.done.subscribe(function () {
+					self.sum.notifySubscribers();
+				});
+			}
+			return lab.marks[self.id][task.id];
+		};
+
+		/***
+		 * функция обновляет сумму студента
+		 */
+		self.updateSum = function () {
+			var sum = 0;
+			var lessons_count = 0;
+
+			for (var i = 0; i < self.marks.length; ++i) {
+				// считаеп количество оценок
+				if (!self.marks[i].ignore_lesson()) {
+					++lessons_count;
+				}
+				// пропускаем экзамены, они не влияют на оценку
+				if (self.marks[i].lesson.lesson_type() == 5) {
+					continue;
+				}
+
+				var item = self.marks[i];
+				var marksTypes = ko.utils.unwrapObservable(self.marksTypes);
+
+				var cls = marksTypes[item.mark()];
+
+
+				switch (cls) {
+					case 'black-hole':
+						if (sum > 0) {
+							sum = 0;
+						}
+						break;
+					case 'shining':
+						if (sum < (lessons_count) * 3) {
+							sum = (lessons_count) * 3;
+						} else if (i + 1 == self.marks.length) {
+							sum = (lessons_count) * 30 + ((lessons_count) * 30) / 70 * 27;
+						}
+						break;
+					case 'mercy':
+						if (sum < 0) {
+							sum = 0;
+						}
+						break;
+					default :
+						sum += item.mark();
+				}
+			}
+			//last_mark = self.mark();
+			self.sum(sum);
+		};
+
+		if (data.marks) {
+			self.marks = $.map(data.marks, function (item) {
+				if (data.lessons) {
+					var lessons = ko.utils.unwrapObservable(data.lessons);
+					lessons.every(function (lesson) {
+						if (lesson.id == item.lid) {
+							item.lesson = lesson;
+							return false;
+						}
+						return true;
+					});
+				}
+				item.student = self;
+				item.m = item.m ? item.m : 0; // значение
+				item.marksTypes = self.marksTypes;
+				var mark = new Mark(item);
+				mark.mark.subscribe(self.updateSum);
+				return mark;
+			});
+		}
 
 		/***
 		 * возвращает пару (количество сданных задач студентом, общее количество задач)
 		 */
 		self.labsCount = 0;
 		self.labsDone = function () {
-			var model = self.marksTable.model;
-			var labsTable = model.labsTable;
-
 			var done = 0;
 			var count = 0;
 
-			for (var i = 0, l = labsTable.labs().length; i < l; ++i) {
-				var lab = labsTable.labs()[i];
+			var labs = ko.utils.unwrapObservable(self.labs);
+			for (var lab_id in labs) {
+				var lab = labs[lab_id];
 				if (lab.visible()) {
 					if (lab.regular()) {
 						count += lab.tasks().length;
@@ -56,6 +158,7 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 				}
 			}
 			self.labsCount = count;
+
 			return {
 				done: done,
 				count: count
@@ -66,13 +169,12 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		 * возвращает полную сумму оценок
 		 * sum + баллы за сданные  задачи
 		 */
-		self.full_sum = ko.computed(function () {
+		self.full_sum = ko.pureComputed(function () {
 			var labsTasksDone = self.labsDone();
-			return self.sum() + labsTasksDone.done;
+			return self.sum() ? self.sum() : 0 + labsTasksDone.done;
 		});
 
 		self.full_name = ko.pureComputed(function () {
-			//var name = $(document).width() < 400 ? self.name[0] + '.' : self.name;
 			return self.second_name + ' ' + self.name;
 		});
 
@@ -81,14 +183,21 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		});
 
 		self.success_factor = ko.pureComputed(function () {
-			var lessons_count = self.marks.filter(function (m) {
-				return !m.ignore_lesson();
-			}).length;
+			var lessons_count = 0;
+			if (self.marks) {
+				lessons_count = self.marks.filter(function (m) {
+					return !m.ignore_lesson();
+				}).length;
+			}
 
 			var max = lessons_count * 3 + self.labsCount;
-			var min = lessons_count * -2;
 			var base = 0.3;
+			var min = lessons_count * -2;
 			var fullSum = self.full_sum();
+
+			if (max == 0) {
+				return base;
+			}
 
 			if (fullSum == 0) {
 				return base;
@@ -134,7 +243,7 @@ define(['knockout', 'marks/mark', 'color'], function (ko, Mark) {
 		};
 
 		self.regularStudent = ko.pureComputed(function () {
-			return self.success_factor() >= 0.25 && self.marks.length > 0;
+			return self.success_factor() >= 0.25 && ( self.marks ? self.marks.length > 0 : false);
 		});
 
 		self.reset = function () {

@@ -14,9 +14,13 @@ define(['knockout', 'urls', 'helpers'], function (ko, urls, helpers) {
 
         self.lab = data.lab;
 
+        /***
+         * возвращает список номеров студентов выбравших данную задачу
+         * @returns {Array}
+         */
         function get_ids(massdata) {
             var out = [];
-            self.students().every(function (item) {
+            massdata.every(function (item) {
                 out.push(item.id);
                 return true;
             });
@@ -24,7 +28,7 @@ define(['knockout', 'urls', 'helpers'], function (ko, urls, helpers) {
         }
 
         self.students_ids = ko.pureComputed(function () {
-            return get_ids(self.students);
+            return get_ids(self.students());
         });
         self.old_students = get_ids(data.students);
 

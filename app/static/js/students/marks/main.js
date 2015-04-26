@@ -87,6 +87,45 @@ define(['knockout',
 				}
 			};
 
+			/***
+			 * инициализация реакций на изменения, вызывать имеет смысл только при написании тестов,
+			 * когда нет доступа к urls.url
+			 */
+			self.subscribeOnChanges = function () {
+				// востанавливаем прошлые значениея из куков
+				self.restoreLastDiscipline();
+
+				// подписываемся на изменения
+				self.year.subscribe(function () {
+					if (!self.labs_loading_complete) return;
+					if (self.year() && self.discipline()) {
+						self.loadGroups();
+					} else {
+						self.marksTable.setParams(null, null);
+					}
+				});
+
+				self.group.subscribe(function () {
+					if (!self.groups_loading_complete) return;
+					var group_id = self.group() ? self.group().id : null;
+					self.marksTable.setParams(group_id, self.discipline().id);
+				});
+
+				self.discipline.subscribe(function () {
+					self.labs_loading_complete = false;
+
+					self.marksTable.setParams(null, null);
+					self.groups.removeAll();
+
+					self.labsTable.setParams(self.discipline().id);
+					if (self.discipline()) {
+						$.cookie(cookies.discipline_id, self.discipline().id, {expires: cookies.expires});
+					}
+				});
+
+				self.restoreLastYear();
+			};
+
 
 			/***
 			 * функция инициализация
@@ -94,43 +133,23 @@ define(['knockout',
 			function Init() {
 				// подключение байдингов после загрузки дисциплин и годов
 				// сначала грузим список дисциплин
-				self.loadDisciplines().done(function () {
+				var response = self.loadDisciplines();
+
+				if (!response)
+					return;
+
+				response.done(function () {
 					// затем список годов
-					self.loadYears().done(function () {
-						// востанавливаем прошлые значениея из куков
-						self.restoreLastDiscipline();
+					response = self.loadYears();
 
-						self.year.subscribe(function () {
-							if (!self.labs_loading_complete) return;
-							if (self.year() && self.discipline()) {
-								self.loadGroups();
-							} else {
-								self.marksTable.setParams(null, null);
-							}
-						});
+					if (!response)
+						return;
 
-						self.group.subscribe(function () {
-							if (!self.groups_loading_complete) return;
-							var group_id = self.group() ? self.group().id : null;
-							self.marksTable.setParams(group_id, self.discipline().id);
-						});
-
-						self.discipline.subscribe(function () {
-							self.labs_loading_complete = false;
-
-							self.marksTable.setParams(null, null);
-							self.groups.removeAll();
-
-							self.labsTable.setParams(self.discipline().id);
-							if (self.discipline()) {
-								$.cookie(cookies.discipline_id, self.discipline().id, {expires: cookies.expires});
-							}
-						});
-
-						self.restoreLastYear();
+					response.done(function () {
+						self.subscribeOnChanges();
 					})
 				});
-			};
+			}
 
 			/***
 			 * возвращает pureComputed которое возвращает true если студент student видимый
@@ -188,49 +207,68 @@ define(['knockout',
 			self.discipline = ko.observable();
 
 // >>> LOADING FUNCTIONS
+
+			self.setYears = function (data) {
+				self.years(data);
+			};
+
 			self.years_loading_complete = true;
 			self.loadYears = function () {
-				if (!self.years_loading_complete) return;
-				self.years_loading_complete = false;
-				self.years.length = 0;
-				return $.get(urls.url.years, {}, self.years).done(function (data) {
-					self.years_loading_complete = true;
+				if (urls.url.years) {
+					if (!self.years_loading_complete) return;
+					self.years_loading_complete = false;
+					self.years.length = 0;
+					return $.get(urls.url.years).done(function (data) {
+						self.setYears(data);
+						self.years_loading_complete = true;
+					});
+				}
+			};
+
+			self.setGroups = function (data, done) {
+				self.groups(data);
+				$.cookie(cookies.year, self.year(), {expires: cookies.expires});
+
+				self.groups.sort(function (left, right) {
+					return left.title == right.title ? 0 : left.title < right.title ? -1 : 1;
 				});
+				self.groups_loading_complete = true;
+				self.restoreLastGroup();
+				if (done)
+					done();
 			};
 
 			self.groups_loading_complete = true;
 			self.loadGroups = function (done) {
-				if (!self.groups_loading_complete) return;
-				self.groups_loading_complete = false;
-
-				self.groups.removeAll();
-				$.get(urls.url.groups, {
-					'year': self.year() || 0,
-					'discipline_id': self.discipline().id
-				}, self.groups).done(function (data) {
-					$.cookie(cookies.year, self.year(), {expires: cookies.expires});
-
-					self.groups.sort(function (left, right) {
-						return left.title == right.title ? 0 : left.title < right.title ? -1 : 1;
+				if (urls.url.groups) {
+					if (!self.groups_loading_complete) return;
+					self.groups_loading_complete = false;
+					$.get(urls.url.groups, {
+						'year': self.year() || 0,
+						'discipline_id': self.discipline().id
+					}).done(function (data) {
+						self.setGroups(data, done);
 					});
-					self.groups_loading_complete = true;
-					self.restoreLastGroup();
-					if (done) done();
-				});
+				}
 			};
 
 
-			self.loadDisciplines = function () {
+			self.setDisciplines = function (data) {
 				self.disciplines.removeAll();
-				return $.get(urls.url.disciplines).done(function (data) {
-					for (var i = 0; i < data.length; ++i) {
-						var disc = new Discipline(data[i], self);
-						self.disciplines.push(disc);
-					}
+				for (var i = 0; i < data.length; ++i) {
+					var disc = new Discipline(data[i], self);
+					self.disciplines.push(disc);
+				}
+			};
 
-				}).fail(function () {
-					helpers.showFail();
-				});
+			self.loadDisciplines = function () {
+				if (urls.url.disciplines) {
+					return $.get(urls.url.disciplines).done(function (data) {
+						self.setDisciplines(data);
+					}).fail(function () {
+						helpers.showFail();
+					});
+				}
 			};
 
 
@@ -326,8 +364,5 @@ define(['knockout',
 			Init();
 		};
 
-
-//add model to global namespace
-		//window.MarksViewModel = MarksViewModel;
 	});
 

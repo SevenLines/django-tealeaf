@@ -175,11 +175,13 @@ def backup(only_base=False):
 
 
 def deploy(without_build=False):
+    local("python manage.py test")  # запускаем тесты
+    local("gulp karma")  # запускаем тесты
+
     increment_build()  # обновляем версию
     from app.settings.version import BUILD
     build = int(BUILD)
 
-    local("python manage.py test")  # запускаем тесты
     local("git commit -a -m 'сборка v%d'" % (build + 1))
     if not without_build:
         build_production()
