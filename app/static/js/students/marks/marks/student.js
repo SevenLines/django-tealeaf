@@ -23,6 +23,9 @@ define(['knockout', 'marks/mark', 'labs/marktask', 'color'], function (ko, Mark,
 			if (data.labs) {
 				var labs = ko.utils.unwrapObservable(data.labs);
 				labs.map(function (item) {
+					//item.visible.subscribe(function () {
+					//	self.sum.notifySubscribers();
+					//});
 					out[item.id] = item;
 				});
 			}
@@ -110,7 +113,6 @@ define(['knockout', 'marks/mark', 'labs/marktask', 'color'], function (ko, Mark,
 						sum += item.mark();
 				}
 			}
-			//last_mark = self.mark();
 			self.sum(sum);
 		};
 
@@ -138,11 +140,9 @@ define(['knockout', 'marks/mark', 'labs/marktask', 'color'], function (ko, Mark,
 		/***
 		 * возвращает пару (количество сданных задач студентом, общее количество задач)
 		 */
-		self.labsCount = 0;
-		self.labsDone = function () {
+		self.labsDone = ko.pureComputed(function () {
 			var done = 0;
 			var count = 0;
-
 			var labs = ko.utils.unwrapObservable(self.labs);
 			for (var lab_id in labs) {
 				var lab = labs[lab_id];
@@ -158,21 +158,18 @@ define(['knockout', 'marks/mark', 'labs/marktask', 'color'], function (ko, Mark,
 					}
 				}
 			}
-			self.labsCount = count;
-
 			return {
 				done: done,
 				count: count
 			};
-		};
+		});
 
 		/***
 		 * возвращает полную сумму оценок
 		 * sum + баллы за сданные  задачи
 		 */
 		self.full_sum = ko.pureComputed(function () {
-			var labsTasksDone = self.labsDone();
-			return self.sum() ? self.sum() : 0 + labsTasksDone.done;
+			return self.sum() ? self.sum() : 0 + self.labsDone().done;
 		});
 
 		self.full_name = ko.pureComputed(function () {
@@ -191,7 +188,7 @@ define(['knockout', 'marks/mark', 'labs/marktask', 'color'], function (ko, Mark,
 				}).length;
 			}
 
-			var max = lessons_count * 3 + self.labsCount;
+			var max = lessons_count * 3 + self.labsDone().count;
 			var base = 0.3;
 			var min = lessons_count * -2;
 			var fullSum = self.full_sum();
@@ -211,7 +208,7 @@ define(['knockout', 'marks/mark', 'labs/marktask', 'color'], function (ko, Mark,
 
 		self.color = ko.pureComputed(function () {
 			if (self.full_sum() != 0) {
-				var max = self.marks.length * 3 + self.labsCount;
+				var max = self.marks.length * 3 + self.labsDone().count;
 				var min = self.marks.length * -2;
 				var diff = (max - min);
 				var k = 1 - self.full_sum() / diff;
