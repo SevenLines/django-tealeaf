@@ -21,9 +21,9 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 		/***
 		 * для запоминаия последней открытой лабораторной
 		 */
-		//$(".left-board").on("click", ".m-lab-title", function () {
-		//	var match = /#lab(\d+)/i.exec($(this).attr('href'));
-		//});
+			//$(".left-board").on("click", ".m-lab-title", function () {
+			//	var match = /#lab(\d+)/i.exec($(this).attr('href'));
+			//});
 
 
 		self.setParams = function (discipline_id) {
@@ -120,7 +120,6 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 					self.labs.push(new Lab(item));
 					return true;
 				});
-				self.labsLoading(false);
 
 				// запускаем таймер обновления лабов,
 				// это нужно для синхронизации оценок без перезагрузки
@@ -143,6 +142,7 @@ define(['knockout', 'urls', 'helpers', 'labs/lab', 'labs/marktask'], function (k
 						self.onLabsLoadingComplete(r, self);
 					}, 100);
 				}
+				self.labsLoading(false);
 
 			}).fail(helpers.showFail);
 			//}, 10);

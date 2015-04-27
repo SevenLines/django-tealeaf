@@ -160,7 +160,18 @@ define(['marks/student',
 
 			mark.toggle();
 			expect(Math.abs(sum_before - student.full_sum())).toEqual(1);
-		})
+		});
+
+		it('success_factor should update on toggle lab without done tasks', function () {
+			var success_factor = student.success_factor();
+
+			for(var last_lab in student.labs()) {
+			}
+			last_lab = student.labs()[last_lab];
+			last_lab.toggle();
+
+			expect(success_factor).not.toEqual(student.success_factor());
+		});
 	})
 
 });

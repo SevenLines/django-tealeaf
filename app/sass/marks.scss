@@ -78,12 +78,38 @@
   }
 }
 
+#loading-screen {
+  z-index: 101;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  .cog {
+    position: relative;
+    //text-align:  center;
+    top: 35%;
+    color: white;
+    h2 {
+      margin-top: 0;
+    }
+    > div {
+      color: white;
+      position: relative;
+      //top: -50px;
+    }
+  }
+}
+
 // стиль для отличных студентов
 .god {
   position: relative;
   box-shadow: 0 0 4px #f49900 !important;
   background-color: #ffe500 !important;
 }
+
 @import "students/_god_animated";
 
 .jumbotron {
