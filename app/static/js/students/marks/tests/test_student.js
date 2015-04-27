@@ -37,7 +37,15 @@ define(['marks/student',
 
 		it("should not be regular student as he doesn't has any marks", function () {
 			expect(student.regularStudent()).toBeFalsy();
-		})
+		});
+
+		it("task should return undefined", function () {
+			expect(student.task({
+				lab: {
+					id: -1
+				}
+			})).toBeUndefined();
+		});
 
 	});
 
@@ -74,8 +82,15 @@ define(['marks/student',
 			mark.mark(current_mark_value+1);
 
 			expect(student.sum()-1).toEqual(previous_sum);
-		})
+		});
 
+		it("task should return undefined", function () {
+			expect(student.task({
+				lab: {
+					id: -1
+				}
+			})).toBeUndefined();
+		});
 	});
 
 	describe("Student with labs tasks", function () {
@@ -125,6 +140,27 @@ define(['marks/student',
 			first_lab.marks[student.id][mark_id].toggle();
 			expect(Math.abs(sum_before - student.full_sum())).toEqual(1);
 		});
+
+		it('sum should be updated on toggle not done task', function () {
+			var sum_before = student.full_sum();
+
+			for(var last_lab in student.labs()) {
+				break;
+			}
+			last_lab = student.labs()[last_lab];
+
+			for(var mark_id in last_lab.marks[student.id]) {
+				break;
+			}
+			var mark = last_lab.marks[student.id][mark_id];
+
+			if(mark.id != -1) {
+				throw new Error("Для работоспособности этого теста, надо убедится что данная задача у студента никогда не засчитывалась");
+			}
+
+			mark.toggle();
+			expect(Math.abs(sum_before - student.full_sum())).toEqual(1);
+		})
 	})
 
 });
