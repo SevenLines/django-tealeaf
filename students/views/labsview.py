@@ -17,9 +17,9 @@ permitted_keys = ['title', 'description', 'discipline_id', 'visible', 'columns_c
 
 @require_in_GET('discipline_id')
 def index(request):
-    '''
+    """
     Возвращает лабы для дисциплины
-    '''
+    """
     discipline_id = request.GET['discipline_id']
 
     labs = StudentLab.objects.filter(discipline_id=discipline_id)
@@ -57,15 +57,19 @@ def index(request):
 @login_required
 @require_in_POST('discipline_id')
 def new(request):
-    '''
+    """
     add new lab to discipline
     :param request:
     :return:
-    '''
+    """
     lab = StudentLab()
+
+    if 'bgimage' in request.FILES:
+        lab.bgimage = request.FILES['bgimage']
     update_object(request.POST, lab, *permitted_keys)
     lab.save()
-    return HttpResponse(json.dumps(model_to_dict(lab)), content_type='json')
+
+    return HttpResponse(json.dumps(lab.as_dict()), content_type='json')
 
 
 @login_required
@@ -80,11 +84,17 @@ def delete(request):
 @require_in_POST('id')
 def save(request):
     lab = get_post_object(request, StudentLab)
+    assert isinstance(lab, StudentLab)
 
     if 'order_array' in request.POST:
         order_array = json.loads(request.POST['order_array'])
         order_array = list([int(i) for i in order_array])
         lab.set_studenttask_order(order_array)
+
+    if 'bgimage' in request.FILES:
+        if lab.bgimage:
+            lab.bgimage.delete()
+        lab.bgimage = request.FILES['bgimage']
 
     update_object(request.POST, lab, *permitted_keys)
     lab.save()

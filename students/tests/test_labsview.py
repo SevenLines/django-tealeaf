@@ -1,7 +1,10 @@
 # coding=utf-8
 import json
+import os
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.db import transaction, IntegrityError
+from django.db.transaction import TransactionManagementError
 from django.test import TestCase
 from app.utils import MyTestCase
 from students.models.discipline import Discipline
@@ -91,19 +94,41 @@ class LabsViewTestCase(MyTestCase):
         })
 
         self.assertEqual(response.status_code, 200)
+
+        data = json.loads(response.content)
+
+        self.assertIn('id', data)
         self.assertEqual(StudentLab.objects.filter(discipline=self.discipline).count(), count_before + 1)
 
     @MyTestCase.login
     def test_delete_should_delete_lab(self):
-        l = StudentLab.objects.create(discipline=self.discipline)
-        count_before = StudentLab.objects.filter(discipline=self.discipline).count()
-
-        response = self.client.post(reverse('students.views.labsview.delete'), {
-            'id': l.id
+        # creates new lab
+        bgimage = open("tests/test_image.png", 'rb')
+        response = self.client.post(reverse('students.views.labsview.new'), {
+            'title': "askdjh",
+            'columns_count': 2,
+            'bgimage': bgimage,
+            'discipline_id': self.discipline.id
         })
 
+        bgimage.close()
+
+        lab = json.loads(response.content)
+
+        # retrieve newly created lab from db
+        lab = StudentLab.objects.get(id=lab['id'])
+        self.assertTrue(os.path.exists(lab.bgimage.path))
+
+        # remove it
+        count_before = StudentLab.objects.filter(discipline=self.discipline).count()
+        response = self.client.post(reverse('students.views.labsview.delete'), {
+            'id': lab.id
+        })
+
+        # check results
         self.assertEqual(response.status_code, 200)
         self.assertEqual(StudentLab.objects.filter(discipline=self.discipline).count(), count_before - 1)
+        self.assertFalse(os.path.exists(lab.bgimage.path))
 
     @MyTestCase.login
     def test_save_should_update_lab(self):
@@ -112,13 +137,18 @@ class LabsViewTestCase(MyTestCase):
         new_regular = not self.lab.regular
         new_description = u"22"
 
+        bgimage = open("tests/test_image.png", 'rb')
+
         response = self.client.post(reverse('students.views.labsview.save'), {
             'id': self.lab.id,
             'title': new_title,
             'columns_count': new_cols_count,
             'regular': new_regular,
-            'description': new_description
+            'description': new_description,
+            'bgimage': bgimage,
         })
+
+        bgimage.close()
 
         self.assertEqual(response.status_code, 200)
 
@@ -127,6 +157,21 @@ class LabsViewTestCase(MyTestCase):
         self.assertEqual(new_description, self.lab.description)
         self.assertEqual(new_cols_count, self.lab.columns_count)
         self.assertEqual(new_regular, self.lab.regular)
+        self.assertTrue(os.path.exists(self.lab.bgimage.path))
+
+        # check that changing image should remove old image from disk
+        bgimage = open("tests/test_image.png", 'rb')
+        old_bgimage_path = self.lab.bgimage.path
+        response = self.client.post(reverse('students.views.labsview.save'), {
+            'id': self.lab.id,
+            'bgimage': bgimage,
+        })
+
+        self.lab = StudentLab.objects.get(id=self.lab.id)
+        self.assertFalse(os.path.exists(old_bgimage_path))
+        self.assertTrue(os.path.exists(self.lab.bgimage.path))
+
+        bgimage.close()
 
     @MyTestCase.login
     def test_save_task_marks_should_process_marks(self):
@@ -183,7 +228,4 @@ class LabsViewTestCase(MyTestCase):
         self.labVisible = StudentLab.objects.get(id=self.labVisible.id)
 
         self.assertEqual(self.labVisible._order - self.lab._order, -1)
-
-
-
 
