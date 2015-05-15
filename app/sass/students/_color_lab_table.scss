@@ -12,6 +12,11 @@ $max_tables: length($bgcolors) - 1;
 
     $color: nth($bgcolors, $i + 1);
     $color2: nth($fgcolors, $i + 1);
+    background-repeat: no-repeat;
+
+    thead, tfoot {
+      background-color: white;
+    }
 
     &.with_pic {
 
