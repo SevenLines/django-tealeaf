@@ -91,6 +91,33 @@ $m_task_label_width: 32px;
   //  }
   //  display: block;
   //}
+  .lab-bgimage-container {
+    cursor: pointer;
+
+    .preview-lab-image {
+      display: block;
+      position: absolute;
+      visibility: hidden;
+      opacity: 0;
+      -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      -ms-transition: all 0.3s;
+      -o-transition: all 0.3s;
+      transition: all 0.3s;
+      z-index: 100;
+      max-width: 600px !important;
+      border: 1px solid black;
+      border-radius: 0 8px 8px;
+      box-shadow: 0 2px 4px silver;
+    }
+    &:hover {
+      .preview-lab-image {
+        max-width: inherit;
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
 
   a {
     //    color: #000000;
