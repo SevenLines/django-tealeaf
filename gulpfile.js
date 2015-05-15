@@ -6,7 +6,7 @@ var minifycss = require('gulp-minify-css');
 gulp.task('sass', function () {
 	gulp.src('app/sass/*.scss')
 		.pipe(sass())
-		.pipe(minifycss())
+		//.pipe(minifycss())
 		.pipe(gulp.dest('app/static/css'))
 });
 
