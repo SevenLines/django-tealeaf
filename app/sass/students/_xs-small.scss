@@ -32,29 +32,29 @@ $shrink: 0.4;
               -ms-transition: opacity 0.3s;
               -o-transition: opacity 0.3s;
               transition: opacity 0.3s;
-              opacity: 0;
+              //opacity: 0;
             }
           }
-          &:hover {
+          //&:hover {
             max-width: $students-list-width*$shrink* 1.5;
             width: $students-list-width*$shrink * 1.5;
-            .info {
-              .score {
-                opacity: 1;
-              }
-            }
-          }
-          max-width: $students-list-width*$shrink;
-          width: $students-list-width*$shrink;
+            //.info {
+            //  .score {
+            //    opacity: 1;
+            //  }
+            //}
+          //}
+          //max-width: $students-list-width*$shrink;
+          //width: $students-list-width*$shrink;
         }
 
-        &:hover {
-          max-width: $students-list-width*$shrink* 2;
-          width: $students-list-width*$shrink * 2;
-
-        }
-        max-width: $students-list-width*$shrink* 1.5;
-        width: $students-list-width*$shrink* 1.5;
+        //&:hover {
+        //  max-width: $students-list-width*$shrink* 2;
+        //  width: $students-list-width*$shrink * 2;
+        //
+        //}
+        max-width: $students-list-width*$shrink* 2;
+        width: $students-list-width*$shrink* 2;
 
         .info {
           .name {

@@ -64,6 +64,13 @@
                 <hr>
             </div>
         {% else %}
+            <div class="lab-bgimage-container" style="float: left; padding-right: 1em; position: relative">
+                <img alt="" data-bind="attr: {src: bgimage}, click: clearImage" style="max-height: 30px"/>
+                <img alt="" class="preview-lab-image"  data-bind="attr: {src: bgimage}" />
+            </div>
+            <input type="file" accept="image/*"
+                   data-bind="event: { change: setImage.bind($data, $element)  }"/>
+            <hr/>
             <div class="m-lab-description">
                 <div style="background-color:#f8f8f8;min-width: 20px;min-height: 20px" contenteditable
                      data-bind="ckeditorInline: description"></div>

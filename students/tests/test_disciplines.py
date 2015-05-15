@@ -7,10 +7,11 @@ from students.models.labs import StudentLab
 from students.models.lesson import Lesson
 from students.models.mark import Mark
 from students.models.student import Student
+from students.tests import TestStudentsCase
 from students.utils import current_year
 
 
-class TestDisciplinesViews(MyTestCase):
+class TestDisciplinesViews(TestStudentsCase):
     def setUp(self):
         super(TestDisciplinesViews, self).setUp()
 
@@ -152,3 +153,9 @@ class TestDisciplinesViews(MyTestCase):
         disciplines = json.loads(response.content)
 
         self.assertEqual(len(disciplines), 6)
+
+    @TestStudentsCase.as_admin
+    def test_admin_can_edit_discipline(self):
+        pass
+
+

@@ -1,0 +1,28 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+from django.conf import settings
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('students', '0025_auto_20150425_0647'),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='UserProfile',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('is_admin', models.BooleanField(default=False, help_text=b'\xd0\x90\xd0\xb4\xd0\xbc\xd0\xb8\xd0\xbd \xd0\xb8\xd0\xbc\xd0\xb5\xd0\xb5\xd1\x82 \xd0\xbf\xd1\x80\xd0\xb0\xd0\xb2\xd0\xbe \xd0\xb4\xd0\xbe\xd0\xb1\xd0\xb0\xd0\xb2\xd0\xbb\xd1\x8f\xd1\x82\xd1\x8c/\xd1\x83\xd0\xb4\xd0\xb0\xd0\xbb\xd1\x8f\xd1\x82\xd1\x8c \xd0\xb4\xd0\xb8\xd1\x81\xd1\x86\xd0\xb8\xd0\xbf\xd0\xbb\xd0\xb8\xd0\xbd\xd1\x8b')),
+                ('discipline', models.ManyToManyField(default=None, help_text=b'\xd0\x94\xd0\xb8\xd1\x81\xd1\x86\xd0\xb8\xd0\xbf\xd0\xbb\xd0\xb8\xd0\xbd\xd0\xb0 \xd0\xba \xd0\xba\xd0\xbe\xd1\x82\xd0\xbe\xd1\x80\xd0\xbe\xd0\xb9 \xd0\xbf\xd0\xbe\xd0\xbb\xd1\x8c\xd0\xb7\xd0\xbe\xd0\xb2\xd0\xb0\xd1\x82\xd0\xb5\xd0\xbb\xd1\x8c \xd0\xb8\xd0\xbc\xd0\xb5\xd0\xb5\xd1\x82 \xd0\xb4\xd0\xbe\xd1\x81\xd1\x82\xd1\x83\xd0\xbf', null=True, to='students.Discipline', blank=True)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, unique=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+    ]
