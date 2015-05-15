@@ -82,6 +82,14 @@ def delete(request):
 
 @login_required
 @require_in_POST('id')
+def clear_image(request):
+    lab = get_post_object(request, StudentLab)
+    lab.bgimage.delete()
+    return HttpResponse()
+
+
+@login_required
+@require_in_POST('id')
 def save(request):
     lab = get_post_object(request, StudentLab)
     assert isinstance(lab, StudentLab)
@@ -98,7 +106,7 @@ def save(request):
 
     update_object(request.POST, lab, *permitted_keys)
     lab.save()
-    return HttpResponse()
+    return HttpResponse(json.dumps(lab.as_dict()), content_type='json')
 
 
 @login_required

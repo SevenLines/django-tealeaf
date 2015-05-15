@@ -14,6 +14,8 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 		self.visible = ko.observable(data.visible);
 		self.regular = ko.observable(data.regular);
 		self.columns_count = ko.observable(data.columns_count);
+		self.bgimage = ko.observable(data.bgimage);
+		self.new_bgimage_data = ko.observable(null);
 		self.marks = {};
 
 		self.leftMarksDate = "";
@@ -114,46 +116,6 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 			});
 		};
 
-		//
-		//self.mark = function (task, student) {
-		//	return ko.pureComputed(function () {
-		//		if (!self.marks[student.id]) {
-		//			self.marks[student.id] = {};
-		//		}
-		//
-		//		if (!self.marks[student.id][task.id]) {
-		//			var mark = new MarkTask({
-		//				student: student.id,
-		//				task: task.id,
-		//				student_inst: student,
-		//				task_inst: student,
-		//				lab: self
-		//			});
-		//			mark.done.subscribe(student.updateSum);
-		//			self.marks[student.id][task.id] = mark;
-		//		}
-		//
-		//		return self.marks[student.id][task.id];
-		//	});
-		//};
-		//
-		//self.toggleTaskMark = function (mark) {
-		//	var item = {};
-		//	item[mark.student] = {};
-		//	item[mark.student][mark.task] = mark;
-		//
-		//	if (self.marks[mark.student] === undefined) {
-		//		self.marks[mark.student] = {};
-		//	}
-		//	item = self.marks[mark.student];
-		//
-		//	if (item[mark.task] === undefined) {
-		//		item[mark.task] = {};
-		//	}
-		//	item[mark.task] = mark;
-		//	mark.toggle();
-		//};
-
 		self.remove = function (done, fail) {
 			$.prompt("Удалить \"" + self.title() + "\"?", {
 				persistent: false,
@@ -172,36 +134,102 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 			return data.title != self.title() ||
 				data.description != self.description() ||
 				data.columns_count != self.columns_count() ||
-				data.discipline != self.discipline();
+				data.discipline != self.discipline() ||
+				self.new_bgimage_data() != null;
 		});
 
 		self.style = ko.pureComputed(function () {
-			return "columns" + self.columns_count();
+			//return "columns" + self.columns_count();
+			return {
+				backgroundImage: 'url(' + self.bgimage() + ')',
+			};
+		});
+
+
+		self.css = ko.pureComputed(function () {
+			return {
+				'showable': self.show(),
+				'with_pic': self.bgimage()
+			};
 		});
 
 		self.order_changed = ko.pureComputed(function () {
 			return data.order != self.order();
 		});
 
+		self.setImage = function (input) {
+			helpers.input2base64f(input, function (e) {
+				console.log(e.target.result);
+				self.bgimage(e.target.result);
+			});
+			self.new_bgimage_data(input.files[0]);
+		};
+
+
+		self.clearImage = function () {
+			if (self.new_bgimage_data()) {
+				self.new_bgimage_data(null);
+				self.bgimage(data.bgimage);
+				return;
+			}
+			$.prompt("Удалить изображение:" + self.title() + "?", {
+				title: "Подтвердите",
+				buttons: {'Да': true, 'Не сейчас': false},
+				submit: function (e, v, m, f) {
+					if (v) {
+						$.post(urls.url.lab_clear_image, helpers.csrfize({
+							id: self.id
+						})).done(function (d) {
+							self.bgimage(null);
+							helpers.showSuccess();
+						}).fail(function () {
+							helpers.showFail();
+						});
+					}
+				}
+			});
+		};
+
 		self.save = function (data, e) {
 			if (e) e.stopImmediatePropagation();
 
+			// создаем упорядоченный список задач
 			var order_array = [];
 			for (var i = 0, l = self.tasks().length; i < l; ++i) {
 				var task = self.tasks()[i];
 				order_array.push(task.id);
 			}
 
-			helpers.post(urls.url.lab_save, {
-				id: self.id,
-				title: self.title(),
-				description: self.description(),
-				discipline: self.discipline(),
-				visible: self.visible(),
-				regular: self.regular(),
-				columns_count: self.columns_count(),
-				order_array: JSON.stringify(order_array)
-			}, self.reset);
+			// подготавливаем данные для отправки
+			var formdata = new FormData();
+			formdata.append('id', self.id);
+			formdata.append('title', self.title());
+			formdata.append('description', self.description());
+			formdata.append('discipline', self.discipline());
+			formdata.append('visible', self.visible());
+			formdata.append('regular', self.regular());
+			formdata.append('columns_count', self.columns_count());
+			formdata.append('csrfmiddlewaretoken', $.cookie('csrftoken'));
+			formdata.append('order_array', JSON.stringify(order_array));
+			if (self.new_bgimage_data()) {
+				formdata.append('bgimage', self.new_bgimage_data());
+			}
+
+			// отправляем
+			$.ajax({
+				url: urls.url.lab_save,
+				type: "POST",
+				data: formdata,
+				cache: false,
+				processData: false,
+				contentType: false,
+			}).done(function (r) {
+				helpers.showSuccess();
+				self.bgimage(r.bgimage);
+				self.reset();
+			}).fail(function () {
+				helpers.showFail();
+			});
 		};
 
 		self.saveTaskMarks = function (data, e) {
@@ -232,6 +260,8 @@ define(["knockout", "urls", "helpers", "labs/task", "labs/marktask"], function (
 			data.visible = self.visible();
 			data.regular = self.regular();
 			data.columns_count = self.columns_count();
+			data.bgimage = self.bgimage();
+			self.new_bgimage_data(null);
 			self.title.notifySubscribers();
 			self.order.notifySubscribers();
 		};

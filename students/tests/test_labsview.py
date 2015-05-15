@@ -131,6 +131,34 @@ class LabsViewTestCase(MyTestCase):
         self.assertFalse(os.path.exists(lab.bgimage.path))
 
     @MyTestCase.login
+    def test_clear_image_should_clear_and_delete_image(self):
+        # creates new lab
+        bgimage = open("tests/test_image.png", 'rb')
+        response = self.client.post(reverse('students.views.labsview.new'), {
+            'title': "askdjh",
+            'columns_count': 2,
+            'bgimage': bgimage,
+            'discipline_id': self.discipline.id
+        })
+
+        bgimage.close()
+
+        lab = json.loads(response.content)
+
+        # retrieve newly created lab from db
+        lab = StudentLab.objects.get(id=lab['id'])
+        self.assertTrue(os.path.exists(lab.bgimage.path))
+
+        response = self.client.post(reverse('students.views.labsview.clear_image'), {
+            'id': lab.id
+        })
+
+        self.assertFalse(os.path.exists(lab.bgimage.path))
+        lab = StudentLab.objects.get(id=lab.id)
+        self.assertIsNone(lab.bgimage)
+
+
+    @MyTestCase.login
     def test_save_should_update_lab(self):
         new_title = u"22"
         new_cols_count = self.lab.columns_count * 2 + 1

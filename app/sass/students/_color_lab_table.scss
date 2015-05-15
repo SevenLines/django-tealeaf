@@ -13,6 +13,46 @@ $max_tables: length($bgcolors) - 1;
     $color: nth($bgcolors, $i + 1);
     $color2: nth($fgcolors, $i + 1);
 
+    &.with_pic {
+      //
+      //@for $y from 0 through 15{
+      //  .t-row:nth-child(#{$y+1}) {
+      //    @for $x from 0 through 30 {
+      //      td:nth-child(#{$x+1}) {
+      //        //.t-cell {
+      //          background-position-x: -#{37 * $x}px;
+      //          background-position-y: -#{28 * $y}px;
+      //        //}
+      //      }
+      //    }
+      //  }
+      //}
+
+      .t-cell {
+        background-color: hsl(hue($color2), saturation($color2), 97);
+        //  display: block;
+      }
+
+      .done {
+        $doneclass: fast-normal, normal, normal-slow, slow, slow-veryslow, veryslow;
+        box-shadow: none;
+        $base: 0.1;
+        //border-right: none;
+        //background-color: rgba($color, $base);
+        //background-color: rgba(0, 0, 0, 0);
+        background-color: rgba($color, 0.1);
+        //box-shadow: 0 0 0 1px lighten($color, 30) inset;
+        color: darken($color, 30);
+
+        @for $j from 1 to length($doneclass) + 1 {
+          &.#{nth($doneclass, $j)} {
+            background-color: rgba($color, 0.1);//rgba($color, min($base + $j*0.1, 1)); //lighten($color2, 5 + $j*4);
+            //background-color: transparent;
+          }
+        }
+      }
+    }
+
     background-color: hsl(hue($color2), saturation($color2), 97);
     &:hover {
       .lab-title {

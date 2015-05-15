@@ -63,6 +63,12 @@ define(['knockout', 'urls', 'helpers'], function (ko, urls, helpers) {
             return out;
         });
 
+        self.cell_style = ko.pureComputed(function () {
+            return {
+	            backgroundImage: "url(" + self.lab.bgimage() + ")"
+            };
+        });
+
         self.changed = ko.pureComputed(function () {
             return self.complexity() != data.complexity ||
                 self.description() != data.description ||
