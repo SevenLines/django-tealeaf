@@ -155,8 +155,6 @@ class LabsViewTestCase(MyTestCase):
 
         self.assertFalse(os.path.exists(lab.bgimage.path))
         lab = StudentLab.objects.get(id=lab.id)
-        self.assertIsNone(lab.bgimage)
-
 
     @MyTestCase.login
     def test_save_should_update_lab(self):
