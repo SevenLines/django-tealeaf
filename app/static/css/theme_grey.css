@@ -1,1 +1,75 @@
-#back-to-top:hover,.container .left-board,body{background-color:grey}.container{border-bottom-color:#272727}.menu>ul>li,.menu>ul>li ul>li{border-bottom-color:#676767}@media (min-width:750px){.container{border-color:#434343 #434343 #272727}}.main-banner img{box-shadow-color:grey}#back-to-top{color:#1a1a1a}#enter-button-area:hover #enter-button{color:grey}.collapsable:hover .collapsable-header{background-color:#c2c2c2}.menu a{color:#1a1a1a}.menu>ul>li ul{box-shadow:0 0 2px grey}.menu>ul>li ul>li{background-color:rgba(179,179,179,.95)}.menu>ul>li ul>li>a{border-left-color:#676767}#main-banner img#view{border-color:#272727}#main-banner #editor-panel>.panel-heading{background-color:#fff}#main-banner #editor-panel>.panel-heading:hover{background-color:grey}.students_plugin .student-photo img.student-photo-img{border-color:grey}.students_plugin .student-photo img.student-photo-img:hover{box-shadow:0 0 8px grey}.marks-editor .students-list .hover .student .name{border-left-color:grey}body{background:linear-gradient(to bottom,rgba(238,192,82,0),#272727)fixed grey;background-repeat:repeat,repeat}.collapsable .collapsable-body>ol:last-child:first-child>li:hover,.collapsable .collapsable-body>ol>li,.collapsable .collapsable-body>ul:last-child:first-child>li:hover,.collapsable .collapsable-body>ul>li{background-color:#f3f3f3}.collapsable .collapsable-header:hover{background-color:#d9d9d9}
+body {
+  background-color: #808080; }
+
+.container {
+  border-bottom-color: #272727; }
+  @media (min-width: 750px) {
+    .container {
+      border-color: #434343;
+      border-bottom-color: #272727; } }
+  .container .left-board {
+    background-color: #808080; }
+
+.main-banner img {
+  box-shadow-color: #808080; }
+
+/* back-to-top */
+#back-to-top {
+  color: #1a1a1a; }
+  #back-to-top:hover {
+    background-color: #808080; }
+
+#enter-button-area:hover #enter-button {
+  color: #808080; }
+
+.collapsable:hover .collapsable-header {
+  background-color: #c2c2c2; }
+.collapsable .collapsable-body {
+  /* end list inside collabsable */ }
+  .collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
+    background-color: gainsboro; }
+  .collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
+    background-color: gainsboro; }
+.collapsable .collapsable-header:hover {
+  background-color: #b3b3b3; }
+
+.menu a {
+  color: #1a1a1a; }
+.menu > ul > li {
+  border-bottom-color: #676767; }
+  .menu > ul > li ul {
+    box-shadow: 0 0 2px #808080; }
+    .menu > ul > li ul > li {
+      border-bottom-color: #676767;
+      background-color: rgba(179, 179, 179, 0.95); }
+      .menu > ul > li ul > li > a {
+        border-left-color: #676767; }
+
+#main-banner img#view {
+  border-color: #272727; }
+#main-banner #editor-panel > .panel-heading {
+  background-color: white; }
+  #main-banner #editor-panel > .panel-heading:hover {
+    background-color: #808080; }
+
+.students_plugin .student-photo img.student-photo-img {
+  border-color: #808080; }
+  .students_plugin .student-photo img.student-photo-img:hover {
+    box-shadow: 0 0 8px #808080; }
+
+.marks-editor .students-list .hover .student .name {
+  border-left-color: #808080; }
+
+body {
+  background: linear-gradient(to bottom, rgba(238, 192, 82, 0), #272727);
+  background-color: #808080;
+  background-attachment: fixed;
+  background-position: 0 0;
+  background-repeat: repeat, repeat; }
+
+.collapsable .collapsable-body > ul:last-child:first-child > li:hover, .collapsable .collapsable-body > ol:last-child:first-child > li:hover {
+  background-color: #f3f3f3; }
+.collapsable .collapsable-body > ul > li, .collapsable .collapsable-body > ol > li {
+  background-color: #f3f3f3; }
+.collapsable .collapsable-header:hover {
+  background-color: #d9d9d9; }
